@@ -25,7 +25,7 @@ define( function( require ) {
       listener: function() {
         waveInterferenceModel.reset();
       },
-      right:  this.layoutBounds.maxX - 10,
+      right: this.layoutBounds.maxX - 10,
       bottom: this.layoutBounds.maxY - 10
     } );
     this.addChild( resetAllButton );
