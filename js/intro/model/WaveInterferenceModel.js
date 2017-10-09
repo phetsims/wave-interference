@@ -16,6 +16,7 @@ define( function( require ) {
    */
   function WaveInterferenceModel() {
     this.lattice = new Lattice( 100, 100 ); // Java was 60 + 20 padding on each side
+    this.time = 0;
   }
 
   waveInterference.register( 'WaveInterferenceModel', WaveInterferenceModel );
@@ -29,7 +30,9 @@ define( function( require ) {
 
     // @public
     step: function( dt ) {
-      this.lattice.setCurrentValue( 30, 50, Math.sin( Date.now() / 1000 * 2 ) * 10 );
+      dt = 1 / 60; // TODO: how to support slower machines?
+      this.time += dt;
+      this.lattice.setCurrentValue( 30, 50, Math.sin( this.time * 10 ) * 10 );
       this.lattice.step( dt );
     }
   } );
