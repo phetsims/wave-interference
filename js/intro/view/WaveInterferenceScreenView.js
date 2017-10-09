@@ -12,7 +12,8 @@ define( function( require ) {
   var ScreenView = require( 'JOIST/ScreenView' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   // var LatticeNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeNode' );
-  var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeCanvasNode' );
+  // var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeCanvasNode' );
+  var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeWebGLNode' );
 
   /**
    * @param {WaveInterferenceModel} waveInterferenceModel
@@ -32,7 +33,8 @@ define( function( require ) {
     } );
     this.addChild( resetAllButton );
     // this.addChild( new LatticeNode( waveInterferenceModel.lattice ) );
-    this.addChild( new LatticeCanvasNode( waveInterferenceModel.lattice ) );
+    // this.addChild( new LatticeCanvasNode( waveInterferenceModel.lattice ) );
+    this.addChild( new LatticeWebGLNode( waveInterferenceModel.lattice ) );
   }
 
   waveInterference.register( 'WaveInterferenceScreenView', WaveInterferenceScreenView );
