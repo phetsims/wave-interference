@@ -16,6 +16,9 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
 
+  var dampX = 20;
+  var dampY = 20;
+
   /**
    * @constructor
    */
@@ -81,9 +84,10 @@ define( function( require ) {
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
     var vertices = [];
-    var cellWidth = 10;
-    for ( var i = 0; i < node.lattice.width; i++ ) {
-      for ( var k = 0; k < node.lattice.height; k++ ) {
+    var cellWidth = 7;
+
+    for ( var i = dampX; i < node.lattice.width - dampX; i++ ) {
+      for ( var k = dampY; k < node.lattice.height - dampY; k++ ) {
 
         // Top left triangle
         vertices.push( i * cellWidth, k * cellWidth, 0.1 );
@@ -117,8 +121,8 @@ define( function( require ) {
 
       gl.bindBuffer( gl.ARRAY_BUFFER, this.colorBuffer );
       var colorValues = [];
-      for ( var i = 0; i < node.lattice.width; i++ ) {
-        for ( var k = 0; k < node.lattice.height; k++ ) {
+      for ( var i = dampX; i < node.lattice.width - dampX; i++ ) {
+        for ( var k = dampY; k < node.lattice.height - dampY; k++ ) {
           var value = node.lattice.getCurrentValue( i, k );
           var x = Util.linear( -2, 2, 0, 255, value );
           x = Math.floor( Util.clamp( x, 0, 255 ) );
@@ -160,7 +164,7 @@ define( function( require ) {
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 4, gl.FLOAT, false, 0, 0 );
 
       // 3 vertices per triangle and 2 triangles per square
-      gl.drawArrays( gl.TRIANGLES, 0, this.node.lattice.width * this.node.lattice.height * 3 * 2 );
+      gl.drawArrays( gl.TRIANGLES, 0, (this.node.lattice.width - dampX * 2) * (this.node.lattice.height - dampX * 2) * 3 * 2 );
 
       shaderProgram.unuse();
 
