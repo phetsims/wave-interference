@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
-  var WaveInterferenceScreen = require( 'WAVE_INTERFERENCE/wave-interference/WaveInterferenceScreen' );
+  var WaveInterferenceScreen = require( 'WAVE_INTERFERENCE/intro/WaveInterferenceScreen' );
 
   // strings
   var waveInterferenceTitleString = require( 'string!WAVE_INTERFERENCE/wave-interference.title' );

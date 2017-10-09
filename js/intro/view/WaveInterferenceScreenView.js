@@ -11,6 +11,7 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var LatticeNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeNode' );
 
   /**
    * @param {WaveInterferenceModel} waveInterferenceModel
@@ -29,6 +30,7 @@ define( function( require ) {
       bottom: this.layoutBounds.maxY - 10
     } );
     this.addChild( resetAllButton );
+    this.addChild( new LatticeNode( waveInterferenceModel.lattice ) );
   }
 
   waveInterference.register( 'WaveInterferenceScreenView', WaveInterferenceScreenView );

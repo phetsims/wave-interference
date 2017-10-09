@@ -9,12 +9,13 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var Lattice = require( 'WAVE_INTERFERENCE/intro/model/Lattice' );
 
   /**
    * @constructor
    */
   function WaveInterferenceModel() {
-    //TODO
+    this.lattice = new Lattice( 55, 55 );
   }
 
   waveInterference.register( 'WaveInterferenceModel', WaveInterferenceModel );
@@ -26,10 +27,10 @@ define( function( require ) {
       //TODO reset things here
     },
 
-    //TODO Called by the animation loop. Optional, so if your model has no animation, please delete this.
     // @public
     step: function( dt ) {
-      //TODO Handle model animation here.
+      this.lattice.setCurrentValue( 10, 10, Math.sin( Date.now() / 1000 * 2 ) * 10 );
+      this.lattice.step( dt );
     }
   } );
 } );

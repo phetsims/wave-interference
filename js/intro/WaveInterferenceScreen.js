@@ -11,8 +11,8 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Screen = require( 'JOIST/Screen' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceModel = require( 'WAVE_INTERFERENCE/wave-interference/model/WaveInterferenceModel' );
-  var WaveInterferenceScreenView = require( 'WAVE_INTERFERENCE/wave-interference/view/WaveInterferenceScreenView' );
+  var WaveInterferenceModel = require( 'WAVE_INTERFERENCE/intro/model/WaveInterferenceModel' );
+  var WaveInterferenceScreenView = require( 'WAVE_INTERFERENCE/intro/view/WaveInterferenceScreenView' );
 
   /**
    * @constructor
