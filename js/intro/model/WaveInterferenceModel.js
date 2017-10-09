@@ -15,7 +15,7 @@ define( function( require ) {
    * @constructor
    */
   function WaveInterferenceModel() {
-    this.lattice = new Lattice( 55, 55 );
+    this.lattice = new Lattice( 60, 60 );
   }
 
   waveInterference.register( 'WaveInterferenceModel', WaveInterferenceModel );
