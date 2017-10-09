@@ -74,10 +74,16 @@ define( function( require ) {
     this.vertexBuffer = gl.createBuffer();
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( [
-      0, 0, 0.1,
-      50, 30, 0.1
-    ] ), gl.STATIC_DRAW );
+    var vertices = [];
+    var cellWidth = 10;
+    for ( var i = 0; i < node.lattice.width; i++ ) {
+      for ( var k = 0; k < node.lattice.height; k++ ) {
+        vertices.push( i * cellWidth, k * cellWidth, 0.1 );
+        vertices.push( (i + 1) * cellWidth, k * cellWidth, 0.1 );
+        vertices.push( i * cellWidth, (k + 1) * cellWidth, 0.1 );
+      }
+    }
+    gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( vertices ), gl.STATIC_DRAW );
   }
 
   inherit( Object, LinesPainter, {
@@ -93,7 +99,7 @@ define( function( require ) {
       gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 3, gl.FLOAT, false, 0, 0 );
 
-      gl.drawArrays( gl.LINES, 0, 2 );
+      gl.drawArrays( gl.TRIANGLES, 0, this.node.lattice.width * this.node.lattice.height * 3 );
 
       shaderProgram.unuse();
 
