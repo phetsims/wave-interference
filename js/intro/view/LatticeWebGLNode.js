@@ -84,7 +84,14 @@ define( function( require ) {
     var cellWidth = 10;
     for ( var i = 0; i < node.lattice.width; i++ ) {
       for ( var k = 0; k < node.lattice.height; k++ ) {
+
+        // Top left triangle
         vertices.push( i * cellWidth, k * cellWidth, 0.1 );
+        vertices.push( (i + 1) * cellWidth, k * cellWidth, 0.1 );
+        vertices.push( i * cellWidth, (k + 1) * cellWidth, 0.1 );
+
+        // Bottom right triangle
+        vertices.push( (i + 1) * cellWidth, (k + 1) * cellWidth, 0.1 );
         vertices.push( (i + 1) * cellWidth, k * cellWidth, 0.1 );
         vertices.push( i * cellWidth, (k + 1) * cellWidth, 0.1 );
       }
@@ -131,12 +138,29 @@ define( function( require ) {
           colorValues.push( 0 );
           colorValues.push( 0 );
           colorValues.push( 1 );
+
+          // For bottom triangle
+          colorValues.push( x / 255 ); // TODO: don't discretize
+          colorValues.push( 0 );
+          colorValues.push( 0 );
+          colorValues.push( 1 );
+
+          colorValues.push( x / 255 ); // TODO: don't discretize
+          colorValues.push( 0 );
+          colorValues.push( 0 );
+          colorValues.push( 1 );
+
+          colorValues.push( x / 255 ); // TODO: don't discretize
+          colorValues.push( 0 );
+          colorValues.push( 0 );
+          colorValues.push( 1 );
         }
       }
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( colorValues ), gl.STATIC_DRAW );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 4, gl.FLOAT, false, 0, 0 );
 
-      gl.drawArrays( gl.TRIANGLES, 0, this.node.lattice.width * this.node.lattice.height * 3 );
+      // 3 vertices per triangle and 2 triangles per square
+      gl.drawArrays( gl.TRIANGLES, 0, this.node.lattice.width * this.node.lattice.height * 3 * 2 );
 
       shaderProgram.unuse();
 
