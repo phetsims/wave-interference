@@ -12,7 +12,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
-  var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
 
@@ -48,8 +47,8 @@ define( function( require ) {
       'uniform mat3 uModelViewMatrix;',
       'uniform mat3 uProjectionMatrix;',
 
-      'attribute vec4 aColor;',      // New: added vec4 attribute
-      'varying vec4 color;',          // New: this will be passed to fragment shader
+      'attribute float aColor;',      // New: added vec4 attribute
+      'varying float color;',          // New: this will be passed to fragment shader
 
       'void main( void ) {',
       // homogeneous model-view transformation
@@ -65,11 +64,12 @@ define( function( require ) {
     // Simple demo for custom shader
     var lineFragmentShaderSource = [
       'precision mediump float;',
-      'varying vec4 color;',
+      'varying float color;',
 
       // Returns the color from the vertex shader
       'void main( void ) {',
-      '  gl_FragColor = color;',
+      '  float c = 0.25 * (color +2.0) ;',
+      '  gl_FragColor = vec4(c,0,0,1);',
       '}'
     ].join( '\n' );
 
@@ -123,37 +123,43 @@ define( function( require ) {
       for ( var i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
         for ( var k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
           var value = node.lattice.getCurrentValue( i, k );
-          var x = Util.linear( -2, 2, 0, 1, value );
+          // var x = Util.linear( -2, 2, 0, 1, value );
+          colorValues.push( value );
+          colorValues.push( value );
+          colorValues.push( value );
+          colorValues.push( value );
+          colorValues.push( value );
+          colorValues.push( value );
 
           // rgb for each vertex
-          colorValues.push( x );
-          colorValues.push( 0 );
-          colorValues.push( 0 );
-
-          colorValues.push( x );
-          colorValues.push( 0 );
-          colorValues.push( 0 );
-
-          colorValues.push( x );
-          colorValues.push( 0 );
-          colorValues.push( 0 );
-
-          // For bottom triangle
-          colorValues.push( x );
-          colorValues.push( 0 );
-          colorValues.push( 0 );
-
-          colorValues.push( x );
-          colorValues.push( 0 );
-          colorValues.push( 0 );
-
-          colorValues.push( x );
-          colorValues.push( 0 );
-          colorValues.push( 0 );
+          // colorValues.push( x );
+          // colorValues.push( 0 );
+          // colorValues.push( 0 );
+          //
+          // colorValues.push( x );
+          // colorValues.push( 0 );
+          // colorValues.push( 0 );
+          //
+          // colorValues.push( x );
+          // colorValues.push( 0 );
+          // colorValues.push( 0 );
+          //
+          // // For bottom triangle
+          // colorValues.push( x );
+          // colorValues.push( 0 );
+          // colorValues.push( 0 );
+          //
+          // colorValues.push( x );
+          // colorValues.push( 0 );
+          // colorValues.push( 0 );
+          //
+          // colorValues.push( x );
+          // colorValues.push( 0 );
+          // colorValues.push( 0 );
         }
       }
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( colorValues ), gl.STATIC_DRAW );
-      gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 3, gl.FLOAT, false, 0, 0 );
+      gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 1, gl.FLOAT, false, 0, 0 );
 
       // 3 vertices per triangle and 2 triangles per square
       gl.drawArrays( gl.TRIANGLES, 0, (this.node.lattice.width - lattice.dampX * 2) * (this.node.lattice.height - lattice.dampX * 2) * 3 * 2 );
