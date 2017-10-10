@@ -18,12 +18,12 @@ define( function( require ) {
   function WaveInterferenceModel() {
     var self = this;
     this.lattice = new Lattice( 100, 100, 20, 20, function( i, j ) {
-      return i === 60 && ((Math.abs( 40 - j ) > 5) && (Math.abs( 60 - j ) > 5));
+      return i === 60 && ((Math.abs( 40 - j ) > 3) && (Math.abs( 60 - j ) > 3));
     } ); // Java was 60 + 20 padding on each side
     this.time = 0;
     this.phase = 0;
 
-    this.frequencyProperty = new Property( 10 );
+    this.frequencyProperty = new Property( 20 );
 
     // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
     // for continuity

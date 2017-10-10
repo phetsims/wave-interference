@@ -41,7 +41,8 @@ define( function( require ) {
       min: 1,
       max: 30
     }, {
-      centerX: this.layoutBounds.centerX
+      centerX: this.layoutBounds.centerX,
+      top: this.layoutBounds.top + 10
     } ) );
   }
 
