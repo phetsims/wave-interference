@@ -15,7 +15,9 @@ define( function( require ) {
    * @constructor
    */
   function WaveInterferenceModel() {
-    this.lattice = new Lattice( 100, 100, 20, 20 ); // Java was 60 + 20 padding on each side
+    this.lattice = new Lattice( 100, 100, 20, 20, function( i, j ) {
+      return i === 60 && ((Math.abs( 40 - j ) > 5) && (Math.abs( 60 - j ) > 5));
+    } ); // Java was 60 + 20 padding on each side
     this.time = 0;
   }
 
@@ -32,7 +34,7 @@ define( function( require ) {
     step: function( dt ) {
       dt = 1 / 60; // TODO: how to support slower machines?
       this.time += dt;
-      this.lattice.setCurrentValue( 30, 50, Math.sin( this.time * 10 ) * 10 );
+      this.lattice.setCurrentValue( 30, 50, Math.sin( this.time * 25 ) * 10 );
       this.lattice.step( dt );
     }
   } );

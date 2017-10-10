@@ -108,7 +108,7 @@ define( function( require ) {
       var height = matrix0.getColumnDimension();
       for ( var i = 0; i < width; i++ ) {
         for ( var j = 0; j < height; j++ ) {
-          if ( this.getPotential( i, j ) !== 0 ) {
+          if ( this.getPotential( i, j ) ) {
             matrix0.set( i, j, 0 );
           }
           else {
