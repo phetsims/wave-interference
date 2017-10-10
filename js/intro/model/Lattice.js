@@ -18,14 +18,13 @@ define( function( require ) {
   var c = 0.5;
   var cSquared = c * c;
 
-  var dampX = 20;
-  var dampY = 20;
-
   /**
    * @constructor
    */
-  function Lattice( width, height, padding, getPotential ) {
+  function Lattice( width, height, dampX, dampY, getPotential ) {
     var numMatrices = 3;
+    this.dampX = dampX;
+    this.dampY = dampY;
     this.matrices = [];
     for ( var i = 0; i < numMatrices; i++ ) {
       this.matrices.push( new Matrix( width, height ) );
@@ -33,7 +32,6 @@ define( function( require ) {
     this.currentMatrixIndex = 0;
     this.getPotential = getPotential || function() {return 0;};
     this.changedEmitter = new Emitter();
-    this.padding = padding; // amount on left+right+top+bottom, see DampedClassicalWavePropagator
   }
 
   waveInterference.register( 'Lattice', Lattice );
@@ -81,10 +79,10 @@ define( function( require ) {
     },
 
     dampScale: function() {
-      this.dampVerticalSUB( 0, +1, dampY / 2 );
-      this.dampVerticalSUB( this.width - 1, -1, dampY / 2 );
-      this.dampHorizontalSUB( 0, +1, dampX / 2 );
-      this.dampHorizontalSUB( this.height - 1, -1, dampX / 2 );
+      this.dampVerticalSUB( 0, +1, this.dampY / 2 );
+      this.dampVerticalSUB( this.width - 1, -1, this.dampY / 2 );
+      this.dampHorizontalSUB( 0, +1, this.dampX / 2 );
+      this.dampHorizontalSUB( this.height - 1, -1, this.dampX / 2 );
     },
 
     dampVerticalSUB: function( origin, sign, numDampPts ) {
@@ -136,10 +134,10 @@ define( function( require ) {
         }
       }
 
-      this.dampHorizontalROOT( dampY, 1, matrix0, matrix2 );
-      this.dampHorizontalROOT( this.height - 1 - dampY, -1, matrix0, matrix2 );
-      this.dampVerticalROOT( dampX, +1, matrix0, matrix2 );
-      this.dampVerticalROOT( this.width - 1 - dampX, -1, matrix0, matrix2 );
+      this.dampHorizontalROOT( this.dampY, 1, matrix0, matrix2 );
+      this.dampHorizontalROOT( this.height - 1 - this.dampY, -1, matrix0, matrix2 );
+      this.dampVerticalROOT( this.dampX, +1, matrix0, matrix2 );
+      this.dampVerticalROOT( this.width - 1 - this.dampX, -1, matrix0, matrix2 );
 
       this.dampScale();
 

@@ -15,7 +15,7 @@ define( function( require ) {
    * @constructor
    */
   function WaveInterferenceModel() {
-    this.lattice = new Lattice( 100, 100 ); // Java was 60 + 20 padding on each side
+    this.lattice = new Lattice( 100, 100, 20, 20 ); // Java was 60 + 20 padding on each side
     this.time = 0;
   }
 
