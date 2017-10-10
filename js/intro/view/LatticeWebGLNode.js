@@ -125,7 +125,7 @@ define( function( require ) {
           var value = node.lattice.getCurrentValue( i, k );
           var x = Util.linear( -2, 2, 0, 1, value );
 
-          // 4 colors for each vertex
+          // rgb for each vertex
           colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
