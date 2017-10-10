@@ -43,7 +43,7 @@ define( function( require ) {
     // Simple example for custom shader
     var lineVertexShaderSource = [
       // Position
-      'attribute vec3 aPosition;',
+      'attribute vec2 aPosition;',
       'uniform mat3 uModelViewMatrix;',
       'uniform mat3 uProjectionMatrix;',
 
@@ -56,7 +56,7 @@ define( function( require ) {
       // homogeneous map to to normalized device coordinates
       '  vec3 ndc = uProjectionMatrix * vec3( view.xy, 1 );',
       // combine with the z coordinate specified
-      '  gl_Position = vec4( ndc.xy, aPosition.z, 1.0 );',
+      '  gl_Position = vec4( ndc.xy, 0.1, 1.0 );',
       '  color=aColor;',
       '}'
     ].join( '\n' );
@@ -88,14 +88,14 @@ define( function( require ) {
       for ( var k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
 
         // Top left triangle
-        vertices.push( i * cellWidth, k * cellWidth, 0.1 );
-        vertices.push( (i + 1) * cellWidth, k * cellWidth, 0.1 );
-        vertices.push( i * cellWidth, (k + 1) * cellWidth, 0.1 );
+        vertices.push( i * cellWidth, k * cellWidth );
+        vertices.push( (i + 1) * cellWidth, k * cellWidth );
+        vertices.push( i * cellWidth, (k + 1) * cellWidth );
 
         // Bottom right triangle
-        vertices.push( (i + 1) * cellWidth, (k + 1) * cellWidth, 0.1 );
-        vertices.push( (i + 1) * cellWidth, k * cellWidth, 0.1 );
-        vertices.push( i * cellWidth, (k + 1) * cellWidth, 0.1 );
+        vertices.push( (i + 1) * cellWidth, (k + 1) * cellWidth );
+        vertices.push( (i + 1) * cellWidth, k * cellWidth );
+        vertices.push( i * cellWidth, (k + 1) * cellWidth );
       }
     }
     gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( vertices ), gl.STATIC_DRAW );
@@ -116,7 +116,7 @@ define( function( require ) {
       gl.uniformMatrix3fv( shaderProgram.uniformLocations.uProjectionMatrix, false, projectionMatrix.entries );
 
       gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
-      gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 3, gl.FLOAT, false, 0, 0 );
+      gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 2, gl.FLOAT, false, 0, 0 );
 
       gl.bindBuffer( gl.ARRAY_BUFFER, this.colorBuffer );
       var colorValues = [];
