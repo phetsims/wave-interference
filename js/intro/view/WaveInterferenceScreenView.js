@@ -7,13 +7,14 @@ define( function( require ) {
   'use strict';
 
   // modules
+  // var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeCanvasNode' );
+  // var LatticeNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeNode' );
+  var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeWebGLNode' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  // var LatticeNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeNode' );
-  // var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeCanvasNode' );
-  var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeWebGLNode' );
 
   /**
    * @param {WaveInterferenceModel} waveInterferenceModel
@@ -35,6 +36,13 @@ define( function( require ) {
     // this.addChild( new LatticeNode( waveInterferenceModel.lattice ) );
     // this.addChild( new LatticeCanvasNode( waveInterferenceModel.lattice ) );
     this.addChild( new LatticeWebGLNode( waveInterferenceModel.lattice ) );
+
+    this.addChild( new HSlider( waveInterferenceModel.frequencyProperty, {
+      min: 1,
+      max: 30
+    }, {
+      centerX: this.layoutBounds.centerX
+    } ) );
   }
 
   waveInterference.register( 'WaveInterferenceScreenView', WaveInterferenceScreenView );
