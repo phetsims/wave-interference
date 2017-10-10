@@ -128,8 +128,9 @@ define( function( require ) {
           }
           else {
             var neighborSum = matrix1.get( i + 1, j ) + matrix1.get( i - 1, j ) + matrix1.get( i, j + 1 ) + matrix1.get( i, j - 1 );
-            var term = cSquared * (neighborSum + matrix1.get( i, j ) * -4);
-            matrix0.set( i, j, matrix1.get( i, j ) * 2 - matrix2.get( i, j ) + term );
+            var m1ij = matrix1.get( i, j );
+            var term = cSquared * (neighborSum + m1ij * -4);
+            matrix0.set( i, j, m1ij * 2 - matrix2.get( i, j ) + term );
           }
         }
       }

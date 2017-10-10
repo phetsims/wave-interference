@@ -123,37 +123,36 @@ define( function( require ) {
       for ( var i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
         for ( var k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
           var value = node.lattice.getCurrentValue( i, k );
-          var x = Util.linear( -2, 2, 0, 255, value );
-          x = Math.floor( Util.clamp( x, 0, 255 ) );
+          var x = Util.linear( -2, 2, 0, 1, value );
 
           // 4 colors for each vertex
-          colorValues.push( x / 255 ); // TODO: don't discretize
+          colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
           colorValues.push( 1 );
 
-          colorValues.push( x / 255 ); // TODO: don't discretize
+          colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
           colorValues.push( 1 );
 
-          colorValues.push( x / 255 ); // TODO: don't discretize
+          colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
           colorValues.push( 1 );
 
           // For bottom triangle
-          colorValues.push( x / 255 ); // TODO: don't discretize
+          colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
           colorValues.push( 1 );
 
-          colorValues.push( x / 255 ); // TODO: don't discretize
+          colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
           colorValues.push( 1 );
 
-          colorValues.push( x / 255 ); // TODO: don't discretize
+          colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
           colorValues.push( 1 );
