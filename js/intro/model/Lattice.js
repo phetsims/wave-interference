@@ -50,20 +50,12 @@ define( function( require ) {
     setLastValue: function( i, j, value ) {
       this.matrices[ (this.currentMatrixIndex + 1) % this.matrices.length ].set( i, j, value );
     },
-
-    // Sets values for all history times
-    setInitialValue: function( i, j, value ) {
-      for ( var index = 0; index < this.matrices.length; index++ ) {
-        this.matrices[ index ].set( i, j, value );
-      }
-    },
     get width() {
       return this.matrices[ 0 ].getRowDimension();
     },
     get height() {
       return this.matrices[ 0 ].getColumnDimension();
     },
-
 
     // Do we need this and dampScale?
     dampHorizontalROOT: function( j, dj, matrix0, matrix2 ) {
@@ -76,13 +68,6 @@ define( function( require ) {
       for ( var j = 0; j < this.height; j++ ) {
         matrix0.set( i, j, matrix2.get( i + di, j ) );
       }
-    },
-
-    dampScale: function() {
-      this.dampVerticalSUB( 0, +1, this.dampY / 2 );
-      this.dampVerticalSUB( this.width - 1, -1, this.dampY / 2 );
-      this.dampHorizontalSUB( 0, +1, this.dampX / 2 );
-      this.dampHorizontalSUB( this.height - 1, -1, this.dampX / 2 );
     },
 
     dampVerticalSUB: function( origin, sign, numDampPts ) {
@@ -121,26 +106,31 @@ define( function( require ) {
       var matrix2 = this.matrices[ (this.currentMatrixIndex + 2) % this.matrices.length ];
       var width = matrix0.getRowDimension();
       var height = matrix0.getColumnDimension();
-      for ( var i = 1; i < width - 1; i++ ) {
-        for ( var j = 1; j < height - 1; j++ ) {
+      for ( var i = 0; i < width; i++ ) {
+        for ( var j = 0; j < height; j++ ) {
           if ( this.getPotential( i, j ) !== 0 ) {
             matrix0.set( i, j, 0 );
           }
           else {
             var neighborSum = matrix1.get( i + 1, j ) + matrix1.get( i - 1, j ) + matrix1.get( i, j + 1 ) + matrix1.get( i, j - 1 );
             var m1ij = matrix1.get( i, j );
-            var term = cSquared * (neighborSum + m1ij * -4);
-            matrix0.set( i, j, m1ij * 2 - matrix2.get( i, j ) + term );
+            var value = m1ij * 2 - matrix2.get( i, j ) + cSquared * (neighborSum + m1ij * -4);
+            matrix0.set( i, j, value );
           }
         }
       }
 
+      // temporal dampen on the visible region
       this.dampHorizontalROOT( this.dampY, 1, matrix0, matrix2 );
       this.dampHorizontalROOT( this.height - 1 - this.dampY, -1, matrix0, matrix2 );
       this.dampVerticalROOT( this.dampX, +1, matrix0, matrix2 );
       this.dampVerticalROOT( this.width - 1 - this.dampX, -1, matrix0, matrix2 );
 
-      this.dampScale();
+      // dampen the absorption barriers
+      this.dampVerticalSUB( 0, +1, this.dampY / 2 );
+      this.dampVerticalSUB( this.width - 1, -1, this.dampY / 2 );
+      this.dampHorizontalSUB( 0, +1, this.dampX / 2 );
+      this.dampHorizontalSUB( this.height - 1, -1, this.dampX / 2 );
 
       this.changedEmitter.emit();
     }
