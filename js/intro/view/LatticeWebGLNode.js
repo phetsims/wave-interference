@@ -84,19 +84,21 @@ define( function( require ) {
     var vertices = [];
     var cellWidth = 7;
 
-    for ( var i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
-      for ( var k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
+    // @private - allocate once and reuse
+    this.colorArray = [];
 
-        // Top left triangle
+    // Triangle Strip, see http://www.corehtml5.com/trianglestripfundamentals.phpk
+    for ( var i = lattice.dampX; i < lattice.width - lattice.dampX; i++ ) {
+      for ( var k = lattice.dampY; k < lattice.height - lattice.dampY; k++ ) {
         vertices.push( i * cellWidth, k * cellWidth );
         vertices.push( (i + 1) * cellWidth, k * cellWidth );
-        vertices.push( i * cellWidth, (k + 1) * cellWidth );
-
-        // Bottom right triangle
-        vertices.push( (i + 1) * cellWidth, (k + 1) * cellWidth );
-        vertices.push( (i + 1) * cellWidth, k * cellWidth );
-        vertices.push( i * cellWidth, (k + 1) * cellWidth );
+        this.colorArray.push( 0 );
+        this.colorArray.push( 0 );
       }
+      vertices.push( (i + 1) * cellWidth, (k - 1) * cellWidth );
+      vertices.push( (i + 1) * cellWidth, lattice.dampY * cellWidth );
+      this.colorArray.push( 0 );
+      this.colorArray.push( 0 );
     }
     gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( vertices ), gl.STATIC_DRAW );
 
@@ -119,50 +121,23 @@ define( function( require ) {
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 2, gl.FLOAT, false, 0, 0 );
 
       gl.bindBuffer( gl.ARRAY_BUFFER, this.colorBuffer );
-      var colorValues = [];
+      var index = 0;
       for ( var i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
         for ( var k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
           var value = node.lattice.getCurrentValue( i, k );
-          // var x = Util.linear( -2, 2, 0, 1, value );
-          colorValues.push( value );
-          colorValues.push( value );
-          colorValues.push( value );
-          colorValues.push( value );
-          colorValues.push( value );
-          colorValues.push( value );
-
-          // rgb for each vertex
-          // colorValues.push( x );
-          // colorValues.push( 0 );
-          // colorValues.push( 0 );
-          //
-          // colorValues.push( x );
-          // colorValues.push( 0 );
-          // colorValues.push( 0 );
-          //
-          // colorValues.push( x );
-          // colorValues.push( 0 );
-          // colorValues.push( 0 );
-          //
-          // // For bottom triangle
-          // colorValues.push( x );
-          // colorValues.push( 0 );
-          // colorValues.push( 0 );
-          //
-          // colorValues.push( x );
-          // colorValues.push( 0 );
-          // colorValues.push( 0 );
-          //
-          // colorValues.push( x );
-          // colorValues.push( 0 );
-          // colorValues.push( 0 );
+          this.colorArray[ index++ ] = value;
+          this.colorArray[ index++ ] = value;
         }
+        this.colorArray[ index++ ] = value;
+        this.colorArray[ index++ ] = value;
       }
-      gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( colorValues ), gl.STATIC_DRAW );
+      gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( this.colorArray ), gl.STATIC_DRAW );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 1, gl.FLOAT, false, 0, 0 );
 
       // 3 vertices per triangle and 2 triangles per square
-      gl.drawArrays( gl.TRIANGLES, 0, (this.node.lattice.width - lattice.dampX * 2) * (this.node.lattice.height - lattice.dampX * 2) * 3 * 2 );
+      var w = (this.node.lattice.width - lattice.dampX * 2);
+      var h = (this.node.lattice.height - lattice.dampX * 2);
+      gl.drawArrays( gl.TRIANGLE_STRIP, 0, w * h * 2 );
 
       shaderProgram.unuse();
 
