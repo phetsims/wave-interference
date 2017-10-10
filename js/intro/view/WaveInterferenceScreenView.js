@@ -7,7 +7,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  // var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeCanvasNode' );
+  var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeCanvasNode' );
   // var LatticeNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeNode' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -15,6 +15,7 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var Util = require( 'SCENERY/util/Util' );
 
   /**
    * @param {WaveInterferenceModel} waveInterferenceModel
@@ -33,9 +34,16 @@ define( function( require ) {
       bottom: this.layoutBounds.maxY - 10
     } );
     this.addChild( resetAllButton );
+
+    var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
     // this.addChild( new LatticeNode( waveInterferenceModel.lattice ) );
     // this.addChild( new LatticeCanvasNode( waveInterferenceModel.lattice ) );
-    this.addChild( new LatticeWebGLNode( waveInterferenceModel.lattice ) );
+    if ( webGLSupported ) {
+      this.addChild( new LatticeWebGLNode( waveInterferenceModel.lattice ) );
+    }
+    else {
+      this.addChild( new LatticeCanvasNode( waveInterferenceModel.lattice ) );
+    }
 
     this.addChild( new HSlider( waveInterferenceModel.frequencyProperty, {
       min: 1,
