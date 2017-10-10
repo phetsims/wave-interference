@@ -129,37 +129,31 @@ define( function( require ) {
           colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
-          colorValues.push( 1 );
 
           colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
-          colorValues.push( 1 );
 
           colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
-          colorValues.push( 1 );
 
           // For bottom triangle
           colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
-          colorValues.push( 1 );
 
           colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
-          colorValues.push( 1 );
 
           colorValues.push( x );
           colorValues.push( 0 );
           colorValues.push( 0 );
-          colorValues.push( 1 );
         }
       }
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( colorValues ), gl.STATIC_DRAW );
-      gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 4, gl.FLOAT, false, 0, 0 );
+      gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 3, gl.FLOAT, false, 0, 0 );
 
       // 3 vertices per triangle and 2 triangles per square
       gl.drawArrays( gl.TRIANGLES, 0, (this.node.lattice.width - lattice.dampX * 2) * (this.node.lattice.height - lattice.dampX * 2) * 3 * 2 );
