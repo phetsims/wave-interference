@@ -182,6 +182,16 @@ define( function( require ) {
     },
 
     /**
+     * Resets all of the wave values to 0
+     * @public
+     */
+    clear: function() {
+      for ( var i = 0; i < this.matrices.length; i++ ) {
+        this.matrices[ i ].timesEquals( 0 );
+      }
+    },
+
+    /**
      * Propagates the wave by one step.  This is a discrete algorithm and cannot use dt.
      * @public
      */
