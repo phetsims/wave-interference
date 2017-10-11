@@ -11,13 +11,13 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Screen = require( 'JOIST/Screen' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceModel = require( 'WAVE_INTERFERENCE/intro/model/WaveInterferenceModel' );
-  var WaveInterferenceScreenView = require( 'WAVE_INTERFERENCE/intro/view/WaveInterferenceScreenView' );
+  var WaveInterferenceModel = require( 'WAVE_INTERFERENCE/common/model/WaveInterferenceModel' );
+  var WaveInterferenceScreenView = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceScreenView' );
 
   /**
    * @constructor
    */
-  function WaveInterferenceScreen() {
+  function IntroScreen() {
 
     var options = {
       backgroundColorProperty: new Property( 'white' )
@@ -30,7 +30,7 @@ define( function( require ) {
     );
   }
 
-  waveInterference.register( 'WaveInterferenceScreen', WaveInterferenceScreen );
+  waveInterference.register( 'IntroScreen', IntroScreen );
 
-  return inherit( Screen, WaveInterferenceScreen );
+  return inherit( Screen, IntroScreen );
 } );

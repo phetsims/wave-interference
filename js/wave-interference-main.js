@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
-  var WaveInterferenceScreen = require( 'WAVE_INTERFERENCE/intro/WaveInterferenceScreen' );
+  var IntroScreen = require( 'WAVE_INTERFERENCE/intro/IntroScreen' );
 
   // strings
   var waveInterferenceTitleString = require( 'string!WAVE_INTERFERENCE/wave-interference.title' );
@@ -29,7 +29,7 @@ define( function( require ) {
   };
 
   SimLauncher.launch( function() {
-    var sim = new Sim( waveInterferenceTitleString, [ new WaveInterferenceScreen() ], simOptions );
+    var sim = new Sim( waveInterferenceTitleString, [ new IntroScreen() ], simOptions );
     sim.start();
   } );
 } );

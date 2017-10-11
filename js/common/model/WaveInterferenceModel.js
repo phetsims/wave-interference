@@ -1,6 +1,8 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
+ * Base class model for all Wave Interference screens.
+ *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
@@ -8,7 +10,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Lattice = require( 'WAVE_INTERFERENCE/intro/model/Lattice' );
+  var Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   var Property = require( 'AXON/Property' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 

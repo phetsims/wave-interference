@@ -7,11 +7,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeCanvasNode' );
-  // var LatticeNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeNode' );
+  var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
+  // var LatticeNode = require( 'WAVE_INTERFERENCE/common/view/LatticeNode' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/intro/view/LatticeWebGLNode' );
+  var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
