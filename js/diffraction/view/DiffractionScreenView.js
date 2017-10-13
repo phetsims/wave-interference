@@ -45,112 +45,94 @@ define( function( require ) {
     var apertureCanvas;
     var diffractionCanvas;
     var diffractionContext;
-    var h = function() { return false; };
-    var $h = function() { return false; }; // h hat
 
-    function loadImage( loc ) {
-      var start = +new Date();
+    var start = +new Date();
+    // make each canvas the image's exact size
+    apertureCanvas = document.createElement( 'canvas' );
+    apertureCanvas.width = dims[ 0 ];
+    apertureCanvas.height = dims[ 1 ];
+    var apertureContext = apertureCanvas.getContext( '2d' );
 
-      // draw the initial image
-      var img = new Image(); // eslint-disable-line no-html-constructors
-      img.addEventListener( 'load', function() {
+    diffractionCanvas = document.createElement( 'canvas' );
+    diffractionCanvas.width = dims[ 0 ];
+    diffractionCanvas.height = dims[ 1 ];
+    diffractionContext = diffractionCanvas.getContext( '2d' );
 
-        // make each canvas the image's exact size
-        apertureCanvas = document.createElement( 'canvas' );
-        apertureCanvas.width = dims[ 0 ];
-        apertureCanvas.height = dims[ 1 ];
-        var apertureContext = apertureCanvas.getContext( '2d' );
+    apertureContext.fillStyle = 'white';
+    apertureContext.fillRect( 0, 0, 10, 10 );
 
-        diffractionCanvas = document.createElement( 'canvas' );
-        diffractionCanvas.width = dims[ 0 ];
-        diffractionCanvas.height = dims[ 1 ];
-        diffractionContext = diffractionCanvas.getContext( '2d' );
+    // grab the pixels
+    var imageData = apertureContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
+    var h_es = []; // the h values
+    for ( var ai = 0; ai < imageData.data.length; ai += 4 ) {
 
-        apertureContext.fillStyle = 'white';
-        apertureContext.fillRect( 0, 0, 10, 10 );
-
-        // grab the pixels
-        var imageData = apertureContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
-        var h_es = []; // the h values
-        for ( var ai = 0; ai < imageData.data.length; ai += 4 ) {
-
-          // greyscale, so you only need every 4th value
-          h_es.push( imageData.data[ ai ] );
-        }
-
-        // initialize the h values
-        h = function( n, m ) {
-          if ( arguments.length === 0 ) {
-            return h_es;
-          }
-
-          var idx = n * dims[ 0 ] + m;
-          return h_es[ idx ];
-        }; // make it a function so the code matches the math
-
-        var duration = +new Date() - start;
-        console.log( 'It took ' + duration + 'ms to draw the image.' );
-
-        transformAction();
-      } );
-      img.crossOrigin = 'anonymous';
-      img.src = loc;
+      // greyscale, so you only need every 4th value
+      h_es.push( imageData.data[ ai ] );
     }
 
-    function transformAction() {
-      var start = +new Date();
-
-      // compute the h hat values
-      var h_hats = [];
-      Fourier.transform( h(), h_hats );
-      h_hats = Fourier.shift( h_hats, dims );
-
-      // get the largest magnitude
-      var maxMagnitude = 0;
-      for ( var ai = 0; ai < h_hats.length; ai++ ) {
-        var mag = h_hats[ ai ].magnitude();
-        if ( mag > maxMagnitude ) {
-          maxMagnitude = mag;
-        }
+    // initialize the h values
+    var h = function( n, m ) {
+      if ( arguments.length === 0 ) {
+        return h_es;
       }
 
-      Fourier.filter( h_hats, dims, NaN, NaN );
+      var idx = n * dims[ 0 ] + m;
+      return h_es[ idx ];
+    }; // make it a function so the code matches the math
 
-      // store them in a nice function to match the math
-      $h = function( k, l ) {
-        if ( arguments.length === 0 ) {
-          return h_hats;
-        }
+    var duration = +new Date() - start;
+    console.log( 'It took ' + duration + 'ms to draw the image.' );
 
-        var idx = k * dims[ 0 ] + l;
-        return h_hats[ idx ];
-      };
+    start = +new Date();
 
-      // draw the pixels
-      var currImageData = diffractionContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
-      var logOfMaxMag = Math.log( cc * maxMagnitude + 1 );
-      for ( var k = 0; k < dims[ 1 ]; k++ ) {
-        for ( var l = 0; l < dims[ 0 ]; l++ ) {
-          var idxInPixels = 4 * (dims[ 0 ] * k + l);
-          currImageData.data[ idxInPixels + 3 ] = 255; // full alpha
-          var color = Math.log( cc * $h( k, l ).magnitude() + 1 );
-          color = Math.round( 255 * (color / logOfMaxMag) );
-          // RGB are the same -> gray
-          for ( var c = 0; c < 3; c++ ) { // lol c++
-            currImageData.data[ idxInPixels + c ] = color;
-          }
-        }
+    // compute the h hat values
+    var h_hats = [];
+    Fourier.transform( h(), h_hats );
+    h_hats = Fourier.shift( h_hats, dims );
+
+    // get the largest magnitude
+    var maxMagnitude = 0;
+    for ( ai = 0; ai < h_hats.length; ai++ ) {
+      var mag = h_hats[ ai ].magnitude();
+      if ( mag > maxMagnitude ) {
+        maxMagnitude = mag;
       }
-      diffractionContext.putImageData( currImageData, 0, 0 );
-
-      var image = new SceneryImage( diffractionCanvas );
-      self.addChild( image );
-
-      var duration = +new Date() - start;
-      console.log( 'It took ' + duration + 'ms to compute the FT.' );
     }
 
-    loadImage( 'circle.png' );
+    Fourier.filter( h_hats, dims, NaN, NaN );
+
+    // store them in a nice function to match the math
+    var $h = function( k, l ) {
+      if ( arguments.length === 0 ) {
+        return h_hats;
+      }
+
+      var idx = k * dims[ 0 ] + l;
+      return h_hats[ idx ];
+    };
+
+    // draw the pixels
+    var currImageData = diffractionContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
+    var logOfMaxMag = Math.log( cc * maxMagnitude + 1 );
+    for ( var k = 0; k < dims[ 1 ]; k++ ) {
+      for ( var l = 0; l < dims[ 0 ]; l++ ) {
+        var idxInPixels = 4 * (dims[ 0 ] * k + l);
+        currImageData.data[ idxInPixels + 3 ] = 255; // full alpha
+        var color = Math.log( cc * $h( k, l ).magnitude() + 1 );
+        color = Math.round( 255 * (color / logOfMaxMag) );
+        // RGB are the same -> gray
+        for ( var c = 0; c < 3; c++ ) { // lol c++
+          currImageData.data[ idxInPixels + c ] = color;
+        }
+      }
+    }
+    diffractionContext.putImageData( currImageData, 0, 0 );
+
+    var image = new SceneryImage( diffractionCanvas );
+    self.addChild( image );
+
+    duration = +new Date() - start;
+    console.log( 'It took ' + duration + 'ms to compute the FT.' );
   }
 
   waveInterference.register( 'DiffractionScreenView', DiffractionScreenView );
