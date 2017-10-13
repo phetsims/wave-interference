@@ -7,12 +7,31 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var SceneryImage = require( 'SCENERY/nodes/Image' ); // eslint-disable-line require-statement-match
   var inherit = require( 'PHET_CORE/inherit' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  var SceneryImage = require( 'SCENERY/nodes/Image' ); // eslint-disable-line require-statement-match
   var ScreenView = require( 'JOIST/ScreenView' );
+  var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+
+
+  /**
+   * @param {number} x0
+   * @param {number} y0
+   * @param {number} sigmaX
+   * @param {number} sigmaY
+   * @param {number} x
+   * @param {number} y
+   * @returns {number}
+   */
+  function gaussian( x0, y0, sigmaX, sigmaY, x, y ) {
+    var dx = x - x0;
+    var dy = y - y0;
+    var a = dx * dx / sigmaX / sigmaX;
+    var b = dy * dy / sigmaY / sigmaY;
+    return Math.pow( Math.E, -(a + b) / 2 );
+  }
 
   /**
    * @param {WaveInterferenceModel} diffractionModel
@@ -58,8 +77,29 @@ define( function( require ) {
     diffractionCanvas.height = dims[ 1 ];
     diffractionContext = diffractionCanvas.getContext( '2d' );
 
+    apertureContext.fillStyle = 'black';
+    apertureContext.fillRect( 0, 0, 512, 512 );
+
     apertureContext.fillStyle = 'white';
-    apertureContext.fillRect( 0, 0, 10, 10 );
+
+    // circle
+    // apertureContext.beginPath();
+    // apertureContext.arc( 75, 75, 5, 0, 2 * Math.PI );
+    // apertureContext.fill();
+
+    // rectangle
+    // var rectWidth = 10;
+    // var rectHeight = 10;
+    // apertureContext.fillRect( 512 / 2 - rectWidth / 2, 512 / 2 - rectHeight / 2, rectWidth, rectHeight );
+
+    // gaussian
+    for ( var i = 0; i < 512; i++ ) {
+      for ( var k = 0; k < 512; k++ ) {
+        var v = Util.clamp( Math.floor( gaussian( 512 / 2, 512 / 2, 20, 20, i, k ) * 400 ), 0, 255 );
+        apertureContext.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
+        apertureContext.fillRect( i, k, 1, 1 );
+      }
+    }
 
     // grab the pixels
     var imageData = apertureContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
@@ -114,7 +154,7 @@ define( function( require ) {
     // draw the pixels
     var currImageData = diffractionContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
     var logOfMaxMag = Math.log( cc * maxMagnitude + 1 );
-    for ( var k = 0; k < dims[ 1 ]; k++ ) {
+    for ( k = 0; k < dims[ 1 ]; k++ ) {
       for ( var l = 0; l < dims[ 0 ]; l++ ) {
         var idxInPixels = 4 * (dims[ 0 ] * k + l);
         currImageData.data[ idxInPixels + 3 ] = 255; // full alpha
@@ -128,8 +168,11 @@ define( function( require ) {
     }
     diffractionContext.putImageData( currImageData, 0, 0 );
 
-    var image = new SceneryImage( diffractionCanvas );
-    self.addChild( image );
+    var diffractionImage = new SceneryImage( diffractionCanvas, { x: 514 } );
+    self.addChild( diffractionImage );
+
+    var apertureImage = new SceneryImage( apertureCanvas );
+    self.addChild( apertureImage );
 
     duration = +new Date() - start;
     console.log( 'It took ' + duration + 'ms to compute the FT.' );
