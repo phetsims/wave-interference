@@ -8,6 +8,7 @@ define( function( require ) {
 
   // modules
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var Panel = require( 'SUN/Panel' );
@@ -65,6 +66,10 @@ define( function( require ) {
     this.squareWidthProperty = new Property( 10 );
     this.squareHeightProperty = new Property( 10 );
 
+    this.sigmaXProperty = new Property( 10 );
+    this.sigmaYProperty = new Property( 10 );
+    this.gaussianMagnitudeProperty = new Property( 400 ); // TODO: is this useful for students?
+
     this.sceneProperty = new Property( 'rectangle' );
     var toggleButtonsContent = [ {
       value: 'rectangle',
@@ -86,16 +91,18 @@ define( function( require ) {
     this.diffractionImage = new SceneryImage( placeholderImage, { x: width * imageScale + 2, scale: imageScale } );
     self.addChild( this.diffractionImage );
 
-    this.sceneProperty.link( function() {self.updateCanvases();} );
+    var updateCanvases = function() {
+      self.updateCanvases();
+    };
+    this.sceneProperty.link( updateCanvases );
 
     this.addChild( radioButtonGroup );
 
-    this.squareWidthProperty.link( function() {
-      self.updateCanvases();
-    } );
-    this.squareHeightProperty.link( function() {
-      self.updateCanvases();
-    } );
+    this.squareWidthProperty.link( updateCanvases );
+    this.squareHeightProperty.link( updateCanvases );
+    this.sigmaXProperty.link( updateCanvases );
+    this.sigmaYProperty.link( updateCanvases );
+    this.gaussianMagnitudeProperty.link( updateCanvases );
     this.squareControlPanel = new Panel( new VBox( {
       children: [
         new NumberControl( 'width', this.squareWidthProperty, new Range( 2, 100 ), {
@@ -108,6 +115,23 @@ define( function( require ) {
       centerTop: this.apertureImage.centerBottom.plusXY( 0, 5 )
     } );
     this.addChild( this.squareControlPanel );
+
+    this.gaussianControlPanel = new Panel( new HBox( {
+      children: [
+        new VBox( {
+          children: [
+            new NumberControl( 'sigmaX', this.sigmaXProperty, new Range( 2, 40 ) ),
+            new NumberControl( 'sigmaY', this.sigmaYProperty, new Range( 2, 40 ) )
+          ]
+        } ), new NumberControl( 'magnitude', this.gaussianMagnitudeProperty, new Range( 1, 1000 ) ) ],
+    } ), {
+      leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
+    } );
+    this.addChild( this.gaussianControlPanel );
+    this.sceneProperty.link( function( scene ) {
+      self.squareControlPanel.visible = scene === 'rectangle';
+      self.gaussianControlPanel.visible = scene === 'circle';
+    } );
   }
 
   waveInterference.register( 'DiffractionScreenView', DiffractionScreenView );
@@ -154,7 +178,7 @@ define( function( require ) {
       else if ( this.sceneProperty.value === 'circle' ) {
         for ( var i = 0; i < width; i++ ) {
           for ( var k = 0; k < height; k++ ) {
-            var v = Util.clamp( Math.floor( gaussian( width / 2, height / 2, 20, 20, i, k ) * 400 ), 0, 255 );
+            var v = Util.clamp( Math.floor( gaussian( width / 2, height / 2, this.sigmaXProperty.value, this.sigmaYProperty.value, i, k ) * this.gaussianMagnitudeProperty.value ), 0, 255 );
             apertureContext.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
             apertureContext.fillRect( i, k, 1, 1 );
           }
