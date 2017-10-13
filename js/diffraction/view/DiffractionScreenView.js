@@ -9,7 +9,9 @@ define( function( require ) {
   // modules
   var Circle = require( 'SCENERY/nodes/Circle' );
   var HBox = require( 'SCENERY/nodes/HBox' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var Panel = require( 'SUN/Panel' );
   var Property = require( 'AXON/Property' );
@@ -17,7 +19,6 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var SceneryImage = require( 'SCENERY/nodes/Image' ); // eslint-disable-line require-statement-match
   var ScreenView = require( 'JOIST/ScreenView' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -53,6 +54,12 @@ define( function( require ) {
     var self = this;
     ScreenView.call( this );
 
+    this.onProperty = new Property( true );
+    var laserPointerNode = new LaserPointerNode( this.onProperty, {
+      left: 10, centerY: 50
+    } );
+    this.addChild( laserPointerNode );
+
     // Reset All button
     var resetAllButton = new ResetAllButton( {
       listener: function() {
@@ -78,31 +85,38 @@ define( function( require ) {
       value: 'circle',
       node: new Circle( 10, { fill: 'black' } )
     } ];
-    var radioButtonGroup = new RadioButtonGroup( this.sceneProperty, toggleButtonsContent );
+    var radioButtonGroup = new RadioButtonGroup( this.sceneProperty, toggleButtonsContent, {
+      left: 10,
+      bottom: this.layoutBounds.bottom - 10
+    } );
 
     var placeholderImage = document.createElement( 'canvas' );
     placeholderImage.width = width;
     placeholderImage.height = height;
 
     var imageScale = 1.5;
-    this.apertureImage = new SceneryImage( placeholderImage, { scale: imageScale } );
+    this.apertureImage = new Image( placeholderImage, { scale: imageScale, top: 100, left: 140 } );
     self.addChild( this.apertureImage );
 
-    this.diffractionImage = new SceneryImage( placeholderImage, { x: width * imageScale + 2, scale: imageScale } );
+    this.diffractionImage = new Image( placeholderImage, {
+      right: this.layoutBounds.right - 10,
+      scale: imageScale,
+      top: 100
+    } );
     self.addChild( this.diffractionImage );
 
     var updateCanvases = function() {
       self.updateCanvases();
     };
-    this.sceneProperty.link( updateCanvases );
+    this.sceneProperty.lazyLink( updateCanvases );
 
     this.addChild( radioButtonGroup );
 
-    this.squareWidthProperty.link( updateCanvases );
-    this.squareHeightProperty.link( updateCanvases );
-    this.sigmaXProperty.link( updateCanvases );
-    this.sigmaYProperty.link( updateCanvases );
-    this.gaussianMagnitudeProperty.link( updateCanvases );
+    this.squareWidthProperty.lazyLink( updateCanvases );
+    this.squareHeightProperty.lazyLink( updateCanvases );
+    this.sigmaXProperty.lazyLink( updateCanvases );
+    this.sigmaYProperty.lazyLink( updateCanvases );
+    this.gaussianMagnitudeProperty.lazyLink( updateCanvases );
     this.squareControlPanel = new Panel( new VBox( {
       children: [
         new NumberControl( 'width', this.squareWidthProperty, new Range( 2, 100 ), {
@@ -132,6 +146,8 @@ define( function( require ) {
       self.squareControlPanel.visible = scene === 'rectangle';
       self.gaussianControlPanel.visible = scene === 'circle';
     } );
+
+    updateCanvases();
   }
 
   waveInterference.register( 'DiffractionScreenView', DiffractionScreenView );
