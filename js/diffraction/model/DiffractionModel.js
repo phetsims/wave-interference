@@ -20,5 +20,7 @@ define( function( require ) {
 
   waveInterference.register( 'DiffractionModel', DiffractionModel );
 
-  return inherit( Object, DiffractionModel );
+  return inherit( Object, DiffractionModel, {
+    reset: function() {}
+  } );
 } );

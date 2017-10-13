@@ -12,6 +12,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
+  var Matrix3 = require( 'DOT/Matrix3' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var Panel = require( 'SUN/Panel' );
   var Property = require( 'AXON/Property' );
@@ -58,7 +59,6 @@ define( function( require ) {
     var laserPointerNode = new LaserPointerNode( this.onProperty, {
       left: 10, centerY: 50
     } );
-    this.addChild( laserPointerNode );
 
     // Reset All button
     var resetAllButton = new ResetAllButton( {
@@ -90,20 +90,45 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - 10
     } );
 
-    var placeholderImage = document.createElement( 'canvas' );
-    placeholderImage.width = width;
-    placeholderImage.height = height;
+    this.placeholderImage = document.createElement( 'canvas' );
+    this.placeholderImage.width = width;
+    this.placeholderImage.height = height;
+
+    var context = this.placeholderImage.getContext( '2d' );
+    context.fillStyle = 'black';
+    context.fillRect( 0, 0, width, height );
 
     var imageScale = 1.5;
-    this.apertureImage = new Image( placeholderImage, { scale: imageScale, top: 100, left: 140 } );
+    this.apertureImage = new Image( this.placeholderImage, { scale: imageScale, top: 100, left: 140 } );
     self.addChild( this.apertureImage );
 
-    this.diffractionImage = new Image( placeholderImage, {
+
+    this.diffractionImage = new Image( this.placeholderImage, {
       right: this.layoutBounds.right - 10,
       scale: imageScale,
       top: 100
     } );
     self.addChild( this.diffractionImage );
+
+    var ICON_SCALE = 0.2;
+    this.apertureIcon = new Image( this.placeholderImage, {
+      scale: ICON_SCALE,
+      centerY: laserPointerNode.centerY,
+      centerX: this.apertureImage.centerX,
+      matrix: Matrix3.affine( 1, 0.25,
+        0, 1,
+        0, 0 )
+    } );
+
+    this.diffractionIcon = new Image( this.placeholderImage, {
+      scale: ICON_SCALE,
+      centerY: laserPointerNode.centerY,
+      centerX: this.diffractionImage.centerX,
+      matrix: Matrix3.affine( 1, 0.25,
+        0, 1,
+        0, 0 )
+    } );
+    self.addChild( this.diffractionIcon );
 
     var updateCanvases = function() {
       self.updateCanvases();
@@ -116,6 +141,7 @@ define( function( require ) {
     this.squareHeightProperty.lazyLink( updateCanvases );
     this.sigmaXProperty.lazyLink( updateCanvases );
     this.sigmaYProperty.lazyLink( updateCanvases );
+    this.onProperty.lazyLink( updateCanvases );
     this.gaussianMagnitudeProperty.lazyLink( updateCanvases );
     this.squareControlPanel = new Panel( new VBox( {
       children: [
@@ -146,6 +172,25 @@ define( function( require ) {
       self.squareControlPanel.visible = scene === 'rectangle';
       self.gaussianControlPanel.visible = scene === 'circle';
     } );
+
+    var beamWidth = 40;
+    var incidentBeam = new Rectangle( laserPointerNode.right, laserPointerNode.centerY - beamWidth / 2, this.apertureIcon.centerX - laserPointerNode.right, beamWidth, {
+      fill: 'gray',
+      opacity: 0.7
+    } );
+
+    var transmittedBeam = new Rectangle( this.apertureIcon.centerX, laserPointerNode.centerY - beamWidth / 2, this.diffractionIcon.centerX - this.apertureIcon.centerX, beamWidth, {
+      fill: 'gray',
+      opacity: 0.7
+    } );
+
+    this.onProperty.linkAttribute( incidentBeam, 'visible' );
+    this.onProperty.linkAttribute( transmittedBeam, 'visible' );
+
+    this.addChild( transmittedBeam );
+    self.addChild( this.apertureIcon );
+    this.addChild( incidentBeam );
+    this.addChild( laserPointerNode );
 
     updateCanvases();
   }
@@ -274,7 +319,10 @@ define( function( require ) {
       diffractionContext.putImageData( currImageData, 0, 0 );
 
       this.apertureImage.image = apertureCanvas;
-      this.diffractionImage.image = diffractionCanvas;
+      this.diffractionImage.image = this.onProperty.value ? diffractionCanvas : this.placeholderImage;
+
+      this.apertureIcon.image = apertureCanvas;
+      this.diffractionIcon.image = this.onProperty.value ? diffractionCanvas : this.placeholderImage;
 
       duration = +new Date() - start;
       console.log( 'It took ' + duration + 'ms to compute the FT.' );
