@@ -9,13 +9,17 @@ define( function( require ) {
   // modules
   var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var NumberControl = require( 'SCENERY_PHET/NumberControl' );
+  var Panel = require( 'SUN/Panel' );
   var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var SceneryImage = require( 'SCENERY/nodes/Image' ); // eslint-disable-line require-statement-match
   var ScreenView = require( 'JOIST/ScreenView' );
   var Util = require( 'DOT/Util' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -58,6 +62,9 @@ define( function( require ) {
     } );
     this.addChild( resetAllButton );
 
+    this.squareWidthProperty = new Property( 10 );
+    this.squareHeightProperty = new Property( 10 );
+
     this.sceneProperty = new Property( 'rectangle' );
     var toggleButtonsContent = [ {
       value: 'rectangle',
@@ -72,7 +79,7 @@ define( function( require ) {
     placeholderImage.width = width;
     placeholderImage.height = height;
 
-    var imageScale = 2;
+    var imageScale = 1.5;
     this.apertureImage = new SceneryImage( placeholderImage, { scale: imageScale } );
     self.addChild( this.apertureImage );
 
@@ -82,6 +89,25 @@ define( function( require ) {
     this.sceneProperty.link( function() {self.updateCanvases();} );
 
     this.addChild( radioButtonGroup );
+
+    this.squareWidthProperty.link( function() {
+      self.updateCanvases();
+    } );
+    this.squareHeightProperty.link( function() {
+      self.updateCanvases();
+    } );
+    this.squareControlPanel = new Panel( new VBox( {
+      children: [
+        new NumberControl( 'width', this.squareWidthProperty, new Range( 2, 100 ), {
+          delta: 2 // avoid odd/even artifacts
+        } ),
+        new NumberControl( 'height', this.squareHeightProperty, new Range( 2, 100 ), {
+          delta: 2 // avoid odd/even artifacts
+        } ) ]
+    } ), {
+      centerTop: this.apertureImage.centerBottom.plusXY( 0, 5 )
+    } );
+    this.addChild( this.squareControlPanel );
   }
 
   waveInterference.register( 'DiffractionScreenView', DiffractionScreenView );
@@ -121,8 +147,8 @@ define( function( require ) {
       apertureContext.fillStyle = 'white';
 
       if ( this.sceneProperty.value === 'rectangle' ) {
-        var rectWidth = 10;
-        var rectHeight = 10;
+        var rectWidth = this.squareWidthProperty.value;
+        var rectHeight = this.squareHeightProperty.value;
         apertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2, rectWidth, rectHeight );
       }
       else if ( this.sceneProperty.value === 'circle' ) {
