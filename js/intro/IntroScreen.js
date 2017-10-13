@@ -13,14 +13,21 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceModel = require( 'WAVE_INTERFERENCE/common/model/WaveInterferenceModel' );
   var WaveInterferenceScreenView = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceScreenView' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   /**
    * @constructor
    */
   function IntroScreen() {
 
+    var homeScreenIcon = Rectangle.dimension( Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, {
+      fill: 'white'
+    } );
+
     var options = {
-      backgroundColorProperty: new Property( 'white' )
+      backgroundColorProperty: new Property( 'white' ),
+      name: 'Intro',
+      homeScreenIcon: homeScreenIcon,
     };
 
     Screen.call( this,
