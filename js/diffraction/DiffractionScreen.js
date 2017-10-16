@@ -27,7 +27,7 @@ define( function( require ) {
     var options = {
       backgroundColorProperty: new Property( 'white' ),
       name: 'Intro',
-      homeScreenIcon: homeScreenIcon,
+      homeScreenIcon: homeScreenIcon
     };
 
     Screen.call( this,
