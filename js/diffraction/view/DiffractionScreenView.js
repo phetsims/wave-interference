@@ -73,6 +73,9 @@ define( function( require ) {
     this.squareWidthProperty = new Property( 10 );
     this.squareHeightProperty = new Property( 10 );
 
+    this.spacingProperty = new Property( 10 );
+    this.angleProperty = new Property( 0 );
+
     this.sigmaXProperty = new Property( 10 );
     this.sigmaYProperty = new Property( 10 );
     this.gaussianMagnitudeProperty = new Property( 400 ); // TODO: is this useful for students?
@@ -84,6 +87,14 @@ define( function( require ) {
     }, {
       value: 'circle',
       node: new Circle( 10, { fill: 'black' } )
+    }, {
+      value: 'slits',
+      node: new HBox( {
+        spacing: 2,
+        children: _.range( 1, 8 ).map( function( r ) {
+          return new Rectangle( 0, 0, 2, 20, { fill: 'black' } );
+        } )
+      } )
     } ];
     var radioButtonGroup = new RadioButtonGroup( this.sceneProperty, toggleButtonsContent, {
       left: 10,
@@ -142,6 +153,8 @@ define( function( require ) {
     this.sigmaXProperty.lazyLink( updateCanvases );
     this.sigmaYProperty.lazyLink( updateCanvases );
     this.onProperty.lazyLink( updateCanvases );
+    this.spacingProperty.lazyLink( updateCanvases );
+    this.angleProperty.lazyLink( updateCanvases );
     this.gaussianMagnitudeProperty.lazyLink( updateCanvases );
     this.squareControlPanel = new Panel( new VBox( {
       children: [
@@ -168,9 +181,23 @@ define( function( require ) {
       leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
     } );
     this.addChild( this.gaussianControlPanel );
+
+    this.slitsControlPanel = new Panel( new VBox( {
+      children: [
+        new NumberControl( 'spacing', this.spacingProperty, new Range( 1, 100 ) ),
+        new NumberControl( 'angle', this.angleProperty, new Range( 0, Math.PI * 2 ), {
+          delta: 0.01
+        } )
+      ]
+    } ), {
+      leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
+    } );
+    this.addChild( this.slitsControlPanel );
+
     this.sceneProperty.link( function( scene ) {
       self.squareControlPanel.visible = scene === 'rectangle';
       self.gaussianControlPanel.visible = scene === 'circle';
+      self.slitsControlPanel.visible = scene === 'slits';
     } );
 
     var beamWidth = 40;
@@ -231,18 +258,30 @@ define( function( require ) {
 
       apertureContext.fillStyle = 'white';
 
+      var i;
+
       if ( this.sceneProperty.value === 'rectangle' ) {
         var rectWidth = this.squareWidthProperty.value;
         var rectHeight = this.squareHeightProperty.value;
         apertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2, rectWidth, rectHeight );
       }
       else if ( this.sceneProperty.value === 'circle' ) {
-        for ( var i = 0; i < width; i++ ) {
+        for ( i = 0; i < width; i++ ) {
           for ( var k = 0; k < height; k++ ) {
             var v = Util.clamp( Math.floor( gaussian( width / 2, height / 2, this.sigmaXProperty.value, this.sigmaYProperty.value, i, k ) * this.gaussianMagnitudeProperty.value ), 0, 255 );
             apertureContext.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
             apertureContext.fillRect( i, k, 1, 1 );
           }
+        }
+      }
+      else if ( this.sceneProperty.value === 'slits' ) {
+
+        apertureContext.translate( width / 2, height / 2 );
+        apertureContext.rotate( this.angleProperty.value );
+        var slitWidth = 6;
+        var slitSpacing = this.spacingProperty.value;
+        for ( i = -100; i < 100; i++ ) {
+          apertureContext.fillRect( width / 2 - slitWidth / 2 + i * slitSpacing, -1000, slitWidth, 2000 );
         }
       }
 
