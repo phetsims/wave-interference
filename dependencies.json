@@ -1,11 +1,11 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.2 Mon Oct 16 2017 08:12:58 GMT-0600 (MDT)",
+  "comment": "# wave-interference 1.0.0-dev.3 Mon Oct 16 2017 21:34:04 GMT-0600 (MDT)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
   },
   "axon": {
-    "sha": "521761756b39ef7ee8075573d94a22776edaaa5a",
+    "sha": "8a8ff7d28951f8cbe7c5fbb044831db76e9aa4b6",
     "branch": "master"
   },
   "brand": {
@@ -53,7 +53,7 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "3800b173e314f248729d0704ecc5816e4d20ac21",
+    "sha": "082fee37c464512f6da55649f2c5d6e545f3fa18",
     "branch": "master"
   },
   "tandem": {
@@ -61,7 +61,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "6bfab5948c2f96de14d14a9332d74d0ef61ced2d",
+    "sha": "7b653749ce6d1e361110db721326e24be33b978f",
     "branch": "master"
   }
 }
