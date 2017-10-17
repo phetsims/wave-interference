@@ -73,7 +73,7 @@ define( function( require ) {
     this.squareWidthProperty = new Property( 10 );
     this.squareHeightProperty = new Property( 10 );
 
-    this.spacingProperty = new Property( 10 );
+    this.numberOfLinesProperty = new Property( 10 );
     this.angleProperty = new Property( 0 );
 
     this.sigmaXProperty = new Property( 10 );
@@ -153,7 +153,7 @@ define( function( require ) {
     this.sigmaXProperty.lazyLink( updateCanvases );
     this.sigmaYProperty.lazyLink( updateCanvases );
     this.onProperty.lazyLink( updateCanvases );
-    this.spacingProperty.lazyLink( updateCanvases );
+    this.numberOfLinesProperty.lazyLink( updateCanvases );
     this.angleProperty.lazyLink( updateCanvases );
     this.gaussianMagnitudeProperty.lazyLink( updateCanvases );
     this.squareControlPanel = new Panel( new VBox( {
@@ -184,7 +184,7 @@ define( function( require ) {
 
     this.slitsControlPanel = new Panel( new VBox( {
       children: [
-        new NumberControl( 'spacing', this.spacingProperty, new Range( 1, 100 ) ),
+        new NumberControl( 'number of lines', this.numberOfLinesProperty, new Range( 2, 200 ) ),
         new NumberControl( 'angle', this.angleProperty, new Range( 0, Math.PI * 2 ), {
           delta: 0.01
         } )
@@ -278,9 +278,26 @@ define( function( require ) {
 
         apertureContext.rotate( this.angleProperty.value );
         var slitWidth = 1;
-        var slitSpacing = this.spacingProperty.value;
-        for ( i = -100; i < 100; i++ ) {
-          apertureContext.fillRect( width / 2 - slitWidth / 2 + i * slitSpacing, -1000, slitWidth, 2000 );
+        var numberOfLines = this.numberOfLinesProperty.value;
+        var lineSpacing = width / (numberOfLines + 1);
+
+        // Even number of lines
+        if ( numberOfLines % 2 === 0 ) {
+
+          for ( i = 0; i < numberOfLines / 2; i++ ) {
+            apertureContext.fillRect( width / 2 + i * lineSpacing + lineSpacing / 2, -1000, slitWidth, 2000 );
+            apertureContext.fillRect( width / 2 - i * lineSpacing - lineSpacing / 2, -1000, slitWidth, 2000 );
+          }
+        }
+        else {
+
+          // odd number of lines
+          for ( i = 0; i < numberOfLines / 2; i++ ) {
+            apertureContext.fillRect( width / 2 + i * lineSpacing, -1000, slitWidth, 2000 );
+            if ( i !== 0 ) { // only draw central line once
+              apertureContext.fillRect( width / 2 - i * lineSpacing, -1000, slitWidth, 2000 );
+            }
+          }
         }
       }
 
