@@ -276,9 +276,8 @@ define( function( require ) {
       }
       else if ( this.sceneProperty.value === 'slits' ) {
 
-        apertureContext.translate( width / 2, height / 2 );
         apertureContext.rotate( this.angleProperty.value );
-        var slitWidth = 6;
+        var slitWidth = 1;
         var slitSpacing = this.spacingProperty.value;
         for ( i = -100; i < 100; i++ ) {
           apertureContext.fillRect( width / 2 - slitWidth / 2 + i * slitSpacing, -1000, slitWidth, 2000 );
