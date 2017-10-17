@@ -7,18 +7,18 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var DiffractionModel = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionModel' );
-  var DiffractionScreenView = require( 'WAVE_INTERFERENCE/diffraction/view/DiffractionScreenView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Screen = require( 'JOIST/Screen' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceModel = require( 'WAVE_INTERFERENCE/common/model/WaveInterferenceModel' );
+  var WaveInterferenceScreenView = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceScreenView' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   /**
    * @constructor
    */
-  function DiffractionScreen() {
+  function WavesScreen() {
 
     var homeScreenIcon = Rectangle.dimension( Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, {
       fill: 'white'
@@ -26,18 +26,18 @@ define( function( require ) {
 
     var options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: 'Diffraction',
+      name: 'Waves',
       homeScreenIcon: homeScreenIcon
     };
 
     Screen.call( this,
-      function() { return new DiffractionModel(); },
-      function( model ) { return new DiffractionScreenView( model ); },
+      function() { return new WaveInterferenceModel(); },
+      function( model ) { return new WaveInterferenceScreenView( model ); },
       options
     );
   }
 
-  waveInterference.register( 'DiffractionScreen', DiffractionScreen );
+  waveInterference.register( 'WavesScreen', WavesScreen );
 
-  return inherit( Screen, DiffractionScreen );
+  return inherit( Screen, WavesScreen );
 } );

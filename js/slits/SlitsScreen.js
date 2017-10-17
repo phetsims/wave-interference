@@ -18,7 +18,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function IntroScreen() {
+  function SlitsScreen() {
 
     var homeScreenIcon = Rectangle.dimension( Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, {
       fill: 'white'
@@ -26,7 +26,7 @@ define( function( require ) {
 
     var options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: 'Intro',
+      name: 'Slits',
       homeScreenIcon: homeScreenIcon
     };
 
@@ -37,7 +37,7 @@ define( function( require ) {
     );
   }
 
-  waveInterference.register( 'IntroScreen', IntroScreen );
+  waveInterference.register( 'SlitsScreen', SlitsScreen );
 
-  return inherit( Screen, IntroScreen );
+  return inherit( Screen, SlitsScreen );
 } );
