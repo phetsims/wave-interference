@@ -347,7 +347,7 @@ define( function( require ) {
       Fourier.filter( h_hats, dims, NaN, NaN );
 
       // store them in a nice function to match the math
-      var $h = function( k, l ) {
+      var $h = function( l, k ) {
         if ( arguments.length === 0 ) {
           return h_hats;
         }
