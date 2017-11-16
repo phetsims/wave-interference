@@ -9,11 +9,11 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Screen = require( 'JOIST/Screen' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceModel = require( 'WAVE_INTERFERENCE/common/model/WaveInterferenceModel' );
   var WaveInterferenceScreenView = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceScreenView' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   /**
    * @constructor

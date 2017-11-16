@@ -9,12 +9,12 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var DiffractionScreen = require( 'WAVE_INTERFERENCE/diffraction/DiffractionScreen' );
+  var InterferenceScreen = require( 'WAVE_INTERFERENCE/interference/InterferenceScreen' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
-  var WavesScreen = require( 'WAVE_INTERFERENCE/waves/WavesScreen' );
-  var InterferenceScreen = require( 'WAVE_INTERFERENCE/interference/InterferenceScreen' );
   var SlitsScreen = require( 'WAVE_INTERFERENCE/slits/SlitsScreen' );
-  var DiffractionScreen = require( 'WAVE_INTERFERENCE/diffraction/DiffractionScreen' );
+  var WavesScreen = require( 'WAVE_INTERFERENCE/waves/WavesScreen' );
 
   // strings
   var waveInterferenceTitleString = require( 'string!WAVE_INTERFERENCE/wave-interference.title' );
