@@ -13,6 +13,11 @@
     "requirejsNamespace": "WAVE_INTERFERENCE",
     "preload": [
       "../sherpa/lib/fourier-1.1.0.js"
-    ]
+    ],
+    "runnable": true,
+    "supportedBrands": [
+      "phet"
+    ],
+    "simulation": true
   }
 }
