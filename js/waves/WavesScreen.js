@@ -22,7 +22,8 @@ define( function( require ) {
 
     var homeScreenIcon = Rectangle.dimension( Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, {
       fill: 'white'
-    } );
+    } )
+    // intentional lint fail to test commit hooks
 
     var options = {
       backgroundColorProperty: new Property( 'white' ),
