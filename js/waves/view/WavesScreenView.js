@@ -24,6 +24,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceText' );
   var WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
+  var WaveAreaNode = require( 'WAVE_INTERFERENCE/waves/view/WaveAreaNode' );
 
   // constants
   var MARGIN = 10;
@@ -36,14 +37,10 @@ define( function( require ) {
   function WavesScreenView( model ) {
     ScreenView.call( this );
 
-    var waveDimension = 530;
-    var waveAreaNode = new Rectangle( 0, 0, waveDimension, waveDimension, {
-      stroke: 'black',
-      lineWidth: 1,
+    var waveAreaNode = new WaveAreaNode( model, {
       top: MARGIN,
       centerX: this.layoutBounds.centerX
     } );
-
     this.addChild( waveAreaNode );
 
     var resetAllButton = new ResetAllButton( {
