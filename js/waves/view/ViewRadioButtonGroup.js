@@ -10,10 +10,10 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   var ViewTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/ViewTypeEnum' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceText' );
+  var WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
 
   /**
    * @param {Property.<ViewTypeEnum>} viewTypeProperty
@@ -21,13 +21,12 @@ define( function( require ) {
    * @constructor
    */
   function ViewRadioButtonGroup( viewTypeProperty, options ) {
-    options = _.extend( { spacing: 8 }, options );
-    VerticalAquaRadioButtonGroup.call( this, [ {
-      node: new Text( 'Top View', { fontSize: 16 } ),
+    WaveInterferenceVerticalAquaRadioButtonGroup.call( this, [ {
+      node: new WaveInterferenceText( 'Top View' ),
       value: ViewTypeEnum.TOP,
       property: viewTypeProperty
     }, {
-      node: new Text( 'Side View', { fontSize: 16 } ),
+      node: new WaveInterferenceText( 'Side View' ),
       value: ViewTypeEnum.SIDE,
       property: viewTypeProperty
     } ], options );
@@ -35,5 +34,5 @@ define( function( require ) {
 
   waveInterference.register( 'ViewRadioButtonGroup', ViewRadioButtonGroup );
 
-  return inherit( VerticalAquaRadioButtonGroup, ViewRadioButtonGroup );
+  return inherit( WaveInterferenceVerticalAquaRadioButtonGroup, ViewRadioButtonGroup );
 } );
