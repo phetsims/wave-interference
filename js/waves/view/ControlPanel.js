@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- *
+ * Shows the main controls, including frequency/wavelength and amplitude.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -20,6 +20,7 @@ define( function( require ) {
 
   /**
    * @param {WavesScreenModel} model
+   * @param {AlignGroup} alignGroup
    * @param {Object} [options]
    * @constructor
    */

@@ -26,18 +26,25 @@ define( function( require ) {
     var radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
       node: new WaveInterferenceText( 'Normal' ),
       value: PlaySpeedEnum.NORMAL,
-      property: model.inputTypeProperty
+      property: model.playSpeedProperty
     }, {
       node: new WaveInterferenceText( 'Slow' ),
       value: PlaySpeedEnum.SLOW,
-      property: model.inputTypeProperty
+      property: model.playSpeedProperty
     } ] );
+
+    var stepButton = new StepButton();
+
+    // Only enable the step button when the model is paused.
+    model.isRunningProperty.link( function( isRunning ) {
+      stepButton.enabled = !isRunning;
+    } );
 
     HBox.call( this, _.extend( {
       spacing: 20,
       children: [ new HBox( {
         spacing: 6,
-        children: [ new PlayPauseButton( model.isRunningProperty ), new StepButton() ]
+        children: [ new PlayPauseButton( model.isRunningProperty ), stepButton ]
       } ), radioButtonGroup ]
     }, options ) );
   }

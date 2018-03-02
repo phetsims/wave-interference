@@ -12,10 +12,11 @@ define( function( require ) {
   var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   var ControlPanel = require( 'WAVE_INTERFERENCE/waves/view/ControlPanel' );
   var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/IncidentWaveTypeEnum' );
-  var SceneTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/SceneTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  var SceneTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/SceneTypeEnum' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/waves/view/TimeControlPanel' );
   var ToolboxPanel = require( 'WAVE_INTERFERENCE/waves/view/ToolboxPanel' );
@@ -27,7 +28,6 @@ define( function( require ) {
   // constants
   var MARGIN = 10;
   var SPACING = 20;
-  var CONTROL_PANEL_X = ScreenView.DEFAULT_LAYOUT_BOUNDS.width * 0.75;
 
   /**
    * @param {WavesScreenModel} model
@@ -36,6 +36,16 @@ define( function( require ) {
   function WavesScreenView( model ) {
     ScreenView.call( this );
 
+    var waveDimension = 530;
+    var waveAreaNode = new Rectangle( 0, 0, waveDimension, waveDimension, {
+      stroke: 'black',
+      lineWidth: 1,
+      top: MARGIN,
+      centerX: this.layoutBounds.centerX
+    } );
+
+    this.addChild( waveAreaNode );
+
     var resetAllButton = new ResetAllButton( {
       right: this.layoutBounds.right - MARGIN,
       bottom: this.layoutBounds.bottom - MARGIN
@@ -43,8 +53,8 @@ define( function( require ) {
     this.addChild( resetAllButton );
 
     var viewRadioButtonGroup = new ViewRadioButtonGroup( model.viewTypeProperty, {
-      bottom: resetAllButton.top - MARGIN,
-      left: CONTROL_PANEL_X
+      bottom: waveAreaNode.bottom,
+      left: waveAreaNode.right + MARGIN
     } );
     this.addChild( viewRadioButtonGroup );
 
@@ -82,7 +92,7 @@ define( function( require ) {
 
     var timeControlPanel = new TimeControlPanel( model, {
       bottom: this.layoutBounds.bottom - MARGIN,
-      right: viewRadioButtonGroup.left - MARGIN
+      right: waveAreaNode.right
     } );
     this.addChild( timeControlPanel );
 
@@ -98,7 +108,7 @@ define( function( require ) {
     } ], {
       orientation: 'horizontal',
       bottom: this.layoutBounds.bottom - MARGIN,
-      left: 300
+      left: waveAreaNode.left
     } );
     this.addChild( sceneRadioButtons );
   }
