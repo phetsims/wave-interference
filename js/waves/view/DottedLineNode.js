@@ -16,17 +16,15 @@ define( function( require ) {
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   /**
-   * @param {BooleanProperty} visibleProperty
    * @param {Object} [options]
    * @constructor
    */
-  function DottedLineNode( visibleProperty, options ) {
+  function DottedLineNode( options ) {
     Line.call( this, 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, 0, _.extend( {
       stroke: 'white',
       lineWidth: 3,
       lineDash: [ 14, 14 ]
     }, options ) );
-    visibleProperty.linkAttribute( this, 'visible' );
   }
 
   waveInterference.register( 'DottedLineNode', DottedLineNode );

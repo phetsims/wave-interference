@@ -37,7 +37,8 @@ define( function( require ) {
     model.showGraphProperty.linkAttribute( waveAreaGraphNode, 'visible' );
     this.addChild( waveAreaGraphNode );
 
-    var dottedLineNode = new DottedLineNode( model.showGraphProperty, { centerY: background.centerY } );
+    var dottedLineNode = new DottedLineNode( { centerY: background.centerY } );
+    model.showGraphProperty.linkAttribute( dottedLineNode, 'visible' );
     this.addChild( dottedLineNode );
     this.mutate( options );
   }

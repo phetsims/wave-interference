@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var DottedLineNode = require( 'WAVE_INTERFERENCE/waves/view/DottedLineNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -48,7 +49,7 @@ define( function( require ) {
       .lineTo( 0, graphHeight )
       .close();
 
-    var outlinePath = new Path( outline, { lineWidth: 1, stroke: 'black', fill: 'rgba(255,255,255,0.9)' } );
+    var outlinePath = new Path( outline, { lineWidth: 1, stroke: 'black', fill: 'rgba(255,255,255,0.8)' } );
     this.addChild( outlinePath );
 
     title.centerX = graphWidth / 2;
@@ -59,6 +60,10 @@ define( function( require ) {
     horizontalAxisLabel.bottom = outlinePath.bottom - TEXT_MARGIN_Y;
 
     this.addChild( horizontalAxisLabel );
+
+    var dottedLineNode = new DottedLineNode();
+    dottedLineNode.centerY = graphHeight / 2;
+    this.addChild( dottedLineNode );
 
     this.mutate( options );
   }
