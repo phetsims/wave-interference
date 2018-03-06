@@ -9,11 +9,13 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var DottedLineNode = require( 'WAVE_INTERFERENCE/waves/view/DottedLineNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceText' );
@@ -21,6 +23,7 @@ define( function( require ) {
   // constants
   var TEXT_MARGIN_X = 6;
   var TEXT_MARGIN_Y = 6;
+  var CURVE_RADIUS = 6;
 
   /**
    * @param {Object} [options]
@@ -34,18 +37,31 @@ define( function( require ) {
 
     var graphWidth = WaveInterferenceConstants.WAVE_AREA_WIDTH;
     var graphHeight = WaveInterferenceConstants.WAVE_AREA_WIDTH / 3;
+
+    var topTabBounds = new Bounds2(
+      graphWidth / 2 - title.width / 2 - TEXT_MARGIN_X,
+      -TEXT_MARGIN_Y - title.height,
+      graphWidth / 2 + title.width / 2 + TEXT_MARGIN_X,
+      0
+    );
+    var bottomTabBounds = new Bounds2(
+      graphWidth / 2 - horizontalAxisLabel.width / 2 - TEXT_MARGIN_X,
+      graphHeight,
+      graphWidth / 2 + horizontalAxisLabel.width / 2 + TEXT_MARGIN_X,
+      graphHeight + TEXT_MARGIN_Y + horizontalAxisLabel.height
+    );
     var outline = new Shape()
       .moveTo( 0, 0 )
-      .lineTo( graphWidth / 2 - title.width / 2 - TEXT_MARGIN_X, 0 )
-      .lineToRelative( 0, -title.height - TEXT_MARGIN_Y )
-      .lineToRelative( title.width + TEXT_MARGIN_X * 2, 0 )
-      .lineToRelative( 0, title.height + TEXT_MARGIN_Y )
+      .lineTo( topTabBounds.minX, topTabBounds.maxY )
+      .lineTo( topTabBounds.minX, topTabBounds.minY )
+      .lineTo( topTabBounds.maxX, topTabBounds.minY )
+      .lineTo( topTabBounds.maxX, topTabBounds.maxY )
       .lineTo( graphWidth, 0 )
       .lineTo( graphWidth, graphHeight )
-      .lineTo( graphWidth / 2 + horizontalAxisLabel.width / 2 + TEXT_MARGIN_X, graphHeight )
-      .lineToRelative( 0, horizontalAxisLabel.height + TEXT_MARGIN_Y )
-      .lineToRelative( -horizontalAxisLabel.width - TEXT_MARGIN_X * 2, 0 )
-      .lineToRelative( 0, -horizontalAxisLabel.height - TEXT_MARGIN_Y )
+      .lineTo( bottomTabBounds.maxX, bottomTabBounds.minY )
+      .lineTo( bottomTabBounds.maxX, bottomTabBounds.maxY )
+      .lineTo( bottomTabBounds.minX, bottomTabBounds.maxY )
+      .lineTo( bottomTabBounds.minX, bottomTabBounds.minY )
       .lineTo( 0, graphHeight )
       .close();
 
