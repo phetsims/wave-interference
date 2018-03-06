@@ -20,10 +20,11 @@ define( function( require ) {
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceText' );
 
   // constants
-  var TEXT_MARGIN_X = 6;
+  var TEXT_MARGIN_X = 8;
   var TEXT_MARGIN_Y = 6;
 
-  // var CURVE_RADIUS = 6;
+  // Round the tabs
+  var CURVE_RADIUS = 5;
 
   /**
    * @param {Object} [options]
@@ -52,16 +53,32 @@ define( function( require ) {
     );
     var outline = new Shape()
       .moveTo( 0, 0 )
-      .lineTo( topTabBounds.minX, topTabBounds.maxY )
-      .lineTo( topTabBounds.minX, topTabBounds.minY )
-      .lineTo( topTabBounds.maxX, topTabBounds.minY )
-      .lineTo( topTabBounds.maxX, topTabBounds.maxY )
+
+      // Top tab with title
+      .lineTo( topTabBounds.minX - CURVE_RADIUS, topTabBounds.maxY )
+      .arc( topTabBounds.minX - CURVE_RADIUS, topTabBounds.maxY - CURVE_RADIUS, CURVE_RADIUS, Math.PI / 2, 0, true )
+      .lineTo( topTabBounds.minX, topTabBounds.minY + CURVE_RADIUS )
+      .arc( topTabBounds.minX + CURVE_RADIUS, topTabBounds.minY + CURVE_RADIUS, CURVE_RADIUS, Math.PI, 3 * Math.PI / 2, false )
+      .lineTo( topTabBounds.maxX - CURVE_RADIUS, topTabBounds.minY )
+      .arc( topTabBounds.maxX - CURVE_RADIUS, topTabBounds.minY + CURVE_RADIUS, CURVE_RADIUS, 3 * Math.PI / 2, 0, false )
+      .lineTo( topTabBounds.maxX, topTabBounds.maxY - CURVE_RADIUS )
+      .arc( topTabBounds.maxX + CURVE_RADIUS, topTabBounds.maxY - CURVE_RADIUS, CURVE_RADIUS, Math.PI, Math.PI / 2, true )
+
+      // Right edge
       .lineTo( graphWidth, 0 )
       .lineTo( graphWidth, graphHeight )
-      .lineTo( bottomTabBounds.maxX, bottomTabBounds.minY )
-      .lineTo( bottomTabBounds.maxX, bottomTabBounds.maxY )
-      .lineTo( bottomTabBounds.minX, bottomTabBounds.maxY )
-      .lineTo( bottomTabBounds.minX, bottomTabBounds.minY )
+
+      // Bottom tab with horizontal axis label
+      .lineTo( bottomTabBounds.maxX + CURVE_RADIUS, bottomTabBounds.minY )
+      .arc( bottomTabBounds.maxX + CURVE_RADIUS, bottomTabBounds.minY + CURVE_RADIUS, CURVE_RADIUS, 3 / 2 * Math.PI, Math.PI, true )
+      .lineTo( bottomTabBounds.maxX, bottomTabBounds.maxY - CURVE_RADIUS )
+      .arc( bottomTabBounds.maxX - CURVE_RADIUS, bottomTabBounds.maxY - CURVE_RADIUS, CURVE_RADIUS, 0, Math.PI / 2, false )
+      .lineTo( bottomTabBounds.minX + CURVE_RADIUS, bottomTabBounds.maxY )
+      .arc( bottomTabBounds.minX + CURVE_RADIUS, bottomTabBounds.maxY - CURVE_RADIUS, CURVE_RADIUS, Math.PI / 2, Math.PI, false )
+      .lineTo( bottomTabBounds.minX, bottomTabBounds.minY + CURVE_RADIUS )
+      .arc( bottomTabBounds.minX - CURVE_RADIUS, bottomTabBounds.minY + CURVE_RADIUS, CURVE_RADIUS, 0, Math.PI * 3 / 2, true )
+
+      // Left edge
       .lineTo( 0, graphHeight )
       .close();
 
