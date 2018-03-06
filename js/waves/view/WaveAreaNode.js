@@ -13,9 +13,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var DottedLineNode = require( 'WAVE_INTERFERENCE/waves/view/DottedLineNode' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  var WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/waves/view/WaveAreaGraphNode' );
 
   /**
    * @param {WavesScreenModel} model
@@ -33,13 +31,6 @@ define( function( require ) {
 
     this.addChild( background );
 
-    var waveAreaGraphNode = new WaveAreaGraphNode( { centerY: WaveInterferenceConstants.WAVE_AREA_WIDTH * 0.75 } );
-    model.showGraphProperty.linkAttribute( waveAreaGraphNode, 'visible' );
-    this.addChild( waveAreaGraphNode );
-
-    var dottedLineNode = new DottedLineNode( { centerY: background.centerY } );
-    model.showGraphProperty.linkAttribute( dottedLineNode, 'visible' );
-    this.addChild( dottedLineNode );
     this.mutate( options );
   }
 

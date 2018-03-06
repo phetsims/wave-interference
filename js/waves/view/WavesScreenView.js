@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   var ControlPanel = require( 'WAVE_INTERFERENCE/waves/view/ControlPanel' );
+  var DottedLineNode = require( 'WAVE_INTERFERENCE/waves/view/DottedLineNode' );
   var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/IncidentWaveTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
@@ -20,10 +21,12 @@ define( function( require ) {
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/waves/view/TimeControlPanel' );
   var ToolboxPanel = require( 'WAVE_INTERFERENCE/waves/view/ToolboxPanel' );
   var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/waves/view/ViewRadioButtonGroup' );
+  var WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/waves/view/WaveAreaGraphNode' );
+  var WaveAreaNode = require( 'WAVE_INTERFERENCE/waves/view/WaveAreaNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceText' );
   var WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
-  var WaveAreaNode = require( 'WAVE_INTERFERENCE/waves/view/WaveAreaNode' );
 
   // constants
   var MARGIN = 10;
@@ -41,6 +44,20 @@ define( function( require ) {
       centerX: this.layoutBounds.centerX
     } );
     this.addChild( waveAreaNode );
+
+    var waveAreaGraphNode = new WaveAreaGraphNode( {
+      x: waveAreaNode.left,
+      centerY: WaveInterferenceConstants.WAVE_AREA_WIDTH * 0.75
+    } );
+    model.showGraphProperty.linkAttribute( waveAreaGraphNode, 'visible' );
+    this.addChild( waveAreaGraphNode );
+
+    var dottedLineNode = new DottedLineNode( {
+      x: waveAreaNode.left,
+      centerY: waveAreaNode.centerY
+    } );
+    model.showGraphProperty.linkAttribute( dottedLineNode, 'visible' );
+    this.addChild( dottedLineNode );
 
     var resetAllButton = new ResetAllButton( {
       right: this.layoutBounds.right - MARGIN,
