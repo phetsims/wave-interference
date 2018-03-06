@@ -15,7 +15,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceText' );
@@ -23,7 +22,8 @@ define( function( require ) {
   // constants
   var TEXT_MARGIN_X = 6;
   var TEXT_MARGIN_Y = 6;
-  var CURVE_RADIUS = 6;
+
+  // var CURVE_RADIUS = 6;
 
   /**
    * @param {Object} [options]
