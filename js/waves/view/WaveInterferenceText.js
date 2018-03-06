@@ -14,10 +14,12 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
+   * @param {string} string
+   * @param {Object} [options]
    * @constructor
    */
-  function WaveInterferenceText( string ) {
-    Text.call( this, string, { fontSize: 16 } );
+  function WaveInterferenceText( string, options ) {
+    Text.call( this, string, _.extend( { fontSize: 16 }, options ) );
   }
 
   waveInterference.register( 'WaveInterferenceText', WaveInterferenceText );

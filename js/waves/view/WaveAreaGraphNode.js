@@ -33,7 +33,7 @@ define( function( require ) {
   function WaveAreaGraphNode( options ) {
     Node.call( this );
 
-    var title = new WaveInterferenceText( 'Water Level at Center' );
+    var title = new WaveInterferenceText( 'Water Height at Center' );
     var horizontalAxisLabel = new WaveInterferenceText( 'Position (cm)' );
 
     var graphWidth = WaveInterferenceConstants.WAVE_AREA_WIDTH;
@@ -97,6 +97,11 @@ define( function( require ) {
     var dottedLineNode = new DottedLineNode();
     dottedLineNode.centerY = graphHeight / 2;
     this.addChild( dottedLineNode );
+
+    var verticalAxisLabel = new WaveInterferenceText( 'Water Height', {
+      rotation: 3 * Math.PI / 2
+    } );
+    this.addChild( verticalAxisLabel.mutate( { right: 0 - TEXT_MARGIN_Y, centerY: graphHeight / 2 } ) );
 
     this.mutate( options );
   }
