@@ -64,6 +64,9 @@ define( function( require ) {
     this.addChild( dottedLineNode );
 
     var resetAllButton = new ResetAllButton( {
+      listener: function() {
+        model.reset();
+      },
       right: this.layoutBounds.right - MARGIN,
       bottom: this.layoutBounds.bottom - MARGIN
     } );

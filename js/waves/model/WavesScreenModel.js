@@ -64,5 +64,21 @@ define( function( require ) {
 
   waveInterference.register( 'WavesScreenModel', WavesScreenModel );
 
-  return inherit( Object, WavesScreenModel );
+  return inherit( Object, WavesScreenModel, {
+
+    /**
+     * Restores the initial conditions
+     */
+    reset: function() {
+      this.sceneProperty.reset();
+      this.viewTypeProperty.reset();
+      this.frequencyProperty.reset();
+      this.amplitudeProperty.reset();
+      this.showGraphProperty.reset();
+      this.inputTypeProperty.reset();
+      this.playSpeedProperty.reset();
+      this.isRunningProperty.reset();
+      this.isMeasuringTapeInPlayAreaProperty.reset();
+    }
+  } );
 } );
