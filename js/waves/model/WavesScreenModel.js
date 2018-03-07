@@ -10,14 +10,15 @@ define( function( require ) {
 
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/IncidentWaveTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
-  var Property = require( 'AXON/Property' );
-  var ViewTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/ViewTypeEnum' );
-  var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/IncidentWaveTypeEnum' );
   var PlaySpeedEnum = require( 'WAVE_INTERFERENCE/waves/model/PlaySpeedEnum' );
+  var Property = require( 'AXON/Property' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/SceneTypeEnum' );
+  var ViewTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/ViewTypeEnum' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceModel = require( 'WAVE_INTERFERENCE/common/model/WaveInterferenceModel' );
 
   /**
    * @constructor
@@ -74,6 +75,9 @@ define( function( require ) {
 
     // @public
     this.isChartToolNodeInPlayAreaProperty = new BooleanProperty( false );
+
+    // @public {WaveInterferenceModel}
+    this.waveInterferenceModel = new WaveInterferenceModel(); // todo: inheritance?
   }
 
   waveInterference.register( 'WavesScreenModel', WavesScreenModel );
@@ -87,6 +91,7 @@ define( function( require ) {
       if ( this.isStopwatchRunningProperty.get() ) {
         this.stopwatchElapsedTimeProperty.set( this.stopwatchElapsedTimeProperty.get() + dt );
       }
+      this.waveInterferenceModel.step( dt );
     },
 
     /**

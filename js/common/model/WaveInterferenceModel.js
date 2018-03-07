@@ -22,7 +22,8 @@ define( function( require ) {
 
     // @public
     var potential = function( i, j ) {
-      return i === 60 && ((Math.abs( 40 - j ) > 3) && (Math.abs( 60 - j ) > 3));
+      return false;
+      // return i === 60 && ((Math.abs( 40 - j ) > 3) && (Math.abs( 60 - j ) > 3));
     };
 
     // @public {Lattice} the grid that contains the wave values

@@ -33,8 +33,8 @@ define( function( require ) {
   return inherit( CanvasNode, LatticeCanvasNode, {
 
     paintCanvas: function( context ) {
-      for ( var i = 0; i < this.lattice.width; i++ ) {
-        for ( var k = 0; k < this.lattice.height; k++ ) {
+      for ( var i = this.lattice.dampX; i < this.lattice.width - this.lattice.dampX; i++ ) {
+        for ( var k = this.lattice.dampY; k < this.lattice.height - this.lattice.dampY; k++ ) {
           var value = this.lattice.getCurrentValue( i, k );
           var x = Util.linear( -2, 2, 0, 255, value );
           x = Math.floor( Util.clamp( x, 0, 255 ) );
