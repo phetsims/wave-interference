@@ -60,11 +60,31 @@ define( function( require ) {
 
     // @public
     this.isMeasuringTapeInPlayAreaProperty = new BooleanProperty( false );
+
+    // @public
+    this.isStopwatchRunningProperty = new BooleanProperty( false );
+
+    // @public
+    this.stopwatchElapsedTimeProperty = new NumberProperty( 0, {
+      units: 'seconds'
+    } );
+
+    // @public
+    this.isTimerInPlayAreaProperty = new BooleanProperty( false );
   }
 
   waveInterference.register( 'WavesScreenModel', WavesScreenModel );
 
   return inherit( Object, WavesScreenModel, {
+
+    /**
+     * Advance time by the specified amount
+     */
+    step: function( dt ) {
+      if ( this.isStopwatchRunningProperty.get() ) {
+        this.stopwatchElapsedTimeProperty.set( this.stopwatchElapsedTimeProperty.get() + dt );
+      }
+    },
 
     /**
      * Restores the initial conditions
@@ -78,6 +98,7 @@ define( function( require ) {
       this.inputTypeProperty.reset();
       this.playSpeedProperty.reset();
       this.isRunningProperty.reset();
+      this.stopwatchElapsedTimeProperty.reset();
       this.isMeasuringTapeInPlayAreaProperty.reset();
     }
   } );

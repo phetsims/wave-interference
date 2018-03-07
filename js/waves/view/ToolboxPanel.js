@@ -14,7 +14,9 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
+  var TimerNode = require( 'SCENERY_PHET/TimerNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferencePanel' );
@@ -27,7 +29,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function ToolboxPanel( measuringTapeNode, alignGroup, model, options ) {
+  function ToolboxPanel( measuringTapeNode, timerNode, alignGroup, model, options ) {
     var self = this;
     var measuringTapeIcon = new MeasuringTapeNode( new Property( {
       name: 'cm',
@@ -52,13 +54,24 @@ define( function( require ) {
       model.isMeasuringTapeInPlayAreaProperty.value = true;
     } ) );
 
+    var timerNodeIcon = new TimerNode( new NumberProperty( 0 ), new BooleanProperty( false ), {
+      scale: 0.6
+    } );
+    timerNodeIcon.addInputListener( DragListener.createForwardingListener( function( event ) {
+      model.isTimerInPlayAreaProperty.value = true;
+      timerNode.timerNodeDragListener.press( event );
+    } ) );
+    model.isTimerInPlayAreaProperty.link( function( isTimerInPlayArea ) {
+      timerNodeIcon.visible = !isTimerInPlayArea;
+    } );
+
     // Layout for the toolbox
     WaveInterferencePanel.call( this,
       alignGroup.createBox( new HBox( {
         spacing: 10,
         children: [
           measuringTapeIcon,
-          new WaveInterferenceText( 'Watch' ),
+          timerNodeIcon,
           new WaveInterferenceText( 'Probe' )
         ]
       } ) ),

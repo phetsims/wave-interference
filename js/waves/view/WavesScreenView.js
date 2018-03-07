@@ -13,6 +13,7 @@ define( function( require ) {
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var ControlPanel = require( 'WAVE_INTERFERENCE/waves/view/ControlPanel' );
   var DottedLineNode = require( 'WAVE_INTERFERENCE/waves/view/DottedLineNode' );
+  var DragListener = require( 'SCENERY/listeners/DragListener' );
   var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/IncidentWaveTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
@@ -22,6 +23,7 @@ define( function( require ) {
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/SceneTypeEnum' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/waves/view/TimeControlPanel' );
+  var TimerNode = require( 'SCENERY_PHET/TimerNode' );
   var ToolboxPanel = require( 'WAVE_INTERFERENCE/waves/view/ToolboxPanel' );
   var Vector2 = require( 'DOT/Vector2' );
   var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/waves/view/ViewRadioButtonGroup' );
@@ -106,7 +108,15 @@ define( function( require ) {
     } );
     model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
-    var toolboxPanel = new ToolboxPanel( measuringTapeNode, controlPanelAlignGroup, model, {
+    var timerNode = new TimerNode( model.stopwatchElapsedTimeProperty, model.isStopwatchRunningProperty );
+    var timerNodeDragListener = new DragListener( {
+      translateNode: true
+    } );
+    timerNode.timerNodeDragListener = timerNodeDragListener; // TODO: fix this, perhaps a subclass
+    timerNode.addInputListener( timerNodeDragListener );
+    model.isTimerInPlayAreaProperty.linkAttribute( timerNode, 'visible' );
+
+    var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, controlPanelAlignGroup, model, {
       left: controlPanel.left,
       top: controlPanel.bottom + SPACING
     } );
@@ -149,6 +159,8 @@ define( function( require ) {
     this.addChild( sceneRadioButtons );
 
     this.addChild( measuringTapeNode );
+
+    this.addChild( timerNode );
   }
 
   waveInterference.register( 'WavesScreenView', WavesScreenView );
