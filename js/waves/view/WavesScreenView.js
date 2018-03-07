@@ -140,7 +140,12 @@ define( function( require ) {
         }
       }
     } );
-    model.isChartToolNodeInPlayAreaProperty.linkAttribute( chartToolNode, 'visible' );
+    model.isChartToolNodeInPlayAreaProperty.link( function( isChartToolNodeInPlayArea ) {
+      chartToolNode.visible = isChartToolNodeInPlayArea;
+
+      // Make sure probes are re-aligned on reset-all
+      chartToolNode.alignProbes();
+    } );
 
     var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, chartToolNode, controlPanelAlignGroup, model, {
       left: controlPanel.left,

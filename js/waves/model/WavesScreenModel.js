@@ -104,6 +104,7 @@ define( function( require ) {
       this.isTimerInPlayAreaProperty.reset();
       this.stopwatchElapsedTimeProperty.reset();
       this.isMeasuringTapeInPlayAreaProperty.reset();
+      this.isChartToolNodeInPlayAreaProperty.reset();
     }
   } );
 } );
