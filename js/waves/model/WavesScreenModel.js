@@ -57,6 +57,9 @@ define( function( require ) {
     this.sceneProperty = new Property( SceneTypeEnum.WATER, {
       validValues: SceneTypeEnum.VALUES
     } );
+
+    // @public
+    this.isMeasuringTapeInPlayAreaProperty = new BooleanProperty( false );
   }
 
   waveInterference.register( 'WavesScreenModel', WavesScreenModel );

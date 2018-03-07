@@ -10,16 +10,20 @@ define( function( require ) {
 
   // modules
   var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var ControlPanel = require( 'WAVE_INTERFERENCE/waves/view/ControlPanel' );
   var DottedLineNode = require( 'WAVE_INTERFERENCE/waves/view/DottedLineNode' );
   var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/IncidentWaveTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/SceneTypeEnum' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/waves/view/TimeControlPanel' );
   var ToolboxPanel = require( 'WAVE_INTERFERENCE/waves/view/ToolboxPanel' );
+  var Vector2 = require( 'DOT/Vector2' );
   var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/waves/view/ViewRadioButtonGroup' );
   var WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/waves/view/WaveAreaGraphNode' );
   var WaveAreaNode = require( 'WAVE_INTERFERENCE/waves/view/WaveAreaNode' );
@@ -83,7 +87,23 @@ define( function( require ) {
     } );
     this.addChild( controlPanel );
 
-    var toolboxPanel = new ToolboxPanel( controlPanelAlignGroup, {
+    var measuringTapeNode = new MeasuringTapeNode( new Property( {
+      name: 'cm',
+      multiplier: 10
+    } ), new BooleanProperty( true ), {
+      basePositionProperty: new Property( new Vector2( 200, 200 ) ),
+      tipPositionProperty: new Property( new Vector2( 220, 200 ) ),
+      baseDragEnded: function() {
+        var toolboxGlobalBounds = toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds );
+        var bodyCenterPoint = measuringTapeNode.localToGlobalPoint( measuringTapeNode.baseImage.center );
+        if ( toolboxGlobalBounds.containsPoint( bodyCenterPoint ) ) {
+          model.isMeasuringTapeInPlayAreaProperty.value = false;
+        }
+      }
+    } );
+    model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
+
+    var toolboxPanel = new ToolboxPanel( measuringTapeNode, controlPanelAlignGroup, model, {
       left: controlPanel.left,
       top: controlPanel.bottom + SPACING
     } );
@@ -124,6 +144,8 @@ define( function( require ) {
       left: waveAreaNode.left
     } );
     this.addChild( sceneRadioButtons );
+
+    this.addChild( measuringTapeNode );
   }
 
   waveInterference.register( 'WavesScreenView', WavesScreenView );
