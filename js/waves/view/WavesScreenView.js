@@ -98,6 +98,8 @@ define( function( require ) {
     } ), new BooleanProperty( true ), {
       basePositionProperty: new Property( new Vector2( 200, 200 ) ),
       tipPositionProperty: new Property( new Vector2( 220, 200 ) ),
+
+      // Drop in toolbox
       baseDragEnded: function() {
         var toolboxGlobalBounds = toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds );
         var bodyCenterPoint = measuringTapeNode.localToGlobalPoint( measuringTapeNode.baseImage.center );
@@ -110,7 +112,16 @@ define( function( require ) {
 
     var timerNode = new TimerNode( model.stopwatchElapsedTimeProperty, model.isStopwatchRunningProperty );
     var timerNodeDragListener = new DragListener( {
-      translateNode: true
+      translateNode: true,
+
+      // Drop in toolbox
+      end: function() {
+        var toolboxGlobalBounds = toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds );
+        var centerPoint = timerNode.parentToGlobalPoint( timerNode.center );
+        if ( toolboxGlobalBounds.containsPoint( centerPoint ) ) {
+          model.isTimerInPlayAreaProperty.value = false;
+        }
+      }
     } );
     timerNode.timerNodeDragListener = timerNodeDragListener; // TODO: fix this, perhaps a subclass
     timerNode.addInputListener( timerNodeDragListener );

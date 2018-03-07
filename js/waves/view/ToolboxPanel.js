@@ -24,6 +24,7 @@ define( function( require ) {
 
   /**
    * @param {MeasuringTapeNode} measuringTapeNode
+   * @param {TimerNode} timerNode
    * @param {AlignGroup} alignGroup - to align with neighbors
    * @param {WavesScreenModel} model
    * @param {Object} [options]
@@ -59,7 +60,8 @@ define( function( require ) {
     } );
     timerNodeIcon.addInputListener( DragListener.createForwardingListener( function( event ) {
       model.isTimerInPlayAreaProperty.value = true;
-      timerNode.timerNodeDragListener.press( event );
+      timerNode.center = self.globalToParentPoint( event.pointer.point );
+      timerNode.timerNodeDragListener.press( event, timerNode ); // TODO: what is better, this or targetNode: in the constructor?
     } ) );
     model.isTimerInPlayAreaProperty.link( function( isTimerInPlayArea ) {
       timerNodeIcon.visible = !isTimerInPlayArea;
