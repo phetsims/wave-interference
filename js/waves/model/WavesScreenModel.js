@@ -98,6 +98,7 @@ define( function( require ) {
       this.inputTypeProperty.reset();
       this.playSpeedProperty.reset();
       this.isRunningProperty.reset();
+      this.isTimerInPlayAreaProperty.reset();
       this.stopwatchElapsedTimeProperty.reset();
       this.isMeasuringTapeInPlayAreaProperty.reset();
     }

@@ -14,8 +14,10 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var TimerNode = require( 'SCENERY_PHET/TimerNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -55,8 +57,21 @@ define( function( require ) {
       model.isMeasuringTapeInPlayAreaProperty.value = true;
     } ) );
 
-    var timerNodeIcon = new TimerNode( new NumberProperty( 0 ), new BooleanProperty( false ), {
-      scale: 0.6
+    // Node used to create the icon
+    var iconTimerNode = new TimerNode( new NumberProperty( 0 ), new BooleanProperty( false ), {
+      scale: 0.6,
+      pickable: false
+    } );
+
+    // The icon itself, which has an overlay to make the buttons draggable instead of pressable
+    var timerNodeIcon = new Node( {
+      children: [
+        iconTimerNode,
+
+        // Overlay makes it possible to drag out of the toolbox by the buttons (instead of the buttons being pressed)
+        // toImage() was too aliased
+        Rectangle.bounds( iconTimerNode.bounds, { fill: 'rgba(0,0,0,0)' } )
+      ]
     } );
     timerNodeIcon.addInputListener( DragListener.createForwardingListener( function( event ) {
       model.isTimerInPlayAreaProperty.value = true;
