@@ -29,6 +29,7 @@ define( function( require ) {
   var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/waves/view/ViewRadioButtonGroup' );
   var WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/waves/view/WaveAreaGraphNode' );
   var WaveAreaNode = require( 'WAVE_INTERFERENCE/waves/view/WaveAreaNode' );
+  var ChartToolNode = require( 'WAVE_INTERFERENCE/waves/view/ChartToolNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceText' );
@@ -127,7 +128,21 @@ define( function( require ) {
     timerNode.addInputListener( timerNodeDragListener );
     model.isTimerInPlayAreaProperty.linkAttribute( timerNode, 'visible' );
 
-    var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, controlPanelAlignGroup, model, {
+    var chartToolNode = new ChartToolNode( {
+
+      // Drop in toolbox
+      end: function() {
+        var toolboxGlobalBounds = toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds );
+        var centerPoint = chartToolNode.getBackgroundNodeGlobalBounds().center;
+        if ( toolboxGlobalBounds.containsPoint( centerPoint ) ) {
+          model.isChartToolNodeInPlayAreaProperty.value = false;
+          chartToolNode.alignProbes();
+        }
+      }
+    } );
+    model.isChartToolNodeInPlayAreaProperty.linkAttribute( chartToolNode, 'visible' );
+
+    var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, chartToolNode, controlPanelAlignGroup, model, {
       left: controlPanel.left,
       top: controlPanel.bottom + SPACING
     } );
@@ -168,10 +183,9 @@ define( function( require ) {
       left: waveAreaNode.left
     } );
     this.addChild( sceneRadioButtons );
-
     this.addChild( measuringTapeNode );
-
     this.addChild( timerNode );
+    this.addChild( chartToolNode );
   }
 
   waveInterference.register( 'WavesScreenView', WavesScreenView );

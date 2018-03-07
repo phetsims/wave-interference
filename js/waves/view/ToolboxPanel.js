@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var ChartToolNode = require( 'WAVE_INTERFERENCE/waves/view/ChartToolNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -22,17 +23,17 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferencePanel' );
-  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceText' );
 
   /**
    * @param {MeasuringTapeNode} measuringTapeNode
    * @param {TimerNode} timerNode
+   * @param {ChartToolNode} chartToolNode
    * @param {AlignGroup} alignGroup - to align with neighbors
    * @param {WavesScreenModel} model
    * @param {Object} [options]
    * @constructor
    */
-  function ToolboxPanel( measuringTapeNode, timerNode, alignGroup, model, options ) {
+  function ToolboxPanel( measuringTapeNode, timerNode, chartToolNode, alignGroup, model, options ) {
     var self = this;
     var measuringTapeIcon = new MeasuringTapeNode( new Property( {
       name: 'cm',
@@ -40,7 +41,8 @@ define( function( require ) {
     } ), new BooleanProperty( true ), {
       tipPositionProperty: new Property( new Vector2( 20, 0 ) ),
       hasValue: false,
-      interactive: false
+      interactive: false,
+      scale: 0.7
     } );
     model.isMeasuringTapeInPlayAreaProperty.link( function( isMeasuringTapeInPlayArea ) {
       measuringTapeIcon.visible = !isMeasuringTapeInPlayArea;
@@ -59,7 +61,7 @@ define( function( require ) {
 
     // Node used to create the icon
     var iconTimerNode = new TimerNode( new NumberProperty( 0 ), new BooleanProperty( false ), {
-      scale: 0.6,
+      scale: 0.5,
       pickable: false
     } );
 
@@ -75,12 +77,36 @@ define( function( require ) {
       ]
     } );
     timerNodeIcon.addInputListener( DragListener.createForwardingListener( function( event ) {
-      model.isTimerInPlayAreaProperty.value = true;
       timerNode.center = self.globalToParentPoint( event.pointer.point );
       timerNode.timerNodeDragListener.press( event, timerNode ); // TODO: what is better, this or targetNode: in the constructor?
+      model.isTimerInPlayAreaProperty.value = true;
     } ) );
     model.isTimerInPlayAreaProperty.link( function( isTimerInPlayArea ) {
       timerNodeIcon.visible = !isTimerInPlayArea;
+    } );
+
+    var chartToolNodeForIcon = new ChartToolNode( {
+      scale: 0.3
+    } );
+
+    // TODO: factor out this pattern of icon node overlays
+    var chartToolNodeIcon = new Node( {
+      cursor: 'pointer',
+      children: [
+        chartToolNodeForIcon,
+
+        // Overlay makes it possible to drag out of the toolbox by the buttons (instead of the buttons being pressed)
+        // toImage() was too aliased
+        Rectangle.bounds( chartToolNodeForIcon.bounds, { fill: 'rgba(0,0,0,0)' } )
+      ]
+    } );
+    chartToolNodeIcon.addInputListener( DragListener.createForwardingListener( function( event ) {
+      chartToolNode.center = self.globalToParentPoint( event.pointer.point );
+      chartToolNode.startDrag( event );
+      model.isChartToolNodeInPlayAreaProperty.value = true;
+    } ) );
+    model.isChartToolNodeInPlayAreaProperty.link( function( isChartToolNodeInPlayArea ) {
+      chartToolNodeIcon.visible = !isChartToolNodeInPlayArea;
     } );
 
     // Layout for the toolbox
@@ -90,7 +116,7 @@ define( function( require ) {
         children: [
           measuringTapeIcon,
           timerNodeIcon,
-          new WaveInterferenceText( 'Probe' )
+          chartToolNodeIcon
         ]
       } ) ),
       options

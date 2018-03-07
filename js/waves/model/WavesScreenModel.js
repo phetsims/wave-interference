@@ -71,6 +71,9 @@ define( function( require ) {
 
     // @public
     this.isTimerInPlayAreaProperty = new BooleanProperty( false );
+
+    // @public
+    this.isChartToolNodeInPlayAreaProperty = new BooleanProperty( false );
   }
 
   waveInterference.register( 'WavesScreenModel', WavesScreenModel );
