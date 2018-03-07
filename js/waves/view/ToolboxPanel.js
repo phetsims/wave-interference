@@ -65,6 +65,7 @@ define( function( require ) {
 
     // The icon itself, which has an overlay to make the buttons draggable instead of pressable
     var timerNodeIcon = new Node( {
+      cursor: 'pointer',
       children: [
         iconTimerNode,
 
