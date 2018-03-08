@@ -60,7 +60,6 @@ define( function( require ) {
       centerY: WaveInterferenceConstants.WAVE_AREA_WIDTH * 0.75
     } );
     model.showGraphProperty.linkAttribute( waveAreaGraphNode, 'visible' );
-    this.addChild( waveAreaGraphNode );
 
     var dottedLineNode = new DottedLineNode( {
       x: waveAreaNode.left,
@@ -205,6 +204,7 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - MARGIN,
       left: waveAreaNode.left
     } );
+    this.addChild( waveAreaGraphNode );
     this.addChild( sceneRadioButtons );
     this.addChild( measuringTapeNode );
     this.addChild( timerNode );
