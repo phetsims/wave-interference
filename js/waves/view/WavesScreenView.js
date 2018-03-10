@@ -23,7 +23,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var SceneTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/SceneTypeEnum' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/waves/view/TimeControlPanel' );
   var TimerNode = require( 'SCENERY_PHET/TimerNode' );
@@ -35,7 +34,6 @@ define( function( require ) {
   var WaveAreaNode = require( 'WAVE_INTERFERENCE/waves/view/WaveAreaNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceText' );
   var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
 
   // constants
@@ -78,8 +76,8 @@ define( function( require ) {
     this.addChild( resetAllButton );
 
     var viewRadioButtonGroup = new ViewRadioButtonGroup( model.viewTypeProperty, {
-      bottom: waveAreaNode.bottom,
-      left: waveAreaNode.right + MARGIN
+      bottom: this.layoutBounds.bottom - MARGIN,
+      left: waveAreaNode.left
     } );
     this.addChild( viewRadioButtonGroup );
 
@@ -196,22 +194,7 @@ define( function( require ) {
     } );
     this.addChild( timeControlPanel );
 
-    var sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [ {
-      value: SceneTypeEnum.WATER,
-      node: new WaveInterferenceText( 'water' )
-    }, {
-      value: SceneTypeEnum.SOUND,
-      node: new WaveInterferenceText( 'sound' )
-    }, {
-      value: SceneTypeEnum.LIGHT,
-      node: new WaveInterferenceText( 'light' )
-    } ], {
-      orientation: 'horizontal',
-      bottom: this.layoutBounds.bottom - MARGIN,
-      left: waveAreaNode.left
-    } );
     this.addChild( waveAreaGraphNode );
-    this.addChild( sceneRadioButtons );
     this.addChild( measuringTapeNode );
     this.addChild( timerNode );
     this.addChild( chartToolNode );

@@ -20,7 +20,7 @@ define( function( require ) {
     options = _.extend( {
       yMargin: 10,
       xMargin: 10,
-      fill: 'rgb(226,227,229)'
+      fill: 'rgb(230,231,232)' // TODO: factor out
     }, options );
     Panel.call( this, content, options );
   }
