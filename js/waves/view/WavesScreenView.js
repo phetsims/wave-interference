@@ -36,7 +36,8 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceText' );
-  var WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
+  var SinglePulseIconNode = require( 'WAVE_INTERFERENCE/common/view/SinglePulseIconNode' );
+  var ContinuousWaveIconNode = require( 'WAVE_INTERFERENCE/common/view/ContinuousWaveIconNode' );
 
   // constants
   var MARGIN = 10;
@@ -170,17 +171,23 @@ define( function( require ) {
     } );
     this.addChild( toolboxPanel );
 
-    var continuousPulseGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
-      node: new WaveInterferenceText( 'Continuous' ),
-      value: IncidentWaveTypeEnum.CONTINUOUS,
-      property: model.inputTypeProperty
-    }, {
-      node: new WaveInterferenceText( 'Pulse' ),
+    var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {
       value: IncidentWaveTypeEnum.PULSE,
-      property: model.inputTypeProperty
+      node: new SinglePulseIconNode()
+    }, {
+      value: IncidentWaveTypeEnum.CONTINUOUS,
+      node: new ContinuousWaveIconNode()
     } ], {
-      top: MARGIN,
-      left: MARGIN
+      orientation: 'horizontal',
+      buttonContentXMargin: 0,
+      buttonContentYMargin: 8,
+      selectedLineWidth: 2,
+      baseColor: 'white',
+      disabledBaseColor: 'white',
+      selectedStroke: 'blue',
+      deselectedContentOpacity: 0.4,
+      bottom: this.layoutBounds.bottom - MARGIN,
+      left: this.layoutBounds.left + MARGIN
     } );
     this.addChild( continuousPulseGroup );
 
