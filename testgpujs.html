@@ -1,0 +1,22 @@
+<html>
+<head>
+  <script src="../gpu.js/bin/gpu.js"></script>
+  <!--<script src="https://cdn.rawgit.com/gpujs/gpu.js/45103b7f154a12ec639990c6896b21a053eb6a6c/bin/gpu.js"></script>-->
+</head>
+<body>
+<script>
+  var cpu = new GPU( { mode: 'cpu' } );
+  var gpu = new GPU( { mode: 'gpu' } );
+
+  function testFunc( inp ) {
+    return inp[ this.thread.y ][ this.thread.x ];
+  }
+
+  const cpuKernel = cpu.createKernel( testFunc ).setOutput( [ 3, 3 ] );
+  const gpuKernel = gpu.createKernel( testFunc ).setOutput( [ 3, 3 ] );
+
+  console.log( 'cpu:', cpuKernel( [ [ 0, 1, 2 ], [ 3, 4, 5 ], [ 6, 7, 8 ] ] ) );
+  console.log( 'gpu:', gpuKernel( [ [ 0, 1, 2 ], [ 3, 4, 5 ], [ 6, 7, 8 ] ] ) );
+</script>
+</body>
+</html>
