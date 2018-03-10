@@ -36,8 +36,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceText' );
-  var SinglePulseIconNode = require( 'WAVE_INTERFERENCE/common/view/SinglePulseIconNode' );
-  var ContinuousWaveIconNode = require( 'WAVE_INTERFERENCE/common/view/ContinuousWaveIconNode' );
+  var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
 
   // constants
   var MARGIN = 10;
@@ -173,10 +172,10 @@ define( function( require ) {
 
     var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {
       value: IncidentWaveTypeEnum.PULSE,
-      node: new SinglePulseIconNode()
+      node: new InputTypeIconNode( IncidentWaveTypeEnum.PULSE )
     }, {
       value: IncidentWaveTypeEnum.CONTINUOUS,
-      node: new ContinuousWaveIconNode()
+      node: new InputTypeIconNode( IncidentWaveTypeEnum.CONTINUOUS )
     } ], {
       orientation: 'horizontal',
       buttonContentXMargin: 0,
