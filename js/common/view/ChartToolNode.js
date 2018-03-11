@@ -17,9 +17,9 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferenceText' );
-  var WireNode = require( 'WAVE_INTERFERENCE/waves/view/WireNode' );
-  var ChartToolProbeNode = require( 'WAVE_INTERFERENCE/waves/view/ChartToolProbeNode' );
+  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  var WireNode = require( 'WAVE_INTERFERENCE/common/view/WireNode' );
+  var ChartToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolProbeNode' );
 
   /**
    * @param {Object} [options]

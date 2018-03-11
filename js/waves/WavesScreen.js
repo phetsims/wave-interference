@@ -14,8 +14,8 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Screen = require( 'JOIST/Screen' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
-  var WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
+  var WavesScreenModel = require( 'WAVE_INTERFERENCE/common/model/WavesScreenModel' );
+  var WavesScreenView = require( 'WAVE_INTERFERENCE/common/view/WavesScreenView' );
 
   /**
    * @constructor

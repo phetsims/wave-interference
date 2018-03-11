@@ -11,11 +11,11 @@ define( function( require ) {
   // modules
   var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var ChartToolNode = require( 'WAVE_INTERFERENCE/waves/view/ChartToolNode' );
-  var ControlPanel = require( 'WAVE_INTERFERENCE/waves/view/ControlPanel' );
-  var DottedLineNode = require( 'WAVE_INTERFERENCE/waves/view/DottedLineNode' );
+  var ChartToolNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolNode' );
+  var ControlPanel = require( 'WAVE_INTERFERENCE/common/view/ControlPanel' );
+  var DottedLineNode = require( 'WAVE_INTERFERENCE/common/view/DottedLineNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
-  var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/waves/model/IncidentWaveTypeEnum' );
+  var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/common/model/IncidentWaveTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
@@ -24,14 +24,14 @@ define( function( require ) {
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
-  var TimeControlPanel = require( 'WAVE_INTERFERENCE/waves/view/TimeControlPanel' );
+  var TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
   var TimerNode = require( 'SCENERY_PHET/TimerNode' );
-  var ToolboxPanel = require( 'WAVE_INTERFERENCE/waves/view/ToolboxPanel' );
+  var ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
   var Util = require( 'SCENERY/util/Util' );
   var Vector2 = require( 'DOT/Vector2' );
-  var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/waves/view/ViewRadioButtonGroup' );
-  var WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/waves/view/WaveAreaGraphNode' );
-  var WaveAreaNode = require( 'WAVE_INTERFERENCE/waves/view/WaveAreaNode' );
+  var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
+  var WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
+  var WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );

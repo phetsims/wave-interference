@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var ChartToolNode = require( 'WAVE_INTERFERENCE/waves/view/ChartToolNode' );
+  var ChartToolNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -22,7 +22,7 @@ define( function( require ) {
   var TimerNode = require( 'SCENERY_PHET/TimerNode' );
   var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/waves/view/WaveInterferencePanel' );
+  var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
 
   /**
    * @param {MeasuringTapeNode} measuringTapeNode
