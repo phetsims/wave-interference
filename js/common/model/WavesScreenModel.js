@@ -112,6 +112,12 @@ define( function( require ) {
      * @public
      */
     advanceTime: function( dt ) {
+
+      // On iPad2 and slower platforms, the clock speed cannot keep up with the frequency, so we must clamp it
+      // to get the full range of oscillation at the wave source.
+      if ( dt > 1 / 60 ) {
+        dt = 1 / 60;
+      }
       this.waveInterferenceModel.step( dt );
       if ( this.isStopwatchRunningProperty.get() ) {
         this.stopwatchElapsedTimeProperty.set( this.stopwatchElapsedTimeProperty.get() + dt );
