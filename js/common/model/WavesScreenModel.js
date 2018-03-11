@@ -98,16 +98,29 @@ define( function( require ) {
 
     /**
      * Advance time by the specified amount
+     * @public
      */
     step: function( dt ) {
+      if ( this.isRunningProperty.get() ) {
+        this.advanceTime( dt );
+      }
+    },
+
+    /**
+     * Additionally called from the "step" button
+     * @param dt
+     * @public
+     */
+    advanceTime: function( dt ) {
+      this.waveInterferenceModel.step( dt );
       if ( this.isStopwatchRunningProperty.get() ) {
         this.stopwatchElapsedTimeProperty.set( this.stopwatchElapsedTimeProperty.get() + dt );
       }
-      this.waveInterferenceModel.step( dt );
     },
 
     /**
      * Restores the initial conditions
+     * @public
      */
     reset: function() {
       this.sceneProperty.reset();

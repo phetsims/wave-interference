@@ -34,6 +34,12 @@ define( function( require ) {
     } ] );
 
     var stepButton = new StepButton();
+    stepButton.addListener( function() {
+
+      // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
+      // dt, so the model will behave the same
+      model.advanceTime( 1 / 60 );
+    } );
 
     // Only enable the step button when the model is paused.
     model.isRunningProperty.link( function( isRunning ) {
