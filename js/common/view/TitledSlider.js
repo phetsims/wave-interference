@@ -23,8 +23,8 @@ define( function( require ) {
    */
   function TitledSlider( title, property ) {
 
-    var frequencyTitle = new WaveInterferenceText( title );
-    var frequencySlider = new HSlider( property, {
+    var titleNode = new WaveInterferenceText( title );
+    var slider = new HSlider( property, {
       min: 0, max: 12
     }, {
       trackSize: new Dimension2( 150, 5 ),
@@ -32,19 +32,19 @@ define( function( require ) {
         return 2 * Math.round( value / 2 );
       }
     } );
-    frequencySlider.addMajorTick( 0, new WaveInterferenceText( '0' ) );
-    frequencySlider.addMinorTick( 2 );
-    frequencySlider.addMinorTick( 4 );
-    frequencySlider.addMajorTick( 6 );
-    frequencySlider.addMinorTick( 8 );
-    frequencySlider.addMinorTick( 10 );
-    frequencySlider.addMajorTick( 12, new WaveInterferenceText( 'max' ) );
+    slider.addMajorTick( 0, new WaveInterferenceText( '0' ) );
+    slider.addMinorTick( 2 );
+    slider.addMinorTick( 4 );
+    slider.addMajorTick( 6 );
+    slider.addMinorTick( 8 );
+    slider.addMinorTick( 10 );
+    slider.addMajorTick( 12, new WaveInterferenceText( 'max' ) );
 
     VBox.call( this, {
       spacing: 0,
       children: [
-        frequencyTitle,
-        frequencySlider
+        titleNode,
+        slider
       ]
     } );
   }

@@ -53,6 +53,9 @@ define( function( require ) {
 
       self.phase = proposedPhase;
     } );
+
+    // @public {NumberProperty} controls the amplitude of the wave
+    this.amplitudeProperty = new NumberProperty( 10 );
   }
 
   waveInterference.register( 'WaveInterferenceModel', WaveInterferenceModel );
@@ -75,8 +78,8 @@ define( function( require ) {
     step: function( dt ) {
       dt = 1 / 60; // TODO: how to support slower machines?
       this.time += dt;
-      var v = Math.sin( this.time * this.frequencyProperty.value + this.phase );
-      this.lattice.setCurrentValue( 30, 50, v * 10 );
+      var v = Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
+      this.lattice.setCurrentValue( 30, 50, v );
       this.lattice.step( dt );
     }
   } );

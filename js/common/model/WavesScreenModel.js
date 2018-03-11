@@ -25,6 +25,8 @@ define( function( require ) {
    */
   function WavesScreenModel() {
 
+    var self = this;
+
     // @public
     this.viewTypeProperty = new Property( ViewTypeEnum.TOP, {
       validValues: ViewTypeEnum.VALUES
@@ -77,7 +79,17 @@ define( function( require ) {
     this.isChartToolNodeInPlayAreaProperty = new BooleanProperty( false );
 
     // @public {WaveInterferenceModel}
-    this.waveInterferenceModel = new WaveInterferenceModel(); // todo: inheritance?
+    this.waveInterferenceModel = new WaveInterferenceModel(); // todo: inheritance?  or sharing attributes?  Or good as is?
+
+    // Map from physical dimension units to lattice (dimensionless) units
+    this.amplitudeProperty.link( function( amplitude ) {
+      self.waveInterferenceModel.amplitudeProperty.value = amplitude / 6 * 10;
+    } );
+
+    // Wire up to the wave model
+    this.frequencyProperty.link( function( frequency ) {
+      self.waveInterferenceModel.frequencyProperty.value = frequency * 2.5;
+    } );
   }
 
   waveInterference.register( 'WavesScreenModel', WavesScreenModel );
