@@ -98,6 +98,7 @@ define( function( require ) {
 
     /**
      * Advance time by the specified amount
+     * @param {number} dt - amount of time in seconds to move the model forward
      * @public
      */
     step: function( dt ) {
@@ -108,7 +109,7 @@ define( function( require ) {
 
     /**
      * Additionally called from the "step" button
-     * @param dt
+     * @param {number} dt - amount of time in seconds to move the model forward
      * @public
      */
     advanceTime: function( dt ) {

@@ -77,7 +77,10 @@ define( function( require ) {
       this.lattice.clear();
     },
 
-    // @public
+    /**
+     * @param {number} dt - amount of time in seconds to move the model forward
+     * @public
+     */
     step: function( dt ) {
       this.time += dt;
       var v = Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
