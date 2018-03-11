@@ -102,7 +102,7 @@ define( function( require ) {
      */
     step: function( dt ) {
       if ( this.isRunningProperty.get() ) {
-        this.advanceTime( dt );
+        this.advanceTime( dt * this.playSpeedProperty.get().scaleFactor );
       }
     },
 

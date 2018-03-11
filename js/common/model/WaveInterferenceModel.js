@@ -38,6 +38,9 @@ define( function( require ) {
     // @public {NumberProperty} the frequency of the emitter
     this.frequencyProperty = new NumberProperty( 20 );
 
+    // @private - track the time since the last lattice update so we can get comparable performance on machines with different speeds
+    this.timeSinceLastLatticeStep = 0;
+
     // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
     // for continuity
     this.frequencyProperty.lazyLink( function( newFrequency, oldFrequency ) {
@@ -76,11 +79,15 @@ define( function( require ) {
 
     // @public
     step: function( dt ) {
-      dt = 1 / 60; // TODO: how to support slower machines?
       this.time += dt;
       var v = Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
       this.lattice.setCurrentValue( 30, 50, v );
-      this.lattice.step( dt );
+      this.timeSinceLastLatticeStep += dt;
+
+      if ( this.timeSinceLastLatticeStep >= 1 / 60 ) {
+        this.lattice.step();
+        this.timeSinceLastLatticeStep = 0;
+      }
     }
   } );
 } );

@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- *
+ * Buttons for play/pause radio buttons for normal/slow
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -22,6 +22,9 @@ define( function( require ) {
    * @constructor
    */
   function TimeControlPanel( model, options ) {
+
+    // @public (read-only) for layout
+    this.playPauseButton = new PlayPauseButton( model.isRunningProperty );
 
     var radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
       node: new WaveInterferenceText( 'Normal' ),
@@ -45,9 +48,6 @@ define( function( require ) {
     model.isRunningProperty.link( function( isRunning ) {
       stepButton.enabled = !isRunning;
     } );
-
-    // @public (read-only) for layout
-    this.playPauseButton = new PlayPauseButton( model.isRunningProperty );
 
     HBox.call( this, _.extend( {
       spacing: 20,

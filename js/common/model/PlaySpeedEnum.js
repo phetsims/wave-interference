@@ -11,8 +11,11 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   var PlaySpeedEnum = {
-    NORMAL: 'NORMAL',
-    SLOW: 'SLOW'
+
+    // At the time of writing, this is a new strategy for enum patterns, kind of partway between our normal enum
+    // string pattern and the richer enum pattern exemplified in Orientation.js
+    NORMAL: { scaleFactor: 1 },
+    SLOW: { scaleFactor: 1 / 3 }
   };
 
   PlaySpeedEnum.VALUES = _.values( PlaySpeedEnum );
