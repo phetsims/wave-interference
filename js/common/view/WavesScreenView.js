@@ -81,7 +81,8 @@ define( function( require ) {
     } );
     this.addChild( viewRadioButtonGroup );
 
-    var controlPanelAlignGroup = new AlignGroup( {
+    // @protected {AlignGroup} for making sure the control panels on the right hand side have the same width
+    this.controlPanelAlignGroup = new AlignGroup( {
 
       // Elements should have the same widths but not constrained to have the same heights
       matchVertical: false
@@ -156,17 +157,18 @@ define( function( require ) {
       chartToolNode.alignProbes();
     } );
 
-    var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, chartToolNode, controlPanelAlignGroup, model, {
+    var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, chartToolNode, this.controlPanelAlignGroup, model, {
       right: this.layoutBounds.right - MARGIN,
       top: MARGIN
     } );
     this.addChild( toolboxPanel );
 
-    var controlPanel = new ControlPanel( model, controlPanelAlignGroup, {
+    // @protected {ControlPanel} for subtype layout
+    this.controlPanel = new ControlPanel( model, this.controlPanelAlignGroup, {
       right: this.layoutBounds.right - MARGIN,
       top: toolboxPanel.bottom + SPACING
     } );
-    this.addChild( controlPanel );
+    this.addChild( this.controlPanel );
 
     var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {
       value: IncidentWaveTypeEnum.PULSE,

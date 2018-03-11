@@ -1,6 +1,8 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
+ * "Slits" screen in the Wave Interference simulation.
+ *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
@@ -12,27 +14,24 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Screen = require( 'JOIST/Screen' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceModel = require( 'WAVE_INTERFERENCE/common/model/WaveInterferenceModel' );
-  var WaveInterferenceScreenView = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceScreenView' );
+  var SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
+  var SlitsScreenView = require( 'WAVE_INTERFERENCE/slits/view/SlitsScreenView' );
 
   /**
    * @constructor
    */
   function SlitsScreen() {
-
     var homeScreenIcon = Rectangle.dimension( Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, {
       fill: 'white'
     } );
-
     var options = {
       backgroundColorProperty: new Property( 'white' ),
       name: 'Slits',
       homeScreenIcon: homeScreenIcon
     };
-
     Screen.call( this,
-      function() { return new WaveInterferenceModel(); },
-      function( model ) { return new WaveInterferenceScreenView( model ); },
+      function() { return new SlitsScreenModel(); },
+      function( model ) { return new SlitsScreenView( model ); },
       options
     );
   }

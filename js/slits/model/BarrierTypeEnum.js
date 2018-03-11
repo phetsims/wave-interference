@@ -1,0 +1,28 @@
+// Copyright 2016, University of Colorado Boulder
+
+/**
+ * Determines the barrier type (if any).
+ *
+ * @author Sam Reid (PhET Interactive Simulations)
+ */
+define( function( require ) {
+  'use strict';
+
+  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+
+  var BarrierTypeEnum = {
+    NO_BARRIER: 'NO_BARRIER',
+    MIRROR: 'MIRROR',
+    ONE_SLIT: 'ONE_SLIT',
+    TWO_SLITS: 'TWO_SLITS'
+  };
+
+  BarrierTypeEnum.VALUES = _.values( BarrierTypeEnum );
+
+  // verify that enum is immutable, without the runtime penalty in production code
+  if ( assert ) { Object.freeze( BarrierTypeEnum ); }
+
+  waveInterference.register( 'BarrierTypeEnum', BarrierTypeEnum );
+
+  return BarrierTypeEnum;
+} );
