@@ -40,11 +40,14 @@ define( function( require ) {
       stepButton.enabled = !isRunning;
     } );
 
+    // @public (read-only) for layout
+    this.playPauseButton = new PlayPauseButton( model.isRunningProperty );
+
     HBox.call( this, _.extend( {
       spacing: 20,
       children: [ new HBox( {
         spacing: 6,
-        children: [ new PlayPauseButton( model.isRunningProperty ), stepButton ]
+        children: [ this.playPauseButton, stepButton ]
       } ), radioButtonGroup ]
     }, options ) );
   }

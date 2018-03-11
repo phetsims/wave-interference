@@ -38,7 +38,7 @@ define( function( require ) {
 
   // constants
   var MARGIN = 10;
-  var SPACING = 20;
+  var SPACING = 12;
 
   /**
    * @param {WavesScreenModel} model
@@ -86,12 +86,6 @@ define( function( require ) {
       // Elements should have the same widths but not constrained to have the same heights
       matchVertical: false
     } );
-
-    var controlPanel = new ControlPanel( model, controlPanelAlignGroup, {
-      right: this.layoutBounds.right - MARGIN,
-      top: this.layoutBounds.top + MARGIN
-    } );
-    this.addChild( controlPanel );
 
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
     // this.addChild( new LatticeNode( model.waveInterferenceModel.lattice ) );
@@ -163,10 +157,16 @@ define( function( require ) {
     } );
 
     var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, chartToolNode, controlPanelAlignGroup, model, {
-      left: controlPanel.left,
-      top: controlPanel.bottom + SPACING
+      right: this.layoutBounds.right - MARGIN,
+      top: MARGIN
     } );
     this.addChild( toolboxPanel );
+
+    var controlPanel = new ControlPanel( model, controlPanelAlignGroup, {
+      right: this.layoutBounds.right - MARGIN,
+      top: toolboxPanel.bottom + SPACING
+    } );
+    this.addChild( controlPanel );
 
     var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {
       value: IncidentWaveTypeEnum.PULSE,
@@ -189,9 +189,11 @@ define( function( require ) {
     this.addChild( continuousPulseGroup );
 
     var timeControlPanel = new TimeControlPanel( model, {
-      bottom: this.layoutBounds.bottom - MARGIN,
-      right: waveAreaNode.right
+      bottom: this.layoutBounds.bottom - MARGIN
     } );
+
+    // Play/Pause button centered under the wave area
+    timeControlPanel.left = waveAreaNode.centerX - timeControlPanel.playPauseButton.width / 2;
     this.addChild( timeControlPanel );
 
     this.addChild( waveAreaGraphNode );
