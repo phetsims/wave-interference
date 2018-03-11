@@ -79,7 +79,7 @@ define( function( require ) {
     this.isChartToolNodeInPlayAreaProperty = new BooleanProperty( false );
 
     // @public {WaveInterferenceModel}
-    this.waveInterferenceModel = new WaveInterferenceModel(); // todo: inheritance?  or sharing attributes?  Or good as is?
+    this.waveInterferenceModel = new WaveInterferenceModel( this.inputTypeProperty ); // todo: inheritance?  or sharing attributes?  Or good as is?
 
     // Map from physical dimension units to lattice (dimensionless) units
     this.amplitudeProperty.link( function( amplitude ) {
@@ -123,6 +123,10 @@ define( function( require ) {
       if ( this.isStopwatchRunningProperty.get() ) {
         this.stopwatchElapsedTimeProperty.set( this.stopwatchElapsedTimeProperty.get() + dt );
       }
+    },
+
+    startPulse: function() {
+      this.waveInterferenceModel.startPulse();
     },
 
     /**

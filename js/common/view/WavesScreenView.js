@@ -17,12 +17,14 @@ define( function( require ) {
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/common/model/IncidentWaveTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
   var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
   var TimerNode = require( 'SCENERY_PHET/TimerNode' );
@@ -34,7 +36,6 @@ define( function( require ) {
   var WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
 
   // constants
   var MARGIN = 10;
@@ -202,6 +203,20 @@ define( function( require ) {
     this.addChild( measuringTapeNode );
     this.addChild( timerNode );
     this.addChild( chartToolNode );
+
+    // For testing
+    var pulseButton = new RoundPushButton( {
+      baseColor: 'red',
+      right: waveAreaNode.left - SPACING,
+      centerY: waveAreaNode.centerY
+    } );
+    pulseButton.addListener( function() {
+      model.startPulse();
+    } );
+    this.addChild( pulseButton );
+    model.inputTypeProperty.link( function( inputType ) {
+      pulseButton.enabled = inputType === IncidentWaveTypeEnum.PULSE;
+    } );
   }
 
   waveInterference.register( 'WavesScreenView', WavesScreenView );

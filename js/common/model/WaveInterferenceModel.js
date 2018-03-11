@@ -9,15 +9,21 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/common/model/IncidentWaveTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
+   * @param {Property.<IncidentWaveTypeEnum>} inputTypeProperty
    * @constructor
    */
-  function WaveInterferenceModel() {
+  function WaveInterferenceModel( inputTypeProperty ) {
+
+    // @private
+    this.inputTypeProperty = inputTypeProperty;
+
     var self = this;
 
     // @public
@@ -77,14 +83,27 @@ define( function( require ) {
       this.lattice.clear();
     },
 
+    startPulse: function() {
+      this.phase = -this.time * this.frequencyProperty.value; // start the sine angle at 0
+      this.pulseRunning = true; // TODO: check pulseRunning was false
+    },
+
     /**
      * @param {number} dt - amount of time in seconds to move the model forward
      * @public
      */
     step: function( dt ) {
       this.time += dt;
-      var v = Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
-      this.lattice.setCurrentValue( 30, 50, v );
+      if ( this.inputTypeProperty.get() === IncidentWaveTypeEnum.CONTINUOUS || this.pulseRunning ) {
+        var v = Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
+        this.lattice.setCurrentValue( 30, 50, v );
+
+        if ( this.time * this.frequencyProperty.value + this.phase > Math.PI * 2 ) {
+          this.pulseRunning = false;
+        }
+      }
+
+
       this.timeSinceLastLatticeStep += dt;
 
       if ( this.timeSinceLastLatticeStep >= 1 / 60 ) {
