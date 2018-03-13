@@ -54,7 +54,7 @@ define( function( require ) {
     } );
     this.addChild( waveAreaNode );
 
-    var waveAreaGraphNode = new WaveAreaGraphNode( {
+    var waveAreaGraphNode = new WaveAreaGraphNode( model, {
       x: waveAreaNode.left,
       centerY: WaveInterferenceConstants.WAVE_AREA_WIDTH * 0.75
     } );

@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Model for the "Waves" screen
+ * Model for the "Waves" screen.  TODO: rename and make more "common"
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var Emitter = require( 'AXON/Emitter' );
   var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/common/model/IncidentWaveTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
@@ -78,6 +79,9 @@ define( function( require ) {
     // @public
     this.isChartToolNodeInPlayAreaProperty = new BooleanProperty( false );
 
+    // @public
+    this.stepEmitter = new Emitter();
+
     // @public {WaveInterferenceModel}
     this.waveInterferenceModel = new WaveInterferenceModel( this.inputTypeProperty ); // todo: inheritance?  or sharing attributes?  Or good as is?
 
@@ -123,6 +127,9 @@ define( function( require ) {
       if ( this.isStopwatchRunningProperty.get() ) {
         this.stopwatchElapsedTimeProperty.set( this.stopwatchElapsedTimeProperty.get() + dt );
       }
+
+      // Notify listeners that a frame has advanced
+      this.stepEmitter.emit();
     },
 
     startPulse: function() {

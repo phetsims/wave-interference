@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Base class model for all Wave Interference screen models.
+ * Base class model for all Wave Interference screen models.  TODO: inline this with WavesScreenModel
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

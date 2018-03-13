@@ -31,10 +31,11 @@ define( function( require ) {
   var GRID_LINE_OPTIONS = { stroke: 'gray', lineWidth: 1, lineDash: [ 4, 4 ] };
 
   /**
+   * @param {WavesScreenModel} model
    * @param {Object} [options]
    * @constructor
    */
-  function WaveAreaGraphNode( options ) {
+  function WaveAreaGraphNode( model, options ) {
     var self = this;
     Node.call( this );
 
@@ -115,6 +116,7 @@ define( function( require ) {
       this.addChild( verticalGridLine );
     }
 
+    // The part that displays the values (doesn't include axis labels)
     var plotHeight = horizontalLineY;
 
     var dottedLineNode = new DottedLineNode();
@@ -129,6 +131,28 @@ define( function( require ) {
       rotation: 3 * Math.PI / 2
     } );
     this.addChild( verticalAxisLabel.mutate( { right: 0 - TEXT_MARGIN_Y, centerY: graphHeight / 2 } ) );
+
+    var shape = new Shape().moveTo( 0, 0 ).lineTo( 100, 100 );
+    var path = new Path( shape, {
+      stroke: 'black',
+      lineWidth: 2
+    } );
+    this.addChild( path );
+
+    var array = [];
+    model.stepEmitter.addListener( function() {
+      var s = new Shape();
+
+      array = model.waveInterferenceModel.lattice.getCenterlineValues( array );
+      for ( var i = 0; i < array.length; i++ ) {
+        var element = array[ i ];
+        var x = Util.linear( 0, array.length, 0, graphWidth, i ); // TODO: we need plotWidth, the graph is ending at the wrong x value
+        var y = Util.linear( -10, 10, 0, plotHeight, element );
+        s.lineTo( x, y );
+      }
+
+      path.shape = s;
+    } );
 
     this.mutate( options );
   }

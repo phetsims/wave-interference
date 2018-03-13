@@ -62,6 +62,30 @@ define( function( require ) {
   return inherit( Object, Lattice, {
 
     /**
+     * Read the values on the center line of the lattice (omits the out-of-bounds damping regions), for display in the
+     * WaveAreaGraphNode
+     * @param {number[]} [array] - optional array to fill with the values for performance/memory
+     * @public
+     */
+    getCenterlineValues: function( array ) {
+      array = array || [];
+      var width = this.width - this.dampX * 2;
+      if ( array.length !== width ) {
+        array = [];
+        array.length = width;
+      }
+      for ( var i = 0; i < this.width - this.dampX * 2; i++ ) {
+        array[ i ] = this.getNeighborhoodAverage( i + this.dampX, Math.round( this.height / 2 ) );
+      }
+      return array;
+    },
+
+    // TODO: is this necessary and/or valuable?
+    getNeighborhoodAverage: function( i, j ) {
+      return ( this.getCurrentValue( i, j ) + this.getCurrentValue( i, j + 1 ) + this.getCurrentValue( i, j - 1 ) ) / 3;
+    },
+
+    /**
      * Returns the current value in the given cell
      * @param {number} i
      * @param {number} j
@@ -89,7 +113,7 @@ define( function( require ) {
      * @private
      */
     getLastValue: function( i, j ) {
-      return this.matrices[ (this.currentMatrixIndex + 1) % this.matrices.length ].get( i, j );
+      return this.matrices[ ( this.currentMatrixIndex + 1 ) % this.matrices.length ].get( i, j );
     },
 
     /**
@@ -100,7 +124,7 @@ define( function( require ) {
      * @private
      */
     setLastValue: function( i, j, value ) {
-      this.matrices[ (this.currentMatrixIndex + 1) % this.matrices.length ].set( i, j, value );
+      this.matrices[ ( this.currentMatrixIndex + 1 ) % this.matrices.length ].set( i, j, value );
     },
 
     /**
@@ -178,7 +202,7 @@ define( function( require ) {
      * @private
      */
     getDamp: function( depthInDampRegion ) {
-      return (1 - depthInDampRegion * 0.0001);
+      return ( 1 - depthInDampRegion * 0.0001 );
     },
 
     /**
@@ -196,11 +220,11 @@ define( function( require ) {
      * @public
      */
     step: function() {
-      this.currentMatrixIndex = (this.currentMatrixIndex - 1 + this.matrices.length) % this.matrices.length;
+      this.currentMatrixIndex = ( this.currentMatrixIndex - 1 + this.matrices.length ) % this.matrices.length;
 
-      var matrix0 = this.matrices[ (this.currentMatrixIndex + 0) % this.matrices.length ];
-      var matrix1 = this.matrices[ (this.currentMatrixIndex + 1) % this.matrices.length ];
-      var matrix2 = this.matrices[ (this.currentMatrixIndex + 2) % this.matrices.length ];
+      var matrix0 = this.matrices[ ( this.currentMatrixIndex + 0 ) % this.matrices.length ];
+      var matrix1 = this.matrices[ ( this.currentMatrixIndex + 1 ) % this.matrices.length ];
+      var matrix2 = this.matrices[ ( this.currentMatrixIndex + 2 ) % this.matrices.length ];
       var width = matrix0.getRowDimension();
       var height = matrix0.getColumnDimension();
       for ( var i = 0; i < width; i++ ) {
@@ -211,7 +235,7 @@ define( function( require ) {
           else {
             var neighborSum = matrix1.get( i + 1, j ) + matrix1.get( i - 1, j ) + matrix1.get( i, j + 1 ) + matrix1.get( i, j - 1 );
             var m1ij = matrix1.get( i, j );
-            var value = m1ij * 2 - matrix2.get( i, j ) + waveSpeedSquared * (neighborSum + m1ij * -4);
+            var value = m1ij * 2 - matrix2.get( i, j ) + waveSpeedSquared * ( neighborSum + m1ij * -4 );
             matrix0.set( i, j, value );
           }
         }
