@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Depicts the draggable chart node with two probes which begins in the toolbox.
+ * Depicts the draggable chart node with two probes which begins in the toolbox.  TODO: move to common code
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -22,10 +22,12 @@ define( function( require ) {
   var ChartToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolProbeNode' );
 
   /**
+   * @param {WavesScreenModel|null} model - model for reading values, null for icon
+   * @param {WavesScreenView|null} view - for getting coordinates for model
    * @param {Object} [options]
    * @constructor
    */
-  function ChartToolNode( options ) {
+  function ChartToolNode( model, view, options ) {
     var self = this;
 
     options = _.extend( { end: function() {} }, options );
@@ -106,6 +108,16 @@ define( function( require ) {
     this.alignProbes();
 
     this.mutate( options );
+
+    model && model.stepEmitter.addListener( function() {
+
+      // Look up the location of the cell
+
+      // TODO: also update value if probe moves
+
+      var latticeCoordinate = view.globalToLatticeCoordinate( self.probe1Node.parentToGlobalPoint( self.probe1Node.getTranslation() ) );
+      console.log( latticeCoordinate );
+    } );
   }
 
   waveInterference.register( 'ChartToolNode', ChartToolNode );

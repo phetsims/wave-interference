@@ -85,7 +85,7 @@ define( function( require ) {
       timerNodeIcon.visible = !isTimerInPlayArea;
     } );
 
-    var chartToolNodeForIcon = new ChartToolNode( {
+    var chartToolNodeForIcon = new ChartToolNode( null, null, {
       scale: 0.3
     } );
 

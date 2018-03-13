@@ -139,7 +139,7 @@ define( function( require ) {
     timerNode.addInputListener( timerNodeDragListener );
     model.isTimerInPlayAreaProperty.linkAttribute( timerNode, 'visible' );
 
-    var chartToolNode = new ChartToolNode( {
+    var chartToolNode = new ChartToolNode( model, this, {
 
       // Drop in toolbox
       end: function() {
@@ -221,5 +221,16 @@ define( function( require ) {
 
   waveInterference.register( 'WavesScreenView', WavesScreenView );
 
-  return inherit( ScreenView, WavesScreenView );
+  return inherit( ScreenView, WavesScreenView, {
+
+    /**
+     *
+     * @param {number} x
+     * @param {number} y
+     * @public
+     */
+    globalToLatticeCoordinate: function( x, y ) {
+      // TODO: implement me
+    }
+  } );
 } );
