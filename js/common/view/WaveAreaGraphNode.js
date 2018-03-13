@@ -132,8 +132,7 @@ define( function( require ) {
     } );
     this.addChild( verticalAxisLabel.mutate( { right: 0 - TEXT_MARGIN_Y, centerY: graphHeight / 2 } ) );
 
-    var shape = new Shape().moveTo( 0, 0 ).lineTo( 100, 100 );
-    var path = new Path( shape, {
+    var path = new Path( new Shape(), {
       stroke: 'black',
       lineWidth: 2
     } );
@@ -146,7 +145,7 @@ define( function( require ) {
       array = model.waveInterferenceModel.lattice.getCenterlineValues( array );
       for ( var i = 0; i < array.length; i++ ) {
         var element = array[ i ];
-        var x = Util.linear( 0, array.length, 0, graphWidth, i ); // TODO: we need plotWidth, the graph is ending at the wrong x value
+        var x = Util.linear( 0, array.length - 1, 0, graphWidth, i );
         var y = Util.linear( -10, 10, 0, plotHeight, element );
         s.lineTo( x, y );
       }
