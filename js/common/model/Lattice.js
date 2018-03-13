@@ -236,7 +236,7 @@ define( function( require ) {
             var neighborSum = matrix1.get( i + 1, j ) + matrix1.get( i - 1, j ) + matrix1.get( i, j + 1 ) + matrix1.get( i, j - 1 );
             var m1ij = matrix1.get( i, j );
             var value = m1ij * 2 - matrix2.get( i, j ) + waveSpeedSquared * ( neighborSum + m1ij * -4 );
-            matrix0.set( i, j, value );
+            matrix0.set( i, j, value * 0.99 ); // TODO: do we want to keep damping?
           }
         }
       }
