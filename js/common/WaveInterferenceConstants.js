@@ -5,7 +5,7 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function() {
+define( function( require ) {
   'use strict';
 
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
