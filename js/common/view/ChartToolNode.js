@@ -121,25 +121,28 @@ define( function( require ) {
 
     this.alignProbes();
 
-    var penNode = new Circle( 3, { fill: 'blue' } );
-    penNode.right = graphPanel.width;
+    var pen1Node = new Circle( 3, { fill: 'blue' } );
+    pen1Node.right = graphPanel.width;
     var probe1Path = new Path( new Shape(), { stroke: 'blue', lineWidth: 2 } );
     graphPanel.addChild( probe1Path );
-    graphPanel.addChild( penNode );
+    graphPanel.addChild( pen1Node );
+
+    var pen2Node = new Circle( 3, { fill: 'blue' } );
+    pen2Node.right = graphPanel.width;
+    var probe2Path = new Path( new Shape(), { stroke: 'red', lineWidth: 2 } );
+    graphPanel.addChild( probe2Path );
+    graphPanel.addChild( pen2Node );
 
     this.mutate( options );
 
     var probe1Samples = [];
+    var probe2Samples = [];
 
-    var updatePaths = function() {
+    var updateProbeData = function( probeNode, penNode, probeSamples, probePath ) {
 
       // Look up the location of the cell
-
-      // TODO: also update value if probe moves?  What if paused?  Will the value be indicated on the probe, perhaps on the
-      // right side of the chart?
-
       // The probe node has the cross-hairs at 0,0, so we can use the translation itself as the sensor hot spot
-      var latticeCoordinate = view.globalToLatticeCoordinate( self.probe1Node.parentToGlobalPoint( self.probe1Node.getTranslation() ) );
+      var latticeCoordinate = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
 
       var value = model.waveInterferenceModel.lattice.getCurrentValue( latticeCoordinate.x, latticeCoordinate.y );
 
@@ -155,20 +158,30 @@ define( function( require ) {
           chartYValue = 0;
         }
         penNode.centerY = chartYValue;
-        probe1Samples.push( new Vector2( model.waveInterferenceModel.time, chartYValue ) );
-        while ( probe1Samples[ 0 ].x < model.waveInterferenceModel.time - SECONDS_TO_SHOW ) {
-          probe1Samples.shift();
-        }
-
-        // TODO: performance caveat
-        var probe1Shape = new Shape();
-        for ( var i = 0; i < probe1Samples.length; i++ ) {
-          var sample = probe1Samples[ i ];
-          var xAxisValue = Util.linear( model.waveInterferenceModel.time, model.waveInterferenceModel.time - SECONDS_TO_SHOW, graphWidth, 0, sample.x );
-          probe1Shape.lineTo( xAxisValue, sample.y );
-        }
-        probe1Path.shape = probe1Shape;
+        probeSamples.push( new Vector2( model.waveInterferenceModel.time, chartYValue ) );
       }
+
+      while ( probeSamples[ 0 ].x < model.waveInterferenceModel.time - SECONDS_TO_SHOW ) {
+        probeSamples.shift();
+      }
+
+      // TODO: performance caveat
+      var pathShape = new Shape();
+      for ( var i = 0; i < probeSamples.length; i++ ) {
+        var sample = probeSamples[ i ];
+        var xAxisValue = Util.linear( model.waveInterferenceModel.time, model.waveInterferenceModel.time - SECONDS_TO_SHOW, graphWidth, 0, sample.x );
+        pathShape.lineTo( xAxisValue, sample.y );
+      }
+      probePath.shape = pathShape;
+    };
+
+    var updatePaths = function() {
+
+      // TODO: also update value if probe moves?  What if paused?  Will the value be indicated on the probe, perhaps on the
+      // right side of the chart?
+
+      updateProbeData( self.probe1Node, pen1Node, probe1Samples, probe1Path );
+      updateProbeData( self.probe2Node, pen2Node, probe2Samples, probe2Path );
     };
     model && model.stepEmitter.addListener( updatePaths );
   }
