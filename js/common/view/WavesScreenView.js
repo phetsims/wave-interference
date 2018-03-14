@@ -91,7 +91,7 @@ define( function( require ) {
     } );
 
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
-
+    webGLSupported = false; // TODO: fix this
 
     this.latticeNode = webGLSupported ? new LatticeWebGLNode( model.waveInterferenceModel.lattice, {
 

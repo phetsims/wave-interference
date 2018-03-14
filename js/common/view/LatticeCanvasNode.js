@@ -46,7 +46,7 @@ define( function( require ) {
           var value = this.lattice.getCurrentValue( i, k );
           var shading = Util.linear( -2, 2, 0, 255, value );
           shading = Math.floor( Util.clamp( shading, 0, 255 ) );
-          context.fillStyle = 'rgb(' + shading + ',0,0)';
+          context.fillStyle = 'rgb(0,0,' + shading + ')';
           context.fillRect( i * CELL_WIDTH, k * CELL_WIDTH, CELL_WIDTH + 1, CELL_WIDTH + 1 ); // +1 is to eliminate seams // TODO: x-offset?
         }
       }
