@@ -58,7 +58,7 @@ define( function( require ) {
 
     var content = alignGroup.createBox( new VBox( {
       align: 'left',
-      spacing: 8,
+      spacing: 2,
       children: [
         frequencySlider,
         amplitudeSlider,

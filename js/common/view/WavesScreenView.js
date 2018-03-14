@@ -38,8 +38,8 @@ define( function( require ) {
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
-  var MARGIN = 10;
-  var SPACING = 12;
+  var MARGIN = 8;
+  var SPACING = 6;
 
   /**
    * @param {WavesScreenModel} model

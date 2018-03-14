@@ -28,19 +28,32 @@ define( function( require ) {
     var titleNode = new WaveInterferenceText( title );
 
     var ticks = [
-      { value: ( max - min ) * 0 / 12 + min, type: 'major', label: new WaveInterferenceText( 'min' ) },
+      {
+        value: ( max - min ) * 0 / 12 + min,
+        type: 'major',
+        label: new WaveInterferenceText( 'min', { fontSize: 10 } )
+      },
       { value: ( max - min ) * 2 / 12 + min, type: 'minor' },
       { value: ( max - min ) * 4 / 12 + min, type: 'minor' },
       { value: ( max - min ) * 6 / 12 + min, type: 'major' },
       { value: ( max - min ) * 8 / 12 + min, type: 'minor' },
       { value: ( max - min ) * 10 / 12 + min, type: 'minor' },
-      { value: ( max - min ) * 12 / 12 + min, type: 'major', label: new WaveInterferenceText( 'max' ) }
+      {
+        value: ( max - min ) * 12 / 12 + min,
+        type: 'major',
+        label: new WaveInterferenceText( 'max', { fontSize: 10 } )
+      } // TODO factor out ,{fontSize: 12}
     ];
 
     var slider = new HSlider( property, {
       min: min, max: max
     }, {
-      trackSize: new Dimension2( 150, 5 ),
+      thumbSize: new Dimension2( 22, 30 ), // TODO: match with other sliders in SlitsControlPanel
+      trackSize: new Dimension2( 150, 5 ), // TODO: match with other sliders in SlitsControlPanel
+      // ticks
+      tickLabelSpacing: 2,
+      majorTickLength: 15,
+      minorTickLength: 8,
       constrainValue: function( value ) {
 
         // find the closest tick

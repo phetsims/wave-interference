@@ -19,7 +19,7 @@ define( function( require ) {
    * @constructor
    */
   function WaveInterferenceText( string, options ) {
-    Text.call( this, string, _.extend( { fontSize: 16 }, options ) );
+    Text.call( this, string, _.extend( { fontSize: 12 }, options ) );
   }
 
   waveInterference.register( 'WaveInterferenceText', WaveInterferenceText );
