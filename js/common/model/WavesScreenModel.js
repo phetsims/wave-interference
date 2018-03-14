@@ -33,13 +33,13 @@ define( function( require ) {
       validValues: ViewTypeEnum.VALUES
     } );
 
-    // @public
-    this.frequencyProperty = new NumberProperty( 6, {
+    // @public {NumberProperty} the frequency of the emitter
+    this.frequencyProperty = new NumberProperty( 10, {
       units: 'hertz'
     } );
 
-    // @public
-    this.amplitudeProperty = new NumberProperty( 6 );
+    // @public {NumberProperty} controls the amplitude of the wave
+    this.amplitudeProperty = new NumberProperty( 7 );
 
     // @public
     this.showGraphProperty = new BooleanProperty( false );
@@ -82,17 +82,6 @@ define( function( require ) {
     // @public
     this.stepEmitter = new Emitter();
 
-    // TODO: clean
-    // // Map from physical dimension units to lattice (dimensionless) units
-    // this.amplitudeProperty.link( function( amplitude ) {
-    //   self.waveInterferenceModel.amplitudeProperty.value = amplitude / 6 * 10;
-    // } );
-    //
-    // // Wire up to the wave model
-    // this.frequencyProperty.link( function( frequency ) {
-    //   self.waveInterferenceModel.frequencyProperty.value = frequency * 2.5;
-    // } );
-
     // @public
     var potential = function( i, j ) {
       return false;
@@ -107,9 +96,6 @@ define( function( require ) {
 
     // @public {number} phase of the emitter
     this.phase = 0;
-
-    // @public {NumberProperty} the frequency of the emitter
-    this.frequencyProperty = new NumberProperty( 20 );
 
     // @private - track the time since the last lattice update so we can get comparable performance on machines with different speeds
     this.timeSinceLastLatticeStep = 0;
@@ -129,9 +115,6 @@ define( function( require ) {
 
       self.phase = proposedPhase;
     } );
-
-    // @public {NumberProperty} controls the amplitude of the wave
-    this.amplitudeProperty = new NumberProperty( 10 );
   }
 
   waveInterference.register( 'WavesScreenModel', WavesScreenModel );

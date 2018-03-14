@@ -19,27 +19,44 @@ define( function( require ) {
   /**
    * @param {string} title
    * @param {Property} property
+   * @param {number} min
+   * @param {number} max
    * @constructor
    */
-  function TitledSlider( title, property ) {
+  function TitledSlider( title, property, min, max ) {
 
     var titleNode = new WaveInterferenceText( title );
+
+    var ticks = [
+      { value: ( max - min ) * 0 / 12 + min, type: 'major', label: new WaveInterferenceText( 'min' ) },
+      { value: ( max - min ) * 2 / 12 + min, type: 'minor' },
+      { value: ( max - min ) * 4 / 12 + min, type: 'minor' },
+      { value: ( max - min ) * 6 / 12 + min, type: 'major' },
+      { value: ( max - min ) * 8 / 12 + min, type: 'minor' },
+      { value: ( max - min ) * 10 / 12 + min, type: 'minor' },
+      { value: ( max - min ) * 12 / 12 + min, type: 'major', label: new WaveInterferenceText( 'max' ) }
+    ];
+
     var slider = new HSlider( property, {
-      min: 0, max: 12
+      min: min, max: max
     }, {
       trackSize: new Dimension2( 150, 5 ),
       constrainValue: function( value ) {
-        return 2 * Math.round( value / 2 );
+
+        // find the closest tick
+        return _.minBy( ticks, function( tick ) {return Math.abs( tick.value - value );} ).value;
       }
     } );
-    slider.addMajorTick( 0, new WaveInterferenceText( '0' ) );
-    slider.addMinorTick( 2 );
-    slider.addMinorTick( 4 );
-    slider.addMajorTick( 6 );
-    slider.addMinorTick( 8 );
-    slider.addMinorTick( 10 );
-    slider.addMajorTick( 12, new WaveInterferenceText( 'max' ) );
 
+    for ( var i = 0; i < ticks.length; i++ ) {
+      var tick = ticks[ i ];
+      if ( tick.type === 'major' ) {
+        slider.addMajorTick( tick.value, tick.label ); // Label is optional
+      }
+      else {
+        slider.addMinorTick( tick.value, tick.label ); // Label is optional
+      }
+    }
     VBox.call( this, {
       spacing: 0,
       children: [

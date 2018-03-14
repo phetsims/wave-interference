@@ -36,8 +36,8 @@ define( function( require ) {
       fill: 'rgb(230,231,232)'
     }, options );
 
-    var frequencySlider = new TitledSlider( 'Frequency', model.frequencyProperty );
-    var amplitudeSlider = new TitledSlider( 'Amplitude', model.amplitudeProperty );
+    var frequencySlider = new TitledSlider( 'Frequency', model.frequencyProperty, 1, 19 );
+    var amplitudeSlider = new TitledSlider( 'Amplitude', model.amplitudeProperty, 0, 14 );
     var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty );
     var screenCheckbox = new Checkbox( new WaveInterferenceText( 'Screen' ), model.showGraphProperty );
     var intensityCheckbox = new Checkbox( new WaveInterferenceText( 'Intensity' ), model.showGraphProperty );
