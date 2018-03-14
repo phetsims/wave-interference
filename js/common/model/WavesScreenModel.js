@@ -82,6 +82,9 @@ define( function( require ) {
     // @public
     this.stepEmitter = new Emitter();
 
+    // @public {BooleanProperty} - true while a single pulse is being generated
+    this.pulseFiringProperty = new BooleanProperty( false );
+
     // @public
     var potential = function( i, j ) {
       return false;
@@ -145,12 +148,12 @@ define( function( require ) {
         dt = 1 / 60;
       }
       this.time += dt;
-      if ( this.inputTypeProperty.get() === OscillationTypeEnum.CONTINUOUS || this.pulseRunning ) {
+      if ( this.inputTypeProperty.get() === OscillationTypeEnum.CONTINUOUS || this.pulseFiringProperty.get() ) {
         var v = Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
         this.lattice.setCurrentValue( 30, 50, v );
 
         if ( this.time * this.frequencyProperty.value + this.phase > Math.PI * 2 ) {
-          this.pulseRunning = false;
+          this.pulseFiringProperty.value = false;
         }
       }
 
@@ -168,9 +171,13 @@ define( function( require ) {
       this.stepEmitter.emit();
     },
 
+    /**
+     * Start a single pulse when the user presses the pulse button in pulse mode.
+     */
     startPulse: function() {
+      assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
       this.phase = -this.time * this.frequencyProperty.value; // start the sine angle at 0
-      this.pulseRunning = true; // TODO: check pulseRunning was false
+      this.pulseFiringProperty.value = true;
     },
 
     /**
@@ -178,6 +185,12 @@ define( function( require ) {
      * @public
      */
     reset: function() {
+
+      // Reset frequencyProperty first because it changes the time and phase
+      this.frequencyProperty.reset();
+      this.time = 0;
+      this.phase = 0;
+      this.lattice.clear();
       this.sceneProperty.reset();
       this.viewTypeProperty.reset();
       this.frequencyProperty.reset();
@@ -190,14 +203,6 @@ define( function( require ) {
       this.stopwatchElapsedTimeProperty.reset();
       this.isMeasuringTapeInPlayAreaProperty.reset();
       this.isChartToolNodeInPlayAreaProperty.reset();
-
-      // Reset frequencyProperty first because it changes the time and phase.
-      this.frequencyProperty.reset();
-
-      this.time = 0;
-      this.phase = 0;
-
-      this.lattice.clear();
     }
   } );
 } );

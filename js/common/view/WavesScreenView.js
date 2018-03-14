@@ -212,9 +212,16 @@ define( function( require ) {
       model.startPulse();
     } );
     this.addChild( pulseButton );
-    model.inputTypeProperty.link( function( inputType ) {
-      pulseButton.enabled = inputType === OscillationTypeEnum.PULSE;
-    } );
+    var updateEnabled = function() {
+      if ( model.inputTypeProperty.value === OscillationTypeEnum.PULSE ) {
+        pulseButton.enabled = !model.pulseFiringProperty.value;
+      }
+      else {
+        pulseButton.enabled = false;
+      }
+    };
+    model.inputTypeProperty.link( updateEnabled );
+    model.pulseFiringProperty.link( updateEnabled );
   }
 
   waveInterference.register( 'WavesScreenView', WavesScreenView );
