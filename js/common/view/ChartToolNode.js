@@ -145,7 +145,7 @@ define( function( require ) {
       // The probe node has the cross-hairs at 0,0, so we can use the translation itself as the sensor hot spot
       var latticeCoordinate = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
 
-      var value = model.waveInterferenceModel.lattice.getCurrentValue( latticeCoordinate.x, latticeCoordinate.y );
+      var value = model.lattice.getCurrentValue( latticeCoordinate.x, latticeCoordinate.y );
 
       // NaN is returned for out of bounds
       if ( !isNaN( value ) ) {
@@ -159,10 +159,10 @@ define( function( require ) {
           chartYValue = 0;
         }
         penNode.centerY = chartYValue;
-        probeSamples.push( new Vector2( model.waveInterferenceModel.time, chartYValue ) );
+        probeSamples.push( new Vector2( model.time, chartYValue ) );
       }
 
-      while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.waveInterferenceModel.time - SECONDS_TO_SHOW ) {
+      while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.time - SECONDS_TO_SHOW ) {
         probeSamples.shift();
       }
 
@@ -170,7 +170,7 @@ define( function( require ) {
       var pathShape = new Shape();
       for ( var i = 0; i < probeSamples.length; i++ ) {
         var sample = probeSamples[ i ];
-        var xAxisValue = Util.linear( model.waveInterferenceModel.time, model.waveInterferenceModel.time - SECONDS_TO_SHOW, graphWidth, 0, sample.x );
+        var xAxisValue = Util.linear( model.time, model.time - SECONDS_TO_SHOW, graphWidth, 0, sample.x );
         pathShape.lineTo( xAxisValue, sample.y );
       }
       probePath.shape = pathShape;

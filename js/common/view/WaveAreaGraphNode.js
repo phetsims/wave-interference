@@ -142,7 +142,7 @@ define( function( require ) {
     model.stepEmitter.addListener( function() {
       var s = new Shape();
 
-      array = model.waveInterferenceModel.lattice.getCenterLineValues( array );
+      array = model.lattice.getCenterLineValues( array );
       for ( var i = 0; i < array.length; i++ ) {
         var element = array[ i ];
         var x = Util.linear( 0, array.length - 1, 0, graphWidth, i );

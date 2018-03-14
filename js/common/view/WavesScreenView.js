@@ -93,13 +93,13 @@ define( function( require ) {
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
     webGLSupported = false; // TODO: fix this
 
-    this.latticeNode = webGLSupported ? new LatticeWebGLNode( model.waveInterferenceModel.lattice, {
+    this.latticeNode = webGLSupported ? new LatticeWebGLNode( model.lattice, {
 
                                         // TODO: I don't understand the positioning of this node
                                         x: 67,
                                         y: -170
                                       } ) :
-                       new LatticeCanvasNode( model.waveInterferenceModel.lattice, { scale: 0.885, x: 70, y: -168 } );
+                       new LatticeCanvasNode( model.lattice, { scale: 0.885, x: 70, y: -168 } );
     this.addChild( this.latticeNode );
 
     var measuringTapeNode = new MeasuringTapeNode( new Property( {
