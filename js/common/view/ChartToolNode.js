@@ -16,12 +16,18 @@ define( function( require ) {
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  var Shape = require( 'KITE/Shape' );
   var Util = require( 'DOT/Util' );
+  var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WireNode = require( 'WAVE_INTERFERENCE/common/view/WireNode' );
+
+  // constants
+  var SECONDS_TO_SHOW = 2;
 
   /**
    * @param {WavesScreenModel|null} model - model for reading values, null for icon
@@ -89,6 +95,7 @@ define( function( require ) {
     this.probe1Node = new ChartToolProbeNode( {
       drag: function() {
         self.probe1WireNode.updateWireShape();
+        updatePaths();
       }
     } );
 
@@ -96,6 +103,7 @@ define( function( require ) {
     this.probe2Node = new ChartToolProbeNode( {
       drag: function() {
         self.probe2WireNode.updateWireShape();
+        updatePaths();
       }
     } );
 
@@ -115,11 +123,15 @@ define( function( require ) {
 
     var penNode = new Circle( 3, { fill: 'blue' } );
     penNode.right = graphPanel.width;
+    var probe1Path = new Path( new Shape(), { stroke: 'blue', lineWidth: 2 } );
+    graphPanel.addChild( probe1Path );
     graphPanel.addChild( penNode );
 
     this.mutate( options );
 
-    model && model.stepEmitter.addListener( function() {
+    var probe1Samples = [];
+
+    var updatePaths = function() {
 
       // Look up the location of the cell
 
@@ -133,7 +145,9 @@ define( function( require ) {
 
       // NaN is returned for out of bounds
       if ( !isNaN( value ) ) {
-        var chartYValue = Util.linear( 0, 1, graphHeight / 2, graphHeight, value );
+
+        // strong wavefronts (bright colors) are positive on the chart // TODO: is this inverted in the canvas?
+        var chartYValue = Util.linear( 0, 1, graphHeight / 2, 0, value );
         if ( chartYValue > graphHeight ) {
           chartYValue = graphHeight;
         }
@@ -141,8 +155,22 @@ define( function( require ) {
           chartYValue = 0;
         }
         penNode.centerY = chartYValue;
+        probe1Samples.push( new Vector2( model.waveInterferenceModel.time, chartYValue ) );
+        while ( probe1Samples[ 0 ].x < model.waveInterferenceModel.time - SECONDS_TO_SHOW ) {
+          probe1Samples.shift();
+        }
+
+        // TODO: performance caveat
+        var probe1Shape = new Shape();
+        for ( var i = 0; i < probe1Samples.length; i++ ) {
+          var sample = probe1Samples[ i ];
+          var xAxisValue = Util.linear( model.waveInterferenceModel.time, model.waveInterferenceModel.time - SECONDS_TO_SHOW, graphWidth, 0, sample.x );
+          probe1Shape.lineTo( xAxisValue, sample.y );
+        }
+        probe1Path.shape = probe1Shape;
       }
-    } );
+    };
+    model && model.stepEmitter.addListener( updatePaths );
   }
 
   waveInterference.register( 'ChartToolNode', ChartToolNode );
