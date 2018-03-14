@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- *
+ * Panel subclass that applies styling specific to the Wave Interference simulation.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

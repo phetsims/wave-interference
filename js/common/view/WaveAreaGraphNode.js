@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Shows the semi-transparent chart over the wave area (when selected).
+ * Shows the semi-transparent chart over the lattice area (when selected).
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

@@ -1,7 +1,8 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- *
+ * Scenery implementation that renders the wave using rectangles.  This is worst in terms of performance and should
+ * eventually be deleted.  TODO: delete someday.  Still in usage in order to get things debugged.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -43,7 +44,6 @@ define( function( require ) {
           var value = lattice.getCurrentValue( i, k );
           var x = Util.linear( -2, 2, 0, 255, value );
           x = Util.clamp( x, 0, 255 );
-          // console.log( value );
           r.fill = new Color( x, 0, 0 );
         }
       }

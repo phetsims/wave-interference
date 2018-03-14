@@ -27,39 +27,50 @@ define( function( require ) {
    */
   function WireNode( probeNode, bodyNode, color, verticalWireAttachmentPoint ) {
 
-    this.probeNode = probeNode; // @public (read-only)
-    this.bodyNode = bodyNode; // @public (read-only)
-    this.color = color; // @public (read-only)
+    // @private 
+    this.probeNode = probeNode;
+
+    // @private 
+    this.bodyNode = bodyNode;
+
+    // @private 
+    this.color = color;
+
+    // @private
+    this.verticalWireAttachmentPoint = verticalWireAttachmentPoint;
 
     Path.call( this, null, {
       lineWidth: 3,
       stroke: color
     } );
-    var self = this;
-
-    this.updateWireShape = function() {
-
-      // connect left-center of body to bottom-center of probe.
-      var bodyConnectionPointX = bodyNode.x + bodyNode.width;
-      var bodyConnectionPointY = bodyNode.y + bodyNode.height * verticalWireAttachmentPoint;
-      var probeConnectionPointX = probeNode.centerX;
-      var probeConnectionPointY = probeNode.bottom;
-
-      var connectionPointXOffsetFactor = 25;
-
-      self.shape = new Shape()
-        .moveTo( bodyConnectionPointX, bodyConnectionPointY )
-        .cubicCurveTo(
-          bodyConnectionPointX + connectionPointXOffsetFactor, bodyConnectionPointY,
-          probeConnectionPointX, probeConnectionPointY + connectionPointXOffsetFactor,
-          probeConnectionPointX, probeConnectionPointY
-        );
-    };
 
     this.updateWireShape();
   }
 
   waveInterference.register( 'WireNode', WireNode );
 
-  return inherit( Path, WireNode );
+  return inherit( Path, WireNode, {
+
+    /**
+     * Updates the shape of the wire when the ChartToolNode or ChartToolProbeNode has moved.
+     * @public
+     */
+    updateWireShape: function() {
+      // connect left-center of body to bottom-center of probe.
+      var bodyConnectionPointX = this.bodyNode.x + this.bodyNode.width;
+      var bodyConnectionPointY = this.bodyNode.y + this.bodyNode.height * this.verticalWireAttachmentPoint;
+      var probeConnectionPointX = this.probeNode.centerX;
+      var probeConnectionPointY = this.probeNode.bottom;
+
+      var connectionPointXOffsetFactor = 25;
+
+      this.shape = new Shape()
+        .moveTo( bodyConnectionPointX, bodyConnectionPointY )
+        .cubicCurveTo(
+          bodyConnectionPointX + connectionPointXOffsetFactor, bodyConnectionPointY,
+          probeConnectionPointX, probeConnectionPointY + connectionPointXOffsetFactor,
+          probeConnectionPointX, probeConnectionPointY
+        );
+    }
+  } );
 } );

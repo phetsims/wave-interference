@@ -1,9 +1,10 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Adapted from charges and fields
+ * Renders the lattice using rectangles in WebGL. Adapted from charges and fields
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
