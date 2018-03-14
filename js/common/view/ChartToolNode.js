@@ -121,6 +121,7 @@ define( function( require ) {
 
     this.alignProbes();
 
+    // TODO: factor out with below
     var pen1Node = new Circle( 3, { fill: 'blue' } );
     pen1Node.right = graphPanel.width;
     var probe1Path = new Path( new Shape(), { stroke: 'blue', lineWidth: 2 } );
@@ -161,7 +162,7 @@ define( function( require ) {
         probeSamples.push( new Vector2( model.waveInterferenceModel.time, chartYValue ) );
       }
 
-      while ( probeSamples[ 0 ].x < model.waveInterferenceModel.time - SECONDS_TO_SHOW ) {
+      while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.waveInterferenceModel.time - SECONDS_TO_SHOW ) {
         probeSamples.shift();
       }
 
