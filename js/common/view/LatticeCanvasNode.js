@@ -20,6 +20,8 @@ define( function( require ) {
   var CELL_WIDTH = 10;
 
   /**
+   * @param {Lattice} lattice
+   * @param {Object} [options]
    * @constructor
    */
   function LatticeCanvasNode( lattice, options ) {
@@ -36,10 +38,19 @@ define( function( require ) {
 
   return inherit( CanvasNode, LatticeCanvasNode, {
 
+    /**
+     * Convert the given point (in the local coordinate frame) to the corresponding i,j (integral) coordinates on the lattice.
+     * @param {Vector2} point - point in the local coordinate frame
+     * @returns {Vector2}
+     */
     localPointToLatticePoint: function( point ) {
       return new Vector2( Math.floor( point.x / CELL_WIDTH ), Math.floor( point.y / CELL_WIDTH ) );
     },
 
+    /**
+     * Draws into the canvas
+     * @param {CanvasRenderingContext2D} context
+     */
     paintCanvas: function( context ) {
       for ( var i = this.lattice.dampX; i < this.lattice.width - this.lattice.dampX; i++ ) {
         for ( var k = this.lattice.dampY; k < this.lattice.height - this.lattice.dampY; k++ ) {
