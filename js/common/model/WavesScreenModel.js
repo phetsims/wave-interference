@@ -79,7 +79,7 @@ define( function( require ) {
     // @public
     this.isChartToolNodeInPlayAreaProperty = new BooleanProperty( false );
 
-    // @public
+    // @public {Emitter} - emits once per step
     this.stepEmitter = new Emitter();
 
     // @public {BooleanProperty} - true while a single pulse is being generated
