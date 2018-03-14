@@ -22,7 +22,7 @@ define( function( require ) {
 
     options = _.extend( {
       cursor: 'pointer',
-      sensorTypeFunction: ProbeNode.crosshairs(),
+      sensorTypeFunction: ProbeNode.crosshairs( { stroke: 'white' } ),
       scale: 0.4,
       drag: function() {}
     }, options );

@@ -28,6 +28,8 @@ define( function( require ) {
 
   // constants
   var SECONDS_TO_SHOW = 2;
+  var SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
+  var SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
 
   /**
    * @param {WavesScreenModel|null} model - model for reading values, null for icon
@@ -93,6 +95,7 @@ define( function( require ) {
 
     // @private
     this.probe1Node = new ChartToolProbeNode( {
+      color: SERIES_1_COLOR,
       drag: function() {
         self.probe1WireNode.updateWireShape();
         updatePaths();
@@ -101,6 +104,7 @@ define( function( require ) {
 
     // @private
     this.probe2Node = new ChartToolProbeNode( {
+      color: SERIES_2_COLOR,
       drag: function() {
         self.probe2WireNode.updateWireShape();
         updatePaths();
@@ -108,10 +112,10 @@ define( function( require ) {
     } );
 
     // @private
-    this.probe1WireNode = new WireNode( this.probe1Node, this.backgroundNode, 'black', 0.8 );
+    this.probe1WireNode = new WireNode( this.probe1Node, this.backgroundNode, SERIES_1_COLOR, 0.8 );
 
     // @private
-    this.probe2WireNode = new WireNode( this.probe2Node, this.backgroundNode, 'black', 0.9 );
+    this.probe2WireNode = new WireNode( this.probe2Node, this.backgroundNode, new Color( SERIES_2_COLOR ).darkerColor( 0.7 ), 0.9 );
 
     this.addChild( this.probe1WireNode );
     this.addChild( this.probe1Node );
@@ -122,15 +126,15 @@ define( function( require ) {
     this.alignProbes();
 
     // TODO: factor out with below
-    var pen1Node = new Circle( 3, { fill: 'blue' } );
+    var pen1Node = new Circle( 3, { fill: SERIES_1_COLOR } );
     pen1Node.right = graphPanel.width;
-    var probe1Path = new Path( new Shape(), { stroke: 'blue', lineWidth: 2 } );
+    var probe1Path = new Path( new Shape(), { stroke: SERIES_1_COLOR, lineWidth: 2 } );
     graphPanel.addChild( probe1Path );
     graphPanel.addChild( pen1Node );
 
-    var pen2Node = new Circle( 3, { fill: 'blue' } );
+    var pen2Node = new Circle( 3, { fill: SERIES_2_COLOR } );
     pen2Node.right = graphPanel.width;
-    var probe2Path = new Path( new Shape(), { stroke: 'red', lineWidth: 2 } );
+    var probe2Path = new Path( new Shape(), { stroke: SERIES_2_COLOR, lineWidth: 2 } );
     graphPanel.addChild( probe2Path );
     graphPanel.addChild( pen2Node );
 
