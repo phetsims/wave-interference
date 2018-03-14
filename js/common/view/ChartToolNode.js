@@ -10,16 +10,18 @@ define( function( require ) {
 
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
+  var ChartToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolProbeNode' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WireNode = require( 'WAVE_INTERFERENCE/common/view/WireNode' );
-  var ChartToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolProbeNode' );
 
   /**
    * @param {WavesScreenModel|null} model - model for reading values, null for icon
@@ -64,8 +66,12 @@ define( function( require ) {
     this.backgroundNode.addInputListener( this.backgroundDragListener );
     this.addChild( this.backgroundNode );
 
-    var graphPanel = new Rectangle( 0, 0, 130, 85, 5, 5, { // TODO: hardcoded layout
+    var graphWidth = 130;
+    var graphHeight = 85;
+    var graphPanel = new Rectangle( 0, 0, graphWidth, graphHeight, 5, 5, { // TODO: hardcoded layout
       fill: 'white',
+      stroke: 'black',
+      lineWidth: 1,
       centerX: this.backgroundNode.centerX,
       top: this.backgroundNode.top + 10,
       pickable: false
@@ -93,7 +99,7 @@ define( function( require ) {
       }
     } );
 
-    // @privte
+    // @private
     this.probe1WireNode = new WireNode( this.probe1Node, this.backgroundNode, 'black', 0.8 );
 
     // @private
@@ -107,16 +113,35 @@ define( function( require ) {
 
     this.alignProbes();
 
+    var penNode = new Circle( 3, { fill: 'blue' } );
+    penNode.right = graphPanel.width;
+    graphPanel.addChild( penNode );
+
     this.mutate( options );
 
     model && model.stepEmitter.addListener( function() {
 
       // Look up the location of the cell
 
-      // TODO: also update value if probe moves
+      // TODO: also update value if probe moves?  What if paused?  Will the value be indicated on the probe, perhaps on the
+      // right side of the chart?
 
+      // The probe node has the cross-hairs at 0,0, so we can use the translation itself as the sensor hot spot
       var latticeCoordinate = view.globalToLatticeCoordinate( self.probe1Node.parentToGlobalPoint( self.probe1Node.getTranslation() ) );
-      console.log( latticeCoordinate );
+
+      var value = model.waveInterferenceModel.lattice.getCurrentValue( latticeCoordinate.x, latticeCoordinate.y );
+
+      // NaN is returned for out of bounds
+      if ( !isNaN( value ) ) {
+        var chartYValue = Util.linear( 0, 1, graphHeight / 2, graphHeight, value );
+        if ( chartYValue > graphHeight ) {
+          chartYValue = graphHeight;
+        }
+        if ( chartYValue < 0 ) {
+          chartYValue = 0;
+        }
+        penNode.centerY = chartYValue;
+      }
     } );
   }
 

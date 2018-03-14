@@ -48,21 +48,22 @@ define( function( require ) {
   function WavesScreenView( model ) {
     ScreenView.call( this );
 
-    var waveAreaNode = new WaveAreaNode( model, {
+    // @private
+    this.waveAreaNode = new WaveAreaNode( model, {
       top: MARGIN,
       centerX: this.layoutBounds.centerX
     } );
-    this.addChild( waveAreaNode );
+    this.addChild( this.waveAreaNode );
 
     var waveAreaGraphNode = new WaveAreaGraphNode( model, {
-      x: waveAreaNode.left,
+      x: this.waveAreaNode.left,
       centerY: WaveInterferenceConstants.WAVE_AREA_WIDTH * 0.75
     } );
     model.showGraphProperty.linkAttribute( waveAreaGraphNode, 'visible' );
 
     var dottedLineNode = new DottedLineNode( {
-      x: waveAreaNode.left,
-      centerY: waveAreaNode.centerY
+      x: this.waveAreaNode.left,
+      centerY: this.waveAreaNode.centerY
     } );
     model.showGraphProperty.linkAttribute( dottedLineNode, 'visible' );
     this.addChild( dottedLineNode );
@@ -78,7 +79,7 @@ define( function( require ) {
 
     var viewRadioButtonGroup = new ViewRadioButtonGroup( model.viewTypeProperty, {
       bottom: this.layoutBounds.bottom - MARGIN,
-      left: waveAreaNode.left
+      left: this.waveAreaNode.left
     } );
     this.addChild( viewRadioButtonGroup );
 
@@ -90,19 +91,16 @@ define( function( require ) {
     } );
 
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
-    // this.addChild( new LatticeNode( model.waveInterferenceModel.lattice ) );
-    // this.addChild( new LatticeCanvasNode( waveInterferenceModel.lattice ) );
-    if ( webGLSupported ) {
 
-      // TODO: I don't understand the positioning of this node
-      this.addChild( new LatticeWebGLNode( model.waveInterferenceModel.lattice, {
-        x: 67,
-        y: -170
-      } ) );
-    }
-    else {
-      this.addChild( new LatticeCanvasNode( model.waveInterferenceModel.lattice ) );
-    }
+
+    this.latticeNode = webGLSupported ? new LatticeWebGLNode( model.waveInterferenceModel.lattice, {
+
+                                        // TODO: I don't understand the positioning of this node
+                                        x: 67,
+                                        y: -170
+                                      } ) :
+                       new LatticeCanvasNode( model.waveInterferenceModel.lattice, { scale: 0.885, x: 70, y: -168 } );
+    this.addChild( this.latticeNode );
 
     var measuringTapeNode = new MeasuringTapeNode( new Property( {
       name: 'cm',
@@ -196,7 +194,7 @@ define( function( require ) {
     } );
 
     // Play/Pause button centered under the wave area
-    timeControlPanel.left = waveAreaNode.centerX - timeControlPanel.playPauseButton.width / 2;
+    timeControlPanel.left = this.waveAreaNode.centerX - timeControlPanel.playPauseButton.width / 2;
     this.addChild( timeControlPanel );
 
     this.addChild( waveAreaGraphNode );
@@ -207,8 +205,8 @@ define( function( require ) {
     // For testing
     var pulseButton = new RoundPushButton( {
       baseColor: 'red',
-      right: waveAreaNode.left - SPACING,
-      centerY: waveAreaNode.centerY
+      right: this.waveAreaNode.left - SPACING,
+      centerY: this.waveAreaNode.centerY
     } );
     pulseButton.addListener( function() {
       model.startPulse();
@@ -224,13 +222,12 @@ define( function( require ) {
   return inherit( ScreenView, WavesScreenView, {
 
     /**
-     *
-     * @param {number} x
-     * @param {number} y
+     * @param {Vector2} point
      * @public
      */
-    globalToLatticeCoordinate: function( x, y ) {
-      // TODO: implement me
+    globalToLatticeCoordinate: function( point ) {
+      var localPoint = this.latticeNode.globalToLocalPoint( point );
+      return this.latticeNode.localPointToLatticePoint( localPoint );
     }
   } );
 } );
