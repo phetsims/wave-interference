@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Emitter = require( 'AXON/Emitter' );
-  var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/common/model/IncidentWaveTypeEnum' );
+  var OscillationTypeEnum = require( 'WAVE_INTERFERENCE/common/model/OscillationTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
@@ -45,8 +45,8 @@ define( function( require ) {
     this.showGraphProperty = new BooleanProperty( false );
 
     // @public
-    this.inputTypeProperty = new Property( IncidentWaveTypeEnum.CONTINUOUS, {
-      validValues: IncidentWaveTypeEnum.VALUES
+    this.inputTypeProperty = new Property( OscillationTypeEnum.CONTINUOUS, {
+      validValues: OscillationTypeEnum.VALUES
     } );
 
     // @public

@@ -15,7 +15,7 @@ define( function( require ) {
   var ControlPanel = require( 'WAVE_INTERFERENCE/common/view/ControlPanel' );
   var DottedLineNode = require( 'WAVE_INTERFERENCE/common/view/DottedLineNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
-  var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/common/model/IncidentWaveTypeEnum' );
+  var OscillationTypeEnum = require( 'WAVE_INTERFERENCE/common/model/OscillationTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
   var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
@@ -170,11 +170,11 @@ define( function( require ) {
     this.addChild( this.controlPanel );
 
     var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {
-      value: IncidentWaveTypeEnum.PULSE,
-      node: new InputTypeIconNode( IncidentWaveTypeEnum.PULSE )
+      value: OscillationTypeEnum.PULSE,
+      node: new InputTypeIconNode( OscillationTypeEnum.PULSE )
     }, {
-      value: IncidentWaveTypeEnum.CONTINUOUS,
-      node: new InputTypeIconNode( IncidentWaveTypeEnum.CONTINUOUS )
+      value: OscillationTypeEnum.CONTINUOUS,
+      node: new InputTypeIconNode( OscillationTypeEnum.CONTINUOUS )
     } ], {
       orientation: 'horizontal',
       buttonContentXMargin: 0,
@@ -213,7 +213,7 @@ define( function( require ) {
     } );
     this.addChild( pulseButton );
     model.inputTypeProperty.link( function( inputType ) {
-      pulseButton.enabled = inputType === IncidentWaveTypeEnum.PULSE;
+      pulseButton.enabled = inputType === OscillationTypeEnum.PULSE;
     } );
   }
 

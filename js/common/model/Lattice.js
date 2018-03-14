@@ -15,9 +15,9 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  var waveSpeed = 0.5; // The wave speed in the coordinate frame of the lattice, see http://www.mtnmath.com/whatth/node47.html
-  var waveSpeedSquared = waveSpeed * waveSpeed;
-  var numMatrices = 3; // The algorithm we use for the discretized wave equation requires current value + 2 history points
+  var WAVE_SPEED = 0.5; // The wave speed in the coordinate frame of the lattice, see http://www.mtnmath.com/whatth/node47.html
+  var WAVE_SPEED_SQUARED = WAVE_SPEED * WAVE_SPEED; // precompute to speed up propagation
+  var NUMBER_OF_MATRICES = 3; // The algorithm we use for the discretized wave equation requires current value + 2 history points
 
   /**
    * @param {number} width - width of the lattice
@@ -37,7 +37,7 @@ define( function( require ) {
 
     // @private {Matrix[]} matrices for current value, previous value and value before previous
     this.matrices = [];
-    for ( var i = 0; i < numMatrices; i++ ) {
+    for ( var i = 0; i < NUMBER_OF_MATRICES; i++ ) {
       this.matrices.push( new Matrix( width, height ) );
     }
 
@@ -64,31 +64,40 @@ define( function( require ) {
     /**
      * Read the values on the center line of the lattice (omits the out-of-bounds damping regions), for display in the
      * WaveAreaGraphNode
-     * @param {number[]} [array] - optional array to fill with the values for performance/memory
+     * @param {number[]} array - array to fill with the values for performance/memory, will be resized if necessary
      * @public
      */
-    getCenterlineValues: function( array ) {
-      array = array || [];
-      var width = this.width - this.dampX * 2;
-      if ( array.length !== width ) {
-        array = [];
-        array.length = width;
+    getCenterLineValues: function( array ) {
+      var samplingWidth = this.width - this.dampX * 2;
+
+      // Resize array if necessary
+      if ( array.length !== samplingWidth ) {
+        array.length = 0;
       }
+      var samplingHeight = Math.round( this.height / 2 );
       for ( var i = 0; i < this.width - this.dampX * 2; i++ ) {
-        array[ i ] = this.getNeighborhoodAverage( i + this.dampX, Math.round( this.height / 2 ) );
+        array[ i ] = this.getVerticalAverage( i + this.dampX, samplingHeight );
       }
       return array;
     },
 
-    // TODO: is this necessary and/or valuable?
-    getNeighborhoodAverage: function( i, j ) {
+    /**
+     * Average a point with its upper and lower neighbors
+     * @param {number} i - horizontal integer coordinate
+     * @param {number} j - vertical integer coordinate
+     * @returns {number}
+     * @private
+     * // TODO: is this necessary and/or valuable?
+     */
+    getVerticalAverage: function( i, j ) {
       return ( this.getCurrentValue( i, j ) + this.getCurrentValue( i, j + 1 ) + this.getCurrentValue( i, j - 1 ) ) / 3;
     },
 
     /**
      * Returns the current value in the given cell
-     * @param {number} i
-     * @param {number} j
+     * @param {number} i - horizontal integer coordinate
+     * @param {number} j - vertical integer coordinate
+     * @returns {number}
      * @public
      */
     getCurrentValue: function( i, j ) {
@@ -97,8 +106,8 @@ define( function( require ) {
 
     /**
      * Sets the current value in the given cell
-     * @param {number} i
-     * @param {number} j
+     * @param {number} i - horizontal integer coordinate
+     * @param {number} j - vertical integer coordinate
      * @param {number} value
      * @public
      */
@@ -108,8 +117,8 @@ define( function( require ) {
 
     /**
      * Returns the previous value in the given cell
-     * @param {number} i
-     * @param {number} j
+     * @param {number} i - horizontal integer coordinate
+     * @param {number} j - vertical integer coordinate
      * @private
      */
     getLastValue: function( i, j ) {
@@ -118,8 +127,8 @@ define( function( require ) {
 
     /**
      * Sets the previous value in the given cell
-     * @param {number} i
-     * @param {number} j
+     * @param {number} i - horizontal integer coordinate
+     * @param {number} j - vertical integer coordinate
      * @param {number} value
      * @private
      */
@@ -235,7 +244,7 @@ define( function( require ) {
           else {
             var neighborSum = matrix1.get( i + 1, j ) + matrix1.get( i - 1, j ) + matrix1.get( i, j + 1 ) + matrix1.get( i, j - 1 );
             var m1ij = matrix1.get( i, j );
-            var value = m1ij * 2 - matrix2.get( i, j ) + waveSpeedSquared * ( neighborSum + m1ij * -4 );
+            var value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
             matrix0.set( i, j, value * 0.99 ); // TODO: do we want to keep damping?
           }
         }

@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/common/model/IncidentWaveTypeEnum' );
+  var OscillationTypeEnum = require( 'WAVE_INTERFERENCE/common/model/OscillationTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -25,14 +25,14 @@ define( function( require ) {
   var WIDTH = 50;                        // Size of wave, in pixels
 
   /**
-   * @param {IncidentWaveTypeEnum} incidentWaveType
+   * @param {OscillationTypeEnum} incidentWaveType
    * @constructor
    */
   function InputTypeIconNode( incidentWaveType ) {
     Node.call( this );
-    var minAngle = incidentWaveType === IncidentWaveTypeEnum.PULSE ? Math.PI : 0;
-    var minX = incidentWaveType === IncidentWaveTypeEnum.PULSE ? MARGIN : 0;
-    var maxX = incidentWaveType === IncidentWaveTypeEnum.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
+    var minAngle = incidentWaveType === OscillationTypeEnum.PULSE ? Math.PI : 0;
+    var minX = incidentWaveType === OscillationTypeEnum.PULSE ? MARGIN : 0;
+    var maxX = incidentWaveType === OscillationTypeEnum.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
 
     var shape = new Shape();
     for ( var i = 0; i < NUM_SAMPLES; i++ ) {
@@ -40,7 +40,7 @@ define( function( require ) {
       var y = -Math.cos( angle ) * WAVE_HEIGHT;
       var x = Util.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
       if ( i === 0 ) {
-        if ( incidentWaveType === IncidentWaveTypeEnum.PULSE ) {
+        if ( incidentWaveType === OscillationTypeEnum.PULSE ) {
           shape.moveTo( x - MARGIN, y );
           shape.lineTo( x, y );
         }
@@ -52,7 +52,7 @@ define( function( require ) {
         shape.lineTo( x, y );
       }
     }
-    if ( incidentWaveType === IncidentWaveTypeEnum.PULSE ) {
+    if ( incidentWaveType === OscillationTypeEnum.PULSE ) {
       shape.lineToRelative( MARGIN, 0 );
     }
     this.addChild( new Path( shape, {

@@ -9,14 +9,14 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var IncidentWaveTypeEnum = require( 'WAVE_INTERFERENCE/common/model/IncidentWaveTypeEnum' );
+  var OscillationTypeEnum = require( 'WAVE_INTERFERENCE/common/model/OscillationTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
-   * @param {Property.<IncidentWaveTypeEnum>} inputTypeProperty
+   * @param {Property.<OscillationTypeEnum>} inputTypeProperty
    * @constructor
    */
   function WaveInterferenceModel( inputTypeProperty ) {
@@ -94,7 +94,7 @@ define( function( require ) {
      */
     step: function( dt ) {
       this.time += dt;
-      if ( this.inputTypeProperty.get() === IncidentWaveTypeEnum.CONTINUOUS || this.pulseRunning ) {
+      if ( this.inputTypeProperty.get() === OscillationTypeEnum.CONTINUOUS || this.pulseRunning ) {
         var v = Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
         this.lattice.setCurrentValue( 30, 50, v );
 

@@ -1,7 +1,7 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Determines whether the input wave is continuous or pulse.
+ * Determines whether the incoming wave is continuous or pulse.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -10,17 +10,17 @@ define( function( require ) {
 
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  var IncidentWaveTypeEnum = {
+  var OscillationTypeEnum = {
     PULSE: 'PULSE',
     CONTINUOUS: 'CONTINUOUS'
   };
 
-  IncidentWaveTypeEnum.VALUES = _.values( IncidentWaveTypeEnum );
+  OscillationTypeEnum.VALUES = _.values( OscillationTypeEnum );
 
   // verify that enum is immutable, without the runtime penalty in production code
-  if ( assert ) { Object.freeze( IncidentWaveTypeEnum ); }
+  if ( assert ) { Object.freeze( OscillationTypeEnum ); }
 
-  waveInterference.register( 'IncidentWaveTypeEnum', IncidentWaveTypeEnum );
+  waveInterference.register( 'OscillationTypeEnum', OscillationTypeEnum );
 
-  return IncidentWaveTypeEnum;
+  return OscillationTypeEnum;
 } );
