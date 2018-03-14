@@ -41,10 +41,10 @@ define( function( require ) {
     // @public {NumberProperty} controls the amplitude of the wave
     this.amplitudeProperty = new NumberProperty( 7 );
 
-    // @public
+    // @public {BooleanProperty} - whether the wave area graph should be displayed
     this.showGraphProperty = new BooleanProperty( false );
 
-    // @public
+    // @public {Property.<OscillationTypeEnum>} - pulse or continuous
     this.inputTypeProperty = new Property( OscillationTypeEnum.CONTINUOUS, {
       validValues: OscillationTypeEnum.VALUES
     } );
