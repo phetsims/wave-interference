@@ -44,6 +44,12 @@ define( function( require ) {
     // @public {BooleanProperty} - whether the wave area graph should be displayed
     this.showGraphProperty = new BooleanProperty( false );
 
+    // @public {BooleanProperty} - whether the screen (on the right of the lattice) should be shown.
+    this.showScreenProperty = new BooleanProperty( false );
+
+    // @public {BooleanProperty} - whether the intensity chart (on the right of the lattice) should be shown.
+    this.showIntensityGraphProperty = new BooleanProperty( false );
+
     // @public {Property.<OscillationTypeEnum>} - pulse or continuous
     this.inputTypeProperty = new Property( OscillationTypeEnum.CONTINUOUS, {
       validValues: OscillationTypeEnum.VALUES

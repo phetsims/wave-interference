@@ -39,10 +39,10 @@ define( function( require ) {
     var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty, {
       boxWidth: 17
     } );
-    var screenCheckbox = new Checkbox( new WaveInterferenceText( 'Screen' ), model.showGraphProperty, {
+    var screenCheckbox = new Checkbox( new WaveInterferenceText( 'Screen' ), model.showScreenProperty, {
       boxWidth: 17
     } );
-    var intensityCheckbox = new Checkbox( new WaveInterferenceText( 'Intensity' ), model.showGraphProperty, {
+    var intensityCheckbox = new Checkbox( new WaveInterferenceText( 'Intensity' ), model.showIntensityGraphProperty, {
       boxWidth: 17 // TODO: factor out
     } );
     var separator = new HSeparator( Math.max( graphCheckbox.width, Math.max( frequencySlider.width, amplitudeSlider.width ) ) );
