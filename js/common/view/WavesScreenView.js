@@ -19,6 +19,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
   var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
+  var ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   var Property = require( 'AXON/Property' );
@@ -92,6 +93,13 @@ define( function( require ) {
 
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
     webGLSupported = false; // TODO: fix this
+
+    var screenNode = new ScreenNode( model.lattice, {
+      scale: 0.88,
+      left: this.waveAreaNode.right + 5,
+      y: -168 + WAVE_MARGIN
+    } );
+    this.addChild( screenNode );
 
     this.latticeNode = webGLSupported ? new LatticeWebGLNode( model.lattice, {
 
@@ -223,6 +231,8 @@ define( function( require ) {
     };
     model.inputTypeProperty.link( updateEnabled );
     model.pulseFiringProperty.link( updateEnabled );
+
+    screenNode.moveToFront(); // TODO: for testing
   }
 
   waveInterference.register( 'WavesScreenView', WavesScreenView );
