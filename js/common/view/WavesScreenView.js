@@ -51,7 +51,7 @@ define( function( require ) {
     // @private
     this.waveAreaNode = new WaveAreaNode( model, {
       top: MARGIN,
-      centerX: this.layoutBounds.centerX
+      centerX: this.layoutBounds.centerX - 120
     } );
     this.addChild( this.waveAreaNode );
 
@@ -99,7 +99,7 @@ define( function( require ) {
                                         x: 67,
                                         y: -170
                                       } ) :
-                       new LatticeCanvasNode( model.lattice, { scale: 0.885, x: 70, y: -168 } );
+                       new LatticeCanvasNode( model.lattice, { scale: 0.885, x: -50, y: -168 } );
     this.addChild( this.latticeNode );
 
     var measuringTapeNode = new MeasuringTapeNode( new Property( {
