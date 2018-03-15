@@ -48,7 +48,7 @@ define( function( require ) {
   function WavesScreenView( model ) {
     ScreenView.call( this );
 
-    // @private
+    // @private - for layout only
     this.waveAreaNode = new WaveAreaNode( model, {
       top: MARGIN,
       centerX: this.layoutBounds.centerX - 120
