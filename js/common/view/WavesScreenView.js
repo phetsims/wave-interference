@@ -66,7 +66,6 @@ define( function( require ) {
       centerY: this.waveAreaNode.centerY
     } );
     model.showGraphProperty.linkAttribute( dottedLineNode, 'visible' );
-    this.addChild( dottedLineNode );
 
     var resetAllButton = new ResetAllButton( {
       listener: function() {
@@ -197,6 +196,7 @@ define( function( require ) {
     timeControlPanel.left = this.waveAreaNode.centerX - timeControlPanel.playPauseButton.width / 2;
     this.addChild( timeControlPanel );
 
+    this.addChild( dottedLineNode );
     this.addChild( waveAreaGraphNode );
     this.addChild( measuringTapeNode );
     this.addChild( timerNode );
