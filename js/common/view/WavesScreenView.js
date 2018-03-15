@@ -40,6 +40,7 @@ define( function( require ) {
   // constants
   var MARGIN = 8;
   var SPACING = 6;
+  var WAVE_MARGIN = 8;
 
   /**
    * @param {WavesScreenModel} model
@@ -50,7 +51,7 @@ define( function( require ) {
 
     // @private - for layout only
     this.waveAreaNode = new WaveAreaNode( model, {
-      top: MARGIN,
+      top: MARGIN + WAVE_MARGIN,
       centerX: this.layoutBounds.centerX - 120
     } );
     this.addChild( this.waveAreaNode );
@@ -98,7 +99,7 @@ define( function( require ) {
                                         x: 67,
                                         y: -170
                                       } ) :
-                       new LatticeCanvasNode( model.lattice, { scale: 0.885, x: -50, y: -168 } );
+                       new LatticeCanvasNode( model.lattice, { scale: 0.88, x: -50, y: -168 + WAVE_MARGIN } );
     this.addChild( this.latticeNode );
 
     var measuringTapeNode = new MeasuringTapeNode( new Property( {
