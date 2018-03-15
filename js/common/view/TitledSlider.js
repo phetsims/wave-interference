@@ -71,7 +71,7 @@ define( function( require ) {
       }
     }
     VBox.call( this, {
-      spacing: 0,
+      spacing: -5,
       children: [
         titleNode,
         slider

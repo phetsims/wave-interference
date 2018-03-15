@@ -31,16 +31,20 @@ define( function( require ) {
   function ControlPanel( model, alignGroup, options ) {
 
     options = _.extend( {
-      yMargin: 10,
-      xMargin: 10,
       fill: 'rgb(230,231,232)'
     }, options );
 
     var frequencySlider = new TitledSlider( 'Frequency', model.frequencyProperty, 1, 19 );
     var amplitudeSlider = new TitledSlider( 'Amplitude', model.amplitudeProperty, 0, 14 );
-    var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty );
-    var screenCheckbox = new Checkbox( new WaveInterferenceText( 'Screen' ), model.showGraphProperty );
-    var intensityCheckbox = new Checkbox( new WaveInterferenceText( 'Intensity' ), model.showGraphProperty );
+    var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty, {
+      boxWidth: 17
+    } );
+    var screenCheckbox = new Checkbox( new WaveInterferenceText( 'Screen' ), model.showGraphProperty, {
+      boxWidth: 17
+    } );
+    var intensityCheckbox = new Checkbox( new WaveInterferenceText( 'Intensity' ), model.showGraphProperty, {
+      boxWidth: 17 // TODO: factor out
+    } );
     var separator = new HSeparator( Math.max( graphCheckbox.width, Math.max( frequencySlider.width, amplitudeSlider.width ) ) );
 
     var sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [ {
@@ -58,7 +62,7 @@ define( function( require ) {
 
     var content = alignGroup.createBox( new VBox( {
       align: 'left',
-      spacing: 2,
+      spacing: 4,
       children: [
         frequencySlider,
         amplitudeSlider,

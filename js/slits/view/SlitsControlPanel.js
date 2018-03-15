@@ -37,8 +37,9 @@ define( function( require ) {
     } );
 
     // TODO: factor out NumberControls
+    var TRACK_SIZE = new Dimension2( 100, 3 );
     var locationControl = new NumberControl( 'Location', new Property( 4000 ), new Range( 1000, 5000 ), {
-      trackSize: new Dimension2( 120, 3 ),
+      trackSize: TRACK_SIZE,
       majorTickLength: 12,
       valuePattern: '{0} nm',
       thumbSize: new Dimension2( 22, 30 ), // TODO: match with other sliders in SlitsControlPanel
@@ -53,7 +54,7 @@ define( function( require ) {
     } );
 
     var slitWidthControl = new NumberControl( 'Slit Width', new Property( 100 ), new Range( 0, 200 ), {
-      trackSize: new Dimension2( 120, 3 ),
+      trackSize: TRACK_SIZE,
       valuePattern: '{0} nm',
       thumbSize: new Dimension2( 22, 30 ), // TODO: match with other sliders in SlitsControlPanel
       majorTickLength: 12,
@@ -68,7 +69,7 @@ define( function( require ) {
     } );
 
     var slitSeparationControl = new NumberControl( 'Slit Separation', new Property( 1000 ), new Range( 0, 2000 ), {
-      trackSize: new Dimension2( 120, 3 ),
+      trackSize: TRACK_SIZE,
       thumbSize: new Dimension2( 22, 30 ), // TODO: match with other sliders in SlitsControlPanel
       valuePattern: '{0} nm',
       majorTickLength: 12,

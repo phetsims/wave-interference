@@ -236,5 +236,7 @@ define( function( require ) {
       var localPoint = this.latticeNode.globalToLocalPoint( point );
       return this.latticeNode.localPointToLatticePoint( localPoint );
     }
+  }, {
+    SPACING: SPACING
   } );
 } );

@@ -18,7 +18,7 @@ define( function( require ) {
    */
   function WaveInterferencePanel( content, options ) {
     options = _.extend( {
-      yMargin: 10,
+      yMargin: 6,
       xMargin: 10,
       fill: 'rgb(230,231,232)' // TODO: factor out
     }, options );

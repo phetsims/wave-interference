@@ -22,7 +22,7 @@ define( function( require ) {
 
     var slitControlPanel = new SlitsControlPanel( this.controlPanelAlignGroup, model, this, {
       left: this.controlPanel.left,
-      top: this.controlPanel.bottom + 12 // TODO: factor out spacing with WaveScreenView
+      top: this.controlPanel.bottom + WavesScreenView.SPACING
     } );
     this.addChild( slitControlPanel );
   }
