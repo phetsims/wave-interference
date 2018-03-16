@@ -38,6 +38,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
+  var ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
 
   // constants
   var MARGIN = 8;
@@ -53,10 +54,17 @@ define( function( require ) {
 
     // @private - for layout only
     this.waveAreaNode = new WaveAreaNode( model, {
-      top: MARGIN + WAVE_MARGIN,
+      top: MARGIN + WAVE_MARGIN + 15,
       centerX: this.layoutBounds.centerX - 142
     } );
     this.addChild( this.waveAreaNode );
+
+    // @private show the scale of the wave area // TODO: local var?
+    this.scaleIndicatorNode = new ScaleIndicatorNode( {
+      top: MARGIN,
+      left: this.waveAreaNode.left
+    } );
+    this.addChild( this.scaleIndicatorNode );
 
     var waveAreaGraphNode = new WaveAreaGraphNode( model, {
       x: this.waveAreaNode.left,
