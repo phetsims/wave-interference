@@ -122,6 +122,7 @@ define( function( require ) {
     var intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, {
       left: screenNode.right + 5
     } );
+    model.showIntensityGraphProperty.linkAttribute( intensityGraphPanel, 'visible' );
     this.addChild( intensityGraphPanel );
 
     // Make sure the charting area is perfectly aligned with the wave area
