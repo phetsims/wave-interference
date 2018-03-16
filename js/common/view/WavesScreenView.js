@@ -100,6 +100,7 @@ define( function( require ) {
       y: -168 + WAVE_MARGIN
     } );
     this.addChild( screenNode );
+    model.showScreenProperty.linkAttribute( screenNode, 'visible' );
 
     this.latticeNode = webGLSupported ? new LatticeWebGLNode( model.lattice, {
 
