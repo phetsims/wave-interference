@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- *
+ * Shows a graph of intensity as a function of position at the right-side of the lattice (when selected).
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
