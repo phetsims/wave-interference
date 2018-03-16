@@ -43,7 +43,7 @@ define( function( require ) {
     var dy = y - y0;
     var a = dx * dx / sigmaX / sigmaX;
     var b = dy * dy / sigmaY / sigmaY;
-    return Math.pow( Math.E, -(a + b) / 2 );
+    return Math.pow( Math.E, -( a + b ) / 2 );
   }
 
   /**
@@ -126,18 +126,14 @@ define( function( require ) {
       scale: ICON_SCALE,
       centerY: laserPointerNode.centerY,
       centerX: this.apertureImage.centerX,
-      matrix: Matrix3.affine( 1, 0.25,
-        0, 1,
-        0, 0 )
+      matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
     } );
 
     this.diffractionIcon = new Image( this.placeholderImage, {
       scale: ICON_SCALE,
       centerY: laserPointerNode.centerY,
       centerX: this.diffractionImage.centerX,
-      matrix: Matrix3.affine( 1, 0.25,
-        0, 1,
-        0, 0 )
+      matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
     } );
     self.addChild( this.diffractionIcon );
 
@@ -279,7 +275,7 @@ define( function( require ) {
         apertureContext.rotate( this.angleProperty.value );
         var slitWidth = 1;
         var numberOfLines = this.numberOfLinesProperty.value;
-        var lineSpacing = width / (numberOfLines + 1);
+        var lineSpacing = width / ( numberOfLines + 1 );
 
         // Even number of lines
         if ( numberOfLines % 2 === 0 ) {
@@ -361,10 +357,10 @@ define( function( require ) {
       var logOfMaxMag = Math.log( cc * maxMagnitude + 1 );
       for ( k = 0; k < dims[ 1 ]; k++ ) {
         for ( var l = 0; l < dims[ 0 ]; l++ ) {
-          var idxInPixels = 4 * (dims[ 0 ] * k + l);
+          var idxInPixels = 4 * ( dims[ 0 ] * k + l );
           currImageData.data[ idxInPixels + 3 ] = 255; // full alpha
           var color = Math.log( cc * $h( l, k ).magnitude() + 1 );
-          color = Math.round( 255 * (color / logOfMaxMag) );
+          color = Math.round( 255 * ( color / logOfMaxMag ) );
           // RGB are the same -> gray
           for ( var c = 0; c < 3; c++ ) { // lol c++
             currImageData.data[ idxInPixels + c ] = color;
