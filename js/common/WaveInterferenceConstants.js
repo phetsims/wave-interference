@@ -11,7 +11,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   var WaveInterferenceConstants = {
-    WAVE_AREA_WIDTH: 530
+    WAVE_AREA_WIDTH: 500 // TODO: Make it so we can update this number and everything reflows
   };
 
   waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );

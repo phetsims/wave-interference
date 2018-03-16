@@ -17,7 +17,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  var CELL_WIDTH = 10;
+  var CELL_WIDTH = 10; // TODO: this number no longer seems to matter
 
   /**
    * @param {Lattice} lattice

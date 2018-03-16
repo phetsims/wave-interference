@@ -37,6 +37,7 @@ define( function( require ) {
   var WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
 
   // constants
   var MARGIN = 8;
@@ -53,7 +54,7 @@ define( function( require ) {
     // @private - for layout only
     this.waveAreaNode = new WaveAreaNode( model, {
       top: MARGIN + WAVE_MARGIN,
-      centerX: this.layoutBounds.centerX - 120
+      centerX: this.layoutBounds.centerX - 142
     } );
     this.addChild( this.waveAreaNode );
 
@@ -80,7 +81,7 @@ define( function( require ) {
 
     var viewRadioButtonGroup = new ViewRadioButtonGroup( model.viewTypeProperty, {
       bottom: this.layoutBounds.bottom - MARGIN,
-      left: this.waveAreaNode.left
+      left: this.waveAreaNode.left + SPACING + 10 // TODO: layout
     } );
     this.addChild( viewRadioButtonGroup );
 
@@ -94,14 +95,6 @@ define( function( require ) {
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
     webGLSupported = false; // TODO: fix this
 
-    var screenNode = new ScreenNode( model.lattice, model.intensitySample, {
-      scale: 0.88,
-      left: this.waveAreaNode.right + 5,
-      y: -168 + WAVE_MARGIN
-    } );
-    this.addChild( screenNode );
-    model.showScreenProperty.linkAttribute( screenNode, 'visible' );
-
     this.latticeNode = webGLSupported ? new LatticeWebGLNode( model.lattice, {
 
                                         // TODO: I don't understand the positioning of this node
@@ -109,11 +102,30 @@ define( function( require ) {
                                         y: -170
                                       } ) :
                        new LatticeCanvasNode( model.lattice );
+    var scale = this.waveAreaNode.width / this.latticeNode.width;
     this.latticeNode.mutate( {
-      scale: this.waveAreaNode.width / this.latticeNode.width,
+      scale: scale,
       center: this.waveAreaNode.center
     } );
+
+    var screenNode = new ScreenNode( model.lattice, model.intensitySample, {
+      scale: scale,
+      left: this.waveAreaNode.right + 5,
+      y: this.waveAreaNode.top
+    } );
+
+    model.showScreenProperty.linkAttribute( screenNode, 'visible' );
+
+    this.addChild( screenNode );
     this.addChild( this.latticeNode );
+
+    var intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, {
+      left: screenNode.right + 5
+    } );
+    this.addChild( intensityGraphPanel );
+
+    // Make sure the charting area is perfectly aligned with the wave area
+    intensityGraphPanel.translate( 0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top );
 
     var measuringTapeNode = new MeasuringTapeNode( new Property( {
       name: 'cm',

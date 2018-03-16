@@ -49,7 +49,7 @@ define( function( require ) {
     this.showScreenProperty = new BooleanProperty( false );
 
     // @public {BooleanProperty} - whether the intensity chart (on the right of the lattice) should be shown.
-    this.showIntensityGraphProperty = new BooleanProperty( false );
+    this.showIntensityGraphProperty = new BooleanProperty( false ); // TODO: consistent naming regarding graph/chart.  Design doc says "graph"
 
     // @public {Property.<OscillationTypeEnum>} - pulse or continuous
     this.inputTypeProperty = new Property( OscillationTypeEnum.CONTINUOUS, {

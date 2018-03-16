@@ -27,7 +27,7 @@ define( function( require ) {
    */
   function ScreenNode( lattice, intensitySample, options ) {
     options = _.extend( {
-      canvasBounds: new Bounds2( 0, 0, 100, lattice.height * CELL_WIDTH )
+      canvasBounds: new Bounds2( 0, 0, 100, 2000 ) // TODO: this seems to do nothing
     }, options );
     CanvasNode.call( this, options );
 
@@ -45,7 +45,7 @@ define( function( require ) {
     // Show it at a 3d perspective, as if orthogonal to the wave view
     var shear = Matrix3.dirtyFromPool().setToAffine( 1, 0, 0, -0.5, 1, 0 );
     this.appendMatrix( shear );
-    this.translate( -50, 0 ); // Center on the wave // TODO: factor out dimension (half of 100)
+    this.translate( -50, -202 ); // Center on the wave // TODO: factor out dimension (half of 100) // TODO: Magic numbers
   }
 
   waveInterference.register( 'ScreenNode', ScreenNode );
