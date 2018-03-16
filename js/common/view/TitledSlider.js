@@ -31,7 +31,7 @@ define( function( require ) {
       {
         value: ( max - min ) * 0 / 12 + min,
         type: 'major',
-        label: new WaveInterferenceText( 'min', { fontSize: 10 } )
+        label: new WaveInterferenceText( '0', { fontSize: 10 } )
       },
       { value: ( max - min ) * 2 / 12 + min, type: 'minor' },
       { value: ( max - min ) * 4 / 12 + min, type: 'minor' },
