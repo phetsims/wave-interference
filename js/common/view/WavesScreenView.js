@@ -119,7 +119,7 @@ define( function( require ) {
     this.addChild( screenNode );
     this.addChild( this.latticeNode );
 
-    var intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, {
+    var intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, {
       left: screenNode.right + 5
     } );
     this.addChild( intensityGraphPanel );

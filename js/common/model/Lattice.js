@@ -233,7 +233,7 @@ define( function( require ) {
 
       // TODO: garbage-free form?
       var column = [];
-      for ( var j = this.dampY; j < this.height; j++ ) {
+      for ( var j = this.dampY; j < this.height - this.dampY; j++ ) {
         column.push( this.getCurrentValue( this.width - this.dampX - 1, j ) );
       }
       return column;
