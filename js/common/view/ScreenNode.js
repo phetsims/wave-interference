@@ -12,6 +12,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Matrix3 = require( 'DOT/Matrix3' );
   var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -25,7 +26,9 @@ define( function( require ) {
    * @constructor
    */
   function ScreenNode( lattice, intensitySample, options ) {
-    options = _.extend( { canvasBounds: new Bounds2( 0, 0, 100, lattice.height * CELL_WIDTH ) }, options );
+    options = _.extend( {
+      canvasBounds: new Bounds2( 0, 0, 100, lattice.height * CELL_WIDTH )
+    }, options );
     CanvasNode.call( this, options );
 
     // @private
@@ -38,6 +41,11 @@ define( function( require ) {
     intensitySample.changedEmitter.addListener( function() {
       self.invalidatePaint();
     } );
+
+    // Show it at a 3d perspective, as if orthogonal to the wave view
+    var shear = Matrix3.dirtyFromPool().setToAffine( 1, 0, 0, -0.5, 1, 0 );
+    this.appendMatrix( shear );
+    this.translate( -50, 0 ); // Center on the wave // TODO: factor out dimension (half of 100)
   }
 
   waveInterference.register( 'ScreenNode', ScreenNode );

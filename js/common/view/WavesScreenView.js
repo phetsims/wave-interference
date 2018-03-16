@@ -235,8 +235,6 @@ define( function( require ) {
     };
     model.inputTypeProperty.link( updateEnabled );
     model.pulseFiringProperty.link( updateEnabled );
-
-    screenNode.moveToFront(); // TODO: for testing
   }
 
   waveInterference.register( 'WavesScreenView', WavesScreenView );
