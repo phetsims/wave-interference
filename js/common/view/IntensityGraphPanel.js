@@ -9,7 +9,9 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -21,6 +23,7 @@ define( function( require ) {
 
   // constants
   var TITLE_Y_MARGIN = 4;
+  var DARK_GRAY = new Color( 90, 90, 90 );
 
   /**
    * @param {number} chartHeight - the height of the chart in view coordinates
@@ -31,6 +34,30 @@ define( function( require ) {
   function IntensityGraphPanel( chartHeight, intensitySample, options ) {
 
     this.chartRectangle = new Rectangle( 0, 0, 100, chartHeight, { fill: 'white', stroke: 'black', lineWidth: 1 } );
+
+    for ( var i = 0; i < 10; i++ ) {
+      var yTop = Util.linear( 0, 10, this.chartRectangle.centerY, this.chartRectangle.top, i );
+      var yBottom = Util.linear( 0, 10, this.chartRectangle.centerY, this.chartRectangle.bottom, i );
+
+      // TODO: factor out
+      this.chartRectangle.addChild( new Line( this.chartRectangle.left, yTop, this.chartRectangle.right, yTop, {
+        stroke: i % 2 === 0 ? DARK_GRAY : 'lightGray',
+        lineDash: [ 9.1, 9.1 ] // Solid part touches each edge
+      } ) );
+
+      if ( i !== 0 ) {
+        this.chartRectangle.addChild( new Line( this.chartRectangle.left, yBottom, this.chartRectangle.right, yBottom, {
+          stroke: i % 2 === 0 ? DARK_GRAY : 'lightGray',
+          lineDash: [ 9.1, 9.1 ] // Solid part touches each edge
+        } ) );
+      }
+    }
+
+    this.chartRectangle.addChild( new Line( this.chartRectangle.centerX, this.chartRectangle.bottom, this.chartRectangle.centerX, this.chartRectangle.top, {
+      stroke: DARK_GRAY,
+      lineDash: [ 9.1, 9.1 ]
+    } ) );
+
     var tickLabel0 = new WaveInterferenceText( '0', {
       centerTop: this.chartRectangle.leftBottom
     } );
