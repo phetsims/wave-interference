@@ -16,19 +16,26 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  var CELL_WIDTH = 10;
+  var CELL_WIDTH = 10;  // TODO: factor out with the lattice nodes
 
   /**
-   * @param {Lattice} lattice
+   * @param {Lattice} lattice - for dimensions
+   * @param {IntensitySample} intensitySample
    * @param {Object} [options]
    * @constructor
    */
-  function ScreenNode( lattice, options ) {
-    options = _.extend( { canvasBounds: new Bounds2( 0, 0, 100, lattice.width * CELL_WIDTH ) }, options );
+  function ScreenNode( lattice, intensitySample, options ) {
+    options = _.extend( { canvasBounds: new Bounds2( 0, 0, 100, lattice.height * CELL_WIDTH ) }, options );
     CanvasNode.call( this, options );
+
+    // @private
     this.lattice = lattice;
+
+    // @private
+    this.intensitySample = intensitySample;
     var self = this;
-    lattice.changedEmitter.addListener( function() {
+
+    intensitySample.changedEmitter.addListener( function() {
       self.invalidatePaint();
     } );
   }
@@ -42,10 +49,12 @@ define( function( require ) {
      * @param {CanvasRenderingContext2D} context
      */
     paintCanvas: function( context ) {
-      var i = this.lattice.width - this.lattice.dampX - 1;
+
+      // TODO: align with LatticeCanvasNode and only render the non-damping regions
+      var intensityValues = this.intensitySample.getIntensityValues();
       for ( var k = this.lattice.dampY; k < this.lattice.height - this.lattice.dampY; k++ ) {
-        var value = Math.abs( ( this.lattice.getCurrentValue( i, k ) + this.lattice.getLastValue( i, k ) ) / 2 ); // TODO: time average
-        var shading = Util.linear( -2, 2, 0, 255, value );
+        var intensity = intensityValues[ k - this.lattice.dampY ];
+        var shading = Util.linear( 0, 0.05, 0, 255, intensity );
         shading = Math.floor( Util.clamp( shading, 0, 255 ) );
         context.fillStyle = 'rgb(0,0,' + shading + ')';
         context.fillRect( 0, k * CELL_WIDTH, 100, CELL_WIDTH + 1 ); // +1 is to eliminate seams // TODO: x-offset?

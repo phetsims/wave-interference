@@ -25,6 +25,8 @@ define( function( require ) {
    * @constructor
    */
   function LatticeCanvasNode( lattice, options ) {
+
+    // TODO: only use the visible part for the bounds (not the damping regions)
     options = _.extend( { canvasBounds: new Bounds2( 0, 0, lattice.width * CELL_WIDTH, lattice.width * CELL_WIDTH ) }, options );
     CanvasNode.call( this, options );
     this.lattice = lattice;

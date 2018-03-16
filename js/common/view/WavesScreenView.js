@@ -94,7 +94,7 @@ define( function( require ) {
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
     webGLSupported = false; // TODO: fix this
 
-    var screenNode = new ScreenNode( model.lattice, {
+    var screenNode = new ScreenNode( model.lattice, model.intensitySample, {
       scale: 0.88,
       left: this.waveAreaNode.right + 5,
       y: -168 + WAVE_MARGIN

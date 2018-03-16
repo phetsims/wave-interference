@@ -50,10 +50,10 @@ define( function( require ) {
     // @public {Emitter} sends a notification each time the lattice updates
     this.changedEmitter = new Emitter();
 
-    // @public {number} (read-only) width of the lattice
+    // @public {number} (read-only) width of the lattice (includes damping regions)
     this.width = width;
 
-    // @public {number} (read-only) height of the lattice
+    // @public {number} (read-only) height of the lattice (includes damping regions)
     this.height = height;
   }
 
@@ -222,6 +222,21 @@ define( function( require ) {
       for ( var i = 0; i < this.matrices.length; i++ ) {
         this.matrices[ i ].timesEquals( 0 );
       }
+    },
+
+    /**
+     * Gets the values on the right hand side of the wave, for determining intensity
+     * @returns {number[]}
+     * @public
+     */
+    getRightmostColumn: function() {
+
+      // TODO: garbage-free form?
+      var column = [];
+      for ( var j = this.dampY; j < this.height; j++ ) {
+        column.push( this.getCurrentValue( this.width - this.dampX - 1, j ) );
+      }
+      return column;
     },
 
     /**

@@ -13,6 +13,7 @@ define( function( require ) {
   var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
+  var IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var OscillationTypeEnum = require( 'WAVE_INTERFERENCE/common/model/OscillationTypeEnum' );
   var PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
@@ -93,12 +94,15 @@ define( function( require ) {
 
     // @public
     var potential = function( i, j ) {
-      return false;
-      // return i === 60 && ((Math.abs( 40 - j ) > 3) && (Math.abs( 60 - j ) > 3));
+      // return false;
+      return i === 60 && ( ( Math.abs( 40 - j ) > 3 ) && ( Math.abs( 60 - j ) > 3 ) );
     };
 
     // @public {Lattice} the grid that contains the wave values
     this.lattice = new Lattice( 100, 100, 20, 20, potential ); // Java was 60 + 20 padding on each side // TODO: evaluate dimensions
+
+    // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
+    this.intensitySample = new IntensitySample( this.lattice );
 
     // @public {number} elapsed time in seconds
     this.time = 0;
@@ -168,6 +172,7 @@ define( function( require ) {
       if ( this.timeSinceLastLatticeStep >= 1 / 60 ) {
         this.lattice.step();
         this.timeSinceLastLatticeStep = 0;
+        this.intensitySample.step();
       }
       if ( this.isStopwatchRunningProperty.get() ) {
         this.stopwatchElapsedTimeProperty.set( this.stopwatchElapsedTimeProperty.get() + dt );
