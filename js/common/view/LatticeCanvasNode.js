@@ -26,8 +26,8 @@ define( function( require ) {
    */
   function LatticeCanvasNode( lattice, options ) {
 
-    // TODO: only use the visible part for the bounds (not the damping regions)
-    options = _.extend( { canvasBounds: new Bounds2( 0, 0, lattice.width * CELL_WIDTH, lattice.width * CELL_WIDTH ) }, options );
+    // only use the visible part for the bounds (not the damping regions)
+    options = _.extend( { canvasBounds: new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH ) }, options );
     CanvasNode.call( this, options );
     this.lattice = lattice;
     var self = this;
@@ -60,7 +60,7 @@ define( function( require ) {
           var shading = Util.linear( -2, 2, 0, 255, value );
           shading = Math.floor( Util.clamp( shading, 0, 255 ) );
           context.fillStyle = 'rgb(0,0,' + shading + ')';
-          context.fillRect( i * CELL_WIDTH, k * CELL_WIDTH, CELL_WIDTH + 1, CELL_WIDTH + 1 ); // +1 is to eliminate seams // TODO: x-offset?
+          context.fillRect( ( i - this.lattice.dampX ) * CELL_WIDTH, ( k - this.lattice.dampY ) * CELL_WIDTH, CELL_WIDTH + 1, CELL_WIDTH + 1 ); // +1 is to eliminate seams // TODO: x-offset?
         }
       }
     }

@@ -107,7 +107,11 @@ define( function( require ) {
                                         x: 67,
                                         y: -170
                                       } ) :
-                       new LatticeCanvasNode( model.lattice, { scale: 0.88, x: -50, y: -168 + WAVE_MARGIN } );
+                       new LatticeCanvasNode( model.lattice );
+    this.latticeNode.mutate( {
+      scale: this.waveAreaNode.width / this.latticeNode.width,
+      center: this.waveAreaNode.center
+    } );
     this.addChild( this.latticeNode );
 
     var measuringTapeNode = new MeasuringTapeNode( new Property( {
