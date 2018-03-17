@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- *
+ * Controls for the barrier/slits.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -13,10 +13,10 @@ define( function( require ) {
   var ComboBox = require( 'SUN/ComboBox' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -52,6 +52,11 @@ define( function( require ) {
       } ],
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
     } );
+    model.barrierTypeProperty.link( function( barrierType ) {
+      locationControl.enabled = barrierType === BarrierTypeEnum.MIRROR ||
+                                barrierType === BarrierTypeEnum.ONE_SLIT ||
+                                barrierType === BarrierTypeEnum.TWO_SLITS;
+    } );
 
     var slitWidthControl = new NumberControl( 'Slit Width', new Property( 100 ), new Range( 0, 200 ), {
       trackSize: TRACK_SIZE,
@@ -66,6 +71,10 @@ define( function( require ) {
         label: new WaveInterferenceText( 200, { fontSize: 10 } )
       } ],
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
+    } );
+    model.barrierTypeProperty.link( function( barrierType ) {
+      slitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT ||
+                                 barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
 
     var slitSeparationControl = new NumberControl( 'Slit Separation', new Property( 1000 ), new Range( 0, 2000 ), {
@@ -82,10 +91,21 @@ define( function( require ) {
       } ],
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
     } );
+    model.barrierTypeProperty.link( function( barrierType ) {
+      slitSeparationControl.enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
+    } );
 
-    var content = alignGroup.createBox( new VBox( {
-      align: 'left',
-      spacing: 2,
+    // Vertical layout
+    locationControl.top = comboBox.bottom + 2;
+    slitWidthControl.top = locationControl.bottom + 2;
+    slitSeparationControl.top = slitWidthControl.bottom + 2;
+
+    // Horizontal layout
+    locationControl.centerX = comboBox.centerX;
+    slitWidthControl.left = locationControl.left;
+    slitSeparationControl.left = locationControl.left;
+
+    var content = alignGroup.createBox( new Node( {
       children: [
         comboBox,
         locationControl,
