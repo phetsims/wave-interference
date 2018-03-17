@@ -12,20 +12,16 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   /**
-   * @param {string} title
    * @param {Property} property
    * @param {number} min
    * @param {number} max
    * @constructor
    */
-  function TitledSlider( title, property, min, max ) {
-
-    var titleNode = new WaveInterferenceText( title );
+  function WaveInterferenceSlider( property, min, max ) {
 
     var ticks = [
       {
@@ -45,7 +41,7 @@ define( function( require ) {
       } // TODO factor out ,{fontSize: 12}
     ];
 
-    var slider = new HSlider( property, {
+    HSlider.call( this, property, {
       min: min, max: max
     }, {
       thumbSize: new Dimension2( 22, 30 ), // TODO: match with other sliders in SlitsControlPanel
@@ -64,22 +60,15 @@ define( function( require ) {
     for ( var i = 0; i < ticks.length; i++ ) {
       var tick = ticks[ i ];
       if ( tick.type === 'major' ) {
-        slider.addMajorTick( tick.value, tick.label ); // Label is optional
+        this.addMajorTick( tick.value, tick.label ); // Label is optional
       }
       else {
-        slider.addMinorTick( tick.value, tick.label ); // Label is optional
+        this.addMinorTick( tick.value, tick.label ); // Label is optional
       }
     }
-    VBox.call( this, {
-      spacing: -5,
-      children: [
-        titleNode,
-        slider
-      ]
-    } );
   }
 
-  waveInterference.register( 'TitledSlider', TitledSlider );
+  waveInterference.register( 'WaveInterferenceSlider', WaveInterferenceSlider );
 
-  return inherit( VBox, TitledSlider );
+  return inherit( HSlider, WaveInterferenceSlider );
 } );

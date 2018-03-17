@@ -14,16 +14,16 @@ define( function( require ) {
   var HSeparator = require( 'SUN/HSeparator' );
   var HStrut = require( 'SCENERY/nodes/HStrut' );
   var inherit = require( 'PHET_CORE/inherit' );
-  // var Property = require( 'AXON/Property' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
-  var TitledSlider = require( 'WAVE_INTERFERENCE/common/view/TitledSlider' );
+  var WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-
-  // var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
   /**
    * @param {WavesScreenModel} model
@@ -33,29 +33,25 @@ define( function( require ) {
    */
   function ControlPanel( model, alignGroup, options ) {
 
-    options = _.extend( {
-      fill: 'rgb(230,231,232)'
-    }, options );
+    var frequencySlider = new WaveInterferenceSlider( model.frequencyProperty, 1, 19 );
+    var wavelengthProperty = new Property( 400 );
 
-    // var frequencySlider = new TitledSlider( 'Frequency', model.frequencyProperty, 1, 19 );
-    // var wavelengthProperty = new Property( 400 );
+    var lightFrequencySlider = new WavelengthSlider( wavelengthProperty, {
+      trackWidth: 150,
+      valueVisible: false,
+      tweakersVisible: false,
+      thumbWidth: 20,
+      thumbHeight: 20
+    } );
 
-    // TODO: this is for light only
-    // var frequencySlider = new VBox( {
-    //   children: [
-    //     new WaveInterferenceText( 'Frequency' ),
-    //     new WavelengthSlider( wavelengthProperty, {
-    //       valueVisible: false,
-    //       tweakersVisible: false,
-    //       thumbWidth: 20,
-    //       thumbHeight: 20
-    //     } )
-    //   ]
-    // } );
-
-    // TODO: this is for water and sound
-    var frequencySlider = new TitledSlider( 'Frequency', model.frequencyProperty, 1, 19 );
-    var amplitudeSlider = new TitledSlider( 'Amplitude', model.amplitudeProperty, 0, 14 ); // TODO: only used for one slider?
+    var soundAndWaterFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, 1, 19 );
+    soundAndWaterFrequencySlider.center = lightFrequencySlider.center;
+    var frequencySliderContainer = new Node( { children: [ lightFrequencySlider, soundAndWaterFrequencySlider ] } );
+    model.sceneProperty.link( function( scene ) {
+      lightFrequencySlider.visible = scene === SceneTypeEnum.LIGHT;
+      soundAndWaterFrequencySlider.visible = scene === SceneTypeEnum.SOUND || scene === SceneTypeEnum.WATER;
+    } );
+    var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, 0, 14 ); // TODO: only used for one slider?
     var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty, {
       boxWidth: 17
     } );
@@ -84,7 +80,9 @@ define( function( require ) {
       align: 'left',
       spacing: 4,
       children: [
-        frequencySlider,
+        new WaveInterferenceText( 'Frequency' ),
+        frequencySliderContainer,
+        new WaveInterferenceText( 'Amplitude' ),
         amplitudeSlider,
         sceneRadioButtons,
         separator,
