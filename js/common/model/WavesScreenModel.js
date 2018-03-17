@@ -128,6 +128,11 @@ define( function( require ) {
 
       self.phase = proposedPhase;
     } );
+
+    // When the scene changes, the wave clears
+    this.sceneProperty.link( function() {
+      self.lattice.clear();
+    } );
   }
 
   waveInterference.register( 'WavesScreenModel', WavesScreenModel );
