@@ -132,6 +132,7 @@ define( function( require ) {
     // When the scene changes, the wave clears
     this.sceneProperty.link( function() {
       self.lattice.clear();
+      self.intensitySample.clear();
     } );
   }
 

@@ -53,6 +53,15 @@ define( function( require ) {
     },
 
     /**
+     * Removes all data, used when resetting or changing scenes.
+     * @public
+     */
+    clear: function() {
+      this.history.length = 0;
+      this.changedEmitter.emit();
+    },
+
+    /**
      * Update the intensity samples when the lattice has updated
      * @public
      */
