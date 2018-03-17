@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- *
+ * Model for the Slits screen.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -21,6 +21,10 @@ define( function( require ) {
   function SlitsScreenModel() {
     WavesScreenModel.call( this );
     this.barrierTypeProperty = new Property( BarrierTypeEnum.NO_BARRIER );
+
+    this.lattice.setPotentialFunction( function( i, j ) {
+      return i === 60 && ( ( Math.abs( 40 - j ) > 3 ) && ( Math.abs( 60 - j ) > 3 ) );
+    } );
   }
 
   waveInterference.register( 'SlitsScreenModel', SlitsScreenModel );

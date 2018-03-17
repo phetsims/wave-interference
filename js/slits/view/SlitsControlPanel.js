@@ -22,6 +22,10 @@ define( function( require ) {
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   /**
+   * @param {AlignGroup} alignGroup
+   * @param {SlitsScreenModel} model
+   * @param {Node} comboBoxParent
+   * @param {Object} [options]
    * @constructor
    */
   function SlitsControlPanel( alignGroup, model, comboBoxParent, options ) {
@@ -115,6 +119,8 @@ define( function( require ) {
     } ) );
 
     WaveInterferencePanel.call( this, content, options );
+
+
   }
 
   waveInterference.register( 'SlitsControlPanel', SlitsControlPanel );

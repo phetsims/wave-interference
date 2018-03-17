@@ -92,14 +92,8 @@ define( function( require ) {
     // @public {BooleanProperty} - true while a single pulse is being generated
     this.pulseFiringProperty = new BooleanProperty( false );
 
-    // @public
-    var potential = function( i, j ) {
-      // return false;
-      return i === 60 && ( ( Math.abs( 40 - j ) > 3 ) && ( Math.abs( 60 - j ) > 3 ) );
-    };
-
     // @public {Lattice} the grid that contains the wave values
-    this.lattice = new Lattice( 100, 100, 20, 20, potential ); // Java was 60 + 20 padding on each side // TODO: evaluate dimensions
+    this.lattice = new Lattice( 100, 100, 20, 20 ); // Java was 60 + 20 padding on each side // TODO: evaluate dimensions
 
     // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
     this.intensitySample = new IntensitySample( this.lattice );

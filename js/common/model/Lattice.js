@@ -24,10 +24,9 @@ define( function( require ) {
    * @param {number} height - height of the lattice
    * @param {number} dampX - number of cells on the left and again on the right to use for damping
    * @param {number} dampY - number of cells on the top and again on the bottom to use for damping
-   * @param {function} getPotential - function(i,j) that returns true if there is a potential barrier there
    * @constructor
    */
-  function Lattice( width, height, dampX, dampY, getPotential ) {
+  function Lattice( width, height, dampX, dampY ) {
 
     // @public (read-only) {number} number of cells on the left and again on the right to use for damping
     this.dampX = dampX;
@@ -44,8 +43,8 @@ define( function( require ) {
     // @private {number} indicates the current matrix. Previous matrix is one higher (with correct modulus)
     this.currentMatrixIndex = 0;
 
-    // @private {function} returns true if there is a potential barrier there TODO: move to options
-    this.getPotential = getPotential || function( i, j ) {return false;};
+    // @private {function} returns true if there is a potential barrier at the given coordinate
+    this.potentialFunction = null;
 
     // @public {Emitter} sends a notification each time the lattice updates
     this.changedEmitter = new Emitter();
@@ -240,6 +239,14 @@ define( function( require ) {
     },
 
     /**
+     * @param {Function} potentialFunction (i,j)=>boolean, true if there is a barrier at that cell location
+     * @public
+     */
+    setPotentialFunction: function( potentialFunction ) {
+      this.potentialFunction = potentialFunction;
+    },
+
+    /**
      * Propagates the wave by one step.  This is a discrete algorithm and cannot use dt.
      * @public
      */
@@ -253,7 +260,7 @@ define( function( require ) {
       var height = matrix0.getColumnDimension();
       for ( var i = 0; i < width; i++ ) {
         for ( var j = 0; j < height; j++ ) {
-          if ( this.getPotential( i, j ) ) {
+          if ( this.potentialFunction && this.potentialFunction( i, j ) ) {
             matrix0.set( i, j, 0 );
           }
           else {
