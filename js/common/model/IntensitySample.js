@@ -25,7 +25,7 @@ define( function( require ) {
     this.lattice = lattice;
 
     // @private
-    this.history = [];
+    this.history = [ this.lattice.getRightmostColumn() ];
 
     // @public {Emitter} - signifies when the intensitySample has changed values.
     this.changedEmitter = new Emitter();
@@ -58,6 +58,7 @@ define( function( require ) {
      */
     clear: function() {
       this.history.length = 0;
+      this.history.push( this.lattice.getRightmostColumn() );
       this.changedEmitter.emit();
     },
 
