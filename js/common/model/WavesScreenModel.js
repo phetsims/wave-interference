@@ -216,7 +216,9 @@ define( function( require ) {
       this.inputTypeProperty.reset();
       this.playSpeedProperty.reset();
       this.isRunningProperty.reset();
+      this.showScreenProperty.reset();
       this.isTimerInPlayAreaProperty.reset();
+      this.showIntensityGraphProperty.reset();
       this.stopwatchElapsedTimeProperty.reset();
       this.isMeasuringTapeInPlayAreaProperty.reset();
       this.isChartToolNodeInPlayAreaProperty.reset();
