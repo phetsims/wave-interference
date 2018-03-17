@@ -89,7 +89,7 @@ define( function( require ) {
 
     // Vertical layout
     frequencySliderContainer.top = frequencyTitle.bottom - 5;
-    amplitudeTitle.top = frequencySliderContainer.bottom + 5;
+    amplitudeTitle.top = frequencySliderContainer.bottom + 2;
     amplitudeSlider.top = amplitudeTitle.bottom - 5;
     sceneRadioButtons.top = amplitudeSlider.bottom + 5;
     separator.top = sceneRadioButtons.bottom + 7;
