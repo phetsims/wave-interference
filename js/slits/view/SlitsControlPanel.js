@@ -21,6 +21,15 @@ define( function( require ) {
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
+  // constants
+  var NUMBER_CONTROL_OPTIONS = {
+    trackSize: new Dimension2( 100, 3 ),
+    majorTickLength: 12,
+    valuePattern: '{0} nm',
+    thumbSize: new Dimension2( 22, 30 ), // TODO: match with other sliders in SlitsControlPanel
+    layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
+  };
+
   /**
    * @param {AlignGroup} alignGroup
    * @param {SlitsScreenModel} model
@@ -40,61 +49,33 @@ define( function( require ) {
       buttonYMargin: 0
     } );
 
-    // TODO: factor out NumberControls
-    var TRACK_SIZE = new Dimension2( 100, 3 );
-    var locationControl = new NumberControl( 'Location', new Property( 4000 ), new Range( 1000, 5000 ), {
-      trackSize: TRACK_SIZE,
-      majorTickLength: 12,
-      valuePattern: '{0} nm',
-      thumbSize: new Dimension2( 22, 30 ), // TODO: match with other sliders in SlitsControlPanel
-      majorTicks: [ {
-        value: 1000,
-        label: new WaveInterferenceText( 1000, { fontSize: 10 } )
-      }, {
-        value: 5000,
-        label: new WaveInterferenceText( 5000, { fontSize: 10 } )
-      } ],
-      layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
-    } );
+    var locationControl = new NumberControl( 'Location', new Property( 4000 ), new Range( 1000, 5000 ), _.extend( {
+      majorTicks: [
+        { value: 1000, label: new WaveInterferenceText( 1000, { fontSize: 10 } ) },
+        { value: 5000, label: new WaveInterferenceText( 5000, { fontSize: 10 } ) } ]
+    }, NUMBER_CONTROL_OPTIONS ) );
+
     model.barrierTypeProperty.link( function( barrierType ) {
       locationControl.enabled = barrierType === BarrierTypeEnum.MIRROR ||
                                 barrierType === BarrierTypeEnum.ONE_SLIT ||
                                 barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
 
-    var slitWidthControl = new NumberControl( 'Slit Width', new Property( 100 ), new Range( 0, 200 ), {
-      trackSize: TRACK_SIZE,
-      valuePattern: '{0} nm',
-      thumbSize: new Dimension2( 22, 30 ), // TODO: match with other sliders in SlitsControlPanel
-      majorTickLength: 12,
-      majorTicks: [ {
-        value: 0,
-        label: new WaveInterferenceText( 0, { fontSize: 10 } )
-      }, {
-        value: 200,
-        label: new WaveInterferenceText( 200, { fontSize: 10 } )
-      } ],
-      layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
-    } );
+    var slitWidthControl = new NumberControl( 'Slit Width', new Property( 100 ), new Range( 0, 200 ), _.extend( {
+      majorTicks: [
+        { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
+        { value: 200, label: new WaveInterferenceText( 200, { fontSize: 10 } ) } ]
+    }, NUMBER_CONTROL_OPTIONS ) );
     model.barrierTypeProperty.link( function( barrierType ) {
       slitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT ||
                                  barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
 
-    var slitSeparationControl = new NumberControl( 'Slit Separation', new Property( 1000 ), new Range( 0, 2000 ), {
-      trackSize: TRACK_SIZE,
-      thumbSize: new Dimension2( 22, 30 ), // TODO: match with other sliders in SlitsControlPanel
-      valuePattern: '{0} nm',
-      majorTickLength: 12,
-      majorTicks: [ {
-        value: 0,
-        label: new WaveInterferenceText( 0, { fontSize: 10 } )
-      }, {
-        value: 2000,
-        label: new WaveInterferenceText( 2000, { fontSize: 10 } )
-      } ],
-      layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
-    } );
+    var slitSeparationControl = new NumberControl( 'Slit Separation', new Property( 1000 ), new Range( 0, 2000 ), _.extend( {
+      majorTicks: [
+        { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
+        { value: 2000, label: new WaveInterferenceText( 2000, { fontSize: 10 } ) } ]
+    }, NUMBER_CONTROL_OPTIONS ) );
     model.barrierTypeProperty.link( function( barrierType ) {
       slitSeparationControl.enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
@@ -119,8 +100,6 @@ define( function( require ) {
     } ) );
 
     WaveInterferencePanel.call( this, content, options );
-
-
   }
 
   waveInterference.register( 'SlitsControlPanel', SlitsControlPanel );
