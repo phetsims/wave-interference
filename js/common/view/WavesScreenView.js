@@ -59,7 +59,7 @@ define( function( require ) {
     this.addChild( this.waveAreaNode );
 
     // @private show the scale of the wave area // TODO: local var?
-    this.scaleIndicatorNode = new ScaleIndicatorNode( {
+    this.scaleIndicatorNode = new ScaleIndicatorNode( model.sceneProperty, {
       top: MARGIN,
       left: this.waveAreaNode.left
     } );
