@@ -38,6 +38,7 @@ define( function( require ) {
 
     var lightFrequencySlider = new WavelengthSlider( wavelengthProperty, {
       trackWidth: 150,
+      trackHeight: 20,
       valueVisible: false,
       tweakersVisible: false,
       thumbWidth: 20,
@@ -45,12 +46,9 @@ define( function( require ) {
     } );
 
     var soundAndWaterFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, 1, 19 );
-    soundAndWaterFrequencySlider.center = lightFrequencySlider.center;
+    lightFrequencySlider.centerTop = soundAndWaterFrequencySlider.centerTop.plusXY( 0, 10 );
     var frequencySliderContainer = new Node( { children: [ lightFrequencySlider, soundAndWaterFrequencySlider ] } );
-    model.sceneProperty.link( function( scene ) {
-      lightFrequencySlider.visible = scene === SceneTypeEnum.LIGHT;
-      soundAndWaterFrequencySlider.visible = scene === SceneTypeEnum.SOUND || scene === SceneTypeEnum.WATER;
-    } );
+
     var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, 0, 14 ); // TODO: only used for one slider?
     var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty, {
       boxWidth: 17
@@ -76,19 +74,49 @@ define( function( require ) {
       orientation: 'horizontal'
     } );
 
-    var content = alignGroup.createBox( new VBox( {
-      align: 'left',
-      spacing: 4,
+    var frequencyTitle = new WaveInterferenceText( 'Frequency' );
+    var amplitudeTitle = new WaveInterferenceText( 'Amplitude' );
+
+    // Horizontal layout
+    var centerX = frequencyTitle.centerX;
+    frequencySliderContainer.centerX = centerX;
+    amplitudeTitle.centerX = centerX;
+    amplitudeSlider.centerX = centerX;
+    sceneRadioButtons.centerX = centerX;
+    separator.centerX = centerX;
+    var minX = _.min( [ frequencySliderContainer.left, amplitudeSlider.left, frequencyTitle.left, amplitudeTitle.left, sceneRadioButtons.left ] )
+    minX = minX + 11; // Account for half the slider knob width, so it lines up with the slider left tick
+    graphCheckbox.left = minX;
+    screenCheckbox.left = minX;
+    intensityCheckbox.left = minX + 20;
+
+    // Vertical layout
+    frequencySliderContainer.top = frequencyTitle.bottom - 5;
+    amplitudeTitle.top = frequencySliderContainer.bottom + 5;
+    amplitudeSlider.top = amplitudeTitle.bottom - 5;
+    sceneRadioButtons.top = amplitudeSlider.bottom + 5;
+    separator.top = sceneRadioButtons.bottom + 7;
+    graphCheckbox.top = separator.bottom + 7;
+    screenCheckbox.top = graphCheckbox.bottom + 5;
+    intensityCheckbox.top = screenCheckbox.bottom + 5;
+
+    model.sceneProperty.link( function( scene ) {
+      lightFrequencySlider.visible = scene === SceneTypeEnum.LIGHT;
+      soundAndWaterFrequencySlider.visible = scene === SceneTypeEnum.SOUND || scene === SceneTypeEnum.WATER;
+    } );
+
+    // z-ordering
+    var content = alignGroup.createBox( new Node( {
       children: [
-        new WaveInterferenceText( 'Frequency' ),
+        frequencyTitle,
         frequencySliderContainer,
-        new WaveInterferenceText( 'Amplitude' ),
+        amplitudeTitle,
         amplitudeSlider,
         sceneRadioButtons,
         separator,
         graphCheckbox,
         screenCheckbox,
-        new HBox( { spacing: 0, children: [ new HStrut( 20 ), intensityCheckbox ] } )
+        intensityCheckbox
       ]
     } ) );
 
