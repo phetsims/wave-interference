@@ -125,14 +125,22 @@ define( function( require ) {
 
     // When the scene changes, the wave clears
     this.sceneProperty.link( function() {
-      self.lattice.clear();
-      self.intensitySample.clear();
+      self.clear();
     } );
   }
 
   waveInterference.register( 'WavesScreenModel', WavesScreenModel );
 
   return inherit( Object, WavesScreenModel, {
+
+    /**
+     * Clears the wave and the Intensity Sample
+     * @public
+     */
+    clear: function() {
+      this.lattice.clear();
+      this.intensitySample.clear();
+    },
 
     /**
      * Advance time by the specified amount

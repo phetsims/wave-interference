@@ -49,7 +49,8 @@ define( function( require ) {
       buttonYMargin: 0
     } );
 
-    var locationControl = new NumberControl( 'Location', new Property( 4000 ), new Range( 1000, 5000 ), _.extend( {
+    // Controls are in the coordinate frame of the lattice
+    var locationControl = new NumberControl( 'Location', model.barrierLocationProperty, new Range( 10, 100 ), _.extend( {
       majorTicks: [
         { value: 1000, label: new WaveInterferenceText( 1000, { fontSize: 10 } ) },
         { value: 5000, label: new WaveInterferenceText( 5000, { fontSize: 10 } ) } ]
@@ -61,7 +62,7 @@ define( function( require ) {
                                 barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
 
-    var slitWidthControl = new NumberControl( 'Slit Width', new Property( 100 ), new Range( 0, 200 ), _.extend( {
+    var slitWidthControl = new NumberControl( 'Slit Width', model.slitWidthProperty, new Range( 0, 20 ), _.extend( {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
         { value: 200, label: new WaveInterferenceText( 200, { fontSize: 10 } ) } ]
@@ -71,7 +72,7 @@ define( function( require ) {
                                  barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
 
-    var slitSeparationControl = new NumberControl( 'Slit Separation', new Property( 1000 ), new Range( 0, 2000 ), _.extend( {
+    var slitSeparationControl = new NumberControl( 'Slit Separation', model.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
         { value: 2000, label: new WaveInterferenceText( 2000, { fontSize: 10 } ) } ]
