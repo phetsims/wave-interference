@@ -68,7 +68,7 @@ define( function( require ) {
 
     var waveAreaGraphNode = new WaveAreaGraphNode( model, {
       x: this.waveAreaNode.left,
-      centerY: WaveInterferenceConstants.WAVE_AREA_WIDTH * 0.75
+      centerY: this.waveAreaNode.top + this.waveAreaNode.height * 0.75
     } );
     model.showGraphProperty.linkAttribute( waveAreaGraphNode, 'visible' );
 
