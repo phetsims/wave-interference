@@ -23,9 +23,16 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
+   * @param {Object} [options]
    * @constructor
    */
-  function WavesScreenModel() {
+  function WavesScreenModel( options ) {
+
+    options = _.extend( {
+
+      // This model supports one or two sources.  If sourceSeparation is 0, there is only one source
+      sourceSeparation: 0
+    }, options );
 
     var self = this;
 
@@ -41,6 +48,9 @@ define( function( require ) {
 
     // @public {NumberProperty} controls the amplitude of the wave
     this.amplitudeProperty = new NumberProperty( 7 );
+
+    // @public {NumberProperty} the separation of the wave sources, or 0 if there is only one source
+    this.sourceSeparationProperty = new NumberProperty( options.sourceSeparation );
 
     // @public {BooleanProperty} - whether the wave area graph should be displayed
     this.showGraphProperty = new BooleanProperty( false );
@@ -168,7 +178,15 @@ define( function( require ) {
       this.time += dt;
       if ( this.inputTypeProperty.get() === OscillationTypeEnum.CONTINUOUS || this.pulseFiringProperty.get() ) {
         var v = Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
-        this.lattice.setCurrentValue( 30, 50, v );
+        var separation = Math.floor( this.sourceSeparationProperty.get() / 2 );
+
+        // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
+        var latticeCenterJ = Math.floor( this.lattice.height / 2 );
+        this.lattice.setCurrentValue( 30, latticeCenterJ - separation, v );
+
+        if ( separation > 0 ) {
+          this.lattice.setCurrentValue( 30, latticeCenterJ + separation, v );
+        }
 
         if ( this.time * this.frequencyProperty.value + this.phase > Math.PI * 2 ) {
           this.pulseFiringProperty.value = false;

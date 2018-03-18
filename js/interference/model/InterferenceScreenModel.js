@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WavesScreenModel = require( 'WAVE_INTERFERENCE/common/model/WavesScreenModel' );
 
@@ -18,10 +17,11 @@ define( function( require ) {
    * @constructor
    */
   function InterferenceScreenModel() {
-    WavesScreenModel.call( this );
+    WavesScreenModel.call( this, {
 
-    // @public {NumberProperty} the separation of the wave sources.
-    this.sourceSeparationProperty = new NumberProperty( 15 );
+      // Indicates two sources instead of one, with this separation in lattice coordinates
+      sourceSeparation: 16
+    } );
   }
 
   waveInterference.register( 'InterferenceScreenModel', InterferenceScreenModel );
