@@ -23,6 +23,9 @@ define( function( require ) {
   function InterferenceScreenView( model ) {
     WavesScreenView.call( this, model, {
       controlPanelOptions: {
+
+        // TODO: this additional control can throw off the layout between screens.  We should use a shared AlignGroup across screens
+        // as was done in Circuit Construction Kit
         additionalControl: new NumberControl( 'Separation', model.sourceSeparationProperty, new Range( 0, 50 ), _.extend( {
           majorTicks: [
             { value: 0, label: new WaveInterferenceText( 1000, { fontSize: 10 } ) },
