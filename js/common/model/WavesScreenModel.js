@@ -115,7 +115,7 @@ define( function( require ) {
       var oldDerivative = Math.cos( self.time * oldFrequency + self.phase );
       var newDerivative = Math.cos( self.time * newFrequency + proposedPhase );
 
-      // If wrong phase, take the asin value from the opposite side and move forward by half a cycle
+      // If wrong phase, take the sin value from the opposite side and move forward by half a cycle
       if ( oldDerivative * newDerivative < 0 ) {
         proposedPhase = Math.asin( -oldValue ) - self.time * newFrequency + Math.PI;
       }
