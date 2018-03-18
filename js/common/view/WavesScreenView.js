@@ -46,9 +46,20 @@ define( function( require ) {
 
   /**
    * @param {WavesScreenModel} model
+   * @param {Object} [options]
    * @constructor
    */
-  function WavesScreenView( model ) {
+  function WavesScreenView( model, options ) {
+
+    options = _.extend( {
+
+      // Nested options as discussed in https://github.com/phetsims/tasks/issues/730
+      controlPanelOptions: {
+
+        // This additional control (if present) will be shown beneath the Amplitude slider in the ControlPanel
+        additionalControl: null
+      }
+    }, options );
     ScreenView.call( this );
 
     // @private - for layout only
@@ -196,10 +207,10 @@ define( function( require ) {
     this.addChild( toolboxPanel );
 
     // @protected {ControlPanel} for subtype layout
-    this.controlPanel = new ControlPanel( model, this.controlPanelAlignGroup, {
+    this.controlPanel = new ControlPanel( model, this.controlPanelAlignGroup, _.extend( {}, options.controlPanelOptions, {
       right: this.layoutBounds.right - MARGIN,
       top: toolboxPanel.bottom + SPACING
-    } );
+    } ) );
     this.addChild( this.controlPanel );
 
     var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {

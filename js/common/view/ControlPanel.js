@@ -2,6 +2,7 @@
 
 /**
  * Shows the main controls, including frequency/wavelength and amplitude.
+ * TODO: rename to "MainControlPanel" or "WavesControlPanel"
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -16,9 +17,9 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
-  var WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
+  var WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
@@ -29,6 +30,10 @@ define( function( require ) {
    * @constructor
    */
   function ControlPanel( model, alignGroup, options ) {
+
+    options = _.extend( {
+      additionalControl: null
+    }, options );
 
     var frequencySlider = new WaveInterferenceSlider( model.frequencyProperty, 1, 19 );
     var wavelengthProperty = new Property( 400 );
@@ -47,6 +52,8 @@ define( function( require ) {
     var frequencySliderContainer = new Node( { children: [ lightFrequencySlider, soundAndWaterFrequencySlider ] } );
 
     var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, 0, 14 ); // TODO: only used for one slider?
+
+    // Controls are in the coordinate frame of the lattice
     var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty, {
       boxWidth: 17
     } );
@@ -79,6 +86,7 @@ define( function( require ) {
     frequencySliderContainer.centerX = centerX;
     amplitudeTitle.centerX = centerX;
     amplitudeSlider.centerX = centerX;
+    if ( options.additionalControl ) {options.additionalControl.centerX = centerX;}
     sceneRadioButtons.centerX = centerX;
     separator.centerX = centerX;
     var minX = _.min( [ frequencySliderContainer.left, amplitudeSlider.left, frequencyTitle.left, amplitudeTitle.left, sceneRadioButtons.left ] );
@@ -91,7 +99,14 @@ define( function( require ) {
     frequencySliderContainer.top = frequencyTitle.bottom - 5;
     amplitudeTitle.top = frequencySliderContainer.bottom + 2;
     amplitudeSlider.top = amplitudeTitle.bottom - 5;
-    sceneRadioButtons.top = amplitudeSlider.bottom + 5;
+    if ( options.additionalControl ) {
+      options.additionalControl.top = amplitudeSlider.bottom + 5;
+      sceneRadioButtons.top = options.additionalControl.bottom + 5;
+    }
+    else {
+      sceneRadioButtons.top = amplitudeSlider.bottom + 5;
+    }
+
     separator.top = sceneRadioButtons.bottom + 7;
     graphCheckbox.top = separator.bottom + 7;
     screenCheckbox.top = graphCheckbox.bottom + 5;
@@ -108,6 +123,7 @@ define( function( require ) {
         frequencyTitle,
         frequencySliderContainer,
         amplitudeTitle,
+        options.additionalControl || new Node(), // TODO: is it odd to have blank node here?
         amplitudeSlider,
         sceneRadioButtons,
         separator,

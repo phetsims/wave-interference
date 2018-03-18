@@ -11,23 +11,14 @@ define( function( require ) {
   // modules
   var BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   var ComboBox = require( 'SUN/ComboBox' );
-  var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var Range = require( 'DOT/Range' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-
-  // constants
-  var NUMBER_CONTROL_OPTIONS = {
-    trackSize: new Dimension2( 100, 3 ),
-    majorTickLength: 12,
-    valuePattern: '{0} nm',
-    thumbSize: new Dimension2( 22, 30 ), // TODO: match with other sliders in SlitsControlPanel
-    layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
-  };
 
   /**
    * @param {AlignGroup} alignGroup
@@ -53,7 +44,7 @@ define( function( require ) {
       majorTicks: [
         { value: 1000, label: new WaveInterferenceText( 1000, { fontSize: 10 } ) },
         { value: 5000, label: new WaveInterferenceText( 5000, { fontSize: 10 } ) } ]
-    }, NUMBER_CONTROL_OPTIONS ) );
+    }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
     model.barrierTypeProperty.link( function( barrierType ) {
       locationControl.enabled = barrierType === BarrierTypeEnum.MIRROR ||
@@ -65,7 +56,7 @@ define( function( require ) {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
         { value: 200, label: new WaveInterferenceText( 200, { fontSize: 10 } ) } ]
-    }, NUMBER_CONTROL_OPTIONS ) );
+    }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     model.barrierTypeProperty.link( function( barrierType ) {
       slitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT ||
                                  barrierType === BarrierTypeEnum.TWO_SLITS;
@@ -75,7 +66,7 @@ define( function( require ) {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
         { value: 2000, label: new WaveInterferenceText( 2000, { fontSize: 10 } ) } ]
-    }, NUMBER_CONTROL_OPTIONS ) );
+    }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     model.barrierTypeProperty.link( function( barrierType ) {
       slitSeparationControl.enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
     } );

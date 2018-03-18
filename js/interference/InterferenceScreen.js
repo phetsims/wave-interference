@@ -14,8 +14,8 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Screen = require( 'JOIST/Screen' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WavesScreenModel = require( 'WAVE_INTERFERENCE/common/model/WavesScreenModel' );
-  var WavesScreenView = require( 'WAVE_INTERFERENCE/common/view/WavesScreenView' );
+  var InterferenceScreenModel = require( 'WAVE_INTERFERENCE/interference/model/InterferenceScreenModel' );
+  var InterferenceScreenView = require( 'WAVE_INTERFERENCE/interference/view/InterferenceScreenView' );
 
   /**
    * @constructor
@@ -30,8 +30,8 @@ define( function( require ) {
       homeScreenIcon: homeScreenIcon
     };
     Screen.call( this,
-      function() { return new WavesScreenModel(); },
-      function( model ) { return new WavesScreenView( model ); },
+      function() { return new InterferenceScreenModel(); },
+      function( model ) { return new InterferenceScreenView( model ); },
       options
     );
   }
