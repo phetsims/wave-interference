@@ -66,31 +66,31 @@ define( function( require ) {
       validValues: OscillationTypeEnum.VALUES
     } );
 
-    // @public
+    // @public {Property.<PlaySpeedEnum>} - the speed at which the simulation is playing
     this.playSpeedProperty = new Property( PlaySpeedEnum.NORMAL, {
       validValues: PlaySpeedEnum.VALUES
     } );
 
-    // @public
+    // @public {BooleanProperty} - whether the model is moving forward in time
     this.isRunningProperty = new BooleanProperty( true );
 
-    // @public
+    // @public {Property.<SceneTypeEnum>} - selected scene
     this.sceneProperty = new Property( SceneTypeEnum.WATER, {
       validValues: SceneTypeEnum.VALUES
     } );
 
-    // @public
+    // @public {BooleanProperty} - whether the measuring tape has been dragged out of the toolbox into the play area
     this.isMeasuringTapeInPlayAreaProperty = new BooleanProperty( false );
 
-    // @public
+    // @public {BooleanProperty} - true if the stopwatch is active
     this.isStopwatchRunningProperty = new BooleanProperty( false );
 
-    // @public
+    // @public {NumberProperty} - time elapsed on the stopwatch since it was last restarted
     this.stopwatchElapsedTimeProperty = new NumberProperty( 0, {
       units: 'seconds'
     } );
 
-    // @public
+    // @public {BooleanProperty} - true if the timer has been dragged out of the toolbox into the play area
     this.isTimerInPlayAreaProperty = new BooleanProperty( false );
 
     // @public
