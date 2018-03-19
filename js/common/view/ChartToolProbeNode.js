@@ -29,7 +29,6 @@ define( function( require ) {
     ProbeNode.call( this, options );
     this.addInputListener( new DragListener( {
       translateNode: true,
-      targetNode: this, // TODO: is this necessary
       drag: function() {
         options.drag();
       }
