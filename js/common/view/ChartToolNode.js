@@ -2,7 +2,6 @@
 
 /**
  * Depicts the draggable chart node with two probes which begins in the toolbox.  TODO: move to common code
- * TODO: coordinates are incorrect
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -142,16 +141,16 @@ define( function( require ) {
 
     var updateProbeData = function( probeNode, penNode, probeSamples, probePath ) {
 
-      // Look up the location of the cell
-      // The probe node has the cross-hairs at 0,0, so we can use the translation itself as the sensor hot spot
-      var latticeCoordinate = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
+      // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
+      // itself as the sensor hot spot.  This doesn't include the damping regions
+      var latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
 
-      var value = model.lattice.getCurrentValue( latticeCoordinate.x, latticeCoordinate.y );
+      var value = model.lattice.getCurrentValue( latticeCoordinates.x + model.lattice.dampX, latticeCoordinates.y + model.lattice.dampY );
 
       // NaN is returned for out of bounds
       if ( !isNaN( value ) ) {
 
-        // strong wavefronts (bright colors) are positive on the chart // TODO: is this inverted in the canvas?
+        // strong wavefronts (bright colors) are positive on the chart
         var chartYValue = Util.linear( 0, 1, graphHeight / 2, 0, value );
         if ( chartYValue > graphHeight ) {
           chartYValue = graphHeight;
