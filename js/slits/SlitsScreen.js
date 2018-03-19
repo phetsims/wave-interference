@@ -18,9 +18,10 @@ define( function( require ) {
   var SlitsScreenView = require( 'WAVE_INTERFERENCE/slits/view/SlitsScreenView' );
 
   /**
+   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
    * @constructor
    */
-  function SlitsScreen() {
+  function SlitsScreen( alignGroup ) {
     var homeScreenIcon = Rectangle.dimension( Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, {
       fill: 'white'
     } );
@@ -31,7 +32,7 @@ define( function( require ) {
     };
     Screen.call( this,
       function() { return new SlitsScreenModel(); },
-      function( model ) { return new SlitsScreenView( model ); },
+      function( model ) { return new SlitsScreenView( model, alignGroup ); },
       options
     );
   }

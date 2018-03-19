@@ -15,16 +15,27 @@ define( function( require ) {
   var SlitsControlPanel = require( 'WAVE_INTERFERENCE/slits/view/SlitsControlPanel' );
 
   /**
+   * @param {SlitsScreenModel} model
+   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
    * @constructor
    */
-  function SlitsScreenView( model ) {
-    WavesScreenView.call( this, model );
+  function SlitsScreenView( model, alignGroup ) {
+    var self = this;
+    WavesScreenView.call( this, model, alignGroup );
 
     // The Slits screen has an additional control panel below the main control panel, which controls the barrier/slits
-    var slitControlPanel = new SlitsControlPanel( this.controlPanelAlignGroup, model, this, {
-      left: this.controlPanel.left,
-      top: this.controlPanel.bottom + WavesScreenView.SPACING
-    } );
+    var slitControlPanel = new SlitsControlPanel( alignGroup, model, this );
+
+    // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.  Should only happen
+    // during startup.  Use the same pattern as required in WavesScreenView for consistency.
+    var updateSlitControlPanel = function() {
+      slitControlPanel.mutate( {
+        left: self.controlPanel.left,
+        top: self.controlPanel.bottom + WavesScreenView.SPACING
+      } );
+    };
+    updateSlitControlPanel();
+    slitControlPanel.on( 'bounds', updateSlitControlPanel );
     this.addChild( slitControlPanel );
   }
 

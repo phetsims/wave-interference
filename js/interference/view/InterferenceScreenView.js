@@ -18,14 +18,13 @@ define( function( require ) {
   var WavesScreenView = require( 'WAVE_INTERFERENCE/common/view/WavesScreenView' );
 
   /**
+   * @param {WavesScreenModel} model
+   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
    * @constructor
    */
-  function InterferenceScreenView( model ) {
-    WavesScreenView.call( this, model, {
+  function InterferenceScreenView( model, alignGroup ) {
+    WavesScreenView.call( this, model, alignGroup, {
       controlPanelOptions: {
-
-        // TODO: this additional control can throw off the layout between screens.  We should use a shared AlignGroup across screens
-        // as was done in Circuit Construction Kit
         additionalControl: new NumberControl( 'Separation', model.sourceSeparationProperty, new Range( 0, 50 ), _.extend( {
           majorTicks: [
             { value: 0, label: new WaveInterferenceText( 1000, { fontSize: 10 } ) },

@@ -18,9 +18,10 @@ define( function( require ) {
   var WavesScreenView = require( 'WAVE_INTERFERENCE/common/view/WavesScreenView' );
 
   /**
+   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
    * @constructor
    */
-  function WavesScreen() {
+  function WavesScreen( alignGroup ) {
     var homeScreenIcon = Rectangle.dimension( Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, {
       fill: 'white'
     } );
@@ -31,7 +32,7 @@ define( function( require ) {
     };
     Screen.call( this,
       function() { return new WavesScreenModel(); },
-      function( model ) { return new WavesScreenView( model ); },
+      function( model ) { return new WavesScreenView( model, alignGroup ); },
       options
     );
   }

@@ -18,9 +18,10 @@ define( function( require ) {
   var InterferenceScreenView = require( 'WAVE_INTERFERENCE/interference/view/InterferenceScreenView' );
 
   /**
+   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
    * @constructor
    */
-  function InterferenceScreen() {
+  function InterferenceScreen( alignGroup ) {
     var homeScreenIcon = Rectangle.dimension( Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, {
       fill: 'white'
     } );
@@ -31,7 +32,7 @@ define( function( require ) {
     };
     Screen.call( this,
       function() { return new InterferenceScreenModel(); },
-      function( model ) { return new InterferenceScreenView( model ); },
+      function( model ) { return new InterferenceScreenView( model, alignGroup ); },
       options
     );
   }

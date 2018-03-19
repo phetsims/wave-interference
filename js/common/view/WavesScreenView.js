@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var ChartToolNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolNode' );
   var ControlPanel = require( 'WAVE_INTERFERENCE/common/view/ControlPanel' );
@@ -46,10 +45,11 @@ define( function( require ) {
 
   /**
    * @param {WavesScreenModel} model
+   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
    * @param {Object} [options]
    * @constructor
    */
-  function WavesScreenView( model, options ) {
+  function WavesScreenView( model, alignGroup, options ) {
 
     options = _.extend( {
 
@@ -102,13 +102,6 @@ define( function( require ) {
       left: this.waveAreaNode.left + SPACING + 10 // TODO: layout
     } );
     this.addChild( viewRadioButtonGroup );
-
-    // @protected {AlignGroup} for making sure the control panels on the right hand side have the same width
-    this.controlPanelAlignGroup = new AlignGroup( {
-
-      // Elements should have the same widths but not constrained to have the same heights
-      matchVertical: false
-    } );
 
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
     webGLSupported = false; // TODO: fix this
@@ -200,17 +193,33 @@ define( function( require ) {
       chartToolNode.alignProbes();
     } );
 
-    var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, chartToolNode, this.controlPanelAlignGroup, model, {
-      right: this.layoutBounds.right - MARGIN,
-      top: MARGIN
-    } );
+    var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, chartToolNode, alignGroup, model );
+    var self = this;
+    var updateToolboxPosition = function() {
+      toolboxPanel.mutate( {
+        right: self.layoutBounds.right - MARGIN,
+        top: MARGIN
+      } );
+    };
+    updateToolboxPosition();
+
+    // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.
+    toolboxPanel.on( 'bounds', updateToolboxPosition );
     this.addChild( toolboxPanel );
 
     // @protected {ControlPanel} for subtype layout
-    this.controlPanel = new ControlPanel( model, this.controlPanelAlignGroup, _.extend( {}, options.controlPanelOptions, {
-      right: this.layoutBounds.right - MARGIN,
-      top: toolboxPanel.bottom + SPACING
-    } ) );
+    this.controlPanel = new ControlPanel( model, alignGroup, _.extend( {}, options.controlPanelOptions ) );
+
+    var updateControlPanelPosition = function() {
+      self.controlPanel.mutate( {
+        right: self.layoutBounds.right - MARGIN,
+        top: toolboxPanel.bottom + SPACING
+      } );
+    };
+    updateControlPanelPosition();
+
+    // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.
+    this.controlPanel.on( 'bounds', updateControlPanelPosition );
     this.addChild( this.controlPanel );
 
     var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {

@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   var DiffractionScreen = require( 'WAVE_INTERFERENCE/diffraction/DiffractionScreen' );
   var InterferenceScreen = require( 'WAVE_INTERFERENCE/interference/InterferenceScreen' );
   var Sim = require( 'JOIST/Sim' );
@@ -30,7 +31,15 @@ define( function( require ) {
   };
 
   SimLauncher.launch( function() {
-    var sim = new Sim( waveInterferenceTitleString, [ new WavesScreen(), new InterferenceScreen(), new SlitsScreen(), new DiffractionScreen() ], simOptions );
+
+    // Panels on the right side of the lattice (in the first three screens) should have matching widths, within each
+    // screen and across screens.
+    var alignGroup = new AlignGroup( {
+
+      // Elements should have the same widths but not constrained to have the same heights
+      matchVertical: false
+    } );
+    var sim = new Sim( waveInterferenceTitleString, [ new WavesScreen( alignGroup ), new InterferenceScreen( alignGroup ), new SlitsScreen( alignGroup ), new DiffractionScreen() ], simOptions );
     sim.start();
   } );
 } );
