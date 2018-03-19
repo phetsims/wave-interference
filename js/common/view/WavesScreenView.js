@@ -164,7 +164,7 @@ define( function( require ) {
     } );
     model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
-    var timerNode = new TimerNode( model.stopwatchElapsedTimeProperty, model.isStopwatchRunningProperty );
+    var timerNode = new TimerNode( model.timerElapsedTimeProperty, model.isTimerRunningProperty );
     var timerNodeDragListener = new DragListener( {
       translateNode: true,
 

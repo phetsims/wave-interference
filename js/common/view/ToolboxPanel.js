@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Shows the toolbox from whence tools (measuring tape, stopwatch, probe) can be dragged.
+ * Shows the toolbox from whence tools (measuring tape, timer, probe) can be dragged.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

@@ -82,11 +82,11 @@ define( function( require ) {
     // @public {BooleanProperty} - whether the measuring tape has been dragged out of the toolbox into the play area
     this.isMeasuringTapeInPlayAreaProperty = new BooleanProperty( false );
 
-    // @public {BooleanProperty} - true if the stopwatch is active
-    this.isStopwatchRunningProperty = new BooleanProperty( false );
+    // @public {BooleanProperty} - true if the timer is running
+    this.isTimerRunningProperty = new BooleanProperty( false );
 
-    // @public {NumberProperty} - time elapsed on the stopwatch since it was last restarted
-    this.stopwatchElapsedTimeProperty = new NumberProperty( 0, {
+    // @public {NumberProperty} - time elapsed on the timer since it was last restarted
+    this.timerElapsedTimeProperty = new NumberProperty( 0, {
       units: 'seconds'
     } );
 
@@ -200,8 +200,8 @@ define( function( require ) {
         this.timeSinceLastLatticeStep = 0;
         this.intensitySample.step();
       }
-      if ( this.isStopwatchRunningProperty.get() ) {
-        this.stopwatchElapsedTimeProperty.set( this.stopwatchElapsedTimeProperty.get() + dt );
+      if ( this.isTimerRunningProperty.get() ) {
+        this.timerElapsedTimeProperty.set( this.timerElapsedTimeProperty.get() + dt );
       }
 
       // Notify listeners that a frame has advanced
@@ -239,7 +239,7 @@ define( function( require ) {
       this.showScreenProperty.reset();
       this.isTimerInPlayAreaProperty.reset();
       this.showIntensityGraphProperty.reset();
-      this.stopwatchElapsedTimeProperty.reset();
+      this.timerElapsedTimeProperty.reset();
       this.isMeasuringTapeInPlayAreaProperty.reset();
       this.isChartToolNodeInPlayAreaProperty.reset();
     }
