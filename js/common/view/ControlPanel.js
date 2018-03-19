@@ -51,7 +51,7 @@ define( function( require ) {
     lightFrequencySlider.centerTop = soundAndWaterFrequencySlider.centerTop.plusXY( 0, 10 );
     var frequencySliderContainer = new Node( { children: [ lightFrequencySlider, soundAndWaterFrequencySlider ] } );
 
-    var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, 0, 14 ); // TODO: only used for one slider?
+    var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, 0, 14 );
 
     // Controls are in the coordinate frame of the lattice
     var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty, {
