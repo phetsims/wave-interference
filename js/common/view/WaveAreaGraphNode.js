@@ -142,6 +142,7 @@ define( function( require ) {
     model.stepEmitter.addListener( function() {
       var s = new Shape();
 
+      // TODO: sign is inverted.  I'd like peaks on the wave to be peaks on the graph.
       array = model.lattice.getCenterLineValues( array );
       for ( var i = 0; i < array.length; i++ ) {
         var element = array[ i ];
