@@ -47,11 +47,8 @@ define( function( require ) {
     // @private
     this.synchronizeProbeLocations = true;
 
-    // TODO: copied from TimerNode
     // @private
     this.backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, 150, 120 ), {
-      baseColor: new Color( 80, 130, 230 ),
-      cornerRadius: 10,
       cursor: 'pointer'
     } );
 
