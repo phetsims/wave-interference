@@ -23,6 +23,11 @@ define( function( require ) {
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
+  // constants
+  var CHECKBOX_OPTIONS = {
+    boxWidth: 17
+  };
+
   /**
    * @param {WavesScreenModel} model
    * @param {AlignGroup} alignGroup
@@ -47,22 +52,15 @@ define( function( require ) {
       thumbHeight: 20
     } );
 
+    // Controls are in the coordinate frame of the lattice
     var soundAndWaterFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, 1, 19 );
     lightFrequencySlider.centerTop = soundAndWaterFrequencySlider.centerTop.plusXY( 0, 10 );
     var frequencySliderContainer = new Node( { children: [ lightFrequencySlider, soundAndWaterFrequencySlider ] } );
-
     var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, 0, 14 );
 
-    // Controls are in the coordinate frame of the lattice
-    var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty, {
-      boxWidth: 17
-    } );
-    var screenCheckbox = new Checkbox( new WaveInterferenceText( 'Screen' ), model.showScreenProperty, {
-      boxWidth: 17
-    } );
-    var intensityCheckbox = new Checkbox( new WaveInterferenceText( 'Intensity' ), model.showIntensityGraphProperty, {
-      boxWidth: 17 // TODO: factor out
-    } );
+    var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty, CHECKBOX_OPTIONS );
+    var screenCheckbox = new Checkbox( new WaveInterferenceText( 'Screen' ), model.showScreenProperty, CHECKBOX_OPTIONS );
+    var intensityCheckbox = new Checkbox( new WaveInterferenceText( 'Intensity' ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
     var separator = new HSeparator( Math.max( graphCheckbox.width, Math.max( frequencySlider.width, amplitudeSlider.width ) ) );
 
     var sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [ {
