@@ -230,7 +230,7 @@ define( function( require ) {
      */
     getRightmostColumn: function() {
 
-      // TODO: garbage-free form?
+      // TODO: garbage-free form?  Would require preallocating the entire intensitySample matrix
       var column = [];
       for ( var j = this.dampY; j < this.height - this.dampY; j++ ) {
         column.push( this.getCurrentValue( this.width - this.dampX - 1, j ) );
@@ -267,7 +267,7 @@ define( function( require ) {
             var neighborSum = matrix1.get( i + 1, j ) + matrix1.get( i - 1, j ) + matrix1.get( i, j + 1 ) + matrix1.get( i, j - 1 );
             var m1ij = matrix1.get( i, j );
             var value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
-            matrix0.set( i, j, value * 0.99 ); // TODO: do we want to keep damping?
+            matrix0.set( i, j, value * 0.99 ); // TODO: (design) do we want to keep damping?
           }
         }
       }
