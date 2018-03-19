@@ -30,6 +30,7 @@ define( function( require ) {
   var SECONDS_TO_SHOW = 2;
   var SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
   var SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
+  var PATH_LINE_WIDTH = 2;
 
   /**
    * @param {WavesScreenModel|null} model - model for reading values, null for icon
@@ -122,16 +123,14 @@ define( function( require ) {
 
     this.alignProbes();
 
-    // TODO: factor out with below
-    var pen1Node = new Circle( 3, { fill: SERIES_1_COLOR } );
-    pen1Node.right = graphPanel.width;
-    var probe1Path = new Path( new Shape(), { stroke: SERIES_1_COLOR, lineWidth: 2 } );
+    // Create the "pens" which draw the data at the right side of the graph
+    var pen1Node = new Circle( 3, { fill: SERIES_1_COLOR, right: graphPanel.width } );
+    var probe1Path = new Path( new Shape(), { stroke: SERIES_1_COLOR, lineWidth: PATH_LINE_WIDTH } );
     graphPanel.addChild( probe1Path );
     graphPanel.addChild( pen1Node );
 
-    var pen2Node = new Circle( 3, { fill: SERIES_2_COLOR } );
-    pen2Node.right = graphPanel.width;
-    var probe2Path = new Path( new Shape(), { stroke: SERIES_2_COLOR, lineWidth: 2 } );
+    var pen2Node = new Circle( 3, { fill: SERIES_2_COLOR, right: graphPanel.width } );
+    var probe2Path = new Path( new Shape(), { stroke: SERIES_2_COLOR, lineWidth: PATH_LINE_WIDTH } );
     graphPanel.addChild( probe2Path );
     graphPanel.addChild( pen2Node );
 
