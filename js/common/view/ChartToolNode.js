@@ -2,6 +2,7 @@
 
 /**
  * Depicts the draggable chart node with two probes which begins in the toolbox.  TODO: move to common code
+ * TODO: coordinates are incorrect
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
