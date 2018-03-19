@@ -60,6 +60,10 @@ define( function( require ) {
         if ( self.synchronizeProbeLocations ) {
 
           self.alignProbes();
+
+          // When the wave is paused and the user is dragging the entire ChartToolNode with the probes aligned, they
+          // need to sample their new locations
+          updatePaths();
         }
         self.probe1WireNode.updateWireShape();
         self.probe2WireNode.updateWireShape();
@@ -177,14 +181,12 @@ define( function( require ) {
     };
 
     var updatePaths = function() {
-
-      // TODO: also update value if probe moves?  What if paused?  Will the value be indicated on the probe, perhaps on the
-      // right side of the chart?
-
       updateProbeData( self.probe1Node, pen1Node, probe1Samples, probe1Path );
       updateProbeData( self.probe2Node, pen2Node, probe2Samples, probe2Path );
     };
-    model && model.stepEmitter.addListener( updatePaths );
+
+    // Update the chart value when the lattice changes
+    model && model.lattice.changedEmitter.addListener( updatePaths );
   }
 
   waveInterference.register( 'ChartToolNode', ChartToolNode );
