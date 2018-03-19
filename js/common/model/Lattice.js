@@ -86,10 +86,10 @@ define( function( require ) {
      * @param {number} j - vertical integer coordinate
      * @returns {number}
      * @private
-     * // TODO: is this necessary and/or valuable?
+     * // TODO: (design) is this necessary and/or valuable?
      */
     getVerticalAverage: function( i, j ) {
-      return ( this.getCurrentValue( i, j ) + this.getCurrentValue( i, j + 1 ) + this.getCurrentValue( i, j - 1 ) ) / 3;
+      return this.getCurrentValue( i, j );
     },
 
     /**
