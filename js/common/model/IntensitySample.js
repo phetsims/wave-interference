@@ -1,7 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Keeps track of the history of wave values on the right edge of the visible wave area, for displaying intensity.
+ * Keeps track of the history of wave values on the right edge of the visible wave area, for displaying intensity in
+ * the ScreenNode and IntensityGraphPanel.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -17,6 +18,7 @@ define( function( require ) {
   var HISTORY_LENGTH = 120; // TODO: increase this?
 
   /**
+   * @param {Lattice} lattice
    * @constructor
    */
   function IntensitySample( lattice ) {

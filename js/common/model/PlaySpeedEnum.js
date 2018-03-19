@@ -1,7 +1,7 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Determines whether the input wave is continuous or pulse.
+ * Determines whether the simulation is playing at normal speed or slow motion.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -12,7 +12,7 @@ define( function( require ) {
 
   var PlaySpeedEnum = {
 
-    // At the time of writing, this is a new strategy for enum patterns, kind of partway between our normal enum
+    // At the time of writing, this is a new strategy for enum patterns, partway between our normal enum
     // string pattern and the richer enum pattern exemplified in Orientation.js
     NORMAL: { scaleFactor: 1 },
     SLOW: { scaleFactor: 1 / 3 }

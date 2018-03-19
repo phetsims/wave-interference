@@ -1,7 +1,7 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Determines whether the input wave is continuous or pulse.
+ * The scene determines the medium and emitter types.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
