@@ -197,8 +197,6 @@ define( function( require ) {
     alignProbes: function() {
 
       this.probe1Node.mutate( {
-
-        // TODO: factor out if this works
         left: this.backgroundNode.right + 5,
         top: this.backgroundNode.top + 10
       } );
@@ -210,7 +208,6 @@ define( function( require ) {
 
       this.probe1WireNode.updateWireShape();
       this.probe2WireNode.updateWireShape();
-
     },
 
     getBackgroundNodeGlobalBounds: function() {
