@@ -13,6 +13,7 @@ define( function( require ) {
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   /**
@@ -44,8 +45,9 @@ define( function( require ) {
     HSlider.call( this, property, {
       min: min, max: max
     }, {
-      thumbSize: new Dimension2( 22, 30 ), // TODO: match with other sliders in SlitsControlPanel
-      trackSize: new Dimension2( 150, 5 ), // TODO: match with other sliders in SlitsControlPanel
+      thumbSize: WaveInterferenceConstants.THUMB_SIZE,
+      trackSize: new Dimension2( 150, 5 ),
+
       // ticks
       tickLabelSpacing: 2,
       majorTickLength: 15,
