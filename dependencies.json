@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.6 Wed Mar 21 2018 09:57:38 GMT-0600 (MDT)",
+  "comment": "# wave-interference 1.0.0-dev.7 Wed Mar 21 2018 14:35:53 GMT-0600 (MDT)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
@@ -73,7 +73,7 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "5ffb92b2974124bd4c55c42d9bf14b51e0b3187e",
+    "sha": "4458e666426bc48bc7b6d48b74603dae6b675370",
     "branch": "master"
   },
   "tandem": {
@@ -81,7 +81,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "8fe1fcab25595ab05fb642552d5ba0860a6b7695",
+    "sha": "3e46bae1b49dba8b9f172ff24f49b7f76107214c",
     "branch": "master"
   }
 }
