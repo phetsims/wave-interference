@@ -27,6 +27,8 @@ define( function( require ) {
   var CHECKBOX_OPTIONS = {
     boxWidth: 12
   };
+  var FREQUENCY_SLIDER_MIN = 0;
+  var FREQUENCY_SLIDER_MAX = 19;
 
   /**
    * @param {WavesScreenModel} model
@@ -40,7 +42,7 @@ define( function( require ) {
       additionalControl: null
     }, options );
 
-    var frequencySlider = new WaveInterferenceSlider( model.frequencyProperty, 1, 19 );
+    var frequencySlider = new WaveInterferenceSlider( model.frequencyProperty, FREQUENCY_SLIDER_MIN, FREQUENCY_SLIDER_MAX );
     var wavelengthProperty = new Property( 400 );
 
     var lightFrequencySlider = new WavelengthSlider( wavelengthProperty, {
@@ -53,15 +55,16 @@ define( function( require ) {
     } );
 
     // Controls are in the coordinate frame of the lattice
-    var soundAndWaterFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, 1, 19 );
-    lightFrequencySlider.centerTop = soundAndWaterFrequencySlider.centerTop.plusXY( 0, 10 );
+    var soundAndWaterFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, FREQUENCY_SLIDER_MIN, FREQUENCY_SLIDER_MAX );
+    lightFrequencySlider.centerTop = soundAndWaterFrequencySlider.centerTop.plusXY( FREQUENCY_SLIDER_MIN, 10 );
     var frequencySliderContainer = new Node( { children: [ lightFrequencySlider, soundAndWaterFrequencySlider ] } );
-    var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, 0, 14 );
+    var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, FREQUENCY_SLIDER_MIN, 14 );
 
     var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty, CHECKBOX_OPTIONS );
     var screenCheckbox = new Checkbox( new WaveInterferenceText( 'Screen' ), model.showScreenProperty, CHECKBOX_OPTIONS );
     var intensityCheckbox = new Checkbox( new WaveInterferenceText( 'Intensity' ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
-    var separator = new HSeparator( Math.max( graphCheckbox.width, Math.max( frequencySlider.width, amplitudeSlider.width ) ) );
+    var maxComponentWidth = _.max( [ screenCheckbox.width, graphCheckbox.width, frequencySlider.width, amplitudeSlider.width, lightFrequencySlider.width ] );
+    var separator = new HSeparator( maxComponentWidth );
 
     var sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [ {
       value: SceneTypeEnum.WATER,
