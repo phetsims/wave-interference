@@ -25,7 +25,7 @@ define( function( require ) {
 
   // constants
   var CHECKBOX_OPTIONS = {
-    boxWidth: 17
+    boxWidth: 12
   };
 
   /**
