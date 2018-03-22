@@ -82,13 +82,11 @@ define( function( require ) {
       x: this.waveAreaNode.left,
       centerY: this.waveAreaNode.top + this.waveAreaNode.height * 0.75
     } );
-    model.showGraphProperty.linkAttribute( waveAreaGraphNode, 'visible' );
 
     var dottedLineNode = new DottedLineNode( {
       x: this.waveAreaNode.left,
       centerY: this.waveAreaNode.centerY
     } );
-    model.showGraphProperty.linkAttribute( dottedLineNode, 'visible' );
 
     var resetAllButton = new ResetAllButton( {
       listener: function() {
@@ -257,6 +255,18 @@ define( function( require ) {
     this.addChild( measuringTapeNode );
     this.addChild( timerNode );
     this.addChild( chartToolNode );
+
+    model.rotationAmountProperty.link( function( rotationAmount ) {
+      var isRotating = rotationAmount > 0 && rotationAmount < 1; // TODO: factor out?
+      self.waveAreaNode.visible = !isRotating;
+      self.latticeNode.visible = !isRotating;
+    } );
+
+    Property.multilink( [ model.rotationAmountProperty, model.showGraphProperty ], function( rotationAmount, showGraph ) {
+      var isRotating = rotationAmount > 0 && rotationAmount < 1; // TODO: factor out?
+      waveAreaGraphNode.visible = !isRotating && showGraph;
+      dottedLineNode.visible = !isRotating && showGraph;
+    } );
 
     // For testing
     var pulseButton = new RoundPushButton( {
