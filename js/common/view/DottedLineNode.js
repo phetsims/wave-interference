@@ -23,7 +23,7 @@ define( function( require ) {
     Line.call( this, 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, 0, _.extend( {
       stroke: 'white',
       lineWidth: 3,
-      lineDash: [ 14, 14 ]
+      lineDash: [ 16.2, 16.2 ] // Adjusted so the dash begins and ends on the lattice (phase)
     }, options ) );
   }
 
