@@ -87,13 +87,13 @@ define( function( require ) {
       var bounds = this.waveAreaBounds;
       var perspectiveWidth = bounds.width * 0.2;
 
-      var topFaceY = Util.linear( 0, 1, bounds.top, bounds.centerY, rotationAmount );
+      var topFaceTopY = Util.linear( 0, 1, bounds.top, bounds.centerY, rotationAmount );
       var topReduction = Util.linear( 0, 1, 0, perspectiveWidth, rotationAmount );
-      var bottomFaceY = Util.linear( 0, 1, bounds.centerY, bounds.bottom, rotationAmount );
+      var sideFaceBottomY = Util.linear( 0, 1, bounds.centerY, bounds.bottom, rotationAmount );
       var bottomReduction = Util.linear( 0, 1, perspectiveWidth, 0, rotationAmount );
 
-      this.topSurfacePath.shape = this.createFaceShape( topReduction, topFaceY );
-      this.sideSurfacePath.shape = this.createFaceShape( bottomReduction, bottomFaceY );
+      this.topSurfacePath.shape = this.createFaceShape( topReduction, topFaceTopY );
+      this.sideSurfacePath.shape = this.createFaceShape( bottomReduction, sideFaceBottomY );
 
       // Position the arrow and text
       this.upNode.setMatrix( Matrix3.scaling( 1, rotationAmount + 1E-6 ) );
