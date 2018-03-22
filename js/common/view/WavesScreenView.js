@@ -14,17 +14,21 @@ define( function( require ) {
   var ControlPanel = require( 'WAVE_INTERFERENCE/common/view/ControlPanel' );
   var DottedLineNode = require( 'WAVE_INTERFERENCE/common/view/DottedLineNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
-  var OscillationTypeEnum = require( 'WAVE_INTERFERENCE/common/model/OscillationTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
+  var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
-  var ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  var OscillationTypeEnum = require( 'WAVE_INTERFERENCE/common/model/OscillationTypeEnum' );
+  var Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
   var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
+  var ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
+  var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
+  var ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
   var TimerNode = require( 'SCENERY_PHET/TimerNode' );
@@ -35,9 +39,6 @@ define( function( require ) {
   var WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
   var WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
-  var ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
-  var Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
 
   // constants
   var MARGIN = 8;
@@ -279,6 +280,12 @@ define( function( require ) {
     model.pulseFiringProperty.link( updateEnabled );
 
     var perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty );
+
+    // Initialize and update the colors based on the scene
+    model.sceneProperty.link( function( scene ) {
+      perspective3DNode.setTopFaceColor( scene === SceneTypeEnum.WATER ? '#3981a9' : scene === SceneTypeEnum.SOUND ? 'gray' : 'red' );
+      perspective3DNode.setSideFaceColor( scene === SceneTypeEnum.WATER ? '#58c0fa' : scene === SceneTypeEnum.SOUND ? 'darkGray' : 'red' );
+    } );
     this.addChild( perspective3DNode );
   }
 

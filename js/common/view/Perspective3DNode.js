@@ -34,10 +34,10 @@ define( function( require ) {
     this.rotationAmountProperty = rotationAmountProperty;
 
     // @private - depicts the top face
-    this.topFacePath = new Path( null, { stroke: 'red', lineWidth: 4, fill: 'green', lineJoin: 'round' } );
+    this.topFacePath = new Path( null, { stroke: 'black', lineWidth: 4, lineJoin: 'round' } );
 
     // @private - depicts the side face (when the user selects "side view")
-    this.sideFacePath = new Path( null, { stroke: 'blue', lineWidth: 4, fill: 'white', lineJoin: 'round' } );
+    this.sideFacePath = new Path( null, { stroke: 'black', lineWidth: 4, lineJoin: 'round' } );
 
     // @private
     this.upNode = new HBox( {
@@ -64,6 +64,24 @@ define( function( require ) {
   waveInterference.register( 'Perspective3DNode', Perspective3DNode );
 
   return inherit( Node, Perspective3DNode, {
+
+    /**
+     * Sets the top face color, when the scene changes.
+     * @param {Color|string} color - the top face color
+     * @public
+     */
+    setTopFaceColor: function( color ) {
+      this.topFacePath.fill = color;
+    },
+
+    /**
+     * Sets the side face color, when the scene changes.
+     * @param {Color|string} color - the side face color
+     * @public
+     */
+    setSideFaceColor: function( color ) {
+      this.sideFacePath.fill = color;
+    },
 
     /**
      * Creates a shape for the top or side Face, at the correct perspective angle.
