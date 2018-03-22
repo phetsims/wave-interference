@@ -37,6 +37,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   var ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
+  var Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
 
   // constants
   var MARGIN = 8;
@@ -276,6 +277,9 @@ define( function( require ) {
     };
     model.inputTypeProperty.link( updateEnabled );
     model.pulseFiringProperty.link( updateEnabled );
+
+    var perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty );
+    this.addChild( perspective3DNode );
   }
 
   waveInterference.register( 'WavesScreenView', WavesScreenView );

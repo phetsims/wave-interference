@@ -12,13 +12,14 @@ define( function( require ) {
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   var IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
+  var Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var OscillationTypeEnum = require( 'WAVE_INTERFERENCE/common/model/OscillationTypeEnum' );
   var PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   var Property = require( 'AXON/Property' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
+  var Util = require( 'DOT/Util' );
   var ViewTypeEnum = require( 'WAVE_INTERFERENCE/common/model/ViewTypeEnum' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -96,6 +97,11 @@ define( function( require ) {
     // @public
     this.isChartToolNodeInPlayAreaProperty = new BooleanProperty( false );
 
+    // @public - amount the 3d view is rotated. 0 means top view, 1 means side view.
+    this.rotationAmountProperty = new NumberProperty( 0, {
+      range: { min: 0, max: 1 }
+    } );
+
     // @public {Emitter} - emits once per step
     this.stepEmitter = new Emitter();
 
@@ -159,6 +165,12 @@ define( function( require ) {
      */
     step: function( dt ) {
       if ( this.isRunningProperty.get() ) {
+
+        // Animate the rotation, if any
+        var sign = this.viewTypeProperty.get() === ViewTypeEnum.TOP ? -1 : +1;
+        var newRotationAmount = Util.clamp( this.rotationAmountProperty.value + dt / 2 * sign, 0, 1 );
+        this.rotationAmountProperty.value = newRotationAmount;
+
         this.advanceTime( dt * this.playSpeedProperty.get().scaleFactor );
       }
     },
@@ -237,6 +249,7 @@ define( function( require ) {
       this.playSpeedProperty.reset();
       this.isRunningProperty.reset();
       this.showScreenProperty.reset();
+      this.rotationAmountProperty.reset();
       this.isTimerInPlayAreaProperty.reset();
       this.showIntensityGraphProperty.reset();
       this.timerElapsedTimeProperty.reset();
