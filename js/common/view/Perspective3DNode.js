@@ -34,10 +34,10 @@ define( function( require ) {
     this.rotationAmountProperty = rotationAmountProperty;
 
     // @private - depicts the top face
-    this.topSurfacePath = new Path( null, { stroke: 'red', lineWidth: 4, fill: 'green', lineJoin: 'round' } );
+    this.topFacePath = new Path( null, { stroke: 'red', lineWidth: 4, fill: 'green', lineJoin: 'round' } );
 
     // @private - depicts the side face
-    this.sideSurfacePath = new Path( null, { stroke: 'blue', lineWidth: 4, fill: 'white', lineJoin: 'round' } );
+    this.sideFacePath = new Path( null, { stroke: 'blue', lineWidth: 4, fill: 'white', lineJoin: 'round' } );
 
     // @private
     this.upNode = new HBox( {
@@ -54,7 +54,7 @@ define( function( require ) {
       ]
     } );
     Node.call( this, {
-      children: [ this.topSurfacePath, this.sideSurfacePath, this.upNode ]
+      children: [ this.topFacePath, this.sideFacePath, this.upNode ]
     } );
 
     // Update the shapes and text when the rotationAmount has changed
@@ -66,9 +66,9 @@ define( function( require ) {
   return inherit( Node, Perspective3DNode, {
 
     /**
-     * Creates a shape for the top or side surface, at the correct perspective angle.
+     * Creates a shape for the top or side Face, at the correct perspective angle.
      * @param {number} reduction - amount to reduce the width at the furthest point from the center
-     * @param {number} y - vertical coordinate of the surface
+     * @param {number} y - vertical coordinate of the Face
      * @private
      */
     createFaceShape: function( reduction, y ) {
@@ -92,13 +92,13 @@ define( function( require ) {
       var sideFaceBottomY = Util.linear( 0, 1, bounds.centerY, bounds.bottom, rotationAmount );
       var bottomReduction = Util.linear( 0, 1, perspectiveWidth, 0, rotationAmount );
 
-      this.topSurfacePath.shape = this.createFaceShape( topReduction, topFaceTopY );
-      this.sideSurfacePath.shape = this.createFaceShape( bottomReduction, sideFaceBottomY );
+      this.topFacePath.shape = this.createFaceShape( topReduction, topFaceTopY );
+      this.sideFacePath.shape = this.createFaceShape( bottomReduction, sideFaceBottomY );
 
       // Position the arrow and text
       this.upNode.setMatrix( Matrix3.scaling( 1, rotationAmount + 1E-6 ) );
-      this.upNode.centerY = this.sideSurfacePath.centerY;
-      this.upNode.right = this.sideSurfacePath.right - 80;
+      this.upNode.centerY = this.sideFacePath.centerY;
+      this.upNode.right = this.sideFacePath.right - 80;
     }
   } );
 } );
