@@ -36,7 +36,7 @@ define( function( require ) {
     // @private - depicts the top face
     this.topFacePath = new Path( null, { stroke: 'red', lineWidth: 4, fill: 'green', lineJoin: 'round' } );
 
-    // @private - depicts the side face
+    // @private - depicts the side face (when the user selects "side view")
     this.sideFacePath = new Path( null, { stroke: 'blue', lineWidth: 4, fill: 'white', lineJoin: 'round' } );
 
     // @private
@@ -96,9 +96,17 @@ define( function( require ) {
       this.sideFacePath.shape = this.createFaceShape( bottomReduction, sideFaceBottomY );
 
       // Position the arrow and text
-      this.upNode.setMatrix( Matrix3.scaling( 1, rotationAmount + 1E-6 ) );
+      if ( rotationAmount > 0 ) {
+        this.upNode.setMatrix( Matrix3.scaling( 1, rotationAmount ) );
+      }
+      this.upNode.visible = rotationAmount > 0;
       this.upNode.centerY = this.sideFacePath.centerY;
       this.upNode.right = this.sideFacePath.right - 80;
+
+      // Only show the 3d perspective view while rotating
+      var rotating = rotationAmount > 0 && rotationAmount < 1;
+      this.topFacePath.visible = rotating;
+      this.sideFacePath.visible = rotating;
     }
   } );
 } );
