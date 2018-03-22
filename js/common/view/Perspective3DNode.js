@@ -66,27 +66,36 @@ define( function( require ) {
   return inherit( Node, Perspective3DNode, {
 
     /**
+     * Creates a shape for the top or side surface, at the correct perspective angle.
+     * @param {number} reduction - amount to reduce the width at the furthest point from the center
+     * @param {number} y - vertical coordinate of the surface
+     * @private
+     */
+    createFaceShape: function( reduction, y ) {
+      return new Shape()
+        .moveTo( this.waveAreaBounds.left, this.waveAreaBounds.centerY )
+        .lineTo( this.waveAreaBounds.left + reduction, y )
+        .lineTo( this.waveAreaBounds.right - reduction, y )
+        .lineTo( this.waveAreaBounds.right, this.waveAreaBounds.centerY ).close();
+    },
+
+    /**
      * @private - update the shapes and text when the rotationAmount has changed
      */
     update: function() {
       var rotationAmount = this.rotationAmountProperty.get();
+      var bounds = this.waveAreaBounds;
+      var perspectiveWidth = bounds.width * 0.2;
 
-      var topSurfaceY = Util.linear( 0, 1, this.waveAreaBounds.top, this.waveAreaBounds.centerY, rotationAmount );
-      var topReduction = Util.linear( 0, 1, 0, this.waveAreaBounds.width * 0.2, rotationAmount );
-      this.topSurfacePath.shape = new Shape()
-        .moveTo( this.waveAreaBounds.left, this.waveAreaBounds.centerY )
-        .lineTo( this.waveAreaBounds.left + topReduction, topSurfaceY )
-        .lineTo( this.waveAreaBounds.right - topReduction, topSurfaceY )
-        .lineTo( this.waveAreaBounds.right, this.waveAreaBounds.centerY ).close();
+      var topFaceY = Util.linear( 0, 1, bounds.top, bounds.centerY, rotationAmount );
+      var topReduction = Util.linear( 0, 1, 0, perspectiveWidth, rotationAmount );
+      var bottomFaceY = Util.linear( 0, 1, bounds.centerY, bounds.bottom, rotationAmount );
+      var bottomReduction = Util.linear( 0, 1, perspectiveWidth, 0, rotationAmount );
 
-      var bottomSurfaceY = Util.linear( 0, 1, this.waveAreaBounds.centerY, this.waveAreaBounds.bottom, rotationAmount );
-      var bottomReduction = Util.linear( 0, 1, this.waveAreaBounds.width * 0.2, 0, rotationAmount );
-      this.sideSurfacePath.shape = new Shape()
-        .moveTo( this.waveAreaBounds.left, this.waveAreaBounds.centerY )
-        .lineTo( this.waveAreaBounds.left + bottomReduction, bottomSurfaceY )
-        .lineTo( this.waveAreaBounds.right - bottomReduction, bottomSurfaceY )
-        .lineTo( this.waveAreaBounds.right, this.waveAreaBounds.centerY ).close();
+      this.topSurfacePath.shape = this.createFaceShape( topReduction, topFaceY );
+      this.sideSurfacePath.shape = this.createFaceShape( bottomReduction, bottomFaceY );
 
+      // Position the arrow and text
       this.upNode.setMatrix( Matrix3.scaling( 1, rotationAmount + 1E-6 ) );
       this.upNode.centerY = this.sideSurfacePath.centerY;
       this.upNode.right = this.sideSurfacePath.right - 80;
