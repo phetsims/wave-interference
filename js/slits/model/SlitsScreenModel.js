@@ -35,11 +35,12 @@ define( function( require ) {
     // @public {NumberProperty} - separation of centers of the slits in lattice coordinates
     this.slitSeparationProperty = new NumberProperty( 20 );
 
+    // TODO: should the potential function be a 2D array?  Could be faster lookup.
     this.lattice.setPotentialFunction( function( i, j ) {
       var barrierLocation = self.barrierLocationProperty.get();
       var slitWidth = self.slitWidthProperty.get();
       var slitSeparation = self.slitSeparationProperty.get();
-      var latticeCenter = self.lattice.height / 2;
+      var latticeCenterY = self.lattice.height / 2;
       if ( self.barrierTypeProperty.value === BarrierTypeEnum.NO_BARRIER ) {
         return false;
       }
@@ -47,12 +48,12 @@ define( function( require ) {
         return i === barrierLocation;
       }
       else if ( self.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
-        return i === barrierLocation && ( ( j > latticeCenter + slitWidth ) || ( j < latticeCenter - slitWidth ) );
+        return i === barrierLocation && ( ( j > latticeCenterY + slitWidth ) || ( j < latticeCenterY - slitWidth ) );
       }
       else if ( self.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
 
-        // TODO: spacing should be between center of slits?
-        return i === barrierLocation && ( ( Math.abs( latticeCenter - slitSeparation - j ) > slitWidth ) && ( Math.abs( latticeCenter + slitSeparation - j ) > slitWidth ) );
+        // Spacing is between center of slits
+        return i === barrierLocation && ( ( Math.abs( latticeCenterY - slitSeparation / 2 - j ) > slitWidth ) && ( Math.abs( latticeCenterY + slitSeparation / 2 - j ) > slitWidth ) );
       }
     } );
 
