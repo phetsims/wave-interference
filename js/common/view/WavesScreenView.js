@@ -249,9 +249,10 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - MARGIN
     } );
 
+    // Show the side of the water, when fully rotated and in WATER scene
     var waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
-    model.rotationAmountProperty.link( function( rotationAmount ) {
-      waterSideViewNode.visible = rotationAmount === 1.0;
+    Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
+      waterSideViewNode.visible = rotationAmount === 1.0 && scene === SceneTypeEnum.WATER;
     } );
     this.addChild( waterSideViewNode );
 
