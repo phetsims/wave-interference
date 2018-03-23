@@ -40,7 +40,7 @@ define( function( require ) {
     } );
 
     // Controls are in the coordinate frame of the lattice
-    var locationControl = new NumberControl( 'Location', model.barrierLocationProperty, new Range( 10, 100 ), _.extend( {
+    var locationControl = new NumberControl( 'Location', model.barrierLocationProperty, new Range( model.lattice.dampX, model.lattice.width - model.lattice.dampX ), _.extend( {
       majorTicks: [
         { value: 1000, label: new WaveInterferenceText( 1000, { fontSize: 10 } ) },
         { value: 5000, label: new WaveInterferenceText( 5000, { fontSize: 10 } ) } ]

@@ -13,6 +13,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WavesScreenView = require( 'WAVE_INTERFERENCE/common/view/WavesScreenView' );
   var SlitsControlPanel = require( 'WAVE_INTERFERENCE/slits/view/SlitsControlPanel' );
+  var BarriersNode = require( 'WAVE_INTERFERENCE/slits/view/BarriersNode' );
 
   /**
    * @param {SlitsScreenModel} model
@@ -37,6 +38,9 @@ define( function( require ) {
     updateSlitControlPanel();
     slitControlPanel.on( 'bounds', updateSlitControlPanel );
     this.addChild( slitControlPanel );
+
+    var barriersNode = new BarriersNode( model, this.waveAreaNode.bounds );
+    this.addChild( barriersNode );
   }
 
   waveInterference.register( 'SlitsScreenView', SlitsScreenView );
