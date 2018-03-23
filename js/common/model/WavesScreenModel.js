@@ -190,6 +190,9 @@ define( function( require ) {
       }
       this.time += dt;
       if ( this.inputTypeProperty.get() === OscillationTypeEnum.CONTINUOUS || this.pulseFiringProperty.get() ) {
+
+        // TODO: (design) a negative sign here will mean the water goes down first for a pulse, which makes sense
+        // for a drop of water dropping in, but not desirable for how the graphs look (seems odd to dip down first)
         var v = Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
         var separation = Math.floor( this.sourceSeparationProperty.get() / 2 );
 
