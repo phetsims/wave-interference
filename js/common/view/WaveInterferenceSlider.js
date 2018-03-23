@@ -12,12 +12,14 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // constants
   var LABEL_OPTIONS = { fontSize: 10 };
+  var MAX_TICK_INDEX = 10;
 
   /**
    * @param {Property} property
@@ -27,14 +29,22 @@ define( function( require ) {
    */
   function WaveInterferenceSlider( property, min, max ) {
 
+    var tickIndex = 0;
+    var nextTickValue = function() {
+      return Util.linear( 0, MAX_TICK_INDEX, min, max, tickIndex++ );
+    };
     var ticks = [
-      { value: ( max - min ) * 0 / 12 + min, type: 'major', label: new WaveInterferenceText( '0', LABEL_OPTIONS ) },
-      { value: ( max - min ) * 2 / 12 + min, type: 'minor' },
-      { value: ( max - min ) * 4 / 12 + min, type: 'minor' },
-      { value: ( max - min ) * 6 / 12 + min, type: 'major' },
-      { value: ( max - min ) * 8 / 12 + min, type: 'minor' },
-      { value: ( max - min ) * 10 / 12 + min, type: 'minor' },
-      { value: ( max - min ) * 12 / 12 + min, type: 'major', label: new WaveInterferenceText( 'max', LABEL_OPTIONS ) }
+      { value: nextTickValue(), type: 'major', label: new WaveInterferenceText( '0', LABEL_OPTIONS ) },
+      { value: nextTickValue(), type: 'minor' },
+      { value: nextTickValue(), type: 'minor' },
+      { value: nextTickValue(), type: 'minor' },
+      { value: nextTickValue(), type: 'minor' },
+      { value: nextTickValue(), type: 'major' },
+      { value: nextTickValue(), type: 'minor' },
+      { value: nextTickValue(), type: 'minor' },
+      { value: nextTickValue(), type: 'minor' },
+      { value: nextTickValue(), type: 'minor' },
+      { value: nextTickValue(), type: 'major', label: new WaveInterferenceText( 'max', LABEL_OPTIONS ) }
     ];
 
     HSlider.call( this, property, {
