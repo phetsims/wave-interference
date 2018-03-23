@@ -16,6 +16,9 @@ define( function( require ) {
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
+  // constants
+  var LABEL_OPTIONS = { fontSize: 10 };
+
   /**
    * @param {Property} property
    * @param {number} min
@@ -25,21 +28,13 @@ define( function( require ) {
   function WaveInterferenceSlider( property, min, max ) {
 
     var ticks = [
-      {
-        value: ( max - min ) * 0 / 12 + min,
-        type: 'major',
-        label: new WaveInterferenceText( '0', { fontSize: 10 } )
-      },
+      { value: ( max - min ) * 0 / 12 + min, type: 'major', label: new WaveInterferenceText( '0', LABEL_OPTIONS ) },
       { value: ( max - min ) * 2 / 12 + min, type: 'minor' },
       { value: ( max - min ) * 4 / 12 + min, type: 'minor' },
       { value: ( max - min ) * 6 / 12 + min, type: 'major' },
       { value: ( max - min ) * 8 / 12 + min, type: 'minor' },
       { value: ( max - min ) * 10 / 12 + min, type: 'minor' },
-      {
-        value: ( max - min ) * 12 / 12 + min,
-        type: 'major',
-        label: new WaveInterferenceText( 'max', { fontSize: 10 } )
-      } // TODO factor out ,{fontSize: 12}
+      { value: ( max - min ) * 12 / 12 + min, type: 'major', label: new WaveInterferenceText( 'max', LABEL_OPTIONS ) }
     ];
 
     HSlider.call( this, property, {
