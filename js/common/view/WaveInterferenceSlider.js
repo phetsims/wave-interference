@@ -20,6 +20,7 @@ define( function( require ) {
   // constants
   var LABEL_OPTIONS = { fontSize: 10 };
   var MAX_TICK_INDEX = 10;
+  var MAJOR_TICK_MODULUS = 5;
 
   /**
    * @param {Property} property
@@ -29,23 +30,17 @@ define( function( require ) {
    */
   function WaveInterferenceSlider( property, min, max ) {
 
-    var tickIndex = 0;
-    var nextTickValue = function() {
-      return Util.linear( 0, MAX_TICK_INDEX, min, max, tickIndex++ );
-    };
-    var ticks = [
-      { value: nextTickValue(), type: 'major', label: new WaveInterferenceText( '0', LABEL_OPTIONS ) },
-      { value: nextTickValue(), type: 'minor' },
-      { value: nextTickValue(), type: 'minor' },
-      { value: nextTickValue(), type: 'minor' },
-      { value: nextTickValue(), type: 'minor' },
-      { value: nextTickValue(), type: 'major' },
-      { value: nextTickValue(), type: 'minor' },
-      { value: nextTickValue(), type: 'minor' },
-      { value: nextTickValue(), type: 'minor' },
-      { value: nextTickValue(), type: 'minor' },
-      { value: nextTickValue(), type: 'major', label: new WaveInterferenceText( 'max', LABEL_OPTIONS ) }
-    ];
+    var minLabel = new WaveInterferenceText( '0', LABEL_OPTIONS );
+    var maxLabel = new WaveInterferenceText( 'max', LABEL_OPTIONS );
+    var ticks = _.range( 0, MAX_TICK_INDEX + 1 ).map( function( index ) {
+      return {
+        value: Util.linear( 0, MAX_TICK_INDEX, min, max, index ),
+        type: index % MAJOR_TICK_MODULUS === 0 ? 'major' : 'minor',
+        label: index === 0 ? minLabel :
+               index === MAX_TICK_INDEX ? maxLabel :
+               null
+      };
+    } );
 
     HSlider.call( this, property, {
       min: min, max: max
