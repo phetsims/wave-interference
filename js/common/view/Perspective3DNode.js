@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  var Easing = require( 'TWIXT/Easing' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Matrix3 = require( 'DOT/Matrix3' );
@@ -101,7 +102,9 @@ define( function( require ) {
      * @private - update the shapes and text when the rotationAmount has changed
      */
     update: function() {
-      var rotationAmount = this.rotationAmountProperty.get();
+
+      // Apply easing to make the transition look visually nicer
+      var rotationAmount = Easing.CUBIC_IN_OUT.value( this.rotationAmountProperty.get() );
       var bounds = this.waveAreaBounds;
       var perspectiveWidth = bounds.width * 0.2;
 

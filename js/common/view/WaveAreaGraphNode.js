@@ -134,7 +134,8 @@ define( function( require ) {
 
     var path = new Path( new Shape(), {
       stroke: 'black',
-      lineWidth: 2
+      lineWidth: 2,
+      lineJoin: 'round' // Prevents artifacts at the wave source. // TODO: factor out to match side view
     } );
     this.addChild( path );
 

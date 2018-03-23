@@ -164,13 +164,14 @@ define( function( require ) {
      * @public
      */
     step: function( dt ) {
+
+      // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
+      // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
+      var sign = this.viewTypeProperty.get() === ViewTypeEnum.TOP ? -1 : +1;
+      var newRotationAmount = Util.clamp( this.rotationAmountProperty.value + dt * sign * 1.4, 0, 1 );
+      this.rotationAmountProperty.value = newRotationAmount;
+
       if ( this.isRunningProperty.get() ) {
-
-        // Animate the rotation, if any
-        var sign = this.viewTypeProperty.get() === ViewTypeEnum.TOP ? -1 : +1;
-        var newRotationAmount = Util.clamp( this.rotationAmountProperty.value + dt / 2 * sign, 0, 1 );
-        this.rotationAmountProperty.value = newRotationAmount;
-
         this.advanceTime( dt * this.playSpeedProperty.get().scaleFactor );
       }
     },
