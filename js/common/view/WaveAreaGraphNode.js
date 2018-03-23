@@ -142,12 +142,11 @@ define( function( require ) {
     model.stepEmitter.addListener( function() {
       var s = new Shape();
 
-      // TODO: sign is inverted.  I'd like peaks on the wave to be peaks on the graph.
       array = model.lattice.getCenterLineValues( array );
       for ( var i = 0; i < array.length; i++ ) {
         var element = array[ i ];
         var x = Util.linear( 0, array.length - 1, 0, graphWidth, i );
-        var y = Util.linear( -10, 10, 0, plotHeight, element );
+        var y = Util.linear( 10, -10, 0, plotHeight, element ); // Note the inversion of the y-axis, so peaks of the waveform correspond to peaks on the chart
         s.lineTo( x, y );
       }
 

@@ -38,6 +38,7 @@ define( function( require ) {
   var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
   var WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
   var WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
+  var WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -246,6 +247,12 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - MARGIN
     } );
 
+    var waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
+    model.rotationAmountProperty.link( function( rotationAmount ) {
+      waterSideViewNode.visible = rotationAmount === 1.0;
+    } );
+    this.addChild( waterSideViewNode );
+
     // Play/Pause button centered under the wave area
     timeControlPanel.left = this.waveAreaNode.centerX - timeControlPanel.playPauseButton.width / 2;
     this.addChild( timeControlPanel );
@@ -256,16 +263,18 @@ define( function( require ) {
     this.addChild( timerNode );
     this.addChild( chartToolNode );
 
-    model.rotationAmountProperty.link( function( rotationAmount ) {
+    Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
       var isRotating = rotationAmount > 0 && rotationAmount < 1; // TODO: factor out?
-      self.waveAreaNode.visible = !isRotating;
-      self.latticeNode.visible = !isRotating;
+      var isSideWater = rotationAmount === 1 && scene === SceneTypeEnum.WATER;
+      var show = !isRotating && !isSideWater;
+      self.waveAreaNode.visible = show;
+      self.latticeNode.visible = show;
     } );
 
-    Property.multilink( [ model.rotationAmountProperty, model.showGraphProperty ], function( rotationAmount, showGraph ) {
+    Property.multilink( [ model.rotationAmountProperty, model.showGraphProperty, model.sceneProperty ], function( rotationAmount, showGraph, scene ) {
       var isRotating = rotationAmount > 0 && rotationAmount < 1; // TODO: factor out?
       waveAreaGraphNode.visible = !isRotating && showGraph;
-      dottedLineNode.visible = !isRotating && showGraph;
+      dottedLineNode.visible = !isRotating && showGraph && !( scene === SceneTypeEnum.WATER && rotationAmount === 1 );
     } );
 
     // For testing
