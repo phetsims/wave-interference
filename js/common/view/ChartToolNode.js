@@ -15,6 +15,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -86,6 +87,17 @@ define( function( require ) {
       top: this.backgroundNode.top + 10,
       pickable: false
     } );
+
+    // Vertical lines
+    graphPanel.addChild( new Line( 0, graphHeight / 4, graphWidth, graphHeight / 4, { stroke: 'lightGray' } ) );
+    graphPanel.addChild( new Line( 0, graphHeight / 2, graphWidth, graphHeight / 2, { stroke: 'gray' } ) );
+    graphPanel.addChild( new Line( 0, graphHeight * 3 / 4, graphWidth, graphHeight * 3 / 4, { stroke: 'lightGray' } ) );
+
+    // Horizontal lines
+    graphPanel.addChild( new Line( graphWidth / 4, 0, graphWidth / 4, graphHeight, { stroke: 'lightGray' } ) );
+    graphPanel.addChild( new Line( graphWidth / 2, 0, graphWidth / 2, graphHeight, { stroke: 'gray' } ) );
+    graphPanel.addChild( new Line( graphWidth * 3 / 4, 0, graphWidth * 3 / 4, graphHeight, { stroke: 'lightGray' } ) );
+
     this.backgroundNode.addChild( graphPanel );
 
     var horizontalAxisTitle = new WaveInterferenceText( 'Time', {
