@@ -77,13 +77,13 @@ define( function( require ) {
     this.backgroundNode.addInputListener( this.backgroundDragListener );
     this.addChild( this.backgroundNode );
 
-    var graphWidth = 130;
+    var graphWidth = 112;
     var graphHeight = 85;
     var graphPanel = new Rectangle( 0, 0, graphWidth, graphHeight, 5, 5, { // TODO: hardcoded layout
       fill: 'white',
       stroke: 'black',
       lineWidth: 1,
-      centerX: this.backgroundNode.centerX,
+      right: this.backgroundNode.right - 10,
       top: this.backgroundNode.top + 10,
       pickable: false
     } );
@@ -100,12 +100,21 @@ define( function( require ) {
 
     this.backgroundNode.addChild( graphPanel );
 
-    var horizontalAxisTitle = new WaveInterferenceText( 'Time', {
+    // TODO factor out layout constant between horizontal/vertical
+    var horizontalAxisTitle = new WaveInterferenceText( 'Time (s)', {
       top: graphPanel.bottom + 3,
-      centerX: this.backgroundNode.centerX,
+      centerX: graphPanel.centerX,
       fill: 'white'
     } );
     this.backgroundNode.addChild( horizontalAxisTitle );
+
+    var verticalAxisTitle = new WaveInterferenceText( 'Amplitude (cm)', {
+      right: graphPanel.left - 3,
+      rotation: -Math.PI / 2,
+      centerY: graphPanel.centerY,
+      fill: 'white'
+    } );
+    this.backgroundNode.addChild( verticalAxisTitle );
 
     // @private
     this.probe1Node = new ChartToolProbeNode( {
