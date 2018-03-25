@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var ChartToolNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolNode' );
+  var Color = require( 'SCENERY/util/Color' );
   var ControlPanel = require( 'WAVE_INTERFERENCE/common/view/ControlPanel' );
   var DottedLineNode = require( 'WAVE_INTERFERENCE/common/view/DottedLineNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
@@ -36,9 +37,10 @@ define( function( require ) {
   var Util = require( 'SCENERY/util/Util' );
   var Vector2 = require( 'DOT/Vector2' );
   var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  var WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
   var WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
   var WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
-  var WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -116,6 +118,19 @@ define( function( require ) {
                                         y: -170
                                       } ) :
                        new LatticeCanvasNode( model.lattice );
+
+    var self = this;
+    Property.multilink( [ model.wavelengthProperty, model.sceneProperty ], function( wavelength, scene ) {
+      if ( scene === SceneTypeEnum.LIGHT ) {
+        self.latticeNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength ) );
+      }
+      else if ( scene === SceneTypeEnum.SOUND ) {
+        self.latticeNode.setBaseColor( Color.white );
+      }
+      else if ( scene === SceneTypeEnum.WATER ) {
+        self.latticeNode.setBaseColor( new Color( '#58c0fa' ) ); // TODO: Factor out color
+      }
+    } );
     var scale = this.waveAreaNode.width / this.latticeNode.width;
     this.latticeNode.mutate( {
       scale: scale,
@@ -197,7 +212,6 @@ define( function( require ) {
     } );
 
     var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, chartToolNode, alignGroup, model );
-    var self = this;
     var updateToolboxPosition = function() {
       toolboxPanel.mutate( {
         right: self.layoutBounds.right - MARGIN,

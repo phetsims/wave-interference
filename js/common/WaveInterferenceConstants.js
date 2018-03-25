@@ -27,7 +27,9 @@ define( function( require ) {
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
     },
 
-    THUMB_SIZE: THUMB_SIZE
+    THUMB_SIZE: THUMB_SIZE,
+    MINIMUM_FREQUENCY: 1,
+    MAXIMUM_FREQUENCY: 19
   };
 
   waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );

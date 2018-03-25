@@ -14,12 +14,10 @@ define( function( require ) {
   var HSeparator = require( 'SUN/HSeparator' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
-  var Util = require( 'DOT/Util' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   var WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -29,8 +27,6 @@ define( function( require ) {
   var CHECKBOX_OPTIONS = {
     boxWidth: 12
   };
-  var FREQUENCY_SLIDER_MIN = 0;
-  var FREQUENCY_SLIDER_MAX = 19;
 
   /**
    * @param {WavesScreenModel} model
@@ -44,12 +40,11 @@ define( function( require ) {
       additionalControl: null
     }, options );
 
-    var frequencySlider = new WaveInterferenceSlider( model.frequencyProperty, FREQUENCY_SLIDER_MIN, FREQUENCY_SLIDER_MAX );
-    var wavelengthProperty = new Property( 400 );
+    var frequencySlider = new WaveInterferenceSlider( model.frequencyProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY );
 
     // TODO: (design) should the light frequency slider have the same tick spacing and snapping as the other frequency
     // sliders?
-    var lightFrequencySlider = new WavelengthSlider( wavelengthProperty, {
+    var lightFrequencySlider = new WavelengthSlider( model.wavelengthProperty, {
       trackWidth: 150,
       trackHeight: 20,
       valueVisible: false,
@@ -58,24 +53,11 @@ define( function( require ) {
       thumbHeight: 20
     } );
 
-    // Bidirectional mapping for physical coordinates.  Update the wavelength first so it will take the correct
-    // initial value.
-    // TODO: if there is numerical/roundoff error, we could get an infinite loop
-    // TODO: (design) the wavelength slider goes from high frequency to low frequency.  Should we invert it so it
-    // matches the other sliders?
-    // TODO: (design) I like having frequency = 0 as an option, but that won't work for "red"--shouldn't be zero exactly.
-    model.frequencyProperty.link( function( frequency ) {
-      wavelengthProperty.set( Util.linear( FREQUENCY_SLIDER_MIN, FREQUENCY_SLIDER_MAX, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, frequency ) );
-    } );
-    wavelengthProperty.link( function( wavelength ) {
-      model.frequencyProperty.set( Util.linear( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, FREQUENCY_SLIDER_MIN, FREQUENCY_SLIDER_MAX, wavelength ) );
-    } );
-
     // Controls are in the coordinate frame of the lattice
-    var soundAndWaterFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, FREQUENCY_SLIDER_MIN, FREQUENCY_SLIDER_MAX );
-    lightFrequencySlider.centerTop = soundAndWaterFrequencySlider.centerTop.plusXY( FREQUENCY_SLIDER_MIN, 10 );
+    var soundAndWaterFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY );
+    lightFrequencySlider.centerTop = soundAndWaterFrequencySlider.centerTop.plusXY( WaveInterferenceConstants.MINIMUM_FREQUENCY, 10 );
     var frequencySliderContainer = new Node( { children: [ lightFrequencySlider, soundAndWaterFrequencySlider ] } );
-    var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, FREQUENCY_SLIDER_MIN, 14 );
+    var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, 14 );
 
     var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty, CHECKBOX_OPTIONS );
     var screenCheckbox = new Checkbox( new WaveInterferenceText( 'Screen' ), model.showScreenProperty, CHECKBOX_OPTIONS );

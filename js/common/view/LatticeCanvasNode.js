@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -26,11 +27,18 @@ define( function( require ) {
    */
   function LatticeCanvasNode( lattice, options ) {
 
+    // @private
+    this.lattice = lattice;
+
+    // @private
+    this.baseColor = new Color( 'blue' );
+
     // only use the visible part for the bounds (not the damping regions)
     options = _.extend( { canvasBounds: new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH ) }, options );
     CanvasNode.call( this, options );
-    this.lattice = lattice;
+
     var self = this;
+
     lattice.changedEmitter.addListener( function() {
       self.invalidatePaint();
     } );
@@ -50,6 +58,16 @@ define( function( require ) {
     },
 
     /**
+     * Sets the color of the peaks of the wave.
+     * @param {Color} color
+     * @public
+     */
+    setBaseColor: function( color ) {
+      this.baseColor = color;
+      this.invalidatePaint();
+    },
+
+    /**
      * Draws into the canvas
      * @param {CanvasRenderingContext2D} context
      */
@@ -57,9 +75,10 @@ define( function( require ) {
       for ( var i = this.lattice.dampX; i < this.lattice.width - this.lattice.dampX; i++ ) {
         for ( var k = this.lattice.dampY; k < this.lattice.height - this.lattice.dampY; k++ ) {
           var value = this.lattice.getCurrentValue( i, k );
-          var shading = Util.linear( -2, 2, 0, 255, value );
-          shading = Math.floor( Util.clamp( shading, 0, 255 ) );
-          context.fillStyle = 'rgb(0,0,' + shading + ')';
+          var intensity = Util.linear( -2, 2, 0, 1, value );
+          intensity = Util.clamp( intensity, 0, 1 );
+          var color = this.baseColor.blend( Color.black, intensity ); // TODO: Performance caveat
+          context.fillStyle = color.toCSS();
           context.fillRect( ( i - this.lattice.dampX ) * CELL_WIDTH, ( k - this.lattice.dampY ) * CELL_WIDTH, CELL_WIDTH + 1, CELL_WIDTH + 1 ); // +1 is to eliminate seams // TODO: x-offset?
         }
       }

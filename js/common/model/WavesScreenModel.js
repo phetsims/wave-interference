@@ -21,7 +21,9 @@ define( function( require ) {
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
   var Util = require( 'DOT/Util' );
   var ViewTypeEnum = require( 'WAVE_INTERFERENCE/common/model/ViewTypeEnum' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   /**
    * @param {Object} [options]
@@ -114,6 +116,24 @@ define( function( require ) {
     // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
     this.intensitySample = new IntensitySample( this.lattice );
 
+    // @public - wavelength in nm
+    this.wavelengthProperty = new Property( 400 );
+
+    // Bidirectional mapping for physical coordinates.  Update the wavelength first so it will take the correct
+    // initial value.
+    // TODO: if there is numerical/roundoff error, we could get an infinite loop
+    // TODO: (design) the wavelength slider goes from high frequency to low frequency.  Should we invert it so it
+    // matches the other sliders?
+    // TODO: (design) I like having frequency = 0 as an option, but that won't work for "red"--shouldn't be zero exactly.
+    // TODO: (design) Do we need to match the relative wavelengths of the colors?  For instance, if blue was half the wavelength of red
+    // that wouldn't be reflected properly here
+    this.frequencyProperty.link( function( frequency ) {
+      self.wavelengthProperty.set( Util.linear( WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, frequency ) );
+    } );
+    this.wavelengthProperty.link( function( wavelength ) {
+      self.frequencyProperty.set( Util.linear( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, wavelength ) );
+    } );
+
     // @public {number} elapsed time in seconds
     this.time = 0;
 
@@ -137,6 +157,11 @@ define( function( require ) {
       }
 
       self.phase = proposedPhase;
+
+      // The wave area resets when the wavelength changes in the light scene
+      if ( self.sceneProperty.get() === SceneTypeEnum.LIGHT ) {
+        self.clear();
+      }
     } );
 
     // When the scene changes, the wave clears
