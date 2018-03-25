@@ -7,3 +7,6 @@ There are 3 coordinate frames:
 * view coordinates
 * lattice coordinates (integer), with damping regions
 * model metric coordinates (such as cm), corresponding to physical measures
+
+There is only a single lattice, so all waves are combined and cannot be isolated.  The light panel cannot show multiple
+colors at the same time.

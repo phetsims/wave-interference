@@ -17,6 +17,8 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
+  var Util = require( 'DOT/Util' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   var WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
@@ -45,6 +47,8 @@ define( function( require ) {
     var frequencySlider = new WaveInterferenceSlider( model.frequencyProperty, FREQUENCY_SLIDER_MIN, FREQUENCY_SLIDER_MAX );
     var wavelengthProperty = new Property( 400 );
 
+    // TODO: (design) should the light frequency slider have the same tick spacing and snapping as the other frequency
+    // sliders?
     var lightFrequencySlider = new WavelengthSlider( wavelengthProperty, {
       trackWidth: 150,
       trackHeight: 20,
@@ -52,6 +56,19 @@ define( function( require ) {
       tweakersVisible: false,
       thumbWidth: 20,
       thumbHeight: 20
+    } );
+
+    // Bidirectional mapping for physical coordinates.  Update the wavelength first so it will take the correct
+    // initial value.
+    // TODO: if there is numerical/roundoff error, we could get an infinite loop
+    // TODO: (design) the wavelength slider goes from high frequency to low frequency.  Should we invert it so it
+    // matches the other sliders?
+    // TODO: (design) I like having frequency = 0 as an option, but that won't work for "red"--shouldn't be zero exactly.
+    model.frequencyProperty.link( function( frequency ) {
+      wavelengthProperty.set( Util.linear( FREQUENCY_SLIDER_MIN, FREQUENCY_SLIDER_MAX, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, frequency ) );
+    } );
+    wavelengthProperty.link( function( wavelength ) {
+      model.frequencyProperty.set( Util.linear( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, FREQUENCY_SLIDER_MIN, FREQUENCY_SLIDER_MAX, wavelength ) );
     } );
 
     // Controls are in the coordinate frame of the lattice
