@@ -106,11 +106,11 @@ define( function( require ) {
 
     for ( var i = 0; i <= 10; i++ ) {
       var x = Util.linear( 0, 10, 0, graphWidth, i );
-      var horizontalTickLabel = new WaveInterferenceText( '' + i, {
+      var horizontalAxisTickLabel = new WaveInterferenceText( '' + i, {
         centerX: x,
         top: horizontalLineY
       } );
-      this.addChild( horizontalTickLabel );
+      this.addChild( horizontalAxisTickLabel );
 
       var verticalGridLine = new Line( x, horizontalLineY, x, 0, GRID_LINE_OPTIONS );
       this.addChild( verticalGridLine );
