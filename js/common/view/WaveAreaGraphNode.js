@@ -45,6 +45,20 @@ define( function( require ) {
     var graphWidth = WaveInterferenceConstants.WAVE_AREA_WIDTH;
     var graphHeight = WaveInterferenceConstants.WAVE_AREA_WIDTH / 3;
 
+    var horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height; // TODO: factor out
+
+    var horizontalAxisTickLabels = [];
+    var verticalGridLines = [];
+    for ( var i = 0; i <= 10; i++ ) {
+      var x = Util.linear( 0, 10, 0, graphWidth, i );
+      var horizontalAxisTickLabel = new WaveInterferenceText( '' + i, {
+        centerX: x,
+        top: horizontalLineY
+      } );
+      horizontalAxisTickLabels.push( horizontalAxisTickLabel );
+      verticalGridLines.push( new Line( x, horizontalLineY, x, 0, GRID_LINE_OPTIONS ) );
+    }
+
     var topTabBounds = new Bounds2(
       graphWidth / 2 - title.width / 2 - TEXT_MARGIN_X,
       -TEXT_MARGIN_Y - title.height,
@@ -57,6 +71,9 @@ define( function( require ) {
       graphWidth / 2 + horizontalAxisLabel.width / 2 + TEXT_MARGIN_X,
       graphHeight + TEXT_MARGIN_Y + horizontalAxisLabel.height
     );
+    var lastTickLabel = horizontalAxisTickLabels[ horizontalAxisTickLabels.length - 1 ];
+    var firstTickLabel = horizontalAxisTickLabels[ 0 ];
+    var tickBubbleXMargin = 2;
     var outline = new Shape()
       .moveTo( 0, 0 )
 
@@ -70,9 +87,12 @@ define( function( require ) {
       .lineTo( topTabBounds.maxX, topTabBounds.maxY - CURVE_RADIUS )
       .arc( topTabBounds.maxX + CURVE_RADIUS, topTabBounds.maxY - CURVE_RADIUS, CURVE_RADIUS, Math.PI, Math.PI / 2, true )
 
-      // Right edge
-      .lineTo( graphWidth, 0 )
-      .lineTo( graphWidth, graphHeight )
+      // Right edge, and bubble out around the last horizontal axis tick label
+      .lineTo( graphWidth + 1, 0 )
+      .lineTo( graphWidth + 1, lastTickLabel.top )
+      .lineTo( lastTickLabel.right + tickBubbleXMargin, lastTickLabel.top )
+      .lineTo( lastTickLabel.right + tickBubbleXMargin, lastTickLabel.bottom )
+      .lineTo( graphWidth + 1, graphHeight ) // TODO: why is the width off by 1 here?
 
       // Bottom tab with horizontal axis label
       .lineTo( bottomTabBounds.maxX + CURVE_RADIUS, bottomTabBounds.minY )
@@ -84,12 +104,18 @@ define( function( require ) {
       .lineTo( bottomTabBounds.minX, bottomTabBounds.minY + CURVE_RADIUS )
       .arc( bottomTabBounds.minX - CURVE_RADIUS, bottomTabBounds.minY + CURVE_RADIUS, CURVE_RADIUS, 0, Math.PI * 3 / 2, true )
 
-      // Left edge
+      // Left edge, and bubble out around the first horizontal axis tick label
       .lineTo( 0, graphHeight )
+      .lineTo( firstTickLabel.left - tickBubbleXMargin, firstTickLabel.bottom )
+      .lineTo( firstTickLabel.left - tickBubbleXMargin, firstTickLabel.top )
+      .lineTo( 0, firstTickLabel.top )
       .close();
 
     var outlinePath = new Path( outline, { lineWidth: 1, stroke: 'black', fill: 'rgba(230,230,230,0.9)' } );
     this.addChild( outlinePath );
+    var addChild = this.addChild.bind( this );
+    horizontalAxisTickLabels.forEach( addChild );
+    verticalGridLines.forEach( addChild );
 
     title.centerX = graphWidth / 2;
     title.bottom = 0;
@@ -100,21 +126,8 @@ define( function( require ) {
 
     this.addChild( horizontalAxisLabel );
 
-    var horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height; // TODO: factor out
     var horizontalAxisLine = new Line( 0, horizontalLineY, graphWidth, horizontalLineY, { stroke: 'darkGray' } );
     this.addChild( horizontalAxisLine );
-
-    for ( var i = 0; i <= 10; i++ ) {
-      var x = Util.linear( 0, 10, 0, graphWidth, i );
-      var horizontalAxisTickLabel = new WaveInterferenceText( '' + i, {
-        centerX: x,
-        top: horizontalLineY
-      } );
-      this.addChild( horizontalAxisTickLabel );
-
-      var verticalGridLine = new Line( x, horizontalLineY, x, 0, GRID_LINE_OPTIONS );
-      this.addChild( verticalGridLine );
-    }
 
     // The part that displays the values (doesn't include axis labels)
     var plotHeight = horizontalLineY;
