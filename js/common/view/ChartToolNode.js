@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var ChartToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolProbeNode' );
   var Circle = require( 'SCENERY/nodes/Circle' );
@@ -22,6 +23,7 @@ define( function( require ) {
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var Shape = require( 'KITE/Shape' );
   var Util = require( 'DOT/Util' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -109,6 +111,21 @@ define( function( require ) {
     graphPanel.addChild( new Line( GRAPH_WIDTH * 3 / 4, 0, GRAPH_WIDTH * 3 / 4, GRAPH_HEIGHT, LINE_OPTIONS ) );
 
     this.backgroundNode.addChild( graphPanel );
+
+    var scaleIndicatorNode = new VBox( {
+      children: [
+        new WaveInterferenceText( '1 s', { fontSize: 8 } ),
+        new ArrowNode( 0, 0, GRAPH_WIDTH / 4 - 1, 0, {
+          headHeight: 3,
+          headWidth: 3.5,
+          tailWidth: 0.5,
+          doubleHead: true
+        } )
+      ],
+      left: 0,
+      bottom: GRAPH_HEIGHT - 4
+    } );
+    graphPanel.addChild( scaleIndicatorNode );
 
     // TODO factor out layout constant between horizontal/vertical
     var horizontalAxisTitle = new WaveInterferenceText( 'Time', {
