@@ -101,14 +101,14 @@ define( function( require ) {
     this.backgroundNode.addChild( graphPanel );
 
     // TODO factor out layout constant between horizontal/vertical
-    var horizontalAxisTitle = new WaveInterferenceText( 'Time (s)', {
+    var horizontalAxisTitle = new WaveInterferenceText( 'Time', {
       top: graphPanel.bottom + 3,
       centerX: graphPanel.centerX,
       fill: 'white'
     } );
     this.backgroundNode.addChild( horizontalAxisTitle );
 
-    var verticalAxisTitle = new WaveInterferenceText( 'Amplitude (cm)', {
+    var verticalAxisTitle = new WaveInterferenceText( 'Water Height (cm)', {
       right: graphPanel.left - 3,
       rotation: -Math.PI / 2,
       centerY: graphPanel.centerY,
@@ -149,12 +149,12 @@ define( function( require ) {
     this.alignProbes();
 
     // Create the "pens" which draw the data at the right side of the graph
-    var pen1Node = new Circle( 3, { fill: SERIES_1_COLOR, right: graphPanel.width } );
+    var pen1Node = new Circle( 3, { fill: SERIES_1_COLOR, right: graphPanel.width, centerY: graphHeight / 2 } );
     var probe1Path = new Path( new Shape(), { stroke: SERIES_1_COLOR, lineWidth: PATH_LINE_WIDTH } );
     graphPanel.addChild( probe1Path );
     graphPanel.addChild( pen1Node );
 
-    var pen2Node = new Circle( 3, { fill: SERIES_2_COLOR, right: graphPanel.width } );
+    var pen2Node = new Circle( 3, { fill: SERIES_2_COLOR, right: graphPanel.width, centerY: graphHeight / 2 } );
     var probe2Path = new Path( new Shape(), { stroke: SERIES_2_COLOR, lineWidth: PATH_LINE_WIDTH } );
     graphPanel.addChild( probe2Path );
     graphPanel.addChild( pen2Node );
@@ -166,39 +166,42 @@ define( function( require ) {
 
     var updateProbeData = function( probeNode, penNode, probeSamples, probePath ) {
 
-      // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
-      // itself as the sensor hot spot.  This doesn't include the damping regions
-      var latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
+      if ( model.isChartToolNodeInPlayAreaProperty.get() ) {
 
-      var value = model.lattice.getCurrentValue( latticeCoordinates.x + model.lattice.dampX, latticeCoordinates.y + model.lattice.dampY );
+        // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
+        // itself as the sensor hot spot.  This doesn't include the damping regions
+        var latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
 
-      // NaN is returned for out of bounds
-      if ( !isNaN( value ) ) {
+        var value = model.lattice.getCurrentValue( latticeCoordinates.x + model.lattice.dampX, latticeCoordinates.y + model.lattice.dampY );
 
-        // strong wavefronts (bright colors) are positive on the chart
-        var chartYValue = Util.linear( 0, 1, graphHeight / 2, 0, value );
-        if ( chartYValue > graphHeight ) {
-          chartYValue = graphHeight;
+        // NaN is returned for out of bounds
+        if ( !isNaN( value ) ) {
+
+          // strong wavefronts (bright colors) are positive on the chart
+          var chartYValue = Util.linear( 0, 1, graphHeight / 2, 0, value );
+          if ( chartYValue > graphHeight ) {
+            chartYValue = graphHeight;
+          }
+          if ( chartYValue < 0 ) {
+            chartYValue = 0;
+          }
+          penNode.centerY = chartYValue;
+          probeSamples.push( new Vector2( model.time, chartYValue ) );
         }
-        if ( chartYValue < 0 ) {
-          chartYValue = 0;
+
+        while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.time - SECONDS_TO_SHOW ) {
+          probeSamples.shift();
         }
-        penNode.centerY = chartYValue;
-        probeSamples.push( new Vector2( model.time, chartYValue ) );
-      }
 
-      while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.time - SECONDS_TO_SHOW ) {
-        probeSamples.shift();
+        // TODO: performance caveat
+        var pathShape = new Shape();
+        for ( var i = 0; i < probeSamples.length; i++ ) {
+          var sample = probeSamples[ i ];
+          var xAxisValue = Util.linear( model.time, model.time - SECONDS_TO_SHOW, graphWidth, 0, sample.x );
+          pathShape.lineTo( xAxisValue, sample.y );
+        }
+        probePath.shape = pathShape;
       }
-
-      // TODO: performance caveat
-      var pathShape = new Shape();
-      for ( var i = 0; i < probeSamples.length; i++ ) {
-        var sample = probeSamples[ i ];
-        var xAxisValue = Util.linear( model.time, model.time - SECONDS_TO_SHOW, graphWidth, 0, sample.x );
-        pathShape.lineTo( xAxisValue, sample.y );
-      }
-      probePath.shape = pathShape;
     };
 
     var updatePaths = function() {
