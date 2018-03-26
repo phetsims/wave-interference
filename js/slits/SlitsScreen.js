@@ -9,26 +9,26 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Screen = require( 'JOIST/Screen' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
   var SlitsScreenView = require( 'WAVE_INTERFERENCE/slits/view/SlitsScreenView' );
+  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+
+  // images
+  var slitsScreenIcon = require( 'image!WAVE_INTERFERENCE/slits_screen_icon.png' );
 
   /**
    * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
    * @constructor
    */
   function SlitsScreen( alignGroup ) {
-    var homeScreenIcon = Rectangle.dimension( Screen.MINIMUM_HOME_SCREEN_ICON_SIZE, {
-      fill: 'white'
-    } );
     var options = {
       backgroundColorProperty: new Property( 'white' ),
       name: 'Slits',
-      homeScreenIcon: homeScreenIcon
+      homeScreenIcon: new Image( slitsScreenIcon )
     };
     Screen.call( this,
       function() { return new SlitsScreenModel(); },
