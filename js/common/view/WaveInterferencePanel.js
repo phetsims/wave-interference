@@ -20,6 +20,7 @@ define( function( require ) {
     options = _.extend( {
       yMargin: 6,
       xMargin: 10,
+      stroke: 'gray',
       fill: 'rgb(230,231,232)' // TODO: factor out
     }, options );
     Panel.call( this, content, options );
