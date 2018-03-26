@@ -32,6 +32,18 @@ define( function( require ) {
   var SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
   var SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
   var PATH_LINE_WIDTH = 2;
+  var GRAPH_WIDTH = 112;
+  var GRAPH_HEIGHT = 85;
+  var NUMBER_VERTICAL_DASHES = 12;
+  var DASH_LENGTH = GRAPH_HEIGHT / NUMBER_VERTICAL_DASHES / 2;
+  var DASH_PATTERN = [ DASH_LENGTH + 0.6, DASH_LENGTH - 0.6 ];
+  var LINE_WIDTH = 0.8;
+  var LINE_OPTIONS = {
+    stroke: 'lightGray',
+    lineDash: DASH_PATTERN,
+    lineWidth: LINE_WIDTH,
+    lineDashOffset: DASH_LENGTH / 2
+  };
 
   /**
    * @param {WavesScreenModel|null} model - model for reading values, null for icon
@@ -77,9 +89,7 @@ define( function( require ) {
     this.backgroundNode.addInputListener( this.backgroundDragListener );
     this.addChild( this.backgroundNode );
 
-    var graphWidth = 112;
-    var graphHeight = 85;
-    var graphPanel = new Rectangle( 0, 0, graphWidth, graphHeight, 5, 5, { // TODO: hardcoded layout
+    var graphPanel = new Rectangle( 0, 0, GRAPH_WIDTH, GRAPH_HEIGHT, 5, 5, { // TODO: hardcoded layout
       fill: 'white',
       stroke: 'black',
       lineWidth: 1,
@@ -88,15 +98,15 @@ define( function( require ) {
       pickable: false
     } );
 
-    // Vertical lines
-    graphPanel.addChild( new Line( 0, graphHeight / 4, graphWidth, graphHeight / 4, { stroke: 'lightGray' } ) );
-    graphPanel.addChild( new Line( 0, graphHeight / 2, graphWidth, graphHeight / 2, { stroke: 'gray' } ) );
-    graphPanel.addChild( new Line( 0, graphHeight * 3 / 4, graphWidth, graphHeight * 3 / 4, { stroke: 'lightGray' } ) );
+    // Horizontal Lines
+    graphPanel.addChild( new Line( 0, GRAPH_HEIGHT / 4, GRAPH_WIDTH, GRAPH_HEIGHT / 4, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( 0, GRAPH_HEIGHT / 2, GRAPH_WIDTH, GRAPH_HEIGHT / 2, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( 0, GRAPH_HEIGHT * 3 / 4, GRAPH_WIDTH, GRAPH_HEIGHT * 3 / 4, LINE_OPTIONS ) );
 
-    // Horizontal lines
-    graphPanel.addChild( new Line( graphWidth / 4, 0, graphWidth / 4, graphHeight, { stroke: 'lightGray' } ) );
-    graphPanel.addChild( new Line( graphWidth / 2, 0, graphWidth / 2, graphHeight, { stroke: 'gray' } ) );
-    graphPanel.addChild( new Line( graphWidth * 3 / 4, 0, graphWidth * 3 / 4, graphHeight, { stroke: 'lightGray' } ) );
+    // Vertical lines
+    graphPanel.addChild( new Line( GRAPH_WIDTH / 4, 0, GRAPH_WIDTH / 4, GRAPH_HEIGHT, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( GRAPH_WIDTH / 2, 0, GRAPH_WIDTH / 2, GRAPH_HEIGHT, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( GRAPH_WIDTH * 3 / 4, 0, GRAPH_WIDTH * 3 / 4, GRAPH_HEIGHT, LINE_OPTIONS ) );
 
     this.backgroundNode.addChild( graphPanel );
 
@@ -109,6 +119,7 @@ define( function( require ) {
     this.backgroundNode.addChild( horizontalAxisTitle );
 
     var verticalAxisTitle = new WaveInterferenceText( 'Water Height (cm)', {
+      fontSize: 11,
       right: graphPanel.left - 3,
       rotation: -Math.PI / 2,
       centerY: graphPanel.centerY,
@@ -149,12 +160,12 @@ define( function( require ) {
     this.alignProbes();
 
     // Create the "pens" which draw the data at the right side of the graph
-    var pen1Node = new Circle( 3, { fill: SERIES_1_COLOR, right: graphPanel.width, centerY: graphHeight / 2 } );
+    var pen1Node = new Circle( 3, { fill: SERIES_1_COLOR, right: graphPanel.width, centerY: GRAPH_HEIGHT / 2 } );
     var probe1Path = new Path( new Shape(), { stroke: SERIES_1_COLOR, lineWidth: PATH_LINE_WIDTH } );
     graphPanel.addChild( probe1Path );
     graphPanel.addChild( pen1Node );
 
-    var pen2Node = new Circle( 3, { fill: SERIES_2_COLOR, right: graphPanel.width, centerY: graphHeight / 2 } );
+    var pen2Node = new Circle( 3, { fill: SERIES_2_COLOR, right: graphPanel.width, centerY: GRAPH_HEIGHT / 2 } );
     var probe2Path = new Path( new Shape(), { stroke: SERIES_2_COLOR, lineWidth: PATH_LINE_WIDTH } );
     graphPanel.addChild( probe2Path );
     graphPanel.addChild( pen2Node );
@@ -178,9 +189,9 @@ define( function( require ) {
         if ( !isNaN( value ) ) {
 
           // strong wavefronts (bright colors) are positive on the chart
-          var chartYValue = Util.linear( 0, 1, graphHeight / 2, 0, value );
-          if ( chartYValue > graphHeight ) {
-            chartYValue = graphHeight;
+          var chartYValue = Util.linear( 0, 1, GRAPH_HEIGHT / 2, 0, value );
+          if ( chartYValue > GRAPH_HEIGHT ) {
+            chartYValue = GRAPH_HEIGHT;
           }
           if ( chartYValue < 0 ) {
             chartYValue = 0;
@@ -197,7 +208,7 @@ define( function( require ) {
         var pathShape = new Shape();
         for ( var i = 0; i < probeSamples.length; i++ ) {
           var sample = probeSamples[ i ];
-          var xAxisValue = Util.linear( model.time, model.time - SECONDS_TO_SHOW, graphWidth, 0, sample.x );
+          var xAxisValue = Util.linear( model.time, model.time - SECONDS_TO_SHOW, GRAPH_WIDTH, 0, sample.x );
           pathShape.lineTo( xAxisValue, sample.y );
         }
         probePath.shape = pathShape;
