@@ -33,6 +33,9 @@ define( function( require ) {
     // @private
     this.baseColor = new Color( 'blue' );
 
+    // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light source
+    this.vacuumColor = null;
+
     // only use the visible part for the bounds (not the damping regions)
     options = _.extend( { canvasBounds: new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH ) }, options );
     CanvasNode.call( this, options );
@@ -78,6 +81,9 @@ define( function( require ) {
           var intensity = Util.linear( -2, 2, 0, 1, value );
           intensity = Util.clamp( intensity, 0, 1 );
           var color = this.baseColor.blend( Color.black, intensity ); // TODO: Performance caveat
+          if ( this.vacuumColor && !this.lattice.cellHasBeenVisited( i, k ) ) {
+            color = this.vacuumColor;
+          }
           context.fillStyle = color.toCSS();
           context.fillRect( ( i - this.lattice.dampX ) * CELL_WIDTH, ( k - this.lattice.dampY ) * CELL_WIDTH, CELL_WIDTH + 1, CELL_WIDTH + 1 ); // +1 is to eliminate seams // TODO: x-offset?
         }

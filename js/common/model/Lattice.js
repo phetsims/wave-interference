@@ -40,6 +40,9 @@ define( function( require ) {
       this.matrices.push( new Matrix( width, height ) );
     }
 
+    // @private {Matrix} - keeps track of which cells have been visited by the wave
+    this.visitedMatrix = new Matrix( width, height );
+
     // @private {number} indicates the current matrix. Previous matrix is one higher (with correct modulus)
     this.currentMatrixIndex = 0;
 
@@ -203,6 +206,10 @@ define( function( require ) {
       }
     },
 
+    cellHasBeenVisited: function( i, j ) {
+      return this.visitedMatrix.get( i, j ) === 1;
+    },
+
     /**
      * Damp more aggressively further from the edge of the visible lattice
      * @param {number} depthInDampRegion - number of cells into the damping region
@@ -221,6 +228,8 @@ define( function( require ) {
       for ( var i = 0; i < this.matrices.length; i++ ) {
         this.matrices[ i ].timesEquals( 0 );
       }
+
+      this.visitedMatrix.timesEquals( 0 );
     },
 
     /**
@@ -267,7 +276,12 @@ define( function( require ) {
             var neighborSum = matrix1.get( i + 1, j ) + matrix1.get( i - 1, j ) + matrix1.get( i, j + 1 ) + matrix1.get( i, j - 1 );
             var m1ij = matrix1.get( i, j );
             var value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
-            matrix0.set( i, j, value * 0.99 ); // TODO: (design) do we want to keep damping?
+            var newValue = value * 0.99;
+            matrix0.set( i, j, newValue ); // TODO: (design) do we want to keep damping?
+
+            if ( Math.abs( newValue ) > 1E-2 ) {
+              this.visitedMatrix.set( i, j, 1 );
+            }
           }
         }
       }

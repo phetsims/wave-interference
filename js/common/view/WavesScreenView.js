@@ -123,12 +123,15 @@ define( function( require ) {
     Property.multilink( [ model.wavelengthProperty, model.sceneProperty ], function( wavelength, scene ) {
       if ( scene === SceneTypeEnum.LIGHT ) {
         self.latticeNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength ) );
+        self.latticeNode.vacuumColor = Color.black;
       }
       else if ( scene === SceneTypeEnum.SOUND ) {
         self.latticeNode.setBaseColor( Color.white );
+        self.latticeNode.vacuumColor = null;
       }
       else if ( scene === SceneTypeEnum.WATER ) {
         self.latticeNode.setBaseColor( new Color( '#58c0fa' ) ); // TODO: Factor out color
+        self.latticeNode.vacuumColor = null;
       }
     } );
     var scale = this.waveAreaNode.width / this.latticeNode.width;
