@@ -48,6 +48,8 @@ define( function( require ) {
   };
   var CHART_MARGIN = 10;
   var CHART_CORNER_RADIUS = 5;
+  var AXIS_LABEL_FILL = 'white';
+  var AXIS_LABEL_MARGIN = 3;
 
   /**
    * @param {WavesScreenModel|null} model - model for reading values, null for icon
@@ -128,20 +130,20 @@ define( function( require ) {
     } );
     graphPanel.addChild( scaleIndicatorNode );
 
-    // TODO factor out layout constant between horizontal/vertical
     var horizontalAxisTitle = new WaveInterferenceText( 'Time', {
-      top: graphPanel.bottom + 3,
+      fontSize: 12,
+      top: graphPanel.bottom + AXIS_LABEL_MARGIN,
       centerX: graphPanel.centerX,
-      fill: 'white'
+      fill: AXIS_LABEL_FILL
     } );
     this.backgroundNode.addChild( horizontalAxisTitle );
 
     var verticalAxisTitle = new WaveInterferenceText( 'Water Height (cm)', {
       fontSize: 11,
-      right: graphPanel.left - 3,
+      right: graphPanel.left - AXIS_LABEL_MARGIN,
       rotation: -Math.PI / 2,
       centerY: graphPanel.centerY,
-      fill: 'white'
+      fill: AXIS_LABEL_FILL
     } );
     this.backgroundNode.addChild( verticalAxisTitle );
 
