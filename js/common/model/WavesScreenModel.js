@@ -64,7 +64,7 @@ define( function( require ) {
     // @public {BooleanProperty} - whether the intensity graph (on the right of the lattice) should be shown.
     this.showIntensityGraphProperty = new BooleanProperty( false ); // TODO: consistent naming regarding graph/chart.  Design doc says "graph"
 
-    // @public {Property.<OscillationTypeEnum>} - pulse or continuous
+    // @public {Property.<OscillationTypeEnum>} - pulse or continuous // TODO: match names with the enum type
     this.inputTypeProperty = new Property( OscillationTypeEnum.CONTINUOUS, {
       validValues: OscillationTypeEnum.VALUES
     } );
@@ -109,6 +109,9 @@ define( function( require ) {
 
     // @public {BooleanProperty} - true while a single pulse is being generated
     this.pulseFiringProperty = new BooleanProperty( false );
+
+    // @public {BooleanProperty} - true when the wave is continuously oscillating
+    this.continuousWaveOscillatingProperty = new BooleanProperty( false );
 
     // @public {Lattice} the grid that contains the wave values
     this.lattice = new Lattice( 100, 100, 20, 20 ); // Java was 60 + 20 padding on each side // TODO: (design) evaluate dimensions
@@ -214,7 +217,8 @@ define( function( require ) {
         dt = 1 / 60;
       }
       this.time += dt;
-      if ( this.inputTypeProperty.get() === OscillationTypeEnum.CONTINUOUS || this.pulseFiringProperty.get() ) {
+      var continuous = ( this.inputTypeProperty.get() === OscillationTypeEnum.CONTINUOUS ) && this.continuousWaveOscillatingProperty.get();
+      if ( continuous || this.pulseFiringProperty.get() ) {
 
         // TODO: (design) a negative sign here will mean the water goes down first for a pulse, which makes sense
         // for a drop of water dropping in, but not desirable for how the graphs look (seems odd to dip down first)

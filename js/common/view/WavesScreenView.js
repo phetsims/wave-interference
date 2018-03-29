@@ -307,11 +307,27 @@ define( function( require ) {
     } );
     this.addChild( perspective3DNode );
 
-    var onProperty = new BooleanProperty( false );
-    onProperty.link( function() {
-      model.startPulse();
+    // TODO: move to model and factor out for dual sources
+    var buttonPressedProperty = new BooleanProperty( false );
+    buttonPressedProperty.lazyLink( function( on ) {
+      if ( on && model.inputTypeProperty.value === OscillationTypeEnum.PULSE ) {
+        model.startPulse();
+      }
+      else {
+        model.continuousWaveOscillatingProperty.value = on;
+      }
     } );
-    var laserPointerNode = new LaserPointerNode( onProperty, {
+    model.pulseFiringProperty.lazyLink( function( pulseFiring ) {
+      if ( !pulseFiring ) {
+        buttonPressedProperty.value = false;
+      }
+    } );
+    model.inputTypeProperty.link( function( inputType ) {
+      if ( inputType === OscillationTypeEnum.PULSE ) {
+        buttonPressedProperty.value = false;
+      }
+    } );
+    var laserPointerNode = new LaserPointerNode( buttonPressedProperty, {
       bodySize: new Dimension2( 90, 40 ),
       nozzleSize: new Dimension2( 10, 28 ),
       buttonRadius: 18,
@@ -322,8 +338,8 @@ define( function( require ) {
       if ( model.inputTypeProperty.value === OscillationTypeEnum.PULSE ) {
         laserPointerNode.enabled = !model.pulseFiringProperty.value;
       }
-      else {
-        laserPointerNode.enabled = false;
+      else if ( model.inputTypeProperty.value === OscillationTypeEnum.CONTINUOUS ) {
+        laserPointerNode.enabled = true;
       }
     };
     model.inputTypeProperty.link( updateEnabled );
