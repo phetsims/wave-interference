@@ -13,11 +13,13 @@ define( function( require ) {
   var ChartToolNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolNode' );
   var Color = require( 'SCENERY/util/Color' );
   var ControlPanel = require( 'WAVE_INTERFERENCE/common/view/ControlPanel' );
+  var Dimension2 = require( 'DOT/Dimension2' );
   var DottedLineNode = require( 'WAVE_INTERFERENCE/common/view/DottedLineNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
   var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
+  var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
@@ -26,7 +28,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var RoundPushButton = require( 'SUN/buttons/RoundPushButton' );
   var ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
   var ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
@@ -297,27 +298,6 @@ define( function( require ) {
       dottedLineNode.visible = !isRotating && showGraph && !( scene === SceneTypeEnum.WATER && rotationAmount === 1 );
     } );
 
-    // For testing
-    var pulseButton = new RoundPushButton( {
-      baseColor: 'red',
-      right: this.waveAreaNode.left - SPACING,
-      centerY: this.waveAreaNode.centerY
-    } );
-    pulseButton.addListener( function() {
-      model.startPulse();
-    } );
-    this.addChild( pulseButton );
-    var updateEnabled = function() {
-      if ( model.inputTypeProperty.value === OscillationTypeEnum.PULSE ) {
-        pulseButton.enabled = !model.pulseFiringProperty.value;
-      }
-      else {
-        pulseButton.enabled = false;
-      }
-    };
-    model.inputTypeProperty.link( updateEnabled );
-    model.pulseFiringProperty.link( updateEnabled );
-
     var perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty );
 
     // Initialize and update the colors based on the scene
@@ -326,6 +306,29 @@ define( function( require ) {
       perspective3DNode.setSideFaceColor( scene === SceneTypeEnum.WATER ? '#58c0fa' : scene === SceneTypeEnum.SOUND ? 'darkGray' : 'red' );
     } );
     this.addChild( perspective3DNode );
+
+    var onProperty = new BooleanProperty( false );
+    onProperty.link( function() {
+      model.startPulse();
+    } );
+    var laserPointerNode = new LaserPointerNode( onProperty, {
+      bodySize: new Dimension2( 90, 40 ),
+      nozzleSize: new Dimension2( 10, 28 ),
+      buttonRadius: 18,
+      rightCenter: this.waveAreaNode.leftCenter.plusXY( 20, 0 )
+    } );
+
+    var updateEnabled = function() {
+      if ( model.inputTypeProperty.value === OscillationTypeEnum.PULSE ) {
+        laserPointerNode.enabled = !model.pulseFiringProperty.value;
+      }
+      else {
+        laserPointerNode.enabled = false;
+      }
+    };
+    model.inputTypeProperty.link( updateEnabled );
+    model.pulseFiringProperty.link( updateEnabled );
+    this.addChild( laserPointerNode );
   }
 
   waveInterference.register( 'WavesScreenView', WavesScreenView );
