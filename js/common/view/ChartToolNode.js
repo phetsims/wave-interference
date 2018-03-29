@@ -46,6 +46,8 @@ define( function( require ) {
     lineWidth: LINE_WIDTH,
     lineDashOffset: DASH_LENGTH / 2
   };
+  var CHART_MARGIN = 10;
+  var CHART_CORNER_RADIUS = 5;
 
   /**
    * @param {WavesScreenModel|null} model - model for reading values, null for icon
@@ -91,12 +93,11 @@ define( function( require ) {
     this.backgroundNode.addInputListener( this.backgroundDragListener );
     this.addChild( this.backgroundNode );
 
-    var graphPanel = new Rectangle( 0, 0, GRAPH_WIDTH, GRAPH_HEIGHT, 5, 5, { // TODO: hardcoded layout
+    var graphPanel = new Rectangle( 0, 0, GRAPH_WIDTH, GRAPH_HEIGHT, CHART_CORNER_RADIUS, CHART_CORNER_RADIUS, {
       fill: 'white',
       stroke: 'black',
-      lineWidth: 1,
-      right: this.backgroundNode.right - 10,
-      top: this.backgroundNode.top + 10,
+      right: this.backgroundNode.right - CHART_MARGIN,
+      top: this.backgroundNode.top + CHART_MARGIN,
       pickable: false
     } );
 

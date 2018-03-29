@@ -26,14 +26,14 @@ define( function( require ) {
   var DARK_GRAY = new Color( 90, 90, 90 );
 
   /**
-   * @param {number} chartHeight - the height of the chart in view coordinates
+   * @param {number} graphHeight - the height of the graph in view coordinates
    * @param {IntensitySample} intensitySample - values for the intensity
    * @param {Object} [options]
    * @constructor
    */
-  function IntensityGraphPanel( chartHeight, intensitySample, options ) {
+  function IntensityGraphPanel( graphHeight, intensitySample, options ) {
 
-    this.chartRectangle = new Rectangle( 0, 0, 100, chartHeight, { fill: 'white', stroke: 'black', lineWidth: 1 } );
+    this.chartRectangle = new Rectangle( 0, 0, 100, graphHeight, { fill: 'white', stroke: 'black', lineWidth: 1 } );
 
     for ( var i = 0; i < 10; i++ ) {
       var yTop = Util.linear( 0, 10, this.chartRectangle.centerY, this.chartRectangle.top, i );
