@@ -80,7 +80,7 @@ define( function( require ) {
           var value = this.lattice.getCurrentValue( i, k );
           var intensity = Util.linear( -2, 2, 0, 1, value );
           intensity = Util.clamp( intensity, 0, 1 );
-          var color = this.baseColor.blend( Color.black, intensity ); // TODO: Performance caveat
+          var color = this.baseColor.blend( Color.black, 1 - intensity ); // TODO: Performance caveat
           if ( this.vacuumColor && !this.lattice.cellHasBeenVisited( i, k ) ) {
             color = this.vacuumColor;
           }
