@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Model for the "Waves" screen.  TODO: rename and make more "common"
+ * Model for the "Waves" screen and other derivative screens.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
