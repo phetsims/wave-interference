@@ -339,9 +339,10 @@ define( function( require ) {
       }
     } );
     var laserPointerNode = new LaserPointerNode( buttonPressedProperty, {
-      bodySize: new Dimension2( 90, 40 ),
+      bodySize: new Dimension2( 80, 40 ),
       nozzleSize: new Dimension2( 10, 28 ),
       buttonRadius: 18,
+      hasGlass: true,
       rightCenter: this.waveAreaNode.leftCenter.plusXY( 20, 0 )
     } );
 
