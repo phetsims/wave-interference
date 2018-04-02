@@ -149,7 +149,11 @@ define( function( require ) {
       left: this.waveAreaNode.right + 5,
       y: this.waveAreaNode.top
     } );
+    Property.multilink( [ model.showScreenProperty, model.sceneProperty ], function( showScreen, scene ) {
 
+      // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
+      screenNode.visible = showScreen && scene === SceneTypeEnum.LIGHT;
+    } );
     model.showScreenProperty.linkAttribute( screenNode, 'visible' );
 
     this.addChild( screenNode );
@@ -158,7 +162,11 @@ define( function( require ) {
     var intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, {
       left: screenNode.right + 5
     } );
-    model.showIntensityGraphProperty.linkAttribute( intensityGraphPanel, 'visible' );
+    Property.multilink( [ model.showIntensityGraphProperty, model.sceneProperty ], function( showIntensityGraph, scene ) {
+
+      // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
+      intensityGraphPanel.visible = showIntensityGraph && scene === SceneTypeEnum.LIGHT;
+    } );
     this.addChild( intensityGraphPanel );
 
     // Make sure the charting area is perfectly aligned with the wave area

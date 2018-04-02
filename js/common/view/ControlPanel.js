@@ -116,6 +116,10 @@ define( function( require ) {
     model.sceneProperty.link( function( scene ) {
       lightFrequencySlider.visible = scene === SceneTypeEnum.LIGHT;
       soundAndWaterFrequencySlider.visible = scene === SceneTypeEnum.SOUND || scene === SceneTypeEnum.WATER;
+
+      // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
+      screenCheckbox.enabled = scene === SceneTypeEnum.LIGHT;
+      intensityCheckbox.enabled = scene === SceneTypeEnum.LIGHT;
     } );
 
     // z-ordering
