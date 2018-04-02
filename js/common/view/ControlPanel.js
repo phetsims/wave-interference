@@ -37,7 +37,8 @@ define( function( require ) {
   function ControlPanel( model, alignGroup, options ) {
 
     options = _.extend( {
-      additionalControl: null
+      additionalControl: null,
+      showIntensityCheckbox: true
     }, options );
 
     var frequencySlider = new WaveInterferenceSlider( model.frequencyProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY );
@@ -118,19 +119,23 @@ define( function( require ) {
     } );
 
     // z-ordering
+    var children = [
+      frequencyTitle,
+      frequencySliderContainer,
+      amplitudeTitle,
+      options.additionalControl || new Node(), // TODO: is it odd to have blank node here?
+      amplitudeSlider,
+      sceneRadioButtons,
+      separator,
+      graphCheckbox,
+      screenCheckbox
+    ];
+
+    if ( options.showIntensityCheckbox ) {
+      children.push( intensityCheckbox );
+    }
     var content = alignGroup.createBox( new Node( {
-      children: [
-        frequencyTitle,
-        frequencySliderContainer,
-        amplitudeTitle,
-        options.additionalControl || new Node(), // TODO: is it odd to have blank node here?
-        amplitudeSlider,
-        sceneRadioButtons,
-        separator,
-        graphCheckbox,
-        screenCheckbox,
-        intensityCheckbox
-      ]
+      children: children
     } ) );
 
     WaveInterferencePanel.call( this, content, options );

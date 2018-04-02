@@ -32,7 +32,15 @@ define( function( require ) {
     };
     Screen.call( this,
       function() { return new WavesScreenModel(); },
-      function( model ) { return new WavesScreenView( model, alignGroup ); },
+      function( model ) {
+        return new WavesScreenView( model, alignGroup, {
+
+          // The intensity checkbox is not available in the waves screen because it distracts from the learing goals of the screen
+          controlPanelOptions: {
+            showIntensityCheckbox: false
+          }
+        } );
+      },
       options
     );
   }

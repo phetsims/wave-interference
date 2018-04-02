@@ -63,7 +63,10 @@ define( function( require ) {
       controlPanelOptions: {
 
         // This additional control (if present) will be shown beneath the Amplitude slider in the ControlPanel
-        additionalControl: null
+        additionalControl: null,
+
+        // TODO: why are these options duplicated here?  Can we reuse them from ControlPanel or omit them altogether?
+        showIntensityCheckbox: true
       }
     }, options );
     ScreenView.call( this );
