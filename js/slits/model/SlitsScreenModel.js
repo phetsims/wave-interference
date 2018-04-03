@@ -79,7 +79,9 @@ define( function( require ) {
 
             // TODO: compute the correct wave speed
             var k = Util.linear( WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, 0.1, 1, self.frequencyProperty.get() );
-            var value = self.amplitudeProperty.get() * Math.sin( k * i - self.frequencyProperty.value * self.time );
+
+            // Scale down the amplitude because it is calibrated for a point source, not a plane wave
+            var value = self.amplitudeProperty.get() / 10 * 1.4 * Math.sin( k * i - self.frequencyProperty.value * self.time );
             var lastValue = self.lattice.getCurrentValue( i, j );
             self.lattice.setCurrentValue( i, j, value );
             self.lattice.setLastValue( i, j, lastValue );
