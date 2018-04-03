@@ -15,7 +15,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  var HISTORY_LENGTH = 120; // TODO: (design) increase this?
+  var HISTORY_LENGTH = 120; // TODO(design): increase this?
 
   /**
    * @param {Lattice} lattice

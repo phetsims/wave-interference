@@ -43,7 +43,7 @@ define( function( require ) {
 
     var frequencySlider = new WaveInterferenceSlider( model.frequencyProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY );
 
-    // TODO: (design) should the light frequency slider have the same tick spacing and snapping as the other frequency
+    // TODO(design): should the light frequency slider have the same tick spacing and snapping as the other frequency
     // sliders?
     var lightFrequencySlider = new WavelengthSlider( model.wavelengthProperty, {
       trackWidth: 150,

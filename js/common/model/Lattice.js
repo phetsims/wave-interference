@@ -89,7 +89,7 @@ define( function( require ) {
      * @param {number} j - vertical integer coordinate
      * @returns {number}
      * @private
-     * // TODO: (design) is this necessary and/or valuable?
+     * // TODO(design): is this necessary and/or valuable?
      */
     getVerticalAverage: function( i, j ) {
       return this.getCurrentValue( i, j );
@@ -277,7 +277,7 @@ define( function( require ) {
             var m1ij = matrix1.get( i, j );
             var value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
             var newValue = value * 0.99;
-            matrix0.set( i, j, newValue ); // TODO: (design) do we want to keep damping?
+            matrix0.set( i, j, newValue ); // TODO(design): do we want to keep damping?
 
             if ( Math.abs( newValue ) > 1E-2 ) {
               this.visitedMatrix.set( i, j, 1 );

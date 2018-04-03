@@ -114,7 +114,7 @@ define( function( require ) {
     this.continuousWaveOscillatingProperty = new BooleanProperty( false );
 
     // @public {Lattice} the grid that contains the wave values
-    this.lattice = new Lattice( 100, 100, 20, 20 ); // Java was 60 + 20 padding on each side // TODO: (design) evaluate dimensions
+    this.lattice = new Lattice( 100, 100, 20, 20 ); // Java was 60 + 20 padding on each side // TODO(design): evaluate dimensions
 
     // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
     this.intensitySample = new IntensitySample( this.lattice );
@@ -125,10 +125,10 @@ define( function( require ) {
     // Bidirectional mapping for physical coordinates.  Update the wavelength first so it will take the correct
     // initial value.
     // TODO: if there is numerical/roundoff error, we could get an infinite loop
-    // TODO: (design) the wavelength slider goes from high frequency to low frequency.  Should we invert it so it
+    // TODO(design): the wavelength slider goes from high frequency to low frequency.  Should we invert it so it
     // matches the other sliders?
-    // TODO: (design) I like having frequency = 0 as an option, but that won't work for "red"--shouldn't be zero exactly.
-    // TODO: (design) Do we need to match the relative wavelengths of the colors?  For instance, if blue was half the wavelength of red
+    // TODO(design): I like having frequency = 0 as an option, but that won't work for "red"--shouldn't be zero exactly.
+    // TODO(design): Do we need to match the relative wavelengths of the colors?  For instance, if blue was half the wavelength of red
     // that wouldn't be reflected properly here
     this.frequencyProperty.link( function( frequency ) {
       self.wavelengthProperty.set( Util.linear( WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, frequency ) );
@@ -220,7 +220,7 @@ define( function( require ) {
       var continuous = ( this.inputTypeProperty.get() === OscillationTypeEnum.CONTINUOUS ) && this.continuousWaveOscillatingProperty.get();
       if ( continuous || this.pulseFiringProperty.get() ) {
 
-        // TODO: (design) a negative sign here will mean the water goes down first for a pulse, which makes sense
+        // TODO(design): a negative sign here will mean the water goes down first for a pulse, which makes sense
         // for a drop of water dropping in, but not desirable for how the graphs look (seems odd to dip down first)
         var v = -Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
         var separation = Math.floor( this.sourceSeparationProperty.get() / 2 );
