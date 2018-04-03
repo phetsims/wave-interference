@@ -34,6 +34,7 @@ define( function( require ) {
       function() { return new WavesScreenModel(); },
       function( model ) {
         return new WavesScreenView( model, alignGroup, {
+          showViewRadioButtonGroup: true,
 
           // The intensity checkbox is not available in the waves screen because it distracts from the learing goals of the screen
           controlPanelOptions: {

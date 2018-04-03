@@ -59,6 +59,8 @@ define( function( require ) {
 
     options = _.extend( {
 
+      showViewRadioButtonGroup: false, // Only allow side view in single source/no slits context
+
       showPulseContinuousRadioButtons: true,
 
       // Nested options as discussed in https://github.com/phetsims/tasks/issues/730
@@ -108,11 +110,13 @@ define( function( require ) {
 
     // TODO: don't show interference pattern in side view of water.
 
-    var viewRadioButtonGroup = new ViewRadioButtonGroup( model.viewTypeProperty, {
-      bottom: this.layoutBounds.bottom - MARGIN,
-      left: this.waveAreaNode.left + SPACING + 10 // TODO: layout
-    } );
-    this.addChild( viewRadioButtonGroup );
+    if ( options.showViewRadioButtonGroup ) {
+      var viewRadioButtonGroup = new ViewRadioButtonGroup( model.viewTypeProperty, {
+        bottom: this.layoutBounds.bottom - MARGIN,
+        left: this.waveAreaNode.left + SPACING + 10 // TODO: layout
+      } );
+      this.addChild( viewRadioButtonGroup );
+    }
 
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
     webGLSupported = false; // TODO: fix this
