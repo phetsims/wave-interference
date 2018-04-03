@@ -59,6 +59,8 @@ define( function( require ) {
 
     options = _.extend( {
 
+      showPulseContinuousRadioButtons: true,
+
       // Nested options as discussed in https://github.com/phetsims/tasks/issues/730
       controlPanelOptions: {
 
@@ -254,25 +256,29 @@ define( function( require ) {
     this.controlPanel.on( 'bounds', updateControlPanelPosition );
     this.addChild( this.controlPanel );
 
-    var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {
-      value: OscillationTypeEnum.PULSE,
-      node: new InputTypeIconNode( OscillationTypeEnum.PULSE )
-    }, {
-      value: OscillationTypeEnum.CONTINUOUS,
-      node: new InputTypeIconNode( OscillationTypeEnum.CONTINUOUS )
-    } ], {
-      orientation: 'horizontal',
-      buttonContentXMargin: 0,
-      buttonContentYMargin: 8,
-      selectedLineWidth: 2,
-      baseColor: 'white',
-      disabledBaseColor: 'white',
-      selectedStroke: 'blue',
-      deselectedContentOpacity: 0.4,
-      bottom: this.layoutBounds.bottom - MARGIN,
-      left: this.layoutBounds.left + MARGIN
-    } );
-    this.addChild( continuousPulseGroup );
+    if ( options.showPulseContinuousRadioButtons ) {
+
+      // TODO: move this to a new file
+      var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {
+        value: OscillationTypeEnum.PULSE,
+        node: new InputTypeIconNode( OscillationTypeEnum.PULSE )
+      }, {
+        value: OscillationTypeEnum.CONTINUOUS,
+        node: new InputTypeIconNode( OscillationTypeEnum.CONTINUOUS )
+      } ], {
+        orientation: 'horizontal',
+        buttonContentXMargin: 0,
+        buttonContentYMargin: 8,
+        selectedLineWidth: 2,
+        baseColor: 'white',
+        disabledBaseColor: 'white',
+        selectedStroke: 'blue',
+        deselectedContentOpacity: 0.4,
+        bottom: this.layoutBounds.bottom - MARGIN,
+        left: this.layoutBounds.left + MARGIN
+      } );
+      this.addChild( continuousPulseGroup );
+    }
 
     var timeControlPanel = new TimeControlPanel( model, {
       bottom: this.layoutBounds.bottom - MARGIN
