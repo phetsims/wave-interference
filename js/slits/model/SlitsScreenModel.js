@@ -61,14 +61,12 @@ define( function( require ) {
 
     this.barrierLocationProperty.link( function() {
 
-      // When the barrier moves, it creates a lot of artifacts
-      // TODO: should we keep this behavior?
+      // When the barrier moves, it creates a lot of artifacts, so clear the wave when the barrier moves
       self.clear();
     } );
 
     this.stepEmitter.addListener( function() {
 
-      // TODO: put this code elsewhere
       var showPlaneWave = true;
 
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
