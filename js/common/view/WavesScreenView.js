@@ -23,7 +23,7 @@ define( function( require ) {
   var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
-  var OscillationTypeEnum = require( 'WAVE_INTERFERENCE/common/model/OscillationTypeEnum' );
+  var InputTypeEnum = require( 'WAVE_INTERFERENCE/common/model/InputTypeEnum' );
   var Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
   var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
@@ -264,11 +264,11 @@ define( function( require ) {
 
       // TODO: move this to a new file
       var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {
-        value: OscillationTypeEnum.PULSE,
-        node: new InputTypeIconNode( OscillationTypeEnum.PULSE )
+        value: InputTypeEnum.PULSE,
+        node: new InputTypeIconNode( InputTypeEnum.PULSE )
       }, {
-        value: OscillationTypeEnum.CONTINUOUS,
-        node: new InputTypeIconNode( OscillationTypeEnum.CONTINUOUS )
+        value: InputTypeEnum.CONTINUOUS,
+        node: new InputTypeIconNode( InputTypeEnum.CONTINUOUS )
       } ], {
         orientation: 'horizontal',
         buttonContentXMargin: 0,
@@ -331,7 +331,7 @@ define( function( require ) {
     // TODO: move to model and factor out for dual sources
     var button1PressedProperty = new BooleanProperty( false );
     button1PressedProperty.lazyLink( function( on ) {
-      if ( on && model.inputTypeProperty.value === OscillationTypeEnum.PULSE ) {
+      if ( on && model.inputTypeProperty.value === InputTypeEnum.PULSE ) {
         model.startPulse();
       }
       else {
@@ -344,7 +344,7 @@ define( function( require ) {
       }
     } );
     model.inputTypeProperty.link( function( inputType ) {
-      if ( inputType === OscillationTypeEnum.PULSE ) {
+      if ( inputType === InputTypeEnum.PULSE ) {
         button1PressedProperty.value = false;
       }
     } );
@@ -366,11 +366,11 @@ define( function( require ) {
     } );
 
     var updateEnabled = function() {
-      if ( model.inputTypeProperty.value === OscillationTypeEnum.PULSE ) {
+      if ( model.inputTypeProperty.value === InputTypeEnum.PULSE ) {
         laserPointerNode1.enabled = !model.pulseFiringProperty.value;
         laserPointerNode2.enabled = !model.pulseFiringProperty.value;
       }
-      else if ( model.inputTypeProperty.value === OscillationTypeEnum.CONTINUOUS ) {
+      else if ( model.inputTypeProperty.value === InputTypeEnum.CONTINUOUS ) {
         laserPointerNode1.enabled = true;
         laserPointerNode2.enabled = true;
       }

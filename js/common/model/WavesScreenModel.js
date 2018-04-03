@@ -15,7 +15,7 @@ define( function( require ) {
   var IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
   var Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   var NumberProperty = require( 'AXON/NumberProperty' );
-  var OscillationTypeEnum = require( 'WAVE_INTERFERENCE/common/model/OscillationTypeEnum' );
+  var InputTypeEnum = require( 'WAVE_INTERFERENCE/common/model/InputTypeEnum' );
   var PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   var Property = require( 'AXON/Property' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
@@ -62,11 +62,11 @@ define( function( require ) {
     this.showScreenProperty = new BooleanProperty( false );
 
     // @public {BooleanProperty} - whether the intensity graph (on the right of the lattice) should be shown.
-    this.showIntensityGraphProperty = new BooleanProperty( false ); // TODO: consistent naming regarding graph/chart.  Design doc says "graph"
+    this.showIntensityGraphProperty = new BooleanProperty( false ); // TODO(design): consistent naming regarding graph/chart.  Design doc says "graph", see https://github.com/phetsims/tasks/issues/927
 
-    // @public {Property.<OscillationTypeEnum>} - pulse or continuous // TODO: match names with the enum type
-    this.inputTypeProperty = new Property( OscillationTypeEnum.CONTINUOUS, {
-      validValues: OscillationTypeEnum.VALUES
+    // @public {Property.<InputTypeEnum>} - pulse or continuous
+    this.inputTypeProperty = new Property( InputTypeEnum.CONTINUOUS, {
+      validValues: InputTypeEnum.VALUES
     } );
 
     // @public {Property.<PlaySpeedEnum>} - the speed at which the simulation is playing
@@ -217,7 +217,7 @@ define( function( require ) {
         dt = 1 / 60;
       }
       this.time += dt;
-      var continuous = ( this.inputTypeProperty.get() === OscillationTypeEnum.CONTINUOUS ) && this.continuousWaveOscillatingProperty.get();
+      var continuous = ( this.inputTypeProperty.get() === InputTypeEnum.CONTINUOUS ) && this.continuousWaveOscillatingProperty.get();
       if ( continuous || this.pulseFiringProperty.get() ) {
 
         // TODO(design): a negative sign here will mean the water goes down first for a pulse, which makes sense

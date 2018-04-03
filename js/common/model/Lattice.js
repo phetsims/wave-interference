@@ -239,7 +239,7 @@ define( function( require ) {
      */
     getRightmostColumn: function() {
 
-      // TODO: garbage-free form?  Would require preallocating the entire intensitySample matrix
+      // TODO(performance): garbage-free form?  Would require preallocating the entire intensitySample matrix
       var column = [];
       for ( var j = this.dampY; j < this.height - this.dampY; j++ ) {
         column.push( this.getCurrentValue( this.width - this.dampX - 1, j ) );
