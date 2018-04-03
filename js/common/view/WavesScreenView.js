@@ -325,8 +325,8 @@ define( function( require ) {
     this.addChild( perspective3DNode );
 
     // TODO: move to model and factor out for dual sources
-    var buttonPressedProperty = new BooleanProperty( false );
-    buttonPressedProperty.lazyLink( function( on ) {
+    var button1PressedProperty = new BooleanProperty( false );
+    button1PressedProperty.lazyLink( function( on ) {
       if ( on && model.inputTypeProperty.value === OscillationTypeEnum.PULSE ) {
         model.startPulse();
       }
@@ -336,15 +336,15 @@ define( function( require ) {
     } );
     model.pulseFiringProperty.lazyLink( function( pulseFiring ) {
       if ( !pulseFiring ) {
-        buttonPressedProperty.value = false;
+        button1PressedProperty.value = false;
       }
     } );
     model.inputTypeProperty.link( function( inputType ) {
       if ( inputType === OscillationTypeEnum.PULSE ) {
-        buttonPressedProperty.value = false;
+        button1PressedProperty.value = false;
       }
     } );
-    var laserPointerNode = new LaserPointerNode( buttonPressedProperty, {
+    var laserPointerNode1 = new LaserPointerNode( button1PressedProperty, {
       bodySize: new Dimension2( 80, 40 ),
       nozzleSize: new Dimension2( 10, 28 ),
       buttonRadius: 18,
@@ -352,17 +352,35 @@ define( function( require ) {
       rightCenter: this.waveAreaNode.leftCenter.plusXY( 20, 0 )
     } );
 
+    // TODO: factor out options
+    var laserPointerNode2 = new LaserPointerNode( button1PressedProperty, {
+      bodySize: new Dimension2( 80, 40 ),
+      nozzleSize: new Dimension2( 10, 28 ),
+      buttonRadius: 18,
+      hasGlass: true,
+      rightCenter: this.waveAreaNode.leftCenter.plusXY( 20, 100 )
+    } );
+
     var updateEnabled = function() {
       if ( model.inputTypeProperty.value === OscillationTypeEnum.PULSE ) {
-        laserPointerNode.enabled = !model.pulseFiringProperty.value;
+        laserPointerNode1.enabled = !model.pulseFiringProperty.value;
+        laserPointerNode2.enabled = !model.pulseFiringProperty.value;
       }
       else if ( model.inputTypeProperty.value === OscillationTypeEnum.CONTINUOUS ) {
-        laserPointerNode.enabled = true;
+        laserPointerNode1.enabled = true;
+        laserPointerNode2.enabled = true;
       }
     };
     model.inputTypeProperty.link( updateEnabled );
     model.pulseFiringProperty.link( updateEnabled );
-    this.addChild( laserPointerNode );
+    this.addChild( laserPointerNode1 );
+    this.addChild( laserPointerNode2 );
+
+    model.sourceSeparationProperty.link( function( sourceSeparation ) {
+      laserPointerNode2.visible = sourceSeparation > 0;
+      laserPointerNode1.centerY = self.waveAreaNode.centerY + sourceSeparation * 4; // TODO: fix coordinate transform
+      laserPointerNode2.centerY = self.waveAreaNode.centerY - sourceSeparation * 4; // TODO: fix coordinate transform
+    } );
   }
 
   waveInterference.register( 'WavesScreenView', WavesScreenView );
