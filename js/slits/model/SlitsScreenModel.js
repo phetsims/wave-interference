@@ -13,7 +13,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
+  var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WavesScreenModel = require( 'WAVE_INTERFERENCE/common/model/WavesScreenModel' );
 
   /**
@@ -62,6 +64,28 @@ define( function( require ) {
       // When the barrier moves, it creates a lot of artifacts
       // TODO: should we keep this behavior?
       self.clear();
+    } );
+
+    this.stepEmitter.addListener( function() {
+
+      // TODO: put this code elsewhere
+      var showPlaneWave = true;
+
+      // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
+      // and unwanted artifacts
+      if ( showPlaneWave ) {
+        for ( var i = 0; i < self.barrierLocationProperty.get(); i++ ) {
+          for ( var j = 0; j < self.lattice.height; j++ ) {
+
+            // TODO: compute the correct wave speed
+            var k = Util.linear( WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, 0.1, 1, self.frequencyProperty.get() );
+            var value = self.amplitudeProperty.get() * Math.sin( k * i - self.frequencyProperty.value * self.time );
+            var lastValue = self.lattice.getCurrentValue( i, j );
+            self.lattice.setCurrentValue( i, j, value );
+            self.lattice.setLastValue( i, j, lastValue );
+          }
+        }
+      }
     } );
   }
 

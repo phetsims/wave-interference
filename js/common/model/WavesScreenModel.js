@@ -227,8 +227,11 @@ define( function( require ) {
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
         var latticeCenterJ = Math.floor( this.lattice.height / 2 );
+
+        // Point source
         this.lattice.setCurrentValue( 30, latticeCenterJ - separation, v );
 
+        // Secondary source, if any
         if ( separation > 0 ) {
           this.lattice.setCurrentValue( 30, latticeCenterJ + separation, v );
         }
