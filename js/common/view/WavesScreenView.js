@@ -323,8 +323,13 @@ define( function( require ) {
 
     // Initialize and update the colors based on the scene
     model.sceneProperty.link( function( scene ) {
-      perspective3DNode.setTopFaceColor( scene === SceneTypeEnum.WATER ? '#3981a9' : scene === SceneTypeEnum.SOUND ? 'gray' : 'red' );
-      perspective3DNode.setSideFaceColor( scene === SceneTypeEnum.WATER ? '#58c0fa' : scene === SceneTypeEnum.SOUND ? 'darkGray' : 'red' );
+
+    } );
+    Property.multilink( [ model.wavelengthProperty, model.sceneProperty ], function( wavelength, scene ) {
+
+      // TODO: this looks odd for light when the wave area is black, also should we use darker/lighter?
+      perspective3DNode.setTopFaceColor( scene === SceneTypeEnum.WATER ? '#3981a9' : scene === SceneTypeEnum.SOUND ? 'gray' : VisibleColor.wavelengthToColor( wavelength ) );
+      perspective3DNode.setSideFaceColor( scene === SceneTypeEnum.WATER ? '#58c0fa' : scene === SceneTypeEnum.SOUND ? 'darkGray' : VisibleColor.wavelengthToColor( wavelength ).colorUtilsDarker( 0.15 ) );
     } );
     this.addChild( perspective3DNode );
 
