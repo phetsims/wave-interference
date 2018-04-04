@@ -27,7 +27,7 @@ define( function( require ) {
     this.waveAreaBounds = waveAreaBounds;
 
     // @private - depicts the side face (when the user selects "side view")
-    this.sideFacePath = new Path( null, { stroke: 'black', lineWidth: 4, lineJoin: 'round', fill: '#58c0fa' } ); // TODO: factor out color
+    this.sideFacePath = new Path( null, { lineJoin: 'round', fill: '#58c0fa' } ); // TODO: factor out color
     // TODO: lineWidth should match Perspective3DNode
 
     // @private
