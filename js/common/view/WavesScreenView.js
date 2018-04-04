@@ -321,7 +321,7 @@ define( function( require ) {
     Property.multilink( [ model.rotationAmountProperty, model.showGraphProperty, model.sceneProperty ], function( rotationAmount, showGraph, scene ) {
       var isRotating = rotationAmount > 0 && rotationAmount < 1; // TODO: factor out?
       waveAreaGraphNode.visible = !isRotating && showGraph;
-      dottedLineNode.visible = !isRotating && showGraph && !( scene === SceneTypeEnum.WATER && rotationAmount === 1 );
+      dottedLineNode.visible = !isRotating && showGraph;
     } );
 
     var perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty );
