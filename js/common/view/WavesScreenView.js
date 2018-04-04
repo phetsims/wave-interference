@@ -330,13 +330,17 @@ define( function( require ) {
 
     // TODO: move to model and factor out for dual sources
     var button1PressedProperty = new BooleanProperty( false );
+    var button2PressedProperty = new BooleanProperty( false );
     button1PressedProperty.lazyLink( function( on ) {
       if ( on && model.inputTypeProperty.value === InputTypeEnum.PULSE ) {
         model.startPulse();
       }
       else {
-        model.continuousWaveOscillatingProperty.value = on;
+        model.continuousWave1OscillatingProperty.value = on;
       }
+    } );
+    button2PressedProperty.lazyLink( function( on ) {
+      model.continuousWave2OscillatingProperty.value = on;
     } );
     model.pulseFiringProperty.lazyLink( function( pulseFiring ) {
       if ( !pulseFiring ) {
@@ -348,7 +352,7 @@ define( function( require ) {
         button1PressedProperty.value = false;
       }
     } );
-    var laserPointerNode1 = new LaserPointerNode( button1PressedProperty, {
+    var laserPointerNode1 = new LaserPointerNode( button2PressedProperty, {
       bodySize: new Dimension2( 80, 40 ),
       nozzleSize: new Dimension2( 10, 28 ),
       buttonRadius: 18,

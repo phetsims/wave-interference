@@ -1,7 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Model for the "Waves" screen and other derivative screens.
+ * Model for the "Waves" screen and other derivative screens.  This model supports two sources, even though the waves
+ * screen only uses one.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -110,8 +111,11 @@ define( function( require ) {
     // @public {BooleanProperty} - true while a single pulse is being generated
     this.pulseFiringProperty = new BooleanProperty( false );
 
-    // @public {BooleanProperty} - true when the wave is continuously oscillating
-    this.continuousWaveOscillatingProperty = new BooleanProperty( false );
+    // @public {BooleanProperty} - true when the first source is continuously oscillating
+    this.continuousWave1OscillatingProperty = new BooleanProperty( false );
+
+    // @public {BooleanProperty} - true when the second source is continuously oscillating
+    this.continuousWave2OscillatingProperty = new BooleanProperty( false );
 
     // @public {Lattice} the grid that contains the wave values
     this.lattice = new Lattice( 100, 100, 20, 20 ); // Java was 60 + 20 padding on each side // TODO(design): evaluate dimensions
@@ -217,8 +221,9 @@ define( function( require ) {
         dt = 1 / 60;
       }
       this.time += dt;
-      var continuous = ( this.inputTypeProperty.get() === InputTypeEnum.CONTINUOUS ) && this.continuousWaveOscillatingProperty.get();
-      if ( continuous || this.pulseFiringProperty.get() ) {
+      var continuous1 = ( this.inputTypeProperty.get() === InputTypeEnum.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
+      var continuous2 = ( this.inputTypeProperty.get() === InputTypeEnum.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
+      if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
         // TODO(design): a negative sign here will mean the water goes down first for a pulse, which makes sense
         // for a drop of water dropping in, but not desirable for how the graphs look (seems odd to dip down first)
@@ -229,10 +234,13 @@ define( function( require ) {
         var latticeCenterJ = Math.floor( this.lattice.height / 2 );
 
         // Point source
-        this.lattice.setCurrentValue( 30, latticeCenterJ - separation, v );
+        if ( this.continuousWave1OscillatingProperty.get() ) {
+          this.lattice.setCurrentValue( 30, latticeCenterJ - separation, v );
+        }
 
         // Secondary source, if any
-        if ( separation > 0 ) {
+        // TODO: symmetry between waves
+        if ( separation > 0 && this.continuousWave2OscillatingProperty.get() ) {
           this.lattice.setCurrentValue( 30, latticeCenterJ + separation, v );
         }
 
