@@ -274,7 +274,7 @@ define( function( require ) {
         var latticeCenterJ = Math.floor( this.lattice.height / 2 );
 
         // Point source
-        if ( this.continuousWave1OscillatingProperty.get() ) {
+        if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
           entriesToSet.push( { i: POINT_SOURCE_I_COORDINATE, j: latticeCenterJ + separation, value: v } );
         }
 
