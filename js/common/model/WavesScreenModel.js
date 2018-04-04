@@ -252,6 +252,7 @@ define( function( require ) {
      * @public
      */
     advanceTime: function( dt ) {
+      var self = this;
 
       // On iPad2 and slower platforms, the clock speed cannot keep up with the frequency, so we must clamp the elapsed
       // time to get the full range of oscillation at the wave source.
@@ -261,6 +262,7 @@ define( function( require ) {
       this.time += dt;
       var continuous1 = ( this.inputTypeProperty.get() === InputTypeEnum.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
       var continuous2 = ( this.inputTypeProperty.get() === InputTypeEnum.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
+      var entriesToSet = [];
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
         // TODO(design): a negative sign here will mean the water goes down first for a pulse, which makes sense
@@ -273,12 +275,12 @@ define( function( require ) {
 
         // Point source
         if ( this.continuousWave1OscillatingProperty.get() ) {
-          this.lattice.setCurrentValue( POINT_SOURCE_I_COORDINATE, latticeCenterJ + separation, v );
+          entriesToSet.push( { i: POINT_SOURCE_I_COORDINATE, j: latticeCenterJ + separation, value: v } );
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
         if ( this.continuousWave2OscillatingProperty.get() ) {
-          this.lattice.setCurrentValue( POINT_SOURCE_I_COORDINATE, latticeCenterJ - separation, v );
+          entriesToSet.push( { i: POINT_SOURCE_I_COORDINATE, j: latticeCenterJ - separation, value: v } );
         }
 
         if ( this.time * this.frequencyProperty.value + this.phase > Math.PI * 2 ) {
@@ -289,7 +291,19 @@ define( function( require ) {
       this.timeSinceLastLatticeStep += dt;
 
       if ( this.timeSinceLastLatticeStep >= 1 / 60 ) {
+        var setEntry = function( entry ) {
+          self.lattice.setCurrentValue( entry.i, entry.j, entry.value );
+        };
+
+        // Apply values before lattice step so the values will be used to propagate
+        entriesToSet.forEach( setEntry );
+
+        // Update the lattice
         this.lattice.step();
+
+        // Apply values on top of the computed lattice values so there is no noise at the point sources
+        entriesToSet.forEach( setEntry );
+
         this.timeSinceLastLatticeStep = 0;
         this.intensitySample.step();
       }
