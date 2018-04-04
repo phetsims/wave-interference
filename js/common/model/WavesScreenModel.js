@@ -26,6 +26,9 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
+  // constants
+  var POINT_SOURCE_I_COORDINATE = 30;
+
   /**
    * @param {Object} [options]
    * @constructor
@@ -270,13 +273,12 @@ define( function( require ) {
 
         // Point source
         if ( this.continuousWave1OscillatingProperty.get() ) {
-          this.lattice.setCurrentValue( 30, latticeCenterJ + separation, v );
+          this.lattice.setCurrentValue( POINT_SOURCE_I_COORDINATE, latticeCenterJ + separation, v );
         }
 
-        // Secondary source, if any
-        // TODO: symmetry between waves
-        if ( separation > 0 && this.continuousWave2OscillatingProperty.get() ) {
-          this.lattice.setCurrentValue( 30, latticeCenterJ - separation, v );
+        // Secondary source (note if there is only one source, this sets the same value as above)
+        if ( this.continuousWave2OscillatingProperty.get() ) {
+          this.lattice.setCurrentValue( POINT_SOURCE_I_COORDINATE, latticeCenterJ - separation, v );
         }
 
         if ( this.time * this.frequencyProperty.value + this.phase > Math.PI * 2 ) {
