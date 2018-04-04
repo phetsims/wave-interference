@@ -12,6 +12,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
   var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -37,7 +38,7 @@ define( function( require ) {
     this.array = [];
 
     Node.call( this, {
-      children: [ this.sideFacePath ]
+      children: [ Rectangle.bounds( waveAreaBounds, { fill: '#e2e3e5' } ), this.sideFacePath ]
     } );
 
     model.lattice.changedEmitter.addListener( this.update.bind( this ) );

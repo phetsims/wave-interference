@@ -27,6 +27,7 @@ define( function( require ) {
   var Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
   var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
@@ -293,10 +294,16 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - MARGIN
     } );
 
+    // Show a gray background for the water to make it easier to see the dotted line in the middle of the screen
+    // TODO(design): Is this necessary?  See also code in WaterSideViewNode
+    var waterGrayBackground = Rectangle.bounds( this.waveAreaNode.bounds, { fill: '#e2e3e5' } );
+    this.addChild( waterGrayBackground );
+
     // Show the side of the water, when fully rotated and in WATER scene
     var waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
     Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
       waterSideViewNode.visible = rotationAmount === 1.0 && scene === SceneTypeEnum.WATER;
+      waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === SceneTypeEnum.WATER;
     } );
     this.addChild( waterSideViewNode );
 
