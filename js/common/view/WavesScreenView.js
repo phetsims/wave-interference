@@ -333,7 +333,7 @@ define( function( require ) {
     } );
     this.addChild( perspective3DNode );
 
-    var laserPointerNode1 = new LaserPointerNode( model.button2PressedProperty, {
+    var laserPointerNode1 = new LaserPointerNode( model.button1PressedProperty, {
       bodySize: new Dimension2( 80, 40 ),
       nozzleSize: new Dimension2( 10, 28 ),
       buttonRadius: 18,
@@ -342,7 +342,7 @@ define( function( require ) {
     } );
 
     // TODO: factor out options
-    var laserPointerNode2 = new LaserPointerNode( model.button1PressedProperty, {
+    var laserPointerNode2 = new LaserPointerNode( model.button2PressedProperty, {
       bodySize: new Dimension2( 80, 40 ),
       nozzleSize: new Dimension2( 10, 28 ),
       buttonRadius: 18,
