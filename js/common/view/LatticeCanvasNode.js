@@ -77,9 +77,24 @@ define( function( require ) {
     paintCanvas: function( context ) {
       for ( var i = this.lattice.dampX; i < this.lattice.width - this.lattice.dampX; i++ ) {
         for ( var k = this.lattice.dampY; k < this.lattice.height - this.lattice.dampY; k++ ) {
+
+          // Color mapping:
+          // wave value => color value
+          //          1 => 1.0
+          //          0 => 0.3
+          //         -1 => 0.0
           var value = this.lattice.getCurrentValue( i, k );
-          var intensity = Util.linear( -2, 2, 0, 1, value );
-          intensity = Util.clamp( intensity, 0, 1 );
+          var intensity;
+          var CUTOFF = 0.3;
+          if ( value > 0 ) {
+            intensity = Util.linear( 0, 2, CUTOFF, 1, value );
+            intensity = Util.clamp( intensity, CUTOFF, 1 );
+          }
+          else {
+            intensity = Util.linear( -1.5, 0, 0, CUTOFF, value );
+            intensity = Util.clamp( intensity, 0, CUTOFF );
+          }
+
           var color = this.baseColor.blend( Color.black, 1 - intensity ); // TODO: Performance caveat
           if ( this.vacuumColor && !this.lattice.cellHasBeenVisited( i, k ) ) {
             color = this.vacuumColor;
