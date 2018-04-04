@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Matrix3 = require( 'DOT/Matrix3' );
   var Util = require( 'DOT/Util' );
@@ -26,6 +27,9 @@ define( function( require ) {
    * @constructor
    */
   function ScreenNode( lattice, intensitySample, options ) {
+
+    var self = this;
+
     options = _.extend( {
       canvasBounds: new Bounds2( 0, 0, 100, 2000 ) // TODO: this seems to do nothing
     }, options );
@@ -36,7 +40,9 @@ define( function( require ) {
 
     // @private
     this.intensitySample = intensitySample;
-    var self = this;
+
+    // @private
+    this.baseColor = Color.blue;
 
     intensitySample.changedEmitter.addListener( function() {
       self.invalidatePaint();
@@ -53,6 +59,15 @@ define( function( require ) {
   return inherit( CanvasNode, ScreenNode, {
 
     /**
+     * Sets the base color for the screen, corresponding to the color of the incoming light
+     * @param {Color} baseColor
+     */
+    setBaseColor: function( baseColor ) {
+      this.baseColor = baseColor;
+      this.invalidatePaint();
+    },
+
+    /**
      * Draws into the canvas
      * @param {CanvasRenderingContext2D} context
      */
@@ -62,9 +77,10 @@ define( function( require ) {
       var intensityValues = this.intensitySample.getIntensityValues();
       for ( var k = this.lattice.dampY; k < this.lattice.height - this.lattice.dampY; k++ ) {
         var intensity = intensityValues[ k - this.lattice.dampY ];
-        var shading = Util.linear( 0, 0.05, 0, 255, intensity );
-        shading = Math.floor( Util.clamp( shading, 0, 255 ) );
-        context.fillStyle = 'rgb(0,0,' + shading + ')';
+        var brightness = Util.linear( 0, 0.05, 0, 1, intensity );
+        brightness = Util.clamp( brightness, 0, 1 );
+        var color = this.baseColor.blend( Color.black, 1 - brightness );
+        context.fillStyle = color.toCSS();
         context.fillRect( 0, k * CELL_WIDTH, 100, CELL_WIDTH + 1 ); // +1 is to eliminate seams // TODO: x-offset?
       }
     }

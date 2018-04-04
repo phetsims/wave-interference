@@ -17,13 +17,13 @@ define( function( require ) {
   var DottedLineNode = require( 'WAVE_INTERFERENCE/common/view/DottedLineNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var InputTypeEnum = require( 'WAVE_INTERFERENCE/common/model/InputTypeEnum' );
   var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
   var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
-  var InputTypeEnum = require( 'WAVE_INTERFERENCE/common/model/InputTypeEnum' );
   var Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
   var Property = require( 'AXON/Property' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
@@ -155,10 +155,15 @@ define( function( require ) {
       left: this.waveAreaNode.right + 5,
       y: this.waveAreaNode.top
     } );
-    Property.multilink( [ model.showScreenProperty, model.sceneProperty ], function( showScreen, scene ) {
 
-      // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
+    // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
+    Property.multilink( [ model.showScreenProperty, model.sceneProperty ], function( showScreen, scene ) {
       screenNode.visible = showScreen && scene === SceneTypeEnum.LIGHT;
+    } );
+
+    // Set the color of highlight on the screen
+    model.wavelengthProperty.link( function( wavelength ) {
+      screenNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength ) );
     } );
     model.showScreenProperty.linkAttribute( screenNode, 'visible' );
 
