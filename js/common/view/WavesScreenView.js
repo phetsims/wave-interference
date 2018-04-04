@@ -333,31 +333,7 @@ define( function( require ) {
     } );
     this.addChild( perspective3DNode );
 
-    // TODO: move to model and factor out for dual sources
-    var button1PressedProperty = new BooleanProperty( false );
-    var button2PressedProperty = new BooleanProperty( false );
-    button1PressedProperty.lazyLink( function( on ) {
-      if ( on && model.inputTypeProperty.value === InputTypeEnum.PULSE ) {
-        model.startPulse();
-      }
-      else {
-        model.continuousWave1OscillatingProperty.value = on;
-      }
-    } );
-    button2PressedProperty.lazyLink( function( on ) {
-      model.continuousWave2OscillatingProperty.value = on;
-    } );
-    model.pulseFiringProperty.lazyLink( function( pulseFiring ) {
-      if ( !pulseFiring ) {
-        button1PressedProperty.value = false;
-      }
-    } );
-    model.inputTypeProperty.link( function( inputType ) {
-      if ( inputType === InputTypeEnum.PULSE ) {
-        button1PressedProperty.value = false;
-      }
-    } );
-    var laserPointerNode1 = new LaserPointerNode( button2PressedProperty, {
+    var laserPointerNode1 = new LaserPointerNode( model.button2PressedProperty, {
       bodySize: new Dimension2( 80, 40 ),
       nozzleSize: new Dimension2( 10, 28 ),
       buttonRadius: 18,
@@ -366,7 +342,7 @@ define( function( require ) {
     } );
 
     // TODO: factor out options
-    var laserPointerNode2 = new LaserPointerNode( button1PressedProperty, {
+    var laserPointerNode2 = new LaserPointerNode( model.button1PressedProperty, {
       bodySize: new Dimension2( 80, 40 ),
       nozzleSize: new Dimension2( 10, 28 ),
       buttonRadius: 18,

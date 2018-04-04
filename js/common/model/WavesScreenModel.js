@@ -150,6 +150,12 @@ define( function( require ) {
     // @private - track the time since the last lattice update so we can get comparable performance on machines with different speeds
     this.timeSinceLastLatticeStep = 0;
 
+    // @public - whether the button for the first source is pressed
+    this.button1PressedProperty = new BooleanProperty( false );
+
+    // @public - whether the button for the second source is pressed
+    this.button2PressedProperty = new BooleanProperty( false );
+
     // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
     // for continuity
     this.frequencyProperty.lazyLink( function( newFrequency, oldFrequency ) {
@@ -174,6 +180,35 @@ define( function( require ) {
     // When the scene changes, the wave clears
     this.sceneProperty.link( function() {
       self.clear();
+    } );
+
+    // The first button can trigger a pulse, or continuous wave, depending on the inputTypeProperty
+    this.button1PressedProperty.lazyLink( function( on ) {
+      if ( on && self.inputTypeProperty.value === InputTypeEnum.PULSE ) {
+        self.startPulse();
+      }
+      else {
+        self.continuousWave1OscillatingProperty.value = on;
+      }
+    } );
+
+    // The 2nd button starts the second continuous wave
+    this.button2PressedProperty.lazyLink( function( on ) {
+      self.continuousWave2OscillatingProperty.value = on;
+    } );
+
+    // When the pulse ends, the button pops out
+    this.pulseFiringProperty.lazyLink( function( pulseFiring ) {
+      if ( !pulseFiring ) {
+        self.button1PressedProperty.value = false;
+      }
+    } );
+
+    // When the user selects "PULSE", the button pops out.
+    this.inputTypeProperty.link( function( inputType ) {
+      if ( inputType === InputTypeEnum.PULSE ) {
+        self.button1PressedProperty.value = false;
+      }
     } );
   }
 
