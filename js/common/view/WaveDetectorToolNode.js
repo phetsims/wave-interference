@@ -133,10 +133,15 @@ define( function( require ) {
     graphPanel.addChild( new Line( 0, graphHeight / 2, graphWidth, graphHeight / 2, LINE_OPTIONS ) );
     graphPanel.addChild( new Line( 0, graphHeight * 3 / 4, graphWidth, graphHeight * 3 / 4, LINE_OPTIONS ) );
 
+    // There is a blank space on the right side of the graph so there is room for the pens
+    var rightGraphMargin = 10;
+    var availableGraphWidth = graphWidth - rightGraphMargin;
+
     // Vertical lines
-    graphPanel.addChild( new Line( graphWidth / 4, 0, graphWidth / 4, graphHeight, LINE_OPTIONS ) );
-    graphPanel.addChild( new Line( graphWidth / 2, 0, graphWidth / 2, graphHeight, LINE_OPTIONS ) );
-    graphPanel.addChild( new Line( graphWidth * 3 / 4, 0, graphWidth * 3 / 4, graphHeight, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( availableGraphWidth / 4, 0, availableGraphWidth / 4, graphHeight, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( availableGraphWidth / 2, 0, availableGraphWidth / 2, graphHeight, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( availableGraphWidth * 3 / 4, 0, availableGraphWidth * 3 / 4, graphHeight, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( availableGraphWidth, 0, availableGraphWidth, graphHeight, LINE_OPTIONS ) );
 
     this.backgroundNode.addChild( graphPanel );
 
@@ -212,12 +217,21 @@ define( function( require ) {
     this.alignProbes();
 
     // Create the "pens" which draw the data at the right side of the graph
-    var pen1Node = new Circle( 3, { fill: SERIES_1_COLOR, right: graphPanel.width, centerY: graphHeight / 2 } );
+    var PEN_RADIUS = 4.5;
+    var pen1Node = new Circle( PEN_RADIUS, {
+      fill: SERIES_1_COLOR,
+      centerX: availableGraphWidth,
+      centerY: graphHeight / 2
+    } );
     var probe1Path = new Path( new Shape(), { stroke: SERIES_1_COLOR, lineWidth: PATH_LINE_WIDTH } );
     graphPanel.addChild( probe1Path );
     graphPanel.addChild( pen1Node );
 
-    var pen2Node = new Circle( 3, { fill: SERIES_2_COLOR, right: graphPanel.width, centerY: graphHeight / 2 } );
+    var pen2Node = new Circle( PEN_RADIUS, {
+      fill: SERIES_2_COLOR,
+      centerX: availableGraphWidth,
+      centerY: graphHeight / 2
+    } );
     var probe2Path = new Path( new Shape(), { stroke: SERIES_2_COLOR, lineWidth: PATH_LINE_WIDTH } );
     graphPanel.addChild( probe2Path );
     graphPanel.addChild( pen2Node );
@@ -260,7 +274,7 @@ define( function( require ) {
         var pathShape = new Shape();
         for ( var i = 0; i < probeSamples.length; i++ ) {
           var sample = probeSamples[ i ];
-          var xAxisValue = Util.linear( model.time, model.time - SECONDS_TO_SHOW, graphWidth, 0, sample.x );
+          var xAxisValue = Util.linear( model.time, model.time - SECONDS_TO_SHOW, availableGraphWidth, 0, sample.x );
           pathShape.lineTo( xAxisValue, sample.y );
         }
         probePath.shape = pathShape;
