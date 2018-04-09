@@ -32,10 +32,11 @@ define( function( require ) {
 
   /**
    * @param {WavesScreenModel} model
+   * @param {Bounds2} waveAreaBounds
    * @param {Object} [options]
    * @constructor
    */
-  function WaveAreaGraphNode( model, options ) {
+  function WaveAreaGraphNode( model, waveAreaBounds, options ) {
     var self = this;
     Node.call( this );
 
@@ -158,9 +159,12 @@ define( function( require ) {
 
       array = model.lattice.getCenterLineValues( array );
       for ( var i = 0; i < array.length; i++ ) {
-        var element = array[ i ];
-        var x = Util.linear( 0, array.length - 1, 0, graphWidth, i );
-        var y = Util.linear( 10, -10, 0, plotHeight, element ); // Note the inversion of the y-axis, so peaks of the waveform correspond to peaks on the chart
+        var value = array[ i ];
+
+        // This uses the same scaling as in the wave area
+        // TODO: a more elegant pattern for factoring out the transform or scale
+        var x = Util.linear( 0, array.length - 1, waveAreaBounds.left, waveAreaBounds.right, i ) - options.x;
+        var y = Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 100, value ) - options.centerY / 2 - 1.7; // TODO: magic number
         s.lineTo( x, y );
       }
 

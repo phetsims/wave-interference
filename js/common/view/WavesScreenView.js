@@ -90,7 +90,7 @@ define( function( require ) {
     } );
     this.addChild( this.scaleIndicatorNode );
 
-    var waveAreaGraphNode = new WaveAreaGraphNode( model, {
+    var waveAreaGraphNode = new WaveAreaGraphNode( model, this.waveAreaNode.bounds, {
       x: this.waveAreaNode.left,
       centerY: this.waveAreaNode.top + this.waveAreaNode.height * 0.75
     } );
