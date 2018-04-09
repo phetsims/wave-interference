@@ -153,7 +153,7 @@ define( function( require ) {
     this.addChild( path );
 
     var array = [];
-    model.stepEmitter.addListener( function() {
+    model.lattice.changedEmitter.addListener( function() {
       var s = new Shape();
 
       array = model.lattice.getCenterLineValues( array );

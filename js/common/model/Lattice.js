@@ -78,21 +78,9 @@ define( function( require ) {
       }
       var samplingHeight = Math.round( this.height / 2 );
       for ( var i = 0; i < this.width - this.dampX * 2; i++ ) {
-        array[ i ] = this.getVerticalAverage( i + this.dampX, samplingHeight );
+        array[ i ] = this.getCurrentValue( i + this.dampX, samplingHeight );
       }
       return array;
-    },
-
-    /**
-     * Average a point with its upper and lower neighbors
-     * @param {number} i - horizontal integer coordinate
-     * @param {number} j - vertical integer coordinate
-     * @returns {number}
-     * @private
-     * // TODO(design): is this necessary and/or valuable?
-     */
-    getVerticalAverage: function( i, j ) {
-      return this.getCurrentValue( i, j );
     },
 
     /**
