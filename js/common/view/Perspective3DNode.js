@@ -120,14 +120,16 @@ define( function( require ) {
       if ( rotationAmount > 0 ) {
         this.upNode.setMatrix( Matrix3.scaling( 1, rotationAmount ) );
       }
-      this.upNode.visible = rotationAmount > 0;
-      this.upNode.centerY = this.sideFacePath.centerY;
-      this.upNode.right = this.sideFacePath.right - 80;
 
       // Only show the 3d perspective view while rotating
       var rotating = rotationAmount > 0 && rotationAmount < 1;
       this.topFacePath.visible = rotating;
       this.sideFacePath.visible = rotating;
+
+      // Only show the "top" indicator while rotating
+      this.upNode.visible = rotating;
+      this.upNode.centerY = this.sideFacePath.centerY;
+      this.upNode.right = this.sideFacePath.right - 80;
     }
   } );
 } );
