@@ -42,6 +42,7 @@ define( function( require ) {
   var AXIS_LABEL_FILL = 'white';
   var LABEL_GRAPH_MARGIN = 3;
   var LABEL_EDGE_MARGIN = 6;
+  var HORIZONAL_AXIS_LABEL_MARGIN = 4;
 
   /**
    * @param {WavesScreenModel|null} model - model for reading values, null for icon
@@ -88,7 +89,7 @@ define( function( require ) {
     this.addChild( this.backgroundNode );
 
     var LABEL_FONT_SIZE = 14;
-    var horizontalAxisTitle = new WaveInterferenceText( 'Time', {
+    var horizontalAxisTitle = new WaveInterferenceText( 'Time Time Time Time Time', {
       fontSize: LABEL_FONT_SIZE,
       fill: AXIS_LABEL_FILL
     } );
@@ -147,7 +148,7 @@ define( function( require ) {
 
     horizontalAxisTitle.mutate( {
       top: graphPanel.bottom + LABEL_GRAPH_MARGIN,
-      centerX: graphPanel.centerX
+      centerX: graphPanel.left + availableGraphWidth / 2
     } );
 
     verticalAxisTitle.mutate( {
@@ -180,9 +181,20 @@ define( function( require ) {
       top: graphPanel.bottom + 2
     } );
     this.backgroundNode.addChild( scaleIndicatorNode );
-
     this.backgroundNode.addChild( horizontalAxisTitle );
     this.backgroundNode.addChild( verticalAxisTitle );
+
+    // For i18n, “Time” will expand symmetrically L/R until it gets too close to the scale bar. Then, the string will
+    // expand to the R only, until it reaches the point it must be scaled down in size.
+    horizontalAxisTitle.maxWidth = graphPanel.right - scaleIndicatorNode.right - 2 * HORIZONAL_AXIS_LABEL_MARGIN;
+    if ( horizontalAxisTitle.left < scaleIndicatorNode.right + HORIZONAL_AXIS_LABEL_MARGIN ) {
+      horizontalAxisTitle.left = scaleIndicatorNode.right + HORIZONAL_AXIS_LABEL_MARGIN;
+    }
+
+    // If maxWidth reduced the scale of the text, it may be too far below the chart.  In that case, move it back up.
+    horizontalAxisTitle.mutate( {
+      top: graphPanel.bottom + LABEL_GRAPH_MARGIN
+    } );
 
     // @private
     this.probe1Node = new WaveDetectorToolProbeNode( {
