@@ -11,10 +11,10 @@ define( function( require ) {
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var WaveDetectorToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolProbeNode' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -25,6 +25,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
+  var WaveDetectorToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolProbeNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WireNode = require( 'WAVE_INTERFERENCE/common/view/WireNode' );
@@ -150,19 +151,30 @@ define( function( require ) {
     } );
 
     var scaleIndicatorNode = new VBox( {
+      spacing: -2,
       children: [
-        new WaveInterferenceText( '1 s', { fontSize: 8 } ),
-        new ArrowNode( 0, 0, graphWidth / 4 - 1, 0, {
-          headHeight: 3,
-          headWidth: 3.5,
-          tailWidth: 0.5,
-          doubleHead: true
-        } )
+
+        // TODO: factor out with the one at the top of the wave graph area
+        new HBox( {
+          children: [
+            new Rectangle( 0, 0, 1, 6, { fill: 'white' } ),
+            new ArrowNode( 0, 0, graphWidth / 4 - 4, 0, {
+              fill: 'white',
+              stroke: 'white',
+              headHeight: 3,
+              headWidth: 3.5,
+              tailWidth: 0.5,
+              doubleHead: true
+            } ),
+            new Rectangle( 0, 0, 1, 6, { fill: 'white' } )
+          ]
+        } ),
+        new WaveInterferenceText( '1 s', { fontSize: 11, fill: 'white' } )
       ],
-      left: 0,
-      bottom: graphHeight - 4
+      left: graphPanel.left + 1,
+      top: graphPanel.bottom + 2
     } );
-    graphPanel.addChild( scaleIndicatorNode );
+    this.backgroundNode.addChild( scaleIndicatorNode );
 
     this.backgroundNode.addChild( horizontalAxisTitle );
     this.backgroundNode.addChild( verticalAxisTitle );
