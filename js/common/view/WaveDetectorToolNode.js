@@ -89,7 +89,7 @@ define( function( require ) {
     this.addChild( this.backgroundNode );
 
     var LABEL_FONT_SIZE = 14;
-    var horizontalAxisTitle = new WaveInterferenceText( 'Time Time Time Time Time', {
+    var horizontalAxisTitle = new WaveInterferenceText( 'Time', {
       fontSize: LABEL_FONT_SIZE,
       fill: AXIS_LABEL_FILL
     } );
