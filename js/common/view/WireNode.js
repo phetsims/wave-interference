@@ -52,7 +52,7 @@ define( function( require ) {
   return inherit( Path, WireNode, {
 
     /**
-     * Updates the shape of the wire when the ChartToolNode or ChartToolProbeNode has moved.
+     * Updates the shape of the wire when the WaveDetectorToolNode or WaveDetectorToolProbeNode has moved.
      * @public
      */
     updateWireShape: function() {

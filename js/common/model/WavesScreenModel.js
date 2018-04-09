@@ -101,7 +101,7 @@ define( function( require ) {
     this.isTimerInPlayAreaProperty = new BooleanProperty( false );
 
     // @public
-    this.isChartToolNodeInPlayAreaProperty = new BooleanProperty( false );
+    this.isWaveDetectorToolNodeInPlayAreaProperty = new BooleanProperty( false );
 
     // @public - amount the 3d view is rotated. 0 means top view, 1 means side view.
     this.rotationAmountProperty = new NumberProperty( 0, {
@@ -349,7 +349,7 @@ define( function( require ) {
       this.showIntensityGraphProperty.reset();
       this.timerElapsedTimeProperty.reset();
       this.isMeasuringTapeInPlayAreaProperty.reset();
-      this.isChartToolNodeInPlayAreaProperty.reset();
+      this.isWaveDetectorToolNodeInPlayAreaProperty.reset();
     }
   } );
 } );

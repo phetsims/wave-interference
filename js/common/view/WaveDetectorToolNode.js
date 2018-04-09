@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var ChartToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolProbeNode' );
+  var WaveDetectorToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolProbeNode' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
@@ -57,7 +57,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function ChartToolNode( model, view, options ) {
+  function WaveDetectorToolNode( model, view, options ) {
     var self = this;
 
     options = _.extend( { end: function() {} }, options );
@@ -80,7 +80,7 @@ define( function( require ) {
 
           self.alignProbes();
 
-          // When the wave is paused and the user is dragging the entire ChartToolNode with the probes aligned, they
+          // When the wave is paused and the user is dragging the entire WaveDetectorToolNode with the probes aligned, they
           // need to sample their new locations
           updatePaths();
         }
@@ -148,7 +148,7 @@ define( function( require ) {
     this.backgroundNode.addChild( verticalAxisTitle );
 
     // @private
-    this.probe1Node = new ChartToolProbeNode( {
+    this.probe1Node = new WaveDetectorToolProbeNode( {
       color: SERIES_1_COLOR,
       drag: function() {
         self.probe1WireNode.updateWireShape();
@@ -157,7 +157,7 @@ define( function( require ) {
     } );
 
     // @private
-    this.probe2Node = new ChartToolProbeNode( {
+    this.probe2Node = new WaveDetectorToolProbeNode( {
       color: SERIES_2_COLOR,
       drag: function() {
         self.probe2WireNode.updateWireShape();
@@ -197,7 +197,7 @@ define( function( require ) {
 
     var updateProbeData = function( probeNode, penNode, probeSamples, probePath ) {
 
-      if ( model.isChartToolNodeInPlayAreaProperty.get() ) {
+      if ( model.isWaveDetectorToolNodeInPlayAreaProperty.get() ) {
 
         // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
         // itself as the sensor hot spot.  This doesn't include the damping regions
@@ -244,9 +244,9 @@ define( function( require ) {
     model && model.lattice.changedEmitter.addListener( updatePaths );
   }
 
-  waveInterference.register( 'ChartToolNode', ChartToolNode );
+  waveInterference.register( 'WaveDetectorToolNode', WaveDetectorToolNode );
 
-  return inherit( Node, ChartToolNode, {
+  return inherit( Node, WaveDetectorToolNode, {
 
     /**
      * Put the probes into their standard position relative to the chart body.

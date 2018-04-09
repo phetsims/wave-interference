@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var ChartToolNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolNode' );
+  var WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -27,13 +27,13 @@ define( function( require ) {
   /**
    * @param {MeasuringTapeNode} measuringTapeNode
    * @param {TimerNode} timerNode
-   * @param {ChartToolNode} chartToolNode
+   * @param {WaveDetectorToolNode} waveDetectorToolNode
    * @param {AlignGroup} alignGroup - to align with neighbors
    * @param {WavesScreenModel} model
    * @param {Object} [options]
    * @constructor
    */
-  function ToolboxPanel( measuringTapeNode, timerNode, chartToolNode, alignGroup, model, options ) {
+  function ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model, options ) {
     var self = this;
     var measuringTapeIcon = new MeasuringTapeNode( new Property( {
       name: 'cm',
@@ -85,28 +85,29 @@ define( function( require ) {
       timerNodeIcon.visible = !isTimerInPlayArea;
     } );
 
-    var chartToolNodeForIcon = new ChartToolNode( null, null, {
+    var waveDetectorToolNodeIcon = new WaveDetectorToolNode( null, null, {
       scale: 0.3
     } );
 
     // TODO: factor out this pattern of icon node overlays
-    var chartToolNodeIcon = new Node( {
+    // TODO: how does this differ from waveDetectorToolNodeIcon
+    var waveDetectorNodeIcon = new Node( {
       cursor: 'pointer',
       children: [
-        chartToolNodeForIcon,
+        waveDetectorToolNodeIcon,
 
         // Overlay makes it possible to drag out of the toolbox by the buttons (instead of the buttons being pressed)
         // toImage() was too aliased
-        Rectangle.bounds( chartToolNodeForIcon.bounds, { fill: 'rgba(0,0,0,0)' } )
+        Rectangle.bounds( waveDetectorToolNodeIcon.bounds, { fill: 'rgba(0,0,0,0)' } )
       ]
     } );
-    chartToolNodeIcon.addInputListener( DragListener.createForwardingListener( function( event ) {
-      chartToolNode.center = self.globalToParentPoint( event.pointer.point );
-      chartToolNode.startDrag( event );
-      model.isChartToolNodeInPlayAreaProperty.value = true;
+    waveDetectorNodeIcon.addInputListener( DragListener.createForwardingListener( function( event ) {
+      waveDetectorToolNode.center = self.globalToParentPoint( event.pointer.point );
+      waveDetectorToolNode.startDrag( event );
+      model.isWaveDetectorToolNodeInPlayAreaProperty.value = true;
     } ) );
-    model.isChartToolNodeInPlayAreaProperty.link( function( isChartToolNodeInPlayArea ) {
-      chartToolNodeIcon.visible = !isChartToolNodeInPlayArea;
+    model.isWaveDetectorToolNodeInPlayAreaProperty.link( function( isWaveDetectorToolNodeInPlayArea ) {
+      waveDetectorNodeIcon.visible = !isWaveDetectorToolNodeInPlayArea;
     } );
 
     // Layout for the toolbox
@@ -116,7 +117,7 @@ define( function( require ) {
         children: [
           measuringTapeIcon,
           timerNodeIcon,
-          chartToolNodeIcon
+          waveDetectorNodeIcon
         ]
       } ) ),
       options

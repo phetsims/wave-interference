@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var ChartToolNode = require( 'WAVE_INTERFERENCE/common/view/ChartToolNode' );
+  var WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
   var Color = require( 'SCENERY/util/Color' );
   var ControlPanel = require( 'WAVE_INTERFERENCE/common/view/ControlPanel' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -219,26 +219,26 @@ define( function( require ) {
     timerNode.addInputListener( timerNodeDragListener );
     model.isTimerInPlayAreaProperty.linkAttribute( timerNode, 'visible' );
 
-    var chartToolNode = new ChartToolNode( model, this, {
+    var waveDetectorToolNode = new WaveDetectorToolNode( model, this, {
 
       // Drop in toolbox
       end: function() {
         var toolboxGlobalBounds = toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds );
-        var centerPoint = chartToolNode.getBackgroundNodeGlobalBounds().center;
+        var centerPoint = waveDetectorToolNode.getBackgroundNodeGlobalBounds().center;
         if ( toolboxGlobalBounds.containsPoint( centerPoint ) ) {
-          model.isChartToolNodeInPlayAreaProperty.value = false;
-          chartToolNode.alignProbes();
+          model.isWaveDetectorToolNodeInPlayAreaProperty.value = false;
+          waveDetectorToolNode.alignProbes();
         }
       }
     } );
-    model.isChartToolNodeInPlayAreaProperty.link( function( isChartToolNodeInPlayArea ) {
-      chartToolNode.visible = isChartToolNodeInPlayArea;
+    model.isWaveDetectorToolNodeInPlayAreaProperty.link( function( isWaveDetectorToolNodeInPlayArea ) {
+      waveDetectorToolNode.visible = isWaveDetectorToolNodeInPlayArea;
 
       // Make sure probes are re-aligned on reset-all
-      chartToolNode.alignProbes();
+      waveDetectorToolNode.alignProbes();
     } );
 
-    var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, chartToolNode, alignGroup, model );
+    var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );
     var updateToolboxPosition = function() {
       toolboxPanel.mutate( {
         right: self.layoutBounds.right - MARGIN,
@@ -315,7 +315,7 @@ define( function( require ) {
     this.addChild( waveAreaGraphNode );
     this.addChild( measuringTapeNode );
     this.addChild( timerNode );
-    this.addChild( chartToolNode );
+    this.addChild( waveDetectorToolNode );
 
     Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
       var isRotating = rotationAmount > 0 && rotationAmount < 1; // TODO: factor out?

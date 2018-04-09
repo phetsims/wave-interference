@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * One probe for the ChartToolNode sensors
+ * One probe for the WaveDetectorToolNode sensors
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -18,7 +18,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function ChartToolProbeNode( options ) {
+  function WaveDetectorToolProbeNode( options ) {
 
     options = _.extend( {
       cursor: 'pointer',
@@ -35,7 +35,7 @@ define( function( require ) {
     } ) );
   }
 
-  waveInterference.register( 'ChartToolProbeNode', ChartToolProbeNode );
+  waveInterference.register( 'WaveDetectorToolProbeNode', WaveDetectorToolProbeNode );
 
-  return inherit( ProbeNode, ChartToolProbeNode );
+  return inherit( ProbeNode, WaveDetectorToolProbeNode );
 } );
