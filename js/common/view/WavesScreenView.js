@@ -299,23 +299,15 @@ define( function( require ) {
     var waterGrayBackground = Rectangle.bounds( this.waveAreaNode.bounds, { fill: '#e2e3e5' } );
     this.addChild( waterGrayBackground );
 
+    // Play/Pause button centered under the wave area
+    timeControlPanel.left = this.waveAreaNode.centerX - timeControlPanel.playPauseButton.width / 2;
+
     // Show the side of the water, when fully rotated and in WATER scene
     var waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
     Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
       waterSideViewNode.visible = rotationAmount === 1.0 && scene === SceneTypeEnum.WATER;
       waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === SceneTypeEnum.WATER;
     } );
-    this.addChild( waterSideViewNode );
-
-    // Play/Pause button centered under the wave area
-    timeControlPanel.left = this.waveAreaNode.centerX - timeControlPanel.playPauseButton.width / 2;
-    this.addChild( timeControlPanel );
-
-    this.addChild( dottedLineNode );
-    this.addChild( waveAreaGraphNode );
-    this.addChild( measuringTapeNode );
-    this.addChild( timerNode );
-    this.addChild( waveDetectorToolNode );
 
     Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
       var isRotating = rotationAmount > 0 && rotationAmount < 1; // TODO: factor out?
@@ -341,6 +333,14 @@ define( function( require ) {
       perspective3DNode.setSideFaceColor( scene === SceneTypeEnum.WATER ? '#58c0fa' : scene === SceneTypeEnum.SOUND ? 'darkGray' : VisibleColor.wavelengthToColor( wavelength ).colorUtilsDarker( 0.15 ) );
     } );
     this.addChild( perspective3DNode );
+
+    this.addChild( waterSideViewNode );
+    this.addChild( timeControlPanel );
+    this.addChild( dottedLineNode );
+    this.addChild( waveAreaGraphNode );
+    this.addChild( measuringTapeNode );
+    this.addChild( timerNode );
+    this.addChild( waveDetectorToolNode );
 
     var laserPointerOptions = {
       bodySize: new Dimension2( 80, 40 ),
