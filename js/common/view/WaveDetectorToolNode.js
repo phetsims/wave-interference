@@ -34,22 +34,13 @@ define( function( require ) {
   var SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
   var SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
   var PATH_LINE_WIDTH = 2;
-  var GRAPH_WIDTH = 112;
-  var GRAPH_HEIGHT = 85;
-  var NUMBER_VERTICAL_DASHES = 12;
-  var DASH_LENGTH = GRAPH_HEIGHT / NUMBER_VERTICAL_DASHES / 2;
-  var DASH_PATTERN = [ DASH_LENGTH + 0.6, DASH_LENGTH - 0.6 ];
-  var LINE_WIDTH = 0.8;
-  var LINE_OPTIONS = {
-    stroke: 'lightGray',
-    lineDash: DASH_PATTERN,
-    lineWidth: LINE_WIDTH,
-    lineDashOffset: DASH_LENGTH / 2
-  };
-  var CHART_MARGIN = 10;
-  var CHART_CORNER_RADIUS = 5;
+
+  var TOP_MARGIN = 10;
+  var RIGHT_MARGIN = 10;
+  var GRAPH_CORNER_RADIUS = 5;
   var AXIS_LABEL_FILL = 'white';
-  var AXIS_LABEL_MARGIN = 3;
+  var LABEL_GRAPH_MARGIN = 3;
+  var LABEL_EDGE_MARGIN = 6;
 
   /**
    * @param {WavesScreenModel|null} model - model for reading values, null for icon
@@ -64,11 +55,11 @@ define( function( require ) {
 
     Node.call( this );
 
-    // @private
+    // @private - true if the probes are being dragged with the wave detector tool
     this.synchronizeProbeLocations = true;
 
     // @private
-    this.backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, 150, 120 ), {
+    this.backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, 181.5, 145.2 ), {
       cursor: 'pointer'
     } );
 
@@ -95,30 +86,73 @@ define( function( require ) {
     this.backgroundNode.addInputListener( this.backgroundDragListener );
     this.addChild( this.backgroundNode );
 
-    var graphPanel = new Rectangle( 0, 0, GRAPH_WIDTH, GRAPH_HEIGHT, CHART_CORNER_RADIUS, CHART_CORNER_RADIUS, {
+    var LABEL_FONT_SIZE = 14;
+    var horizontalAxisTitle = new WaveInterferenceText( 'Time', {
+      fontSize: LABEL_FONT_SIZE,
+      fill: AXIS_LABEL_FILL
+    } );
+
+    var verticalAxisTitle = new WaveInterferenceText( 'Water Height (cm)', {
+      fontSize: LABEL_FONT_SIZE,
+      rotation: -Math.PI / 2,
+      fill: AXIS_LABEL_FILL
+    } );
+
+    var leftMargin = LABEL_EDGE_MARGIN + verticalAxisTitle.width + LABEL_GRAPH_MARGIN;
+    var bottomMargin = LABEL_EDGE_MARGIN + horizontalAxisTitle.height + LABEL_GRAPH_MARGIN;
+
+    var graphWidth = this.backgroundNode.width - leftMargin - RIGHT_MARGIN; // TODO: flatten after tweaking
+    var graphHeight = this.backgroundNode.height - TOP_MARGIN - bottomMargin; // TODO: flatten after tweaking
+
+    // Now that we know the graphHeight, use it to limit the text size for the vertical axis label
+    verticalAxisTitle.maxWidth = graphHeight;
+
+    var NUMBER_VERTICAL_DASHES = 12;
+    var dashLength = graphHeight / NUMBER_VERTICAL_DASHES / 2;
+
+    var DASH_PATTERN = [ dashLength + 0.6, dashLength - 0.6 ];
+    var LINE_WIDTH = 0.8;
+    var LINE_OPTIONS = {
+      stroke: 'lightGray',
+      lineDash: DASH_PATTERN,
+      lineWidth: LINE_WIDTH,
+      lineDashOffset: dashLength / 2
+    };
+
+    var graphPanel = new Rectangle( 0, 0, graphWidth, graphHeight, GRAPH_CORNER_RADIUS, GRAPH_CORNER_RADIUS, {
       fill: 'white',
       stroke: 'black',
-      right: this.backgroundNode.right - CHART_MARGIN,
-      top: this.backgroundNode.top + CHART_MARGIN,
+      right: this.backgroundNode.right - RIGHT_MARGIN,
+      top: this.backgroundNode.top + TOP_MARGIN,
       pickable: false
     } );
 
     // Horizontal Lines
-    graphPanel.addChild( new Line( 0, GRAPH_HEIGHT / 4, GRAPH_WIDTH, GRAPH_HEIGHT / 4, LINE_OPTIONS ) );
-    graphPanel.addChild( new Line( 0, GRAPH_HEIGHT / 2, GRAPH_WIDTH, GRAPH_HEIGHT / 2, LINE_OPTIONS ) );
-    graphPanel.addChild( new Line( 0, GRAPH_HEIGHT * 3 / 4, GRAPH_WIDTH, GRAPH_HEIGHT * 3 / 4, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( 0, graphHeight / 4, graphWidth, graphHeight / 4, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( 0, graphHeight / 2, graphWidth, graphHeight / 2, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( 0, graphHeight * 3 / 4, graphWidth, graphHeight * 3 / 4, LINE_OPTIONS ) );
 
     // Vertical lines
-    graphPanel.addChild( new Line( GRAPH_WIDTH / 4, 0, GRAPH_WIDTH / 4, GRAPH_HEIGHT, LINE_OPTIONS ) );
-    graphPanel.addChild( new Line( GRAPH_WIDTH / 2, 0, GRAPH_WIDTH / 2, GRAPH_HEIGHT, LINE_OPTIONS ) );
-    graphPanel.addChild( new Line( GRAPH_WIDTH * 3 / 4, 0, GRAPH_WIDTH * 3 / 4, GRAPH_HEIGHT, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( graphWidth / 4, 0, graphWidth / 4, graphHeight, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( graphWidth / 2, 0, graphWidth / 2, graphHeight, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( graphWidth * 3 / 4, 0, graphWidth * 3 / 4, graphHeight, LINE_OPTIONS ) );
 
     this.backgroundNode.addChild( graphPanel );
+
+    horizontalAxisTitle.mutate( {
+      top: graphPanel.bottom + LABEL_GRAPH_MARGIN,
+      centerX: graphPanel.centerX
+    } );
+
+    verticalAxisTitle.mutate( {
+      right: graphPanel.left - LABEL_GRAPH_MARGIN,
+      centerY: graphPanel.centerY
+    } );
 
     var scaleIndicatorNode = new VBox( {
       children: [
         new WaveInterferenceText( '1 s', { fontSize: 8 } ),
-        new ArrowNode( 0, 0, GRAPH_WIDTH / 4 - 1, 0, {
+        new ArrowNode( 0, 0, graphWidth / 4 - 1, 0, {
           headHeight: 3,
           headWidth: 3.5,
           tailWidth: 0.5,
@@ -126,25 +160,11 @@ define( function( require ) {
         } )
       ],
       left: 0,
-      bottom: GRAPH_HEIGHT - 4
+      bottom: graphHeight - 4
     } );
     graphPanel.addChild( scaleIndicatorNode );
 
-    var horizontalAxisTitle = new WaveInterferenceText( 'Time', {
-      fontSize: 12,
-      top: graphPanel.bottom + AXIS_LABEL_MARGIN,
-      centerX: graphPanel.centerX,
-      fill: AXIS_LABEL_FILL
-    } );
     this.backgroundNode.addChild( horizontalAxisTitle );
-
-    var verticalAxisTitle = new WaveInterferenceText( 'Water Height (cm)', {
-      fontSize: 11,
-      right: graphPanel.left - AXIS_LABEL_MARGIN,
-      rotation: -Math.PI / 2,
-      centerY: graphPanel.centerY,
-      fill: AXIS_LABEL_FILL
-    } );
     this.backgroundNode.addChild( verticalAxisTitle );
 
     // @private
@@ -180,12 +200,12 @@ define( function( require ) {
     this.alignProbes();
 
     // Create the "pens" which draw the data at the right side of the graph
-    var pen1Node = new Circle( 3, { fill: SERIES_1_COLOR, right: graphPanel.width, centerY: GRAPH_HEIGHT / 2 } );
+    var pen1Node = new Circle( 3, { fill: SERIES_1_COLOR, right: graphPanel.width, centerY: graphHeight / 2 } );
     var probe1Path = new Path( new Shape(), { stroke: SERIES_1_COLOR, lineWidth: PATH_LINE_WIDTH } );
     graphPanel.addChild( probe1Path );
     graphPanel.addChild( pen1Node );
 
-    var pen2Node = new Circle( 3, { fill: SERIES_2_COLOR, right: graphPanel.width, centerY: GRAPH_HEIGHT / 2 } );
+    var pen2Node = new Circle( 3, { fill: SERIES_2_COLOR, right: graphPanel.width, centerY: graphHeight / 2 } );
     var probe2Path = new Path( new Shape(), { stroke: SERIES_2_COLOR, lineWidth: PATH_LINE_WIDTH } );
     graphPanel.addChild( probe2Path );
     graphPanel.addChild( pen2Node );
@@ -209,9 +229,9 @@ define( function( require ) {
         if ( !isNaN( value ) ) {
 
           // strong wavefronts (bright colors) are positive on the chart
-          var chartYValue = Util.linear( 0, 1, GRAPH_HEIGHT / 2, 0, value );
-          if ( chartYValue > GRAPH_HEIGHT ) {
-            chartYValue = GRAPH_HEIGHT;
+          var chartYValue = Util.linear( 0, 1, graphHeight / 2, 0, value );
+          if ( chartYValue > graphHeight ) {
+            chartYValue = graphHeight;
           }
           if ( chartYValue < 0 ) {
             chartYValue = 0;
@@ -228,7 +248,7 @@ define( function( require ) {
         var pathShape = new Shape();
         for ( var i = 0; i < probeSamples.length; i++ ) {
           var sample = probeSamples[ i ];
-          var xAxisValue = Util.linear( model.time, model.time - SECONDS_TO_SHOW, GRAPH_WIDTH, 0, sample.x );
+          var xAxisValue = Util.linear( model.time, model.time - SECONDS_TO_SHOW, graphWidth, 0, sample.x );
           pathShape.lineTo( xAxisValue, sample.y );
         }
         probePath.shape = pathShape;
