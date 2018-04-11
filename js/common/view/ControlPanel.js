@@ -23,6 +23,13 @@ define( function( require ) {
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
+  // strings
+  var frequencyString = require( 'string!WAVE_INTERFERENCE/frequency' );
+  var amplitudeString = require( 'string!WAVE_INTERFERENCE/amplitude' );
+  var graphString = require( 'string!WAVE_INTERFERENCE/graph' );
+  var screenString = require( 'string!WAVE_INTERFERENCE/screen' );
+  var intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
+
   // constants
   var CHECKBOX_OPTIONS = {
     boxWidth: 12
@@ -60,9 +67,9 @@ define( function( require ) {
     var frequencySliderContainer = new Node( { children: [ lightFrequencySlider, soundAndWaterFrequencySlider ] } );
     var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, 14 );
 
-    var graphCheckbox = new Checkbox( new WaveInterferenceText( 'Graph' ), model.showGraphProperty, CHECKBOX_OPTIONS );
-    var screenCheckbox = new Checkbox( new WaveInterferenceText( 'Screen' ), model.showScreenProperty, CHECKBOX_OPTIONS );
-    var intensityCheckbox = new Checkbox( new WaveInterferenceText( 'Intensity' ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
+    var graphCheckbox = new Checkbox( new WaveInterferenceText( graphString ), model.showGraphProperty, CHECKBOX_OPTIONS );
+    var screenCheckbox = new Checkbox( new WaveInterferenceText( screenString ), model.showScreenProperty, CHECKBOX_OPTIONS );
+    var intensityCheckbox = new Checkbox( new WaveInterferenceText( intensityString ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
     var maxComponentWidth = _.max( [ screenCheckbox.width, graphCheckbox.width, frequencySlider.width, amplitudeSlider.width, lightFrequencySlider.width ] );
     var separator = new HSeparator( maxComponentWidth );
 
@@ -79,8 +86,8 @@ define( function( require ) {
       orientation: 'horizontal'
     } );
 
-    var frequencyTitle = new WaveInterferenceText( 'Frequency' );
-    var amplitudeTitle = new WaveInterferenceText( 'Amplitude' );
+    var frequencyTitle = new WaveInterferenceText( frequencyString );
+    var amplitudeTitle = new WaveInterferenceText( amplitudeString );
 
     // Horizontal layout
     var centerX = frequencyTitle.centerX;

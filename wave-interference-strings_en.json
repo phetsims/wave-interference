@@ -1,5 +1,35 @@
 {
   "wave-interference.title": {
     "value": "Wave Interference"
+  },
+  "frequency": {
+    "value": "Frequency"
+  },
+  "amplitude": {
+    "value": "Amplitude"
+  },
+  "graph": {
+    "value": "Graph"
+  },
+  "screen": {
+    "value": "Screen"
+  },
+  "intensity": {
+    "value": "Intensity"
+  },
+  "topView": {
+    "value": "Top View"
+  },
+  "sideView": {
+    "value": "Side View"
+  },
+  "normal": {
+    "value": "Normal"
+  },
+  "slow": {
+    "value": "Slow"
+  },
+  "top": {
+    "value": "Top"
   }
 }

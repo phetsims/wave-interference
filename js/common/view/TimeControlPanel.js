@@ -18,6 +18,10 @@ define( function( require ) {
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
 
+  // strings
+  var normalString = require( 'string!WAVE_INTERFERENCE/normal' );
+  var slowString = require( 'string!WAVE_INTERFERENCE/slow' );
+
   /**
    * @constructor
    */
@@ -27,11 +31,11 @@ define( function( require ) {
     this.playPauseButton = new PlayPauseButton( model.isRunningProperty );
 
     var radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
-      node: new WaveInterferenceText( 'Normal' ),
+      node: new WaveInterferenceText( normalString ),
       value: PlaySpeedEnum.NORMAL,
       property: model.playSpeedProperty
     }, {
-      node: new WaveInterferenceText( 'Slow' ),
+      node: new WaveInterferenceText( slowString ),
       value: PlaySpeedEnum.SLOW,
       property: model.playSpeedProperty
     } ] );

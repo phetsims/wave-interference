@@ -21,6 +21,9 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
+  // strings
+  var topString = require( 'string!WAVE_INTERFERENCE/top' );
+
   /**
    * @param {Bounds2} waveAreaBounds
    * @param {NumberProperty} rotationAmountProperty
@@ -43,7 +46,7 @@ define( function( require ) {
     // @private
     this.upNode = new HBox( {
       children: [
-        new WaveInterferenceText( 'Top', { fontSize: 32 } ),
+        new WaveInterferenceText( topString, { fontSize: 32 } ),
         new ArrowNode( 0, 0, 0, -110, {
           stroke: 'black',
           fill: 'yellow',

@@ -15,6 +15,10 @@ define( function( require ) {
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
 
+  // strings
+  var topViewString = require( 'string!WAVE_INTERFERENCE/topView' );
+  var sideViewString = require( 'string!WAVE_INTERFERENCE/sideView' );
+
   /**
    * @param {Property.<ViewTypeEnum>} viewTypeProperty
    * @param {Object} [options]
@@ -22,11 +26,11 @@ define( function( require ) {
    */
   function ViewRadioButtonGroup( viewTypeProperty, options ) {
     WaveInterferenceVerticalAquaRadioButtonGroup.call( this, [ {
-      node: new WaveInterferenceText( 'Top View' ),
+      node: new WaveInterferenceText( topViewString ),
       value: ViewTypeEnum.TOP,
       property: viewTypeProperty
     }, {
-      node: new WaveInterferenceText( 'Side View' ),
+      node: new WaveInterferenceText( sideViewString ),
       value: ViewTypeEnum.SIDE,
       property: viewTypeProperty
     } ], options );
