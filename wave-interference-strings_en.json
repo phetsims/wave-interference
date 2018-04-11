@@ -31,5 +31,17 @@
   },
   "top": {
     "value": "Top"
+  },
+  "screen.waves": {
+    "value": "Waves"
+  },
+  "screen.interference": {
+    "value": "Interference"
+  },
+  "screen.slits": {
+    "value": "Slits"
+  },
+  "screen.diffraction": {
+    "value": "Diffraction"
   }
 }

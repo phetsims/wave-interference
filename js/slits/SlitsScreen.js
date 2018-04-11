@@ -20,6 +20,9 @@ define( function( require ) {
   // images
   var slitsScreenIcon = require( 'image!WAVE_INTERFERENCE/slits_screen_icon.png' );
 
+  // strings
+  var screenSlitsString = require( 'string!WAVE_INTERFERENCE/screen.slits' );
+
   /**
    * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
    * @constructor
@@ -27,7 +30,7 @@ define( function( require ) {
   function SlitsScreen( alignGroup ) {
     var options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: 'Slits',
+      name: screenSlitsString,
       homeScreenIcon: new Image( slitsScreenIcon )
     };
     Screen.call( this,

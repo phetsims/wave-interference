@@ -20,6 +20,9 @@ define( function( require ) {
   // images
   var interferenceScreenIcon = require( 'image!WAVE_INTERFERENCE/interference_screen_icon.png' );
 
+  // strings
+  var screenInterferenceString = require( 'string!WAVE_INTERFERENCE/screen.interference' );
+
   /**
    * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
    * @constructor
@@ -27,7 +30,7 @@ define( function( require ) {
   function InterferenceScreen( alignGroup ) {
     var options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: 'Interference',
+      name: screenInterferenceString,
       homeScreenIcon: new Image( interferenceScreenIcon )
     };
     Screen.call( this,

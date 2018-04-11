@@ -20,6 +20,9 @@ define( function( require ) {
   // images
   var wavesScreenIcon = require( 'image!WAVE_INTERFERENCE/waves_screen_icon.png' );
 
+  // strings
+  var screenWavesString = require( 'string!WAVE_INTERFERENCE/screen.waves' );
+
   /**
    * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
    * @constructor
@@ -27,7 +30,7 @@ define( function( require ) {
   function WavesScreen( alignGroup ) {
     var options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: 'Waves',
+      name: screenWavesString,
       homeScreenIcon: new Image( wavesScreenIcon )
     };
     Screen.call( this,

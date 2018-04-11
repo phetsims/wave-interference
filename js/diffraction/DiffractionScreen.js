@@ -1,6 +1,8 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
+ * Screen for the Diffraction screen.
+ *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
@@ -18,6 +20,9 @@ define( function( require ) {
   // images
   var diffractionScreenIcon = require( 'image!WAVE_INTERFERENCE/diffraction_screen_icon.png' );
 
+  // strings
+  var screenDiffractionString = require( 'string!WAVE_INTERFERENCE/screen.diffraction' );
+
   /**
    * @constructor
    */
@@ -25,7 +30,7 @@ define( function( require ) {
 
     var options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: 'Diffraction',
+      name: screenDiffractionString,
       homeScreenIcon: new Image( diffractionScreenIcon )
     };
 
