@@ -134,7 +134,7 @@ define( function( require ) {
       frequencyTitle,
       frequencySliderContainer,
       amplitudeTitle,
-      options.additionalControl || new Node(), // TODO: is it odd to have blank node here?
+      options.additionalControl || new Node(), // This is ugly but preferable to using concat calls
       amplitudeSlider,
       sceneRadioButtons,
       separator,
