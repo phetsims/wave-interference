@@ -43,5 +43,29 @@
   },
   "screen.diffraction": {
     "value": "Diffraction"
+  },
+  "separation": {
+    "value": "Separation"
+  },
+  "noBarrier": {
+    "value": "No Barrier"
+  },
+  "mirror": {
+    "value": "Mirror"
+  },
+  "oneSlit": {
+    "value": "One Slit"
+  },
+  "twoSlits": {
+    "value": "Two Slits"
+  },
+  "location": {
+    "value": "Location"
+  },
+  "slitWidth": {
+    "value": "Slit Width"
+  },
+  "slitSeparation": {
+    "value": "Slit Separation"
   }
 }

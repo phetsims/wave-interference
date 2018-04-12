@@ -17,6 +17,9 @@ define( function( require ) {
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WavesScreenView = require( 'WAVE_INTERFERENCE/common/view/WavesScreenView' );
 
+  // strings
+  var separationString = require( 'string!WAVE_INTERFERENCE/separation' );
+
   /**
    * @param {WavesScreenModel} model
    * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
@@ -29,7 +32,7 @@ define( function( require ) {
       // goal.  The pulse/continuous radio buttons are used in other screens
       showPulseContinuousRadioButtons: false,
       controlPanelOptions: {
-        additionalControl: new NumberControl( 'Separation', model.sourceSeparationProperty, new Range( 0, 50 ), _.extend( {
+        additionalControl: new NumberControl( separationString, model.sourceSeparationProperty, new Range( 0, 50 ), _.extend( {
           majorTicks: [
             { value: 0, label: new WaveInterferenceText( 1000, { fontSize: 10 } ) },
             { value: 50, label: new WaveInterferenceText( 5000, { fontSize: 10 } ) } ]

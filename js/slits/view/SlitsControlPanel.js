@@ -20,6 +20,15 @@ define( function( require ) {
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
+  // strings
+  var mirrorString = require( 'string!WAVE_INTERFERENCE/mirror' );
+  var noBarrierString = require( 'string!WAVE_INTERFERENCE/noBarrier' );
+  var oneSlitString = require( 'string!WAVE_INTERFERENCE/oneSlit' );
+  var twoSlitsString = require( 'string!WAVE_INTERFERENCE/twoSlits' );
+  var locationString = require( 'string!WAVE_INTERFERENCE/location' );
+  var slitWidthString = require( 'string!WAVE_INTERFERENCE/slitWidth' );
+  var slitSeparationString = require( 'string!WAVE_INTERFERENCE/slitSeparation' );
+
   /**
    * @param {AlignGroup} alignGroup
    * @param {SlitsScreenModel} model
@@ -31,16 +40,16 @@ define( function( require ) {
 
     // TODO: center or make as wide as the rest of the controls
     var comboBox = new ComboBox( [
-      ComboBox.createItem( new WaveInterferenceText( 'No Barrier' ), BarrierTypeEnum.NO_BARRIER ),
-      ComboBox.createItem( new WaveInterferenceText( 'Mirror' ), BarrierTypeEnum.MIRROR ),
-      ComboBox.createItem( new WaveInterferenceText( 'One Slit' ), BarrierTypeEnum.ONE_SLIT ),
-      ComboBox.createItem( new WaveInterferenceText( 'Two Slits' ), BarrierTypeEnum.TWO_SLITS )
+      ComboBox.createItem( new WaveInterferenceText( noBarrierString ), BarrierTypeEnum.NO_BARRIER ),
+      ComboBox.createItem( new WaveInterferenceText( mirrorString ), BarrierTypeEnum.MIRROR ),
+      ComboBox.createItem( new WaveInterferenceText( oneSlitString ), BarrierTypeEnum.ONE_SLIT ),
+      ComboBox.createItem( new WaveInterferenceText( twoSlitsString ), BarrierTypeEnum.TWO_SLITS )
     ], model.barrierTypeProperty, comboBoxParent, {
       buttonYMargin: 0
     } );
 
     // Controls are in the coordinate frame of the lattice
-    var locationControl = new NumberControl( 'Location', model.barrierLocationProperty, new Range( model.lattice.dampX, model.lattice.width - model.lattice.dampX ), _.extend( {
+    var locationControl = new NumberControl( locationString, model.barrierLocationProperty, new Range( model.lattice.dampX, model.lattice.width - model.lattice.dampX ), _.extend( {
       majorTicks: [
         { value: 1000, label: new WaveInterferenceText( 1000, { fontSize: 10 } ) },
         { value: 5000, label: new WaveInterferenceText( 5000, { fontSize: 10 } ) } ]
@@ -52,7 +61,7 @@ define( function( require ) {
                                 barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
 
-    var slitWidthControl = new NumberControl( 'Slit Width', model.slitWidthProperty, new Range( 0, 20 ), _.extend( {
+    var slitWidthControl = new NumberControl( slitWidthString, model.slitWidthProperty, new Range( 0, 20 ), _.extend( {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
         { value: 200, label: new WaveInterferenceText( 200, { fontSize: 10 } ) } ]
@@ -62,7 +71,7 @@ define( function( require ) {
                                  barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
 
-    var slitSeparationControl = new NumberControl( 'Slit Separation', model.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
+    var slitSeparationControl = new NumberControl( slitSeparationString, model.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
         { value: 2000, label: new WaveInterferenceText( 2000, { fontSize: 10 } ) } ]
