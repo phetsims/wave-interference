@@ -274,10 +274,10 @@ define( function( require ) {
       }
 
       // temporal dampen on the visible region
-      this.dampHorizontalTemporal( this.dampY, 1, matrix0, matrix2 );
-      this.dampHorizontalTemporal( this.height - 1 - this.dampY, -1, matrix0, matrix2 );
-      this.dampVerticalTemporal( this.dampX, +1, matrix0, matrix2 );
-      this.dampVerticalTemporal( this.width - 1 - this.dampX, -1, matrix0, matrix2 );
+      this.dampHorizontalTemporal( 0, 1, matrix0, matrix2 );
+      this.dampHorizontalTemporal( this.height - 1, -1, matrix0, matrix2 );
+      this.dampVerticalTemporal( 0, +1, matrix0, matrix2 );
+      this.dampVerticalTemporal( this.width - 1, -1, matrix0, matrix2 );
 
       // decay the wave outside of the visible part
       this.decayVertical( 0, +1, this.dampY / 2 );
