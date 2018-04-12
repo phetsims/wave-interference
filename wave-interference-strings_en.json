@@ -59,6 +59,9 @@
   "twoSlits": {
     "value": "Two Slits"
   },
+  "time": {
+    "value": "Time"
+  },
   "location": {
     "value": "Location"
   },

@@ -30,12 +30,14 @@ define( function( require ) {
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WireNode = require( 'WAVE_INTERFERENCE/common/view/WireNode' );
 
+  // strings
+  var timeString = require( 'string!WAVE_INTERFERENCE/time' );
+
   // constants
   var SECONDS_TO_SHOW = 2;
   var SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
   var SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
   var PATH_LINE_WIDTH = 2;
-
   var TOP_MARGIN = 10;
   var RIGHT_MARGIN = 10;
   var GRAPH_CORNER_RADIUS = 5;
@@ -89,11 +91,12 @@ define( function( require ) {
     this.addChild( this.backgroundNode );
 
     var LABEL_FONT_SIZE = 14;
-    var horizontalAxisTitle = new WaveInterferenceText( 'Time', {
+    var horizontalAxisTitle = new WaveInterferenceText( timeString, {
       fontSize: LABEL_FONT_SIZE,
       fill: AXIS_LABEL_FILL
     } );
 
+    // TODO: this label needs to be i18nized and change when scene changes
     var verticalAxisTitle = new WaveInterferenceText( 'Water Height (cm)', {
       fontSize: LABEL_FONT_SIZE,
       rotation: -Math.PI / 2,
@@ -175,6 +178,8 @@ define( function( require ) {
             new Rectangle( 0, 0, 1, 6, { fill: 'white' } )
           ]
         } ),
+
+        // TODO: this label needs to be i18nized and change when scene changes
         new WaveInterferenceText( '1 s', { fontSize: 11, fill: 'white' } )
       ],
       left: graphPanel.left + 1,
