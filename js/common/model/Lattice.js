@@ -264,10 +264,9 @@ define( function( require ) {
             var neighborSum = matrix1.get( i + 1, j ) + matrix1.get( i - 1, j ) + matrix1.get( i, j + 1 ) + matrix1.get( i, j - 1 );
             var m1ij = matrix1.get( i, j );
             var value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
-            var newValue = value * 0.99;
-            matrix0.set( i, j, newValue ); // TODO(design): do we want to keep damping?
+            matrix0.set( i, j, value );
 
-            if ( Math.abs( newValue ) > 1E-2 ) {
+            if ( Math.abs( value ) > 1E-2 ) {
               this.visitedMatrix.set( i, j, 1 );
             }
           }
