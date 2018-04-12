@@ -126,7 +126,7 @@ define( function( require ) {
     // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
     this.intensitySample = new IntensitySample( this.lattice );
 
-    // @public - wavelength in nm
+    // @public - wavelength, units depend on the scene
     this.wavelengthProperty = new Property( 400 );
 
     // Bidirectional mapping for physical coordinates.  Update the wavelength first so it will take the correct
@@ -138,10 +138,16 @@ define( function( require ) {
     // TODO(design): Match the relative wavelengths of the colors?  For instance, if blue was half the wavelength of red
     // that wouldn't be reflected properly here
     this.frequencyProperty.link( function( frequency ) {
-      self.wavelengthProperty.set( Util.linear( WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, frequency ) );
+      self.wavelengthProperty.set( Util.linear(
+        WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY,
+        VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH,
+        frequency ) );
     } );
     this.wavelengthProperty.link( function( wavelength ) {
-      self.frequencyProperty.set( Util.linear( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, wavelength ) );
+      self.frequencyProperty.set( Util.linear(
+        VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH,
+        WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY,
+        wavelength ) );
     } );
 
     // @public {number} elapsed time in seconds

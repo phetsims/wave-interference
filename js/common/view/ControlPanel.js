@@ -16,6 +16,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
+  var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
@@ -24,11 +25,11 @@ define( function( require ) {
   var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
   // strings
-  var frequencyString = require( 'string!WAVE_INTERFERENCE/frequency' );
   var amplitudeString = require( 'string!WAVE_INTERFERENCE/amplitude' );
+  var frequencyString = require( 'string!WAVE_INTERFERENCE/frequency' );
   var graphString = require( 'string!WAVE_INTERFERENCE/graph' );
-  var screenString = require( 'string!WAVE_INTERFERENCE/screen' );
   var intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
+  var screenString = require( 'string!WAVE_INTERFERENCE/screen' );
 
   // constants
   var CHECKBOX_OPTIONS = {
@@ -58,7 +59,8 @@ define( function( require ) {
       valueVisible: false,
       tweakersVisible: false,
       thumbWidth: 20,
-      thumbHeight: 20
+      thumbHeight: 20,
+      scale: new Vector2( -1, 1 ) // TODO: see scenery-phet issue--are we going to have a different API for this?
     } );
 
     // Controls are in the coordinate frame of the lattice

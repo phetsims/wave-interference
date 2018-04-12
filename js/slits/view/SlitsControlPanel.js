@@ -21,7 +21,6 @@ define( function( require ) {
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // strings
-  var mirrorString = require( 'string!WAVE_INTERFERENCE/mirror' );
   var noBarrierString = require( 'string!WAVE_INTERFERENCE/noBarrier' );
   var oneSlitString = require( 'string!WAVE_INTERFERENCE/oneSlit' );
   var twoSlitsString = require( 'string!WAVE_INTERFERENCE/twoSlits' );
@@ -41,7 +40,6 @@ define( function( require ) {
     // TODO: center or make as wide as the rest of the controls
     var comboBox = new ComboBox( [
       ComboBox.createItem( new WaveInterferenceText( noBarrierString ), BarrierTypeEnum.NO_BARRIER ),
-      ComboBox.createItem( new WaveInterferenceText( mirrorString ), BarrierTypeEnum.MIRROR ),
       ComboBox.createItem( new WaveInterferenceText( oneSlitString ), BarrierTypeEnum.ONE_SLIT ),
       ComboBox.createItem( new WaveInterferenceText( twoSlitsString ), BarrierTypeEnum.TWO_SLITS )
     ], model.barrierTypeProperty, comboBoxParent, {
