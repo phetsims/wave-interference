@@ -91,8 +91,9 @@ define( function( require ) {
             intensity = Util.clamp( intensity, CUTOFF, 1 );
           }
           else {
-            intensity = Util.linear( -1.5, 0, 0, CUTOFF, value );
-            intensity = Util.clamp( intensity, 0, CUTOFF );
+            var MIN_SHADE = 0.03; // Stop before 0 because 0 is too jarring
+            intensity = Util.linear( -1.5, 0, MIN_SHADE, CUTOFF, value );
+            intensity = Util.clamp( intensity, MIN_SHADE, CUTOFF );
           }
 
           var color = this.baseColor.blend( Color.black, 1 - intensity ); // TODO: Performance caveat
