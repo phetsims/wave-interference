@@ -135,7 +135,7 @@ define( function( require ) {
     // TODO(design): the wavelength slider goes from high frequency to low frequency.  Should we invert it so it
     // matches the other sliders?
     // TODO(design): I like having frequency = 0 as an option, but that won't work for "red"--shouldn't be zero exactly.
-    // TODO(design): Do we need to match the relative wavelengths of the colors?  For instance, if blue was half the wavelength of red
+    // TODO(design): Match the relative wavelengths of the colors?  For instance, if blue was half the wavelength of red
     // that wouldn't be reflected properly here
     this.frequencyProperty.link( function( frequency ) {
       self.wavelengthProperty.set( Util.linear( WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, frequency ) );

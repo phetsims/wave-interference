@@ -294,8 +294,8 @@ define( function( require ) {
       bottom: this.layoutBounds.bottom - MARGIN
     } );
 
-    // Show a gray background for the water to make it easier to see the dotted line in the middle of the screen
-    // TODO(design): Is this necessary?  See also code in WaterSideViewNode.  Consensus: we will keep it
+    // Show a gray background for the water to make it easier to see the dotted line in the middle of the screen,
+    // and visually partition the play area
     var waterGrayBackground = Rectangle.bounds( this.waveAreaNode.bounds, { fill: '#e2e3e5' } );
     this.addChild( waterGrayBackground );
 
