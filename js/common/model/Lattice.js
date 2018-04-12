@@ -255,8 +255,8 @@ define( function( require ) {
       var matrix2 = this.matrices[ ( this.currentMatrixIndex + 2 ) % this.matrices.length ];
       var width = matrix0.getRowDimension();
       var height = matrix0.getColumnDimension();
-      for ( var i = 0; i < width; i++ ) {
-        for ( var j = 0; j < height; j++ ) {
+      for ( var i = 1; i < width - 1; i++ ) {
+        for ( var j = 1; j < height - 1; j++ ) {
           if ( this.potentialFunction && this.potentialFunction( i, j ) ) {
             matrix0.set( i, j, 0 );
           }
