@@ -221,11 +221,11 @@ define( function( require ) {
     },
 
     /**
-     * Gets the values on the right hand side of the wave, for determining intensity
+     * Gets the values on the right hand side of the wave (before the damping region), for determining intensity.
      * @returns {number[]}
      * @public
      */
-    getRightmostColumn: function() {
+    getOutputColumn: function() {
 
       // TODO(performance): garbage-free form?  Would require preallocating the entire intensitySample matrix
       var column = [];

@@ -15,7 +15,9 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  var HISTORY_LENGTH = 120; // TODO(design): increase this?
+  // Number of samples to use for a temporal average.  Higher number means more latency. Lower number means more
+  // responsive, but we need to make the time longer than one period so it doesn't just show part of the wave cycle
+  var HISTORY_LENGTH = 120;
 
   /**
    * @param {Lattice} lattice
@@ -27,7 +29,7 @@ define( function( require ) {
     this.lattice = lattice;
 
     // @private
-    this.history = [ this.lattice.getRightmostColumn() ];
+    this.history = [ this.lattice.getOutputColumn() ];
 
     // @public {Emitter} - signifies when the intensitySample has changed values.
     this.changedEmitter = new Emitter();
@@ -60,7 +62,7 @@ define( function( require ) {
      */
     clear: function() {
       this.history.length = 0;
-      this.history.push( this.lattice.getRightmostColumn() );
+      this.history.push( this.lattice.getOutputColumn() );
       this.changedEmitter.emit();
     },
 
@@ -69,7 +71,7 @@ define( function( require ) {
      * @public
      */
     step: function() {
-      this.history.push( this.lattice.getRightmostColumn() );
+      this.history.push( this.lattice.getOutputColumn() );
       if ( this.history.length > HISTORY_LENGTH ) {
         this.history.shift();
       }
