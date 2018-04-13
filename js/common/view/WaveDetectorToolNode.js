@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Depicts the draggable chart node with two probes which begins in the toolbox.  TODO: move to common code
+ * Depicts the draggable graph node with two probes which begins in the toolbox.  TODO: move to common code
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -196,7 +196,7 @@ define( function( require ) {
       horizontalAxisTitle.left = scaleIndicatorNode.right + HORIZONAL_AXIS_LABEL_MARGIN;
     }
 
-    // If maxWidth reduced the scale of the text, it may be too far below the chart.  In that case, move it back up.
+    // If maxWidth reduced the scale of the text, it may be too far below the graph.  In that case, move it back up.
     horizontalAxisTitle.mutate( {
       top: graphPanel.bottom + LABEL_GRAPH_MARGIN
     } );
@@ -271,7 +271,7 @@ define( function( require ) {
         // NaN is returned for out of bounds
         if ( !isNaN( value ) ) {
 
-          // strong wavefronts (bright colors) are positive on the chart
+          // strong wavefronts (bright colors) are positive on the graph
           var chartYValue = Util.linear( 0, 1, graphHeight / 2, 0, value );
           if ( chartYValue > graphHeight ) {
             chartYValue = graphHeight;
@@ -303,7 +303,7 @@ define( function( require ) {
       updateProbeData( self.probe2Node, pen2Node, probe2Samples, probe2Path );
     };
 
-    // Update the chart value when the lattice changes
+    // Update the graph value when the lattice changes
     model && model.lattice.changedEmitter.addListener( updatePaths );
   }
 
@@ -312,7 +312,7 @@ define( function( require ) {
   return inherit( Node, WaveDetectorToolNode, {
 
     /**
-     * Put the probes into their standard position relative to the chart body.
+     * Put the probes into their standard position relative to the graph body.
      */
     alignProbes: function() {
 

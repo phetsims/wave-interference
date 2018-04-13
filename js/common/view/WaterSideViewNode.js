@@ -58,7 +58,7 @@ define( function( require ) {
       var shape = new Shape();
       for ( var i = 0; i < this.array.length; i++ ) {
         var x = Util.linear( 0, this.array.length - 1, this.waveAreaBounds.left, this.waveAreaBounds.right, i );
-        var y = Util.linear( 0, 5, this.waveAreaBounds.centerY, this.waveAreaBounds.centerY - 100, this.array[ i ] ); // TODO: would be nice to get exactly the same scaling as in the chart
+        var y = Util.linear( 0, 5, this.waveAreaBounds.centerY, this.waveAreaBounds.centerY - 100, this.array[ i ] ); // TODO: would be nice to get exactly the same scaling as in the graph
         shape.lineTo( x, y );
       }
       shape

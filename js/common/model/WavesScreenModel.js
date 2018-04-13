@@ -66,7 +66,7 @@ define( function( require ) {
     this.showScreenProperty = new BooleanProperty( false );
 
     // @public {BooleanProperty} - whether the intensity graph (on the right of the lattice) should be shown.
-    this.showIntensityGraphProperty = new BooleanProperty( false ); // TODO(design): consistent naming regarding graph/chart.  Design doc says "graph", see https://github.com/phetsims/tasks/issues/927
+    this.showIntensityGraphProperty = new BooleanProperty( false );
 
     // @public {Property.<IncomingWaveTypeEnum>} - pulse or continuous
     this.inputTypeProperty = new Property( IncomingWaveTypeEnum.CONTINUOUS, {
