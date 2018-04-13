@@ -1,7 +1,8 @@
 // Copyright 2016, University of Colorado Boulder
 
 /**
- * Selects whether the wave is shown from the top (default) or side view.
+ * Selects whether the wave is shown from the top (default) or side view.  This value represents the user selection--
+ * the view animates between the selections.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
