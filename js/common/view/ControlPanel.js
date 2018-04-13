@@ -16,13 +16,12 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
-  var Vector2 = require( 'DOT/Vector2' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   var WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  var WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
   // strings
   var amplitudeString = require( 'string!WAVE_INTERFERENCE/amplitude' );
@@ -53,15 +52,16 @@ define( function( require ) {
 
     // TODO(design): should the light frequency slider have the same tick spacing and snapping as the other frequency
     // sliders?
-    var lightFrequencySlider = new WavelengthSlider( model.wavelengthProperty, {
-      trackWidth: 150,
-      trackHeight: 20,
-      valueVisible: false,
-      tweakersVisible: false,
-      thumbWidth: 20,
-      thumbHeight: 20,
-      scale: new Vector2( -1, 1 ) // TODO: see scenery-phet issue--are we going to have a different API for this?
-    } );
+    // var lightFrequencySlider = new WavelengthSlider( model.wavelengthProperty, {
+    //   trackWidth: 150,
+    //   trackHeight: 20,
+    //   valueVisible: false,
+    //   tweakersVisible: false,
+    //   thumbWidth: 20,
+    //   thumbHeight: 20,
+    //   scale: new Vector2( -1, 1 ) // TODO: see scenery-phet issue--are we going to have a different API for this?
+    // } );
+    var lightFrequencySlider = new Text( 'light frequency slider' );
 
     // Controls are in the coordinate frame of the lattice
     var soundAndWaterFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY );

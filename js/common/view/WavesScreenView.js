@@ -49,6 +49,7 @@ define( function( require ) {
   var MARGIN = 8;
   var SPACING = 6;
   var WAVE_MARGIN = 8;
+  var WATER_BLUE = new Color( '#58c0fa' );// TODO: Factor out color
 
   /**
    * @param {WavesScreenModel} model
@@ -131,20 +132,7 @@ define( function( require ) {
                        new LatticeCanvasNode( model.lattice );
 
     var self = this;
-    Property.multilink( [ model.wavelengthProperty, model.sceneProperty ], function( wavelength, scene ) {
-      if ( scene === SceneTypeEnum.LIGHT ) {
-        self.latticeNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength ) );
-        self.latticeNode.vacuumColor = Color.black;
-      }
-      else if ( scene === SceneTypeEnum.SOUND ) {
-        self.latticeNode.setBaseColor( Color.white );
-        self.latticeNode.vacuumColor = null;
-      }
-      else if ( scene === SceneTypeEnum.WATER ) {
-        self.latticeNode.setBaseColor( new Color( '#58c0fa' ) ); // TODO: Factor out color
-        self.latticeNode.vacuumColor = null;
-      }
-    } );
+
     var scale = this.waveAreaNode.width / this.latticeNode.width;
     this.latticeNode.mutate( {
       scale: scale,
@@ -162,9 +150,24 @@ define( function( require ) {
       screenNode.visible = showScreen && scene === SceneTypeEnum.LIGHT;
     } );
 
-    // Set the color of highlight on the screen
-    model.wavelengthProperty.link( function( wavelength ) {
-      screenNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength ) );
+    // Set the color of highlight on the screen and lattice
+    Property.multilink( [ model.frequencyProperty, model.sceneProperty ], function( frequency, scene ) {
+      if ( scene === SceneTypeEnum.LIGHT ) {
+        var baseColor = VisibleColor.frequencyToColor( frequency );
+        self.latticeNode.setBaseColor( baseColor );
+        self.latticeNode.vacuumColor = Color.black;
+        screenNode.setBaseColor( baseColor );
+      }
+      else if ( scene === SceneTypeEnum.SOUND ) {
+        self.latticeNode.setBaseColor( Color.white );
+        self.latticeNode.vacuumColor = null;
+        screenNode.setBaseColor( Color.white );
+      }
+      else if ( scene === SceneTypeEnum.WATER ) {
+        self.latticeNode.setBaseColor( WATER_BLUE );
+        self.latticeNode.vacuumColor = null;
+        screenNode.setBaseColor( WATER_BLUE );
+      }
     } );
     model.showScreenProperty.linkAttribute( screenNode, 'visible' );
 
@@ -326,11 +329,11 @@ define( function( require ) {
     var perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty );
 
     // Initialize and update the colors based on the scene
-    Property.multilink( [ model.wavelengthProperty, model.sceneProperty ], function( wavelength, scene ) {
+    Property.multilink( [ model.frequencyProperty, model.sceneProperty ], function( frequency, scene ) {
 
       // TODO: this looks odd for light when the wave area is black
-      perspective3DNode.setTopFaceColor( scene === SceneTypeEnum.WATER ? '#3981a9' : scene === SceneTypeEnum.SOUND ? 'gray' : VisibleColor.wavelengthToColor( wavelength ) );
-      perspective3DNode.setSideFaceColor( scene === SceneTypeEnum.WATER ? '#58c0fa' : scene === SceneTypeEnum.SOUND ? 'darkGray' : VisibleColor.wavelengthToColor( wavelength ).colorUtilsDarker( 0.15 ) );
+      perspective3DNode.setTopFaceColor( scene === SceneTypeEnum.WATER ? '#3981a9' : scene === SceneTypeEnum.SOUND ? 'gray' : VisibleColor.frequencyToColor( frequency ) );
+      perspective3DNode.setSideFaceColor( scene === SceneTypeEnum.WATER ? '#58c0fa' : scene === SceneTypeEnum.SOUND ? 'darkGray' : VisibleColor.frequencyToColor( frequency ).colorUtilsDarker( 0.15 ) );
     } );
     this.addChild( perspective3DNode );
 
