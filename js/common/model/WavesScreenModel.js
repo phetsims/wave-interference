@@ -16,7 +16,7 @@ define( function( require ) {
   var IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
   var Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   var NumberProperty = require( 'AXON/NumberProperty' );
-  var InputTypeEnum = require( 'WAVE_INTERFERENCE/common/model/InputTypeEnum' );
+  var IncomingWaveTypeEnum = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveTypeEnum' );
   var PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   var Property = require( 'AXON/Property' );
   var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
@@ -68,9 +68,9 @@ define( function( require ) {
     // @public {BooleanProperty} - whether the intensity graph (on the right of the lattice) should be shown.
     this.showIntensityGraphProperty = new BooleanProperty( false ); // TODO(design): consistent naming regarding graph/chart.  Design doc says "graph", see https://github.com/phetsims/tasks/issues/927
 
-    // @public {Property.<InputTypeEnum>} - pulse or continuous
-    this.inputTypeProperty = new Property( InputTypeEnum.CONTINUOUS, {
-      validValues: InputTypeEnum.VALUES
+    // @public {Property.<IncomingWaveTypeEnum>} - pulse or continuous
+    this.inputTypeProperty = new Property( IncomingWaveTypeEnum.CONTINUOUS, {
+      validValues: IncomingWaveTypeEnum.VALUES
     } );
 
     // @public {Property.<PlaySpeedEnum>} - the speed at which the simulation is playing
@@ -193,7 +193,7 @@ define( function( require ) {
 
     // The first button can trigger a pulse, or continuous wave, depending on the inputTypeProperty
     this.button1PressedProperty.lazyLink( function( on ) {
-      if ( on && self.inputTypeProperty.value === InputTypeEnum.PULSE ) {
+      if ( on && self.inputTypeProperty.value === IncomingWaveTypeEnum.PULSE ) {
         self.startPulse();
       }
       else {
@@ -215,7 +215,7 @@ define( function( require ) {
 
     // When the user selects "PULSE", the button pops out.
     this.inputTypeProperty.link( function( inputType ) {
-      if ( inputType === InputTypeEnum.PULSE ) {
+      if ( inputType === IncomingWaveTypeEnum.PULSE ) {
         self.button1PressedProperty.value = false;
       }
     } );
@@ -266,8 +266,8 @@ define( function( require ) {
         dt = 1 / 60;
       }
       this.time += dt;
-      var continuous1 = ( this.inputTypeProperty.get() === InputTypeEnum.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
-      var continuous2 = ( this.inputTypeProperty.get() === InputTypeEnum.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
+      var continuous1 = ( this.inputTypeProperty.get() === IncomingWaveTypeEnum.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
+      var continuous2 = ( this.inputTypeProperty.get() === IncomingWaveTypeEnum.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
       var entriesToSet = [];
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 

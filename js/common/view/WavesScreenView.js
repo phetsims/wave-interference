@@ -17,7 +17,7 @@ define( function( require ) {
   var DottedLineNode = require( 'WAVE_INTERFERENCE/common/view/DottedLineNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var InputTypeEnum = require( 'WAVE_INTERFERENCE/common/model/InputTypeEnum' );
+  var IncomingWaveTypeEnum = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveTypeEnum' );
   var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
   var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
@@ -270,11 +270,11 @@ define( function( require ) {
 
       // TODO: move this to a new file
       var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {
-        value: InputTypeEnum.PULSE,
-        node: new InputTypeIconNode( InputTypeEnum.PULSE )
+        value: IncomingWaveTypeEnum.PULSE,
+        node: new InputTypeIconNode( IncomingWaveTypeEnum.PULSE )
       }, {
-        value: InputTypeEnum.CONTINUOUS,
-        node: new InputTypeIconNode( InputTypeEnum.CONTINUOUS )
+        value: IncomingWaveTypeEnum.CONTINUOUS,
+        node: new InputTypeIconNode( IncomingWaveTypeEnum.CONTINUOUS )
       } ], {
         orientation: 'horizontal',
         buttonContentXMargin: 0,
@@ -353,11 +353,11 @@ define( function( require ) {
     var laserPointerNode2 = new LaserPointerNode( model.button2PressedProperty, laserPointerOptions );
 
     var updateEnabled = function() {
-      if ( model.inputTypeProperty.value === InputTypeEnum.PULSE ) {
+      if ( model.inputTypeProperty.value === IncomingWaveTypeEnum.PULSE ) {
         laserPointerNode1.enabled = !model.pulseFiringProperty.value;
         laserPointerNode2.enabled = !model.pulseFiringProperty.value;
       }
-      else if ( model.inputTypeProperty.value === InputTypeEnum.CONTINUOUS ) {
+      else if ( model.inputTypeProperty.value === IncomingWaveTypeEnum.CONTINUOUS ) {
         laserPointerNode1.enabled = true;
         laserPointerNode2.enabled = true;
       }
