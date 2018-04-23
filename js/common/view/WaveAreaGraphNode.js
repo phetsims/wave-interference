@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
-  var DottedLineNode = require( 'WAVE_INTERFERENCE/common/view/DottedLineNode' );
+  var DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -133,9 +133,9 @@ define( function( require ) {
     // The part that displays the values (doesn't include axis labels)
     var plotHeight = horizontalLineY;
 
-    var dottedLineNode = new DottedLineNode();
-    dottedLineNode.centerY = plotHeight / 2;
-    this.addChild( dottedLineNode );
+    var dashedLineNode = new DashedLineNode();
+    dashedLineNode.centerY = plotHeight / 2;
+    this.addChild( dashedLineNode );
 
     [ 1 / 4, 3 / 4 ].forEach( function( horizontalGridLineFraction ) {
       self.addChild( new Line( 0, horizontalGridLineFraction * plotHeight, graphWidth, horizontalGridLineFraction * plotHeight, GRID_LINE_OPTIONS ) );

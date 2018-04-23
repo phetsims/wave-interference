@@ -25,7 +25,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function DottedLineNode( options ) {
+  function DashedLineNode( options ) {
 
     // Render as an HBox of Rectangle so that each dash can have its own stroke
     HBox.call( this, _.extend( {
@@ -36,7 +36,7 @@ define( function( require ) {
     }, options ) );
   }
 
-  waveInterference.register( 'DottedLineNode', DottedLineNode );
+  waveInterference.register( 'DashedLineNode', DashedLineNode );
 
-  return inherit( HBox, DottedLineNode );
+  return inherit( HBox, DashedLineNode );
 } );

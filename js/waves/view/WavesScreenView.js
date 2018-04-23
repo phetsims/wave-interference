@@ -14,7 +14,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var WaveInterferenceControlPanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceControlPanel' );
   var Dimension2 = require( 'DOT/Dimension2' );
-  var DottedLineNode = require( 'WAVE_INTERFERENCE/common/view/DottedLineNode' );
+  var DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
@@ -96,7 +96,7 @@ define( function( require ) {
       centerY: this.waveAreaNode.top + this.waveAreaNode.height * 0.75
     } );
 
-    var dottedLineNode = new DottedLineNode( {
+    var dashedLineNode = new DashedLineNode( {
       x: this.waveAreaNode.left,
       centerY: this.waveAreaNode.centerY
     } );
@@ -323,7 +323,7 @@ define( function( require ) {
     Property.multilink( [ model.rotationAmountProperty, model.showGraphProperty, model.sceneProperty ], function( rotationAmount, showGraph, scene ) {
       var isRotating = rotationAmount > 0 && rotationAmount < 1; // TODO: factor out?
       waveAreaGraphNode.visible = !isRotating && showGraph;
-      dottedLineNode.visible = !isRotating && showGraph;
+      dashedLineNode.visible = !isRotating && showGraph;
     } );
 
     var perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty );
@@ -339,7 +339,7 @@ define( function( require ) {
 
     this.addChild( waterSideViewNode );
     this.addChild( timeControlPanel );
-    this.addChild( dottedLineNode );
+    this.addChild( dashedLineNode );
     this.addChild( waveAreaGraphNode );
     this.addChild( measuringTapeNode );
     this.addChild( timerNode );
