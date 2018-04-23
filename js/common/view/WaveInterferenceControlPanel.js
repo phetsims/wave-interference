@@ -41,7 +41,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function ControlPanel( model, alignGroup, options ) {
+  function WaveInterferenceControlPanel( model, alignGroup, options ) {
 
     options = _.extend( {
       additionalControl: null,
@@ -154,7 +154,7 @@ define( function( require ) {
     WaveInterferencePanel.call( this, content, options );
   }
 
-  waveInterference.register( 'ControlPanel', ControlPanel );
+  waveInterference.register( 'WaveInterferenceControlPanel', WaveInterferenceControlPanel );
 
-  return inherit( WaveInterferencePanel, ControlPanel );
+  return inherit( WaveInterferencePanel, WaveInterferenceControlPanel );
 } );
