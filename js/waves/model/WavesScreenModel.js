@@ -2,9 +2,7 @@
 
 /**
  * Model for the "Waves" screen and other derivative screens.  This model supports two sources, even though the waves
- * screen only uses one.  TODO: rename something like "WaveInterferenceCommonScreenModel"?
- * TODO: or are we thinking of it more as the second screen is a subclass of the first screen?  Then this should
- * TODO: be in the waves screen directory?
+ * screen only uses one.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

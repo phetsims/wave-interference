@@ -8,7 +8,7 @@ There are 3 coordinate frames:
 * lattice coordinates (integer), with damping regions
 * model metric coordinates (such as cm), corresponding to physical measures
 
-There is only a single lattice, so all waves are combined and cannot be isolated.  The light panel cannot show multiple
+There is only a single lattice, so all waves are combined and cannot be deconvoluted.  The light panel cannot show multiple
 colors at the same time.
 
 Pseudocode from the Java Wave Interference Model:
