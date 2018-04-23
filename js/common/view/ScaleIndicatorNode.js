@@ -37,7 +37,7 @@ define( function( require ) {
 
       // Text to display
       // TODO: i18n
-      var string = scene === SceneType.WATER ? '10 centimeters' :
+      var string = scene === SceneType.WATER ? '1 centimeter' :
                    scene === SceneType.SOUND ? '1 meter' :
                    scene === SceneType.LIGHT ? '500 nanometers' :
                    '???';

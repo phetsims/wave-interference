@@ -151,7 +151,7 @@ define( function( require ) {
     } );
 
     // Set the color of highlight on the screen and lattice
-    Property.multilink( [ model.frequencyProperty, model.sceneProperty ], function( frequency, scene ) {
+    Property.multilink( [ model.latticeFrequencyProperty, model.sceneProperty ], function( frequency, scene ) {
       if ( scene === SceneType.LIGHT ) {
         var baseColor = VisibleColor.frequencyToColor( frequency );
         self.latticeNode.setBaseColor( baseColor );
@@ -329,7 +329,7 @@ define( function( require ) {
     var perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty );
 
     // Initialize and update the colors based on the scene
-    Property.multilink( [ model.frequencyProperty, model.sceneProperty ], function( frequency, scene ) {
+    Property.multilink( [ model.latticeFrequencyProperty, model.sceneProperty ], function( frequency, scene ) {
 
       // TODO: this looks odd for light when the wave area is black
       perspective3DNode.setTopFaceColor( scene === SceneType.WATER ? '#3981a9' : scene === SceneType.SOUND ? 'gray' : VisibleColor.frequencyToColor( frequency ) );

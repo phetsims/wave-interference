@@ -2,7 +2,9 @@
 
 /**
  * Model for the "Waves" screen and other derivative screens.  This model supports two sources, even though the waves
- * screen only uses one.
+ * screen only uses one.  The controls are in a metric coordinate frame, and there is a transformation to convert
+ * metric coordinates to lattice coordinates.  On the view side there is another tranformation to move lattice or metric
+ * coordinates to view coordinates.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -12,11 +14,11 @@ define( function( require ) {
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Emitter = require( 'AXON/Emitter' );
+  var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
   var Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   var NumberProperty = require( 'AXON/NumberProperty' );
-  var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   var PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   var Property = require( 'AXON/Property' );
   var SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
@@ -46,8 +48,18 @@ define( function( require ) {
       validValues: ViewType.VALUES
     } );
 
-    // @public {NumberProperty} - the frequency of the emitter
-    this.frequencyProperty = new NumberProperty( 10, {
+    // @public {Property.<number>} - transformation that converts from metric coordinates (considered to be the "model")
+    //                             - to lattice coordinates (considered to be the "view")
+    //                             - This transform changes when the scene changes.
+    this.metricWidthOfVisibleLattice = new Property( 0.1 );
+
+    this.metricUnits = new Property( 'cm' );
+
+    // @public {Property.<number>} - scale factor that maps model time in seconds to time on the lattice
+    this.modelTimeToLatticeTimeScaleFactor = new Property( 1 );
+
+    // @public {NumberProperty} - the frequency of the emitter in lattice coordinates
+    this.latticeFrequencyProperty = new NumberProperty( 10, {
       units: 'hertz'
     } );
 
@@ -126,7 +138,7 @@ define( function( require ) {
 
     // @public {Property.<number>} - frequency in Hz
     // Blue light oscillates at 6.45 * 10^14 Hz
-    this.frequencyProperty = new Property( 6.45E14 );
+    this.latticeFrequencyProperty = new Property( 6.45E14 );
 
     // @public {number} - elapsed time in seconds
     this.time = 0;
@@ -145,7 +157,7 @@ define( function( require ) {
 
     // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
     // for continuity
-    this.frequencyProperty.lazyLink( function( newFrequency, oldFrequency ) {
+    this.latticeFrequencyProperty.lazyLink( function( newFrequency, oldFrequency ) {
       var oldValue = Math.sin( self.time * oldFrequency + self.phase );
       var proposedPhase = Math.asin( oldValue ) - self.time * newFrequency;
       var oldDerivative = Math.cos( self.time * oldFrequency + self.phase );
@@ -251,7 +263,7 @@ define( function( require ) {
 
         // TODO(design): a negative sign here will mean the water goes down first for a pulse, which makes sense
         // for a drop of water dropping in, but not desirable for how the graphs look (seems odd to dip down first)
-        var v = -Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
+        var v = -Math.sin( this.time * this.latticeFrequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
         var separation = Math.floor( this.sourceSeparationProperty.get() / 2 );
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
@@ -267,7 +279,7 @@ define( function( require ) {
           entriesToSet.push( { i: POINT_SOURCE_I_COORDINATE, j: latticeCenterJ - separation, value: v } );
         }
 
-        if ( this.time * this.frequencyProperty.value + this.phase > Math.PI * 2 ) {
+        if ( this.time * this.latticeFrequencyProperty.value + this.phase > Math.PI * 2 ) {
           this.pulseFiringProperty.value = false;
         }
       }
@@ -304,7 +316,7 @@ define( function( require ) {
      */
     startPulse: function() {
       assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
-      this.phase = -this.time * this.frequencyProperty.value; // start the sine angle at 0
+      this.phase = -this.time * this.latticeFrequencyProperty.value; // start the sine angle at 0
       this.pulseFiringProperty.value = true;
     },
 
@@ -314,14 +326,14 @@ define( function( require ) {
      */
     reset: function() {
 
-      // Reset frequencyProperty first because it changes the time and phase
-      this.frequencyProperty.reset();
+      // Reset latticeFrequencyProperty first because it changes the time and phase
+      this.latticeFrequencyProperty.reset();
       this.time = 0;
       this.phase = 0;
       this.lattice.clear();
       this.sceneProperty.reset();
       this.viewTypeProperty.reset();
-      this.frequencyProperty.reset();
+      this.latticeFrequencyProperty.reset();
       this.amplitudeProperty.reset();
       this.showGraphProperty.reset();
       this.inputTypeProperty.reset();

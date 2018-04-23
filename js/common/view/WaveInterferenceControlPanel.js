@@ -48,7 +48,7 @@ define( function( require ) {
       showIntensityCheckbox: true
     }, options );
 
-    var frequencySlider = new WaveInterferenceSlider( model.frequencyProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY );
+    var frequencySlider = new WaveInterferenceSlider( model.latticeFrequencyProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY );
 
     // TODO(design): should the light frequency slider have the same tick spacing and snapping as the other frequency
     // sliders?
@@ -64,7 +64,7 @@ define( function( require ) {
     var lightFrequencySlider = new Text( 'light frequency slider' );
 
     // Controls are in the coordinate frame of the lattice
-    var soundAndWaterFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY );
+    var soundAndWaterFrequencySlider = new WaveInterferenceSlider( model.latticeFrequencyProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY );
     lightFrequencySlider.centerTop = soundAndWaterFrequencySlider.centerTop.plusXY( WaveInterferenceConstants.MINIMUM_FREQUENCY, 10 );
     var frequencySliderContainer = new Node( { children: [ lightFrequencySlider, soundAndWaterFrequencySlider ] } );
     var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, 14 );
