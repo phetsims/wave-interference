@@ -2,9 +2,7 @@
 
 /**
  * Shows the main controls, including frequency/wavelength and amplitude.
- * TODO: rename to "MainControlPanel" or "WavesControlPanel" or "WaveInterferenceCommonScreenModel"
- * TODO: or are we thinking of it more as the second screen is a subclass of the first screen?  Then this should
- * TODO: be in the waves screen directory?
+ * TODO: rename to "MainControlPanel" or "WavesControlPanel"
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
