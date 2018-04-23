@@ -47,24 +47,19 @@ define( function( require ) {
       showIntensityCheckbox: true
     }, options );
 
-    // var frequencySlider = new WaveInterferenceSlider( model.latticeFrequencyProperty, WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY );
-
-    // TODO: Use FrequencySlider and scan its issue for TODOs and review comments.
+    // TODO: Scan FrequencySlider issue for TODOs and review comments.
     // TODO(design): should the light frequency slider have the same tick spacing and snapping as the other frequency
-    // sliders?
-    // var lightFrequencySlider = new WavelengthSlider( model.wavelengthProperty, {
-    //   trackWidth: 150,
-    //   trackHeight: 20,
-    //   valueVisible: false,
-    //   tweakersVisible: false,
-    //   thumbWidth: 20,
-    //   thumbHeight: 20,
-    //   scale: new Vector2( -1, 1 ) // TODO: see scenery-phet issue--are we going to have a different API for this?
-    // } );
 
     // Controls are in the coordinate frame of the lattice
     var waterFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, 1, 10 );
-    var lightFrequencySlider = new FrequencySlider( model.frequencyProperty );
+    var lightFrequencySlider = new FrequencySlider( model.frequencyProperty, {
+      trackWidth: 150,
+      trackHeight: 20,
+      valueVisible: false,
+      tweakersVisible: false,
+      thumbWidth: 20,
+      thumbHeight: 20
+    } );
     var soundFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, 1, 20 );
 
     lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( WaveInterferenceConstants.MINIMUM_FREQUENCY, 10 );
