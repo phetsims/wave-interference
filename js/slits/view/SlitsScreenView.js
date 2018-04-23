@@ -16,7 +16,7 @@ define( function( require ) {
   var SlitsControlPanel = require( 'WAVE_INTERFERENCE/slits/view/SlitsControlPanel' );
   var ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WavesScreenView = require( 'WAVE_INTERFERENCE/common/view/WavesScreenView' );
+  var WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
 
   /**
    * @param {SlitsScreenModel} model

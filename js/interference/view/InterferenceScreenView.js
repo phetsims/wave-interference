@@ -15,7 +15,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  var WavesScreenView = require( 'WAVE_INTERFERENCE/common/view/WavesScreenView' );
+  var WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
 
   // strings
   var separationString = require( 'string!WAVE_INTERFERENCE/separation' );

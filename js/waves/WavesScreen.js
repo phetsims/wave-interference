@@ -15,7 +15,7 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
-  var WavesScreenView = require( 'WAVE_INTERFERENCE/common/view/WavesScreenView' );
+  var WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
 
   // images
   var wavesScreenIcon = require( 'image!WAVE_INTERFERENCE/waves_screen_icon.png' );
