@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var ViewTypeEnum = require( 'WAVE_INTERFERENCE/common/model/ViewTypeEnum' );
+  var ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
@@ -20,18 +20,18 @@ define( function( require ) {
   var sideViewString = require( 'string!WAVE_INTERFERENCE/sideView' );
 
   /**
-   * @param {Property.<ViewTypeEnum>} viewTypeProperty
+   * @param {Property.<ViewType>} viewTypeProperty
    * @param {Object} [options]
    * @constructor
    */
   function ViewRadioButtonGroup( viewTypeProperty, options ) {
     WaveInterferenceVerticalAquaRadioButtonGroup.call( this, [ {
       node: new WaveInterferenceText( topViewString ),
-      value: ViewTypeEnum.TOP,
+      value: ViewType.TOP,
       property: viewTypeProperty
     }, {
       node: new WaveInterferenceText( sideViewString ),
-      value: ViewTypeEnum.SIDE,
+      value: ViewType.SIDE,
       property: viewTypeProperty
     } ], options );
   }

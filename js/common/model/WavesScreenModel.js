@@ -16,12 +16,12 @@ define( function( require ) {
   var IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
   var Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   var NumberProperty = require( 'AXON/NumberProperty' );
-  var IncomingWaveTypeEnum = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveTypeEnum' );
+  var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   var PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   var Property = require( 'AXON/Property' );
-  var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
+  var SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   var Util = require( 'DOT/Util' );
-  var ViewTypeEnum = require( 'WAVE_INTERFERENCE/common/model/ViewTypeEnum' );
+  var ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -42,8 +42,8 @@ define( function( require ) {
     var self = this;
 
     // @public
-    this.viewTypeProperty = new Property( ViewTypeEnum.TOP, {
-      validValues: ViewTypeEnum.VALUES
+    this.viewTypeProperty = new Property( ViewType.TOP, {
+      validValues: ViewType.VALUES
     } );
 
     // @public {NumberProperty} the frequency of the emitter
@@ -66,9 +66,9 @@ define( function( require ) {
     // @public {BooleanProperty} - whether the intensity graph (on the right of the lattice) should be shown.
     this.showIntensityGraphProperty = new BooleanProperty( false );
 
-    // @public {Property.<IncomingWaveTypeEnum>} - pulse or continuous
-    this.inputTypeProperty = new Property( IncomingWaveTypeEnum.CONTINUOUS, {
-      validValues: IncomingWaveTypeEnum.VALUES
+    // @public {Property.<IncomingWaveType>} - pulse or continuous
+    this.inputTypeProperty = new Property( IncomingWaveType.CONTINUOUS, {
+      validValues: IncomingWaveType.VALUES
     } );
 
     // @public {Property.<PlaySpeedEnum>} - the speed at which the simulation is playing
@@ -79,9 +79,9 @@ define( function( require ) {
     // @public {BooleanProperty} - whether the model is moving forward in time
     this.isRunningProperty = new BooleanProperty( true );
 
-    // @public {Property.<SceneTypeEnum>} - selected scene
-    this.sceneProperty = new Property( SceneTypeEnum.WATER, {
-      validValues: SceneTypeEnum.VALUES
+    // @public {Property.<SceneType>} - selected scene
+    this.sceneProperty = new Property( SceneType.WATER, {
+      validValues: SceneType.VALUES
     } );
 
     // @public {BooleanProperty} - whether the measuring tape has been dragged out of the toolbox into the play area
@@ -159,7 +159,7 @@ define( function( require ) {
       self.phase = proposedPhase;
 
       // The wave area resets when the wavelength changes in the light scene
-      if ( self.sceneProperty.get() === SceneTypeEnum.LIGHT ) {
+      if ( self.sceneProperty.get() === SceneType.LIGHT ) {
         self.clear();
       }
     } );
@@ -171,7 +171,7 @@ define( function( require ) {
 
     // The first button can trigger a pulse, or continuous wave, depending on the inputTypeProperty
     this.button1PressedProperty.lazyLink( function( on ) {
-      if ( on && self.inputTypeProperty.value === IncomingWaveTypeEnum.PULSE ) {
+      if ( on && self.inputTypeProperty.value === IncomingWaveType.PULSE ) {
         self.startPulse();
       }
       else {
@@ -193,7 +193,7 @@ define( function( require ) {
 
     // When the user selects "PULSE", the button pops out.
     this.inputTypeProperty.link( function( inputType ) {
-      if ( inputType === IncomingWaveTypeEnum.PULSE ) {
+      if ( inputType === IncomingWaveType.PULSE ) {
         self.button1PressedProperty.value = false;
       }
     } );
@@ -221,7 +221,7 @@ define( function( require ) {
 
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
-      var sign = this.viewTypeProperty.get() === ViewTypeEnum.TOP ? -1 : +1;
+      var sign = this.viewTypeProperty.get() === ViewType.TOP ? -1 : +1;
       var newRotationAmount = Util.clamp( this.rotationAmountProperty.value + dt * sign * 1.4, 0, 1 );
       this.rotationAmountProperty.value = newRotationAmount;
 
@@ -244,8 +244,8 @@ define( function( require ) {
         dt = 1 / 60;
       }
       this.time += dt;
-      var continuous1 = ( this.inputTypeProperty.get() === IncomingWaveTypeEnum.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
-      var continuous2 = ( this.inputTypeProperty.get() === IncomingWaveTypeEnum.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
+      var continuous1 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
+      var continuous2 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
       var entriesToSet = [];
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 

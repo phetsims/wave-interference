@@ -20,7 +20,7 @@ define( function( require ) {
 
   PlaySpeedEnum.VALUES = _.values( PlaySpeedEnum );
 
-  // verify that enum is immutable, without the runtime penalty in production code
+  // in development mode, catch any attempted changes to the enum
   if ( assert ) { Object.freeze( PlaySpeedEnum ); }
 
   waveInterference.register( 'PlaySpeedEnum', PlaySpeedEnum );

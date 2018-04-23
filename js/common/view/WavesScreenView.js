@@ -17,7 +17,7 @@ define( function( require ) {
   var DottedLineNode = require( 'WAVE_INTERFERENCE/common/view/DottedLineNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IncomingWaveTypeEnum = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveTypeEnum' );
+  var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
   var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
@@ -30,7 +30,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
-  var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
+  var SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   var ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
@@ -147,23 +147,23 @@ define( function( require ) {
 
     // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
     Property.multilink( [ model.showScreenProperty, model.sceneProperty ], function( showScreen, scene ) {
-      screenNode.visible = showScreen && scene === SceneTypeEnum.LIGHT;
+      screenNode.visible = showScreen && scene === SceneType.LIGHT;
     } );
 
     // Set the color of highlight on the screen and lattice
     Property.multilink( [ model.frequencyProperty, model.sceneProperty ], function( frequency, scene ) {
-      if ( scene === SceneTypeEnum.LIGHT ) {
+      if ( scene === SceneType.LIGHT ) {
         var baseColor = VisibleColor.frequencyToColor( frequency );
         self.latticeNode.setBaseColor( baseColor );
         self.latticeNode.vacuumColor = Color.black;
         screenNode.setBaseColor( baseColor );
       }
-      else if ( scene === SceneTypeEnum.SOUND ) {
+      else if ( scene === SceneType.SOUND ) {
         self.latticeNode.setBaseColor( Color.white );
         self.latticeNode.vacuumColor = null;
         screenNode.setBaseColor( Color.white );
       }
-      else if ( scene === SceneTypeEnum.WATER ) {
+      else if ( scene === SceneType.WATER ) {
         self.latticeNode.setBaseColor( WATER_BLUE );
         self.latticeNode.vacuumColor = null;
         screenNode.setBaseColor( WATER_BLUE );
@@ -180,7 +180,7 @@ define( function( require ) {
     Property.multilink( [ model.showIntensityGraphProperty, model.sceneProperty ], function( showIntensityGraph, scene ) {
 
       // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-      intensityGraphPanel.visible = showIntensityGraph && scene === SceneTypeEnum.LIGHT;
+      intensityGraphPanel.visible = showIntensityGraph && scene === SceneType.LIGHT;
     } );
     this.addChild( intensityGraphPanel );
 
@@ -273,11 +273,11 @@ define( function( require ) {
 
       // TODO: move this to a new file
       var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {
-        value: IncomingWaveTypeEnum.PULSE,
-        node: new InputTypeIconNode( IncomingWaveTypeEnum.PULSE )
+        value: IncomingWaveType.PULSE,
+        node: new InputTypeIconNode( IncomingWaveType.PULSE )
       }, {
-        value: IncomingWaveTypeEnum.CONTINUOUS,
-        node: new InputTypeIconNode( IncomingWaveTypeEnum.CONTINUOUS )
+        value: IncomingWaveType.CONTINUOUS,
+        node: new InputTypeIconNode( IncomingWaveType.CONTINUOUS )
       } ], {
         orientation: 'horizontal',
         buttonContentXMargin: 0,
@@ -308,13 +308,13 @@ define( function( require ) {
     // Show the side of the water, when fully rotated and in WATER scene
     var waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
     Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
-      waterSideViewNode.visible = rotationAmount === 1.0 && scene === SceneTypeEnum.WATER;
-      waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === SceneTypeEnum.WATER;
+      waterSideViewNode.visible = rotationAmount === 1.0 && scene === SceneType.WATER;
+      waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === SceneType.WATER;
     } );
 
     Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
       var isRotating = rotationAmount > 0 && rotationAmount < 1; // TODO: factor out?
-      var isSideWater = rotationAmount === 1 && scene === SceneTypeEnum.WATER;
+      var isSideWater = rotationAmount === 1 && scene === SceneType.WATER;
       var show = !isRotating && !isSideWater;
       self.waveAreaNode.visible = show;
       self.latticeNode.visible = show;
@@ -332,8 +332,8 @@ define( function( require ) {
     Property.multilink( [ model.frequencyProperty, model.sceneProperty ], function( frequency, scene ) {
 
       // TODO: this looks odd for light when the wave area is black
-      perspective3DNode.setTopFaceColor( scene === SceneTypeEnum.WATER ? '#3981a9' : scene === SceneTypeEnum.SOUND ? 'gray' : VisibleColor.frequencyToColor( frequency ) );
-      perspective3DNode.setSideFaceColor( scene === SceneTypeEnum.WATER ? '#58c0fa' : scene === SceneTypeEnum.SOUND ? 'darkGray' : VisibleColor.frequencyToColor( frequency ).colorUtilsDarker( 0.15 ) );
+      perspective3DNode.setTopFaceColor( scene === SceneType.WATER ? '#3981a9' : scene === SceneType.SOUND ? 'gray' : VisibleColor.frequencyToColor( frequency ) );
+      perspective3DNode.setSideFaceColor( scene === SceneType.WATER ? '#58c0fa' : scene === SceneType.SOUND ? 'darkGray' : VisibleColor.frequencyToColor( frequency ).colorUtilsDarker( 0.15 ) );
     } );
     this.addChild( perspective3DNode );
 
@@ -356,11 +356,11 @@ define( function( require ) {
     var laserPointerNode2 = new LaserPointerNode( model.button2PressedProperty, laserPointerOptions );
 
     var updateEnabled = function() {
-      if ( model.inputTypeProperty.value === IncomingWaveTypeEnum.PULSE ) {
+      if ( model.inputTypeProperty.value === IncomingWaveType.PULSE ) {
         laserPointerNode1.enabled = !model.pulseFiringProperty.value;
         laserPointerNode2.enabled = !model.pulseFiringProperty.value;
       }
-      else if ( model.inputTypeProperty.value === IncomingWaveTypeEnum.CONTINUOUS ) {
+      else if ( model.inputTypeProperty.value === IncomingWaveType.CONTINUOUS ) {
         laserPointerNode1.enabled = true;
         laserPointerNode2.enabled = true;
       }

@@ -15,7 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
+  var SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   var Text = require( 'SCENERY/nodes/Text' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -76,13 +76,13 @@ define( function( require ) {
     var separator = new HSeparator( maxComponentWidth );
 
     var sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [ {
-      value: SceneTypeEnum.WATER,
+      value: SceneType.WATER,
       node: new WaveInterferenceText( 'water' )
     }, {
-      value: SceneTypeEnum.SOUND,
+      value: SceneType.SOUND,
       node: new WaveInterferenceText( 'sound' )
     }, {
-      value: SceneTypeEnum.LIGHT,
+      value: SceneType.LIGHT,
       node: new WaveInterferenceText( 'light' )
     } ], {
       orientation: 'horizontal'
@@ -123,12 +123,12 @@ define( function( require ) {
     intensityCheckbox.top = screenCheckbox.bottom + 5;
 
     model.sceneProperty.link( function( scene ) {
-      lightFrequencySlider.visible = scene === SceneTypeEnum.LIGHT;
-      soundAndWaterFrequencySlider.visible = scene === SceneTypeEnum.SOUND || scene === SceneTypeEnum.WATER;
+      lightFrequencySlider.visible = scene === SceneType.LIGHT;
+      soundAndWaterFrequencySlider.visible = scene === SceneType.SOUND || scene === SceneType.WATER;
 
       // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-      screenCheckbox.enabled = scene === SceneTypeEnum.LIGHT;
-      intensityCheckbox.enabled = scene === SceneTypeEnum.LIGHT;
+      screenCheckbox.enabled = scene === SceneType.LIGHT;
+      intensityCheckbox.enabled = scene === SceneType.LIGHT;
     } );
 
     // z-ordering

@@ -13,12 +13,12 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
+  var SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   /**
-   * @param {Property.<SceneTypeEnum>} sceneProperty
+   * @param {Property.<SceneType>} sceneProperty
    * @param {Object} [options]
    * @constructor
    */
@@ -30,16 +30,16 @@ define( function( require ) {
 
       // TODO: we need to organize units and unify these values with the frequency values
       // Arrow length
-      var arrowLength = scene === SceneTypeEnum.WATER ? 40 :
-                        scene === SceneTypeEnum.SOUND ? 75 :
-                        scene === SceneTypeEnum.LIGHT ? 50 :
+      var arrowLength = scene === SceneType.WATER ? 40 :
+                        scene === SceneType.SOUND ? 75 :
+                        scene === SceneType.LIGHT ? 50 :
                         -1;
 
       // Text to display
       // TODO: i18n
-      var string = scene === SceneTypeEnum.WATER ? '10 centimeters' :
-                   scene === SceneTypeEnum.SOUND ? '1 meter' :
-                   scene === SceneTypeEnum.LIGHT ? '500 nanometers' :
+      var string = scene === SceneType.WATER ? '10 centimeters' :
+                   scene === SceneType.SOUND ? '1 meter' :
+                   scene === SceneType.LIGHT ? '500 nanometers' :
                    '???';
 
       var text = new WaveInterferenceText( string );

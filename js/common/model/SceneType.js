@@ -10,18 +10,18 @@ define( function( require ) {
 
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  var SceneTypeEnum = {
+  var SceneType = {
     WATER: 'WATER',
     SOUND: 'SOUND',
     LIGHT: 'LIGHT'
   };
 
-  SceneTypeEnum.VALUES = _.values( SceneTypeEnum );
+  SceneType.VALUES = _.values( SceneType );
 
-  // verify that enum is immutable, without the runtime penalty in production code
-  if ( assert ) { Object.freeze( SceneTypeEnum ); }
+  // in development mode, catch any attempted changes to the enum
+  if ( assert ) { Object.freeze( SceneType ); }
 
-  waveInterference.register( 'SceneTypeEnum', SceneTypeEnum );
+  waveInterference.register( 'SceneType', SceneType );
 
-  return SceneTypeEnum;
+  return SceneType;
 } );

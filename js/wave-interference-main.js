@@ -32,8 +32,8 @@ define( function( require ) {
 
   SimLauncher.launch( function() {
 
-    // Panels on the right side of the lattice (in the first three screens) should have matching widths, within each
-    // screen and across screens.
+    // Panels on the right side of the lattice (in the first three screens) have matching widths, within each screen and
+    // across screens.
     var alignGroup = new AlignGroup( {
 
       // Elements should have the same widths but not constrained to have the same heights

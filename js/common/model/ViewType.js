@@ -11,17 +11,17 @@ define( function( require ) {
 
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  var ViewTypeEnum = {
+  var ViewType = {
     TOP: 'TOP',
     SIDE: 'SIDE'
   };
 
-  ViewTypeEnum.VALUES = _.values( ViewTypeEnum );
+  ViewType.VALUES = _.values( ViewType );
 
-  // verify that enum is immutable, without the runtime penalty in production code
-  if ( assert ) { Object.freeze( ViewTypeEnum ); }
+  // in development mode, catch any attempted changes to the enum
+  if ( assert ) { Object.freeze( ViewType ); }
 
-  waveInterference.register( 'ViewTypeEnum', ViewTypeEnum );
+  waveInterference.register( 'ViewType', ViewType );
 
-  return ViewTypeEnum;
+  return ViewType;
 } );

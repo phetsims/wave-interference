@@ -19,7 +19,7 @@ define( function( require ) {
 
   BarrierTypeEnum.VALUES = _.values( BarrierTypeEnum );
 
-  // verify that enum is immutable, without the runtime penalty in production code
+  // in development mode, catch any attempted changes to the enum
   if ( assert ) { Object.freeze( BarrierTypeEnum ); }
 
   waveInterference.register( 'BarrierTypeEnum', BarrierTypeEnum );

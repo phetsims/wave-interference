@@ -10,17 +10,17 @@ define( function( require ) {
 
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  var IncomingWaveTypeEnum = {
+  var IncomingWaveType = {
     PULSE: 'PULSE',
     CONTINUOUS: 'CONTINUOUS'
   };
 
-  IncomingWaveTypeEnum.VALUES = _.values( IncomingWaveTypeEnum );
+  IncomingWaveType.VALUES = _.values( IncomingWaveType );
 
-  // verify that enum is immutable, without the runtime penalty in production code
-  if ( assert ) { Object.freeze( IncomingWaveTypeEnum ); }
+  // in development mode, catch any attempted changes to the enum
+  if ( assert ) { Object.freeze( IncomingWaveType ); }
 
-  waveInterference.register( 'IncomingWaveTypeEnum', IncomingWaveTypeEnum );
+  waveInterference.register( 'IncomingWaveType', IncomingWaveType );
 
-  return IncomingWaveTypeEnum;
+  return IncomingWaveType;
 } );
