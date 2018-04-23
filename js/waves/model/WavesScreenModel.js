@@ -13,6 +13,7 @@ define( function( require ) {
 
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Emitter = require( 'AXON/Emitter' );
   var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -27,7 +28,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  var POINT_SOURCE_I_COORDINATE = 30;
+  var POINT_SOURCE_HORIZONTAL_COORDINATE = 30;
 
   /**
    * @param {Object} [options]
@@ -35,13 +36,13 @@ define( function( require ) {
    */
   function WavesScreenModel( options ) {
 
+    var self = this;
+
     options = _.extend( {
 
       // This model supports one or two sources.  If sourceSeparation is 0, there is only one source
       sourceSeparation: 0
     }, options );
-
-    var self = this;
 
     // @public {Property.<ViewType>}
     this.viewTypeProperty = new Property( ViewType.TOP, {
@@ -56,11 +57,15 @@ define( function( require ) {
     this.metricUnits = new Property( 'cm' );
 
     // @public {Property.<number>} - scale factor that maps model time in seconds to time on the lattice
-    this.modelTimeToLatticeTimeScaleFactor = new Property( 1 );
+    this.modelTimeToLatticeTimeScaleFactor = 1;
 
-    // @public {NumberProperty} - the frequency of the emitter in lattice coordinates
-    this.latticeFrequencyProperty = new NumberProperty( 10, {
+    // @public {NumberProperty} - the frequency of the emitter in metric coordinates
+    this.frequencyProperty = new NumberProperty( 1, {
       units: 'hertz'
+    } );
+
+    this.latticeFrequencyProperty = new DerivedProperty( [ this.frequencyProperty ], function( frequency ) {
+      return frequency * self.modelTimeToLatticeTimeScaleFactor;
     } );
 
     // @public {NumberProperty} - controls the amplitude of the wave
@@ -95,6 +100,8 @@ define( function( require ) {
     this.sceneProperty = new Property( SceneType.WATER, {
       validValues: SceneType.VALUES
     } );
+
+    this.scaleIndicatorTextProperty = new DerivedProperty( [ this.sceneProperty ], _.property( 'scaleIndicatorText' ) );
 
     // @public {BooleanProperty} - whether the measuring tape has been dragged out of the toolbox into the play area
     this.isMeasuringTapeInPlayAreaProperty = new BooleanProperty( false );
@@ -138,7 +145,7 @@ define( function( require ) {
 
     // @public {Property.<number>} - frequency in Hz
     // Blue light oscillates at 6.45 * 10^14 Hz
-    this.latticeFrequencyProperty = new Property( 6.45E14 );
+    // this.latticeFrequencyProperty = new Property( 6.45E14 );
 
     // @public {number} - elapsed time in seconds
     this.time = 0;
@@ -271,12 +278,12 @@ define( function( require ) {
 
         // Point source
         if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
-          entriesToSet.push( { i: POINT_SOURCE_I_COORDINATE, j: latticeCenterJ + separation, value: v } );
+          entriesToSet.push( { i: POINT_SOURCE_HORIZONTAL_COORDINATE, j: latticeCenterJ + separation, value: v } );
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
         if ( this.continuousWave2OscillatingProperty.get() ) {
-          entriesToSet.push( { i: POINT_SOURCE_I_COORDINATE, j: latticeCenterJ - separation, value: v } );
+          entriesToSet.push( { i: POINT_SOURCE_HORIZONTAL_COORDINATE, j: latticeCenterJ - separation, value: v } );
         }
 
         if ( this.time * this.latticeFrequencyProperty.value + this.phase > Math.PI * 2 ) {

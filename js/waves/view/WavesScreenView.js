@@ -10,14 +10,12 @@ define( function( require ) {
 
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
   var Color = require( 'SCENERY/util/Color' );
-  var WaveInterferenceControlPanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceControlPanel' );
-  var Dimension2 = require( 'DOT/Dimension2' );
   var DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
+  var Dimension2 = require( 'DOT/Dimension2' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
   var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
@@ -43,7 +41,9 @@ define( function( require ) {
   var WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
   var WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
   var WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
+  var WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceControlPanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceControlPanel' );
 
   // constants
   var MARGIN = 8;
@@ -85,7 +85,7 @@ define( function( require ) {
     this.addChild( this.waveAreaNode );
 
     // @private show the scale of the wave area // TODO: local var?
-    this.scaleIndicatorNode = new ScaleIndicatorNode( model.sceneProperty, {
+    this.scaleIndicatorNode = new ScaleIndicatorNode( model, this.waveAreaNode.width, {
       top: MARGIN,
       left: this.waveAreaNode.left
     } );
@@ -187,10 +187,17 @@ define( function( require ) {
     // Make sure the charting area is perfectly aligned with the wave area
     intensityGraphPanel.translate( 0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top );
 
-    var measuringTapeNode = new MeasuringTapeNode( new Property( {
+    var measuringTapeProperty = new Property( {
       name: 'cm',
       multiplier: 10
-    } ), new BooleanProperty( true ), {
+    } );
+    model.sceneProperty.link( function( scene ) {
+      measuringTapeProperty.set( {
+        name: scene.measuringTapeUnits,
+        multiplier: scene.latticeWidth / self.waveAreaNode.width / scene.metricConversion
+      } );
+    } );
+    var measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
       basePositionProperty: new Property( new Vector2( 200, 200 ) ),
       tipPositionProperty: new Property( new Vector2( 220, 200 ) ),
 

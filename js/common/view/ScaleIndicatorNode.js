@@ -13,34 +13,27 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   /**
-   * @param {Property.<SceneType>} sceneProperty
+   * @param {WavesScreenModel} model
+   * @param {number} latticeViewWidth
    * @param {Object} [options]
    * @constructor
    */
-  function ScaleIndicatorNode( sceneProperty, options ) {
+  function ScaleIndicatorNode( model, latticeViewWidth, options ) {
 
     var createNodes = function() {
 
-      var scene = sceneProperty.value;
+      var scene = model.sceneProperty.value;
 
       // TODO: we need to organize units and unify these values with the frequency values
       // Arrow length
-      var arrowLength = scene === SceneType.WATER ? 40 :
-                        scene === SceneType.SOUND ? 75 :
-                        scene === SceneType.LIGHT ? 50 :
-                        -1;
+      var arrowLength = scene.scaleIndicatorLength * latticeViewWidth / scene.latticeWidth;
 
       // Text to display
-      // TODO: i18n
-      var string = scene === SceneType.WATER ? '1 centimeter' :
-                   scene === SceneType.SOUND ? '1 meter' :
-                   scene === SceneType.LIGHT ? '500 nanometers' :
-                   '???';
+      var string = scene.scaleIndicatorText;
 
       var text = new WaveInterferenceText( string );
       var createLine = function() {
@@ -69,9 +62,11 @@ define( function( require ) {
       children: createNodes()
     }, options ) );
 
-    sceneProperty.lazyLink( function() {
+    var update = function() {
       self.children = createNodes();
-    } );
+    };
+    model.sceneProperty.lazyLink( update );
+    // model.scaleIndicatorTextProperty.lazyLink( update );
   }
 
   waveInterference.register( 'ScaleIndicatorNode', ScaleIndicatorNode );
