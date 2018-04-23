@@ -25,10 +25,10 @@ define( function( require ) {
    */
   function IntensitySample( lattice ) {
 
-    // @private
+    // @private {Lattice}
     this.lattice = lattice;
 
-    // @private
+    // @private {Array.<Array.<number>>} - each element is one output column
     this.history = [ this.lattice.getOutputColumn() ];
 
     // @public {Emitter} - signifies when the intensitySample has changed values.
@@ -67,7 +67,7 @@ define( function( require ) {
     },
 
     /**
-     * Update the intensity samples when the lattice has updated
+     * Update the intensity samples when the lattice has updated.
      * @public
      */
     step: function() {

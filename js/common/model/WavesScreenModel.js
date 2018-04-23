@@ -41,20 +41,20 @@ define( function( require ) {
 
     var self = this;
 
-    // @public
+    // @public {Property.<ViewType>}
     this.viewTypeProperty = new Property( ViewType.TOP, {
       validValues: ViewType.VALUES
     } );
 
-    // @public {NumberProperty} the frequency of the emitter
+    // @public {NumberProperty} - the frequency of the emitter
     this.frequencyProperty = new NumberProperty( 10, {
       units: 'hertz'
     } );
 
-    // @public {NumberProperty} controls the amplitude of the wave
+    // @public {NumberProperty} - controls the amplitude of the wave
     this.amplitudeProperty = new NumberProperty( 7 );
 
-    // @public {NumberProperty} the separation of the wave sources, or 0 if there is only one source
+    // @public {NumberProperty} - the separation of the wave sources, or 0 if there is only one source
     this.sourceSeparationProperty = new NumberProperty( options.sourceSeparation );
 
     // @public {BooleanProperty} - whether the wave area graph should be displayed
@@ -124,23 +124,23 @@ define( function( require ) {
     // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
     this.intensitySample = new IntensitySample( this.lattice );
 
-    // @public - frequency in Hz
+    // @public {Property.<number>} - frequency in Hz
     // Blue light oscillates at 6.45 * 10^14 Hz
     this.frequencyProperty = new Property( 6.45E14 );
 
-    // @public {number} elapsed time in seconds
+    // @public {number} - elapsed time in seconds
     this.time = 0;
 
     // @public {number} phase of the emitter
     this.phase = 0;
 
-    // @private - track the time since the last lattice update so we can get comparable performance on machines with different speeds
+    // @private {number} - track the time since the last lattice update so we can get comparable performance on machines with different speeds
     this.timeSinceLastLatticeStep = 0;
 
-    // @public - whether the button for the first source is pressed
+    // @public {Property.<Boolean>} - whether the button for the first source is pressed
     this.button1PressedProperty = new BooleanProperty( false );
 
-    // @public - whether the button for the second source is pressed
+    // @public {Property.<Boolean>} - whether the button for the second source is pressed
     this.button2PressedProperty = new BooleanProperty( false );
 
     // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
@@ -329,9 +329,9 @@ define( function( require ) {
       this.isRunningProperty.reset();
       this.showScreenProperty.reset();
       this.rotationAmountProperty.reset();
+      this.timerElapsedTimeProperty.reset();
       this.isTimerInPlayAreaProperty.reset();
       this.showIntensityGraphProperty.reset();
-      this.timerElapsedTimeProperty.reset();
       this.isMeasuringTapeInPlayAreaProperty.reset();
       this.isWaveDetectorToolNodeInPlayAreaProperty.reset();
     }

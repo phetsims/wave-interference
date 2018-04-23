@@ -16,7 +16,7 @@ define( function( require ) {
 
   // constants
   var WAVE_SPEED = 0.5; // The wave speed in the coordinate frame of the lattice, see http://www.mtnmath.com/whatth/node47.html
-  var WAVE_SPEED_SQUARED = WAVE_SPEED * WAVE_SPEED; // precompute to speed up propagation
+  var WAVE_SPEED_SQUARED = WAVE_SPEED * WAVE_SPEED; // precompute to avoid work in the inner loop
   var NUMBER_OF_MATRICES = 3; // The algorithm we use for the discretized wave equation requires current value + 2 history points
 
   /**
@@ -28,13 +28,13 @@ define( function( require ) {
    */
   function Lattice( width, height, dampX, dampY ) {
 
-    // @public (read-only) {number} number of cells on the left and again on the right to use for damping
+    // @public (read-only) {number} - number of cells on the left and again on the right to use for damping
     this.dampX = dampX;
 
-    // @public (read-only) {number} number of cells on the top and again on the bottom to use for damping
+    // @public (read-only) {number} - number of cells on the top and again on the bottom to use for damping
     this.dampY = dampY;
 
-    // @private {Matrix[]} matrices for current value, previous value and value before previous
+    // @private {Matrix[]} - matrices for current value, previous value and value before previous
     this.matrices = [];
     for ( var i = 0; i < NUMBER_OF_MATRICES; i++ ) {
       this.matrices.push( new Matrix( width, height ) );
@@ -43,19 +43,19 @@ define( function( require ) {
     // @private {Matrix} - keeps track of which cells have been visited by the wave
     this.visitedMatrix = new Matrix( width, height );
 
-    // @private {number} indicates the current matrix. Previous matrix is one higher (with correct modulus)
+    // @private {number} - indicates the current matrix. Previous matrix is one higher (with correct modulus)
     this.currentMatrixIndex = 0;
 
-    // @private {function} returns true if there is a potential barrier at the given coordinate
+    // @private {function} - returns true if there is a potential barrier at the given coordinate
     this.potentialFunction = null;
 
-    // @public {Emitter} sends a notification each time the lattice updates
+    // @public {Emitter} - sends a notification each time the lattice updates
     this.changedEmitter = new Emitter();
 
-    // @public {number} (read-only) width of the lattice (includes damping regions)
+    // @public (read-only) {number} - width of the lattice (includes damping regions)
     this.width = width;
 
-    // @public {number} (read-only) height of the lattice (includes damping regions)
+    // @public (read-only) {number} - height of the lattice (includes damping regions)
     this.height = height;
   }
 
@@ -76,9 +76,9 @@ define( function( require ) {
       if ( array.length !== samplingWidth ) {
         array.length = 0;
       }
-      var samplingHeight = Math.round( this.height / 2 );
+      var samplingVerticalLocation = Math.round( this.height / 2 );
       for ( var i = 0; i < this.width - this.dampX * 2; i++ ) {
-        array[ i ] = this.getCurrentValue( i + this.dampX, samplingHeight );
+        array[ i ] = this.getCurrentValue( i + this.dampX, samplingVerticalLocation );
       }
       return array;
     },
@@ -194,7 +194,13 @@ define( function( require ) {
       }
     },
 
-    cellHasBeenVisited: function( i, j ) {
+    /**
+     * Determines whether the incoming wave has reached the cell.
+     * @param {number} i - horizontal coordinate to check
+     * @param {number} j - vertical coordinate to check
+     * @returns {boolean}
+     */
+    hasCellBeenVisited: function( i, j ) {
       return this.visitedMatrix.get( i, j ) === 1;
     },
 
@@ -255,6 +261,8 @@ define( function( require ) {
       var matrix2 = this.matrices[ ( this.currentMatrixIndex + 2 ) % this.matrices.length ];
       var width = matrix0.getRowDimension();
       var height = matrix0.getColumnDimension();
+
+      // Main loop, doesn't update cells on the edges
       for ( var i = 1; i < width - 1; i++ ) {
         for ( var j = 1; j < height - 1; j++ ) {
           if ( this.potentialFunction && this.potentialFunction( i, j ) ) {

@@ -97,7 +97,7 @@ define( function( require ) {
           }
 
           var color = this.baseColor.blend( Color.black, 1 - intensity ); // TODO: Performance caveat
-          if ( this.vacuumColor && !this.lattice.cellHasBeenVisited( i, k ) ) {
+          if ( this.vacuumColor && !this.lattice.hasCellBeenVisited( i, k ) ) {
             color = this.vacuumColor;
           }
           context.fillStyle = color.toCSS();
