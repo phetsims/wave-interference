@@ -16,7 +16,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  var WavesScreenModel = require( 'WAVE_INTERFERENCE/common/model/WavesScreenModel' );
+  var WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
 
   /**
    * @constructor
