@@ -46,9 +46,6 @@ define( function( require ) {
       if ( self.barrierTypeProperty.value === BarrierTypeEnum.NO_BARRIER ) {
         return false;
       }
-      else if ( self.barrierTypeProperty.value === BarrierTypeEnum.MIRROR ) {
-        return i === barrierLocation;
-      }
       else if ( self.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
         return i === barrierLocation && ( ( j > latticeCenterY + slitWidth ) || ( j < latticeCenterY - slitWidth ) );
       }

@@ -54,8 +54,7 @@ define( function( require ) {
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
     model.barrierTypeProperty.link( function( barrierType ) {
-      locationControl.enabled = barrierType === BarrierTypeEnum.MIRROR ||
-                                barrierType === BarrierTypeEnum.ONE_SLIT ||
+      locationControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT ||
                                 barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
 

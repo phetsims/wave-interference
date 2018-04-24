@@ -66,13 +66,6 @@ define( function( require ) {
 
         // No need to add children
       }
-      else if ( barrierType === BarrierTypeEnum.MIRROR ) {
-        this.addChild( new Rectangle( x1, this.waveAreaBounds.top, x2 - x1, this.waveAreaBounds.height, 2, 2, {
-          fill: '#f3d99b',
-          stroke: 'black',
-          lineWidth: 1
-        } ) );
-      }
       else if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
         var y1 = Util.linear( dampY, lattice.height - dampY - 1, this.waveAreaBounds.top, this.waveAreaBounds.bottom, lattice.height / 2 - slitWidth / 2 );
         var y2 = Util.linear( dampY, lattice.height - dampY - 1, this.waveAreaBounds.top, this.waveAreaBounds.bottom, lattice.height / 2 + slitWidth / 2 );

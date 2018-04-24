@@ -12,7 +12,6 @@ define( function( require ) {
 
   var BarrierTypeEnum = {
     NO_BARRIER: 'NO_BARRIER',
-    MIRROR: 'MIRROR',
     ONE_SLIT: 'ONE_SLIT',
     TWO_SLITS: 'TWO_SLITS'
   };
