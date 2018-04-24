@@ -82,7 +82,9 @@ define( function( require ) {
       maximumFrequency: VisibleColor.MAX_FREQUENCY,
       scaleIndicatorText: '500 nanometers',
       scaleIndicatorLength: 500E-9, // 500nm
-      timeScaleFactor: 5E-15, // in one real (wall clock) second, 5E-15 femtoseconds should pass.
+
+      // TODO: is this buggy?  We need to check the frequency on the timer and the wavelength
+      timeScaleFactor: 5E-15 * 10, // in one real (wall clock) second, 5E-15 femtoseconds should pass.
       measuringTapeUnits: 'nm',
       metricConversion: 1E-9
     } );
