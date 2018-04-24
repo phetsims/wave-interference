@@ -28,7 +28,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
-  var SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   var ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
@@ -147,23 +146,23 @@ define( function( require ) {
 
     // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
     Property.multilink( [ model.showScreenProperty, model.sceneProperty ], function( showScreen, scene ) {
-      screenNode.visible = showScreen && scene === SceneType.LIGHT;
+      screenNode.visible = showScreen && scene === model.lightScene;
     } );
 
     // Set the color of highlight on the screen and lattice
     Property.multilink( [ model.latticeFrequencyProperty, model.sceneProperty ], function( frequency, scene ) {
-      if ( scene === SceneType.LIGHT ) {
+      if ( scene === model.lightScene ) {
         var baseColor = VisibleColor.frequencyToColor( frequency );
         self.latticeNode.setBaseColor( baseColor );
         self.latticeNode.vacuumColor = Color.black;
         screenNode.setBaseColor( baseColor );
       }
-      else if ( scene === SceneType.SOUND ) {
+      else if ( scene === model.soundScene ) {
         self.latticeNode.setBaseColor( Color.white );
         self.latticeNode.vacuumColor = null;
         screenNode.setBaseColor( Color.white );
       }
-      else if ( scene === SceneType.WATER ) {
+      else if ( scene === model.waterScene ) {
         self.latticeNode.setBaseColor( WATER_BLUE );
         self.latticeNode.vacuumColor = null;
         screenNode.setBaseColor( WATER_BLUE );
@@ -180,7 +179,7 @@ define( function( require ) {
     Property.multilink( [ model.showIntensityGraphProperty, model.sceneProperty ], function( showIntensityGraph, scene ) {
 
       // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-      intensityGraphPanel.visible = showIntensityGraph && scene === SceneType.LIGHT;
+      intensityGraphPanel.visible = showIntensityGraph && scene === model.lightScene;
     } );
     this.addChild( intensityGraphPanel );
 
@@ -315,13 +314,13 @@ define( function( require ) {
     // Show the side of the water, when fully rotated and in WATER scene
     var waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
     Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
-      waterSideViewNode.visible = rotationAmount === 1.0 && scene === SceneType.WATER;
-      waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === SceneType.WATER;
+      waterSideViewNode.visible = rotationAmount === 1.0 && scene === model.waterScene;
+      waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === model.waterScene;
     } );
 
     Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
       var isRotating = rotationAmount > 0 && rotationAmount < 1; // TODO: factor out?
-      var isSideWater = rotationAmount === 1 && scene === SceneType.WATER;
+      var isSideWater = rotationAmount === 1 && scene === model.waterScene;
       var show = !isRotating && !isSideWater;
       self.waveAreaNode.visible = show;
       self.latticeNode.visible = show;
@@ -339,8 +338,8 @@ define( function( require ) {
     Property.multilink( [ model.latticeFrequencyProperty, model.sceneProperty ], function( frequency, scene ) {
 
       // TODO: this looks odd for light when the wave area is black
-      perspective3DNode.setTopFaceColor( scene === SceneType.WATER ? '#3981a9' : scene === SceneType.SOUND ? 'gray' : VisibleColor.frequencyToColor( frequency ) );
-      perspective3DNode.setSideFaceColor( scene === SceneType.WATER ? '#58c0fa' : scene === SceneType.SOUND ? 'darkGray' : VisibleColor.frequencyToColor( frequency ).colorUtilsDarker( 0.15 ) );
+      perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' : scene === model.soundScene ? 'gray' : VisibleColor.frequencyToColor( frequency ) );
+      perspective3DNode.setSideFaceColor( scene === model.waterScene ? '#58c0fa' : scene === model.soundScene ? 'darkGray' : VisibleColor.frequencyToColor( frequency ).colorUtilsDarker( 0.15 ) );
     } );
     this.addChild( perspective3DNode );
 

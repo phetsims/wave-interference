@@ -12,7 +12,6 @@ define( function( require ) {
   var BarriersNode = require( 'WAVE_INTERFERENCE/slits/view/BarriersNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
-  var SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   var SlitsControlPanel = require( 'WAVE_INTERFERENCE/slits/view/SlitsControlPanel' );
   var ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -46,7 +45,7 @@ define( function( require ) {
     Property.multilink( [ model.rotationAmountProperty, model.sceneProperty, model.viewTypeProperty ], function( rotationAmount, scene, view ) {
 
       // Hide the barriers for water side view and while rotating
-      var hide = scene === SceneType.WATER && view === ViewType.SIDE || ( rotationAmount > 0 && rotationAmount < 1 ); // TODO: create isRotatingProperty
+      var hide = scene === model.waterScene && view === ViewType.SIDE || ( rotationAmount > 0 && rotationAmount < 1 ); // TODO: create isRotatingProperty
       barriersNode.visible = !hide;
     } );
     this.addChild( barriersNode );

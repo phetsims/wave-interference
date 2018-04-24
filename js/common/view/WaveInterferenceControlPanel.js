@@ -15,7 +15,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  var SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
@@ -50,9 +49,9 @@ define( function( require ) {
     // TODO: Scan FrequencySlider issue for TODOs and review comments.
     // TODO(design): should the light frequency slider have the same tick spacing and snapping as the other frequency
 
-    // Controls are in the coordinate frame of the lattice
-    var waterFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, 1, 10 );
-    var lightFrequencySlider = new FrequencySlider( model.frequencyProperty, {
+    // Controls are in the metric coordinate frame
+    var waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.frequencyProperty, 1, 10 );
+    var lightFrequencySlider = new FrequencySlider( model.soundScene.frequencyProperty, {
       trackWidth: 150,
       trackHeight: 20,
       valueVisible: false,
@@ -60,7 +59,7 @@ define( function( require ) {
       thumbWidth: 20,
       thumbHeight: 20
     } );
-    var soundFrequencySlider = new WaveInterferenceSlider( model.frequencyProperty, 1, 20 );
+    var soundFrequencySlider = new WaveInterferenceSlider( model.lightScene.frequencyProperty, 1, 20 );
 
     lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( WaveInterferenceConstants.MINIMUM_FREQUENCY, 10 );
     var frequencySliderContainer = new Node( { children: [ waterFrequencySlider, soundFrequencySlider, lightFrequencySlider ] } );
@@ -73,13 +72,13 @@ define( function( require ) {
     var separator = new HSeparator( maxComponentWidth );
 
     var sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [ {
-      value: SceneType.WATER,
+      value: model.waterScene,
       node: new WaveInterferenceText( 'water' )
     }, {
-      value: SceneType.SOUND,
+      value: model.soundScene,
       node: new WaveInterferenceText( 'sound' )
     }, {
-      value: SceneType.LIGHT,
+      value: model.lightScene,
       node: new WaveInterferenceText( 'light' )
     } ], {
       orientation: 'horizontal'
@@ -120,13 +119,13 @@ define( function( require ) {
     intensityCheckbox.top = screenCheckbox.bottom + 5;
 
     model.sceneProperty.link( function( scene ) {
-      lightFrequencySlider.visible = scene === SceneType.LIGHT;
-      soundFrequencySlider.visible = scene === SceneType.SOUND;
-      waterFrequencySlider.visible = scene === SceneType.WATER;
+      waterFrequencySlider.visible = scene === model.waterScene;
+      soundFrequencySlider.visible = scene === model.soundScene;
+      lightFrequencySlider.visible = scene === model.lightScene;
 
       // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-      screenCheckbox.enabled = scene === SceneType.LIGHT;
-      intensityCheckbox.enabled = scene === SceneType.LIGHT;
+      screenCheckbox.enabled = scene === model.lightScene;
+      intensityCheckbox.enabled = scene === model.lightScene;
     } );
 
     // z-ordering

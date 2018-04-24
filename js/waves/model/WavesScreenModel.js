@@ -14,6 +14,7 @@ define( function( require ) {
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var DynamicProperty = require( 'AXON/DynamicProperty' );
   var Emitter = require( 'AXON/Emitter' );
   var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -22,9 +23,10 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   var Property = require( 'AXON/Property' );
-  var SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
+  var Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   var Util = require( 'DOT/Util' );
   var ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
+  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -49,24 +51,59 @@ define( function( require ) {
       validValues: ViewType.VALUES
     } );
 
-    // @public {Property.<number>} - transformation that converts from metric coordinates (considered to be the "model")
-    //                             - to lattice coordinates (considered to be the "view")
-    //                             - This transform changes when the scene changes.
-    this.metricWidthOfVisibleLattice = new Property( 0.1 );
-
-    this.metricUnits = new Property( 'cm' );
-
-    // @public {Property.<number>} - scale factor that maps model time in seconds to time on the lattice
-    this.modelTimeToLatticeTimeScaleFactor = 1;
-
-    // @public {NumberProperty} - the frequency of the emitter in metric coordinates
-    this.frequencyProperty = new NumberProperty( 1, {
-      units: 'hertz'
+    this.waterScene = new Scene( {
+      name: 'WATER',
+      latticeWidth: 0.1, // 10 centimeters
+      minimumFrequency: 1,
+      maximumFrequency: 10,
+      scaleIndicatorText: '1 centimeter',
+      scaleIndicatorLength: 0.01, // 1 centimeter
+      timeScaleFactor: 1,
+      measuringTapeUnits: 'cm',
+      metricConversion: 0.01
     } );
 
-    this.latticeFrequencyProperty = new DerivedProperty( [ this.frequencyProperty ], function( frequency ) {
-      return frequency * self.modelTimeToLatticeTimeScaleFactor;
+    this.soundScene = new Scene( {
+      name: 'SOUND',
+      latticeWidth: 1, // 1 meter
+      minimumFrequency: 1,
+      maximumFrequency: 20,
+      scaleIndicatorText: '10 centimeters',
+      scaleIndicatorLength: 0.1, // 10 cm
+      timeScaleFactor: 1.0, // TODO: hack for debugging
+      measuringTapeUnits: 'meters',
+      metricConversion: 1
     } );
+
+    this.lightScene = new Scene( {
+      name: 'LIGHT',
+      latticeWidth: 4200E-9, // 4200 nanometers
+      minimumFrequency: VisibleColor.MIN_FREQUENCY,
+      maximumFrequency: VisibleColor.MAX_FREQUENCY,
+      scaleIndicatorText: '500 nanometers',
+      scaleIndicatorLength: 500E-9, // 500nm
+      timeScaleFactor: 5E-15, // in one real (wall clock) second, 5E-15 femtoseconds should pass.
+      measuringTapeUnits: 'nm',
+      metricConversion: 1E-9
+    } );
+
+    // @public {Property.<Scene>} - selected scene
+    this.sceneProperty = new Property( this.waterScene, {
+      validValues: [ this.waterScene, this.soundScene, this.lightScene ]
+    } );
+
+    // @public {NumberProperty} - the frequency of the emitter in Hz
+    // TODO: do we need this property?
+    this.frequencyProperty = new DynamicProperty( this.sceneProperty, {
+      derive: 'frequencyProperty'
+    } );
+    this.frequencyProperty.debug( 'frequency' );
+
+    // @public {DerivedProperty.<number>} - the frequency in the lattice coordinate frame
+    this.latticeFrequencyProperty = new DerivedProperty( [ this.frequencyProperty, this.sceneProperty ], function( frequency, scene ) {
+      return frequency * scene.timeScaleFactor;
+    } );
+    this.latticeFrequencyProperty.debug( 'hi' );
 
     // @public {NumberProperty} - controls the amplitude of the wave
     this.amplitudeProperty = new NumberProperty( 7 );
@@ -95,13 +132,6 @@ define( function( require ) {
 
     // @public {BooleanProperty} - whether the model is moving forward in time
     this.isRunningProperty = new BooleanProperty( true );
-
-    // @public {Property.<SceneType>} - selected scene
-    this.sceneProperty = new Property( SceneType.WATER, {
-      validValues: SceneType.VALUES
-    } );
-
-    this.scaleIndicatorTextProperty = new DerivedProperty( [ this.sceneProperty ], _.property( 'scaleIndicatorText' ) );
 
     // @public {BooleanProperty} - whether the measuring tape has been dragged out of the toolbox into the play area
     this.isMeasuringTapeInPlayAreaProperty = new BooleanProperty( false );
@@ -178,7 +208,7 @@ define( function( require ) {
       self.phase = proposedPhase;
 
       // The wave area resets when the wavelength changes in the light scene
-      if ( self.sceneProperty.get() === SceneType.LIGHT ) {
+      if ( self.sceneProperty.get() === this.lightScene ) {
         self.clear();
       }
     } );
@@ -335,6 +365,10 @@ define( function( require ) {
 
       // Reset latticeFrequencyProperty first because it changes the time and phase
       this.latticeFrequencyProperty.reset();
+
+      this.waterScene.reset();
+      this.soundScene.reset();
+      this.lightScene.reset();
       this.time = 0;
       this.phase = 0;
       this.lattice.clear();

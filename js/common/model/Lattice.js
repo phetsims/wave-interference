@@ -15,6 +15,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
+  // TODO: tinker with the wave speed to understand it better
   var WAVE_SPEED = 0.5; // The wave speed in the coordinate frame of the lattice, see http://www.mtnmath.com/whatth/node47.html
   var WAVE_SPEED_SQUARED = WAVE_SPEED * WAVE_SPEED; // precompute to avoid work in the inner loop
   var NUMBER_OF_MATRICES = 3; // The algorithm we use for the discretized wave equation requires current value + 2 history points
