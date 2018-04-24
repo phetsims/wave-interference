@@ -150,9 +150,10 @@ define( function( require ) {
     } );
 
     // Set the color of highlight on the screen and lattice
-    Property.multilink( [ model.latticeFrequencyProperty, model.sceneProperty ], function( frequency, scene ) {
+    // TODO: reorder args
+    Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, lightFrequency ) {
       if ( scene === model.lightScene ) {
-        var baseColor = VisibleColor.frequencyToColor( frequency );
+        var baseColor = VisibleColor.frequencyToColor( lightFrequency );
         self.latticeNode.setBaseColor( baseColor );
         self.latticeNode.vacuumColor = Color.black;
         screenNode.setBaseColor( baseColor );
@@ -335,11 +336,12 @@ define( function( require ) {
     var perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty );
 
     // Initialize and update the colors based on the scene
-    Property.multilink( [ model.latticeFrequencyProperty, model.sceneProperty ], function( frequency, scene ) {
+    // TODO: update args
+    Property.multilink( [ model.lightScene.frequencyProperty, model.latticeFrequencyProperty, model.sceneProperty ], function( lightFrequncy, latticeFrequency, scene ) {
 
       // TODO: this looks odd for light when the wave area is black
-      perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' : scene === model.soundScene ? 'gray' : VisibleColor.frequencyToColor( frequency ) );
-      perspective3DNode.setSideFaceColor( scene === model.waterScene ? '#58c0fa' : scene === model.soundScene ? 'darkGray' : VisibleColor.frequencyToColor( frequency ).colorUtilsDarker( 0.15 ) );
+      perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' : scene === model.soundScene ? 'gray' : VisibleColor.frequencyToColor( lightFrequncy ) );
+      perspective3DNode.setSideFaceColor( scene === model.waterScene ? '#58c0fa' : scene === model.soundScene ? 'darkGray' : VisibleColor.frequencyToColor( lightFrequncy ).colorUtilsDarker( 0.15 ) );
     } );
     this.addChild( perspective3DNode );
 
