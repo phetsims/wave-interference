@@ -70,7 +70,7 @@ define( function( require ) {
       maximumFrequency: 20,
       scaleIndicatorText: '10 centimeters',
       scaleIndicatorLength: 0.1, // 10 cm
-      timeScaleFactor: 1.0, // TODO: hack for debugging
+      timeScaleFactor: 1.0,
       measuringTapeUnits: 'meters',
       metricConversion: 1
     } );
@@ -99,7 +99,6 @@ define( function( require ) {
     this.frequencyProperty = new DynamicProperty( this.sceneProperty, {
       derive: 'frequencyProperty'
     } );
-    this.frequencyProperty.debug( 'frequency' );
 
     // @public {DerivedProperty.<number>} - the frequency in the lattice coordinate frame
     this.latticeFrequencyProperty = new DerivedProperty( [ this.frequencyProperty, this.sceneProperty ], function( frequency, scene ) {
@@ -173,10 +172,6 @@ define( function( require ) {
 
     // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
     this.intensitySample = new IntensitySample( this.lattice );
-
-    // @public {Property.<number>} - frequency in Hz
-    // Blue light oscillates at 6.45 * 10^14 Hz
-    // this.latticeFrequencyProperty = new Property( 6.45E14 );
 
     // @public {number} - elapsed time in seconds
     this.time = 0;
