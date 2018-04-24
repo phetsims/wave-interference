@@ -3,8 +3,8 @@
 /**
  * Model for the "Waves" screen and other derivative screens.  This model supports two sources, even though the waves
  * screen only uses one.  The controls are in a metric coordinate frame, and there is a transformation to convert
- * metric coordinates to lattice coordinates.  On the view side there is another tranformation to move lattice or metric
- * coordinates to view coordinates.
+ * metric coordinates to lattice coordinates.  On the view side there is another transformation to convert lattice or
+ * metric coordinates to view coordinates.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -70,7 +70,7 @@ define( function( require ) {
       maximumFrequency: 20,
       scaleIndicatorText: '10 centimeters',
       scaleIndicatorLength: 0.1, // 10 cm
-      timeScaleFactor: 1.0,
+      timeScaleFactor: 1,
       measuringTapeUnits: 'meters',
       metricConversion: 1
     } );
