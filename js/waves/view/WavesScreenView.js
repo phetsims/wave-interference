@@ -194,7 +194,7 @@ define( function( require ) {
     model.sceneProperty.link( function( scene ) {
       measuringTapeProperty.set( {
         name: scene.measuringTapeUnits,
-        multiplier: scene.latticeWidth / self.waveAreaNode.width / scene.metricConversion
+        multiplier: scene.latticeWidth / self.waveAreaNode.width / scene.meterUnitsConversion
       } );
     } );
     var measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
@@ -337,11 +337,11 @@ define( function( require ) {
 
     // Initialize and update the colors based on the scene
     // TODO: update args
-    Property.multilink( [ model.lightScene.frequencyProperty, model.latticeFrequencyProperty, model.sceneProperty ], function( lightFrequncy, latticeFrequency, scene ) {
+    Property.multilink( [ model.lightScene.frequencyProperty, model.sceneProperty ], function( lightFrequency, scene ) {
 
       // TODO: this looks odd for light when the wave area is black
-      perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' : scene === model.soundScene ? 'gray' : VisibleColor.frequencyToColor( lightFrequncy ) );
-      perspective3DNode.setSideFaceColor( scene === model.waterScene ? '#58c0fa' : scene === model.soundScene ? 'darkGray' : VisibleColor.frequencyToColor( lightFrequncy ).colorUtilsDarker( 0.15 ) );
+      perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' : scene === model.soundScene ? 'gray' : VisibleColor.frequencyToColor( lightFrequency ) );
+      perspective3DNode.setSideFaceColor( scene === model.waterScene ? '#58c0fa' : scene === model.soundScene ? 'darkGray' : VisibleColor.frequencyToColor( lightFrequency ).colorUtilsDarker( 0.15 ) );
     } );
     this.addChild( perspective3DNode );
 

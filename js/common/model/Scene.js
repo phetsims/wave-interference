@@ -36,7 +36,10 @@ define( function( require ) {
     this.measuringTapeUnits = config.measuringTapeUnits;
 
     // @public (read-only) {number} - factor for converting between units (like centimeters, nanometers)
-    this.metricConversion = config.metricConversion;
+    this.meterUnitsConversion = config.meterUnitsConversion;
+
+    // @public (read-only) {number} - scale factor for converting between time units (like showing seconds in femtoseconds)
+    this.timeUnitsConversion = config.timeUnitsConversion;
 
     // @public {Property.<number>} - the frequency in Hz
     this.frequencyProperty = new Property( ( config.minimumFrequency + config.maximumFrequency ) / 2 );

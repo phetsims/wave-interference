@@ -73,10 +73,11 @@ define( function( require ) {
           for ( var j = 0; j < self.lattice.height; j++ ) {
 
             // TODO: compute the correct wave speed
-            var k = Util.linear( WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, 0.1, 1, self.latticeFrequencyProperty.get() );
+            var latticeFrequency = self.frequencyProperty.get() * self.sceneProperty.get().timeScaleFactor;
+            var k = Util.linear( WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, 0.1, 1, latticeFrequency );
 
             // Scale down the amplitude because it is calibrated for a point source, not a plane wave
-            var value = self.amplitudeProperty.get() / 10 * 1.4 * Math.sin( k * i - self.latticeFrequencyProperty.value * self.time );
+            var value = self.amplitudeProperty.get() / 10 * 1.4 * Math.sin( k * i - self.frequencyProperty.get() * self.time );
             var lastValue = self.lattice.getCurrentValue( i, j );
             self.lattice.setCurrentValue( i, j, value );
             self.lattice.setLastValue( i, j, lastValue );

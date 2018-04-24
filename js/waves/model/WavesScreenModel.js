@@ -60,7 +60,8 @@ define( function( require ) {
       scaleIndicatorLength: 0.01, // 1 centimeter
       timeScaleFactor: 1,
       measuringTapeUnits: 'cm',
-      metricConversion: 0.01
+      meterUnitsConversion: 0.01,
+      timeUnitsConversion: 1
     } );
 
     this.soundScene = new Scene( {
@@ -72,8 +73,12 @@ define( function( require ) {
       scaleIndicatorLength: 0.1, // 10 cm
       timeScaleFactor: 1,
       measuringTapeUnits: 'meters',
-      metricConversion: 1
+      meterUnitsConversion: 1,
+      timeUnitsConversion: 1
     } );
+
+    var d = ( VisibleColor.MIN_FREQUENCY + VisibleColor.MAX_FREQUENCY ) / 2;
+    console.log( d );
 
     this.lightScene = new Scene( {
       name: 'LIGHT',
@@ -84,9 +89,10 @@ define( function( require ) {
       scaleIndicatorLength: 500E-9, // 500nm
 
       // TODO: is this buggy?  We need to check the frequency on the timer and the wavelength
-      timeScaleFactor: 4.115384615384616e-14, // in one real (wall clock) second, 5E-15 femtoseconds should pass. Tuned empirically
+      timeScaleFactor: 4e-14, // Tuned empirically so the waves have the right scale on the lattice
       measuringTapeUnits: 'nm',
-      metricConversion: 1E-9
+      meterUnitsConversion: 1E-9,
+      timeUnitsConversion: 1E15 // femtoseconds shown on the timers
     } );
 
     // @public {Property.<Scene>} - selected scene
@@ -98,11 +104,6 @@ define( function( require ) {
     // TODO: do we need this property?  TODO: account for time scale in dt and stopwatch time
     this.frequencyProperty = new DynamicProperty( this.sceneProperty, {
       derive: 'frequencyProperty'
-    } );
-
-    // @public {DerivedProperty.<number>} - the frequency in the lattice coordinate frame
-    this.latticeFrequencyProperty = new DerivedProperty( [ this.frequencyProperty, this.sceneProperty ], function( frequency, scene ) {
-      return frequency * scene.timeScaleFactor;
     } );
 
     // @public {NumberProperty} - controls the amplitude of the wave
@@ -190,7 +191,7 @@ define( function( require ) {
 
     // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
     // for continuity
-    this.latticeFrequencyProperty.lazyLink( function( newFrequency, oldFrequency ) {
+    this.frequencyProperty.lazyLink( function( newFrequency, oldFrequency ) {
       var oldValue = Math.sin( self.time * oldFrequency + self.phase );
       var proposedPhase = Math.asin( oldValue ) - self.time * newFrequency;
       var oldDerivative = Math.cos( self.time * oldFrequency + self.phase );
@@ -204,7 +205,7 @@ define( function( require ) {
       self.phase = proposedPhase;
 
       // The wave area resets when the wavelength changes in the light scene
-      if ( self.sceneProperty.get() === this.lightScene ) {
+      if ( self.sceneProperty.get() === self.lightScene ) {
         self.clear();
       }
     } );
@@ -264,11 +265,16 @@ define( function( require ) {
      */
     step: function( dt ) {
 
+      // On iPad2 and slower platforms, the clock speed cannot keep up with the frequency, so we must clamp the elapsed
+      // time to get the full range of oscillation at the wave source.
+      if ( dt > 1 / 60 ) {
+        dt = 1 / 60;
+      }
+
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
       var sign = this.viewTypeProperty.get() === ViewType.TOP ? -1 : +1;
-      var newRotationAmount = Util.clamp( this.rotationAmountProperty.value + dt * sign * 1.4, 0, 1 );
-      this.rotationAmountProperty.value = newRotationAmount;
+      this.rotationAmountProperty.value = Util.clamp( this.rotationAmountProperty.value + dt * sign * 1.4, 0, 1 );
 
       if ( this.isRunningProperty.get() ) {
         this.advanceTime( dt * this.playSpeedProperty.get().scaleFactor );
@@ -281,13 +287,10 @@ define( function( require ) {
      * @public
      */
     advanceTime: function( dt ) {
+      var dtSeconds = dt;
+      dt = dt * this.sceneProperty.value.timeScaleFactor;
       var self = this;
 
-      // On iPad2 and slower platforms, the clock speed cannot keep up with the frequency, so we must clamp the elapsed
-      // time to get the full range of oscillation at the wave source.
-      if ( dt > 1 / 60 ) {
-        dt = 1 / 60;
-      }
       this.time += dt;
       var continuous1 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
       var continuous2 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
@@ -296,7 +299,7 @@ define( function( require ) {
 
         // TODO(design): a negative sign here will mean the water goes down first for a pulse, which makes sense
         // for a drop of water dropping in, but not desirable for how the graphs look (seems odd to dip down first)
-        var v = -Math.sin( this.time * this.latticeFrequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
+        var v = -Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
         var separation = Math.floor( this.sourceSeparationProperty.get() / 2 );
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
@@ -312,13 +315,13 @@ define( function( require ) {
           entriesToSet.push( { i: POINT_SOURCE_HORIZONTAL_COORDINATE, j: latticeCenterJ - separation, value: v } );
         }
 
-        if ( this.time * this.latticeFrequencyProperty.value + this.phase > Math.PI * 2 ) {
+        if ( this.time * this.frequencyProperty.value + this.phase > Math.PI * 2 ) {
           this.pulseFiringProperty.value = false;
         }
       }
 
-      this.timeSinceLastLatticeStep += dt;
-
+      // Track the time since the last lattice update so we can get comparable performance on machines with different speeds
+      this.timeSinceLastLatticeStep += dtSeconds;
       if ( this.timeSinceLastLatticeStep >= 1 / 60 ) {
         var setEntry = function( entry ) {
           self.lattice.setCurrentValue( entry.i, entry.j, entry.value );
@@ -337,7 +340,7 @@ define( function( require ) {
         this.intensitySample.step();
       }
       if ( this.isTimerRunningProperty.get() ) {
-        this.timerElapsedTimeProperty.set( this.timerElapsedTimeProperty.get() + dt );
+        this.timerElapsedTimeProperty.set( this.timerElapsedTimeProperty.get() + dt * this.sceneProperty.value.timeUnitsConversion );
       }
 
       // Notify listeners that a frame has advanced
@@ -349,7 +352,7 @@ define( function( require ) {
      */
     startPulse: function() {
       assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
-      this.phase = -this.time * this.latticeFrequencyProperty.value; // start the sine angle at 0
+      this.phase = -this.time * this.frequencyProperty.value; // start the sine angle at 0 // TODO: wrong frequency
       this.pulseFiringProperty.value = true;
     },
 
@@ -359,18 +362,17 @@ define( function( require ) {
      */
     reset: function() {
 
-      // Reset latticeFrequencyProperty first because it changes the time and phase
-      this.latticeFrequencyProperty.reset();
-
+      // Reset frequencyProperty first because it changes the time and phase.  This is done by resetting each of the
+      // frequencyProperties in the scenes
       this.waterScene.reset();
       this.soundScene.reset();
       this.lightScene.reset();
+
       this.time = 0;
       this.phase = 0;
       this.lattice.clear();
       this.sceneProperty.reset();
       this.viewTypeProperty.reset();
-      this.latticeFrequencyProperty.reset();
       this.amplitudeProperty.reset();
       this.showGraphProperty.reset();
       this.inputTypeProperty.reset();
