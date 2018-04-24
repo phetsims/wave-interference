@@ -50,8 +50,9 @@ define( function( require ) {
     // TODO(design): should the light frequency slider have the same tick spacing and snapping as the other frequency
 
     // Controls are in the metric coordinate frame
-    var waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.frequencyProperty, 1, 10 );
-    var lightFrequencySlider = new FrequencySlider( model.soundScene.frequencyProperty, {
+    var waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.frequencyProperty, model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
+    var soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
+    var lightFrequencySlider = new FrequencySlider( model.lightScene.frequencyProperty, {
       trackWidth: 150,
       trackHeight: 20,
       valueVisible: false,
@@ -59,7 +60,6 @@ define( function( require ) {
       thumbWidth: 20,
       thumbHeight: 20
     } );
-    var soundFrequencySlider = new WaveInterferenceSlider( model.lightScene.frequencyProperty, 1, 20 );
 
     lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( WaveInterferenceConstants.MINIMUM_FREQUENCY, 10 );
     var frequencySliderContainer = new Node( { children: [ waterFrequencySlider, soundFrequencySlider, lightFrequencySlider ] } );
