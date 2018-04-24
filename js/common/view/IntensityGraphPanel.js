@@ -32,6 +32,7 @@ define( function( require ) {
    * @constructor
    */
   function IntensityGraphPanel( graphHeight, intensitySample, options ) {
+    var self = this;
 
     this.chartRectangle = new Rectangle( 0, 0, 100, graphHeight, { fill: 'white', stroke: 'black', lineWidth: 1 } );
 
@@ -75,13 +76,15 @@ define( function( require ) {
     } );
 
     WaveInterferencePanel.call( this, chartNode, options );
-    var self = this;
 
     intensitySample.changedEmitter.addListener( function() {
       var intensityValues = intensitySample.getIntensityValues();
       var shape = new Shape();
       for ( var i = 0; i < intensityValues.length; i++ ) {
-        var intensityPlotValue = Util.linear( 0, 0.05, self.chartRectangle.left, self.chartRectangle.right, intensityValues[ i ] );
+
+        // TODO: this uses the same scaling as in ScreenNode.  Consider factoring it out or determine
+        // TODO: whether it should vary independently
+        var intensityPlotValue = Util.linear( 0, 0.6, self.chartRectangle.left, self.chartRectangle.right, intensityValues[ i ] );
         if ( intensityPlotValue > self.chartRectangle.right ) {
           intensityPlotValue = self.chartRectangle.right;
         }

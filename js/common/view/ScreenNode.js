@@ -73,11 +73,11 @@ define( function( require ) {
      */
     paintCanvas: function( context ) {
 
-      // TODO: align with LatticeCanvasNode and only render the non-damping regions
+      // TODO: align with LatticeCanvasNode
       var intensityValues = this.intensitySample.getIntensityValues();
       for ( var k = this.lattice.dampY; k < this.lattice.height - this.lattice.dampY; k++ ) {
         var intensity = intensityValues[ k - this.lattice.dampY ];
-        var brightness = Util.linear( 0, 0.05, 0, 1, intensity );
+        var brightness = Util.linear( 0, 0.6, 0, 1, intensity );
         brightness = Util.clamp( brightness, 0, 1 );
         var color = this.baseColor.blend( Color.black, 1 - brightness );
         context.fillStyle = color.toCSS();
