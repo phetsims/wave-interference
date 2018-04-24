@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Renders the main area of the lattice (doesn't include the damping regions) using 2d canvas.
+ * Renders the screen at the right hand side of the lattice which collects photons in light view.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

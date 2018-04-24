@@ -95,7 +95,7 @@ define( function( require ) {
     } );
 
     // @public {NumberProperty} - the frequency of the emitter in Hz
-    // TODO: do we need this property?
+    // TODO: do we need this property?  TODO: account for time scale in dt and stopwatch time
     this.frequencyProperty = new DynamicProperty( this.sceneProperty, {
       derive: 'frequencyProperty'
     } );
