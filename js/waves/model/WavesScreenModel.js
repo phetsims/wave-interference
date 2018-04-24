@@ -103,7 +103,6 @@ define( function( require ) {
     this.latticeFrequencyProperty = new DerivedProperty( [ this.frequencyProperty, this.sceneProperty ], function( frequency, scene ) {
       return frequency * scene.timeScaleFactor;
     } );
-    this.latticeFrequencyProperty.debug( 'hi' );
 
     // @public {NumberProperty} - controls the amplitude of the wave
     this.amplitudeProperty = new NumberProperty( 7 );
