@@ -76,9 +76,6 @@ define( function( require ) {
       timeUnitsConversion: 1
     } );
 
-    var d = ( VisibleColor.MIN_FREQUENCY + VisibleColor.MAX_FREQUENCY ) / 2;
-    console.log( d );
-
     this.lightScene = new Scene( {
       name: 'LIGHT',
       latticeWidth: 4200E-9, // 4200 nanometers
