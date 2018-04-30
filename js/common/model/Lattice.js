@@ -20,6 +20,13 @@ define( function( require ) {
   var WAVE_SPEED_SQUARED = WAVE_SPEED * WAVE_SPEED; // precompute to avoid work in the inner loop
   var NUMBER_OF_MATRICES = 3; // The algorithm we use for the discretized wave equation requires current value + 2 history points
 
+  // This is the threshold for the wave value that determines if the light has visited.  If the value is higher,
+  // it will track the wavefront of the light more accurately (and hence could be used for more accurate computation of
+  // the speed of light), but will generate more artifacts in the initial wave.  If the value is lower, it will generate
+  // fewer artifacts in the initial propagation, but will lead the initial wavefront by too far and make it seem like
+  // light is faster than it should be measured (based on the propagation of wavefronts).
+  var LIGHT_VISIT_THRESHOLD = 0.06;
+
   /**
    * @param {number} width - width of the lattice
    * @param {number} height - height of the lattice
@@ -275,7 +282,7 @@ define( function( require ) {
             var value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
             matrix0.set( i, j, value );
 
-            if ( Math.abs( value ) > 1E-2 ) {
+            if ( Math.abs( value ) > LIGHT_VISIT_THRESHOLD ) {
               this.visitedMatrix.set( i, j, 1 );
             }
           }
