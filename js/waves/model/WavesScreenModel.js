@@ -102,9 +102,18 @@ define( function( require ) {
     this.frequencyProperty = new DynamicProperty( this.sceneProperty, {
       derive: 'frequencyProperty'
     } );
-    this.frequencyProperty.link( function( frequency ) {
-      console.log( frequency / 1E12 + 'THz' );
-    } );
+
+    // Show debugging information in the console when ?dev is selected
+    if ( phet.chipper.queryParameters.dev ) {
+      this.frequencyProperty.link( function( frequency ) {
+        var speedOfLight = 299792458;
+        var wavelength = speedOfLight / frequency;
+        var frequencyTHz = frequency / 1E12;
+        var wavelengthNM = wavelength / 1E-9;
+        var oscillationFS = 1000 / frequencyTHz;
+        console.log( 'Frequency = ' + frequencyTHz.toFixed( 2 ) + 'THz' + ', Wavelength = ' + wavelengthNM.toFixed( 2 ) + 'nm' + ' Time for one oscillation: ' + oscillationFS.toFixed( 2 ) + 'fs' );
+      } );
+    }
 
     // @public {NumberProperty} - controls the amplitude of the wave
     this.amplitudeProperty = new NumberProperty( 7 );

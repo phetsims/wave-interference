@@ -1,7 +1,9 @@
 The wave is represented on a 2D discrete lattice, and we use use the discretization of the wave equation described in
 http://www.mtnmath.com/whatth/node47.html and known as a finite difference method:
 
-f(x,y,t+1) = c*c(f(x+1,y,t) + f(x-1,y,t) + f(x,y-1,t) + f(x,y+1,t) - 4*f(x,y,t)) - f(x,y,t-1) + 2*f(x,y,t).
+```
+f(x,y,t+1) = c*c(f(x+1,y,t) + f(x-1,y,t) + f(x,y-1,t) + f(x,y+1,t) - 4*f(x,y,t)) - f(x,y,t-1) + 2*f(x,y,t)
+```
 The description for the wave speed c is given in Lattice.js
 
 The lattice extends beyond the visible region, and damping is applied near the boundaries to minimize the effects of

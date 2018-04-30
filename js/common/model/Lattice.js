@@ -15,8 +15,11 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  // TODO: tinker with the wave speed to understand it better
-  var WAVE_SPEED = 0.5; // The wave speed in the coordinate frame of the lattice, see http://www.mtnmath.com/whatth/node47.html
+
+  // The wave speed in the coordinate frame of the lattice, see http://www.mtnmath.com/whatth/node47.html. We tried
+  // different values, but they do not have the properer emergent behavior.  WAVE_SPEED=1 propagates out as a diamond
+  // rather than a circle, and WAVE_SPEED=0.1 is too slow and throws off the frequency of light.
+  var WAVE_SPEED = 0.5;
   var WAVE_SPEED_SQUARED = WAVE_SPEED * WAVE_SPEED; // precompute to avoid work in the inner loop
   var NUMBER_OF_MATRICES = 3; // The algorithm we use for the discretized wave equation requires current value + 2 history points
 
