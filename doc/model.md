@@ -16,7 +16,7 @@ measure the wave speed, let the light propagate to the edge of the boundary, the
 and divide by the elapsed time on the stopwatch.
 
 | Color | Frequency (THz) | Wavelength (nm) | Time for one oscillation (fs) |
-| --- | --- | --- | --- |
+| :--- | ---: | ---: | ---: |
 | Red (VisibleColor min) | 384.35 | 780.00 | 2.60 |
 | Green (VisibleColor mid) | 586.64 | 511.03 | 1.70 |
 | Violet (VisibleColor max) | 788.93 | 380.00 | 1.27 |
