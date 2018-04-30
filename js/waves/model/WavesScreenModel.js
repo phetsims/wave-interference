@@ -50,6 +50,7 @@ define( function( require ) {
       validValues: ViewType.VALUES
     } );
 
+    // TODO: docs for the scenes
     this.waterScene = new Scene( {
       name: 'WATER',
       latticeWidth: 0.1, // 10 centimeters
@@ -78,17 +79,17 @@ define( function( require ) {
 
     this.lightScene = new Scene( {
       name: 'LIGHT',
-      latticeWidth: 4200E-9, // 4200 nanometers
+      latticeWidth: 3789 * 1E-9, // tuned empirically so that the given light frequencies have the correct corresponding wavelengths
       minimumFrequency: VisibleColor.MIN_FREQUENCY,
       maximumFrequency: VisibleColor.MAX_FREQUENCY,
       scaleIndicatorText: '500 nanometers',
       scaleIndicatorLength: 500E-9, // 500nm
 
       // TODO: is this buggy?  We need to check the frequency on the timer and the wavelength
-      timeScaleFactor: 4e-14, // Tuned empirically so the waves have the right scale on the lattice
+      timeScaleFactor: 4e-14, // Tuned empirically so the waves have the right size on the lattice.  TODO: is this truly a free parameter?
       measuringTapeUnits: 'nm',
       meterUnitsConversion: 1E-9,
-      timeUnitsConversion: 1E15 // femtoseconds shown on the timers
+      timeUnitsConversion: 1E15 * 0.15904736243338724 // Tuned empirically so that light would have the correct THz
     } );
 
     // @public {Property.<Scene>} - selected scene
@@ -100,6 +101,9 @@ define( function( require ) {
     // TODO: do we need this property?  TODO: account for time scale in dt and stopwatch time
     this.frequencyProperty = new DynamicProperty( this.sceneProperty, {
       derive: 'frequencyProperty'
+    } );
+    this.frequencyProperty.link( function( frequency ) {
+      console.log( frequency / 1E12 + 'THz' );
     } );
 
     // @public {NumberProperty} - controls the amplitude of the wave
@@ -290,7 +294,7 @@ define( function( require ) {
       this.time += dt;
       var continuous1 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
       var continuous2 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
-      var entriesToSet = [];
+      var emitterValues = [];
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
         // TODO(design): a negative sign here will mean the water goes down first for a pulse, which makes sense
@@ -299,21 +303,21 @@ define( function( require ) {
         var separation = Math.floor( this.sourceSeparationProperty.get() / 2 );
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
-        var latticeCenterJ = Math.floor( this.lattice.height / 2 );
+        var latticeCenterJ = Math.round( this.lattice.height / 2 );
 
         // Point source
         if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
-          entriesToSet.push( { i: POINT_SOURCE_HORIZONTAL_COORDINATE, j: latticeCenterJ + separation, value: v } );
+          emitterValues.push( { i: POINT_SOURCE_HORIZONTAL_COORDINATE, j: latticeCenterJ + separation, value: v } );
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
         if ( this.continuousWave2OscillatingProperty.get() ) {
-          entriesToSet.push( { i: POINT_SOURCE_HORIZONTAL_COORDINATE, j: latticeCenterJ - separation, value: v } );
+          emitterValues.push( { i: POINT_SOURCE_HORIZONTAL_COORDINATE, j: latticeCenterJ - separation, value: v } );
         }
+      }
 
-        if ( this.time * this.frequencyProperty.value + this.phase > Math.PI * 2 ) {
-          this.pulseFiringProperty.value = false;
-        }
+      if ( this.pulseFiringProperty.get() && ( this.time * this.frequencyProperty.value + this.phase > Math.PI * 2 ) ) {
+        this.pulseFiringProperty.value = false;
       }
 
       // Track the time since the last lattice update so we can get comparable performance on machines with different speeds
@@ -324,13 +328,13 @@ define( function( require ) {
         };
 
         // Apply values before lattice step so the values will be used to propagate
-        entriesToSet.forEach( setEntry );
+        emitterValues.forEach( setEntry );
 
         // Update the lattice
         this.lattice.step();
 
         // Apply values on top of the computed lattice values so there is no noise at the point sources
-        entriesToSet.forEach( setEntry );
+        emitterValues.forEach( setEntry );
 
         this.timeSinceLastLatticeStep = 0;
         this.intensitySample.step();
