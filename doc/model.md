@@ -1,3 +1,4 @@
+# Waves, Interference, Slits Screens
 The wave is represented on a 2D discrete lattice, and we use use the discretization of the wave equation described in
 http://www.mtnmath.com/whatth/node47.html and known as a finite difference method:
 
@@ -14,6 +15,10 @@ wave speed) for all frequencies of light.  This table describes the desired valu
 ?dev to get corresponding output in the console.  Use the stopwatch and sim play/pause feature to record one cycle.  To
 measure the wave speed, let the light propagate to the edge of the boundary, then use the measuring tape to measure distance
 and divide by the elapsed time on the stopwatch.
+
+The time constants have been tuned in WavesScreenModel.js so that the observed Wavelength and Oscillation Time are correct.
+This table can be used to verify those values if they need fine tuning (say if we need to adjust the wavelength scaling
+of light on the lattice.
 
 | Color | Frequency (THz) | Wavelength (nm) | Oscillation Time (fs) |
 | :--- | ---: | ---: | ---: |
