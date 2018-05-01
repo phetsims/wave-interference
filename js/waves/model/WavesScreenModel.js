@@ -54,8 +54,8 @@ define( function( require ) {
     this.waterScene = new Scene( {
       name: 'WATER',
       latticeWidth: 0.1, // 10 centimeters
-      minimumFrequency: 1,
-      maximumFrequency: 10,
+      minimumFrequency: 4,
+      maximumFrequency: 20,
       scaleIndicatorText: '1 centimeter',
       scaleIndicatorLength: 0.01, // 1 centimeter
       timeScaleFactor: 1,
@@ -64,17 +64,19 @@ define( function( require ) {
       timeUnitsConversion: 1
     } );
 
+    var concertA = 440; // Hz
     this.soundScene = new Scene( {
       name: 'SOUND',
       latticeWidth: 1, // 1 meter
-      minimumFrequency: 1,
-      maximumFrequency: 20,
+      minimumFrequency: concertA - 200,
+      maximumFrequency: concertA + 200,
       scaleIndicatorText: '10 centimeters',
       scaleIndicatorLength: 0.1, // 10 cm
-      timeScaleFactor: 1,
+      timeScaleFactor: 5E-2, // This value is chosen to make the wave look accurate on the lattice
       measuringTapeUnits: 'meters',
       meterUnitsConversion: 1,
-      timeUnitsConversion: 1
+      // TODO: timer should be in milliseconds
+      timeUnitsConversion: 343 / 0.8 / 1.57 // This value is chosen so that the wave speed is accurate
     } );
 
     this.lightScene = new Scene( {
@@ -84,12 +86,10 @@ define( function( require ) {
       maximumFrequency: VisibleColor.MAX_FREQUENCY,
       scaleIndicatorText: '500 nanometers',
       scaleIndicatorLength: 500E-9, // 500nm
-
-      // TODO: is this buggy?  We need to check the frequency on the timer and the wavelength
       timeScaleFactor: 4e-14, // Tuned empirically so the waves have the right size on the lattice.  TODO: is this truly a free parameter?
       measuringTapeUnits: 'nm',
       meterUnitsConversion: 1E-9,
-      timeUnitsConversion: 1E15 * 0.15904736243338724 // Tuned empirically so that light would have the correct THz
+      timeUnitsConversion: 1E15 * 0.15904736243338724 // Tuned empirically so that light would have the correct THz and hence the correct speed of light
     } );
 
     // @public {Property.<Scene>} - selected scene
@@ -105,13 +105,23 @@ define( function( require ) {
 
     // Show debugging information in the console when ?dev is selected
     if ( phet.chipper.queryParameters.dev ) {
+      Property.multilink( [ this.frequencyProperty, this.sceneProperty ], function( frequency, scene ) {
+
+        // Output in appropriate units
+        if ( scene === self.lightScene ) {
+          var speedOfLight = 299792458;
+          var wavelength = speedOfLight / frequency;
+          var frequencyTHz = frequency / 1E12;
+          var wavelengthNM = wavelength / 1E-9;
+          var oscillationFS = 1000 / frequencyTHz;
+          console.log( 'Frequency = ' + frequencyTHz.toFixed( 2 ) + 'THz' + ', Wavelength = ' + wavelengthNM.toFixed( 2 ) + 'nm' + ' Time for one oscillation: ' + oscillationFS.toFixed( 2 ) + 'fs' );
+        }
+        else if ( scene === self.waterScene ) {
+          console.log( 'Frequency = ' + frequency );
+        }
+      } );
       this.frequencyProperty.link( function( frequency ) {
-        var speedOfLight = 299792458;
-        var wavelength = speedOfLight / frequency;
-        var frequencyTHz = frequency / 1E12;
-        var wavelengthNM = wavelength / 1E-9;
-        var oscillationFS = 1000 / frequencyTHz;
-        console.log( 'Frequency = ' + frequencyTHz.toFixed( 2 ) + 'THz' + ', Wavelength = ' + wavelengthNM.toFixed( 2 ) + 'nm' + ' Time for one oscillation: ' + oscillationFS.toFixed( 2 ) + 'fs' );
+
       } );
     }
 

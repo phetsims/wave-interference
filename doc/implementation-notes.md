@@ -32,16 +32,40 @@ measure the wave speed, let the light propagate to the edge of the boundary, the
 and divide by the elapsed time on the stopwatch.
 
 The time constants have been tuned in WavesScreenModel.js so that the observed Wavelength and Oscillation Time are correct.
-This table can be used to verify those values if they need fine tuning (say if we need to adjust the wavelength scaling
-of light on the lattice.
+These tables can be used to verify those values if they need fine tuning (say if we need to adjust the wavelength scaling
+of light on the lattice).
 
+## Water (values recorded April 30, 2018)
+| Value | Frequency (Hz) | Wavelength (cm) |
+| :--- | ---: | ---: |
+| min | 4 | 9.2 |
+| mid | 12 | 2.7 |
+| max | 20 | 1.7 |
+
+Wave speed measured at 7.1E-2/1.43 = 5cm/sec.  Is that reasonable?  Accodring to http://hyperphysics.phy-astr.gsu.edu/hbase/watwav.html
+the velocity of idealized ocean waves is:
+
+v = sqrt(g*lambda/2/pi * tanh(2*pi*d/lambda)) where lamba = wavelength, d= depth, g=acceleration due to gravity.
+For our case, we have d= arctanh(2*pi*v*v/g/lambda)/2/pi*lambda
+d = Math.atanh(2*Math.PI*0.05*0.05/9.8/0.027)/2/Math.PI*0.027 = 0.00025540235263191006m
+which means that the wave pool is 0.02cm deep (pretty shallow!)  TODO: how should we address this, if at all?
+
+## Sound (values recorded April 30, 2018)
+| Value | Frequency (Hz) | Wavelength (cm) |
+| :--- | ---: | ---: |
+| min |  |  |
+| mid |  |  |
+| max |  |  |
+
+In the Java version, sound is observed to be traveling 351.7 m/s.  We will need to change the stopwatch units to get this to work in HTML5
+because we want the wave area to be 1m. TODO: delete after this is working.
+
+## Light
 | Color | Frequency (THz) | Wavelength (nm) | Oscillation Time (fs) |
 | :--- | ---: | ---: | ---: |
 | Red (VisibleColor min) | 384.35 | 780.00 | 2.60 |
 | Green (VisibleColor mid) | 586.64 | 511.03 | 1.70 |
 | Violet (VisibleColor max) | 788.93 | 380.00 | 1.27 |
-
-TODO: create a similar table for sound and water.  Make sure the speed of sound is right.
 
 For green light, measuring the distance traveled by a wavefront and dividing by time gives 2807.3E-9/9.75E-15 = 287928205 m/s,
 which is about 4% off of the true speed of light.  Measuring the colored wavefront for green, I see a deviation of < 1%.
