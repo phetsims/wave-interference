@@ -221,7 +221,9 @@ define( function( require ) {
       measuringTapeTipPositionProperty.reset();
     } );
 
-    var timerNode = new TimerNode( model.timerElapsedTimeProperty, model.isTimerRunningProperty, model );
+    var timerNode = new TimerNode( model.timerElapsedTimeProperty, model.isTimerRunningProperty, {
+      unitsChoices: [ model.waterScene.timerUnits, model.soundScene.timerUnits, model.lightScene.timerUnits ]
+    } );
     var timerNodeDragListener = new DragListener( {
       translateNode: true,
 
@@ -238,8 +240,7 @@ define( function( require ) {
     timerNode.addInputListener( timerNodeDragListener );
     model.isTimerInPlayAreaProperty.linkAttribute( timerNode, 'visible' );
     model.sceneProperty.link( function( scene ) {
-      // TODO: get timer units working
-      // timerNode.setUnits( scene.timerUnits );
+      timerNode.setUnits( scene.timerUnits );
     } );
 
     var waveDetectorToolNode = new WaveDetectorToolNode( model, this, {
