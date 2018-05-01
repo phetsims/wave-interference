@@ -43,6 +43,9 @@ define( function( require ) {
 
     // @public {Property.<number>} - the frequency in Hz
     this.frequencyProperty = new Property( ( config.minimumFrequency + config.maximumFrequency ) / 2 );
+
+    // @public (read-only) {string} - units associated with the time units conversion
+    this.timerUnits = config.timerUnits;
   }
 
   waveInterference.register( 'Scene', Scene );

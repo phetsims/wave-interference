@@ -237,6 +237,10 @@ define( function( require ) {
     timerNode.timerNodeDragListener = timerNodeDragListener; // TODO: fix this, perhaps a subclass
     timerNode.addInputListener( timerNodeDragListener );
     model.isTimerInPlayAreaProperty.linkAttribute( timerNode, 'visible' );
+    model.sceneProperty.link( function( scene ) {
+      // TODO: get timer units working
+      // timerNode.setUnits( scene.timerUnits );
+    } );
 
     var waveDetectorToolNode = new WaveDetectorToolNode( model, this, {
 
