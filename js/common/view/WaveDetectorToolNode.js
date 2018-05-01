@@ -34,7 +34,7 @@ define( function( require ) {
   var timeString = require( 'string!WAVE_INTERFERENCE/time' );
 
   // constants
-  var SECONDS_TO_SHOW = 2;
+  var SECONDS_TO_SHOW = 2; // TODO: this won't work as a variable when we are in femtoseconds or milliseconds
   var SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
   var SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
   var PATH_LINE_WIDTH = 2;
