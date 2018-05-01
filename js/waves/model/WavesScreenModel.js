@@ -122,9 +122,6 @@ define( function( require ) {
           console.log( 'Frequency = ' + frequency );
         }
       } );
-      this.frequencyProperty.link( function( frequency ) {
-
-      } );
     }
 
     // @public {NumberProperty} - controls the amplitude of the wave
@@ -405,6 +402,8 @@ define( function( require ) {
       this.isTimerInPlayAreaProperty.reset();
       this.showIntensityGraphProperty.reset();
       this.isMeasuringTapeInPlayAreaProperty.reset();
+      this.continuousWave1OscillatingProperty.reset();
+      this.continuousWave2OscillatingProperty.reset();
       this.isWaveDetectorToolNodeInPlayAreaProperty.reset();
     }
   } );
