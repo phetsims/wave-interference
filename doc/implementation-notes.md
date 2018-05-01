@@ -59,6 +59,10 @@ which means that the wave pool is 0.02cm deep (pretty shallow!)  TODO: how shoul
 
 In the Java version, sound is observed to be traveling 351.7 m/s.  We will need to change the stopwatch units to get this to work in HTML5
 because we want the wave area to be 1m. TODO: delete after this is working.
+Also, the default frequency of sound in the Java version is measured to be 52cm = E5 (the E above concert A)
+See https://pages.mtu.edu/~suits/notefreqs.html
+However, Java sound does not show a good interference pattern because the wavelength on the lattice is too big
+TODO: Create an issue to decide how to proceed.
 
 ## Light
 | Color | Frequency (THz) | Wavelength (nm) | Oscillation Time (fs) |

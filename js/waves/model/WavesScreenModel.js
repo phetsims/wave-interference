@@ -60,6 +60,7 @@ define( function( require ) {
       scaleIndicatorLength: 0.01, // 1 centimeter
       timeScaleFactor: 1,
       measuringTapeUnits: 'cm',
+      // TODO: timer should be in seconds
       meterUnitsConversion: 0.01,
       timeUnitsConversion: 1
     } );
@@ -88,6 +89,7 @@ define( function( require ) {
       scaleIndicatorLength: 500E-9, // 500nm
       timeScaleFactor: 4e-14, // Tuned empirically so the waves have the right size on the lattice.  TODO: is this truly a free parameter?
       measuringTapeUnits: 'nm',
+      // TODO: Timer should be in femtoseconds
       meterUnitsConversion: 1E-9,
       timeUnitsConversion: 1E15 * 0.15904736243338724 // Tuned empirically so that light would have the correct THz and hence the correct speed of light
     } );
