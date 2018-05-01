@@ -261,6 +261,9 @@ define( function( require ) {
         self.button1PressedProperty.value = false;
       }
     } );
+
+    // @public - Notifies listeners when the model reset is complete
+    this.resetEmitter = new Emitter();
   }
 
   waveInterference.register( 'WavesScreenModel', WavesScreenModel );
@@ -405,6 +408,8 @@ define( function( require ) {
       this.continuousWave1OscillatingProperty.reset();
       this.continuousWave2OscillatingProperty.reset();
       this.isWaveDetectorToolNodeInPlayAreaProperty.reset();
+
+      this.resetEmitter.emit();
     }
   } );
 } );

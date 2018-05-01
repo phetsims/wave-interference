@@ -197,9 +197,11 @@ define( function( require ) {
         multiplier: scene.latticeWidth / self.waveAreaNode.width / scene.meterUnitsConversion
       } );
     } );
+    var measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ) );
+    var measuringTapeTipPositionProperty = new Property( new Vector2( 220, 200 ) );
     var measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
-      basePositionProperty: new Property( new Vector2( 200, 200 ) ),
-      tipPositionProperty: new Property( new Vector2( 220, 200 ) ),
+      basePositionProperty: measuringTapeBasePositionProperty,
+      tipPositionProperty: measuringTapeTipPositionProperty,
 
       // Drop in toolbox
       baseDragEnded: function() {
@@ -211,6 +213,12 @@ define( function( require ) {
       }
     } );
     model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
+
+    // Rectify the Measuring Tape on Reset All.
+    model.resetEmitter.addListener( function() {
+      measuringTapeBasePositionProperty.reset();
+      measuringTapeTipPositionProperty.reset();
+    } );
 
     var timerNode = new TimerNode( model.timerElapsedTimeProperty, model.isTimerRunningProperty, model );
     var timerNodeDragListener = new DragListener( {
