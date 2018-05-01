@@ -214,7 +214,8 @@ define( function( require ) {
     } );
     model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
-    // Rectify the Measuring Tape on Reset All.
+    // Restore the relative positions of the measuring tape tip and tail on Reset All.
+    // TODO: these seem like they should be in the model?
     model.resetEmitter.addListener( function() {
       measuringTapeBasePositionProperty.reset();
       measuringTapeTipPositionProperty.reset();
@@ -254,6 +255,10 @@ define( function( require ) {
 
       // Make sure probes are re-aligned on reset-all
       waveDetectorToolNode.alignProbes();
+    } );
+
+    model.resetEmitter.addListener( function() {
+      waveDetectorToolNode.reset();
     } );
 
     var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );

@@ -305,11 +305,27 @@ define( function( require ) {
 
     // Update the graph value when the lattice changes
     model && model.lattice.changedEmitter.addListener( updatePaths );
+
+    // @private
+    this.resetWaveDetectorToolNode = function() {
+      probe1Samples.length = 0;
+      probe2Samples.length = 0;
+      updatePaths();
+      self.alignProbes();
+    };
   }
 
   waveInterference.register( 'WaveDetectorToolNode', WaveDetectorToolNode );
 
   return inherit( Node, WaveDetectorToolNode, {
+
+    /**
+     * Restore the initial conditions
+     * @public
+     */
+    reset: function() {
+      this.resetWaveDetectorToolNode();
+    },
 
     /**
      * Put the probes into their standard position relative to the graph body.
