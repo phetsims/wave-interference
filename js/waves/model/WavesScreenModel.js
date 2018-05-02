@@ -401,6 +401,8 @@ define( function( require ) {
       this.playSpeedProperty.reset();
       this.isRunningProperty.reset();
       this.showScreenProperty.reset();
+      this.button1PressedProperty.reset();
+      this.button2PressedProperty.reset();
       this.rotationAmountProperty.reset();
       this.timerElapsedTimeProperty.reset();
       this.isTimerInPlayAreaProperty.reset();
