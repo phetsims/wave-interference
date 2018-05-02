@@ -34,7 +34,6 @@ define( function( require ) {
   var timeString = require( 'string!WAVE_INTERFERENCE/time' );
 
   // constants
-  var SECONDS_TO_SHOW = 2; // TODO: this won't work as a variable when we are in femtoseconds or milliseconds
   var SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
   var SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
   var PATH_LINE_WIDTH = 2;
@@ -44,7 +43,7 @@ define( function( require ) {
   var AXIS_LABEL_FILL = 'white';
   var LABEL_GRAPH_MARGIN = 3;
   var LABEL_EDGE_MARGIN = 6;
-  var HORIZONAL_AXIS_LABEL_MARGIN = 4;
+  var HORIZONTAL_AXIS_LABEL_MARGIN = 4;
 
   /**
    * @param {WavesScreenModel|null} model - model for reading values, null for icon
@@ -54,10 +53,17 @@ define( function( require ) {
    */
   function WaveDetectorToolNode( model, view, options ) {
     var self = this;
-
     options = _.extend( { end: function() {} }, options );
-
     Node.call( this );
+
+    // Set the range by incorporating the model's time units, so it will match with the timer.
+    var secondsToShow = 1;
+    model && model.sceneProperty.link( function( scene ) {
+
+      // 4 segments, one of which is the "scale indicator", so use the same factor of 4 here
+      // TODO: clean this up?
+      secondsToShow = 4 / scene.timeUnitsConversion;
+    } );
 
     // @private - true if the probes are being dragged with the wave detector tool
     this.synchronizeProbeLocations = true;
@@ -191,9 +197,9 @@ define( function( require ) {
 
     // For i18n, “Time” will expand symmetrically L/R until it gets too close to the scale bar. Then, the string will
     // expand to the R only, until it reaches the point it must be scaled down in size.
-    horizontalAxisTitle.maxWidth = graphPanel.right - scaleIndicatorNode.right - 2 * HORIZONAL_AXIS_LABEL_MARGIN;
-    if ( horizontalAxisTitle.left < scaleIndicatorNode.right + HORIZONAL_AXIS_LABEL_MARGIN ) {
-      horizontalAxisTitle.left = scaleIndicatorNode.right + HORIZONAL_AXIS_LABEL_MARGIN;
+    horizontalAxisTitle.maxWidth = graphPanel.right - scaleIndicatorNode.right - 2 * HORIZONTAL_AXIS_LABEL_MARGIN;
+    if ( horizontalAxisTitle.left < scaleIndicatorNode.right + HORIZONTAL_AXIS_LABEL_MARGIN ) {
+      horizontalAxisTitle.left = scaleIndicatorNode.right + HORIZONTAL_AXIS_LABEL_MARGIN;
     }
 
     // If maxWidth reduced the scale of the text, it may be too far below the graph.  In that case, move it back up.
@@ -283,7 +289,7 @@ define( function( require ) {
           probeSamples.push( new Vector2( model.time, chartYValue ) );
         }
 
-        while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.time - SECONDS_TO_SHOW ) {
+        while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.time - secondsToShow ) {
           probeSamples.shift();
         }
 
@@ -291,7 +297,7 @@ define( function( require ) {
         var pathShape = new Shape();
         for ( var i = 0; i < probeSamples.length; i++ ) {
           var sample = probeSamples[ i ];
-          var xAxisValue = Util.linear( model.time, model.time - SECONDS_TO_SHOW, availableGraphWidth, 0, sample.x );
+          var xAxisValue = Util.linear( model.time, model.time - secondsToShow, availableGraphWidth, 0, sample.x );
           pathShape.lineTo( xAxisValue, sample.y );
         }
         probePath.shape = pathShape;
