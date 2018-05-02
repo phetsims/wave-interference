@@ -28,9 +28,8 @@ define( function( require ) {
    * @param {number} max
    * @constructor
    */
-  function WaveInterferenceSlider( property, min, max, minLabelString ) {
-
-    var minLabel = new WaveInterferenceText( minLabelString, LABEL_OPTIONS );
+  function WaveInterferenceSlider( property, min, max ) {
+    var minLabel = new WaveInterferenceText( min === 0 ? '0' : 'min', LABEL_OPTIONS );
     var maxLabel = new WaveInterferenceText( 'max', LABEL_OPTIONS );
     var ticks = _.range( 0, MAX_TICK_INDEX + 1 ).map( function( index ) {
       return {
