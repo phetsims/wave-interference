@@ -85,6 +85,7 @@ define( function( require ) {
       latticeWidth: 3789 * 1E-9, // tuned empirically so that the given light frequencies have the correct corresponding wavelengths
       minimumFrequency: VisibleColor.MIN_FREQUENCY,
       maximumFrequency: VisibleColor.MAX_FREQUENCY,
+      initialFrequency: VisibleColor.SPEED_OF_LIGHT / 660E-9, // Start with red light because it is a familiar LED color
       scaleIndicatorText: '500 nanometers',
       scaleIndicatorLength: 500E-9, // 500nm
       timeScaleFactor: 4e-14, // Tuned empirically so the waves have the right size on the lattice.  TODO: is this truly a free parameter?

@@ -23,6 +23,9 @@ define( function( require ) {
     // @public (read-only) {number} - maximum allowed frequency in Hz
     this.maximumFrequency = config.maximumFrequency;
 
+    // @public (read-only) {number} [initialFrequency] - initial frequency in Hz, defaults to the average of min and max
+    this.initialFrequency = config.initialFrequency || ( config.minimumFrequency + config.maximumFrequency ) / 2;
+
     // @public (read-only) {string} - text to show to indicate the relative scale, see ScaleIndicatorNode
     this.scaleIndicatorText = config.scaleIndicatorText; // // TODO: i18n
 
@@ -42,7 +45,7 @@ define( function( require ) {
     this.timeUnitsConversion = config.timeUnitsConversion;
 
     // @public {Property.<number>} - the frequency in Hz
-    this.frequencyProperty = new Property( ( config.minimumFrequency + config.maximumFrequency ) / 2 );
+    this.frequencyProperty = new Property( this.initialFrequency );
 
     // @public (read-only) {string} - units associated with the time units conversion
     this.timerUnits = config.timerUnits;
