@@ -412,6 +412,7 @@ define( function( require ) {
       this.continuousWave2OscillatingProperty.reset();
       this.isWaveDetectorToolNodeInPlayAreaProperty.reset();
 
+      // Signify for listeners that the model reset is complete
       this.resetEmitter.emit();
     }
   } );
