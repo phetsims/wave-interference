@@ -165,11 +165,17 @@ define( function( require ) {
       centerY: graphPanel.centerY
     } );
 
+    var scaleIndicatorText = new WaveInterferenceText( '1 s', { fontSize: 11, fill: 'white' } );
+    model && model.sceneProperty.link( function( scene ) {
+
+      // TODO: better i18n
+      scaleIndicatorText.text = '1 ' + scene.timerUnits;
+    } );
     var scaleIndicatorNode = new VBox( {
       spacing: -2,
       children: [
 
-        // TODO: factor out with the one at the top of the wave graph area
+        // TODO: Use ScaleIndicatorNode
         new HBox( {
           children: [
             new Rectangle( 0, 0, 1, 6, { fill: 'white' } ),
@@ -186,7 +192,7 @@ define( function( require ) {
         } ),
 
         // TODO: this label needs to be i18nized and change when scene changes
-        new WaveInterferenceText( '1 s', { fontSize: 11, fill: 'white' } )
+        scaleIndicatorText
       ],
       left: graphPanel.left + 1,
       top: graphPanel.bottom + 2
