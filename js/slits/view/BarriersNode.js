@@ -87,17 +87,17 @@ define( function( require ) {
         var topOfCentralBarrier = Util.linear( dampY, lattice.height - dampY - 1, this.waveAreaBounds.top, this.waveAreaBounds.bottom, lattice.height / 2 - slitSeparation / 2 + slitWidth / 2 );
         var bottomOfCentralBarrier = Util.linear( dampY, lattice.height - dampY - 1, this.waveAreaBounds.top, this.waveAreaBounds.bottom, lattice.height / 2 + slitSeparation / 2 - slitWidth / 2 );
         var topOfBottomBarrier = Util.linear( dampY, lattice.height - dampY - 1, this.waveAreaBounds.top, this.waveAreaBounds.bottom, lattice.height / 2 + slitSeparation / 2 + slitWidth / 2 );
-        this.addChild( new Rectangle( x1, this.waveAreaBounds.top, x2 - x1, bottomOfTopBarrier - this.waveAreaBounds.top, 2, 2, {
+        this.addChild( new Rectangle( x1, this.waveAreaBounds.top, x2 - x1, Math.max( 0, bottomOfTopBarrier - this.waveAreaBounds.top ), 2, 2, {
           fill: '#f3d99b',
           stroke: 'black',
           lineWidth: 1
         } ) );
-        this.addChild( new Rectangle( x1, topOfCentralBarrier, x2 - x1, bottomOfCentralBarrier - topOfCentralBarrier, 2, 2, {
+        this.addChild( new Rectangle( x1, topOfCentralBarrier, x2 - x1, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ), 2, 2, {
           fill: '#f3d99b',
           stroke: 'black',
           lineWidth: 1
         } ) );
-        this.addChild( new Rectangle( x1, topOfBottomBarrier, x2 - x1, this.waveAreaBounds.bottom - topOfBottomBarrier, 2, 2, {
+        this.addChild( new Rectangle( x1, topOfBottomBarrier, x2 - x1, Math.max( this.waveAreaBounds.bottom - topOfBottomBarrier ), 2, 2, {
           fill: '#f3d99b',
           stroke: 'black',
           lineWidth: 1
