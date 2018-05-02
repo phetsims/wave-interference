@@ -125,7 +125,7 @@ define( function( require ) {
     }
 
     // @public {NumberProperty} - controls the amplitude of the wave
-    this.amplitudeProperty = new NumberProperty( 7 );
+    this.amplitudeProperty = new NumberProperty( 10, { range: { min: 0, max: 10 } } );
 
     // @public {NumberProperty} - the separation of the wave sources, or 0 if there is only one source
     this.sourceSeparationProperty = new NumberProperty( options.sourceSeparation );
