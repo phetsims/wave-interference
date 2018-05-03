@@ -36,15 +36,18 @@ define( function( require ) {
     // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light source
     this.vacuumColor = null;
 
-    // only use the visible part for the bounds (not the damping regions)
-    options = _.extend( { canvasBounds: new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH ) }, options );
+    options = _.extend( {
+
+      // TODO: duplicated
+      // only use the visible part for the bounds (not the damping regions)
+      canvasBounds: new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH ),
+      layerSplit: true // ensure we're on our own layer
+    }, options );
     CanvasNode.call( this, options );
 
-    var self = this;
-
-    lattice.changedEmitter.addListener( function() {
-      self.invalidatePaint();
-    } );
+    // Invalidate paint when model indicates changes
+    var invalidateSelfListener = this.invalidatePaint.bind( this );
+    lattice.changedEmitter.addListener( invalidateSelfListener );
   }
 
   waveInterference.register( 'LatticeCanvasNode', LatticeCanvasNode );

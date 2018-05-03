@@ -11,6 +11,7 @@ define( function( require ) {
 
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -26,17 +27,26 @@ define( function( require ) {
    */
   function LatticeWebGLNode( lattice, options ) {
 
+    // @private
+    this.lattice = lattice;
+
+    // @private
+    this.baseColor = new Color( 'blue' );
+
+    // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light source
+    this.vacuumColor = null;
+
     options = _.extend( {
 
-      // TODO: duplicated with LatticeCanvasNode
+      // TODO: duplicated
+      // only use the visible part for the bounds (not the damping regions)
       canvasBounds: new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH ),
       layerSplit: true // ensure we're on our own layer
     }, options );
-    this.lattice = lattice;
 
     WebGLNode.call( this, LinesPainter, options );
 
-    // Invalidate paint on a bunch of changes
+    // Invalidate paint when model indicates changes
     var invalidateSelfListener = this.invalidatePaint.bind( this );
     lattice.changedEmitter.addListener( invalidateSelfListener );
   }
