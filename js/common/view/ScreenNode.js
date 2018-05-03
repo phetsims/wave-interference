@@ -16,6 +16,7 @@ define( function( require ) {
   var Matrix3 = require( 'DOT/Matrix3' );
   var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
   var CELL_WIDTH = 10;  // TODO: factor out with the lattice nodes
@@ -77,7 +78,7 @@ define( function( require ) {
       var intensityValues = this.intensitySample.getIntensityValues();
       for ( var k = this.lattice.dampY; k < this.lattice.height - this.lattice.dampY; k++ ) {
         var intensity = intensityValues[ k - this.lattice.dampY ];
-        var brightness = Util.linear( 0, 2, 0, 1, intensity );
+        var brightness = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
         brightness = Util.clamp( brightness, 0, 1 );
         var color = this.baseColor.blend( Color.black, 1 - brightness );
         context.fillStyle = color.toCSS();

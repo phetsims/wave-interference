@@ -18,6 +18,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
@@ -82,9 +83,7 @@ define( function( require ) {
       var shape = new Shape();
       for ( var i = 0; i < intensityValues.length; i++ ) {
 
-        // TODO: this uses the same scaling as in ScreenNode.  Consider factoring it out or determine
-        // TODO: whether it should vary independently
-        var intensityPlotValue = Util.linear( 0, 2, self.chartRectangle.left, self.chartRectangle.right, intensityValues[ i ] );
+        var intensityPlotValue = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, self.chartRectangle.left, self.chartRectangle.right, intensityValues[ i ] );
         if ( intensityPlotValue > self.chartRectangle.right ) {
           intensityPlotValue = self.chartRectangle.right;
         }
