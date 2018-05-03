@@ -146,7 +146,6 @@ define( function( require ) {
     } );
 
     // Set the color of highlight on the screen and lattice
-    // TODO: reorder args
     Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, lightFrequency ) {
       if ( scene === model.lightScene ) {
         var baseColor = VisibleColor.frequencyToColor( lightFrequency );
