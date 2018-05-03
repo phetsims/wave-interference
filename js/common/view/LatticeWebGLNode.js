@@ -16,6 +16,9 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
 
+  // constants
+  var CELL_WIDTH = 10; // TODO: this number no longer seems to matter
+
   /**
    * @param {Lattice} lattice
    * @param {Object} [options]
@@ -24,7 +27,9 @@ define( function( require ) {
   function LatticeWebGLNode( lattice, options ) {
 
     options = _.extend( {
-      canvasBounds: new Bounds2( 0, 0, 10, 10 ), // TODO: is this respected?
+
+      // TODO: duplicated with LatticeCanvasNode
+      canvasBounds: new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH ),
       layerSplit: true // ensure we're on our own layer
     }, options );
     this.lattice = lattice;
@@ -38,7 +43,9 @@ define( function( require ) {
 
   waveInterference.register( 'LatticeWebGLNode', LatticeWebGLNode );
 
-  inherit( WebGLNode, LatticeWebGLNode );
+  inherit( WebGLNode, LatticeWebGLNode, {
+    setBaseColor: function() {}
+  } );
 
   function LinesPainter( gl, node ) {
     this.gl = gl;

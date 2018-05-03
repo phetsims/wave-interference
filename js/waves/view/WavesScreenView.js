@@ -122,12 +122,8 @@ define( function( require ) {
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
     webGLSupported = false; // TODO: fix this
 
-    this.latticeNode = webGLSupported ? new LatticeWebGLNode( model.lattice, {
-
-                                        // TODO: I don't understand the positioning of this node
-                                        x: 67,
-                                        y: -170
-                                      } ) :
+    this.latticeNode = webGLSupported ?
+                       new LatticeWebGLNode( model.lattice ) :
                        new LatticeCanvasNode( model.lattice );
 
     var self = this;
