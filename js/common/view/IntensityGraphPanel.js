@@ -84,7 +84,7 @@ define( function( require ) {
 
         // TODO: this uses the same scaling as in ScreenNode.  Consider factoring it out or determine
         // TODO: whether it should vary independently
-        var intensityPlotValue = Util.linear( 0, 0.6, self.chartRectangle.left, self.chartRectangle.right, intensityValues[ i ] );
+        var intensityPlotValue = Util.linear( 0, 2, self.chartRectangle.left, self.chartRectangle.right, intensityValues[ i ] );
         if ( intensityPlotValue > self.chartRectangle.right ) {
           intensityPlotValue = self.chartRectangle.right;
         }
