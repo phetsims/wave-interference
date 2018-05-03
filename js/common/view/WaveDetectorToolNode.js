@@ -284,7 +284,7 @@ define( function( require ) {
         if ( !isNaN( value ) ) {
 
           // strong wavefronts (bright colors) are positive on the graph
-          var chartYValue = Util.linear( 0, 1, graphHeight / 2, 0, value );
+          var chartYValue = Util.linear( 0, 2, graphHeight / 2, 0, value );
           if ( chartYValue > graphHeight ) {
             chartYValue = graphHeight;
           }
