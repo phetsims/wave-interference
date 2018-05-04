@@ -195,6 +195,8 @@ define( function( require ) {
     var measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ) );
     var measuringTapeTipPositionProperty = new Property( new Vector2( 220, 200 ) );
     var measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
+      textBackgroundColor: 'rgba( 255, 255, 255, 0.6 )', // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
+      textColor: 'black',
       basePositionProperty: measuringTapeBasePositionProperty,
       tipPositionProperty: measuringTapeTipPositionProperty,
 
