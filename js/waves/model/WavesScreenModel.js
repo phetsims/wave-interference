@@ -52,6 +52,8 @@ define( function( require ) {
 
     // TODO: docs for the scenes
     this.waterScene = new Scene( {
+      verticalAxisTitle: 'Water Level',
+      graphTitle: 'Water Level at Center',
       name: 'WATER',
       latticeWidth: 0.1, // 10 centimeters
       minimumFrequency: 4,
@@ -67,6 +69,8 @@ define( function( require ) {
 
     var concertA = 440; // Hz
     this.soundScene = new Scene( {
+      verticalAxisTitle: 'Pressure',
+      graphTitle: 'Pressure at Center',
       name: 'SOUND',
       latticeWidth: 1, // 1 meter
       minimumFrequency: concertA - 200,
@@ -81,6 +85,8 @@ define( function( require ) {
     } );
 
     this.lightScene = new Scene( {
+      verticalAxisTitle: 'Electric Field',
+      graphTitle: 'Electric Field at Center',
       name: 'LIGHT',
       latticeWidth: 3789 * 1E-9, // tuned empirically so that the given light frequencies have the correct corresponding wavelengths
       minimumFrequency: VisibleColor.MIN_FREQUENCY,

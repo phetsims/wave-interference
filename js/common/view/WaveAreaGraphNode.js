@@ -40,11 +40,17 @@ define( function( require ) {
     var self = this;
     Node.call( this );
 
-    var title = new WaveInterferenceText( 'Water Height at Center' );
-    var horizontalAxisLabel = new WaveInterferenceText( 'Position (cm)' );
-
     var graphWidth = WaveInterferenceConstants.WAVE_AREA_WIDTH;
     var graphHeight = WaveInterferenceConstants.WAVE_AREA_WIDTH / 3;
+
+    var horizontalAxisLabel = new WaveInterferenceText( 'Position (cm)' );
+
+    // TODO: shape based on the widest text
+    var title = new WaveInterferenceText( model.sceneProperty.value.graphTitle );
+    model.sceneProperty.link( function( scene ) {
+      title.text = scene.graphTitle;
+      title.centerX = graphWidth / 2;
+    } );
 
     var horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height; // TODO: factor out
 
@@ -141,10 +147,14 @@ define( function( require ) {
       self.addChild( new Line( 0, horizontalGridLineFraction * plotHeight, graphWidth, horizontalGridLineFraction * plotHeight, GRID_LINE_OPTIONS ) );
     } );
 
-    var verticalAxisLabel = new WaveInterferenceText( 'Water Height', {
+    var verticalAxisLabel = new WaveInterferenceText( model.sceneProperty.value.verticalAxisTitle, {
       rotation: 3 * Math.PI / 2
     } );
-    this.addChild( verticalAxisLabel.mutate( { right: 0 - TEXT_MARGIN_Y, centerY: graphHeight / 2 } ) );
+    this.addChild( verticalAxisLabel.mutate( { right: 0 - TEXT_MARGIN_Y } ) );
+    model.sceneProperty.link( function( scene ) {
+      verticalAxisLabel.text = scene.verticalAxisTitle;
+      verticalAxisLabel.centerY = graphHeight / 2;
+    } );
 
     var path = new Path( new Shape(), {
       stroke: 'black',

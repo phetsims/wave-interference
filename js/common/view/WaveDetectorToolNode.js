@@ -103,7 +103,7 @@ define( function( require ) {
     } );
 
     // TODO: this label needs to be i18nized and change when scene changes
-    var verticalAxisTitle = new WaveInterferenceText( 'Water Height (cm)', {
+    var verticalAxisTitle = new WaveInterferenceText( 'Water Level', {
       fontSize: LABEL_FONT_SIZE,
       rotation: -Math.PI / 2,
       fill: AXIS_LABEL_FILL

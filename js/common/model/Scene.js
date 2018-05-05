@@ -49,6 +49,12 @@ define( function( require ) {
 
     // @public (read-only) {string} - units associated with the time units conversion
     this.timerUnits = config.timerUnits;
+
+    // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
+    this.verticalAxisTitle = config.verticalAxisTitle;
+
+    // @public (read-only) {string} - the title to the shown on the wave-area graph
+    this.graphTitle = config.graphTitle;
   }
 
   waveInterference.register( 'Scene', Scene );
