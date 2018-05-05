@@ -132,7 +132,7 @@ define( function( require ) {
 
     var graphPanel = new Rectangle( 0, 0, graphWidth, graphHeight, GRAPH_CORNER_RADIUS, GRAPH_CORNER_RADIUS, {
       fill: 'white',
-      stroke: 'black',
+      stroke: 'black', // This stroke is covered by the front panel stroke, only included here to make sure the bounds align
       right: this.backgroundNode.right - RIGHT_MARGIN,
       top: this.backgroundNode.top + TOP_MARGIN,
       pickable: false
@@ -264,6 +264,13 @@ define( function( require ) {
     var probe2Path = new Path( new Shape(), { stroke: SERIES_2_COLOR, lineWidth: PATH_LINE_WIDTH } );
     graphPanel.addChild( probe2Path );
     graphPanel.addChild( pen2Node );
+
+    // Stroke on front panel is on top, so that when the curves go to the edges they do not overlap the border stroke.
+    // This is a faster alternative to clipping.
+    graphPanel.addChild( new Rectangle( 0, 0, graphWidth, graphHeight, GRAPH_CORNER_RADIUS, GRAPH_CORNER_RADIUS, {
+      stroke: 'black',
+      pickable: false
+    } ) );
 
     this.mutate( options );
 
