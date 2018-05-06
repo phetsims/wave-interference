@@ -24,7 +24,9 @@ define( function( require ) {
    */
   function SlitsScreenView( model, alignGroup ) {
     var self = this;
-    WavesScreenView.call( this, model, alignGroup );
+    WavesScreenView.call( this, model, alignGroup, {
+      showPulseContinuousRadioButtons: false
+    } );
 
     // The Slits screen has an additional control panel below the main control panel, which controls the barrier/slits
     var slitControlPanel = new SlitsControlPanel( alignGroup, model, this );
