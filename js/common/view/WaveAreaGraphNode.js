@@ -45,7 +45,7 @@ define( function( require ) {
 
     var horizontalAxisLabel = new WaveInterferenceText( 'Position (cm)' );
 
-    // TODO: shape based on the widest text
+    // TODO: shape the tab based on the widest text, and scale down if it is too wide (i18n)
     var title = new WaveInterferenceText( model.sceneProperty.value.graphTitle );
     model.sceneProperty.link( function( scene ) {
       title.text = scene.graphTitle;

@@ -26,7 +26,7 @@ define( function( require ) {
     var self = this;
 
     // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
-    this.barrierTypeProperty = new Property( BarrierTypeEnum.NO_BARRIER );
+    this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
 
     // @public {NumberProperty} - horizontal location of the barrier in lattice coordinates
     this.barrierLocationProperty = new NumberProperty( 60 );
