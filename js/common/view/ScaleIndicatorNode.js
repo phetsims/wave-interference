@@ -28,7 +28,6 @@ define( function( require ) {
 
       var scene = model.sceneProperty.value;
 
-      // TODO: we need to organize units and unify these values with the frequency values
       // Arrow length
       var arrowLength = scene.scaleIndicatorLength * latticeViewWidth / scene.latticeWidth;
 

@@ -21,7 +21,7 @@ define( function( require ) {
   var DASH_LENGTH = 16.2;
 
   /**
-   * TODO: Rename Dashed Line and use Kite to create stroked shape from shape
+   * TODO: Use Kite to create stroked shape from shape
    * @param {Object} [options]
    * @constructor
    */

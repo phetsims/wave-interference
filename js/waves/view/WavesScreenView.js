@@ -42,13 +42,14 @@ define( function( require ) {
   var WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
   var WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceControlPanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceControlPanel' );
 
   // constants
   var MARGIN = 8;
   var SPACING = 6;
   var WAVE_MARGIN = 8;
-  var WATER_BLUE = new Color( '#58c0fa' );// TODO: Factor out color
+  var WATER_BLUE = new Color( WaveInterferenceConstants.WATER_SIDE_COLOR );// TODO: Factor out color
 
   /**
    * @param {WavesScreenModel} model
@@ -356,7 +357,7 @@ define( function( require ) {
 
       // TODO: this looks odd for light when the wave area is black
       perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' : scene === model.soundScene ? 'gray' : VisibleColor.frequencyToColor( lightFrequency ) );
-      perspective3DNode.setSideFaceColor( scene === model.waterScene ? '#58c0fa' : scene === model.soundScene ? 'darkGray' : VisibleColor.frequencyToColor( lightFrequency ).colorUtilsDarker( 0.15 ) );
+      perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR : scene === model.soundScene ? 'darkGray' : VisibleColor.frequencyToColor( lightFrequency ).colorUtilsDarker( 0.15 ) );
     } );
     this.addChild( perspective3DNode );
 

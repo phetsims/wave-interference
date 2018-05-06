@@ -31,6 +31,8 @@ define( function( require ) {
     MINIMUM_FREQUENCY: 1,
     MAXIMUM_FREQUENCY: 19,
 
+    WATER_SIDE_COLOR: '#58c0fa',
+
     // The IntensityGraphPanel and ScreenNode have a shared maximum, this value indicates the wave amplitude that
     // maps to the highest value on the chart or brightest node in the ScreenNode. If the source amplitude or
     // attenuation as altered, this would likely need to change.  When tuning this, use a reddinsh wavelength because
