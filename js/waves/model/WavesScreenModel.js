@@ -28,6 +28,11 @@ define( function( require ) {
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
+  // strings
+  var oneCentimeterString = require( 'string!WAVE_INTERFERENCE/oneCentimeter' );
+  var tenCentimetersString = require( 'string!WAVE_INTERFERENCE/tenCentimeters' );
+  var fiveHundredNanometersString = require( 'string!WAVE_INTERFERENCE/fiveHundredNanometers' );
+
   // constants
   var POINT_SOURCE_HORIZONTAL_COORDINATE = 30;
 
@@ -58,10 +63,10 @@ define( function( require ) {
       latticeWidth: 0.1, // 10 centimeters
       minimumFrequency: 4,
       maximumFrequency: 20,
-      scaleIndicatorText: '1 centimeter',
+      scaleIndicatorText: oneCentimeterString,
       scaleIndicatorLength: 0.01, // 1 centimeter
       timeScaleFactor: 1,
-      measuringTapeUnits: 'cm',
+      measuringTapeUnits: 'cm', // TODO: why is this abbrev while the meters is not?
       meterUnitsConversion: 0.01,
       timeUnitsConversion: 1,
       timerUnits: 's'
@@ -75,7 +80,7 @@ define( function( require ) {
       latticeWidth: 1, // 1 meter
       minimumFrequency: concertA - 200,
       maximumFrequency: concertA + 200,
-      scaleIndicatorText: '10 centimeters',
+      scaleIndicatorText: tenCentimetersString,
       scaleIndicatorLength: 0.1, // 10 cm
       timeScaleFactor: 5E-2, // This value is chosen to make the wave look accurate on the lattice
       measuringTapeUnits: 'meters',
@@ -92,7 +97,7 @@ define( function( require ) {
       minimumFrequency: VisibleColor.MIN_FREQUENCY,
       maximumFrequency: VisibleColor.MAX_FREQUENCY,
       initialFrequency: VisibleColor.SPEED_OF_LIGHT / 660E-9, // Start with red light because it is a familiar LED color
-      scaleIndicatorText: '500 nanometers',
+      scaleIndicatorText: fiveHundredNanometersString,
       scaleIndicatorLength: 500E-9, // 500nm
       timeScaleFactor: 4e-14, // Tuned empirically so the waves have the right size on the lattice.  TODO: is this truly a free parameter?
       measuringTapeUnits: 'nm',

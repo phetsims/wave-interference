@@ -27,7 +27,7 @@ define( function( require ) {
     this.initialFrequency = config.initialFrequency || ( config.minimumFrequency + config.maximumFrequency ) / 2;
 
     // @public (read-only) {string} - text to show to indicate the relative scale, see ScaleIndicatorNode
-    this.scaleIndicatorText = config.scaleIndicatorText; // // TODO: i18n
+    this.scaleIndicatorText = config.scaleIndicatorText;
 
     // @public (read-only) {number} - length in meters to depict to indicate relative scale, see ScaleIndicatorNode
     this.scaleIndicatorLength = config.scaleIndicatorLength;
