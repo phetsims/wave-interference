@@ -36,10 +36,10 @@ define( function( require ) {
       cursor: 'pointer'
     } );
 
-    var lattice = this.model.lattice;
-    var dampX = lattice.dampX;
+    var dampX = this.model.lattice.dampX;
 
-    var scale = ( this.waveAreaBounds.right - this.waveAreaBounds.left ) / ( lattice.width - dampX - 1 - dampX );
+    // Convert from lattice coordinates to view coordinates
+    var scale = ( this.waveAreaBounds.right - this.waveAreaBounds.left ) / ( this.model.lattice.width - dampX - 1 - dampX );
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleMapping( new Vector2( dampX, 0 ), new Vector2( this.waveAreaBounds.left, 0 ), scale );
     this.addInputListener( new DragListener( {
 
