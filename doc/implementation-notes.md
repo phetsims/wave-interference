@@ -42,13 +42,8 @@ of light on the lattice).
 | mid | 12 | 2.7 |
 | max | 20 | 1.7 |
 
-Wave speed measured at 7.1E-2/1.43 = 5cm/sec.  Is that reasonable?  Accodring to http://hyperphysics.phy-astr.gsu.edu/hbase/watwav.html
-the velocity of idealized ocean waves is:
-
-v = sqrt(g*lambda/2/pi * tanh(2*pi*d/lambda)) where lamba = wavelength, d= depth, g=acceleration due to gravity.
-For our case, we have d= arctanh(2*pi*v*v/g/lambda)/2/pi*lambda
-d = Math.atanh(2*Math.PI*0.05*0.05/9.8/0.027)/2/Math.PI*0.027 = 0.00025540235263191006m
-which means that the wave pool is 0.02cm deep (pretty shallow!)  TODO: how should we address this, if at all?
+Wave speed measured at 7.1E-2/1.43 = 5cm/sec.  In https://github.com/phetsims/wave-interference/issues/43 we decided this
+is a reasonable wave speed for a wave pool, even though it doesn't match wave speeds for, say, oceanic waves.
 
 ## Sound (values recorded April 30, 2018)
 | Value | Frequency (Hz) | Wavelength (cm) |
