@@ -69,7 +69,7 @@ define( function( require ) {
 
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
-      for ( var i = 0; i < self.getBarrierLocation(); i++ ) {
+      for ( var i = 0; i < self.getBarrierLocation() + 1; i++ ) {
         for ( var j = 0; j < self.lattice.height; j++ ) {
 
           if ( self.button1PressedProperty.get() ) {
