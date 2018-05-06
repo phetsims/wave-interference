@@ -67,23 +67,26 @@ define( function( require ) {
 
     this.stepEmitter.addListener( function() {
 
-      var showPlaneWave = true;
-
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
-      if ( showPlaneWave ) {
-        for ( var i = 0; i < self.getBarrierLocation(); i++ ) {
-          for ( var j = 0; j < self.lattice.height; j++ ) {
+      for ( var i = 0; i < self.getBarrierLocation(); i++ ) {
+        for ( var j = 0; j < self.lattice.height; j++ ) {
 
+          if ( self.button1PressedProperty.get() ) {
             // TODO: compute the correct wave speed
             var latticeFrequency = self.frequencyProperty.get() * self.sceneProperty.get().timeScaleFactor;
             var k = Util.linear( WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, 0.1, 1, latticeFrequency );
 
             // Scale down the amplitude because it is calibrated for a point source, not a plane wave
-            var value = self.amplitudeProperty.get() / 10 * 1.4 * Math.sin( k * i - self.frequencyProperty.get() * self.time );
+            var value = self.amplitudeProperty.get() * 0.14 * Math.sin( k * i - self.frequencyProperty.get() * self.time );
             var lastValue = self.lattice.getCurrentValue( i, j );
             self.lattice.setCurrentValue( i, j, value );
             self.lattice.setLastValue( i, j, lastValue );
+          }
+          else {
+
+            // Instantly clear the incoming wave, otherwise there are too many odd reflections
+            self.lattice.setCurrentValue( i, j, 0 );
           }
         }
       }
