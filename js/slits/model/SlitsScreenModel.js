@@ -32,7 +32,7 @@ define( function( require ) {
     // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)
     //                   - note: this is a floating point 2D representation so it can work seamlessly with DragListener
     //                   - see getBarrierLocation() for how to get the integral x-coordinate.
-    this.barrierLocationProperty = new Property( new Vector2( 60, 0 ) );
+    this.barrierLocationProperty = new Property( new Vector2( 38, 0 ) );
 
     // @public {NumberProperty} - width of the slit(s) in lattice coordinates
     this.slitWidthProperty = new NumberProperty( 5 );
