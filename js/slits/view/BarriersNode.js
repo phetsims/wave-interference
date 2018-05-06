@@ -10,10 +10,13 @@ define( function( require ) {
 
   // modules
   var BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
+  var DragListener = require( 'SCENERY/listeners/DragListener' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Util = require( 'DOT/Util' );
+  var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
@@ -29,14 +32,30 @@ define( function( require ) {
     // @private
     this.model = model;
 
-    Node.call( this );
+    Node.call( this, {
+      cursor: 'pointer'
+    } );
+
+    var lattice = this.model.lattice;
+    var dampX = lattice.dampX;
+
+    var scale = ( this.waveAreaBounds.right - this.waveAreaBounds.left ) / ( lattice.width - dampX - 1 - dampX );
+    this.modelViewTransform = ModelViewTransform2.createSinglePointScaleMapping( new Vector2( dampX, 0 ), new Vector2( this.waveAreaBounds.left, 0 ), scale );
+    this.addInputListener( new DragListener( {
+
+      // TODO: with this line, the barrier jumps a bit on drag, but without it, it is off by hundreds of pixels
+      // TODO: work with @jonathanolson to figure out how to resolve this
+      applyOffset: false,
+      locationProperty: model.barrierLocationProperty,
+      transform: this.modelViewTransform
+    } ) );
 
     // Update shapes when the model parameters change
-    var updateCallback = this.update.bind( this );
-    model.barrierTypeProperty.link( updateCallback );
-    model.barrierLocationProperty.link( updateCallback );
-    model.slitWidthProperty.link( updateCallback );
-    model.slitSeparationProperty.link( updateCallback );
+    var update = this.update.bind( this );
+    model.barrierTypeProperty.link( update );
+    model.barrierLocationProperty.link( update );
+    model.slitWidthProperty.link( update );
+    model.slitSeparationProperty.link( update );
   }
 
   waveInterference.register( 'BarriersNode', BarriersNode );
@@ -53,14 +72,13 @@ define( function( require ) {
       this.removeAllChildren();
       var barrierType = this.model.barrierTypeProperty.get();
       var lattice = this.model.lattice;
-      var dampX = lattice.dampX;
       var dampY = lattice.dampY;
       var slitWidth = this.model.slitWidthProperty.get();
       var slitSeparation = this.model.slitSeparationProperty.get();
 
       // TODO: factor out this pattern that maps lattice coordinates to view coordinates
-      var x1 = Util.linear( dampX, lattice.width - dampX - 1, this.waveAreaBounds.left, this.waveAreaBounds.right, this.model.barrierLocationProperty.get() );
-      var x2 = Util.linear( dampX, lattice.width - dampX - 1, this.waveAreaBounds.left, this.waveAreaBounds.right, this.model.barrierLocationProperty.get() + 1 );
+      var x1 = this.modelViewTransform.modelToViewX( this.model.getBarrierLocation() );
+      var x2 = this.modelViewTransform.modelToViewX( this.model.getBarrierLocation() + 1 );
 
       if ( barrierType === BarrierTypeEnum.NO_BARRIER ) {
 

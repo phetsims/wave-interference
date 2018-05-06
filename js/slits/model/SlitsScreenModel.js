@@ -14,6 +14,7 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
   var Util = require( 'DOT/Util' );
+  var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
@@ -28,8 +29,10 @@ define( function( require ) {
     // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
     this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
 
-    // @public {NumberProperty} - horizontal location of the barrier in lattice coordinates
-    this.barrierLocationProperty = new NumberProperty( 60 );
+    // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)
+    //                   - note: this is a floating point 2D representation so it can work seamlessly with DragListener
+    //                   - see getBarrierLocation() for how to get the integral x-coordinate.
+    this.barrierLocationProperty = new Property( new Vector2( 60, 0 ) );
 
     // @public {NumberProperty} - width of the slit(s) in lattice coordinates
     this.slitWidthProperty = new NumberProperty( 5 );
@@ -39,7 +42,7 @@ define( function( require ) {
 
     // TODO: should the potential function be a 2D array?  Could be faster lookup.
     this.lattice.setPotentialFunction( function( i, j ) {
-      var barrierLocation = self.barrierLocationProperty.get();
+      var barrierLocation = Math.round( self.barrierLocationProperty.get().x );
       var slitWidth = self.slitWidthProperty.get();
       var slitSeparation = self.slitSeparationProperty.get();
       var latticeCenterY = self.lattice.height / 2;
@@ -69,7 +72,7 @@ define( function( require ) {
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
       if ( showPlaneWave ) {
-        for ( var i = 0; i < self.barrierLocationProperty.get(); i++ ) {
+        for ( var i = 0; i < self.getBarrierLocation(); i++ ) {
           for ( var j = 0; j < self.lattice.height; j++ ) {
 
             // TODO: compute the correct wave speed
@@ -89,5 +92,14 @@ define( function( require ) {
 
   waveInterference.register( 'SlitsScreenModel', SlitsScreenModel );
 
-  return inherit( WavesScreenModel, SlitsScreenModel );
+  return inherit( WavesScreenModel, SlitsScreenModel, {
+
+    /**
+     * Returns the horizontal barrier location in integer coordinates.
+     * @public
+     */
+    getBarrierLocation: function() {
+      return Math.round( this.barrierLocationProperty.get().x );
+    }
+  } );
 } );

@@ -24,7 +24,6 @@ define( function( require ) {
   var noBarrierString = require( 'string!WAVE_INTERFERENCE/noBarrier' );
   var oneSlitString = require( 'string!WAVE_INTERFERENCE/oneSlit' );
   var twoSlitsString = require( 'string!WAVE_INTERFERENCE/twoSlits' );
-  var locationString = require( 'string!WAVE_INTERFERENCE/location' );
   var slitWidthString = require( 'string!WAVE_INTERFERENCE/slitWidth' );
   var slitSeparationString = require( 'string!WAVE_INTERFERENCE/slitSeparation' );
 
@@ -44,18 +43,6 @@ define( function( require ) {
       ComboBox.createItem( new WaveInterferenceText( twoSlitsString ), BarrierTypeEnum.TWO_SLITS )
     ], model.barrierTypeProperty, comboBoxParent, {
       buttonYMargin: 0
-    } );
-
-    // Controls are in the coordinate frame of the lattice
-    var locationControl = new NumberControl( locationString, model.barrierLocationProperty, new Range( model.lattice.dampX, model.lattice.width - model.lattice.dampX ), _.extend( {
-      majorTicks: [
-        { value: 1000, label: new WaveInterferenceText( 1000, { fontSize: 10 } ) },
-        { value: 5000, label: new WaveInterferenceText( 5000, { fontSize: 10 } ) } ]
-    }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-
-    model.barrierTypeProperty.link( function( barrierType ) {
-      locationControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT ||
-                                barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
 
     var slitWidthControl = new NumberControl( slitWidthString, model.slitWidthProperty, new Range( 0, 20 ), _.extend( {
@@ -78,19 +65,16 @@ define( function( require ) {
     } );
 
     // Vertical layout
-    locationControl.top = comboBox.bottom + 2;
-    slitWidthControl.top = locationControl.bottom + 2;
+    slitWidthControl.top = comboBox.bottom + 2;
     slitSeparationControl.top = slitWidthControl.bottom + 2;
 
     // Horizontal layout
-    locationControl.centerX = comboBox.centerX;
-    slitWidthControl.left = locationControl.left;
-    slitSeparationControl.left = locationControl.left;
+    slitWidthControl.centerX = comboBox.centerX;
+    slitSeparationControl.left = slitWidthControl.left;
 
     var content = alignGroup.createBox( new Node( {
       children: [
         comboBox,
-        locationControl,
         slitWidthControl,
         slitSeparationControl
       ]
