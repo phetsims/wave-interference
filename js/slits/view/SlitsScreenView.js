@@ -44,10 +44,10 @@ define( function( require ) {
     this.addChild( slitControlPanel );
 
     var barriersNode = new BarriersNode( model, this.waveAreaNode.bounds );
-    Property.multilink( [ model.rotationAmountProperty, model.sceneProperty, model.viewTypeProperty ], function( rotationAmount, scene, view ) {
+    Property.multilink( [ model.sceneProperty, model.rotationAmountProperty, model.isRotatingProperty, model.viewTypeProperty ], function( scene, rotationAmount, isRotating, viewType ) {
 
       // Hide the barriers for water side view and while rotating
-      var hide = scene === model.waterScene && view === ViewType.SIDE || ( rotationAmount > 0 && rotationAmount < 1 ); // TODO: create isRotatingProperty
+      var hide = scene === model.waterScene && viewType === ViewType.SIDE || isRotating;
       barriersNode.visible = !hide;
     } );
     this.addChild( barriersNode );

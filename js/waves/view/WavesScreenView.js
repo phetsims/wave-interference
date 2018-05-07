@@ -335,21 +335,19 @@ define( function( require ) {
       waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === model.waterScene;
     } );
 
-    Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
-      var isRotating = rotationAmount > 0 && rotationAmount < 1; // TODO: factor out?
+    Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty ], function( rotationAmount, isRotating, scene ) {
       var isSideWater = rotationAmount === 1 && scene === model.waterScene;
       var show = !isRotating && !isSideWater;
       self.waveAreaNode.visible = show;
       self.latticeNode.visible = show;
     } );
 
-    Property.multilink( [ model.rotationAmountProperty, model.showGraphProperty, model.sceneProperty ], function( rotationAmount, showGraph, scene ) {
-      var isRotating = rotationAmount > 0 && rotationAmount < 1; // TODO: factor out?
+    Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.showGraphProperty ], function( rotationAmount, isRotating, showGraph ) {
       waveAreaGraphNode.visible = !isRotating && showGraph;
       dashedLineNode.visible = !isRotating && showGraph;
     } );
 
-    var perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty );
+    var perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty, model.isRotatingProperty );
 
     // Initialize and update the colors based on the scene
     Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, frequency ) {

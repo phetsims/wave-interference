@@ -27,15 +27,19 @@ define( function( require ) {
   /**
    * @param {Bounds2} waveAreaBounds
    * @param {NumberProperty} rotationAmountProperty
+   * @param {DerivedProperty.<boolean>} isRotatingProperty
    * @constructor
    */
-  function Perspective3DNode( waveAreaBounds, rotationAmountProperty ) {
+  function Perspective3DNode( waveAreaBounds, rotationAmountProperty, isRotatingProperty ) {
 
     // @private
     this.waveAreaBounds = waveAreaBounds;
 
     // @private
     this.rotationAmountProperty = rotationAmountProperty;
+
+    // @private
+    this.isRotatingProperty = isRotatingProperty;
 
     // @private - depicts the top face
     this.topFacePath = new Path( null, { stroke: 'black', lineWidth: 4, lineJoin: 'round' } );
@@ -125,12 +129,11 @@ define( function( require ) {
       }
 
       // Only show the 3d perspective view while rotating
-      var rotating = rotationAmount > 0 && rotationAmount < 1;
-      this.topFacePath.visible = rotating;
-      this.sideFacePath.visible = rotating;
+      this.topFacePath.visible = this.isRotatingProperty.get();
+      this.sideFacePath.visible = this.isRotatingProperty.get();
 
       // Only show the "top" indicator while rotating
-      this.upNode.visible = rotating;
+      this.upNode.visible = this.isRotatingProperty.get();
       this.upNode.centerY = this.sideFacePath.centerY;
       this.upNode.right = this.sideFacePath.right - 80;
     }

@@ -13,6 +13,7 @@ define( function( require ) {
 
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var DynamicProperty = require( 'AXON/DynamicProperty' );
   var Emitter = require( 'AXON/Emitter' );
   var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
@@ -29,9 +30,9 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // strings
+  var fiveHundredNanometersString = require( 'string!WAVE_INTERFERENCE/fiveHundredNanometers' );
   var oneCentimeterString = require( 'string!WAVE_INTERFERENCE/oneCentimeter' );
   var tenCentimetersString = require( 'string!WAVE_INTERFERENCE/tenCentimeters' );
-  var fiveHundredNanometersString = require( 'string!WAVE_INTERFERENCE/fiveHundredNanometers' );
 
   // constants
   var POINT_SOURCE_HORIZONTAL_COORDINATE = 30;
@@ -181,9 +182,15 @@ define( function( require ) {
     // @public
     this.isWaveDetectorToolNodeInPlayAreaProperty = new BooleanProperty( false );
 
-    // @public - amount the 3d view is rotated. 0 means top view, 1 means side view.
+    // @public {Property.<number>} - amount the 3d view is rotated. 0 means top view, 1 means side view.
+    var rotationRange = { min: 0, max: 1 };
     this.rotationAmountProperty = new NumberProperty( 0, {
-      range: { min: 0, max: 1 }
+      range: rotationRange
+    } );
+
+    // @public {DerivedProperty.<boolean>} - true if the system is rotating
+    this.isRotatingProperty = new DerivedProperty( [ this.rotationAmountProperty ], function( rotationAmount ) {
+      return rotationAmount !== rotationRange.min && rotationAmount !== rotationRange.max;
     } );
 
     // @public {Emitter} - emits once per step
