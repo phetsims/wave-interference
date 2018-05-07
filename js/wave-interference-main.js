@@ -25,8 +25,8 @@ define( function( require ) {
       leadDesign: 'Amy Rouinfar',
       softwareDevelopment: 'Sam Reid',
       team: 'Diana López, Ariel Paul, Kathy Perkins',
-      qualityAssurance: 'Steele Dalton', // TODO: QA credits
-      graphicArts: '' // TODO: Graphic arts credits
+      qualityAssurance: 'Steele Dalton', // TODO(pre-publication): QA credits
+      graphicArts: '' // TODO(pre-publication): Graphic arts credits
     }
   };
 
