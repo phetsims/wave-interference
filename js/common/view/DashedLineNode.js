@@ -1,8 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * When the graph is selected, the dotted line is shown in the center of the WaveAreaNode and in the center
- * of the graph.
+ * When the graph is selected, the dotted line is shown in the center of the WaveAreaNode and in the graph's center.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
