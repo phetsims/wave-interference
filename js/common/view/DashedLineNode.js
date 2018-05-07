@@ -18,23 +18,19 @@ define( function( require ) {
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   /**
-   * TODO: Use Kite to create stroked shape from shape
    * @param {Object} [options]
    * @constructor
    */
   function DashedLineNode( options ) {
 
-    // stroke styles for the wire shapes.
-    var strokeStyles = new LineStyles( {
+    var line = Shape.lineSegment( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, 0 );
+    var dashedShape = line.getDashedShape( [ 16 ], 0 );
+    var strokedShape = dashedShape.getStrokedShape( new LineStyles( {
       lineWidth: 4,
-      lineCap: 'round',
-      lineDash: [ 16.2, 16.2 ] // TODO: this doesn't seem to be working yet
-    } );
+      lineCap: 'round'
+    } ) );
 
-    var line = new Shape().moveTo( 0, 0 ).lineTo( WaveInterferenceConstants.WAVE_AREA_WIDTH, 0 );
-    var dashedLine = line.getStrokedShape( strokeStyles );
-
-    Path.call( this, dashedLine, _.extend( {
+    Path.call( this, strokedShape, _.extend( {
       fill: 'white',
       stroke: 'black',
       lineWidth: 1
