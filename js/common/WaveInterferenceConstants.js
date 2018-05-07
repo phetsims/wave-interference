@@ -26,11 +26,7 @@ define( function( require ) {
       thumbSize: new Dimension2( 22, 30 ),
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
     },
-
     THUMB_SIZE: THUMB_SIZE,
-    MINIMUM_FREQUENCY: 1, // TODO: what units are these in?
-    MAXIMUM_FREQUENCY: 19,
-
     WATER_SIDE_COLOR: '#58c0fa',
 
     // The IntensityGraphPanel and ScreenNode have a shared maximum, this value indicates the wave amplitude that

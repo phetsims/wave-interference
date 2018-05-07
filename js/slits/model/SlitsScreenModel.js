@@ -16,7 +16,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
 
   /**
@@ -77,7 +76,7 @@ define( function( require ) {
             // TODO: map lattice coordinates to model coordinate frame, then do sin(kx-wt) there, perhaps use
             // TODO: wave speed in model coordinates.
             var latticeFrequency = self.frequencyProperty.get() * self.sceneProperty.get().timeScaleFactor;
-            var k = Util.linear( WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, 0.1, 1, latticeFrequency );
+            var k = Util.linear( 1, 19, 0.1, 1, latticeFrequency );
 
             // Scale down the amplitude because it is calibrated for a point source, not a plane wave
             var value = self.amplitudeProperty.get() * 0.14 * Math.sin( k * i - self.frequencyProperty.get() * self.time );
