@@ -30,7 +30,6 @@ define( function( require ) {
 
     // @private - depicts the side face (when the user selects "side view")
     this.sideFacePath = new Path( null, { lineJoin: 'round', fill: WaveInterferenceConstants.WATER_SIDE_COLOR } );
-    // TODO: lineWidth should match Perspective3DNode
 
     // @private
     this.model = model;
