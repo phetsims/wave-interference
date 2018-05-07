@@ -73,7 +73,9 @@ define( function( require ) {
         for ( var j = 0; j < self.lattice.height; j++ ) {
 
           if ( self.button1PressedProperty.get() ) {
-            // TODO: compute the correct wave speed
+
+            // TODO: map lattice coordinates to model coordinate frame, then do sin(kx-wt) there, perhaps use
+            // TODO: wave speed in model coordinates.
             var latticeFrequency = self.frequencyProperty.get() * self.sceneProperty.get().timeScaleFactor;
             var k = Util.linear( WaveInterferenceConstants.MINIMUM_FREQUENCY, WaveInterferenceConstants.MAXIMUM_FREQUENCY, 0.1, 1, latticeFrequency );
 

@@ -28,7 +28,7 @@ define( function( require ) {
     },
 
     THUMB_SIZE: THUMB_SIZE,
-    MINIMUM_FREQUENCY: 1,
+    MINIMUM_FREQUENCY: 1, // TODO: what units are these in?
     MAXIMUM_FREQUENCY: 19,
 
     WATER_SIDE_COLOR: '#58c0fa',
