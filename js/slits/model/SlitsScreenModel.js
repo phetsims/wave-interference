@@ -78,8 +78,8 @@ define( function( require ) {
             var latticeFrequency = self.frequencyProperty.get() * self.sceneProperty.get().timeScaleFactor;
             var k = Util.linear( 1, 19, 0.1, 1, latticeFrequency );
 
-            // Scale down the amplitude because it is calibrated for a point source, not a plane wave
-            var value = self.amplitudeProperty.get() * 0.14 * Math.sin( k * i - self.frequencyProperty.get() * self.time );
+            // Scale the amplitude because it is calibrated for a point source, not a plane wave
+            var value = self.amplitudeProperty.get() * 0.21 * Math.sin( k * i - self.frequencyProperty.get() * self.time );
             var lastValue = self.lattice.getCurrentValue( i, j );
             self.lattice.setCurrentValue( i, j, value );
             self.lattice.setLastValue( i, j, lastValue );
