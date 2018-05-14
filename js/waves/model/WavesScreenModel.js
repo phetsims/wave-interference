@@ -247,9 +247,12 @@ define( function( require ) {
       }
     } );
 
-    // When the scene changes, the wave clears
+    // When the scene changes, the wave clears and time resets.  This prevents a problem where the amplitude of the
+    // emitter would get stuck when switching from water to light after 20 seconds.
     this.sceneProperty.link( function() {
+      self.time = 0;
       self.clear();
+      self.timerElapsedTimeProperty.reset(); // Timer units change when the scene changes, so we re-start the timer.
     } );
 
     // The first button can trigger a pulse, or continuous wave, depending on the inputTypeProperty
