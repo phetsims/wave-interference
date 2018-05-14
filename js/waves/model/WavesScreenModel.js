@@ -343,32 +343,11 @@ define( function( require ) {
     advanceTime: function( dt ) {
       var dtSeconds = dt;
       dt = dt * this.sceneProperty.value.timeScaleFactor;
-      var self = this;
 
       this.time += dt;
-      var continuous1 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
-      var continuous2 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
-      var emitterValues = [];
-      if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
-        // TODO(design): a negative sign here will mean the water goes down first for a pulse, which makes sense
-        // for a drop of water dropping in, but not desirable for how the graphs look (seems odd to dip down first)
-        var v = -Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
-        var separation = Math.floor( this.sourceSeparationProperty.get() / 2 );
-
-        // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
-        var latticeCenterJ = Math.round( this.lattice.height / 2 );
-
-        // Point source
-        if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
-          emitterValues.push( { i: POINT_SOURCE_HORIZONTAL_COORDINATE, j: latticeCenterJ + separation, value: v } );
-        }
-
-        // Secondary source (note if there is only one source, this sets the same value as above)
-        if ( this.continuousWave2OscillatingProperty.get() ) {
-          emitterValues.push( { i: POINT_SOURCE_HORIZONTAL_COORDINATE, j: latticeCenterJ - separation, value: v } );
-        }
-      }
+      // Apply values before lattice step so the values will be used to propagate
+      this.setSourceValues();
 
       if ( this.pulseFiringProperty.get() && ( this.time * this.frequencyProperty.value + this.phase > Math.PI * 2 ) ) {
         this.pulseFiringProperty.value = false;
@@ -377,18 +356,14 @@ define( function( require ) {
       // Track the time since the last lattice update so we can get comparable performance on machines with different speeds
       this.timeSinceLastLatticeStep += dtSeconds;
       if ( this.timeSinceLastLatticeStep >= 1 / 60 ) {
-        var setEntry = function( entry ) {
-          self.lattice.setCurrentValue( entry.i, entry.j, entry.value );
-        };
-
-        // Apply values before lattice step so the values will be used to propagate
-        emitterValues.forEach( setEntry );
 
         // Update the lattice
         this.lattice.step();
 
         // Apply values on top of the computed lattice values so there is no noise at the point sources
-        emitterValues.forEach( setEntry );
+        this.setSourceValues();
+
+        this.lattice.changedEmitter.emit();
 
         this.timeSinceLastLatticeStep = 0;
         this.intensitySample.step();
@@ -407,6 +382,36 @@ define( function( require ) {
      */
     resetPhase: function() {
       this.phase = -this.time * this.frequencyProperty.value;
+    },
+
+    /**
+     * Set the incoming source values, in this case it is a point source near the left side of the lattice (outside of the damping region).
+     * @override
+     * @protected
+     */
+    setSourceValues: function() {
+      var continuous1 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
+      var continuous2 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
+
+      if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
+
+        // The simulation is designed to start with a downward wave, corresponding to water splashing in
+        var v = -Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
+        var separation = Math.floor( this.sourceSeparationProperty.get() / 2 );
+
+        // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
+        var latticeCenterJ = Math.round( this.lattice.height / 2 );
+
+        // Point source
+        if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
+          this.lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ + separation, v );
+        }
+
+        // Secondary source (note if there is only one source, this sets the same value as above)
+        if ( this.continuousWave2OscillatingProperty.get() ) {
+          this.lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ - separation, v );
+        }
+      }
     },
 
     /**

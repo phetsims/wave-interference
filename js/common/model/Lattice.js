@@ -304,7 +304,8 @@ define( function( require ) {
       this.decayHorizontal( 0, +1, this.dampX / 2 );
       this.decayHorizontal( this.height - 1, -1, this.dampX / 2 );
 
-      this.changedEmitter.emit();
+      // TODO: clean this up, was moved to after a incoming source step
+      // this.changedEmitter.emit();
     }
   } );
 } );

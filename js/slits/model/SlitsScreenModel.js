@@ -64,35 +64,7 @@ define( function( require ) {
       self.clear();
     } );
 
-    this.stepEmitter.addListener( function() {
-
-      // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
-      // and unwanted artifacts
-      for ( var i = 0; i < self.getBarrierLocation() + 1; i++ ) {
-        for ( var j = 0; j < self.lattice.height; j++ ) {
-
-          if ( self.button1PressedProperty.get() ) {
-
-            // TODO: map lattice coordinates to model coordinate frame, then do sin(kx-wt) there, perhaps use
-            // TODO: wave speed in model coordinates.
-            var latticeFrequency = self.frequencyProperty.get() * self.sceneProperty.get().timeScaleFactor;
-            var k = Util.linear( 1, 19, 0.1, 1, latticeFrequency );
-
-            // Scale the amplitude because it is calibrated for a point source, not a plane wave
-            var value = self.amplitudeProperty.get() * 0.21 * Math.sin( k * i - self.frequencyProperty.get() * self.time );
-            var lastValue = self.lattice.getCurrentValue( i, j );
-            self.lattice.setCurrentValue( i, j, value );
-            self.lattice.setLastValue( i, j, lastValue );
-          }
-          else {
-
-            // Instantly clear the incoming wave, otherwise there are too many odd reflections
-            // TODO: Try propagating front/back of the wave, see https://github.com/phetsims/wave-interference/issues/47
-            self.lattice.setCurrentValue( i, j, 0 );
-          }
-        }
-      }
-    } );
+    // this.stepEmitter.addListener( function()  );
   }
 
   waveInterference.register( 'SlitsScreenModel', SlitsScreenModel );
@@ -108,6 +80,41 @@ define( function( require ) {
       // The -1 prevents the barrier from jumping too far when grabbed with the mouse
       // TODO: figure out what caused the -1 and eliminate the need for it.
       return Math.round( this.barrierLocationProperty.get().x ) - 1;
+    },
+
+    /**
+     * Set the incoming source values, in this case it is a plane wave on the left side of the lattice.
+     * @override
+     * @protected
+     */
+    setSourceValues: function() {
+
+      // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
+      // and unwanted artifacts
+      for ( var i = 0; i < this.getBarrierLocation() + 1; i++ ) {
+        for ( var j = 0; j < this.lattice.height; j++ ) {
+
+          if ( this.button1PressedProperty.get() ) {
+
+            // TODO: map lattice coordinates to model coordinate frame, then do sin(kx-wt) there, perhaps use
+            // TODO: wave speed in model coordinates.
+            var latticeFrequency = this.frequencyProperty.get() * this.sceneProperty.get().timeScaleFactor;
+            var k = Util.linear( 1, 19, 0.1, 1, latticeFrequency );
+
+            // Scale the amplitude because it is calibrated for a point source, not a plane wave
+            var value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * i - this.frequencyProperty.get() * this.time );
+            var lastValue = this.lattice.getCurrentValue( i, j );
+            this.lattice.setCurrentValue( i, j, value );
+            this.lattice.setLastValue( i, j, lastValue );
+          }
+          else {
+
+            // Instantly clear the incoming wave, otherwise there are too many odd reflections
+            // TODO: Try propagating front/back of the wave, see https://github.com/phetsims/wave-interference/issues/47
+            this.lattice.setCurrentValue( i, j, 0 );
+          }
+        }
+      }
     }
   } );
 } );
