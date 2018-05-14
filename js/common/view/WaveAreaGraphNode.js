@@ -20,7 +20,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  var SelectedNode = require( 'WAVE_INTERFERENCE/common/view/SelectedNode' );
+  var ToggleNode = require( 'SUN/ToggleNode' );
 
   // constants
   var TEXT_MARGIN_X = 8;
@@ -46,14 +46,14 @@ define( function( require ) {
 
     // Horizontal Axis Label, which updates when the scene changes.  Uses visibility instead of setChildren so that
     // the bottom tab will fit the largest label.
-    var horizontalAxisLabel = new SelectedNode( [
+    var horizontalAxisLabel = new ToggleNode( [
       { value: model.waterScene, node: new WaveInterferenceText( model.waterScene.graphHorizontalAxisLabel ) },
       { value: model.soundScene, node: new WaveInterferenceText( model.soundScene.graphHorizontalAxisLabel ) },
       { value: model.lightScene, node: new WaveInterferenceText( model.lightScene.graphHorizontalAxisLabel ) }
     ], model.sceneProperty );
 
     // Switchable title of the chart
-    var title = new SelectedNode( [
+    var title = new ToggleNode( [
       { value: model.waterScene, node: new WaveInterferenceText( model.waterScene.graphTitle ) },
       { value: model.soundScene, node: new WaveInterferenceText( model.soundScene.graphTitle ) },
       { value: model.lightScene, node: new WaveInterferenceText( model.lightScene.graphTitle ) }
