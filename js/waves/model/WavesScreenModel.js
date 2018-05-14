@@ -253,18 +253,26 @@ define( function( require ) {
     } );
 
     // The first button can trigger a pulse, or continuous wave, depending on the inputTypeProperty
-    this.button1PressedProperty.lazyLink( function( on ) {
-      if ( on && self.inputTypeProperty.value === IncomingWaveType.PULSE ) {
-        self.startPulse();
+    this.button1PressedProperty.lazyLink( function( isPressed ) {
+      if ( isPressed && self.inputTypeProperty.value === IncomingWaveType.PULSE ) {
+        assert && assert( !self.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
+        self.resetPhase();
+        self.pulseFiringProperty.value = true;
       }
       else {
-        self.continuousWave1OscillatingProperty.value = on;
+        self.continuousWave1OscillatingProperty.value = isPressed;
+        if ( isPressed ) {
+          self.resetPhase();
+        }
       }
     } );
 
     // The 2nd button starts the second continuous wave
-    this.button2PressedProperty.lazyLink( function( on ) {
-      self.continuousWave2OscillatingProperty.value = on;
+    this.button2PressedProperty.lazyLink( function( isPressed ) {
+      self.continuousWave2OscillatingProperty.value = isPressed;
+      if ( isPressed ) {
+        self.resetPhase();
+      }
     } );
 
     // When the pulse ends, the button pops out
@@ -388,12 +396,11 @@ define( function( require ) {
     },
 
     /**
-     * Start a single pulse when the user presses the pulse button in pulse mode.
+     * Start the sine argument at 0 so it will smoothly form the first wave.
+     * @private
      */
-    startPulse: function() {
-      assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
-      this.phase = -this.time * this.frequencyProperty.value; // start the sine angle at 0 // TODO: wrong frequency
-      this.pulseFiringProperty.value = true;
+    resetPhase: function() {
+      this.phase = -this.time * this.frequencyProperty.value;
     },
 
     /**
