@@ -87,7 +87,8 @@ define( function( require ) {
           else {
 
             // Instantly clear the incoming wave, otherwise there are too many odd reflections
-            self.lattice.setCurrentValue( i, j, 0 );
+            // TODO: we will probably need to restore this, see https://github.com/phetsims/wave-interference/issues/47
+            // self.lattice.setCurrentValue( i, j, 0 );
           }
         }
       }
