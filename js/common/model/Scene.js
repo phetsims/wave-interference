@@ -17,6 +17,9 @@ define( function( require ) {
     // @public (read-only) {number} - width of the visible part of the lattice in meters
     this.latticeWidth = config.latticeWidth; // in meters
 
+    // @public (read-only) {string} - text that describes the horizontal spatial axis
+    this.graphHorizontalAxisLabel = config.graphHorizontalAxisLabel;
+
     // @public (read-only) {number} - minimum allowed frequency in Hz
     this.minimumFrequency = config.minimumFrequency;
 

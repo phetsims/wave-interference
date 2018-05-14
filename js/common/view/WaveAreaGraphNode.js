@@ -43,7 +43,17 @@ define( function( require ) {
     var graphWidth = WaveInterferenceConstants.WAVE_AREA_WIDTH;
     var graphHeight = WaveInterferenceConstants.WAVE_AREA_WIDTH / 3;
 
-    var horizontalAxisLabel = new WaveInterferenceText( 'Position (cm)' );
+    // Horizontal Axis Label, which updates when the scene changes.  Uses visibility instead of setChildren so that
+    // the bottom tab will fit the largest label.
+    var waterLabel = new WaveInterferenceText( model.waterScene.graphHorizontalAxisLabel, { centerX: 0 } );
+    var soundLabel = new WaveInterferenceText( model.soundScene.graphHorizontalAxisLabel, { centerX: 0 } );
+    var lightLabel = new WaveInterferenceText( model.lightScene.graphHorizontalAxisLabel, { centerX: 0 } );
+    var horizontalAxisLabel = new Node( { children: [ waterLabel, soundLabel, lightLabel ] } );
+    model.sceneProperty.link( function( scene ) {
+      waterLabel.visible = scene === model.waterScene;
+      soundLabel.visible = scene === model.soundScene;
+      lightLabel.visible = scene === model.lightScene;
+    } );
 
     // TODO: shape the tab based on the widest text, and scale down if it is too wide (i18n)
     var title = new WaveInterferenceText( model.sceneProperty.value.graphTitle );
