@@ -61,6 +61,7 @@ define( function( require ) {
 
     var horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height; // TODO: factor out
 
+    // TODO: the tick values need to be changed when the scene changes
     var horizontalAxisTickLabels = [];
     var verticalGridLines = [];
     for ( var i = 0; i <= 10; i++ ) {
