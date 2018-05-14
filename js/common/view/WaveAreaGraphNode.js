@@ -20,6 +20,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  var SelectedNode = require( 'WAVE_INTERFERENCE/common/view/SelectedNode' );
 
   // constants
   var TEXT_MARGIN_X = 8;
@@ -45,22 +46,18 @@ define( function( require ) {
 
     // Horizontal Axis Label, which updates when the scene changes.  Uses visibility instead of setChildren so that
     // the bottom tab will fit the largest label.
-    var waterLabel = new WaveInterferenceText( model.waterScene.graphHorizontalAxisLabel, { centerX: 0 } );
-    var soundLabel = new WaveInterferenceText( model.soundScene.graphHorizontalAxisLabel, { centerX: 0 } );
-    var lightLabel = new WaveInterferenceText( model.lightScene.graphHorizontalAxisLabel, { centerX: 0 } );
-    var horizontalAxisLabel = new Node( { children: [ waterLabel, soundLabel, lightLabel ] } );
-    model.sceneProperty.link( function( scene ) {
-      waterLabel.visible = scene === model.waterScene;
-      soundLabel.visible = scene === model.soundScene;
-      lightLabel.visible = scene === model.lightScene;
-    } );
+    var horizontalAxisLabel = new SelectedNode( [
+      { value: model.waterScene, node: new WaveInterferenceText( model.waterScene.graphHorizontalAxisLabel ) },
+      { value: model.soundScene, node: new WaveInterferenceText( model.soundScene.graphHorizontalAxisLabel ) },
+      { value: model.lightScene, node: new WaveInterferenceText( model.lightScene.graphHorizontalAxisLabel ) }
+    ], model.sceneProperty );
 
-    // TODO: shape the tab based on the widest text, and scale down if it is too wide (i18n)
-    var title = new WaveInterferenceText( model.sceneProperty.value.graphTitle );
-    model.sceneProperty.link( function( scene ) {
-      title.text = scene.graphTitle;
-      title.centerX = graphWidth / 2;
-    } );
+    // Switchable title of the chart
+    var title = new SelectedNode( [
+      { value: model.waterScene, node: new WaveInterferenceText( model.waterScene.graphTitle ) },
+      { value: model.soundScene, node: new WaveInterferenceText( model.soundScene.graphTitle ) },
+      { value: model.lightScene, node: new WaveInterferenceText( model.lightScene.graphTitle ) }
+    ], model.sceneProperty );
 
     var horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height; // TODO: factor out
 
