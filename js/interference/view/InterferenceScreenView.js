@@ -32,6 +32,8 @@ define( function( require ) {
       // goal.  The pulse/continuous radio buttons are used in other screens
       showPulseContinuousRadioButtons: false,
       controlPanelOptions: {
+
+        // TODO: Source separation units are wrong (tick labels and readout)
         additionalControl: new NumberControl( separationString, model.sourceSeparationProperty, new Range( 0, 50 ), _.extend( {
           majorTicks: [
             { value: 0, label: new WaveInterferenceText( 1000, { fontSize: 10 } ) },

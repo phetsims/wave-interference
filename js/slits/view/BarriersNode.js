@@ -45,6 +45,8 @@ define( function( require ) {
 
       // TODO: with this line, the barrier jumps a bit on drag, but without it, it is off by hundreds of pixels
       // TODO: work with @jonathanolson to figure out how to resolve this
+
+      // TODO: AR will mock up a handle, such as a lollipop beneath the barrier.
       applyOffset: false,
       locationProperty: model.barrierLocationProperty,
       transform: this.modelViewTransform
