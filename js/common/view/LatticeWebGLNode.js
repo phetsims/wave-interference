@@ -10,15 +10,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
   var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
-
-  // constants
-  var CELL_WIDTH = 10; // TODO: this number no longer seems to matter
 
   /**
    * @param {Lattice} lattice
@@ -38,9 +35,8 @@ define( function( require ) {
 
     options = _.extend( {
 
-      // TODO: duplicated
       // only use the visible part for the bounds (not the damping regions)
-      canvasBounds: new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH ),
+      canvasBounds: WaveInterferenceUtils.getCanvasBounds( lattice ),
       layerSplit: true // ensure we're on our own layer
     }, options );
 

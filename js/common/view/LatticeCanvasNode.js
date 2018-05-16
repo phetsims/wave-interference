@@ -16,9 +16,11 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  var WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // constants
-  var CELL_WIDTH = 10; // TODO: this number no longer seems to matter
+  var CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
 
   /**
    * @param {Lattice} lattice
@@ -38,9 +40,8 @@ define( function( require ) {
 
     options = _.extend( {
 
-      // TODO: duplicated - perhaps create a helper function in WaveInterferenceConstants? or WaveInterferenceUtils?
       // only use the visible part for the bounds (not the damping regions)
-      canvasBounds: new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH ),
+      canvasBounds: WaveInterferenceUtils.getCanvasBounds( lattice ),
       layerSplit: true // ensure we're on our own layer
     }, options );
     CanvasNode.call( this, options );
