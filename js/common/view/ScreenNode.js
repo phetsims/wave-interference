@@ -19,7 +19,7 @@ define( function( require ) {
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
-  var CELL_WIDTH = 10;  // TODO: factor out with the lattice nodes
+  var CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
 
   /**
    * @param {Lattice} lattice - for dimensions
