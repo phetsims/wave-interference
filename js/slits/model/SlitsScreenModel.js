@@ -84,15 +84,16 @@ define( function( require ) {
 
     /**
      * Set the incoming source values, in this case it is a plane wave on the left side of the lattice.
+     * @param {Lattice} lattice
      * @override
      * @protected
      */
-    setSourceValues: function() {
+    setSourceValues: function( lattice ) {
 
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
       for ( var i = 0; i < this.getBarrierLocation() + 1; i++ ) {
-        for ( var j = 0; j < this.lattice.height; j++ ) {
+        for ( var j = 0; j < lattice.height; j++ ) {
 
           if ( this.button1PressedProperty.get() ) {
 
@@ -104,15 +105,15 @@ define( function( require ) {
 
             // Scale the amplitude because it is calibrated for a point source, not a plane wave
             var value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * i - this.frequencyProperty.get() * this.time );
-            var lastValue = this.lattice.getCurrentValue( i, j );
-            this.lattice.setCurrentValue( i, j, value );
-            this.lattice.setLastValue( i, j, lastValue );
+            var lastValue = lattice.getCurrentValue( i, j );
+            lattice.setCurrentValue( i, j, value );
+            lattice.setLastValue( i, j, lastValue );
           }
           else {
 
             // Instantly clear the incoming wave, otherwise there are too many odd reflections
             // TODO: Try propagating front/back of the wave, see https://github.com/phetsims/wave-interference/issues/47
-            this.lattice.setCurrentValue( i, j, 0 );
+            lattice.setCurrentValue( i, j, 0 );
           }
         }
       }

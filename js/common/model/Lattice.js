@@ -60,7 +60,7 @@ define( function( require ) {
     // @private {function} - returns true if there is a potential barrier at the given coordinate
     this.potentialFunction = null;
 
-    // @public {Emitter} - sends a notification each time the lattice updates
+    // @public {Emitter} - sends a notification each time the lattice updates.
     this.changedEmitter = new Emitter();
 
     // @public (read-only) {number} - width of the lattice (includes damping regions)
@@ -262,9 +262,14 @@ define( function( require ) {
 
     /**
      * Propagates the wave by one step.  This is a discrete algorithm and cannot use dt.
+     * @param {function} forcingFunction - sets values before and after the wave equation
      * @public
      */
-    step: function() {
+    step: function( forcingFunction ) {
+
+      // Apply values before lattice step so the values will be used to propagate
+      forcingFunction( this );
+
       this.currentMatrixIndex = ( this.currentMatrixIndex - 1 + this.matrices.length ) % this.matrices.length;
 
       var matrix0 = this.matrices[ ( this.currentMatrixIndex + 0 ) % this.matrices.length ];
@@ -276,6 +281,8 @@ define( function( require ) {
       // Main loop, doesn't update cells on the edges
       for ( var i = 1; i < width - 1; i++ ) {
         for ( var j = 1; j < height - 1; j++ ) {
+
+          // TODO: combine potentialFunction and forcingFunction?
           if ( this.potentialFunction && this.potentialFunction( i, j ) ) {
             matrix0.set( i, j, 0 );
           }
@@ -304,8 +311,11 @@ define( function( require ) {
       this.decayHorizontal( 0, +1, this.dampX / 2 );
       this.decayHorizontal( this.height - 1, -1, this.dampX / 2 );
 
-      // TODO: clean this up, was moved to after a incoming source step
-      // this.changedEmitter.emit();
+      // Apply values on top of the computed lattice values so there is no noise at the point sources
+      forcingFunction( this );
+
+      // Notify listeners about changes
+      this.changedEmitter.emit();
     }
   } );
 } );

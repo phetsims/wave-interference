@@ -346,9 +346,6 @@ define( function( require ) {
 
       this.time += dt;
 
-      // Apply values before lattice step so the values will be used to propagate
-      this.setSourceValues();
-
       if ( this.pulseFiringProperty.get() && ( this.time * this.frequencyProperty.value + this.phase > Math.PI * 2 ) ) {
         this.pulseFiringProperty.value = false;
       }
@@ -358,12 +355,7 @@ define( function( require ) {
       if ( this.timeSinceLastLatticeStep >= 1 / 60 ) {
 
         // Update the lattice
-        this.lattice.step();
-
-        // Apply values on top of the computed lattice values so there is no noise at the point sources
-        this.setSourceValues();
-
-        this.lattice.changedEmitter.emit();
+        this.lattice.step( this.setSourceValues.bind( this ) );
 
         this.timeSinceLastLatticeStep = 0;
         this.intensitySample.step();
@@ -389,7 +381,7 @@ define( function( require ) {
      * @override
      * @protected
      */
-    setSourceValues: function() {
+    setSourceValues: function( lattice ) {
       var continuous1 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
       var continuous2 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
 
@@ -404,12 +396,12 @@ define( function( require ) {
 
         // Point source
         if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
-          this.lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ + separation, v );
+          lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ + separation, v );
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
         if ( this.continuousWave2OscillatingProperty.get() ) {
-          this.lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ - separation, v );
+          lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ - separation, v );
         }
       }
     },
