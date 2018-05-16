@@ -78,7 +78,9 @@ define( function( require ) {
     } );
     timerNodeIcon.addInputListener( DragListener.createForwardingListener( function( event ) {
       timerNode.center = self.globalToParentPoint( event.pointer.point );
-      timerNode.timerNodeDragListener.press( event, timerNode ); // TODO: what is better, this or targetNode: in the constructor?
+
+      // timerNode provided as targetNode in the DragListener constructor, so this press will target it
+      timerNode.timerNodeDragListener.press( event );
       model.isTimerInPlayAreaProperty.value = true;
     } ) );
     model.isTimerInPlayAreaProperty.link( function( isTimerInPlayArea ) {

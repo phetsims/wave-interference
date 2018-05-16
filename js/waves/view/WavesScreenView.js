@@ -223,6 +223,7 @@ define( function( require ) {
       unitsChoices: [ model.waterScene.timerUnits, model.soundScene.timerUnits, model.lightScene.timerUnits ]
     } );
     var timerNodeDragListener = new DragListener( {
+      targetNode: timerNode,
       translateNode: true,
 
       // Drop in toolbox
