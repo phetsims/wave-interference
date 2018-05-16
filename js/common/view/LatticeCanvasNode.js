@@ -38,7 +38,7 @@ define( function( require ) {
 
     options = _.extend( {
 
-      // TODO: duplicated
+      // TODO: duplicated - perhaps create a helper function in WaveInterferenceConstants? or WaveInterferenceUtils?
       // only use the visible part for the bounds (not the damping regions)
       canvasBounds: new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH ),
       layerSplit: true // ensure we're on our own layer
@@ -99,12 +99,21 @@ define( function( require ) {
             intensity = Util.clamp( intensity, MIN_SHADE, CUTOFF );
           }
 
-          var color = this.baseColor.blend( Color.black, 1 - intensity ); // TODO: Performance caveat
+          var color = this.baseColor.blend( Color.black, 1 - intensity ); // TODO(performance): Performance caveat
           if ( this.vacuumColor && !this.lattice.hasCellBeenVisited( i, k ) ) {
             color = this.vacuumColor;
           }
           context.fillStyle = color.toCSS();
-          context.fillRect( ( i - this.lattice.dampX ) * CELL_WIDTH, ( k - this.lattice.dampY ) * CELL_WIDTH, CELL_WIDTH + 1, CELL_WIDTH + 1 ); // +1 is to eliminate seams // TODO: x-offset?
+
+          // Fill the cell
+          context.fillRect(
+            ( i - this.lattice.dampX ) * CELL_WIDTH,
+            ( k - this.lattice.dampY ) * CELL_WIDTH,
+
+            // +1 is to eliminate seams
+            CELL_WIDTH + 1,
+            CELL_WIDTH + 1
+          );
         }
       }
     }
