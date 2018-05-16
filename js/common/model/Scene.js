@@ -35,7 +35,7 @@ define( function( require ) {
     // @public (read-only) {number} - length in meters to depict to indicate relative scale, see ScaleIndicatorNode
     this.scaleIndicatorLength = config.scaleIndicatorLength;
 
-    // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene // TODO: is this documented as inverse?
+    // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
     this.timeScaleFactor = config.timeScaleFactor;
 
     // @public (read-only) {string} - units to show for measurements
