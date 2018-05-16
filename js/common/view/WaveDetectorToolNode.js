@@ -114,8 +114,8 @@ define( function( require ) {
     var leftMargin = LABEL_EDGE_MARGIN + verticalAxisTitle.width + LABEL_GRAPH_MARGIN;
     var bottomMargin = LABEL_EDGE_MARGIN + horizontalAxisTitle.height + LABEL_GRAPH_MARGIN;
 
-    var graphWidth = this.backgroundNode.width - leftMargin - RIGHT_MARGIN; // TODO: flatten after tweaking
-    var graphHeight = this.backgroundNode.height - TOP_MARGIN - bottomMargin; // TODO: flatten after tweaking
+    var graphWidth = this.backgroundNode.width - leftMargin - RIGHT_MARGIN;
+    var graphHeight = this.backgroundNode.height - TOP_MARGIN - bottomMargin;
 
     // Now that we know the graphHeight, use it to limit the text size for the vertical axis label
     verticalAxisTitle.maxWidth = graphHeight;
