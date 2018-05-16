@@ -21,4 +21,4 @@ produces spherical waves, and hence the part that passes through the slit produc
 
 # Diffraction Screen
 
-TODO: document this part
+TODO(diffraction): document this part
