@@ -25,6 +25,7 @@ define( function( require ) {
   // constants
   var TITLE_Y_MARGIN = 4;
   var DARK_GRAY = new Color( 90, 90, 90 );
+  var LINE_DASH = [ 9.1, 9.1 ];
 
   /**
    * @param {number} graphHeight - the height of the graph in view coordinates
@@ -37,27 +38,30 @@ define( function( require ) {
 
     this.chartRectangle = new Rectangle( 0, 0, 100, graphHeight, { fill: 'white', stroke: 'black', lineWidth: 1 } );
 
+    /**
+     * Creates a line an the given y-coordinate.
+     * @param {number} y
+     * @returns {Line}
+     */
+    var createLine = function( index, y ) {
+      return new Line( self.chartRectangle.left, y, self.chartRectangle.right, y, {
+        stroke: index % 2 === 0 ? DARK_GRAY : 'lightGray',
+        lineDash: [ 9.1, 9.1 ] // Solid part touches each edge
+      } );
+    };
+
     for ( var i = 0; i < 10; i++ ) {
       var yTop = Util.linear( 0, 10, this.chartRectangle.centerY, this.chartRectangle.top, i );
       var yBottom = Util.linear( 0, 10, this.chartRectangle.centerY, this.chartRectangle.bottom, i );
-
-      // TODO: factor out
-      this.chartRectangle.addChild( new Line( this.chartRectangle.left, yTop, this.chartRectangle.right, yTop, {
-        stroke: i % 2 === 0 ? DARK_GRAY : 'lightGray',
-        lineDash: [ 9.1, 9.1 ] // Solid part touches each edge
-      } ) );
-
+      this.chartRectangle.addChild( createLine( i, yTop ) );
       if ( i !== 0 ) {
-        this.chartRectangle.addChild( new Line( this.chartRectangle.left, yBottom, this.chartRectangle.right, yBottom, {
-          stroke: i % 2 === 0 ? DARK_GRAY : 'lightGray',
-          lineDash: [ 9.1, 9.1 ] // Solid part touches each edge
-        } ) );
+        this.chartRectangle.addChild( createLine( i, yBottom ) );
       }
     }
 
     this.chartRectangle.addChild( new Line( this.chartRectangle.centerX, this.chartRectangle.bottom, this.chartRectangle.centerX, this.chartRectangle.top, {
       stroke: DARK_GRAY,
-      lineDash: [ 9.1, 9.1 ]
+      lineDash: LINE_DASH
     } ) );
 
     var tickLabel0 = new WaveInterferenceText( '0', {
