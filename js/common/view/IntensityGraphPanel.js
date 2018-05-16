@@ -101,6 +101,12 @@ define( function( require ) {
   waveInterference.register( 'IntensityGraphPanel', IntensityGraphPanel );
 
   return inherit( WaveInterferencePanel, IntensityGraphPanel, {
+
+    /**
+     * Returns the bounds of the chart background in the global coordinate frame, used to align the ScreenNode
+     * @returns {Bounds2}
+     * @public
+     */
     getChartGlobalBounds: function() {
       return this.chartRectangle.globalBounds;
     }
