@@ -211,7 +211,7 @@ define( function( require ) {
     // @public {Lattice} the grid that contains the wave values
     // TODO(after-webgl): evaluate dimensions.  Could increase to get better resolution or decrease to get better
     // TODO(after-webgl): performance.  Maybe choose our slowest device and tune it based on that.
-    this.lattice = new Lattice( 200, 200, 20, 20 ); // Java was 60 + 20 padding on each side
+    this.lattice = new Lattice( 100, 100, 20, 20 ); // Java was 60 + 20 padding on each side
 
     // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
     this.intensitySample = new IntensitySample( this.lattice );
