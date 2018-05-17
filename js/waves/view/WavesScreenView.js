@@ -352,8 +352,6 @@ define( function( require ) {
 
     // Initialize and update the colors based on the scene
     Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, frequency ) {
-
-      // TODO(design): this looks odd for light when the wave area is black
       perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' : scene === model.soundScene ? 'gray' : VisibleColor.frequencyToColor( frequency ) );
       perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR : scene === model.soundScene ? 'darkGray' : VisibleColor.frequencyToColor( frequency ).colorUtilsDarker( 0.15 ) );
     } );
