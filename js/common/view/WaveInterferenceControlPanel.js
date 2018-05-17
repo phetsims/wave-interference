@@ -46,7 +46,6 @@ define( function( require ) {
     }, options );
 
     // TODO: Scan FrequencySlider issue for TODOs and review comments.
-    // TODO(design): should the light frequency slider have the same tick spacing and snapping as the other frequency
 
     // Controls are in the metric coordinate frame
     var waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.frequencyProperty, model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );

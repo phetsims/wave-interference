@@ -50,12 +50,7 @@ define( function( require ) {
       // ticks
       tickLabelSpacing: 2,
       majorTickLength: 15,
-      minorTickLength: 8,
-      constrainValue: function( value ) {
-
-        // find the closest tick
-        return _.minBy( ticks, function( tick ) {return Math.abs( tick.value - value );} ).value;
-      }
+      minorTickLength: 8
     } );
 
     for ( var i = 0; i < ticks.length; i++ ) {
