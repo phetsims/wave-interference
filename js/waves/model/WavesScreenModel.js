@@ -140,8 +140,11 @@ define( function( require ) {
       } );
     }
 
-    // @public {NumberProperty} - controls the amplitude of the wave
-    this.amplitudeProperty = new NumberProperty( 10, { range: { min: 0, max: 10 } } );
+    // @public {NumberProperty} - controls the amplitude of the wave.  We optimize the view for the max, but starting
+    // the value at the extreme may prevent the user from exploring the range, so we start closer to the max but not
+    // at the max.  I chose 8 so it would match up directly with a tickmark (when it was at 7.5, it covered 2 tickmarks
+    // and looked odd)
+    this.amplitudeProperty = new NumberProperty( 8, { range: { min: 0, max: 10 } } );
 
     // @public {NumberProperty} - the separation of the wave sources, or 0 if there is only one source
     this.sourceSeparationProperty = new NumberProperty( options.sourceSeparation );
