@@ -13,7 +13,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  var THUMB_SIZE = new Dimension2( 22, 30 );
+  var THUMB_SIZE = new Dimension2( 16, 28 );
 
   var WaveInterferenceConstants = {
     WAVE_AREA_WIDTH: 500,
