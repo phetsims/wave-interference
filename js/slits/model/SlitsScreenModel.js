@@ -39,7 +39,7 @@ define( function( require ) {
     // @public {NumberProperty} - separation of centers of the slits in lattice coordinates
     this.slitSeparationProperty = new NumberProperty( 20 );
 
-    // TODO: should the potential function be a 2D array?  Could be faster lookup.
+    // TODO(performance): should the potential function be a 2D array?  Could be faster lookup.
     this.lattice.setPotentialFunction( function( i, j ) {
       var barrierLocation = Math.round( self.barrierLocationProperty.get().x );
       var slitWidth = self.slitWidthProperty.get();
