@@ -16,15 +16,14 @@ define( function( require ) {
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
   var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   var Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
+  var PulseContinuousRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/PulseContinuousRadioButtonGroup' );
   var Property = require( 'AXON/Property' );
-  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
@@ -295,22 +294,7 @@ define( function( require ) {
 
     if ( options.showPulseContinuousRadioButtons ) {
 
-      // TODO: move this to a new file
-      var continuousPulseGroup = new RadioButtonGroup( model.inputTypeProperty, [ {
-        value: IncomingWaveType.PULSE,
-        node: new InputTypeIconNode( IncomingWaveType.PULSE )
-      }, {
-        value: IncomingWaveType.CONTINUOUS,
-        node: new InputTypeIconNode( IncomingWaveType.CONTINUOUS )
-      } ], {
-        orientation: 'horizontal',
-        buttonContentXMargin: 0,
-        buttonContentYMargin: 8,
-        selectedLineWidth: 2,
-        baseColor: 'white',
-        disabledBaseColor: 'white',
-        selectedStroke: 'blue',
-        deselectedContentOpacity: 0.4,
+      var continuousPulseGroup = new PulseContinuousRadioButtonGroup( model.inputTypeProperty, {
         bottom: this.layoutBounds.bottom - MARGIN,
         left: this.layoutBounds.left + MARGIN
       } );

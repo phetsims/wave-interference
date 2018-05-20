@@ -24,6 +24,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var Shape = require( 'KITE/Shape' );
+  var ToggleNode = require( 'SUN/ToggleNode' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -48,19 +49,22 @@ define( function( require ) {
   var HORIZONTAL_AXIS_LABEL_MARGIN = 4;
 
   /**
-   * @param {WavesScreenModel|null} model - model for reading values, null for icon
+   * @param {WavesScreenModel} model - model for reading values
    * @param {WavesScreenView|null} view - for getting coordinates for model
    * @param {Object} [options]
    * @constructor
    */
   function WaveDetectorToolNode( model, view, options ) {
     var self = this;
-    options = _.extend( { end: function() {} }, options );
+    options = _.extend( {
+      isIcon: false,
+      end: function() {}
+    }, options );
     Node.call( this );
 
     // Set the range by incorporating the model's time units, so it will match with the timer.
     var secondsToShow = 1;
-    model && model.sceneProperty.link( function( scene ) {
+    model.sceneProperty.link( function( scene ) {
 
       // 4 segments, one of which is the "scale indicator", so use the same factor of 4 here
       // TODO: clean this up?
@@ -104,12 +108,28 @@ define( function( require ) {
       fill: AXIS_LABEL_FILL
     } );
 
-    // TODO: this label needs to be i18nized and change when scene changes
-    var verticalAxisTitle = new WaveInterferenceText( 'Water Level', {
-      fontSize: LABEL_FONT_SIZE,
-      rotation: -Math.PI / 2,
-      fill: AXIS_LABEL_FILL
-    } );
+    var verticalAxisTitle = model ? new ToggleNode( [ {
+      value: model.waterScene,
+      node: new WaveInterferenceText( model.waterScene.verticalAxisTitle, {
+        fontSize: LABEL_FONT_SIZE,
+        rotation: -Math.PI / 2,
+        fill: AXIS_LABEL_FILL
+      } )
+    }, {
+      value: model.soundScene,
+      node: new WaveInterferenceText( model.soundScene.verticalAxisTitle, {
+        fontSize: LABEL_FONT_SIZE,
+        rotation: -Math.PI / 2,
+        fill: AXIS_LABEL_FILL
+      } )
+    }, {
+      value: model.lightScene,
+      node: new WaveInterferenceText( model.lightScene.verticalAxisTitle, {
+        fontSize: LABEL_FONT_SIZE,
+        rotation: -Math.PI / 2,
+        fill: AXIS_LABEL_FILL
+      } )
+    } ], model.sceneProperty ) : new WaveInterferenceText( '' );
 
     var leftMargin = LABEL_EDGE_MARGIN + verticalAxisTitle.width + LABEL_GRAPH_MARGIN;
     var bottomMargin = LABEL_EDGE_MARGIN + horizontalAxisTitle.height + LABEL_GRAPH_MARGIN;
@@ -168,7 +188,7 @@ define( function( require ) {
     } );
 
     var scaleIndicatorText = new WaveInterferenceText( '1 s', { fontSize: 11, fill: 'white' } );
-    model && model.sceneProperty.link( function( scene ) {
+    model.sceneProperty.link( function( scene ) {
 
       // TODO: better i18n
       scaleIndicatorText.text = '1 ' + scene.timerUnits;
@@ -324,8 +344,10 @@ define( function( require ) {
       updateProbeData( self.probe2Node, pen2Node, probe2Samples, probe2Path );
     };
 
-    // Update the graph value when the lattice changes
-    model && model.lattice.changedEmitter.addListener( updatePaths );
+    // Update the graph value when the lattice changes, but only when this is not for an icon
+    if ( !options.isIcon ) {
+      model.lattice.changedEmitter.addListener( updatePaths );
+    }
 
     // @private
     this.resetWaveDetectorToolNode = function() {

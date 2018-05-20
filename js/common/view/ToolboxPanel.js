@@ -87,7 +87,8 @@ define( function( require ) {
       timerNodeIcon.visible = !isTimerInPlayArea;
     } );
 
-    var waveDetectorToolNodeIcon = new WaveDetectorToolNode( null, null, {
+    var waveDetectorToolNodeIcon = new WaveDetectorToolNode( model, null, {
+      isIcon: true,
       scale: 0.3
     } );
 
