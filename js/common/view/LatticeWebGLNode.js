@@ -65,7 +65,7 @@ define( function( require ) {
     var lattice = node.lattice;
 
     this.shaderProgram = new ShaderProgram( gl, vertexShader, fragmentShader, {
-      attributes: [ 'aPosition', 'aWaveValue' ],
+      attributes: [ 'aPosition', 'aWaveValue', 'aHasCellBeenVisited' ],
       uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uBaseColor' ]
     } );
 
@@ -93,9 +93,13 @@ define( function( require ) {
     gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( vertices ), gl.STATIC_DRAW );
 
     this.waveValueBuffer = gl.createBuffer();
+    this.hasCellBeenVisitedBuffer = gl.createBuffer();
 
-    // @private - allocate once and reuse
+    // @private - allocate and reuse to populate the buffer
     this.valueArray = [];
+
+    // @private - allocate and reuse to populate the buffer
+    this.hasCellBeenVisitedArray = [];
   }
 
   inherit( Object, Painter, {
@@ -128,6 +132,24 @@ define( function( require ) {
       }
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( this.valueArray ), gl.STATIC_DRAW );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aWaveValue, 1, gl.FLOAT, false, 0, 0 );
+
+      // Add whether the cells have been visited
+      gl.bindBuffer( gl.ARRAY_BUFFER, this.hasCellBeenVisitedBuffer );
+      index = 0;
+      for ( i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
+        for ( k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
+          value = node.lattice.hasCellBeenVisited( i, k ) ? 1.0 : 0.0;
+          if ( !node.vacuumColor ) {
+            value = true; // If there is no vacuum, then act as if the cell has been visited, so it will get the normal coloring.
+          }
+          this.hasCellBeenVisitedArray[ index++ ] = value;
+          this.hasCellBeenVisitedArray[ index++ ] = value;
+        }
+        this.hasCellBeenVisitedArray[ index++ ] = value;
+        this.hasCellBeenVisitedArray[ index++ ] = value;
+      }
+      gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( this.hasCellBeenVisitedArray ), gl.STATIC_DRAW );
+      gl.vertexAttribPointer( shaderProgram.attributeLocations.aHasCellBeenVisited, 1, gl.FLOAT, false, 0, 0 );
 
       // 3 vertices per triangle and 2 triangles per square
       var w = ( this.node.lattice.width - lattice.dampX * 2 );

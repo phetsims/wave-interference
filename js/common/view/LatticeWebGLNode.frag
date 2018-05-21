@@ -1,6 +1,7 @@
 precision mediump float;
 varying float waveValue;
 varying vec3 baseColor;
+varying float hasCellBeenVisited;
 vec3 black = vec3(0.0,0.0,0.0);
 
 /**
@@ -50,18 +51,22 @@ vec3 colorBlend( vec3 color1, vec3 color2, float ratio ) {
  */
 void main( void ) {
 
-    float intensity;
-    float CUTOFF = 0.3;
-    if ( waveValue > 0.0 ) {
-        intensity = linear( 0.0, 2.0, CUTOFF, 1.0, waveValue );
-        intensity = dotclamp( intensity, CUTOFF, 1.0 );
-    }
-    else {
-        float MIN_SHADE = 0.03; // Stop before 0 because 0 is too jarring
-        intensity = linear( -1.5, 0.0, MIN_SHADE, CUTOFF, waveValue );
-        intensity = dotclamp( intensity, MIN_SHADE, CUTOFF );
-    }
+   if (hasCellBeenVisited==0.0){
+     gl_FragColor = vec4(black,1);
+   } else {
+       float intensity;
+       float CUTOFF = 0.3;
+       if ( waveValue > 0.0 ) {
+           intensity = linear( 0.0, 2.0, CUTOFF, 1.0, waveValue );
+           intensity = dotclamp( intensity, CUTOFF, 1.0 );
+       }
+       else {
+           float MIN_SHADE = 0.03; // Stop before 0 because 0 is too jarring
+           intensity = linear( -1.5, 0.0, MIN_SHADE, CUTOFF, waveValue );
+           intensity = dotclamp( intensity, MIN_SHADE, CUTOFF );
+       }
 
-   vec4 color = vec4( colorBlend( baseColor, black, 1.0 - intensity ), 1.0 );
-   gl_FragColor = color;
+      vec4 color = vec4( colorBlend( baseColor, black, 1.0 - intensity ), 1.0 );
+      gl_FragColor = color;
+   }
 }

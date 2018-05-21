@@ -7,10 +7,13 @@ uniform vec3 uBaseColor;
 // The value of the wave at that point in the lattice
 attribute float aWaveValue;
 
+// Whether the cell has been visited
+attribute float aHasCellBeenVisited;
+
 // Passed through to the fragment shader
 varying float waveValue;
-
 varying vec3 baseColor;
+varying float hasCellBeenVisited;
 
 void main( void ) {
 
@@ -22,6 +25,7 @@ void main( void ) {
 
     // combine with the z coordinate specified
     gl_Position = vec4( ndc.xy, 0.1, 1.0 );
-    waveValue=aWaveValue;
+    waveValue = aWaveValue;
     baseColor = uBaseColor;
+    hasCellBeenVisited = aHasCellBeenVisited;
 }
