@@ -3,8 +3,6 @@
 /**
  * Depicts the draggable graph node with two probes which begins in the toolbox.  TODO: move to common code
  *
- * TODO: Wave Detector Tool should show correct time units. Make sure it matches with timer.
- *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
