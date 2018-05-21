@@ -71,8 +71,6 @@ define( function( require ) {
 
     this.vertexBuffer = gl.createBuffer();
 
-    gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
-
     var cellWidth = 10.1;
 
     // TODO: this is a hack to get things to line up-ish
@@ -90,6 +88,7 @@ define( function( require ) {
       vertices.push( ( i + 1 ) * cellWidth + VERTEX_OFFSET_X, ( k - 1 ) * cellWidth + VERTEX_OFFSET_Y );
       vertices.push( ( i + 1 ) * cellWidth + VERTEX_OFFSET_X, lattice.dampY * cellWidth + VERTEX_OFFSET_Y );
     }
+    gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( vertices ), gl.STATIC_DRAW );
 
     this.waveValueBuffer = gl.createBuffer();
@@ -103,6 +102,13 @@ define( function( require ) {
   }
 
   inherit( Object, Painter, {
+
+    /**
+     * Renders the lattice using WebGL
+     * @param {Matrix3} modelViewMatrix
+     * @param {Matrix3} projectionMatrix
+     * @returns {number} - flag that indicates paint state
+     */
     paint: function( modelViewMatrix, projectionMatrix ) {
       var gl = this.gl;
       var shaderProgram = this.shaderProgram;
@@ -138,22 +144,24 @@ define( function( require ) {
       index = 0;
       for ( i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
         for ( k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
-          value = node.lattice.hasCellBeenVisited( i, k ) ? 1.0 : 0.0;
+          var hasCellBeenVisited = node.lattice.hasCellBeenVisited( i, k ) ? 1.0 : 0.0;
           if ( !node.vacuumColor ) {
-            value = true; // If there is no vacuum, then act as if the cell has been visited, so it will get the normal coloring.
+
+            // If there is no vacuum, then act as if the cell has been visited, so it will get the normal coloring.
+            hasCellBeenVisited = true;
           }
-          this.hasCellBeenVisitedArray[ index++ ] = value;
-          this.hasCellBeenVisitedArray[ index++ ] = value;
+          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
+          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
         }
-        this.hasCellBeenVisitedArray[ index++ ] = value;
-        this.hasCellBeenVisitedArray[ index++ ] = value;
+        this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
+        this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
       }
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( this.hasCellBeenVisitedArray ), gl.STATIC_DRAW );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aHasCellBeenVisited, 1, gl.FLOAT, false, 0, 0 );
 
       // 3 vertices per triangle and 2 triangles per square
-      var w = ( this.node.lattice.width - lattice.dampX * 2 );
-      var h = ( this.node.lattice.height - lattice.dampX * 2 );
+      var w = this.node.lattice.width - lattice.dampX * 2;
+      var h = this.node.lattice.height - lattice.dampX * 2;
       gl.drawArrays( gl.TRIANGLE_STRIP, 0, w * h * 2 );
 
       shaderProgram.unuse();
