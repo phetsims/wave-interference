@@ -78,7 +78,7 @@ define( function( require ) {
 
     this.sigmaXProperty = new Property( 10 );
     this.sigmaYProperty = new Property( 10 );
-    this.gaussianMagnitudeProperty = new Property( 400 ); // TODO: is this useful for students?
+    this.gaussianMagnitudeProperty = new Property( 400 );
 
     this.sceneProperty = new Property( 'rectangle' );
     var toggleButtonsContent = [ {
