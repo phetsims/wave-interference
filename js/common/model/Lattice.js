@@ -57,9 +57,6 @@ define( function( require ) {
     // @private {number} - indicates the current matrix. Previous matrix is one higher (with correct modulus)
     this.currentMatrixIndex = 0;
 
-    // @private {function} - returns true if there is a potential barrier at the given coordinate
-    this.potentialFunction = null;
-
     // @public {Emitter} - sends a notification each time the lattice updates.
     this.changedEmitter = new Emitter();
 
@@ -253,14 +250,6 @@ define( function( require ) {
     },
 
     /**
-     * @param {Function} potentialFunction (i,j)=>boolean, true if there is a barrier at that cell location
-     * @public
-     */
-    setPotentialFunction: function( potentialFunction ) {
-      this.potentialFunction = potentialFunction;
-    },
-
-    /**
      * Propagates the wave by one step.  This is a discrete algorithm and cannot use dt.
      * @param {function} forcingFunction - sets values before and after the wave equation
      * @public
@@ -281,20 +270,13 @@ define( function( require ) {
       // Main loop, doesn't update cells on the edges
       for ( var i = 1; i < width - 1; i++ ) {
         for ( var j = 1; j < height - 1; j++ ) {
+          var neighborSum = matrix1.get( i + 1, j ) + matrix1.get( i - 1, j ) + matrix1.get( i, j + 1 ) + matrix1.get( i, j - 1 );
+          var m1ij = matrix1.get( i, j );
+          var value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
+          matrix0.set( i, j, value );
 
-          // TODO: combine potentialFunction and forcingFunction?
-          if ( this.potentialFunction && this.potentialFunction( i, j ) ) {
-            matrix0.set( i, j, 0 );
-          }
-          else {
-            var neighborSum = matrix1.get( i + 1, j ) + matrix1.get( i - 1, j ) + matrix1.get( i, j + 1 ) + matrix1.get( i, j - 1 );
-            var m1ij = matrix1.get( i, j );
-            var value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
-            matrix0.set( i, j, value );
-
-            if ( Math.abs( value ) > LIGHT_VISIT_THRESHOLD ) {
-              this.visitedMatrix.set( i, j, 1 );
-            }
+          if ( Math.abs( value ) > LIGHT_VISIT_THRESHOLD ) {
+            this.visitedMatrix.set( i, j, 1 );
           }
         }
       }

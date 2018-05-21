@@ -39,25 +39,6 @@ define( function( require ) {
     // @public {NumberProperty} - separation of centers of the slits in lattice coordinates
     this.slitSeparationProperty = new NumberProperty( 20 );
 
-    // TODO(performance): should the potential function be a 2D array?  Could be faster lookup.
-    this.lattice.setPotentialFunction( function( i, j ) {
-      var barrierLocation = Math.round( self.barrierLocationProperty.get().x );
-      var slitWidth = self.slitWidthProperty.get();
-      var slitSeparation = self.slitSeparationProperty.get();
-      var latticeCenterY = self.lattice.height / 2;
-      if ( self.barrierTypeProperty.value === BarrierTypeEnum.NO_BARRIER ) {
-        return false;
-      }
-      else if ( self.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
-        return i === barrierLocation && ( ( j > latticeCenterY + slitWidth ) || ( j < latticeCenterY - slitWidth ) );
-      }
-      else if ( self.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
-
-        // Spacing is between center of slits
-        return i === barrierLocation && ( ( Math.abs( latticeCenterY - slitSeparation / 2 - j ) > slitWidth ) && ( Math.abs( latticeCenterY + slitSeparation / 2 - j ) > slitWidth ) );
-      }
-    } );
-
     this.barrierLocationProperty.link( function() {
 
       // When the barrier moves, it creates a lot of artifacts, so clear the wave when the barrier moves
@@ -114,6 +95,34 @@ define( function( require ) {
             // Instantly clear the incoming wave, otherwise there are too many odd reflections
             // TODO: Try propagating front/back of the wave, see https://github.com/phetsims/wave-interference/issues/47
             lattice.setCurrentValue( i, j, 0 );
+          }
+        }
+      }
+
+      var self = this;
+      if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT || this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
+        var barrierLocation = Math.round( self.barrierLocationProperty.get().x );
+
+        for ( j = 1; j < lattice.height - 1; j++ ) {
+
+          var isPotential = false;
+          var slitWidth = self.slitWidthProperty.get();
+          var slitSeparation = self.slitSeparationProperty.get();
+          var latticeCenterY = self.lattice.height / 2;
+
+          // TODO: locations don't match the lattice
+          if ( self.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
+            isPotential = ( ( ( j > latticeCenterY + slitWidth ) || ( j < latticeCenterY - slitWidth ) ) );
+          }
+          else if ( self.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
+
+            // Spacing is between center of slits
+            isPotential = ( ( ( Math.abs( latticeCenterY - slitSeparation / 2 - j ) > slitWidth ) && ( Math.abs( latticeCenterY + slitSeparation / 2 - j ) > slitWidth ) ) );
+          }
+
+          if ( isPotential ) {
+            lattice.setLastValue( barrierLocation, j, 0 );
+            lattice.setCurrentValue( barrierLocation, j, 0 );
           }
         }
       }
