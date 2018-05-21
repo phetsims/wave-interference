@@ -1,3 +1,10 @@
+// Copyright 2017-2018, University of Colorado Boulder
+
+/**
+ * Fragment shader for the LatticeWebGLNode
+ *
+ * @author Sam Reid (PhET Interactive Simulations)
+ */
 precision mediump float;
 varying float waveValue;
 varying vec3 baseColor;
