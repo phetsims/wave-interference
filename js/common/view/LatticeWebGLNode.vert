@@ -15,7 +15,7 @@ attribute float aWaveValue;
 // Whether the cell has been visited
 attribute float aHasCellBeenVisited;
 
-// Inputs from the JS side
+// Inputs from the JS side that are the same for all vertices
 uniform mat3 uModelViewMatrix;
 uniform mat3 uProjectionMatrix;
 uniform vec3 uBaseColor;
