@@ -33,7 +33,6 @@ define( function( require ) {
   var TimerNode = require( 'SCENERY_PHET/TimerNode' );
   var ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
   var Util = require( 'SCENERY/util/Util' );
-  var Vector2 = require( 'DOT/Vector2' );
   var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
