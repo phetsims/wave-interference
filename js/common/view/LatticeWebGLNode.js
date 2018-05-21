@@ -17,6 +17,10 @@ define( function( require ) {
   var WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
   var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
 
+  // text
+  var vertexShader = require( 'text!WAVE_INTERFERENCE/common/view/LatticeWebGLNode.vert' );
+  var fragmentShader = require( 'text!WAVE_INTERFERENCE/common/view/LatticeWebGLNode.frag' );
+
   /**
    * @param {Lattice} lattice
    * @param {Object} [options]
@@ -58,43 +62,7 @@ define( function( require ) {
     this.node = node;
     var lattice = node.lattice;
 
-    // Simple example for custom shader
-    var lineVertexShaderSource = [
-      // Position
-      'attribute vec2 aPosition;',
-      'uniform mat3 uModelViewMatrix;',
-      'uniform mat3 uProjectionMatrix;',
-
-      'attribute float aColor;',      // New: added vec4 attribute
-      'varying float color;',          // New: this will be passed to fragment shader
-
-      'void main( void ) {',
-
-      // homogeneous model-view transformation
-      '  vec3 view = uModelViewMatrix * vec3( aPosition.xy, 1 );',
-
-      // homogeneous map to to normalized device coordinates
-      '  vec3 ndc = uProjectionMatrix * vec3( view.xy, 1 );',
-
-      // combine with the z coordinate specified
-      '  gl_Position = vec4( ndc.xy, 0.1, 1.0 );',
-      '  color=aColor;',
-      '}'
-    ].join( '\n' );
-
-    // Simple demo for custom shader
-    var lineFragmentShaderSource = [
-      'precision mediump float;',
-      'varying float color;',
-
-      // Returns the color from the vertex shader
-      'void main( void ) {',
-      '  float c = 0.25 * (color +2.0) ;',
-      '  gl_FragColor = vec4(0,0,c,1);',
-      '}'
-    ].join( '\n' );
-
-    this.shaderProgram = new ShaderProgram( gl, lineVertexShaderSource, lineFragmentShaderSource, {
+    this.shaderProgram = new ShaderProgram( gl, vertexShader, fragmentShader, {
       attributes: [ 'aPosition', 'aColor' ],
       uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix' ]
     } );
