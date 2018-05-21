@@ -120,12 +120,10 @@ define( function( require ) {
     }
 
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
-    webGLSupported = false; // TODO: fix this
 
     this.latticeNode = webGLSupported ?
                        new LatticeWebGLNode( model.lattice ) :
                        new LatticeCanvasNode( model.lattice );
-
     var self = this;
 
     var scale = this.waveAreaNode.width / this.latticeNode.width;

@@ -40,7 +40,7 @@ define( function( require ) {
       layerSplit: true // ensure we're on our own layer
     }, options );
 
-    WebGLNode.call( this, LinesPainter, options );
+    WebGLNode.call( this, Painter, options );
 
     // Invalidate paint when model indicates changes
     var invalidateSelfListener = this.invalidatePaint.bind( this );
@@ -53,7 +53,7 @@ define( function( require ) {
     setBaseColor: function() {}
   } );
 
-  function LinesPainter( gl, node ) {
+  function Painter( gl, node ) {
     this.gl = gl;
     this.node = node;
     var lattice = node.lattice;
@@ -103,21 +103,25 @@ define( function( require ) {
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
     var vertices = [];
-    var cellWidth = 9;
+    var cellWidth = 10.1;
 
     // @private - allocate once and reuse
     this.colorArray = [];
 
+    // TODO: this is a hack to get things to line up-ish
+    var VERTEX_OFFSET_X = -200;
+    var VERTEX_OFFSET_Y = -200;
+
     // Triangle Strip, see http://www.corehtml5.com/trianglestripfundamentals.phpk
     for ( var i = lattice.dampX; i < lattice.width - lattice.dampX; i++ ) {
       for ( var k = lattice.dampY; k < lattice.height - lattice.dampY; k++ ) {
-        vertices.push( i * cellWidth, k * cellWidth );
-        vertices.push( ( i + 1 ) * cellWidth, k * cellWidth );
+        vertices.push( i * cellWidth + VERTEX_OFFSET_X, k * cellWidth + VERTEX_OFFSET_Y );
+        vertices.push( ( i + 1 ) * cellWidth + VERTEX_OFFSET_X, k * cellWidth + VERTEX_OFFSET_Y );
         this.colorArray.push( 0 );
         this.colorArray.push( 0 );
       }
-      vertices.push( ( i + 1 ) * cellWidth, ( k - 1 ) * cellWidth );
-      vertices.push( ( i + 1 ) * cellWidth, lattice.dampY * cellWidth );
+      vertices.push( ( i + 1 ) * cellWidth + VERTEX_OFFSET_X, ( k - 1 ) * cellWidth + VERTEX_OFFSET_Y );
+      vertices.push( ( i + 1 ) * cellWidth + VERTEX_OFFSET_X, lattice.dampY * cellWidth + VERTEX_OFFSET_Y );
       this.colorArray.push( 0 );
       this.colorArray.push( 0 );
     }
@@ -126,7 +130,7 @@ define( function( require ) {
     this.colorBuffer = gl.createBuffer();
   }
 
-  inherit( Object, LinesPainter, {
+  inherit( Object, Painter, {
     paint: function( modelViewMatrix, projectionMatrix ) {
       var gl = this.gl;
       var shaderProgram = this.shaderProgram;
