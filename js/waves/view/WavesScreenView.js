@@ -191,14 +191,11 @@ define( function( require ) {
       } );
     } );
 
-    // TODO: these seem like they should be in the model?
-    var measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ) );
-    var measuringTapeTipPositionProperty = new Property( new Vector2( 220, 200 ) );
     var measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
       textBackgroundColor: 'rgba( 255, 255, 255, 0.6 )', // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
       textColor: 'black',
-      basePositionProperty: measuringTapeBasePositionProperty,
-      tipPositionProperty: measuringTapeTipPositionProperty,
+      basePositionProperty: model.measuringTapeBasePositionProperty,
+      tipPositionProperty: model.measuringTapeTipPositionProperty,
 
       // Drop in toolbox
       baseDragEnded: function() {
@@ -210,13 +207,6 @@ define( function( require ) {
       }
     } );
     model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
-
-    // Restore the relative positions of the measuring tape tip and tail on Reset All.
-    // TODO: move this to the model
-    model.resetEmitter.addListener( function() {
-      measuringTapeBasePositionProperty.reset();
-      measuringTapeTipPositionProperty.reset();
-    } );
 
     var timerNode = new TimerNode( model.timerElapsedTimeProperty, model.isTimerRunningProperty, {
       unitsChoices: [ model.waterScene.timerUnits, model.soundScene.timerUnits, model.lightScene.timerUnits ]

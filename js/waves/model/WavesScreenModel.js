@@ -25,6 +25,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   var Util = require( 'DOT/Util' );
+  var Vector2 = require( 'DOT/Vector2' );
   var ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -234,6 +235,12 @@ define( function( require ) {
     // @public {Property.<Boolean>} - whether the button for the second source is pressed
     this.button2PressedProperty = new BooleanProperty( false );
 
+    // @public {Property.<Vector2>} - model for the view coordinates of the base of the measuring tape
+    this.measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ) );
+
+    // @public {Property.<Vector2>} - model for the view coordinates of the tip of the measuring tape
+    this.measuringTapeTipPositionProperty = new Property( new Vector2( 220, 200 ) );
+
     // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
     // for continuity
     this.frequencyProperty.lazyLink( function( newFrequency, oldFrequency ) {
@@ -440,6 +447,8 @@ define( function( require ) {
       this.timerElapsedTimeProperty.reset();
       this.isTimerInPlayAreaProperty.reset();
       this.showIntensityGraphProperty.reset();
+      this.measuringTapeTipPositionProperty.reset();
+      this.measuringTapeBasePositionProperty.reset();
       this.isMeasuringTapeInPlayAreaProperty.reset();
       this.continuousWave1OscillatingProperty.reset();
       this.continuousWave2OscillatingProperty.reset();
