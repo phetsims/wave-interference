@@ -6,10 +6,14 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 precision mediump float;
+
+// Inputs from the fragment shader
 varying float waveValue;
 varying vec3 baseColor;
 varying float hasCellBeenVisited;
-vec3 black = vec3(0.0,0.0,0.0);
+
+// constants
+vec3 BLACK = vec3( 0.0, 0.0, 0.0 );
 
 /**
  * Port of DOT/Util.linear
@@ -34,7 +38,7 @@ float dotclamp( float value, float min, float max ) {
 }
 
 /**
- * Port of Color.blend, but ignoring opacity
+ * Port of Color.blend, but ignoring opacity.  This maintains consistency with the canvas renderer.
  */
 vec3 colorBlend( vec3 color1, vec3 color2, float ratio ) {
 
@@ -59,7 +63,7 @@ vec3 colorBlend( vec3 color1, vec3 color2, float ratio ) {
 void main( void ) {
 
    if (hasCellBeenVisited==0.0){
-     gl_FragColor = vec4(black,1);
+     gl_FragColor = vec4( BLACK, 1 );
    } else {
        float intensity;
        float CUTOFF = 0.3;
@@ -73,7 +77,7 @@ void main( void ) {
            intensity = dotclamp( intensity, MIN_SHADE, CUTOFF );
        }
 
-      vec4 color = vec4( colorBlend( baseColor, black, 1.0 - intensity ), 1.0 );
+      vec4 color = vec4( colorBlend( baseColor, BLACK, 1.0 - intensity ), 1.0 );
       gl_FragColor = color;
    }
 }
