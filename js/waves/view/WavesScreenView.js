@@ -190,6 +190,8 @@ define( function( require ) {
         multiplier: scene.latticeWidth / self.waveAreaNode.width / scene.meterUnitsConversion
       } );
     } );
+
+    // TODO: these seem like they should be in the model?
     var measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ) );
     var measuringTapeTipPositionProperty = new Property( new Vector2( 220, 200 ) );
     var measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
@@ -210,7 +212,7 @@ define( function( require ) {
     model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
     // Restore the relative positions of the measuring tape tip and tail on Reset All.
-    // TODO: these seem like they should be in the model?
+    // TODO: move this to the model
     model.resetEmitter.addListener( function() {
       measuringTapeBasePositionProperty.reset();
       measuringTapeTipPositionProperty.reset();
@@ -374,7 +376,7 @@ define( function( require ) {
 
     model.sourceSeparationProperty.link( function( sourceSeparation ) {
       laserPointerNode2.visible = sourceSeparation > 0;
-      laserPointerNode1.centerY = self.waveAreaNode.centerY + sourceSeparation * 4; // TODO: fix coordinate transform
+      laserPointerNode1.centerY = self.waveAreaNode.centerY + sourceSeparation * 4; // TODO: fix coordinate transform, source separation should be in metric coordinates
       laserPointerNode2.centerY = self.waveAreaNode.centerY - sourceSeparation * 4; // TODO: fix coordinate transform
     } );
   }
