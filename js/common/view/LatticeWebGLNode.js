@@ -54,7 +54,9 @@ define( function( require ) {
   waveInterference.register( 'LatticeWebGLNode', LatticeWebGLNode );
 
   inherit( WebGLNode, LatticeWebGLNode, {
-    setBaseColor: function() {}
+    setBaseColor: function( baseColor ) {
+      this.baseColor = baseColor || new Color( 'black' );
+    }
   } );
 
   function Painter( gl, node ) {
@@ -64,7 +66,7 @@ define( function( require ) {
 
     this.shaderProgram = new ShaderProgram( gl, vertexShader, fragmentShader, {
       attributes: [ 'aPosition', 'aWaveValue' ],
-      uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix' ]
+      uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uBaseColor' ]
     } );
 
     this.vertexBuffer = gl.createBuffer();
@@ -107,6 +109,7 @@ define( function( require ) {
 
       gl.uniformMatrix3fv( shaderProgram.uniformLocations.uModelViewMatrix, false, modelViewMatrix.entries );
       gl.uniformMatrix3fv( shaderProgram.uniformLocations.uProjectionMatrix, false, projectionMatrix.entries );
+      gl.uniform3f( shaderProgram.uniformLocations.uBaseColor, node.baseColor.red / 255, node.baseColor.green / 255, node.baseColor.blue / 255 );
 
       gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 2, gl.FLOAT, false, 0, 0 );

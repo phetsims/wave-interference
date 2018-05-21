@@ -74,7 +74,7 @@ define( function( require ) {
     },
 
     /**
-     * Draws into the canvas
+     * Draws into the canvas.  Note this logic must be kept in sync with the WebGL fragment shader.
      * @param {CanvasRenderingContext2D} context
      */
     paintCanvas: function( context ) {
@@ -86,16 +86,16 @@ define( function( require ) {
           //          1 => 1.0
           //          0 => 0.3
           //         -1 => 0.0
-          var value = this.lattice.getCurrentValue( i, k );
+          var waveValue = this.lattice.getCurrentValue( i, k );
           var intensity;
           var CUTOFF = 0.3;
-          if ( value > 0 ) {
-            intensity = Util.linear( 0, 2, CUTOFF, 1, value );
+          if ( waveValue > 0 ) {
+            intensity = Util.linear( 0, 2, CUTOFF, 1, waveValue );
             intensity = Util.clamp( intensity, CUTOFF, 1 );
           }
           else {
             var MIN_SHADE = 0.03; // Stop before 0 because 0 is too jarring
-            intensity = Util.linear( -1.5, 0, MIN_SHADE, CUTOFF, value );
+            intensity = Util.linear( -1.5, 0, MIN_SHADE, CUTOFF, waveValue );
             intensity = Util.clamp( intensity, MIN_SHADE, CUTOFF );
           }
 
