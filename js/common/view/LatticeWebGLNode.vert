@@ -3,8 +3,11 @@ attribute vec2 aPosition;
 uniform mat3 uModelViewMatrix;
 uniform mat3 uProjectionMatrix;
 
-attribute float aColor;       // New: added vec4 attribute
-varying float color;          // New: this will be passed to fragment shader
+// The value of the wave at that point in the lattice
+attribute float aWaveValue;
+
+// Passed through to the fragment shader
+varying float waveValue;
 
 void main( void ) {
 
@@ -16,5 +19,5 @@ void main( void ) {
 
     // combine with the z coordinate specified
     gl_Position = vec4( ndc.xy, 0.1, 1.0 );
-    color=aColor;
+    waveValue=aWaveValue;
 }

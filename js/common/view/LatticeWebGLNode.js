@@ -63,7 +63,7 @@ define( function( require ) {
     var lattice = node.lattice;
 
     this.shaderProgram = new ShaderProgram( gl, vertexShader, fragmentShader, {
-      attributes: [ 'aPosition', 'aColor' ],
+      attributes: [ 'aPosition', 'aWaveValue' ],
       uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix' ]
     } );
 
@@ -90,7 +90,7 @@ define( function( require ) {
     }
     gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( vertices ), gl.STATIC_DRAW );
 
-    this.colorBuffer = gl.createBuffer();
+    this.waveValueBuffer = gl.createBuffer();
 
     // @private - allocate once and reuse
     this.valueArray = [];
@@ -112,7 +112,7 @@ define( function( require ) {
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aPosition, 2, gl.FLOAT, false, 0, 0 );
 
       // Add the color values
-      gl.bindBuffer( gl.ARRAY_BUFFER, this.colorBuffer );
+      gl.bindBuffer( gl.ARRAY_BUFFER, this.waveValueBuffer );
       var index = 0;
       for ( var i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
         for ( var k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
@@ -124,7 +124,7 @@ define( function( require ) {
         this.valueArray[ index++ ] = value;
       }
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( this.valueArray ), gl.STATIC_DRAW );
-      gl.vertexAttribPointer( shaderProgram.attributeLocations.aColor, 1, gl.FLOAT, false, 0, 0 );
+      gl.vertexAttribPointer( shaderProgram.attributeLocations.aWaveValue, 1, gl.FLOAT, false, 0, 0 );
 
       // 3 vertices per triangle and 2 triangles per square
       var w = ( this.node.lattice.width - lattice.dampX * 2 );
