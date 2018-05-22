@@ -74,6 +74,7 @@ define( function( require ) {
     var cellWidth = 10.1;
 
     // TODO: this is a hack to get things to line up-ish
+    // TODO: the squares in the lattice look spread out vertically
     var VERTEX_OFFSET_X = -200;
     var VERTEX_OFFSET_Y = -200;
 
