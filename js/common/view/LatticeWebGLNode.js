@@ -71,23 +71,24 @@ define( function( require ) {
 
     this.vertexBuffer = gl.createBuffer();
 
-    var cellWidth = 10.1;
-
     // TODO: this is a hack to get things to line up-ish
     // TODO: the squares in the lattice look spread out vertically
-    var VERTEX_OFFSET_X = -200;
-    var VERTEX_OFFSET_Y = -200;
+    // TODO: should we use triangle strip?
 
-    // The vertices are created and buffered once, the geometry never changes.  We use a triangle strip, see
-    // http://www.corehtml5.com/trianglestripfundamentals.php
+    // The vertices are created and buffered once, the geometry never changes
+    var width = lattice.width - lattice.dampX * 2;
+    var height = lattice.height - lattice.dampY * 2;
     var vertices = [];
-    for ( var i = lattice.dampX; i < lattice.width - lattice.dampX; i++ ) {
-      for ( var k = lattice.dampY; k < lattice.height - lattice.dampY; k++ ) {
-        vertices.push( i * cellWidth + VERTEX_OFFSET_X, k * cellWidth + VERTEX_OFFSET_Y );
-        vertices.push( ( i + 1 ) * cellWidth + VERTEX_OFFSET_X, k * cellWidth + VERTEX_OFFSET_Y );
+    for ( var i = 0; i < width; i++ ) {
+      for ( var k = 0; k < height; k++ ) {
+        vertices.push( i, k );
+        vertices.push( i + 1, k );
+        vertices.push( i, k + 1 );
+
+        vertices.push( i + 1, k );
+        vertices.push( i + 1, k + 1 );
+        vertices.push( i, k + 1 );
       }
-      vertices.push( ( i + 1 ) * cellWidth + VERTEX_OFFSET_X, ( k - 1 ) * cellWidth + VERTEX_OFFSET_Y );
-      vertices.push( ( i + 1 ) * cellWidth + VERTEX_OFFSET_X, lattice.dampY * cellWidth + VERTEX_OFFSET_Y );
     }
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( vertices ), gl.STATIC_DRAW );
@@ -116,6 +117,9 @@ define( function( require ) {
       var node = this.node;
       var lattice = node.lattice;
 
+      var width = lattice.width - lattice.dampX * 2;
+      var height = lattice.height - lattice.dampY * 2;
+
       shaderProgram.use();
 
       gl.uniformMatrix3fv( shaderProgram.uniformLocations.uModelViewMatrix, false, modelViewMatrix.entries );
@@ -130,12 +134,22 @@ define( function( require ) {
       var index = 0;
       for ( var i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
         for ( var k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
+
+          // TODO: optimize?  Inline getIndex or move this to the GPU?
+          // Getting the value at each vertex makes it possible to linearly interpolate in the graphics, which
+          // looks much better than the discrete form we see in canvas
           var value = node.lattice.getCurrentValue( i, k );
+          var valueX = node.lattice.getCurrentValue( i + 1, k );
+          var valueY = node.lattice.getCurrentValue( i, k + 1 );
+          var valueXY = node.lattice.getCurrentValue( i + 1, k + 1 );
           this.valueArray[ index++ ] = value;
-          this.valueArray[ index++ ] = value;
+          this.valueArray[ index++ ] = valueX;
+          this.valueArray[ index++ ] = valueY;
+
+          this.valueArray[ index++ ] = valueX;
+          this.valueArray[ index++ ] = valueXY;
+          this.valueArray[ index++ ] = valueY;
         }
-        this.valueArray[ index++ ] = value;
-        this.valueArray[ index++ ] = value;
       }
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( this.valueArray ), gl.STATIC_DRAW );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aWaveValue, 1, gl.FLOAT, false, 0, 0 );
@@ -153,17 +167,18 @@ define( function( require ) {
           }
           this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
           this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
+          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
+
+          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
+          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
+          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
         }
-        this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
-        this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
       }
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( this.hasCellBeenVisitedArray ), gl.STATIC_DRAW );
       gl.vertexAttribPointer( shaderProgram.attributeLocations.aHasCellBeenVisited, 1, gl.FLOAT, false, 0, 0 );
 
       // 3 vertices per triangle and 2 triangles per square
-      var w = this.node.lattice.width - lattice.dampX * 2;
-      var h = this.node.lattice.height - lattice.dampX * 2;
-      gl.drawArrays( gl.TRIANGLE_STRIP, 0, w * h * 2 );
+      gl.drawArrays( gl.TRIANGLES, 0, width * height * 6 );
 
       shaderProgram.unuse();
 

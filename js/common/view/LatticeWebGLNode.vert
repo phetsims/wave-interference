@@ -25,10 +25,13 @@ varying float waveValue;
 varying vec3 baseColor;
 varying float hasCellBeenVisited;
 
+// constants
+float CELL_SIZE = 10.1; // TODO: a principled way to arrive at this value?  Or eliminate it here and scale the entire node?
+
 void main( void ) {
 
     // homogeneous model-view transformation
-    vec3 view = uModelViewMatrix * vec3( aPosition.xy, 1 );
+    vec3 view = uModelViewMatrix * vec3( aPosition.x*CELL_SIZE,aPosition.y*CELL_SIZE, 1 );
 
     // homogeneous map to to normalized device coordinates
     vec3 ndc = uProjectionMatrix * vec3( view.xy, 1 );
