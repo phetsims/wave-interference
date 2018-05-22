@@ -14,6 +14,9 @@
     "preload": [
       "../sherpa/lib/fourier-1.1.0.js"
     ],
+    "phetLibs": [
+      "twixt"
+    ],
     "runnable": true,
     "supportedBrands": [
       "phet",
