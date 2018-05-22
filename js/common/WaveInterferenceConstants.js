@@ -36,7 +36,10 @@ define( function( require ) {
     MAX_AMPLITUDE_TO_PLOT_ON_RIGHT: 2.14,
 
     // Size of a cell in view coordinates, // TODO: this number no longer seems to matter
-    CELL_WIDTH: 10
+    CELL_WIDTH: 10,
+
+    // lineJoin for the graph and the surface of the water
+    CHART_LINE_JOIN: 'round'
   };
 
   waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );

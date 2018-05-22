@@ -29,7 +29,10 @@ define( function( require ) {
     this.waveAreaBounds = waveAreaBounds;
 
     // @private - depicts the side face (when the user selects "side view")
-    this.sideFacePath = new Path( null, { lineJoin: 'round', fill: WaveInterferenceConstants.WATER_SIDE_COLOR } );
+    this.sideFacePath = new Path( null, {
+      lineJoin: WaveInterferenceConstants.CHART_LINE_JOIN,
+      fill: WaveInterferenceConstants.WATER_SIDE_COLOR
+    } );
 
     // @private
     this.model = model;

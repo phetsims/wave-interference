@@ -167,13 +167,13 @@ define( function( require ) {
     var path = new Path( new Shape(), {
       stroke: 'black',
       lineWidth: 2,
-      lineJoin: 'round' // Prevents artifacts at the wave source. // TODO: factor out to match WaterSideViewNode
+      lineJoin: WaveInterferenceConstants.CHART_LINE_JOIN // Prevents artifacts at the wave source
     } );
     this.addChild( path );
 
     var array = [];
     model.lattice.changedEmitter.addListener( function() {
-      var s = new Shape();
+      var shape = new Shape();
 
       array = model.lattice.getCenterLineValues( array );
       for ( var i = 0; i < array.length; i++ ) {
@@ -183,10 +183,10 @@ define( function( require ) {
         // TODO: a more elegant pattern for factoring out the transform or scale
         var x = Util.linear( 0, array.length - 1, waveAreaBounds.left, waveAreaBounds.right, i ) - options.x;
         var y = Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 100, value ) - options.centerY / 2 - 1.7; // TODO: magic number
-        s.lineTo( x, y );
+        shape.lineTo( x, y );
       }
 
-      path.shape = s;
+      path.shape = shape;
     } );
 
     this.mutate( options );
