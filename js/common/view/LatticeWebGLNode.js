@@ -159,19 +159,28 @@ define( function( require ) {
       index = 0;
       for ( i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
         for ( k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
-          var hasCellBeenVisited = node.lattice.hasCellBeenVisited( i, k ) ? 1.0 : 0.0;
-          if ( !node.vacuumColor ) {
+          // If there is no vacuum, then act as if the cell has been visited, so it will get the normal coloring.
+          var hasCellBeenVisited = 1.0;
+          var hasCellBeenVisitedX = 1.0;
+          var hasCellBeenVisitedY = 1.0;
+          var hasCellBeenVisitedXY = 1.0;
 
-            // If there is no vacuum, then act as if the cell has been visited, so it will get the normal coloring.
-            hasCellBeenVisited = true;
+          // When there is a vacuum, make sure the cell has been visited before it can be colorized.
+          // TODO: there is a visual asymmetry
+          if ( node.vacuumColor ) {
+            hasCellBeenVisited = node.lattice.hasCellBeenVisited( i, k ) ? 1.0 : 0.0;
+            hasCellBeenVisitedX = node.lattice.hasCellBeenVisited( i + 1, k ) ? 1.0 : 0.0;
+            hasCellBeenVisitedY = node.lattice.hasCellBeenVisited( i, k + 1 ) ? 1.0 : 0.0;
+            hasCellBeenVisitedXY = node.lattice.hasCellBeenVisited( i + 1, k + 1 ) ? 1.0 : 0.0;
           }
-          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
-          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
-          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
 
           this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
-          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
-          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisited;
+          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisitedX;
+          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisitedY;
+
+          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisitedX;
+          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisitedXY;
+          this.hasCellBeenVisitedArray[ index++ ] = hasCellBeenVisitedY;
         }
       }
       gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( this.hasCellBeenVisitedArray ), gl.STATIC_DRAW );
