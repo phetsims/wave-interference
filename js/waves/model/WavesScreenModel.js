@@ -333,6 +333,8 @@ define( function( require ) {
 
       // On iPad2 and slower platforms, the clock speed cannot keep up with the frequency, so we must clamp the elapsed
       // time to get the full range of oscillation at the wave source.
+      // TODO: See wave on a string--forced to use a fixed time step, like we are.  But don't do exactly like WOASModel
+      // TODO: Use EventTimer for this?
       if ( dt > 1 / 60 ) {
         dt = 1 / 60;
       }
