@@ -118,7 +118,7 @@ define( function( require ) {
       this.addChild( viewRadioButtonGroup );
     }
 
-    var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
+    var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl && false;
 
     this.latticeNode = webGLSupported ?
                        new LatticeWebGLNode( model.lattice ) :
