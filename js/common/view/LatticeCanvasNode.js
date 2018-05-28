@@ -45,6 +45,15 @@ define( function( require ) {
     }, options );
     CanvasNode.call( this, options );
 
+    // Render into a sub-canvas which will be drawn into the rendering context at the right scale.
+    var w = this.lattice.width - this.lattice.dampX * 2;
+    var h = this.lattice.height - this.lattice.dampY * 2;
+    this.directCanvas = document.createElement( 'canvas' );
+    this.directCanvas.width = w;
+    this.directCanvas.height = h;
+    this.directContext = this.directCanvas.getContext( '2d' );
+    this.imageData = this.directContext.createImageData( w, h );
+
     // Invalidate paint when model indicates changes
     var invalidateSelfListener = this.invalidatePaint.bind( this );
     lattice.changedEmitter.addListener( invalidateSelfListener );
@@ -78,6 +87,9 @@ define( function( require ) {
      * @param {CanvasRenderingContext2D} context
      */
     paintCanvas: function( context ) {
+
+      var m = 0;
+      var data = this.imageData.data;
       for ( var i = this.lattice.dampX; i < this.lattice.width - this.lattice.dampX; i++ ) {
         for ( var k = this.lattice.dampY; k < this.lattice.height - this.lattice.dampY; k++ ) {
 
@@ -86,7 +98,7 @@ define( function( require ) {
           //          1 => 1.0
           //          0 => 0.3
           //         -1 => 0.0
-          var waveValue = this.lattice.getCurrentValue( i, k );
+          var waveValue = this.lattice.getCurrentValue( k, i );  // TODO: un-transpose
           var intensity;
           var CUTOFF = 0.3;
           if ( waveValue > 0 ) {
@@ -99,23 +111,33 @@ define( function( require ) {
             intensity = Util.clamp( intensity, MIN_SHADE, CUTOFF );
           }
 
-          var color = this.baseColor.blend( Color.black, 1 - intensity ); // TODO(performance): Performance caveat
-          if ( this.vacuumColor && !this.lattice.hasCellBeenVisited( i, k ) ) {
-            color = this.vacuumColor;
+          // Note this interpolation doesn't include the gamma factor that Color.blend does
+          // TODO: Hence the color mismatches the WebGL one
+          var r = this.baseColor.red * intensity;
+          var g = this.baseColor.green * intensity;
+          var b = this.baseColor.blue * intensity;
+
+          if ( this.vacuumColor && !this.lattice.hasCellBeenVisited( k, i ) ) { // TODO: un-transpose
+            r = this.vacuumColor.r;
+            g = this.vacuumColor.g;
+            b = this.vacuumColor.b;
           }
-          context.fillStyle = color.toCSS();
 
-          // Fill the cell
-          context.fillRect(
-            ( i - this.lattice.dampX ) * CELL_WIDTH,
-            ( k - this.lattice.dampY ) * CELL_WIDTH,
-
-            // +1 is to eliminate seams
-            CELL_WIDTH + 1,
-            CELL_WIDTH + 1
-          );
+          var offset = 4 * m;
+          data[ offset + 0 ] = r;
+          data[ offset + 1 ] = g;
+          data[ offset + 2 ] = b;
+          data[ offset + 3 ] = 255; // Fully opaque
+          m++;
         }
       }
+      this.directContext.putImageData( this.imageData, 0, 0 );
+
+      // draw the sub-canvas to the rendering context at the appropriate scale
+      context.save();
+      context.transform( CELL_WIDTH, 0, 0, CELL_WIDTH, 0, 0 );
+      context.drawImage( this.directCanvas, 0, 0 );
+      context.restore();
     }
   } );
 } );
