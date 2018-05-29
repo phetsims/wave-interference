@@ -16,6 +16,7 @@ define( function( require ) {
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var DynamicProperty = require( 'AXON/DynamicProperty' );
   var Emitter = require( 'AXON/Emitter' );
+  var EventTimer = require( 'PHET_CORE/EventTimer' );
   var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
@@ -37,6 +38,7 @@ define( function( require ) {
 
   // constants
   var POINT_SOURCE_HORIZONTAL_COORDINATE = 30;
+  var EVENT_RATE = 60;
 
   /**
    * @param {Object} [options]
@@ -109,6 +111,13 @@ define( function( require ) {
       meterUnitsConversion: 1E-9,
       timeUnitsConversion: 1E15 * 0.15904736243338724, // Tuned empirically so that light would have the correct THz and hence the correct speed of light
       timerUnits: 'fs'
+    } );
+
+    var eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
+
+    // @private
+    this.eventTimer = new EventTimer( eventTimerModel, function( timeElapsed ) {
+      self.advanceTime( 1 / EVENT_RATE, timeElapsed );
     } );
 
     // @public {Property.<Scene>} - selected scene
@@ -226,9 +235,6 @@ define( function( require ) {
     // @public {number} phase of the emitter
     this.phase = 0;
 
-    // @private {number} - track the time since the last lattice update so we can get comparable performance on machines with different speeds
-    this.timeSinceLastLatticeStep = 0;
-
     // @public {Property.<Boolean>} - whether the button for the first source is pressed
     this.button1PressedProperty = new BooleanProperty( false );
 
@@ -330,32 +336,28 @@ define( function( require ) {
      * @public
      */
     step: function( dt ) {
+      this.eventTimer.step( dt );
+    },
 
-      // On iPad2 and slower platforms, the clock speed cannot keep up with the frequency, so we must clamp the elapsed
-      // time to get the full range of oscillation at the wave source.
-      // TODO: See wave on a string--forced to use a fixed time step, like we are.  But don't do exactly like WOASModel
-      // TODO: Use EventTimer for this?
-      if ( dt > 1 / 60 ) {
-        dt = 1 / 60;
-      }
+    /**
+     * Additionally called from the "step" button
+     * @param {number} dt - amount of time in seconds to move the model forward
+     * @param {number} timeElapsed - see EventTimer, will be used if we need interpolation
+     * @public
+     */
+    advanceTime: function( dt, timeElapsed ) {
+
+      dt = dt * this.playSpeedProperty.get().scaleFactor; // TODO: is this the right place for that?
 
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
       var sign = this.viewTypeProperty.get() === ViewType.TOP ? -1 : +1;
       this.rotationAmountProperty.value = Util.clamp( this.rotationAmountProperty.value + dt * sign * 1.4, 0, 1 );
 
-      if ( this.isRunningProperty.get() ) {
-        this.advanceTime( dt * this.playSpeedProperty.get().scaleFactor );
+      if ( !this.isRunningProperty.get() ) {
+        return;
       }
-    },
 
-    /**
-     * Additionally called from the "step" button
-     * @param {number} dt - amount of time in seconds to move the model forward
-     * @public
-     */
-    advanceTime: function( dt ) {
-      var dtSeconds = dt;
       dt = dt * this.sceneProperty.value.timeScaleFactor;
 
       this.time += dt;
@@ -365,15 +367,11 @@ define( function( require ) {
       }
 
       // Track the time since the last lattice update so we can get comparable performance on machines with different speeds
-      this.timeSinceLastLatticeStep += dtSeconds;
-      if ( this.timeSinceLastLatticeStep >= 1 / 60 ) {
 
-        // Update the lattice
-        this.lattice.step( this.setSourceValues.bind( this ) );
+      // Update the lattice
+      this.lattice.step( this.setSourceValues.bind( this ) );
 
-        this.timeSinceLastLatticeStep = 0;
-        this.intensitySample.step();
-      }
+      this.intensitySample.step();
       if ( this.isTimerRunningProperty.get() ) {
         this.timerElapsedTimeProperty.set( this.timerElapsedTimeProperty.get() + dt * this.sceneProperty.value.timeUnitsConversion );
       }
