@@ -65,6 +65,10 @@ define( function( require ) {
 
     // @public (read-only) {number} - height of the lattice (includes damping regions)
     this.height = height;
+
+    // @public {number} - Determines how far we have animated between the "last" and "current" matrices, to control
+    // interpolation.
+    this.interpolationRatio = 0;
   }
 
   waveInterference.register( 'Lattice', Lattice );
@@ -100,6 +104,17 @@ define( function( require ) {
      */
     getCurrentValue: function( i, j ) {
       return this.matrices[ this.currentMatrixIndex ].get( i, j );
+    },
+
+    /**
+     * Returns the interpolated value of the given cell
+     * @param {number} i - horizontal integer coordinate
+     * @param {number} j - vertical integer coordinate
+     * @returns {number}
+     * @public
+     */
+    getInterpolatedValue: function( i, j ) {
+      return this.getCurrentValue( i, j ) * this.interpolationRatio + this.getLastValue( i, j ) * ( 1 - this.interpolationRatio );
     },
 
     /**

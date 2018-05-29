@@ -98,7 +98,7 @@ define( function( require ) {
           //          1 => 1.0
           //          0 => 0.3
           //         -1 => 0.0
-          var waveValue = this.lattice.getCurrentValue( k, i );  // TODO: un-transpose
+          var waveValue = this.lattice.getInterpolatedValue( k, i );  // TODO: un-transpose
           var intensity;
           var CUTOFF = 0.3;
           if ( waveValue > 0 ) {

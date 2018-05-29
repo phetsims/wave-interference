@@ -116,12 +116,8 @@ define( function( require ) {
     var eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
 
     // @private
-    this.stepped = false;
-
-    // @private
     this.eventTimer = new EventTimer( eventTimerModel, function( timeElapsed ) {
-      self.advanceTime( 1 / EVENT_RATE, timeElapsed );
-      self.stepped = true;
+      self.advanceTime( 1 / EVENT_RATE );
     } );
 
     // @public {Property.<Scene>} - selected scene
@@ -340,30 +336,25 @@ define( function( require ) {
      * @public
      */
     step: function( dt ) {
-      this.stepped = false;
       this.eventTimer.step( dt );
 
-      // Notify listeners outside of the eventTimer.  The eventTimer may tick several times per frame on a slow platform
-      // and in that case, we cannot afford to update the views for each of those ticks.
-      if ( this.stepped ) {
+      this.lattice.interpolationRatio = this.eventTimer.getRatio();
 
-        // Notify listeners that a frame has advanced
-        this.stepEmitter.emit();
+      // Notify listeners that a frame has advanced
+      this.stepEmitter.emit();
 
-        // Notify listeners about changes
-        this.lattice.changedEmitter.emit();
+      // Notify listeners about changes
+      this.lattice.changedEmitter.emit();
 
-        this.intensitySample.step();
-      }
+      this.intensitySample.step();
     },
 
     /**
      * Additionally called from the "step" button
      * @param {number} dt - amount of time in seconds to move the model forward
-     * @param {number} timeElapsed - see EventTimer, will be used if we need interpolation
      * @public
      */
-    advanceTime: function( dt, timeElapsed ) {
+    advanceTime: function( dt ) {
 
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
