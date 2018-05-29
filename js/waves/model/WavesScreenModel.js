@@ -38,7 +38,7 @@ define( function( require ) {
 
   // constants
   var POINT_SOURCE_HORIZONTAL_COORDINATE = 30;
-  var EVENT_RATE = 60;
+  var EVENT_RATE = 20; // Tuned so that iPad2 has enough time to run model computations
 
   /**
    * @param {Object} [options]
@@ -116,8 +116,12 @@ define( function( require ) {
     var eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
 
     // @private
+    this.stepped = false;
+
+    // @private
     this.eventTimer = new EventTimer( eventTimerModel, function( timeElapsed ) {
       self.advanceTime( 1 / EVENT_RATE, timeElapsed );
+      self.stepped = true;
     } );
 
     // @public {Property.<Scene>} - selected scene
@@ -336,7 +340,21 @@ define( function( require ) {
      * @public
      */
     step: function( dt ) {
+      this.stepped = false;
       this.eventTimer.step( dt );
+
+      // Notify listeners outside of the eventTimer.  The eventTimer may tick several times per frame on a slow platform
+      // and in that case, we cannot afford to update the views for each of those ticks.
+      if ( this.stepped ) {
+
+        // Notify listeners that a frame has advanced
+        this.stepEmitter.emit();
+
+        // Notify listeners about changes
+        this.lattice.changedEmitter.emit();
+
+        this.intensitySample.step();
+      }
     },
 
     /**
@@ -347,8 +365,6 @@ define( function( require ) {
      */
     advanceTime: function( dt, timeElapsed ) {
 
-      dt = dt * this.playSpeedProperty.get().scaleFactor; // TODO: is this the right place for that?
-
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
       var sign = this.viewTypeProperty.get() === ViewType.TOP ? -1 : +1;
@@ -358,7 +374,7 @@ define( function( require ) {
         return;
       }
 
-      dt = dt * this.sceneProperty.value.timeScaleFactor;
+      dt = dt * this.sceneProperty.value.timeScaleFactor * this.playSpeedProperty.get().scaleFactor;
 
       this.time += dt;
 
@@ -371,13 +387,9 @@ define( function( require ) {
       // Update the lattice
       this.lattice.step( this.setSourceValues.bind( this ) );
 
-      this.intensitySample.step();
       if ( this.isTimerRunningProperty.get() ) {
         this.timerElapsedTimeProperty.set( this.timerElapsedTimeProperty.get() + dt * this.sceneProperty.value.timeUnitsConversion );
       }
-
-      // Notify listeners that a frame has advanced
-      this.stepEmitter.emit();
     },
 
     /**
