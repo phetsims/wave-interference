@@ -295,9 +295,6 @@ define( function( require ) {
 
       // Apply values on top of the computed lattice values so there is no noise at the point sources
       forcingFunction( this );
-
-      // Notify listeners about changes
-      this.changedEmitter.emit();
     }
   } );
 } );
