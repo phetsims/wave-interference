@@ -66,8 +66,8 @@ define( function( require ) {
     // @public (read-only) {number} - height of the lattice (includes damping regions)
     this.height = height;
 
-    // @public {number} - Determines how far we have animated between the "last" and "current" matrices, to control
-    // interpolation.
+    // @public {number} - Determines how far we have animated between the "last" and "current" matrices, so that we
+    // can use getInterpolatedValue to update the view at 60fps even though the model is running at a slower rate
     this.interpolationRatio = 0;
   }
 
