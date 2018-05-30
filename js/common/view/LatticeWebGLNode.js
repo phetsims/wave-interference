@@ -1,7 +1,9 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Renders the lattice using rectangles in WebGL. Adapted from charges and fields
+ * Renders the lattice using rectangles in WebGL. Adapted from charges and fields.
+ * TODO: @jonathanolson pointed out that we should use 2 triangles + texture map to render everything, if we can't get
+ * TODO: fast enough performance with canvas.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Jonathan Olson (PhET Interactive Simulations)
@@ -70,10 +72,6 @@ define( function( require ) {
     } );
 
     this.vertexBuffer = gl.createBuffer();
-
-    // TODO: this is a hack to get things to line up-ish
-    // TODO: the squares in the lattice look spread out vertically
-    // TODO: should we use triangle strip?
 
     // The vertices are created and buffered once, the geometry never changes
     var width = lattice.width - lattice.dampX * 2;
