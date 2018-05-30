@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  var Bounds2 = require( 'DOT/Bounds2' );
   var Easing = require( 'TWIXT/Easing' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -42,10 +43,26 @@ define( function( require ) {
     this.isRotatingProperty = isRotatingProperty;
 
     // @private - depicts the top face
-    this.topFacePath = new Path( null, { stroke: 'black', lineWidth: 4, lineJoin: 'round' } );
+    this.topFacePath = new Path( null, {
+      stroke: 'black',
+      lineWidth: 4,
+      lineJoin: 'round',
+
+      // prevent bounds computations during main loop
+      boundsMethod: 'none',
+      localBounds: new Bounds2( 0, 0, 10, 10 ) // TODO: Does it matter what this value is?  ZERO doesn't seem to work though.
+    } );
 
     // @private - depicts the side face (when the user selects "side view")
-    this.sideFacePath = new Path( null, { stroke: 'black', lineWidth: 4, lineJoin: 'round' } );
+    this.sideFacePath = new Path( null, {
+      stroke: 'black',
+      lineWidth: 4,
+      lineJoin: 'round',
+
+      // prevent bounds computations during main loop
+      boundsMethod: 'none',
+      localBounds: new Bounds2( 0, 0, 10, 10 ) // TODO: Does it matter what this value is?  ZERO doesn't seem to work though.
+    } );
 
     // @private
     this.upNode = new HBox( {

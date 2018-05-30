@@ -273,6 +273,7 @@ define( function( require ) {
       centerY: graphHeight / 2
     } );
     var probe1Path = new Path( new Shape(), { stroke: SERIES_1_COLOR, lineWidth: PATH_LINE_WIDTH } );
+    probe1Path.computeShapeBounds = function() {return Bounds2.NOTHING;}; // prevent bounds computations during main loop
     graphPanel.addChild( probe1Path );
     graphPanel.addChild( pen1Node );
 
@@ -281,7 +282,14 @@ define( function( require ) {
       centerX: availableGraphWidth,
       centerY: graphHeight / 2
     } );
-    var probe2Path = new Path( new Shape(), { stroke: SERIES_2_COLOR, lineWidth: PATH_LINE_WIDTH } );
+    var probe2Path = new Path( new Shape(), {
+      stroke: SERIES_2_COLOR,
+      lineWidth: PATH_LINE_WIDTH,
+
+      // prevent bounds computations during main loop
+      boundsMethod: 'none',
+      localBounds: Bounds2.NOTHING
+    } );
     graphPanel.addChild( probe2Path );
     graphPanel.addChild( pen2Node );
 

@@ -167,7 +167,11 @@ define( function( require ) {
     var path = new Path( new Shape(), {
       stroke: 'black',
       lineWidth: 2,
-      lineJoin: WaveInterferenceConstants.CHART_LINE_JOIN // Prevents artifacts at the wave source
+      lineJoin: WaveInterferenceConstants.CHART_LINE_JOIN, // Prevents artifacts at the wave source
+
+      // prevent bounds computations during main loop
+      boundsMethod: 'none',
+      localBounds: Bounds2.NOTHING
     } );
     this.addChild( path );
 

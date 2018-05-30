@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
@@ -74,7 +75,14 @@ define( function( require ) {
       centerX: this.chartRectangle.centerX,
       top: tickLabel1.bottom + TITLE_Y_MARGIN
     } );
-    var curve = new Path( null, { stroke: 'black', lineWidth: 2 } );
+    var curve = new Path( null, {
+      stroke: 'black',
+      lineWidth: 2,
+
+      // prevent bounds computations during main loop
+      boundsMethod: 'none',
+      localBounds: Bounds2.NOTHING
+    } );
 
     var chartNode = new Node( {
       children: [ this.chartRectangle, curve, tickLabel0, tickLabel1, title ]
