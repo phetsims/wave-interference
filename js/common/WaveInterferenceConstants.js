@@ -35,7 +35,7 @@ define( function( require ) {
     // for unknown reasons it yields a higher output amplitude
     MAX_AMPLITUDE_TO_PLOT_ON_RIGHT: 2.14,
 
-    // Size of a cell in view coordinates, // TODO: this number no longer seems to matter
+    // Size of a cell in view coordinates, // TODO: this number doesn't seems to do anything
     CELL_WIDTH: 10,
 
     // lineJoin for the graph and the surface of the water

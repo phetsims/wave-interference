@@ -11,7 +11,7 @@ on the screen on the right.  The wave speeds can be computed as wave speed = fre
 
 This screen has two point sources that can be enabled/disabled independently, and interference patterns emerge from the
 overlapping waves.  The point sources are always in-phase.  The interference pattern shows constructive interference
-at d*sin(theta) = m*lambda.  TODO: Does this emerge properly in the simulation?
+at d*sin(theta) = m*lambda.  TODO: Does this emerge properly in the simulation?  We should test it whether on not we go to the analytical model.
 
 # Slits Screen
 

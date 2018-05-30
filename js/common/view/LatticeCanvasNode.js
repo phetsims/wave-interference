@@ -90,17 +90,22 @@ define( function( require ) {
 
       var m = 0;
       var data = this.imageData.data;
-      for ( var i = this.lattice.dampX; i < this.lattice.width - this.lattice.dampX; i++ ) {
-        for ( var k = this.lattice.dampY; k < this.lattice.height - this.lattice.dampY; k++ ) {
+      var dampX = this.lattice.dampX;
+      var dampY = this.lattice.dampY;
+      var width = this.lattice.width;
+      var height = this.lattice.height;
+      var CUTOFF = 0.3;
+      var intensity;
+      for ( var i = dampX; i < width - dampX; i++ ) {
+        for ( var k = dampY; k < height - dampY; k++ ) {
 
           // Color mapping:
           // wave value => color value
           //          1 => 1.0
           //          0 => 0.3
           //         -1 => 0.0
-          var waveValue = this.lattice.getInterpolatedValue( k, i );  // TODO: un-transpose
-          var intensity;
-          var CUTOFF = 0.3;
+          var waveValue = this.lattice.getInterpolatedValue( k, i );  // Note this is transposed because of the ordering of putImageData
+
           if ( waveValue > 0 ) {
             intensity = Util.linear( 0, 2, CUTOFF, 1, waveValue );
             intensity = Util.clamp( intensity, CUTOFF, 1 );
@@ -117,7 +122,7 @@ define( function( require ) {
           var g = this.baseColor.green * intensity;
           var b = this.baseColor.blue * intensity;
 
-          if ( this.vacuumColor && !this.lattice.hasCellBeenVisited( k, i ) ) { // TODO: un-transpose
+          if ( this.vacuumColor && !this.lattice.hasCellBeenVisited( k, i ) ) { // Note this is transposed because of the ordering of putImageData
             r = this.vacuumColor.r;
             g = this.vacuumColor.g;
             b = this.vacuumColor.b;
