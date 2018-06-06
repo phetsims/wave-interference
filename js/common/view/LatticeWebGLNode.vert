@@ -26,7 +26,7 @@ varying vec3 baseColor;
 varying float hasCellBeenVisited;
 
 // constants
-float CELL_SIZE = 10.1; // TODO: a principled way to arrive at this value?  Or eliminate it here and scale the entire node?
+float CELL_SIZE = 10.1; // TODO(webgl): a principled way to arrive at this value?  Or eliminate it here and scale the entire node?
 
 void main( void ) {
 

@@ -2,8 +2,8 @@
 
 /**
  * Renders the lattice using rectangles in WebGL. Adapted from charges and fields.
- * TODO: @jonathanolson pointed out that we should use 2 triangles + texture map to render everything, if we can't get
- * TODO: fast enough performance with canvas.
+ * TODO(performance): @jonathanolson pointed out that we should use 2 triangles + texture map to render everything, if we can't get
+ * TODO(performance): fast enough performance with canvas.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Jonathan Olson (PhET Interactive Simulations)
@@ -133,7 +133,7 @@ define( function( require ) {
       for ( var i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
         for ( var k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
 
-          // TODO: optimize?  Inline getIndex or move this to the GPU?
+          // TODO(webgl): optimize?  Inline getIndex or move this to the GPU?
           // Getting the value at each vertex makes it possible to linearly interpolate in the graphics, which
           // looks much better than the discrete form we see in canvas
           var value = node.lattice.getCurrentValue( i, k );
@@ -164,7 +164,7 @@ define( function( require ) {
           var hasCellBeenVisitedXY = 1.0;
 
           // When there is a vacuum, make sure the cell has been visited before it can be colorized.
-          // TODO: there is a visual asymmetry
+          // TODO(webgl): there is a visual asymmetry
           if ( node.vacuumColor ) {
             hasCellBeenVisited = node.lattice.hasCellBeenVisited( i, k ) ? 1.0 : 0.0;
             hasCellBeenVisitedX = node.lattice.hasCellBeenVisited( i + 1, k ) ? 1.0 : 0.0;
