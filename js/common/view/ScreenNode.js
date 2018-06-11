@@ -20,6 +20,7 @@ define( function( require ) {
 
   // constants
   var CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
+  var CANVAS_WIDTH = 100;
 
   /**
    * @param {Lattice} lattice - for dimensions
@@ -30,9 +31,10 @@ define( function( require ) {
   function ScreenNode( lattice, intensitySample, options ) {
 
     var self = this;
+    var CANVAS_HEIGHT = ( lattice.height - lattice.dampY ) * CELL_WIDTH;
 
     options = _.extend( {
-      canvasBounds: new Bounds2( 0, 0, 100, 2000 ) // TODO: this seems to do nothing
+      canvasBounds: new Bounds2( 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT )
     }, options );
     CanvasNode.call( this, options );
 
@@ -82,7 +84,7 @@ define( function( require ) {
         brightness = Util.clamp( brightness, 0, 1 );
         var color = this.baseColor.blend( Color.black, 1 - brightness );
         context.fillStyle = color.toCSS();
-        context.fillRect( 0, k * CELL_WIDTH, 100, CELL_WIDTH + 1 ); // +1 is to eliminate seams // TODO: x-offset?
+        context.fillRect( 0, k * CELL_WIDTH, CANVAS_WIDTH, CELL_WIDTH + 1 ); // +1 is to eliminate seams
       }
     }
   } );
