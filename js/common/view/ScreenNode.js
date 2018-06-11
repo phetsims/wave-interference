@@ -78,7 +78,7 @@ define( function( require ) {
      */
     paintCanvas: function( context ) {
 
-      // TODO: align with LatticeCanvasNode
+      // TODO: Use putImageData and colors as in LatticeCanvasNode
       var intensityValues = this.intensitySample.getIntensityValues();
       for ( var k = this.lattice.dampY; k < this.lattice.height - this.lattice.dampY; k++ ) {
         var intensity = intensityValues[ k - this.lattice.dampY ];
