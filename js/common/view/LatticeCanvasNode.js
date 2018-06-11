@@ -117,7 +117,6 @@ define( function( require ) {
           }
 
           // Note this interpolation doesn't include the gamma factor that Color.blend does
-          // TODO: Hence the color mismatches the WebGL one
           var r = this.baseColor.red * intensity;
           var g = this.baseColor.green * intensity;
           var b = this.baseColor.blue * intensity;
