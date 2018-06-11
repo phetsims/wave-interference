@@ -54,7 +54,9 @@ define( function( require ) {
     // Show it at a 3d perspective, as if orthogonal to the wave view
     var shear = Matrix3.dirtyFromPool().setToAffine( 1, 0, 0, -0.5, 1, 0 );
     this.appendMatrix( shear );
-    this.translate( -50, -202 ); // Center on the wave // TODO: factor out dimension (half of 100) // TODO: Magic numbers
+
+    // After shearing, center on the LatticeNode.  Vertical offset determined empirically.
+    this.translate( -CANVAS_WIDTH / 2, -202 );
   }
 
   waveInterference.register( 'ScreenNode', ScreenNode );
