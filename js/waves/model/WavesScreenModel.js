@@ -66,8 +66,8 @@ define( function( require ) {
       graphHorizontalAxisLabel: 'Position (cm)',
       name: 'WATER',
       latticeWidth: 0.1, // 10 centimeters
-      minimumFrequency: 4,
-      maximumFrequency: 20,
+      minimumFrequency: 1,
+      maximumFrequency: 8,
       scaleIndicatorText: oneCentimeterString,
       scaleIndicatorLength: 0.01, // 1 centimeter
       timeScaleFactor: 1,
@@ -88,7 +88,7 @@ define( function( require ) {
       maximumFrequency: concertA + 200,
       scaleIndicatorText: tenCentimetersString,
       scaleIndicatorLength: 0.1, // 10 cm
-      timeScaleFactor: 5E-2, // This value is chosen to make the wave look accurate on the lattice
+      timeScaleFactor: 2E-2, // This value is chosen to make the wave look accurate on the lattice
       measuringTapeUnits: 'meters',
       meterUnitsConversion: 1,
       timeUnitsConversion: 343 / 0.8 / 1.57, // This value is chosen so that the wave speed is accurate
@@ -106,7 +106,7 @@ define( function( require ) {
       initialFrequency: VisibleColor.SPEED_OF_LIGHT / 660E-9, // Start with red light because it is a familiar LED color
       scaleIndicatorText: fiveHundredNanometersString,
       scaleIndicatorLength: 500E-9, // 500nm
-      timeScaleFactor: 4e-14, // Tuned empirically so the waves have the right size on the lattice.  TODO: is this truly a free parameter?
+      timeScaleFactor: 1.6e-14, // Tuned empirically so the waves have the right size on the lattice.  TODO: is this truly a free parameter?
       measuringTapeUnits: 'nm',
       meterUnitsConversion: 1E-9,
       timeUnitsConversion: 1E15 * 0.15904736243338724, // Tuned empirically so that light would have the correct THz and hence the correct speed of light
