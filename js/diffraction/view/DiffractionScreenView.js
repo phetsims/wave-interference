@@ -172,7 +172,7 @@ define( function( require ) {
             new NumberControl( 'sigmaX', this.sigmaXProperty, new Range( 2, 40 ) ),
             new NumberControl( 'sigmaY', this.sigmaYProperty, new Range( 2, 40 ) )
           ]
-        } ), new NumberControl( 'magnitude', this.gaussianMagnitudeProperty, new Range( 1, 1000 ) ) ],
+        } ), new NumberControl( 'magnitude', this.gaussianMagnitudeProperty, new Range( 1, 1000 ) ) ]
     } ), {
       leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
     } );
