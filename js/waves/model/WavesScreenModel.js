@@ -22,6 +22,7 @@ define( function( require ) {
   var IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
   var Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   var NumberProperty = require( 'AXON/NumberProperty' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
   var PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   var Property = require( 'AXON/Property' );
   var Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
@@ -315,6 +316,9 @@ define( function( require ) {
 
     // @public - Notifies listeners when the model reset is complete
     this.resetEmitter = new Emitter();
+
+    // @public - the water drops that are falling toward the water
+    this.waterDrops = new ObservableArray();
   }
 
   waveInterference.register( 'WavesScreenModel', WavesScreenModel );
