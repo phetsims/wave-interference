@@ -334,7 +334,7 @@ define( function( require ) {
           probeSamples.shift();
         }
 
-        // TODO: performance caveat
+        // TODO(performance): performance caveat
         var pathShape = new Shape();
         for ( var i = 0; i < probeSamples.length; i++ ) {
           var sample = probeSamples[ i ];
