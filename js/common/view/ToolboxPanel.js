@@ -35,7 +35,7 @@ define( function( require ) {
    */
   function ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model, options ) {
     var self = this;
-    var measuringTapeIcon = new MeasuringTapeNode( new Property( {
+    var measuringTapeIconNode = new MeasuringTapeNode( new Property( {
       name: 'cm',
       multiplier: 1000
     } ), new BooleanProperty( true ), {
@@ -44,12 +44,10 @@ define( function( require ) {
       interactive: false,
       scale: 0.7
     } );
-    model.isMeasuringTapeInPlayAreaProperty.link( function( isMeasuringTapeInPlayArea ) {
-      measuringTapeIcon.visible = !isMeasuringTapeInPlayArea;
-    } );
 
-    // When clicking on the measuring tape icon, pop it out into the play area
-    measuringTapeIcon.addInputListener( DragListener.createForwardingListener( function( event ) {
+    var measuringTapeIcon = createIcon( measuringTapeIconNode, model.isMeasuringTapeInPlayAreaProperty, function( event ) {
+
+      // When clicking on the measuring tape icon, pop it out into the play area
       var targetPosition = self.globalToParentPoint( event.pointer.point );
       var currentPosition = measuringTapeNode.basePositionProperty.value;
       var delta = targetPosition.minus( currentPosition );
@@ -57,7 +55,7 @@ define( function( require ) {
       measuringTapeNode.tipPositionProperty.set( measuringTapeNode.tipPositionProperty.value.plus( delta ) );
       measuringTapeNode.startBaseDrag( event );
       model.isMeasuringTapeInPlayAreaProperty.value = true;
-    } ) );
+    } );
 
     // Node used to create the icon
     var iconTimerNode = new TimerNode( new NumberProperty( 0 ), new BooleanProperty( false ), {
