@@ -21,7 +21,7 @@ define( function( require ) {
       yMargin: 6,
       xMargin: 10,
       stroke: 'gray',
-      fill: 'rgb(230,231,232)' // TODO: factor out
+      fill: 'rgb(230,231,232)'
     }, options );
     Panel.call( this, content, options );
   }
