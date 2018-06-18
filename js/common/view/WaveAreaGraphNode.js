@@ -59,7 +59,7 @@ define( function( require ) {
       { value: model.lightScene, node: new WaveInterferenceText( model.lightScene.graphTitle ) }
     ], model.sceneProperty );
 
-    var horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height; // TODO: factor out
+    var horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height;
 
     // TODO: the tick values need to be changed when the scene changes
     var horizontalAxisTickLabels = [];
