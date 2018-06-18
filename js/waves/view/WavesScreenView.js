@@ -111,11 +111,10 @@ define( function( require ) {
     // TODO: don't show interference pattern in side view of water.
 
     if ( options.showViewRadioButtonGroup ) {
-      var viewRadioButtonGroup = new ViewRadioButtonGroup( model.viewTypeProperty, {
+      this.addChild( new ViewRadioButtonGroup( model.viewTypeProperty, {
         bottom: this.layoutBounds.bottom - MARGIN,
         left: this.waveAreaNode.left + SPACING + 10 // TODO: layout
-      } );
-      this.addChild( viewRadioButtonGroup );
+      } ) );
     }
 
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl && false;
