@@ -140,19 +140,19 @@ define( function( require ) {
       this.topFacePath.shape = this.createFaceShape( topReduction, topFaceTopY );
       this.sideFacePath.shape = this.createFaceShape( bottomReduction, sideFaceBottomY );
 
-      // Position the arrow and text
-      if ( rotationAmount > 0 ) {
-        this.upNode.setMatrix( Matrix3.scaling( 1, rotationAmount ) );
-      }
-
       // Only show the 3d perspective view while rotating
       this.topFacePath.visible = this.isRotatingProperty.get();
       this.sideFacePath.visible = this.isRotatingProperty.get();
 
       // Only show the "top" indicator while rotating
       this.upNode.visible = this.isRotatingProperty.get();
-      this.upNode.centerY = this.sideFacePath.centerY;
-      this.upNode.right = this.sideFacePath.right - 80;
+
+      // Position the arrow and text
+      if ( this.upNode.visible > 0 ) {
+        this.upNode.setMatrix( Matrix3.scaling( 1, rotationAmount ) );
+        this.upNode.centerY = this.sideFacePath.shape.bounds.centerY;
+        this.upNode.right = this.sideFacePath.shape.bounds.right - 80;
+      }
     }
   } );
 } );
