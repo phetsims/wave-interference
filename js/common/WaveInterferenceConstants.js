@@ -8,6 +8,7 @@
 define( function( require ) {
   'use strict';
 
+  var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -27,7 +28,7 @@ define( function( require ) {
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
     },
     THUMB_SIZE: THUMB_SIZE,
-    WATER_SIDE_COLOR: '#58c0fa',
+    WATER_SIDE_COLOR: new Color( '#58c0fa' ),
 
     // The IntensityGraphPanel and ScreenNode have a shared maximum, this value indicates the wave amplitude that
     // maps to the highest value on the chart or brightest node in the ScreenNode. If the source amplitude or

@@ -47,7 +47,7 @@ define( function( require ) {
   var MARGIN = 8;
   var SPACING = 6;
   var WAVE_MARGIN = 8;
-  var WATER_BLUE = new Color( WaveInterferenceConstants.WATER_SIDE_COLOR );// TODO: Factor out color
+  var WATER_BLUE = WaveInterferenceConstants.WATER_SIDE_COLOR;
 
   /**
    * @param {WavesScreenModel} model
