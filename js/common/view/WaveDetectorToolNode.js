@@ -199,7 +199,7 @@ define( function( require ) {
         new HBox( {
           children: [
             new Rectangle( 0, 0, 1, 6, { fill: 'white' } ),
-            new ArrowNode( 0, 0, graphWidth / 4 - 4, 0, {
+            new ArrowNode( 0, 0, availableGraphWidth / 4 - 4, 0, {
               fill: 'white',
               stroke: 'white',
               headHeight: 3,

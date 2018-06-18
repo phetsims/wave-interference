@@ -186,7 +186,8 @@ define( function( require ) {
         // This uses the same scaling as in the wave area
         // TODO: a more elegant pattern for factoring out the transform or scale
         var x = Util.linear( 0, array.length - 1, waveAreaBounds.left, waveAreaBounds.right, i ) - options.x;
-        var y = Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 100, value ) - options.centerY / 2 - 1.7; // TODO: magic number
+        // TODO: magic number
+        var y = Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 100, value ) - options.centerY / 2 - 1.7;
         shape.lineTo( x, y );
       }
 

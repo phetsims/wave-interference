@@ -65,7 +65,6 @@ define( function( require ) {
       self.children = createNodes();
     };
     model.sceneProperty.lazyLink( update );
-    // model.scaleIndicatorTextProperty.lazyLink( update );
   }
 
   waveInterference.register( 'ScaleIndicatorNode', ScaleIndicatorNode );
