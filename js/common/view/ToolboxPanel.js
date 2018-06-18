@@ -65,26 +65,13 @@ define( function( require ) {
       pickable: false
     } );
 
-    // The icon itself, which has an overlay to make the buttons draggable instead of pressable
-    var timerNodeIcon = new Node( {
-      cursor: 'pointer',
-      children: [
-        iconTimerNode,
-
-        // Overlay makes it possible to drag out of the toolbox by the buttons (instead of the buttons being pressed)
-        // toImage() was too aliased
-        Rectangle.bounds( iconTimerNode.bounds, { fill: 'rgba(0,0,0,0)' } )
-      ]
-    } );
-    timerNodeIcon.addInputListener( DragListener.createForwardingListener( function( event ) {
+    // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
+    var timerNodeIcon = createIcon( iconTimerNode, model.isTimerInPlayAreaProperty, function( event ) {
       timerNode.center = self.globalToParentPoint( event.pointer.point );
 
       // timerNode provided as targetNode in the DragListener constructor, so this press will target it
       timerNode.timerNodeDragListener.press( event );
       model.isTimerInPlayAreaProperty.value = true;
-    } ) );
-    model.isTimerInPlayAreaProperty.link( function( isTimerInPlayArea ) {
-      timerNodeIcon.visible = !isTimerInPlayArea;
     } );
 
     var waveDetectorToolNodeIcon = new WaveDetectorToolNode( model, null, {
@@ -92,25 +79,11 @@ define( function( require ) {
       scale: 0.3
     } );
 
-    // TODO: factor out this pattern of icon node overlays
-    // TODO: how does this differ from waveDetectorToolNodeIcon
-    var waveDetectorNodeIcon = new Node( {
-      cursor: 'pointer',
-      children: [
-        waveDetectorToolNodeIcon,
-
-        // Overlay makes it possible to drag out of the toolbox by the buttons (instead of the buttons being pressed)
-        // toImage() was too aliased
-        Rectangle.bounds( waveDetectorToolNodeIcon.bounds, { fill: 'rgba(0,0,0,0)' } )
-      ]
-    } );
-    waveDetectorNodeIcon.addInputListener( DragListener.createForwardingListener( function( event ) {
+    // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
+    var waveDetectorNodeIcon = createIcon( waveDetectorToolNodeIcon, model.isWaveDetectorToolNodeInPlayAreaProperty, function( event ) {
       waveDetectorToolNode.center = self.globalToParentPoint( event.pointer.point );
       waveDetectorToolNode.startDrag( event );
       model.isWaveDetectorToolNodeInPlayAreaProperty.value = true;
-    } ) );
-    model.isWaveDetectorToolNodeInPlayAreaProperty.link( function( isWaveDetectorToolNodeInPlayArea ) {
-      waveDetectorNodeIcon.visible = !isWaveDetectorToolNodeInPlayArea;
     } );
 
     // Layout for the toolbox
@@ -126,6 +99,28 @@ define( function( require ) {
       options
     );
   }
+
+  /**
+   * Adds a transparent overlay to a Node, so that a node can be dragged out without its own internal buttons being
+   * pressed.  This implementation previously used toImage() but it was too aliased.
+   * @param {Node} node
+   * @param {Property.<Boolean>} inPlayAreaProperty
+   * @param {Object} forwardingListener
+   */
+  var createIcon = function( node, inPlayAreaProperty, forwardingListener ) {
+    var iconNode = new Node( {
+      cursor: 'pointer',
+      children: [
+        node,
+        Rectangle.bounds( node.bounds, { fill: 'rgba(0,0,0,0)' } )
+      ]
+    } );
+    inPlayAreaProperty.link( function( inPlayArea ) {
+      iconNode.visible = !inPlayArea;
+    } );
+    iconNode.addInputListener( DragListener.createForwardingListener( forwardingListener ) );
+    return iconNode;
+  };
 
   waveInterference.register( 'ToolboxPanel', ToolboxPanel );
 
