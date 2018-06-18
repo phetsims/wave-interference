@@ -36,7 +36,6 @@ define( function( require ) {
    */
   function SlitsControlPanel( alignGroup, model, comboBoxParent, options ) {
 
-    // TODO: center or make as wide as the rest of the controls
     var comboBox = new ComboBox( [
       ComboBox.createItem( new WaveInterferenceText( noBarrierString ), BarrierTypeEnum.NO_BARRIER ),
       ComboBox.createItem( new WaveInterferenceText( oneSlitString ), BarrierTypeEnum.ONE_SLIT ),
