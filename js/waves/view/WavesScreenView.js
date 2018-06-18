@@ -108,8 +108,6 @@ define( function( require ) {
     } );
     this.addChild( resetAllButton );
 
-    // TODO: don't show interference pattern in side view of water.
-
     if ( options.showViewRadioButtonGroup ) {
       this.addChild( new ViewRadioButtonGroup( model.viewTypeProperty, {
         bottom: this.layoutBounds.bottom - MARGIN,
