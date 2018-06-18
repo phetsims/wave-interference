@@ -60,7 +60,7 @@ define( function( require ) {
       validValues: ViewType.VALUES
     } );
 
-    // TODO: docs for the scenes
+    // Water scene
     this.waterScene = new Scene( {
       verticalAxisTitle: 'Water Level',
       graphTitle: 'Water Level at Center',
@@ -78,6 +78,7 @@ define( function( require ) {
       timerUnits: 's'
     } );
 
+    // Sound scene
     var concertA = 440; // Hz
     this.soundScene = new Scene( {
       verticalAxisTitle: 'Pressure',
@@ -96,6 +97,7 @@ define( function( require ) {
       timerUnits: 'ms'
     } );
 
+    // Light scene
     this.lightScene = new Scene( {
       verticalAxisTitle: 'Electric Field',
       graphTitle: 'Electric Field at Center',
