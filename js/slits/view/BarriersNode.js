@@ -69,8 +69,8 @@ define( function( require ) {
      */
     update: function() {
 
-      // TODO: iPad2 performance check--is it OK to remove and recreate nodes while dragging a slider?
-      // TODO: if necessary, we could create 3 rectangles on startup and reuse them.
+      // TODO(performance): iPad2 performance check--is it OK to remove and recreate nodes while dragging a slider?
+      // TODO(performance): if necessary, we could create 3 rectangles on startup and reuse them.
       this.removeAllChildren();
       var barrierType = this.model.barrierTypeProperty.get();
       var lattice = this.model.lattice;

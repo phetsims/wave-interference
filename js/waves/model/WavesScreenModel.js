@@ -109,7 +109,9 @@ define( function( require ) {
       initialFrequency: VisibleColor.SPEED_OF_LIGHT / 660E-9, // Start with red light because it is a familiar LED color
       scaleIndicatorText: fiveHundredNanometersString,
       scaleIndicatorLength: 500E-9, // 500nm
-      timeScaleFactor: 1.6e-14, // Tuned empirically so the waves have the right size on the lattice.  TODO: is this truly a free parameter?
+
+      // TODO: is this truly a free parameter?
+      timeScaleFactor: 1.6e-14, // Tuned empirically so the waves have the right size on the lattice.
       measuringTapeUnits: 'nm',
       meterUnitsConversion: 1E-9,
       timeUnitsConversion: 1E15 * 0.15904736243338724, // Tuned empirically so that light would have the correct THz and hence the correct speed of light
@@ -129,10 +131,11 @@ define( function( require ) {
     } );
 
     // @public {NumberProperty} - the frequency of the emitter in Hz
-    // TODO: do we need this property?  TODO: account for time scale in dt and stopwatch time
     this.frequencyProperty = new DynamicProperty( this.sceneProperty, {
       derive: 'frequencyProperty'
     } );
+
+    // TODO: account for time scale in dt and stopwatch time
 
     // Show debugging information in the console when ?dev is selected
     if ( phet.chipper.queryParameters.dev ) {
