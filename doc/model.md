@@ -1,11 +1,9 @@
-TODO: Describe the model, in terms appropriate for teachers
-
 # Waves Screen
 
 This screen depicts a 2D wave on the surface of water, or the cross-section of a spherical wave for sound or light. The
 user can choose between a continuous or pulse wave.  The user can control the frequency and amplitude of the wave,
 and observe how it appears on the center line in a chart.  For light, the user can also observe the light collecting
-on the screen on the right.  The wave speeds can be computed as wave speed = frequency & wavelength.
+on the screen on the right.  The wave speeds can be computed as wave speed = frequency * wavelength.
 
 # Interference Screen
 
