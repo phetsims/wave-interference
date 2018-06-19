@@ -12,6 +12,10 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
+  /**
+   * @param {Object} config - see below for required properties
+   * @constructor
+   */
   function Scene( config ) {
 
     // @public (read-only) {number} - width of the visible part of the lattice in meters

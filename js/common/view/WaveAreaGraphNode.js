@@ -62,15 +62,26 @@ define( function( require ) {
 
     var horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height;
 
-    // TODO: the tick values need to be changed when the scene changes
     var horizontalAxisTickLabels = [];
     var verticalGridLines = [];
     for ( var i = 0; i <= 10; i++ ) {
       var x = Util.linear( 0, 10, 0, graphWidth, i );
-      var horizontalAxisTickLabel = new WaveInterferenceText( '' + i, {
-        centerX: x,
-        top: horizontalLineY
-      } );
+
+      // Find the position of the tick mark in the units of the scene
+      var waterReadout = model.waterScene.latticeWidth * x / graphWidth / model.waterScene.meterUnitsConversion;
+      var soundReadout = model.soundScene.latticeWidth * x / graphWidth / model.soundScene.meterUnitsConversion;
+      var lightReadout = model.lightScene.latticeWidth * x / graphWidth / model.lightScene.meterUnitsConversion;
+
+      var horizontalAxisTickLabel = new ToggleNode( [ {
+        value: model.waterScene,
+        node: new WaveInterferenceText( waterReadout.toFixed( 1 ), { centerX: x, top: horizontalLineY } )
+      }, {
+        value: model.soundScene,
+        node: new WaveInterferenceText( soundReadout.toFixed( 1 ), { centerX: x, top: horizontalLineY } )
+      }, {
+        value: model.lightScene,
+        node: new WaveInterferenceText( lightReadout.toFixed( 1 ), { centerX: x, top: horizontalLineY } )
+      } ], model.sceneProperty );
       horizontalAxisTickLabels.push( horizontalAxisTickLabel );
       verticalGridLines.push( new Line( x, horizontalLineY, x, 0, GRID_LINE_OPTIONS ) );
     }
@@ -145,7 +156,7 @@ define( function( require ) {
     var horizontalAxisLine = new Line( 0, horizontalLineY, graphWidth, horizontalLineY, { stroke: 'darkGray' } );
     this.addChild( horizontalAxisLine );
 
-    // The part that displays the values (doesn't include axis labels)
+// The part that displays the values (doesn't include axis labels)
     var plotHeight = horizontalLineY;
 
     var dashedLineNode = new DashedLineNode();
@@ -189,4 +200,5 @@ define( function( require ) {
   waveInterference.register( 'WaveAreaGraphNode', WaveAreaGraphNode );
 
   return inherit( Node, WaveAreaGraphNode );
-} );
+} )
+;
