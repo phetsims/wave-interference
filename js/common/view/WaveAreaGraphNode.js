@@ -16,11 +16,12 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var ToggleNode = require( 'SUN/ToggleNode' );
   var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  var ToggleNode = require( 'SUN/ToggleNode' );
+  var WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // constants
   var TEXT_MARGIN_X = 8;
@@ -176,22 +177,10 @@ define( function( require ) {
     this.addChild( path );
 
     var array = [];
+    var dx = -options.x;
+    var dy = -options.centerY / 2 - 1.7;
     model.lattice.changedEmitter.addListener( function() {
-      var shape = new Shape();
-
-      array = model.lattice.getCenterLineValues( array );
-      for ( var i = 0; i < array.length; i++ ) {
-        var value = array[ i ];
-
-        // This uses the same scaling as in the wave area
-        // TODO: a more elegant pattern for factoring out the transform or scale
-        var x = Util.linear( 0, array.length - 1, waveAreaBounds.left, waveAreaBounds.right, i ) - options.x;
-        // TODO: magic number
-        var y = Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 100, value ) - options.centerY / 2 - 1.7;
-        shape.lineTo( x, y );
-      }
-
-      path.shape = shape;
+      path.shape = WaveInterferenceUtils.getWaterSideShape( array, model.lattice, waveAreaBounds, dx, dy );
     } );
 
     this.mutate( options );

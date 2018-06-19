@@ -13,10 +13,9 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Shape = require( 'KITE/Shape' );
-  var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  var WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   /**
    * @param {Bounds2} waveAreaBounds
@@ -55,22 +54,10 @@ define( function( require ) {
      * @private - update the shapes and text when the rotationAmount has changed
      */
     update: function() {
-      var bounds = this.waveAreaBounds;
-      this.model.lattice.getCenterLineValues( this.array );
-
-      var shape = new Shape();
-      for ( var i = 0; i < this.array.length; i++ ) {
-        var x = Util.linear( 0, this.array.length - 1, this.waveAreaBounds.left, this.waveAreaBounds.right, i );
-
-        // TODO: would be nice to get exactly the same scaling as in the graph
-        var y = Util.linear( 0, 5, this.waveAreaBounds.centerY, this.waveAreaBounds.centerY - 100, this.array[ i ] );
-        shape.lineTo( x, y );
-      }
-      shape
-        .lineTo( bounds.right, bounds.maxY )
-        .lineTo( bounds.left, bounds.maxY )
+      var shape = WaveInterferenceUtils.getWaterSideShape( this.array, this.model.lattice, this.waveAreaBounds, 0, 0 )
+        .lineTo( this.waveAreaBounds.right, this.waveAreaBounds.maxY )
+        .lineTo( this.waveAreaBounds.left, this.waveAreaBounds.maxY )
         .close();
-
       this.sideFacePath.shape = shape;
     }
   } );
