@@ -83,7 +83,7 @@ define( function( require ) {
     },
 
     /**
-     * Draws into the canvas.  Note this logic must be kept in sync with the WebGL fragment shader.
+     * Draws into the canvas.  Note this logic must be kept in sync with the WebGL fragment shader and ScreenNode.
      * @param {CanvasRenderingContext2D} context
      */
     paintCanvas: function( context ) {
