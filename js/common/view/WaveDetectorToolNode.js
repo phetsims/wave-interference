@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Depicts the draggable graph node with two probes which begins in the toolbox.  TODO: move to common code
+ * Depicts the draggable graph node with two probes which begins in the toolbox.  TODO(https://github.com/phetsims/scenery-phet/issues/385): move to common code
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
