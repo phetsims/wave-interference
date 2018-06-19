@@ -45,6 +45,7 @@ define( function( require ) {
   var LABEL_GRAPH_MARGIN = 3;
   var LABEL_EDGE_MARGIN = 6;
   var HORIZONTAL_AXIS_LABEL_MARGIN = 4;
+  var NUMBER_OF_TIME_DIVISIONS = 4;
 
   /**
    * @param {WavesScreenModel} model - model for reading values
@@ -59,15 +60,6 @@ define( function( require ) {
       end: function() {}
     }, options );
     Node.call( this );
-
-    // Set the range by incorporating the model's time units, so it will match with the timer.
-    var secondsToShow = 1;
-    model.sceneProperty.link( function( scene ) {
-
-      // 4 segments, one of which is the "scale indicator", so use the same factor of 4 here
-      // TODO: clean this up?
-      secondsToShow = 4 / scene.timeUnitsConversion;
-    } );
 
     // @private - true if the probes are being dragged with the wave detector tool
     this.synchronizeProbeLocations = true;
@@ -159,8 +151,8 @@ define( function( require ) {
     } );
 
     // Horizontal Lines
-    graphPanel.addChild( new Line( 0, graphHeight / 4, graphWidth, graphHeight / 4, LINE_OPTIONS ) );
-    graphPanel.addChild( new Line( 0, graphHeight / 2, graphWidth, graphHeight / 2, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( 0, graphHeight * 1 / 4, graphWidth, graphHeight * 1 / 4, LINE_OPTIONS ) );
+    graphPanel.addChild( new Line( 0, graphHeight * 2 / 4, graphWidth, graphHeight * 2 / 4, LINE_OPTIONS ) );
     graphPanel.addChild( new Line( 0, graphHeight * 3 / 4, graphWidth, graphHeight * 3 / 4, LINE_OPTIONS ) );
 
     // There is a blank space on the right side of the graph so there is room for the pens
@@ -168,10 +160,9 @@ define( function( require ) {
     var availableGraphWidth = graphWidth - rightGraphMargin;
 
     // Vertical lines
-    graphPanel.addChild( new Line( availableGraphWidth / 4, 0, availableGraphWidth / 4, graphHeight, LINE_OPTIONS ) );
-    graphPanel.addChild( new Line( availableGraphWidth / 2, 0, availableGraphWidth / 2, graphHeight, LINE_OPTIONS ) );
-    graphPanel.addChild( new Line( availableGraphWidth * 3 / 4, 0, availableGraphWidth * 3 / 4, graphHeight, LINE_OPTIONS ) );
-    graphPanel.addChild( new Line( availableGraphWidth, 0, availableGraphWidth, graphHeight, LINE_OPTIONS ) );
+    for ( var i = 1; i <= NUMBER_OF_TIME_DIVISIONS; i++ ) {
+      graphPanel.addChild( new Line( availableGraphWidth * i / NUMBER_OF_TIME_DIVISIONS, 0, availableGraphWidth * i / NUMBER_OF_TIME_DIVISIONS, graphHeight, LINE_OPTIONS ) );
+    }
 
     this.backgroundNode.addChild( graphPanel );
 
@@ -305,9 +296,12 @@ define( function( require ) {
     var probe1Samples = [];
     var probe2Samples = [];
 
-    var updateProbeData = function( probeNode, penNode, probeSamples, probePath ) {
+    var updateProbeData = function( probeNode, penNode, probeSamples, probePath, scene ) {
 
       if ( model.isWaveDetectorToolNodeInPlayAreaProperty.get() ) {
+
+        // Set the range by incorporating the model's time units, so it will match with the timer.
+        var maxSeconds = NUMBER_OF_TIME_DIVISIONS / scene.timeUnitsConversion;
 
         // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
         // itself as the sensor hot spot.  This doesn't include the damping regions
@@ -330,7 +324,7 @@ define( function( require ) {
           probeSamples.push( new Vector2( model.time, chartYValue ) );
         }
 
-        while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.time - secondsToShow ) {
+        while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.time - maxSeconds ) {
           probeSamples.shift();
         }
 
@@ -338,7 +332,7 @@ define( function( require ) {
         var pathShape = new Shape();
         for ( var i = 0; i < probeSamples.length; i++ ) {
           var sample = probeSamples[ i ];
-          var xAxisValue = Util.linear( model.time, model.time - secondsToShow, availableGraphWidth, 0, sample.x );
+          var xAxisValue = Util.linear( model.time, model.time - maxSeconds, availableGraphWidth, 0, sample.x );
           pathShape.lineTo( xAxisValue, sample.y );
         }
         probePath.shape = pathShape;
@@ -346,13 +340,20 @@ define( function( require ) {
     };
 
     var updatePaths = function() {
-      updateProbeData( self.probe1Node, pen1Node, probe1Samples, probe1Path );
-      updateProbeData( self.probe2Node, pen2Node, probe2Samples, probe2Path );
+      updateProbeData( self.probe1Node, pen1Node, probe1Samples, probe1Path, model.sceneProperty.get() );
+      updateProbeData( self.probe2Node, pen2Node, probe2Samples, probe2Path, model.sceneProperty.get() );
     };
 
     // Update the graph value when the lattice changes, but only when this is not for an icon
     if ( !options.isIcon ) {
       model.lattice.changedEmitter.addListener( updatePaths );
+
+      // Redraw the probe data when the scene changes
+      model.sceneProperty.link( function() {
+        probe1Samples.length = 0;
+        probe2Samples.length = 0;
+        updatePaths();
+      } );
     }
 
     // @private
