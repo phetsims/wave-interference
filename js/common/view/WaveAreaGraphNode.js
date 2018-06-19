@@ -115,11 +115,11 @@ define( function( require ) {
       .arc( topTabBounds.maxX + CURVE_RADIUS, topTabBounds.maxY - CURVE_RADIUS, CURVE_RADIUS, Math.PI, Math.PI / 2, true )
 
       // Right edge, and bubble out around the last horizontal axis tick label
-      .lineTo( graphWidth + 1, 0 )
-      .lineTo( graphWidth + 1, lastTickLabel.top )
+      .lineTo( graphWidth, 0 )
+      .lineTo( graphWidth, lastTickLabel.top )
       .lineTo( lastTickLabel.right + tickBubbleXMargin, lastTickLabel.top )
       .lineTo( lastTickLabel.right + tickBubbleXMargin, lastTickLabel.bottom )
-      .lineTo( graphWidth + 1, graphHeight ) // TODO: why is the width off by 1 here?
+      .lineTo( graphWidth, graphHeight )
 
       // Bottom tab with horizontal axis label
       .lineTo( bottomTabBounds.maxX + CURVE_RADIUS, bottomTabBounds.minY )
