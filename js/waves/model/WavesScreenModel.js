@@ -83,7 +83,7 @@ define( function( require ) {
     this.soundScene = new Scene( {
       verticalAxisTitle: 'Pressure',
       graphTitle: 'Pressure at Center',
-      graphHorizontalAxisLabel: 'Position (m)',
+      graphHorizontalAxisLabel: 'Position (cm)',
       name: 'SOUND',
       latticeWidth: 1, // 1 meter
       minimumFrequency: concertA - 200,
@@ -91,8 +91,8 @@ define( function( require ) {
       scaleIndicatorText: tenCentimetersString,
       scaleIndicatorLength: 0.1, // 10 cm
       timeScaleFactor: 2E-2, // This value is chosen to make the wave look accurate on the lattice
-      measuringTapeUnits: 'm',
-      meterUnitsConversion: 1,
+      measuringTapeUnits: 'cm',
+      meterUnitsConversion: 0.01,
       timeUnitsConversion: 343 / 0.8 / 1.57, // This value is chosen so that the wave speed is accurate
       timerUnits: 'ms'
     } );
@@ -103,15 +103,13 @@ define( function( require ) {
       graphTitle: 'Electric Field at Center',
       graphHorizontalAxisLabel: 'Position (nm)',
       name: 'LIGHT',
-      latticeWidth: 3789 * 1E-9, // tuned empirically so that the given light frequencies have the correct corresponding wavelengths
+      latticeWidth: 5000E-9,
       minimumFrequency: VisibleColor.MIN_FREQUENCY,
       maximumFrequency: VisibleColor.MAX_FREQUENCY,
       initialFrequency: VisibleColor.SPEED_OF_LIGHT / 660E-9, // Start with red light because it is a familiar LED color
       scaleIndicatorText: fiveHundredNanometersString,
       scaleIndicatorLength: 500E-9, // 500nm
-
-      // TODO: is this truly a free parameter?
-      timeScaleFactor: 1.6e-14, // Tuned empirically so the waves have the right size on the lattice.
+      timeScaleFactor: 1.5807768030572316e-14, // Tuned empirically so the waves have the right size on the lattice.
       measuringTapeUnits: 'nm',
       meterUnitsConversion: 1E-9,
       timeUnitsConversion: 1E15 * 0.15904736243338724, // Tuned empirically so that light would have the correct THz and hence the correct speed of light

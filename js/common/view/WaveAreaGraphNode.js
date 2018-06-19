@@ -74,13 +74,13 @@ define( function( require ) {
 
       var horizontalAxisTickLabel = new ToggleNode( [ {
         value: model.waterScene,
-        node: new WaveInterferenceText( waterReadout.toFixed( 1 ), { centerX: x, top: horizontalLineY } )
+        node: new WaveInterferenceText( waterReadout.toFixed( 0 ), { centerX: x, top: horizontalLineY } )
       }, {
         value: model.soundScene,
-        node: new WaveInterferenceText( soundReadout.toFixed( 1 ), { centerX: x, top: horizontalLineY } )
+        node: new WaveInterferenceText( soundReadout.toFixed( 0 ), { centerX: x, top: horizontalLineY } )
       }, {
         value: model.lightScene,
-        node: new WaveInterferenceText( lightReadout.toFixed( 1 ), { centerX: x, top: horizontalLineY } )
+        node: new WaveInterferenceText( lightReadout.toFixed( 0 ), { centerX: x, top: horizontalLineY } )
       } ], model.sceneProperty );
       horizontalAxisTickLabels.push( horizontalAxisTickLabel );
       verticalGridLines.push( new Line( x, horizontalLineY, x, 0, GRID_LINE_OPTIONS ) );
