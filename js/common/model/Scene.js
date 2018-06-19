@@ -62,6 +62,9 @@ define( function( require ) {
 
     // @public (read-only) {string} - the title to the shown on the wave-area graph
     this.graphTitle = config.graphTitle;
+
+    // @public (read-only) {string} - the unit to display on the WaveDetectorToolNode, like "1 s"
+    this.oneTimerUnit = config.oneTimerUnit;
   }
 
   waveInterference.register( 'Scene', Scene );

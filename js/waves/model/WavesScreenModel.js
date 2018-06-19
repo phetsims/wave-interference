@@ -61,6 +61,7 @@ define( function( require ) {
     } );
 
     // Water scene
+    // TODO: i18n
     this.waterScene = new Scene( {
       verticalAxisTitle: 'Water Level',
       graphTitle: 'Water Level at Center',
@@ -75,7 +76,8 @@ define( function( require ) {
       measuringTapeUnits: 'cm',
       meterUnitsConversion: 0.01,
       timeUnitsConversion: 1,
-      timerUnits: 's'
+      timerUnits: 's',
+      oneTimerUnit: '1 s'
     } );
 
     // Sound scene
@@ -94,7 +96,8 @@ define( function( require ) {
       measuringTapeUnits: 'cm',
       meterUnitsConversion: 0.01,
       timeUnitsConversion: 343 / 0.8 / 1.57, // This value is chosen so that the wave speed is accurate
-      timerUnits: 'ms'
+      timerUnits: 'ms',
+      oneTimerUnit: '1 ms'
     } );
 
     // Light scene
@@ -113,7 +116,8 @@ define( function( require ) {
       measuringTapeUnits: 'nm',
       meterUnitsConversion: 1E-9,
       timeUnitsConversion: 1E15 * 0.15904736243338724, // Tuned empirically so that light would have the correct THz and hence the correct speed of light
-      timerUnits: 'fs'
+      timerUnits: 'fs',
+      oneTimerUnit: '1 fs'
     } );
 
     var eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );

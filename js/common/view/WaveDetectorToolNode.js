@@ -176,11 +176,9 @@ define( function( require ) {
       centerY: graphPanel.centerY
     } );
 
-    var scaleIndicatorText = new WaveInterferenceText( '1 s', { fontSize: 11, fill: 'white' } );
+    var scaleIndicatorText = new WaveInterferenceText( '', { fontSize: 11, fill: 'white' } );
     model.sceneProperty.link( function( scene ) {
-
-      // TODO: better i18n
-      scaleIndicatorText.text = '1 ' + scene.timerUnits;
+      scaleIndicatorText.text = scene.oneTimerUnit;
     } );
     var scaleIndicatorNode = new VBox( {
       spacing: -2,
