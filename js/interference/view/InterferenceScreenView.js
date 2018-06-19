@@ -28,8 +28,8 @@ define( function( require ) {
   function InterferenceScreenView( model, alignGroup ) {
     WavesScreenView.call( this, model, alignGroup, {
 
-      // Remove pulse option from Interference screen, because it is distracting and does not meet a specific learning
-      // goal.  The pulse/continuous radio buttons are used in other screens
+      // The pulse option does not appear in the Interference screen, because it is distracting and does not meet a
+      // specific learning goal.
       showPulseContinuousRadioButtons: false,
       controlPanelOptions: {
 
