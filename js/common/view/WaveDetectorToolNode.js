@@ -9,12 +9,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
+  var DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -184,26 +183,19 @@ define( function( require ) {
       spacing: -2,
       children: [
 
-        // TODO: Use ScaleIndicatorNode
-        new HBox( {
-          children: [
-            new Rectangle( 0, 0, 1, 6, { fill: 'white' } ),
-            new ArrowNode( 0, 0, availableGraphWidth / 4 - 4, 0, {
-              fill: 'white',
-              stroke: 'white',
-              headHeight: 3,
-              headWidth: 3.5,
-              tailWidth: 0.5,
-              doubleHead: true
-            } ),
-            new Rectangle( 0, 0, 1, 6, { fill: 'white' } )
-          ]
+        new DoubleHeadedArrowWithBarsNode( 6, availableGraphWidth / 4, {
+          lineOptions: { stroke: 'white' },
+          arrowOptions: {
+            fill: 'white',
+            stroke: 'white',
+            headHeight: 3,
+            headWidth: 3.5,
+            tailWidth: 0.5
+          }
         } ),
-
-        // TODO: this label needs to be i18nized and change when scene changes
         scaleIndicatorText
       ],
-      left: graphPanel.left + 1,
+      left: graphPanel.left,
       top: graphPanel.bottom + 2
     } );
     this.backgroundNode.addChild( scaleIndicatorNode );
