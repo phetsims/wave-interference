@@ -49,8 +49,9 @@ define( function( require ) {
     var waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.frequencyProperty, model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
     var soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
 
-    // TODO: pass through our actual frequency ranges instead of assuming we match with VisibleColor max/min
     var lightFrequencySlider = new FrequencySlider( model.lightScene.frequencyProperty, {
+      minFrequency: model.lightScene.minimumFrequency,
+      maxFrequency: model.lightScene.maximumFrequency,
       trackWidth: 150,
       trackHeight: 20,
       valueVisible: false,
