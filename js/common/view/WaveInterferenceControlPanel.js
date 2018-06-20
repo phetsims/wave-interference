@@ -45,8 +45,6 @@ define( function( require ) {
       showIntensityCheckbox: true
     }, options );
 
-    // TODO: Scan FrequencySlider issue for TODOs and review comments.
-
     // Controls are in the metric coordinate frame
     var waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.frequencyProperty, model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
     var soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
