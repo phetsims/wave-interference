@@ -1,50 +1,47 @@
-// Copyright 2015-2017, University of Colorado Boulder
+// Copyright 2018, University of Colorado Boulder
 
 /**
- * View that connects a sensor (the probe) to its body (where the readout appears).
- * Adapted from Bending Light.  TODO: factor out?
+ * View that typically connects a sensor (like a ProbeNode) to its body (where the readout value or chart appears).
+ * TODO: Move to common code and use this in Bending Light
  *
  * @author Sam Reid (PhET Interactive Simulations)
- * @author Chandrashekar Bemagoni (Actual Concepts)
  */
 define( function( require ) {
   'use strict';
 
   // modules
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
+  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
    * Wire that connects the body and probe.
    *
-   * @param {Node} probeNode - node from where the wire connected
-   * @param {Node} bodyNode - node to where the wire connected
-   * @param {Color} color - color of the wire
-   * @param {number} verticalWireAttachmentPoint - how far (0-1) down the left edge of the body node to attach the wire
+   * @param {Property.<Vector2>} position1Property
+   * @param {Property.<Vector2>} normal1Property - defines the control point of the cubic curve, relative to the start position
+   * @param {Property.<Vector2>} position2Property
+   * @param {Property.<Vector2>} normal2Property - defines the control point of the cubic curve, relative to the end position
+   * @param {Object} [options]
    * @constructor
    */
-  function WireNode( probeNode, bodyNode, color, verticalWireAttachmentPoint ) {
-
-    // @private 
-    this.probeNode = probeNode;
-
-    // @private 
-    this.bodyNode = bodyNode;
-
-    // @private 
-    this.color = color;
+  function WireNode( position1Property, normal1Property, position2Property, normal2Property, options ) {
+    var self = this;
+    Path.call( this, null, options );
 
     // @private
-    this.verticalWireAttachmentPoint = verticalWireAttachmentPoint;
-
-    Path.call( this, null, {
-      lineWidth: 3,
-      stroke: color
+    this.multilink = Property.multilink( [
+      position1Property, normal1Property, position2Property, normal2Property
+    ], function( position1, normal1, position2, normal2 ) {
+      self.shape = new Shape()
+        .moveToPoint( position1 )
+        .cubicCurveToPoint(
+          position1.plus( normal1 ),
+          position2.plus( normal2 ),
+          position2
+        );
     } );
-
-    this.updateWireShape();
   }
 
   waveInterference.register( 'WireNode', WireNode );
@@ -52,24 +49,42 @@ define( function( require ) {
   return inherit( Path, WireNode, {
 
     /**
-     * Updates the shape of the wire when the WaveDetectorToolNode or WaveDetectorToolProbeNode has moved.
+     * Unlink listeners when disposed.
      * @public
      */
-    updateWireShape: function() {
+    dispose: function() {
+      this.multilink.dispose();
+    }
+  }, {
 
-      // connect left-center of body to bottom-center of probe.
-      var bodyConnectionPointX = this.bodyNode.x + this.bodyNode.width;
-      var bodyConnectionPointY = this.bodyNode.y + this.bodyNode.height * this.verticalWireAttachmentPoint;
-      var probeConnectionPointX = this.probeNode.centerX;
-      var probeConnectionPointY = this.probeNode.bottom;
-      var connectionPointXOffsetFactor = 25;
-      this.shape = new Shape()
-        .moveTo( bodyConnectionPointX, bodyConnectionPointY )
-        .cubicCurveTo(
-          bodyConnectionPointX + connectionPointXOffsetFactor, bodyConnectionPointY,
-          probeConnectionPointX, probeConnectionPointY + connectionPointXOffsetFactor,
-          probeConnectionPointX, probeConnectionPointY
-        );
+    /**
+     * Creates an axon Property for the position relative to the bounds of a Node.
+     * @param {Node} node
+     * @param {function|string} getLocation, for example:
+     *                                       function(node){ return node.center.plusXY(5,5); } or 'leftBottom'
+     */
+    createProperty: function( node, getLocation ) {
+
+      assert && assert( typeof getLocation === 'string' || typeof getLocation === 'function', 'wrong type for getLocation' );
+
+      // Read-only Property that describes a part relative to the bounds of the node.
+      var positionProperty = new Property();
+
+      // When the node Bounds change, update the position property
+      var updateProperty = function() {
+        var position = ( typeof getLocation === 'string' ) ? node[ getLocation ] : getLocation( node );
+        assert && assert( position, 'position should be defined' );
+        positionProperty.value = position;
+      };
+      node.on( 'bounds', updateProperty );
+      updateProperty();
+      return positionProperty;
+    },
+
+    aboveBottomRight: function( fractionFromBottom ) {
+      return function( node ) {
+        return node.rightBottom.plusXY( 0, -node.height * fractionFromBottom );
+      };
     }
   } );
 } );

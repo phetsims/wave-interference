@@ -18,6 +18,7 @@ define( function( require ) {
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   var Shape = require( 'KITE/Shape' );
@@ -36,6 +37,7 @@ define( function( require ) {
   // constants
   var SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
   var SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
+  var WIRE_2_COLOR = new Color( SERIES_2_COLOR ).darkerColor( 0.7 );
   var PATH_LINE_WIDTH = 2;
   var TOP_MARGIN = 10;
   var RIGHT_MARGIN = 10;
@@ -45,6 +47,11 @@ define( function( require ) {
   var LABEL_EDGE_MARGIN = 6;
   var HORIZONTAL_AXIS_LABEL_MARGIN = 4;
   var NUMBER_OF_TIME_DIVISIONS = 4;
+
+  // For the wires
+  var NORMAL_DISTANCE = 25;
+  var PROBE_ATTACHMENT_POINT = 'centerBottom';
+  var WIRE_LINE_WIDTH = 3;
 
   /**
    * @param {WavesScreenModel} model - model for reading values
@@ -80,8 +87,6 @@ define( function( require ) {
           // need to sample their new locations
           updatePaths();
         }
-        self.probe1WireNode.updateWireShape();
-        self.probe2WireNode.updateWireShape();
       },
       end: function() {
         options.end();
@@ -218,25 +223,38 @@ define( function( require ) {
     this.probe1Node = new WaveDetectorToolProbeNode( {
       color: SERIES_1_COLOR,
       drag: function() {
-        self.probe1WireNode.updateWireShape();
         updatePaths();
       }
     } );
 
-    // @private
+    // @private {Node}
     this.probe2Node = new WaveDetectorToolProbeNode( {
       color: SERIES_2_COLOR,
       drag: function() {
-        self.probe2WireNode.updateWireShape();
         updatePaths();
       }
     } );
 
-    // @private
-    this.probe1WireNode = new WireNode( this.probe1Node, this.backgroundNode, SERIES_1_COLOR, 0.8 );
+    var bodyNormalProperty = new Property( new Vector2( NORMAL_DISTANCE, 0 ) );
+    var sensorNormalProperty = new Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
     // @private
-    this.probe2WireNode = new WireNode( this.probe2Node, this.backgroundNode, new Color( SERIES_2_COLOR ).darkerColor( 0.7 ), 0.9 );
+    this.probe1WireNode = new WireNode(
+      WireNode.createProperty( this.backgroundNode, WireNode.aboveBottomRight( 0.3 ) ), bodyNormalProperty,
+      WireNode.createProperty( this.probe1Node, PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
+        lineWidth: WIRE_LINE_WIDTH,
+        stroke: SERIES_1_COLOR
+      }
+    );
+
+    // @private
+    this.probe2WireNode = new WireNode(
+      WireNode.createProperty( this.backgroundNode, WireNode.aboveBottomRight( 0.2 ) ), bodyNormalProperty,
+      WireNode.createProperty( this.probe2Node, PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
+        lineWidth: WIRE_LINE_WIDTH,
+        stroke: WIRE_2_COLOR
+      }
+    );
 
     this.addChild( this.probe1WireNode );
     this.addChild( this.probe1Node );
@@ -381,9 +399,6 @@ define( function( require ) {
         left: this.probe1Node.right - 10,
         top: this.probe1Node.bottom - 10
       } );
-
-      this.probe1WireNode.updateWireShape();
-      this.probe2WireNode.updateWireShape();
     },
 
     getBackgroundNodeGlobalBounds: function() {
