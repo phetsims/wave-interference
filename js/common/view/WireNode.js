@@ -17,8 +17,6 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
-   * Wire that connects the body and probe.
-   *
    * @param {Property.<Vector2>} position1Property
    * @param {Property.<Vector2>} normal1Property - defines the control point of the cubic curve, relative to the start position
    * @param {Property.<Vector2>} position2Property
