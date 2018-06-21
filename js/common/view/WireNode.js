@@ -2,7 +2,7 @@
 
 /**
  * View that typically connects a sensor (like a ProbeNode) to its body (where the readout value or chart appears).
- * TODO: Move to common code and use this in Bending Light
+ * TODO: Move to common code and use this in Bending Light.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -60,6 +60,7 @@ define( function( require ) {
      * @param {Node} node
      * @param {function|string} getLocation, for example:
      *                                       function(node){ return node.center.plusXY(5,5); } or 'leftBottom'
+     * TODO: create a subtype of Property to facilitate disposal?  We need to remove the node bounds listener.
      */
     createProperty: function( node, getLocation ) {
 
