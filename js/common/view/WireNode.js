@@ -18,9 +18,9 @@ define( function( require ) {
 
   /**
    * @param {Property.<Vector2>} position1Property
-   * @param {Property.<Vector2>} normal1Property - defines the control point of the cubic curve, relative to the start position
+   * @param {Property.<Vector2>} normal1Property - defines the control point of the cubic curve, relative to the position1
    * @param {Property.<Vector2>} position2Property
-   * @param {Property.<Vector2>} normal2Property - defines the control point of the cubic curve, relative to the end position
+   * @param {Property.<Vector2>} normal2Property - defines the control point of the cubic curve, relative to the position2
    * @param {Object} [options]
    * @constructor
    */
@@ -52,38 +52,6 @@ define( function( require ) {
      */
     dispose: function() {
       this.multilink.dispose();
-    }
-  }, {
-
-    /**
-     * Creates an axon Property for the position relative to the bounds of a Node.
-     * @param {Node} node
-     * @param {function|string} getLocation, for example:
-     *                                       function(node){ return node.center.plusXY(5,5); } or 'leftBottom'
-     * TODO: create a subtype of Property to facilitate disposal?  We need to remove the node bounds listener.
-     */
-    createProperty: function( node, getLocation ) {
-
-      assert && assert( typeof getLocation === 'string' || typeof getLocation === 'function', 'wrong type for getLocation' );
-
-      // Read-only Property that describes a part relative to the bounds of the node.
-      var positionProperty = new Property();
-
-      // When the node Bounds change, update the position property
-      var updateProperty = function() {
-        var position = ( typeof getLocation === 'string' ) ? node[ getLocation ] : getLocation( node );
-        assert && assert( position, 'position should be defined' );
-        positionProperty.value = position;
-      };
-      node.on( 'bounds', updateProperty );
-      updateProperty();
-      return positionProperty;
-    },
-
-    aboveBottomRight: function( fractionFromBottom ) {
-      return function( node ) {
-        return node.rightBottom.plusXY( 0, -node.height * fractionFromBottom );
-      };
     }
   } );
 } );
