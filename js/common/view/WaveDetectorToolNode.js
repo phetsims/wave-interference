@@ -30,6 +30,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WireNode = require( 'WAVE_INTERFERENCE/common/view/WireNode' );
+  var NodePositionProperty = require( 'SCENERY/util/NodePositionProperty' );
 
   // strings
   var timeString = require( 'string!WAVE_INTERFERENCE/time' );
@@ -240,8 +241,8 @@ define( function( require ) {
 
     // @private
     this.probe1WireNode = new WireNode(
-      WireNode.createProperty( this.backgroundNode, WireNode.aboveBottomRight( 0.3 ) ), bodyNormalProperty,
-      WireNode.createProperty( this.probe1Node, PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
+      new NodePositionProperty( this.backgroundNode, 'rightBottom', { dy: -20 } ), bodyNormalProperty,
+      new NodePositionProperty( this.probe1Node, PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
         lineWidth: WIRE_LINE_WIDTH,
         stroke: SERIES_1_COLOR
       }
@@ -249,8 +250,8 @@ define( function( require ) {
 
     // @private
     this.probe2WireNode = new WireNode(
-      WireNode.createProperty( this.backgroundNode, WireNode.aboveBottomRight( 0.2 ) ), bodyNormalProperty,
-      WireNode.createProperty( this.probe2Node, PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
+      new NodePositionProperty( this.backgroundNode, 'rightBottom', { dy: -10 } ), bodyNormalProperty,
+      new NodePositionProperty( this.probe2Node, PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
         lineWidth: WIRE_LINE_WIDTH,
         stroke: WIRE_2_COLOR
       }
