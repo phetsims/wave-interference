@@ -42,7 +42,6 @@ define( function( require ) {
     var scale = ( this.waveAreaBounds.right - this.waveAreaBounds.left ) / ( this.model.lattice.width - dampX - 1 - dampX );
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleMapping( new Vector2( dampX, 0 ), new Vector2( this.waveAreaBounds.left, 0 ), scale );
     this.addInputListener( new DragListener( {
-      // TODO: AR will mock up a handle, such as a lollipop beneath the barrier.
       applyOffset: false,
       locationProperty: model.barrierLocationProperty,
       transform: this.modelViewTransform
