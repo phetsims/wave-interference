@@ -42,10 +42,6 @@ define( function( require ) {
     var scale = ( this.waveAreaBounds.right - this.waveAreaBounds.left ) / ( this.model.lattice.width - dampX - 1 - dampX );
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleMapping( new Vector2( dampX, 0 ), new Vector2( this.waveAreaBounds.left, 0 ), scale );
     this.addInputListener( new DragListener( {
-
-      // TODO: with this line, the barrier jumps a bit on drag, but without it, it is off by hundreds of pixels
-      // TODO: work with @jonathanolson to figure out how to resolve this
-
       // TODO: AR will mock up a handle, such as a lollipop beneath the barrier.
       applyOffset: false,
       locationProperty: model.barrierLocationProperty,
