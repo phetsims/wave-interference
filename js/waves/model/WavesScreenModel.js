@@ -66,7 +66,6 @@ define( function( require ) {
       verticalAxisTitle: 'Water Level',
       graphTitle: 'Water Level at Center',
       graphHorizontalAxisLabel: 'Position (cm)',
-      name: 'WATER',
       latticeWidth: 0.1, // 10 centimeters
       minimumFrequency: 1,
       maximumFrequency: 8,
@@ -86,7 +85,6 @@ define( function( require ) {
       verticalAxisTitle: 'Pressure',
       graphTitle: 'Pressure at Center',
       graphHorizontalAxisLabel: 'Position (cm)',
-      name: 'SOUND',
       latticeWidth: 1, // 1 meter
       minimumFrequency: concertA - 200,
       maximumFrequency: concertA + 200,
@@ -105,7 +103,6 @@ define( function( require ) {
       verticalAxisTitle: 'Electric Field',
       graphTitle: 'Electric Field at Center',
       graphHorizontalAxisLabel: 'Position (nm)',
-      name: 'LIGHT',
       latticeWidth: 5000E-9,
       minimumFrequency: VisibleColor.MIN_FREQUENCY,
       maximumFrequency: VisibleColor.MAX_FREQUENCY,
