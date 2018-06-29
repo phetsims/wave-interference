@@ -31,7 +31,7 @@ define( function( require ) {
   var WaveDetectorToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolProbeNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  var WireNode = require( 'WAVE_INTERFERENCE/common/view/WireNode' );
+  var WireNode = require( 'SCENERY_PHET/WireNode' );
 
   // strings
   var timeString = require( 'string!WAVE_INTERFERENCE/time' );
