@@ -12,11 +12,13 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NodeProperty = require( 'SCENERY/util/NodeProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Property = require( 'AXON/Property' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -30,7 +32,6 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   var WireNode = require( 'WAVE_INTERFERENCE/common/view/WireNode' );
-  var NodePositionProperty = require( 'SCENERY/util/NodePositionProperty' );
 
   // strings
   var timeString = require( 'string!WAVE_INTERFERENCE/time' );
@@ -239,10 +240,19 @@ define( function( require ) {
     var bodyNormalProperty = new Property( new Vector2( NORMAL_DISTANCE, 0 ) );
     var sensorNormalProperty = new Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
+    var above = function( amount ) {
+      return function( rightBottom ) {return rightBottom.plusXY( 0, -amount );};
+    };
+
+    // These do not need to be disposed because there is no connection to the "outside world"
+    var rightBottomProperty = new NodeProperty( this.backgroundNode, 'bounds', 'rightBottom' );
+    var aboveBottomRight1Property = new DerivedProperty( [ rightBottomProperty ], above( 20 ) );
+    var aboveBottomRight2Property = new DerivedProperty( [ rightBottomProperty ], above( 10 ) );
+
     // @private
     this.probe1WireNode = new WireNode(
-      new NodePositionProperty( this.backgroundNode, 'rightBottom', { dy: -20 } ), bodyNormalProperty,
-      new NodePositionProperty( this.probe1Node, PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
+      aboveBottomRight1Property, bodyNormalProperty,
+      new NodeProperty( this.probe1Node, 'bounds', PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
         lineWidth: WIRE_LINE_WIDTH,
         stroke: SERIES_1_COLOR
       }
@@ -250,8 +260,8 @@ define( function( require ) {
 
     // @private
     this.probe2WireNode = new WireNode(
-      new NodePositionProperty( this.backgroundNode, 'rightBottom', { dy: -10 } ), bodyNormalProperty,
-      new NodePositionProperty( this.probe2Node, PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
+      aboveBottomRight2Property, bodyNormalProperty,
+      new NodeProperty( this.probe2Node, 'bounds', PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
         lineWidth: WIRE_LINE_WIDTH,
         stroke: WIRE_2_COLOR
       }
