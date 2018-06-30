@@ -17,6 +17,10 @@ define( function( require ) {
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
+  // strings
+  var minString = require( 'string!WAVE_INTERFERENCE/min' );
+  var maxString = require( 'string!WAVE_INTERFERENCE/max' );
+
   // constants
   var LABEL_OPTIONS = { fontSize: 10 };
   var MAX_TICK_INDEX = 10;
@@ -29,8 +33,8 @@ define( function( require ) {
    * @constructor
    */
   function WaveInterferenceSlider( property, min, max ) {
-    var minLabel = new WaveInterferenceText( min === 0 ? '0' : 'min', LABEL_OPTIONS );
-    var maxLabel = new WaveInterferenceText( 'max', LABEL_OPTIONS );
+    var minLabel = new WaveInterferenceText( min === 0 ? '0' : minString, LABEL_OPTIONS );
+    var maxLabel = new WaveInterferenceText( maxString, LABEL_OPTIONS );
     var ticks = _.range( 0, MAX_TICK_INDEX + 1 ).map( function( index ) {
       return {
         value: Util.linear( 0, MAX_TICK_INDEX, min, max, index ),

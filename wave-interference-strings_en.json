@@ -11,6 +11,60 @@
   "graph": {
     "value": "Graph"
   },
+  "waterLevel": {
+    "value": "Water Level"
+  },
+  "waterLevelAtCenter": {
+    "value": "Water Level at Center"
+  },
+  "pressure": {
+    "value": "Pressure"
+  },
+  "electricField": {
+    "value": "Electric Field"
+  },
+  "electricFieldAtCenter": {
+    "value": "Electric Field at Center"
+  },
+  "pressureAtCenter": {
+    "value": "Pressure at Center"
+  },
+  "positionCM": {
+    "value": "Position (cm)"
+  },
+  "positionNM": {
+    "value": "Position (nm)"
+  },
+  "cmUnits": {
+    "value": "cm"
+  },
+  "min": {
+    "value": "min"
+  },
+  "max": {
+    "value": "max"
+  },
+  "nanometersUnits": {
+    "value": "cm"
+  },
+  "secondsUnits": {
+    "value": "s"
+  },
+  "millisecondsUnits": {
+    "value": "ms"
+  },
+  "femtosecondsUnits": {
+    "value": "fs"
+  },
+  "oneSecond": {
+    "value": "1 s"
+  },
+  "oneFemtosecond": {
+    "value": "1 fs"
+  },
+  "oneMillisecond": {
+    "value": "1 ms"
+  },
   "screen": {
     "value": "Screen"
   },

@@ -36,6 +36,22 @@ define( function( require ) {
   var fiveHundredNanometersString = require( 'string!WAVE_INTERFERENCE/fiveHundredNanometers' );
   var oneCentimeterString = require( 'string!WAVE_INTERFERENCE/oneCentimeter' );
   var tenCentimetersString = require( 'string!WAVE_INTERFERENCE/tenCentimeters' );
+  var waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
+  var waterLevelAtCenterString = require( 'string!WAVE_INTERFERENCE/waterLevelAtCenter' );
+  var positionCMString = require( 'string!WAVE_INTERFERENCE/positionCM' );
+  var positionNMString = require( 'string!WAVE_INTERFERENCE/positionNM' );
+  var cmUnitsString = require( 'string!WAVE_INTERFERENCE/cmUnits' );
+  var nanometersUnitsString = require( 'string!WAVE_INTERFERENCE/nanometersUnits' );
+  var secondsUnitsString = require( 'string!WAVE_INTERFERENCE/secondsUnits' );
+  var oneMillisecondString = require( 'string!WAVE_INTERFERENCE/oneMillisecond' );
+  var oneFemtosecondString = require( 'string!WAVE_INTERFERENCE/oneFemtosecond' );
+  var electricFieldString = require( 'string!WAVE_INTERFERENCE/electricField' );
+  var electricFieldAtCenterString = require( 'string!WAVE_INTERFERENCE/electricFieldAtCenter' );
+  var millisecondsUnitsString = require( 'string!WAVE_INTERFERENCE/millisecondsUnits' );
+  var femtosecondsUnitsString = require( 'string!WAVE_INTERFERENCE/femtosecondsUnits' );
+  var oneSecondString = require( 'string!WAVE_INTERFERENCE/oneSecond' );
+  var pressureString = require( 'string!WAVE_INTERFERENCE/pressure' );
+  var pressureAtCenterString = require( 'string!WAVE_INTERFERENCE/pressureAtCenter' );
 
   // constants
   var POINT_SOURCE_HORIZONTAL_COORDINATE = 30;
@@ -61,48 +77,47 @@ define( function( require ) {
     } );
 
     // Water scene
-    // TODO: i18n
     this.waterScene = new Scene( {
-      verticalAxisTitle: 'Water Level',
-      graphTitle: 'Water Level at Center',
-      graphHorizontalAxisLabel: 'Position (cm)',
+      verticalAxisTitle: waterLevelString,
+      graphTitle: waterLevelAtCenterString,
+      graphHorizontalAxisLabel: positionCMString,
       latticeWidth: 0.1, // 10 centimeters
       minimumFrequency: 1,
       maximumFrequency: 8,
       scaleIndicatorText: oneCentimeterString,
       scaleIndicatorLength: 0.01, // 1 centimeter
       timeScaleFactor: 1,
-      measuringTapeUnits: 'cm',
+      measuringTapeUnits: cmUnitsString,
       meterUnitsConversion: 0.01,
       timeUnitsConversion: 1,
-      timerUnits: 's',
-      oneTimerUnit: '1 s'
+      timerUnits: secondsUnitsString,
+      oneTimerUnit: oneSecondString
     } );
 
     // Sound scene
     var concertA = 440; // Hz
     this.soundScene = new Scene( {
-      verticalAxisTitle: 'Pressure',
-      graphTitle: 'Pressure at Center',
-      graphHorizontalAxisLabel: 'Position (cm)',
+      verticalAxisTitle: pressureString,
+      graphTitle: pressureAtCenterString,
+      graphHorizontalAxisLabel: positionCMString,
       latticeWidth: 1, // 1 meter
       minimumFrequency: concertA - 200,
       maximumFrequency: concertA + 200,
       scaleIndicatorText: tenCentimetersString,
       scaleIndicatorLength: 0.1, // 10 cm
       timeScaleFactor: 2E-2, // This value is chosen to make the wave look accurate on the lattice
-      measuringTapeUnits: 'cm',
+      measuringTapeUnits: cmUnitsString,
       meterUnitsConversion: 0.01,
       timeUnitsConversion: 343 / 0.8 / 1.57, // This value is chosen so that the wave speed is accurate
-      timerUnits: 'ms',
-      oneTimerUnit: '1 ms'
+      timerUnits: millisecondsUnitsString,
+      oneTimerUnit: oneMillisecondString
     } );
 
     // Light scene
     this.lightScene = new Scene( {
-      verticalAxisTitle: 'Electric Field',
-      graphTitle: 'Electric Field at Center',
-      graphHorizontalAxisLabel: 'Position (nm)',
+      verticalAxisTitle: electricFieldString,
+      graphTitle: electricFieldAtCenterString,
+      graphHorizontalAxisLabel: positionNMString,
       latticeWidth: 5000E-9,
       minimumFrequency: VisibleColor.MIN_FREQUENCY,
       maximumFrequency: VisibleColor.MAX_FREQUENCY,
@@ -110,11 +125,11 @@ define( function( require ) {
       scaleIndicatorText: fiveHundredNanometersString,
       scaleIndicatorLength: 500E-9, // 500nm
       timeScaleFactor: 1.5807768030572316e-14, // Tuned empirically so the waves have the right size on the lattice.
-      measuringTapeUnits: 'nm',
+      measuringTapeUnits: nanometersUnitsString,
       meterUnitsConversion: 1E-9,
       timeUnitsConversion: 1E15 * 0.15904736243338724, // Tuned empirically so that light would have the correct THz and hence the correct speed of light
-      timerUnits: 'fs',
-      oneTimerUnit: '1 fs'
+      timerUnits: femtosecondsUnitsString,
+      oneTimerUnit: oneFemtosecondString
     } );
 
     var eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
