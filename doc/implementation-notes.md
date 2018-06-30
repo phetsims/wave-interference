@@ -1,6 +1,6 @@
 The Wave Interference simulation was ported from Java in 2018.  The first 3 screens show a 2D lattice and time-based
 wave propagation, while the final screen shows the interference pattern from a slit with a given 2d shape, which
-is instantly updated.
+is instantly updated.  The query string ?dev will output debugging information to the console.
 
 # Waves, Interference, Slits Screens
 
