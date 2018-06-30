@@ -73,7 +73,6 @@ define( function( require ) {
       var slitWidth = this.model.slitWidthProperty.get();
       var slitSeparation = this.model.slitSeparationProperty.get();
 
-      // TODO: factor out this pattern that maps lattice coordinates to view coordinates
       var x1 = this.modelViewTransform.modelToViewX( this.model.getBarrierLocation() );
       var x2 = this.modelViewTransform.modelToViewX( this.model.getBarrierLocation() + 1 );
 
