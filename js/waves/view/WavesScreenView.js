@@ -13,7 +13,6 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
   var Dimension2 = require( 'DOT/Dimension2' );
-  var DragListener = require( 'SCENERY/listeners/DragListener' );
   var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
@@ -30,7 +29,7 @@ define( function( require ) {
   var ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
-  var TimerNode = require( 'SCENERY_PHET/TimerNode' );
+  var WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
   var ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
   var Util = require( 'SCENERY/util/Util' );
   var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
@@ -190,12 +189,8 @@ define( function( require ) {
     } );
     model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
-    var timerNode = new TimerNode( model.timerElapsedTimeProperty, model.isTimerRunningProperty, {
-      unitsChoices: [ model.waterScene.timerUnits, model.soundScene.timerUnits, model.lightScene.timerUnits ]
-    } );
-    var timerNodeDragListener = new DragListener( {
-      targetNode: timerNode,
-      translateNode: true,
+    var timerNode = new WaveInterferenceTimerNode( model, {
+      unitsChoices: [ model.waterScene.timerUnits, model.soundScene.timerUnits, model.lightScene.timerUnits ],
 
       // Drop in toolbox
       end: function() {
@@ -205,12 +200,6 @@ define( function( require ) {
           model.isTimerInPlayAreaProperty.value = false;
         }
       }
-    } );
-    timerNode.timerNodeDragListener = timerNodeDragListener; // TODO: fix this, perhaps a subclass
-    timerNode.addInputListener( timerNodeDragListener );
-    model.isTimerInPlayAreaProperty.linkAttribute( timerNode, 'visible' );
-    model.sceneProperty.link( function( scene ) {
-      timerNode.setUnits( scene.timerUnits );
     } );
 
     var waveDetectorToolNode = new WaveDetectorToolNode( model, this, {
