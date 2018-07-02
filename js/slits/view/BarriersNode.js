@@ -15,6 +15,7 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
   var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -22,11 +23,13 @@ define( function( require ) {
   var BARRIER_WIDTH_IN_CELLS = 1;
 
   /**
-   * @param {WavesScreenModel} model
+   * @param {SlitsScreenModel} model
    * @param {Bounds2} waveAreaBounds
    * @constructor
    */
   function BarriersNode( model, waveAreaBounds ) {
+
+    assert && assert( model instanceof SlitsScreenModel );
 
     // @private
     this.waveAreaBounds = waveAreaBounds;

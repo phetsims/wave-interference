@@ -33,7 +33,7 @@ define( function( require ) {
     //                   - see getBarrierLocation() for how to get the integral x-coordinate.
     this.barrierLocationProperty = new Property( new Vector2( 38, 0 ) );
 
-    // @public {NumberProperty} - width of the slit(s) in lattice coordinates.  TODO: I saw a constant that had this as 1
+    // @public {NumberProperty} - width of the slit(s) opening in lattice coordinates.
     this.slitWidthProperty = new NumberProperty( 5 );
 
     // @public {NumberProperty} - separation of centers of the slits in lattice coordinates
