@@ -345,7 +345,7 @@ define( function( require ) {
     this.addChild( laserPointerNode1 );
     this.addChild( laserPointerNode2 );
 
-    // TODO: fix coordinate transform, source separation should be in metric coordinates
+    // TODO: fix coordinate transform, source separation should be in metric coordinates.  Use the modelViewTransform for this?
     model.sourceSeparationProperty.link( function( sourceSeparation ) {
       laserPointerNode2.visible = sourceSeparation > 0;
       laserPointerNode1.centerY = self.waveAreaNode.centerY + sourceSeparation * 4;
