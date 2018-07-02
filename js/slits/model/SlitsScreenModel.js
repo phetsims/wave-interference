@@ -33,7 +33,7 @@ define( function( require ) {
     //                   - see getBarrierLocation() for how to get the integral x-coordinate.
     this.barrierLocationProperty = new Property( new Vector2( 38, 0 ) );
 
-    // @public {NumberProperty} - width of the slit(s) in lattice coordinates
+    // @public {NumberProperty} - width of the slit(s) in lattice coordinates.  TODO: I saw a constant that had this as 1
     this.slitWidthProperty = new NumberProperty( 5 );
 
     // @public {NumberProperty} - separation of centers of the slits in lattice coordinates
@@ -44,8 +44,6 @@ define( function( require ) {
       // When the barrier moves, it creates a lot of artifacts, so clear the wave when the barrier moves
       self.clear();
     } );
-
-    // this.stepEmitter.addListener( function()  );
   }
 
   waveInterference.register( 'SlitsScreenModel', SlitsScreenModel );
