@@ -92,30 +92,32 @@ define( function( require ) {
         }
       }
 
-      var self = this;
       if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT || this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
-        var barrierLocation = Math.round( self.barrierLocationProperty.get().x );
+        var barrierX = Math.round( this.barrierLocationProperty.get().x );
+        var slitWidth = this.slitWidthProperty.get();
+        var slitSeparation = this.slitSeparationProperty.get();
+        var latticeCenterY = this.lattice.height / 2;
 
-        for ( j = 1; j < lattice.height - 1; j++ ) {
+        for ( j = 0; j < lattice.height; j++ ) {
 
-          var isPotential = false;
-          var slitWidth = self.slitWidthProperty.get();
-          var slitSeparation = self.slitSeparationProperty.get();
-          var latticeCenterY = self.lattice.height / 2;
+          var isCellInBarrier = false;
 
-          // TODO: locations don't match the lattice
-          if ( self.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
-            isPotential = ( ( ( j > latticeCenterY + slitWidth ) || ( j < latticeCenterY - slitWidth ) ) );
+          if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
+            var low = j > latticeCenterY + slitWidth;
+            var high = j < latticeCenterY - slitWidth;
+            isCellInBarrier = low || high;
           }
-          else if ( self.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
+          else if ( this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
 
             // Spacing is between center of slits
-            isPotential = ( ( ( Math.abs( latticeCenterY - slitSeparation / 2 - j ) > slitWidth ) && ( Math.abs( latticeCenterY + slitSeparation / 2 - j ) > slitWidth ) ) );
+            var top = Math.abs( latticeCenterY - slitSeparation / 2 - j ) > slitWidth;
+            var bottom = Math.abs( latticeCenterY + slitSeparation / 2 - j ) > slitWidth;
+            isCellInBarrier = top && bottom;
           }
 
-          if ( isPotential ) {
-            lattice.setLastValue( barrierLocation, j, 0 );
-            lattice.setCurrentValue( barrierLocation, j, 0 );
+          if ( isCellInBarrier ) {
+            lattice.setLastValue( barrierX, j, 0 );
+            lattice.setCurrentValue( barrierX, j, 0 );
           }
         }
       }
