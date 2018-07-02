@@ -101,13 +101,6 @@ define( function( require ) {
     } );
     this.addChild( resetAllButton );
 
-    if ( options.showViewRadioButtonGroup ) {
-      this.addChild( new ViewRadioButtonGroup( model.viewTypeProperty, {
-        bottom: this.layoutBounds.bottom - MARGIN,
-        left: this.waveAreaNode.left + SPACING + 10 // TODO: layout
-      } ) );
-    }
-
     var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl && false;
 
     this.latticeNode = webGLSupported ?
@@ -278,6 +271,13 @@ define( function( require ) {
         left: this.layoutBounds.left + MARGIN
       } );
       this.addChild( continuousPulseGroup );
+    }
+
+    if ( options.showViewRadioButtonGroup ) {
+      this.addChild( new ViewRadioButtonGroup( model.viewTypeProperty, {
+        bottom: this.layoutBounds.bottom - MARGIN,
+        left: this.waveAreaNode.left + SPACING + 10
+      } ) );
     }
 
     var timeControlPanel = new TimeControlPanel( model, {
