@@ -172,6 +172,15 @@ define( function( require ) {
       } );
     } );
 
+    /**
+     * Checks if the toolbox contains the given point, to see if a tool can be dropped back into the toolbox.
+     * @param {Vector2} point
+     * @returns {boolean}
+     */
+    var toolboxContains = function( point ) {
+      return toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).containsPoint( point );
+    };
+
     var measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
       textBackgroundColor: 'rgba( 255, 255, 255, 0.6 )', // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
       textColor: 'black',
@@ -180,9 +189,7 @@ define( function( require ) {
 
       // Drop in toolbox
       baseDragEnded: function() {
-        var toolboxGlobalBounds = toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds );
-        var bodyCenterPoint = measuringTapeNode.localToGlobalPoint( measuringTapeNode.baseImage.center );
-        if ( toolboxGlobalBounds.containsPoint( bodyCenterPoint ) ) {
+        if ( toolboxContains( measuringTapeNode.localToGlobalPoint( measuringTapeNode.baseImage.center ) ) ) {
           model.isMeasuringTapeInPlayAreaProperty.value = false;
         }
       }
@@ -194,9 +201,7 @@ define( function( require ) {
 
       // Drop in toolbox
       end: function() {
-        var toolboxGlobalBounds = toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds );
-        var centerPoint = timerNode.parentToGlobalPoint( timerNode.center );
-        if ( toolboxGlobalBounds.containsPoint( centerPoint ) ) {
+        if ( toolboxContains( timerNode.parentToGlobalPoint( timerNode.center ) ) ) {
           model.isTimerInPlayAreaProperty.value = false;
         }
       }
@@ -206,9 +211,7 @@ define( function( require ) {
 
       // Drop in toolbox
       end: function() {
-        var toolboxGlobalBounds = toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds );
-        var centerPoint = waveDetectorToolNode.getBackgroundNodeGlobalBounds().center;
-        if ( toolboxGlobalBounds.containsPoint( centerPoint ) ) {
+        if ( toolboxContains( waveDetectorToolNode.getBackgroundNodeGlobalBounds().center ) ) {
           model.isWaveDetectorToolNodeInPlayAreaProperty.value = false;
           waveDetectorToolNode.alignProbes();
         }
