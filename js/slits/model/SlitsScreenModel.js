@@ -57,10 +57,7 @@ define( function( require ) {
      * @public
      */
     getBarrierLocation: function() {
-
-      // The -1 prevents the barrier from jumping too far when grabbed with the mouse
-      // TODO: figure out what causes the -1 and eliminate the need for it.
-      return Math.round( this.barrierLocationProperty.get().x ) - 1;
+      return Math.round( this.barrierLocationProperty.get().x );
     },
 
     /**
