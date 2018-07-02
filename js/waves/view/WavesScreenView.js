@@ -345,10 +345,11 @@ define( function( require ) {
     this.addChild( laserPointerNode1 );
     this.addChild( laserPointerNode2 );
 
+    // TODO: fix coordinate transform, source separation should be in metric coordinates
     model.sourceSeparationProperty.link( function( sourceSeparation ) {
       laserPointerNode2.visible = sourceSeparation > 0;
-      laserPointerNode1.centerY = self.waveAreaNode.centerY + sourceSeparation * 4; // TODO: fix coordinate transform, source separation should be in metric coordinates
-      laserPointerNode2.centerY = self.waveAreaNode.centerY - sourceSeparation * 4; // TODO: fix coordinate transform
+      laserPointerNode1.centerY = self.waveAreaNode.centerY + sourceSeparation * 4;
+      laserPointerNode2.centerY = self.waveAreaNode.centerY - sourceSeparation * 4;
     } );
   }
 
