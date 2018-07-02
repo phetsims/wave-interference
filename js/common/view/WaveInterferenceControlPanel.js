@@ -41,7 +41,10 @@ define( function( require ) {
   function WaveInterferenceControlPanel( model, alignGroup, options ) {
 
     options = _.extend( {
+
+      // This additional control (if present) will be shown beneath the Amplitude slider in the WaveInterferenceControlPanel
       additionalControl: null,
+
       showIntensityCheckbox: true
     }, options );
 

@@ -63,15 +63,8 @@ define( function( require ) {
 
       showPulseContinuousRadioButtons: true,
 
-      // Nested options as discussed in https://github.com/phetsims/tasks/issues/730
-      controlPanelOptions: {
-
-        // This additional control (if present) will be shown beneath the Amplitude slider in the WaveInterferenceControlPanel
-        additionalControl: null,
-
-        // TODO: why are these options duplicated here?  Can we reuse them from WaveInterferenceControlPanel or omit them altogether?
-        showIntensityCheckbox: true
-      }
+      // Nested options as discussed in https://github.com/phetsims/tasks/issues/730, see WaveInterferenceControlPanel for keys/values
+      controlPanelOptions: {}
     }, options );
     ScreenView.call( this );
 
@@ -264,7 +257,7 @@ define( function( require ) {
     this.addChild( toolboxPanel );
 
     // @protected {WaveInterferenceControlPanel} for subtype layout
-    this.controlPanel = new WaveInterferenceControlPanel( model, alignGroup, _.extend( {}, options.controlPanelOptions ) );
+    this.controlPanel = new WaveInterferenceControlPanel( model, alignGroup, options.controlPanelOptions );
 
     var updateControlPanelPosition = function() {
       self.controlPanel.mutate( {
