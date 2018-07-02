@@ -75,12 +75,12 @@ define( function( require ) {
     } );
     this.addChild( this.waveAreaNode );
 
-    // @private show the scale of the wave area // TODO: local var?
-    this.scaleIndicatorNode = new ScaleIndicatorNode( model, this.waveAreaNode.width, {
+    // @private show the scale of the wave area
+    var scaleIndicatorNode = new ScaleIndicatorNode( model, this.waveAreaNode.width, {
       top: MARGIN,
       left: this.waveAreaNode.left
     } );
-    this.addChild( this.scaleIndicatorNode );
+    this.addChild( scaleIndicatorNode );
 
     var waveAreaGraphNode = new WaveAreaGraphNode( model, this.waveAreaNode.bounds, {
       x: this.waveAreaNode.left,
