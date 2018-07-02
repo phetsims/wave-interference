@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Matrix = require( 'DOT/Matrix' );
@@ -74,6 +75,14 @@ define( function( require ) {
   waveInterference.register( 'Lattice', Lattice );
 
   return inherit( Object, Lattice, {
+
+    /**
+     * Gets a Bounds2 representing the visible (non-damping) region of the lattice.
+     * @returns {Bounds2}
+     */
+    getVisibleBounds: function() {
+      return new Bounds2( this.dampX, this.dampY, this.width - this.dampX, this.height - this.dampY );
+    },
 
     /**
      * Read the values on the center line of the lattice (omits the out-of-bounds damping regions), for display in the
