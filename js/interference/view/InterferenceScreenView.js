@@ -29,7 +29,7 @@ define( function( require ) {
     WavesScreenView.call( this, model, alignGroup, {
 
       // The pulse option does not appear in the Interference screen, because it is distracting and does not meet a
-      // specific learning goal.
+      // specific learning goal in this context.
       showPulseContinuousRadioButtons: false,
       controlPanelOptions: {
 
