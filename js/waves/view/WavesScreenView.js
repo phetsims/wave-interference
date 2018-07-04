@@ -20,16 +20,16 @@ define( function( require ) {
   var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
-  var PulseContinuousRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/PulseContinuousRadioButtonGroup' );
   var Property = require( 'AXON/Property' );
+  var PulseContinuousRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/PulseContinuousRadioButtonGroup' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
   var ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
-  var WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
   var ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
   var Util = require( 'SCENERY/util/Util' );
   var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
@@ -41,6 +41,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferenceControlPanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceControlPanel' );
+  var WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
 
   // constants
   var MARGIN = 8;
@@ -181,8 +182,13 @@ define( function( require ) {
       return toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).containsPoint( point );
     };
 
+    var transform = ModelViewTransform2.createRectangleMapping( model.lattice.getVisibleBounds(), this.waveAreaNode.bounds );
+
     var measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
-      textBackgroundColor: 'rgba( 255, 255, 255, 0.6 )', // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
+
+      // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
+      textBackgroundColor: 'rgba( 255, 255, 255, 0.6 )',
+      // modelViewTransform: transform, // TODO: get transform working for measuring tape
       textColor: 'black',
       basePositionProperty: model.measuringTapeBasePositionProperty,
       tipPositionProperty: model.measuringTapeTipPositionProperty,
@@ -346,10 +352,15 @@ define( function( require ) {
     this.addChild( laserPointerNode2 );
 
     // TODO: fix coordinate transform, source separation should be in metric coordinates.  Use the modelViewTransform for this?
+    // TODO: See BarriersNode for a MVT
+    // TODO: This transform is very confusing.  Can we go straight from model (meters) to view instead of going through the lattice coordinates?
+
     model.sourceSeparationProperty.link( function( sourceSeparation ) {
       laserPointerNode2.visible = sourceSeparation > 0;
-      laserPointerNode1.centerY = self.waveAreaNode.centerY + sourceSeparation * 4;
-      laserPointerNode2.centerY = self.waveAreaNode.centerY - sourceSeparation * 4;
+      var viewSeparation = transform.modelToViewDeltaX( sourceSeparation * model.lattice.width / model.sceneProperty.get().latticeWidth );
+      console.log( viewSeparation );
+      laserPointerNode1.centerY = self.waveAreaNode.centerY + viewSeparation / 2;
+      laserPointerNode2.centerY = self.waveAreaNode.centerY - viewSeparation / 2;
     } );
   }
 

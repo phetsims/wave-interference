@@ -19,8 +19,8 @@ define( function( require ) {
   function InterferenceScreenModel() {
     WavesScreenModel.call( this, {
 
-      // Indicates two sources instead of one, with this separation in lattice coordinates
-      sourceSeparation: 16
+      // Indicates two sources instead of one, with this separation in physical coordinates (meters)
+      sourceSeparation: 0.03 // default value is for water, in meters
     } );
   }
 

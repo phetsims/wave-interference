@@ -261,10 +261,12 @@ define( function( require ) {
     // @public {Property.<Boolean>} - whether the button for the second source is pressed
     this.button2PressedProperty = new BooleanProperty( false );
 
-    // @public {Property.<Vector2>} - model for the view coordinates of the base of the measuring tape
+    // @public {Property.<Vector2>} - model for the physical coordinates of the base of the measuring tape, in meters
+    // TODO: this should be in metric coordinates
     this.measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ) );
 
-    // @public {Property.<Vector2>} - model for the view coordinates of the tip of the measuring tape
+    // TODO: this should be in metric coordinates
+    // @public {Property.<Vector2>} - model for the physical coordinates of the tip of the measuring tape, in meters
     this.measuringTapeTipPositionProperty = new Property( new Vector2( 220, 200 ) );
 
     // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
@@ -427,19 +429,22 @@ define( function( require ) {
 
         // The simulation is designed to start with a downward wave, corresponding to water splashing in
         var v = -Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
-        var separation = Math.floor( this.sourceSeparationProperty.get() / 2 );
+
+        // assumes a square lattice
+        var separationInLatticeUnits = this.sourceSeparationProperty.get() / this.sceneProperty.get().latticeWidth * this.lattice.width;
+        var distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
         var latticeCenterJ = Math.round( this.lattice.height / 2 );
 
         // Point source
         if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
-          lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ + separation, v );
+          lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ + distanceAboveAxis, v );
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
         if ( this.continuousWave2OscillatingProperty.get() ) {
-          lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ - separation, v );
+          lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ - distanceAboveAxis, v );
         }
       }
     },

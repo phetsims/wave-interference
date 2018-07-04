@@ -42,7 +42,7 @@ define( function( require ) {
     } );
 
     // @private - Convert from lattice coordinates to view coordinates
-    this.modelViewTransform = ModelViewTransform2.createRectangleMapping( this.model.lattice.getVisibleBounds(), this.waveAreaBounds );
+    this.modelViewTransform = ModelViewTransform2.createRectangleMapping( this.model.lattice.getVisibleBounds(), waveAreaBounds );
 
     this.addInputListener( new DragListener( {
       applyOffset: false,
