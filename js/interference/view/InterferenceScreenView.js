@@ -42,17 +42,19 @@ define( function( require ) {
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
       value: model.soundScene,
-      node: new NumberControl( separationString, model.sourceSeparationProperty, new Range( 0, 10 ), _.extend( {
+      node: new NumberControl( separationString, model.sourceSeparationProperty, new Range( 0.1, 0.5 ), _.extend( {
+        delta: 0.1,
         majorTicks: [
-          { value: 0, label: new WaveInterferenceText( 1000, { fontSize: 10 } ) },
-          { value: 10, label: new WaveInterferenceText( 5000, { fontSize: 10 } ) } ]
+          { value: 0.1, label: new WaveInterferenceText( '10 cm', { fontSize: 10 } ) },
+          { value: 0.5, label: new WaveInterferenceText( '50 cm', { fontSize: 10 } ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
       value: model.lightScene,
-      node: new NumberControl( separationString, model.sourceSeparationProperty, new Range( 0, 50 ), _.extend( {
+      node: new NumberControl( separationString, model.sourceSeparationProperty, new Range( 5000E-9 / 16, 5000E-9 / 2 ), _.extend( {
+        delta: 5000E-9 / 16,
         majorTicks: [
-          { value: 0, label: new WaveInterferenceText( 1000, { fontSize: 10 } ) },
-          { value: 50, label: new WaveInterferenceText( 5000, { fontSize: 10 } ) } ]
+          { value: 5000E-9 / 16, label: new WaveInterferenceText( '5000E-9/16 nm', { fontSize: 10 } ) },
+          { value: 5000E-9 / 2, label: new WaveInterferenceText( '5000E-9/2 nm', { fontSize: 10 } ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     } ], model.sceneProperty );
     WavesScreenView.call( this, model, alignGroup, {
