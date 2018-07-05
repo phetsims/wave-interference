@@ -50,11 +50,11 @@ define( function( require ) {
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
       value: model.lightScene,
-      node: new NumberControl( separationString, model.sourceSeparationProperty, new Range( 5000E-9 / 16, 5000E-9 / 2 ), _.extend( {
-        delta: 5000E-9 / 16,
+      node: new NumberControl( separationString, model.sourceSeparationProperty, new Range( 500E-9, 2500E-9 ), _.extend( {
+        delta: 500E-9,
         majorTicks: [
-          { value: 5000E-9 / 16, label: new WaveInterferenceText( '5000E-9/16 nm', { fontSize: 10 } ) },
-          { value: 5000E-9 / 2, label: new WaveInterferenceText( '5000E-9/2 nm', { fontSize: 10 } ) } ]
+          { value: 500E-9, label: new WaveInterferenceText( '500 nm', { fontSize: 10 } ) },
+          { value: 2500E-9, label: new WaveInterferenceText( '2500 nm', { fontSize: 10 } ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     } ], model.sceneProperty );
     WavesScreenView.call( this, model, alignGroup, {
