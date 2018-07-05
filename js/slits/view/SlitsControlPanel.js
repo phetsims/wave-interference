@@ -44,6 +44,7 @@ define( function( require ) {
       buttonYMargin: 0
     } );
 
+    // TODO: these controls need to respect the scene--units, ranges, etc.
     var slitWidthControl = new NumberControl( slitWidthString, model.slitWidthProperty, new Range( 0, 20 ), _.extend( {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
@@ -54,6 +55,7 @@ define( function( require ) {
                                  barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
 
+    // TODO: these controls need to respect the scene--units, ranges, etc.
     var slitSeparationControl = new NumberControl( slitSeparationString, model.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },

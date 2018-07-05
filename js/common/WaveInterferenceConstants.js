@@ -23,9 +23,6 @@ define( function( require ) {
     NUMBER_CONTROL_OPTIONS: {
       trackSize: new Dimension2( 100, 3 ),
       majorTickLength: 12,
-
-      // TODO: We need the control to read out in cm, m or nm, depending on the scene
-      valuePattern: '{0} m',
       thumbSize: new Dimension2( 22, 30 ),
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
     },

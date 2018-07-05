@@ -9,8 +9,10 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var DynamicProperty = require( 'AXON/DynamicProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
+  var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -28,33 +30,48 @@ define( function( require ) {
    */
   function InterferenceScreenView( model, alignGroup ) {
 
-    // TODO: Source separation units are wrong (tick labels and readout), and values need to change when scene changes
+    // For water and sound, the NumberControl reads out in cm
+    var cmProperty = new DynamicProperty( new Property( model.sourceSeparationProperty ), {
+      bidirectional: true,
+      map: function( x ) {return x * 100;},
+      inverseMap: function( x ) {return x / 100;}
+    } );
+
+    // For light, the NumberControl reads out in nm
+    var nmProperty = new DynamicProperty( new Property( model.sourceSeparationProperty ), {
+      bidirectional: true,
+      map: function( x ) {return x * 1E9;},
+      inverseMap: function( x ) {return x / 1E9;}
+    } );
+
+    // TODO: See SlitsControlPanel.  Should we factor out a pattern for this?
     var toggleNode = new ToggleNode( [ {
       value: model.waterScene,
-      node: new NumberControl( separationString, model.sourceSeparationProperty, new Range( 0.01, 0.05 ), _.extend( {
-        delta: 0.01,
-
-        // TODO: We need the NumberControl to read out in cm, not in meters.
-        decimalPlaces: 2,
+      node: new NumberControl( separationString, cmProperty, new Range( 1, 5 ), _.extend( {
+        delta: 1,
+        valuePattern: '{0} cm', // TODO: i18n
+        decimalPlaces: 0,
         majorTicks: [
-          { value: 0.01, label: new WaveInterferenceText( '1 cm', { fontSize: 10 } ) },
-          { value: 0.05, label: new WaveInterferenceText( '5 cm', { fontSize: 10 } ) } ]
+          { value: 1, label: new WaveInterferenceText( '1 cm', { fontSize: 10 } ) }, // TODO: i18n
+          { value: 5, label: new WaveInterferenceText( '5 cm', { fontSize: 10 } ) } ] // TODO: i18n
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
       value: model.soundScene,
-      node: new NumberControl( separationString, model.sourceSeparationProperty, new Range( 0.1, 0.5 ), _.extend( {
-        delta: 0.1,
+      node: new NumberControl( separationString, cmProperty, new Range( 10, 50 ), _.extend( {
+        delta: 10,
+        valuePattern: '{0} cm', // TODO: i18n
         majorTicks: [
-          { value: 0.1, label: new WaveInterferenceText( '10 cm', { fontSize: 10 } ) },
-          { value: 0.5, label: new WaveInterferenceText( '50 cm', { fontSize: 10 } ) } ]
+          { value: 10, label: new WaveInterferenceText( '10 cm', { fontSize: 10 } ) }, // TODO: i18n
+          { value: 50, label: new WaveInterferenceText( '50 cm', { fontSize: 10 } ) } ] // TODO: i18n
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
       value: model.lightScene,
-      node: new NumberControl( separationString, model.sourceSeparationProperty, new Range( 500E-9, 2500E-9 ), _.extend( {
-        delta: 500E-9,
+      node: new NumberControl( separationString, nmProperty, new Range( 500, 2500 ), _.extend( {
+        delta: 500,
+        valuePattern: '{0} nm', // TODO: i18n
         majorTicks: [
-          { value: 500E-9, label: new WaveInterferenceText( '500 nm', { fontSize: 10 } ) },
-          { value: 2500E-9, label: new WaveInterferenceText( '2500 nm', { fontSize: 10 } ) } ]
+          { value: 500, label: new WaveInterferenceText( '500 nm', { fontSize: 10 } ) }, // TODO: i18n
+          { value: 2500, label: new WaveInterferenceText( '2500 nm', { fontSize: 10 } ) } ] // TODO: i18n
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     } ], model.sceneProperty );
     WavesScreenView.call( this, model, alignGroup, {
