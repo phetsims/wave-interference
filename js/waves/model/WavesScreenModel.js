@@ -144,11 +144,6 @@ define( function( require ) {
       validValues: [ this.waterScene, this.soundScene, this.lightScene ]
     } );
 
-    // @public {NumberProperty} - the frequency of the emitter in Hz
-    this.frequencyProperty = new DynamicProperty( this.sceneProperty, {
-      derive: 'frequencyProperty'
-    } );
-
     // TODO: account for time scale in dt and stopwatch time
 
     // Show debugging information in the console when ?dev is selected
@@ -271,7 +266,7 @@ define( function( require ) {
 
     // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
     // for continuity
-    this.frequencyProperty.lazyLink( function( newFrequency, oldFrequency ) {
+    var phaseUpdate = function( newFrequency, oldFrequency ) {
       var oldValue = Math.sin( self.time * oldFrequency + self.phase );
       var proposedPhase = Math.asin( oldValue ) - self.time * newFrequency;
       var oldDerivative = Math.cos( self.time * oldFrequency + self.phase );
@@ -288,7 +283,10 @@ define( function( require ) {
       if ( self.sceneProperty.get() === self.lightScene ) {
         self.clear();
       }
-    } );
+    };
+    this.waterScene.frequencyProperty.lazyLink( phaseUpdate );
+    this.soundScene.frequencyProperty.lazyLink( phaseUpdate );
+    this.lightScene.frequencyProperty.lazyLink( phaseUpdate );
 
     // When the scene changes, the wave clears and time resets.  This prevents a problem where the amplitude of the
     // emitter would get stuck when switching from water to light after 20 seconds.
@@ -413,7 +411,7 @@ define( function( require ) {
      * @private
      */
     resetPhase: function() {
-      this.phase = -this.time * this.frequencyProperty.value;
+      this.phase = -this.time * this.sceneProperty.get().frequencyProperty.get();
     },
 
     /**
@@ -428,7 +426,7 @@ define( function( require ) {
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
         // The simulation is designed to start with a downward wave, corresponding to water splashing in
-        var v = -Math.sin( this.time * this.frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
+        var v = -Math.sin( this.time * this.sceneProperty.get().frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
 
         // assumes a square lattice
         var separationInLatticeUnits = this.sourceSeparationProperty.get() / this.sceneProperty.get().latticeWidth * this.lattice.width;
