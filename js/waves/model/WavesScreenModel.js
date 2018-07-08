@@ -14,7 +14,6 @@ define( function( require ) {
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var DynamicProperty = require( 'AXON/DynamicProperty' );
   var Emitter = require( 'AXON/Emitter' );
   var EventTimer = require( 'PHET_CORE/EventTimer' );
   var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
