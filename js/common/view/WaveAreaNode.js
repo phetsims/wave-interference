@@ -1,8 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Shows the wave and any objects in the wave area (such as slits), including (if selected) the dotted line and graph.
- * TODO: Remove this type and just use bounds everywhere.  Or is this shown behind the water rotation?
+ * This node is used for layout only.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
