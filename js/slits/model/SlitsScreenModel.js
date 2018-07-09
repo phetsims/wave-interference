@@ -75,11 +75,12 @@ define( function( require ) {
 
             // TODO: map lattice coordinates to model coordinate frame, then do sin(kx-wt) there, perhaps use wave speed in model coordinates.
             // TODO: Plane wave is wrong speed/wavelength
-            var latticeFrequency = this.frequencyProperty.get() * this.sceneProperty.get().timeScaleFactor;
+            var frequency = this.sceneProperty.get().frequencyProperty.get();
+            var latticeFrequency = frequency * this.sceneProperty.get().timeScaleFactor;
             var k = Util.linear( 1, 19, 0.1, 1, latticeFrequency );
 
             // Scale the amplitude because it is calibrated for a point source, not a plane wave
-            var value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * i - this.frequencyProperty.get() * this.time );
+            var value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * i - frequency * this.time );
             var lastValue = lattice.getCurrentValue( i, j );
             lattice.setCurrentValue( i, j, value );
             lattice.setLastValue( i, j, lastValue );
