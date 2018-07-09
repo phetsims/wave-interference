@@ -389,7 +389,9 @@ define( function( require ) {
 
       this.time += dt;
 
-      if ( this.pulseFiringProperty.get() && ( this.time * this.frequencyProperty.value + this.phase > Math.PI * 2 ) ) {
+      var frequency = this.sceneProperty.get().frequencyProperty.get();
+
+      if ( this.pulseFiringProperty.get() && ( this.time * frequency + this.phase > Math.PI * 2 ) ) {
         this.pulseFiringProperty.value = false;
       }
 
