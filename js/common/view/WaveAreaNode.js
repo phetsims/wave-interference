@@ -24,8 +24,8 @@ define( function( require ) {
     Node.call( this );
 
     var background = new Rectangle( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, {
-      stroke: 'black',
-      lineWidth: 1,
+
+      // This node is used for layout, so don't include a stroke which could misadjust the width
       fill: 'blue'
     } );
 

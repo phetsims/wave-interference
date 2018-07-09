@@ -169,10 +169,7 @@ define( function( require ) {
     // Make sure the charting area is perfectly aligned with the wave area
     intensityGraphPanel.translate( 0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top );
 
-    var measuringTapeProperty = new Property( {
-      name: 'cm',
-      multiplier: 10
-    } );
+    var measuringTapeProperty = new Property();
     model.sceneProperty.link( function( scene ) {
       measuringTapeProperty.set( {
         name: scene.measuringTapeUnits,
