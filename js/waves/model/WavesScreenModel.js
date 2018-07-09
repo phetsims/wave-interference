@@ -66,9 +66,10 @@ define( function( require ) {
 
     options = _.extend( {
 
-      // This model supports one or two sources.  If sourceSeparation is 0, there is only one source
-      sourceSeparation: 0
+      // This model supports one or two sources.  If the sources are initially separated, there are two sources
+      numberOfSources: 1
     }, options );
+    assert && assert( options.numberOfSources === 1 || options.numberOfSources === 2, 'Model only supports 1 or 2 sources' );
 
     // @public {Property.<ViewType>}
     this.viewTypeProperty = new Property( ViewType.TOP, {
@@ -90,7 +91,8 @@ define( function( require ) {
       meterUnitsConversion: 0.01,
       timeUnitsConversion: 1,
       timerUnits: secondsUnitsString,
-      oneTimerUnit: oneSecondString
+      oneTimerUnit: oneSecondString,
+      numberOfSources: options.numberOfSources
     } );
 
     // Sound scene
@@ -109,7 +111,8 @@ define( function( require ) {
       meterUnitsConversion: 0.01,
       timeUnitsConversion: 343 / 0.8 / 1.57, // This value is chosen so that the wave speed is accurate
       timerUnits: millisecondsUnitsString,
-      oneTimerUnit: oneMillisecondString
+      oneTimerUnit: oneMillisecondString,
+      numberOfSources: options.numberOfSources
     } );
 
     // Light scene
@@ -117,18 +120,19 @@ define( function( require ) {
       verticalAxisTitle: electricFieldString,
       graphTitle: electricFieldAtCenterString,
       graphHorizontalAxisLabel: positionNMString,
-      latticeWidth: 5000E-9,
+      latticeWidth: 5000, // nm
       minimumFrequency: VisibleColor.MIN_FREQUENCY,
       maximumFrequency: VisibleColor.MAX_FREQUENCY,
       initialFrequency: VisibleColor.SPEED_OF_LIGHT / 660E-9, // Start with red light because it is a familiar LED color
       scaleIndicatorText: fiveHundredNanometersString,
-      scaleIndicatorLength: 500E-9, // 500nm
+      scaleIndicatorLength: 500, // nm
       timeScaleFactor: 1.5807768030572316e-14, // Tuned empirically so the waves have the right size on the lattice.
       measuringTapeUnits: nanometersUnitsString,
-      meterUnitsConversion: 1E-9,
+      meterUnitsConversion: 1E-9, // TODO: we will likely be able to delete this
       timeUnitsConversion: 1E15 * 0.15904736243338724, // Tuned empirically so that light would have the correct THz and hence the correct speed of light
       timerUnits: femtosecondsUnitsString,
-      oneTimerUnit: oneFemtosecondString
+      oneTimerUnit: oneFemtosecondString,
+      numberOfSources: options.numberOfSources
     } );
 
     var eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
@@ -169,9 +173,6 @@ define( function( require ) {
     // at the max.  I chose 8 so it would match up directly with a tickmark (when it was at 7.5, it covered 2 tickmarks
     // and looked odd)
     this.amplitudeProperty = new NumberProperty( 8, { range: { min: 0, max: 10 } } );
-
-    // @public {NumberProperty} - the separation of the wave sources, or 0 if there is only one source
-    this.sourceSeparationProperty = new NumberProperty( options.sourceSeparation );
 
     // @public {BooleanProperty} - whether the wave area graph should be displayed
     this.showGraphProperty = new BooleanProperty( false );
@@ -428,7 +429,7 @@ define( function( require ) {
         var v = -Math.sin( this.time * this.sceneProperty.get().frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
 
         // assumes a square lattice
-        var separationInLatticeUnits = this.sourceSeparationProperty.get() / this.sceneProperty.get().latticeWidth * this.lattice.width;
+        var separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().latticeWidth * this.lattice.width;
         var distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.

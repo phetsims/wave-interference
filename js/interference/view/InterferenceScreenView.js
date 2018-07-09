@@ -30,24 +30,10 @@ define( function( require ) {
    */
   function InterferenceScreenView( model, alignGroup ) {
 
-    // For water and sound, the NumberControl reads out in cm
-    var cmProperty = new DynamicProperty( new Property( model.sourceSeparationProperty ), {
-      bidirectional: true,
-      map: function( x ) {return x * 100;},
-      inverseMap: function( x ) {return x / 100;}
-    } );
-
-    // For light, the NumberControl reads out in nm
-    var nmProperty = new DynamicProperty( new Property( model.sourceSeparationProperty ), {
-      bidirectional: true,
-      map: function( x ) {return x * 1E9;},
-      inverseMap: function( x ) {return x / 1E9;}
-    } );
-
     // TODO: See SlitsControlPanel.  Should we factor out a pattern for this?
     var toggleNode = new ToggleNode( [ {
       value: model.waterScene,
-      node: new NumberControl( separationString, cmProperty, new Range( 1, 5 ), _.extend( {
+      node: new NumberControl( separationString, model.waterScene.sourceSeparationProperty, new Range( 1, 5 ), _.extend( {
         delta: 1,
         valuePattern: '{0} cm', // TODO: i18n
         decimalPlaces: 0,
@@ -57,7 +43,7 @@ define( function( require ) {
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
       value: model.soundScene,
-      node: new NumberControl( separationString, cmProperty, new Range( 10, 50 ), _.extend( {
+      node: new NumberControl( separationString, model.soundScene.sourceSeparationProperty, new Range( 10, 50 ), _.extend( {
         delta: 10,
         valuePattern: '{0} cm', // TODO: i18n
         majorTicks: [
@@ -66,7 +52,7 @@ define( function( require ) {
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
       value: model.lightScene,
-      node: new NumberControl( separationString, nmProperty, new Range( 500, 2500 ), _.extend( {
+      node: new NumberControl( separationString, model.lightScene.sourceSeparationProperty, new Range( 500, 2500 ), _.extend( {
         delta: 500,
         valuePattern: '{0} nm', // TODO: i18n
         majorTicks: [

@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   var inherit = require( 'PHET_CORE/inherit' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -65,6 +66,9 @@ define( function( require ) {
 
     // @public (read-only) {string} - the unit to display on the WaveDetectorToolNode, like "1 s"
     this.oneTimerUnit = config.oneTimerUnit;
+
+    // @public {Property.<Number>} distance between the sources, or 0 if there is only one source
+    this.sourceSeparationProperty = new NumberProperty( 0 ); // TODO: use multiple source separation
   }
 
   waveInterference.register( 'Scene', Scene );
