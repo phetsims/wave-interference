@@ -426,7 +426,7 @@ define( function( require ) {
         var v = -Math.sin( this.time * this.sceneProperty.get().frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
 
         // assumes a square lattice
-        var separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().latticeWidth * this.lattice.width;
+        var separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().latticeWidth * this.lattice.getVisibleBounds().width;
         var distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
