@@ -17,28 +17,22 @@ define( function( require ) {
   var DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' );
 
   /**
-   * @param {WavesScreenModel} model
+   * @param {Scene} scene
    * @param {number} latticeViewWidth
    * @param {Object} [options]
    * @constructor
    */
-  function ScaleIndicatorNode( model, latticeViewWidth, options ) {
+  function ScaleIndicatorNode( scene, latticeViewWidth, options ) {
 
-    var createNodes = function( scene ) {
+    var width = scene.scaleIndicatorLength * latticeViewWidth / scene.latticeWidth;
+    var text = new WaveInterferenceText( scene.scaleIndicatorText );
 
-      var width = scene.scaleIndicatorLength * latticeViewWidth / scene.latticeWidth;
-      var text = new WaveInterferenceText( scene.scaleIndicatorText );
-
-      var doubleHeadedArrowWithBars = new DoubleHeadedArrowWithBarsNode( text.height, width );
-      text.leftCenter = doubleHeadedArrowWithBars.rightCenter.plusXY( 5, 1 );
-      return [ doubleHeadedArrowWithBars, text ];
-    };
+    var doubleHeadedArrowWithBars = new DoubleHeadedArrowWithBarsNode( text.height, width );
+    text.leftCenter = doubleHeadedArrowWithBars.rightCenter.plusXY( 5, 1 );
 
     Node.call( this, _.extend( {
-      children: createNodes( model.sceneProperty.get() )
+      children: [ doubleHeadedArrowWithBars, text ]
     }, options ) );
-
-    model.sceneProperty.lazyLink( createNodes );
   }
 
   waveInterference.register( 'ScaleIndicatorNode', ScaleIndicatorNode );

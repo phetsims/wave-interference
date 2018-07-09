@@ -30,6 +30,7 @@ define( function( require ) {
   var ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
+  var ToggleNode = require( 'SUN/ToggleNode' );
   var ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
   var Util = require( 'SCENERY/util/Util' );
   var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
@@ -76,10 +77,16 @@ define( function( require ) {
     this.addChild( this.waveAreaNode );
 
     // @private show the scale of the wave area
-    var scaleIndicatorNode = new ScaleIndicatorNode( model, this.waveAreaNode.width, {
+    var scaleIndicatorNode = new ToggleNode( [
+      { value: model.waterScene, node: new ScaleIndicatorNode( model.waterScene, this.waveAreaNode.width ) },
+      { value: model.soundScene, node: new ScaleIndicatorNode( model.soundScene, this.waveAreaNode.width ) },
+      { value: model.lightScene, node: new ScaleIndicatorNode( model.lightScene, this.waveAreaNode.width ) }
+    ], model.sceneProperty, {
+      alignChildren: ToggleNode.LEFT,
       top: MARGIN,
       left: this.waveAreaNode.left
     } );
+
     this.addChild( scaleIndicatorNode );
 
     var waveAreaGraphNode = new WaveAreaGraphNode( model, this.waveAreaNode.bounds, {
