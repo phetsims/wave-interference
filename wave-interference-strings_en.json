@@ -35,6 +35,12 @@
   "positionNM": {
     "value": "Position (nm)"
   },
+  "cmValue": {
+    "value": "{0} cm"
+  },
+  "nmValue": {
+    "value": "{0} cm"
+  },
   "cmUnits": {
     "value": "cm"
   },

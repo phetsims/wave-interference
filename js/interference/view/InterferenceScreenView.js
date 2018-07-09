@@ -12,6 +12,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var Range = require( 'DOT/Range' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -19,6 +20,8 @@ define( function( require ) {
   var WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
 
   // strings
+  var cmValueString = require( 'string!WAVE_INTERFERENCE/cmValue' );
+  var nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
   var separationString = require( 'string!WAVE_INTERFERENCE/separation' );
 
   /**
@@ -28,34 +31,37 @@ define( function( require ) {
    */
   function InterferenceScreenView( model, alignGroup ) {
 
-    // TODO: See SlitsControlPanel.  Should we factor out a pattern for this?
+    var createLabelText = function( string ) {
+      return new WaveInterferenceText( string, { fontSize: 10 } );
+    };
+
     var toggleNode = new ToggleNode( [ {
       value: model.waterScene,
       node: new NumberControl( separationString, model.waterScene.sourceSeparationProperty, new Range( 1, 5 ), _.extend( {
         delta: 1,
-        valuePattern: '{0} cm', // TODO: i18n
+        valuePattern: cmValueString,
         decimalPlaces: 0,
         majorTicks: [
-          { value: 1, label: new WaveInterferenceText( '1 cm', { fontSize: 10 } ) }, // TODO: i18n
-          { value: 5, label: new WaveInterferenceText( '5 cm', { fontSize: 10 } ) } ] // TODO: i18n
+          { value: 1, label: createLabelText( StringUtils.format( cmValueString, 1 ) ) },
+          { value: 5, label: createLabelText( StringUtils.format( cmValueString, 5 ) ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
       value: model.soundScene,
       node: new NumberControl( separationString, model.soundScene.sourceSeparationProperty, new Range( 10, 50 ), _.extend( {
         delta: 10,
-        valuePattern: '{0} cm', // TODO: i18n
+        valuePattern: cmValueString,
         majorTicks: [
-          { value: 10, label: new WaveInterferenceText( '10 cm', { fontSize: 10 } ) }, // TODO: i18n
-          { value: 50, label: new WaveInterferenceText( '50 cm', { fontSize: 10 } ) } ] // TODO: i18n
+          { value: 10, label: createLabelText( StringUtils.format( cmValueString, 10 ) ) },
+          { value: 50, label: createLabelText( StringUtils.format( cmValueString, 50 ) ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
       value: model.lightScene,
       node: new NumberControl( separationString, model.lightScene.sourceSeparationProperty, new Range( 500, 2500 ), _.extend( {
         delta: 500,
-        valuePattern: '{0} nm', // TODO: i18n
+        valuePattern: nmValueString,
         majorTicks: [
-          { value: 500, label: new WaveInterferenceText( '500 nm', { fontSize: 10 } ) }, // TODO: i18n
-          { value: 2500, label: new WaveInterferenceText( '2500 nm', { fontSize: 10 } ) } ] // TODO: i18n
+          { value: 500, label: createLabelText( StringUtils.format( nmValueString, 500 ) ) },
+          { value: 2500, label: createLabelText( StringUtils.format( nmValueString, 2500 ) ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     } ], model.sceneProperty );
     WavesScreenView.call( this, model, alignGroup, {

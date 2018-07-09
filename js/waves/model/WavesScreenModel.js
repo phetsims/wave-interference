@@ -32,25 +32,25 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // strings
+  var cmUnitsString = require( 'string!WAVE_INTERFERENCE/cmUnits' );
+  var electricFieldAtCenterString = require( 'string!WAVE_INTERFERENCE/electricFieldAtCenter' );
+  var electricFieldString = require( 'string!WAVE_INTERFERENCE/electricField' );
+  var femtosecondsUnitsString = require( 'string!WAVE_INTERFERENCE/femtosecondsUnits' );
   var fiveHundredNanometersString = require( 'string!WAVE_INTERFERENCE/fiveHundredNanometers' );
+  var millisecondsUnitsString = require( 'string!WAVE_INTERFERENCE/millisecondsUnits' );
+  var nanometersUnitsString = require( 'string!WAVE_INTERFERENCE/nanometersUnits' );
   var oneCentimeterString = require( 'string!WAVE_INTERFERENCE/oneCentimeter' );
-  var tenCentimetersString = require( 'string!WAVE_INTERFERENCE/tenCentimeters' );
-  var waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
-  var waterLevelAtCenterString = require( 'string!WAVE_INTERFERENCE/waterLevelAtCenter' );
+  var oneFemtosecondString = require( 'string!WAVE_INTERFERENCE/oneFemtosecond' );
+  var oneMillisecondString = require( 'string!WAVE_INTERFERENCE/oneMillisecond' );
+  var oneSecondString = require( 'string!WAVE_INTERFERENCE/oneSecond' );
   var positionCMString = require( 'string!WAVE_INTERFERENCE/positionCM' );
   var positionNMString = require( 'string!WAVE_INTERFERENCE/positionNM' );
-  var cmUnitsString = require( 'string!WAVE_INTERFERENCE/cmUnits' );
-  var nanometersUnitsString = require( 'string!WAVE_INTERFERENCE/nanometersUnits' );
-  var secondsUnitsString = require( 'string!WAVE_INTERFERENCE/secondsUnits' );
-  var oneMillisecondString = require( 'string!WAVE_INTERFERENCE/oneMillisecond' );
-  var oneFemtosecondString = require( 'string!WAVE_INTERFERENCE/oneFemtosecond' );
-  var electricFieldString = require( 'string!WAVE_INTERFERENCE/electricField' );
-  var electricFieldAtCenterString = require( 'string!WAVE_INTERFERENCE/electricFieldAtCenter' );
-  var millisecondsUnitsString = require( 'string!WAVE_INTERFERENCE/millisecondsUnits' );
-  var femtosecondsUnitsString = require( 'string!WAVE_INTERFERENCE/femtosecondsUnits' );
-  var oneSecondString = require( 'string!WAVE_INTERFERENCE/oneSecond' );
-  var pressureString = require( 'string!WAVE_INTERFERENCE/pressure' );
   var pressureAtCenterString = require( 'string!WAVE_INTERFERENCE/pressureAtCenter' );
+  var pressureString = require( 'string!WAVE_INTERFERENCE/pressure' );
+  var secondsUnitsString = require( 'string!WAVE_INTERFERENCE/secondsUnits' );
+  var tenCentimetersString = require( 'string!WAVE_INTERFERENCE/tenCentimeters' );
+  var waterLevelAtCenterString = require( 'string!WAVE_INTERFERENCE/waterLevelAtCenter' );
+  var waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
 
   // constants
   var POINT_SOURCE_HORIZONTAL_COORDINATE = 30;

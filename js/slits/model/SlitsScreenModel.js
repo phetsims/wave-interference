@@ -37,6 +37,7 @@ define( function( require ) {
     this.slitWidthProperty = new NumberProperty( 5 );
 
     // @public {NumberProperty} - separation of centers of the slits in lattice coordinates
+    // TODO: Move this to each scene and get the units right
     this.slitSeparationProperty = new NumberProperty( 20 );
 
     this.barrierLocationProperty.link( function() {

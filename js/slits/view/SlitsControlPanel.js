@@ -15,6 +15,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
   var Range = require( 'DOT/Range' );
+  var ToggleNode = require( 'SUN/ToggleNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
@@ -23,9 +24,9 @@ define( function( require ) {
   // strings
   var noBarrierString = require( 'string!WAVE_INTERFERENCE/noBarrier' );
   var oneSlitString = require( 'string!WAVE_INTERFERENCE/oneSlit' );
-  var twoSlitsString = require( 'string!WAVE_INTERFERENCE/twoSlits' );
-  var slitWidthString = require( 'string!WAVE_INTERFERENCE/slitWidth' );
   var slitSeparationString = require( 'string!WAVE_INTERFERENCE/slitSeparation' );
+  var slitWidthString = require( 'string!WAVE_INTERFERENCE/slitWidth' );
+  var twoSlitsString = require( 'string!WAVE_INTERFERENCE/twoSlits' );
 
   /**
    * @param {AlignGroup} alignGroup
@@ -56,13 +57,31 @@ define( function( require ) {
     } );
 
     // TODO: these controls need to respect the scene--units, ranges, etc.
-    var slitSeparationControl = new NumberControl( slitSeparationString, model.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
+    var waterSeparationControl = new NumberControl( slitSeparationString, model.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
         { value: 2000, label: new WaveInterferenceText( 2000, { fontSize: 10 } ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+    var soundSeparationControl = new NumberControl( slitSeparationString, model.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
+      majorTicks: [
+        { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
+        { value: 2000, label: new WaveInterferenceText( 2000, { fontSize: 10 } ) } ]
+    }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+    var lightSeparationControl = new NumberControl( slitSeparationString, model.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
+      majorTicks: [
+        { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
+        { value: 2000, label: new WaveInterferenceText( 2000, { fontSize: 10 } ) } ]
+    }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+    var slitSeparationControl = new ToggleNode( [
+      { value: model.waterScene, node: waterSeparationControl },
+      { value: model.soundScene, node: soundSeparationControl },
+      { value: model.lightScene, node: lightSeparationControl }
+    ], model.sceneProperty );
+
     model.barrierTypeProperty.link( function( barrierType ) {
-      slitSeparationControl.enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
+      waterSeparationControl.enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
+      soundSeparationControl.enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
+      lightSeparationControl.enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
 
     // Vertical layout
