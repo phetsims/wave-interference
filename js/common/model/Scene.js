@@ -65,7 +65,7 @@ define( function( require ) {
     this.oneTimerUnit = config.oneTimerUnit;
 
     // @public {Property.<Number>} distance between the sources, or 0 if there is only one source
-    this.sourceSeparationProperty = new NumberProperty( 0 ); // TODO: use multiple source separation
+    this.sourceSeparationProperty = new NumberProperty( 0 );
   }
 
   waveInterference.register( 'Scene', Scene );
