@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -21,22 +20,14 @@ define( function( require ) {
    * @constructor
    */
   function WaveAreaNode( model, options ) {
-    Node.call( this );
+    Rectangle.call( this, 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, _.extend( {
 
-    var background = new Rectangle( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, {
-
-      // This node is used for layout, so don't include a stroke which could misadjust the width
+      // This node is used for layout, so don't include a stroke which could throw off the dimensions
       fill: 'blue'
-    } );
-
-    this.addChild( background );
-
-    this.mutate( options );
+    }, options ) );
   }
 
   waveInterference.register( 'WaveAreaNode', WaveAreaNode );
 
-  return inherit( Node, WaveAreaNode, {}, {
-    WIDTH: 530
-  } );
+  return inherit( Rectangle, WaveAreaNode );
 } );
