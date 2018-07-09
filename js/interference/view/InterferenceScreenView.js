@@ -9,10 +9,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var DynamicProperty = require( 'AXON/DynamicProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberControl = require( 'SCENERY_PHET/NumberControl' );
-  var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
