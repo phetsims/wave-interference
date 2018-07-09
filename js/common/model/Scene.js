@@ -46,9 +46,6 @@ define( function( require ) {
     // @public (read-only) {string} - units to show for measurements
     this.measuringTapeUnits = config.measuringTapeUnits;
 
-    // @public (read-only) {number} - factor for converting between units (like centimeters, nanometers)
-    this.meterUnitsConversion = config.meterUnitsConversion;
-
     // @public (read-only) {number} - scale factor for converting between time units (like showing seconds in femtoseconds)
     this.timeUnitsConversion = config.timeUnitsConversion;
 

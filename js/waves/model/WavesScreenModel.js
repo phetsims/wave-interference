@@ -88,7 +88,6 @@ define( function( require ) {
       scaleIndicatorLength: 0.01, // 1 centimeter
       timeScaleFactor: 1,
       measuringTapeUnits: cmUnitsString,
-      meterUnitsConversion: 0.01,
       timeUnitsConversion: 1,
       timerUnits: secondsUnitsString,
       oneTimerUnit: oneSecondString,
@@ -108,7 +107,6 @@ define( function( require ) {
       scaleIndicatorLength: 0.1, // 10 cm
       timeScaleFactor: 2E-2, // This value is chosen to make the wave look accurate on the lattice
       measuringTapeUnits: cmUnitsString,
-      meterUnitsConversion: 0.01,
       timeUnitsConversion: 343 / 0.8 / 1.57, // This value is chosen so that the wave speed is accurate
       timerUnits: millisecondsUnitsString,
       oneTimerUnit: oneMillisecondString,
@@ -128,7 +126,6 @@ define( function( require ) {
       scaleIndicatorLength: 500, // nm
       timeScaleFactor: 1.5807768030572316e-14, // Tuned empirically so the waves have the right size on the lattice.
       measuringTapeUnits: nanometersUnitsString,
-      meterUnitsConversion: 1E-9, // TODO: we will likely be able to delete this
       timeUnitsConversion: 1E15 * 0.15904736243338724, // Tuned empirically so that light would have the correct THz and hence the correct speed of light
       timerUnits: femtosecondsUnitsString,
       oneTimerUnit: oneFemtosecondString,
