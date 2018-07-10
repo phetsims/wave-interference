@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
+  var DynamicProperty = require( 'AXON/DynamicProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -24,10 +25,11 @@ define( function( require ) {
 
   /**
    * @param {SlitsScreenModel} model
+   * @param {Scene} scene
    * @param {Bounds2} waveAreaBounds
    * @constructor
    */
-  function BarriersNode( model, waveAreaBounds ) {
+  function BarriersNode( model, scene, waveAreaBounds ) {
 
     assert && assert( model instanceof SlitsScreenModel );
 
@@ -46,15 +48,19 @@ define( function( require ) {
 
     this.addInputListener( new DragListener( {
       applyOffset: false,
-      locationProperty: model.barrierLocationProperty,
+      locationProperty: scene.barrierLocationProperty,
       transform: this.latticeViewTransform
     } ) );
 
     // Update shapes when the model parameters change
     var update = this.update.bind( this );
     model.barrierTypeProperty.link( update );
-    model.barrierLocationProperty.link( update );
-    model.slitWidthProperty.link( update );
+    model.waterScene.barrierLocationProperty.link( update );
+    model.soundScene.barrierLocationProperty.link( update );
+    model.lightScene.barrierLocationProperty.link( update );
+    model.waterScene.slitWidthProperty.link( update );
+    model.soundScene.slitWidthProperty.link( update );
+    model.lightScene.slitWidthProperty.link( update );
     model.waterScene.slitSeparationProperty.link( update );
     model.soundScene.slitSeparationProperty.link( update );
     model.lightScene.slitSeparationProperty.link( update );
@@ -75,7 +81,7 @@ define( function( require ) {
       var barrierType = this.model.barrierTypeProperty.get();
       var lattice = this.model.lattice;
       var dampY = lattice.dampY;
-      var slitWidth = this.model.slitWidthProperty.get();
+      var slitWidth = this.model.sceneProperty.get().slitWidthProperty.get();
       var slitSeparation = this.model.sceneProperty.get().slitSeparationProperty.get();
 
       var x1 = this.latticeViewTransform.modelToViewX( this.model.getBarrierLocation() );

@@ -43,14 +43,20 @@ define( function( require ) {
     slitControlPanel.on( 'bounds', updateSlitControlPanel );
     this.addChild( slitControlPanel );
 
-    var barriersNode = new BarriersNode( model, this.waveAreaNode.bounds );
+    var waterBarriersNode = new BarriersNode( model, model.waterScene, this.waveAreaNode.bounds );
+    var soundBarriersNode = new BarriersNode( model, model.soundScene, this.waveAreaNode.bounds );
+    var lightBarriersNode = new BarriersNode( model, model.lightScene, this.waveAreaNode.bounds );
     Property.multilink( [ model.sceneProperty, model.rotationAmountProperty, model.isRotatingProperty, model.viewTypeProperty ], function( scene, rotationAmount, isRotating, viewType ) {
 
       // Hide the barriers for water side view and while rotating
       var hide = scene === model.waterScene && viewType === ViewType.SIDE || isRotating;
-      barriersNode.visible = !hide;
+      waterBarriersNode.visible = !hide && scene === model.waterScene;
+      soundBarriersNode.visible = !hide && scene === model.soundScene;
+      lightBarriersNode.visible = !hide && scene === model.lightScene
     } );
-    this.addChild( barriersNode );
+    this.addChild( waterBarriersNode );
+    this.addChild( soundBarriersNode );
+    this.addChild( lightBarriersNode );
   }
 
   waveInterference.register( 'SlitsScreenView', SlitsScreenView );

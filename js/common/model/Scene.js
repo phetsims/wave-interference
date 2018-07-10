@@ -81,6 +81,15 @@ define( function( require ) {
 
     // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice coordinates
     this.modelToLatticeTransform = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, config.latticeBounds.width / this.latticeWidth );
+
+    // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)
+    //                   - note: this is a floating point 2D representation so it can work seamlessly with DragListener
+    //                   - see getBarrierLocation() for how to get the integral x-coordinate.
+    //                   - Can be dragged by the node or handle below it.
+    this.barrierLocationProperty = new Property( new Vector2( config.latticeWidth / 2, 0 ) );
+
+    // @public {NumberProperty} - width of the slit(s) opening in lattice coordinates.
+    this.slitWidthProperty = new NumberProperty( 5 );
   }
 
   waveInterference.register( 'Scene', Scene );

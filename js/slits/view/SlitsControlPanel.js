@@ -46,14 +46,25 @@ define( function( require ) {
     } );
 
     // TODO: these controls need to respect the scene--units, ranges, etc.
-    var slitWidthControl = new NumberControl( slitWidthString, model.slitWidthProperty, new Range( 0, 20 ), _.extend( {
+    var waterSlitWidthControl = new NumberControl( slitWidthString, model.waterScene.slitWidthProperty, new Range( 0, 20 ), _.extend( {
+      majorTicks: [
+        { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
+        { value: 200, label: new WaveInterferenceText( 200, { fontSize: 10 } ) } ]
+    }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+    var soundSlitWidthControl = new NumberControl( slitWidthString, model.soundScene.slitWidthProperty, new Range( 0, 20 ), _.extend( {
+      majorTicks: [
+        { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
+        { value: 200, label: new WaveInterferenceText( 200, { fontSize: 10 } ) } ]
+    }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+    var lightSlitWidthControl = new NumberControl( slitWidthString, model.lightScene.slitWidthProperty, new Range( 0, 20 ), _.extend( {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
         { value: 200, label: new WaveInterferenceText( 200, { fontSize: 10 } ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     model.barrierTypeProperty.link( function( barrierType ) {
-      slitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT ||
-                                 barrierType === BarrierTypeEnum.TWO_SLITS;
+      waterSlitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
+      soundSlitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
+      lightSlitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
     } );
 
     // TODO: these controls need to respect the scene--units, ranges, etc.
@@ -85,17 +96,17 @@ define( function( require ) {
     } );
 
     // Vertical layout
-    slitWidthControl.top = comboBox.bottom + 2;
-    slitSeparationControl.top = slitWidthControl.bottom + 2;
+    waterSlitWidthControl.top = comboBox.bottom + 2;
+    slitSeparationControl.top = waterSlitWidthControl.bottom + 2;
 
     // Horizontal layout
-    slitWidthControl.centerX = comboBox.centerX;
-    slitSeparationControl.left = slitWidthControl.left;
+    waterSlitWidthControl.centerX = comboBox.centerX;
+    slitSeparationControl.left = waterSlitWidthControl.left;
 
     var content = alignGroup.createBox( new Node( {
       children: [
         comboBox,
-        slitWidthControl,
+        waterSlitWidthControl,
         slitSeparationControl
       ]
     } ) );
