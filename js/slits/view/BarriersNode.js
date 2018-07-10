@@ -11,7 +11,6 @@ define( function( require ) {
   // modules
   var BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   var DragListener = require( 'SCENERY/listeners/DragListener' );
-  var DynamicProperty = require( 'AXON/DynamicProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );

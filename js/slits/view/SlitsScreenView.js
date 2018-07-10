@@ -52,7 +52,7 @@ define( function( require ) {
       var hide = scene === model.waterScene && viewType === ViewType.SIDE || isRotating;
       waterBarriersNode.visible = !hide && scene === model.waterScene;
       soundBarriersNode.visible = !hide && scene === model.soundScene;
-      lightBarriersNode.visible = !hide && scene === model.lightScene
+      lightBarriersNode.visible = !hide && scene === model.lightScene;
     } );
     this.addChild( waterBarriersNode );
     this.addChild( soundBarriersNode );
