@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Shows the water from the side view.
+ * Renders the draggable barrier with one or two slits.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -16,11 +16,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
-  var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-
-  // constants
-  var BARRIER_WIDTH_IN_CELLS = 1;
 
   /**
    * @param {SlitsScreenModel} model
@@ -41,17 +37,36 @@ define( function( require ) {
     // @private
     this.scene = scene;
 
+    /**
+     * Creates one of the 3 recycled rectangles used for rendering the barriers.
+     */
+    var createRectangle = function() {
+      return new Rectangle( 0, 0, 0, 0, 2, 2, {
+        fill: '#f3d99b',
+        stroke: 'black',
+        lineWidth: 1
+      } );
+    };
+    // @private - create and reuse rectangles
+    this.rectangleA = createRectangle();
+    this.rectangleB = createRectangle();
+    this.rectangleC = createRectangle();
+
     Node.call( this, {
-      cursor: 'pointer'
+      cursor: 'pointer',
+      children: [ this.rectangleA, this.rectangleB, this.rectangleC ]
     } );
 
+    // @private - View width for one cell
+    this.cellWidth = ModelViewTransform2.createRectangleMapping( this.model.lattice.getVisibleBounds(), waveAreaBounds ).modelToViewDeltaX( 1 );
+
     // @private - Convert from lattice coordinates to view coordinates
-    this.latticeViewTransform = ModelViewTransform2.createRectangleMapping( this.model.lattice.getVisibleBounds(), waveAreaBounds );
+    this.modelViewTransform = ModelViewTransform2.createRectangleMapping( this.scene.getLatticeModelBounds(), waveAreaBounds );
 
     this.addInputListener( new DragListener( {
       applyOffset: false,
       locationProperty: scene.barrierLocationProperty,
-      transform: this.latticeViewTransform
+      transform: this.modelViewTransform
     } ) );
 
     // Update shapes when the model parameters change
@@ -71,61 +86,46 @@ define( function( require ) {
      */
     update: function() {
 
-      // TODO(performance): iPad2 performance check--is it OK to remove and recreate nodes while dragging a slider?
-      // TODO(performance): if necessary, we could create 3 rectangles on startup and reuse them.
-      this.removeAllChildren();
       var barrierType = this.model.barrierTypeProperty.get();
-      var lattice = this.model.lattice;
-      var dampY = lattice.dampY;
-      var slitWidth = this.model.sceneProperty.get().slitWidthProperty.get();
-      var slitSeparation = this.model.sceneProperty.get().slitSeparationProperty.get();
+      var scene = this.scene;
+      var slitWidth = scene.slitWidthProperty.get();
+      var slitSeparation = scene.slitSeparationProperty.get();
 
-      var modelX1 = this.scene.getBarrierLocation();
-      var latticeX1 = this.scene.modelToLatticeTransform.modelToViewX( modelX1 );
-      var viewX1 = this.latticeViewTransform.modelToViewX( latticeX1 );
-
-      var latticeX2 = this.scene.modelToLatticeTransform.modelToViewX( modelX1 ) + BARRIER_WIDTH_IN_CELLS;
-      var viewX2 = this.latticeViewTransform.modelToViewX( latticeX2 );
+      // Barrier origin in view coordinates
+      var x = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() );
 
       if ( barrierType === BarrierTypeEnum.NO_BARRIER ) {
 
         // No need to add children
+        this.rectangleA.visible = false;
+        this.rectangleB.visible = false;
+        this.rectangleC.visible = false;
       }
       else if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
-        var y1 = Util.linear( dampY, lattice.height - dampY - 1, this.waveAreaBounds.top, this.waveAreaBounds.bottom, lattice.height / 2 - slitWidth / 2 );
-        var y2 = Util.linear( dampY, lattice.height - dampY - 1, this.waveAreaBounds.top, this.waveAreaBounds.bottom, lattice.height / 2 + slitWidth / 2 );
-        this.addChild( new Rectangle( viewX1, this.waveAreaBounds.top, viewX2 - viewX1, y1 - this.waveAreaBounds.top, 2, 2, {
-          fill: '#f3d99b',
-          stroke: 'black',
-          lineWidth: 1
-        } ) );
-        this.addChild( new Rectangle( viewX1, y2, viewX2 - viewX1, this.waveAreaBounds.bottom - y2, 2, 2, {
-          fill: '#f3d99b',
-          stroke: 'black',
-          lineWidth: 1
-        } ) );
+
+        this.rectangleA.visible = true;
+        this.rectangleB.visible = true;
+        this.rectangleC.visible = false;
+
+        var slitWidthView = this.modelViewTransform.modelToViewDeltaY( slitWidth );
+        var y1 = this.waveAreaBounds.centerY - slitWidthView / 2;
+        var y2 = this.waveAreaBounds.centerY + slitWidthView / 2;
+        this.rectangleA.setRect( x, this.waveAreaBounds.top, this.cellWidth, y1 - this.waveAreaBounds.top, 2, 2 );
+        this.rectangleB.setRect( x, y2, this.cellWidth, this.waveAreaBounds.bottom - y2, 2, 2 );
       }
       else if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
+        this.rectangleA.visible = true;
+        this.rectangleB.visible = true;
+        this.rectangleC.visible = true;
 
-        var bottomOfTopBarrier = this.latticeViewTransform.modelToViewY( lattice.height / 2 - slitSeparation / 2 - slitWidth / 2 );
-        var topOfCentralBarrier = this.latticeViewTransform.modelToViewY( lattice.height / 2 - slitSeparation / 2 + slitWidth / 2 );
-        var bottomOfCentralBarrier = this.latticeViewTransform.modelToViewY( lattice.height / 2 + slitSeparation / 2 - slitWidth / 2 );
-        var topOfBottomBarrier = this.latticeViewTransform.modelToViewY( lattice.height / 2 + slitSeparation / 2 + slitWidth / 2 );
-        this.addChild( new Rectangle( viewX1, this.waveAreaBounds.top, viewX2 - viewX1, Math.max( 0, bottomOfTopBarrier - this.waveAreaBounds.top ), 2, 2, {
-          fill: '#f3d99b',
-          stroke: 'black',
-          lineWidth: 1
-        } ) );
-        this.addChild( new Rectangle( viewX1, topOfCentralBarrier, viewX2 - viewX1, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ), 2, 2, {
-          fill: '#f3d99b',
-          stroke: 'black',
-          lineWidth: 1
-        } ) );
-        this.addChild( new Rectangle( viewX1, topOfBottomBarrier, viewX2 - viewX1, Math.max( this.waveAreaBounds.bottom - topOfBottomBarrier ), 2, 2, {
-          fill: '#f3d99b',
-          stroke: 'black',
-          lineWidth: 1
-        } ) );
+        var latticeWidth = scene.latticeWidth;
+        var bottomOfTopBarrier = this.modelViewTransform.modelToViewY( latticeWidth / 2 - slitSeparation / 2 - slitWidth / 2 );
+        var topOfCentralBarrier = this.modelViewTransform.modelToViewY( latticeWidth / 2 - slitSeparation / 2 + slitWidth / 2 );
+        var bottomOfCentralBarrier = this.modelViewTransform.modelToViewY( latticeWidth / 2 + slitSeparation / 2 - slitWidth / 2 );
+        var topOfBottomBarrier = this.modelViewTransform.modelToViewY( latticeWidth / 2 + slitSeparation / 2 + slitWidth / 2 );
+        this.rectangleA.setRect( x, this.waveAreaBounds.top, this.cellWidth, Math.max( 0, bottomOfTopBarrier - this.waveAreaBounds.top ), 2, 2 );
+        this.rectangleB.setRect( x, topOfCentralBarrier, this.cellWidth, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ), 2, 2 );
+        this.rectangleC.setRect( x, topOfBottomBarrier, this.cellWidth, Math.max( this.waveAreaBounds.bottom - topOfBottomBarrier ), 2, 2 );
       }
     }
   } );

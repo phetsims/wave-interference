@@ -45,18 +45,19 @@ define( function( require ) {
     setSourceValues: function( lattice ) {
 
       var scene = this.sceneProperty.get();
+      var barrierLocationInLatticeCoordinates = scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() );
 
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
-      for ( var i = 0; i < scene.getBarrierLocation() + 1; i++ ) {
+      for ( var i = 0; i < barrierLocationInLatticeCoordinates + 1; i++ ) {
         for ( var j = 0; j < lattice.height; j++ ) {
 
           if ( this.button1PressedProperty.get() ) {
 
             // TODO: map lattice coordinates to model coordinate frame, then do sin(kx-wt) there, perhaps use wave speed in model coordinates.
             // TODO: Plane wave is wrong speed/wavelength
-            var frequency = this.sceneProperty.get().frequencyProperty.get();
-            var latticeFrequency = frequency * this.sceneProperty.get().timeScaleFactor;
+            var frequency = scene.frequencyProperty.get();
+            var latticeFrequency = frequency * scene.timeScaleFactor;
             var k = Util.linear( 1, 19, 0.1, 1, latticeFrequency );
 
             // Scale the amplitude because it is calibrated for a point source, not a plane wave
@@ -73,11 +74,12 @@ define( function( require ) {
         }
       }
 
+      // Zero out values in the barrier
       if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT || this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
-        var barrierX = Math.round( this.sceneProperty.get().barrierLocationProperty.get().x );
-        var slitWidth = this.sceneProperty.get().slitWidthProperty.get();
-        var slitSeparationModelCoordinates = this.sceneProperty.get().slitSeparationProperty.get();
-        var slitSeparationInLatticeCoordinates = this.sceneProperty.get().modelToLatticeTransform.modelToViewDeltaY( slitSeparationModelCoordinates );
+        var barrierX = barrierLocationInLatticeCoordinates;
+        var slitWidth = scene.slitWidthProperty.get();
+        var slitSeparationModelCoordinates = scene.slitSeparationProperty.get();
+        var slitSeparationInLatticeCoordinates = scene.modelToLatticeTransform.modelToViewDeltaY( slitSeparationModelCoordinates );
         var latticeCenterY = this.lattice.height / 2;
 
         for ( j = 0; j < lattice.height; j++ ) {

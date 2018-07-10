@@ -12,6 +12,7 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Vector2 = require( 'DOT/Vector2' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -104,6 +105,15 @@ define( function( require ) {
      */
     getBarrierLocation: function() {
       return Math.round( this.barrierLocationProperty.get().x );
+    },
+
+    /**
+     * Returns a Bounds2 for
+     * @returns {Bounds2} the lattice model bounds, in the coordinates of this scene.
+     * @public
+     */
+    getLatticeModelBounds: function() {
+      return new Rectangle( 0, 0, this.latticeWidth, this.latticeWidth );
     },
 
     /**
