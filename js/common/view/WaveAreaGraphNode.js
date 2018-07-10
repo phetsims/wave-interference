@@ -68,9 +68,9 @@ define( function( require ) {
       var x = Util.linear( 0, 10, 0, graphWidth, i );
 
       // Find the position of the tick mark in the units of the scene
-      var waterReadout = model.waterScene.latticeWidth * x / graphWidth;
-      var soundReadout = model.soundScene.latticeWidth * x / graphWidth;
-      var lightReadout = model.lightScene.latticeWidth * x / graphWidth;
+      var waterReadout = model.waterScene.waveAreaWidth * x / graphWidth;
+      var soundReadout = model.soundScene.waveAreaWidth * x / graphWidth;
+      var lightReadout = model.lightScene.waveAreaWidth * x / graphWidth;
 
       var horizontalAxisTickLabel = new ToggleNode( [ {
         value: model.waterScene,

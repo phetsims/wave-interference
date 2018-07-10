@@ -118,11 +118,11 @@ define( function( require ) {
         this.rectangleB.visible = true;
         this.rectangleC.visible = true;
 
-        var latticeWidth = scene.latticeWidth;
-        var bottomOfTopBarrier = this.modelViewTransform.modelToViewY( latticeWidth / 2 - slitSeparation / 2 - slitWidth / 2 );
-        var topOfCentralBarrier = this.modelViewTransform.modelToViewY( latticeWidth / 2 - slitSeparation / 2 + slitWidth / 2 );
-        var bottomOfCentralBarrier = this.modelViewTransform.modelToViewY( latticeWidth / 2 + slitSeparation / 2 - slitWidth / 2 );
-        var topOfBottomBarrier = this.modelViewTransform.modelToViewY( latticeWidth / 2 + slitSeparation / 2 + slitWidth / 2 );
+        var waveAreaWidth = scene.waveAreaWidth;
+        var bottomOfTopBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 - slitWidth / 2 );
+        var topOfCentralBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 + slitWidth / 2 );
+        var bottomOfCentralBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 - slitWidth / 2 );
+        var topOfBottomBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 + slitWidth / 2 );
         this.rectangleA.setRect( x, this.waveAreaBounds.top, this.cellWidth, Math.max( 0, bottomOfTopBarrier - this.waveAreaBounds.top ), 2, 2 );
         this.rectangleB.setRect( x, topOfCentralBarrier, this.cellWidth, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ), 2, 2 );
         this.rectangleC.setRect( x, topOfBottomBarrier, this.cellWidth, Math.max( this.waveAreaBounds.bottom - topOfBottomBarrier ), 2, 2 );

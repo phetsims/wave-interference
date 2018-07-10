@@ -173,7 +173,7 @@ define( function( require ) {
     model.sceneProperty.link( function( scene ) {
       measuringTapeProperty.set( {
         name: scene.translatedPositionUnits,
-        multiplier: scene.latticeWidth / self.waveAreaNode.width
+        multiplier: scene.waveAreaWidth / self.waveAreaNode.width
       } );
     } );
 
@@ -365,7 +365,7 @@ define( function( require ) {
       laserPointerNode2.visible = sourceSeparation > 0;
 
       // TODO: A way to go straight from model coordinates to view coordinates, without going through lattice coordinates
-      var viewSeparation = transform.modelToViewDeltaX( sourceSeparation * model.lattice.getVisibleBounds().width / model.sceneProperty.get().latticeWidth );
+      var viewSeparation = transform.modelToViewDeltaX( sourceSeparation * model.lattice.getVisibleBounds().width / model.sceneProperty.get().waveAreaWidth );
       laserPointerNode1.centerY = self.waveAreaNode.centerY + viewSeparation / 2;
       laserPointerNode2.centerY = self.waveAreaNode.centerY - viewSeparation / 2;
     } );

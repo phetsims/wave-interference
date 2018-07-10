@@ -26,7 +26,7 @@ define( function( require ) {
     this.translatedPositionUnits = config.translatedPositionUnits;
 
     // @public (read-only) {number} - width of the visible part of the lattice in the scene's units
-    this.latticeWidth = config.latticeWidth;
+    this.waveAreaWidth = config.waveAreaWidth;
 
     // @public (read-only) {string} - text that describes the horizontal spatial axis
     this.graphHorizontalAxisLabel = config.graphHorizontalAxisLabel;
@@ -81,13 +81,13 @@ define( function( require ) {
     } );
 
     // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice coordinates
-    this.modelToLatticeTransform = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, config.latticeBounds.width / this.latticeWidth );
+    this.modelToLatticeTransform = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, config.latticeBounds.width / this.waveAreaWidth );
 
     // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)
     //                   - note: this is a floating point 2D representation so it can work seamlessly with DragListener
     //                   - see getBarrierLocation() for how to get the integral x-coordinate.
     //                   - Can be dragged by the node or handle below it.
-    this.barrierLocationProperty = new Property( new Vector2( config.latticeWidth / 2, 0 ), {
+    this.barrierLocationProperty = new Property( new Vector2( config.waveAreaWidth / 2, 0 ), {
       units: this.positionUnits
     } );
 
@@ -116,7 +116,7 @@ define( function( require ) {
      * @public
      */
     getLatticeModelBounds: function() {
-      return new Rectangle( 0, 0, this.latticeWidth, this.latticeWidth );
+      return new Rectangle( 0, 0, this.waveAreaWidth, this.waveAreaWidth );
     },
 
     /**

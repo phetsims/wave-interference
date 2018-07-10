@@ -24,7 +24,7 @@ define( function( require ) {
    */
   function ScaleIndicatorNode( scene, latticeViewWidth, options ) {
 
-    var width = scene.scaleIndicatorLength * latticeViewWidth / scene.latticeWidth;
+    var width = scene.scaleIndicatorLength * latticeViewWidth / scene.waveAreaWidth;
     var text = new WaveInterferenceText( scene.scaleIndicatorText );
 
     var doubleHeadedArrowWithBars = new DoubleHeadedArrowWithBarsNode( text.height, width );

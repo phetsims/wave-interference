@@ -91,7 +91,7 @@ define( function( require ) {
       verticalAxisTitle: waterLevelString,
       graphTitle: waterLevelAtCenterString,
       graphHorizontalAxisLabel: positionCMString,
-      latticeWidth: 10, // 10 centimeters
+      waveAreaWidth: 10, // 10 centimeters
       minimumFrequency: 1,
       maximumFrequency: 8,
       scaleIndicatorText: oneCentimeterString,
@@ -114,7 +114,7 @@ define( function( require ) {
       verticalAxisTitle: pressureString,
       graphTitle: pressureAtCenterString,
       graphHorizontalAxisLabel: positionCMString,
-      latticeWidth: 100, // 1 meter
+      waveAreaWidth: 100, // 1 meter
       minimumFrequency: concertA - 200,
       maximumFrequency: concertA + 200,
       scaleIndicatorText: tenCentimetersString,
@@ -136,7 +136,7 @@ define( function( require ) {
       verticalAxisTitle: electricFieldString,
       graphTitle: electricFieldAtCenterString,
       graphHorizontalAxisLabel: positionNMString,
-      latticeWidth: 5000, // nm
+      waveAreaWidth: 5000, // nm
       minimumFrequency: VisibleColor.MIN_FREQUENCY,
       maximumFrequency: VisibleColor.MAX_FREQUENCY,
       initialFrequency: VisibleColor.SPEED_OF_LIGHT / 660E-9, // Start with red light because it is a familiar LED color
@@ -440,7 +440,7 @@ define( function( require ) {
         var v = -Math.sin( this.time * this.sceneProperty.get().frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
 
         // assumes a square lattice
-        var separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().latticeWidth * this.lattice.getVisibleBounds().width;
+        var separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().waveAreaWidth * this.lattice.getVisibleBounds().width;
         var distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
