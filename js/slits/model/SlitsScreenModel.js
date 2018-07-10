@@ -12,7 +12,6 @@ define( function( require ) {
   var BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
-  var Util = require( 'DOT/Util' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   var WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
 
@@ -49,19 +48,28 @@ define( function( require ) {
 
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
+
+      // TODO: Plane wave is wrong speed/wavelength
       for ( var i = 0; i < barrierLocationInLatticeCoordinates + 1; i++ ) {
+
+        // Find the physical model coordinate corresponding to the lattice coordinate
+        var x = scene.modelToLatticeTransform.viewToModelX( i );
+
+        var frequency = scene.frequencyProperty.get();
+        var wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: is this correct for sound and light?
+
         for ( var j = 0; j < lattice.height; j++ ) {
 
           if ( this.button1PressedProperty.get() ) {
 
-            // TODO: map lattice coordinates to model coordinate frame, then do sin(kx-wt) there, perhaps use wave speed in model coordinates.
-            // TODO: Plane wave is wrong speed/wavelength
-            var frequency = scene.frequencyProperty.get();
-            var latticeFrequency = frequency * scene.timeScaleFactor;
-            var k = Util.linear( 1, 19, 0.1, 1, latticeFrequency );
+            // lambda * k = 2 * pi
+            // k = 2pi/lambda
+            var k = Math.PI * 2 / wavelength;
+
+            // TODO: use wave speed to track the wavefront, there is an issue for this
 
             // Scale the amplitude because it is calibrated for a point source, not a plane wave
-            var value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * i - frequency * this.time );
+            var value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - frequency * this.time );
             var lastValue = lattice.getCurrentValue( i, j );
             lattice.setCurrentValue( i, j, value );
             lattice.setLastValue( i, j, lastValue );
@@ -70,6 +78,7 @@ define( function( require ) {
 
             // Instantly clear the incoming wave, otherwise there are too many odd reflections
             lattice.setCurrentValue( i, j, 0 );
+            lattice.setLastValue( i, j, 0 );
           }
         }
       }

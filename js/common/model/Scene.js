@@ -93,6 +93,9 @@ define( function( require ) {
 
     // @public {NumberProperty} - width of the slit(s) opening in lattice coordinates.
     this.slitWidthProperty = new NumberProperty( 5 );
+
+    // @public (read-only) {number}
+    this.waveSpeed = config.waveSpeed;
   }
 
   waveInterference.register( 'Scene', Scene );
