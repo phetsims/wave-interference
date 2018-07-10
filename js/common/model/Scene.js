@@ -102,6 +102,10 @@ define( function( require ) {
      */
     reset: function() {
       this.frequencyProperty.reset();
+      this.slitWidthProperty.reset();
+      this.barrierLocationProperty.reset();
+      this.slitSeparationProperty.reset();
+      this.sourceSeparationProperty.reset();
     }
   } );
 } );
