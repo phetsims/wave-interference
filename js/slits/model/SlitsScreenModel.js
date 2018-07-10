@@ -37,14 +37,6 @@ define( function( require ) {
   return inherit( WavesScreenModel, SlitsScreenModel, {
 
     /**
-     * Returns the horizontal barrier location in integer coordinates.
-     * @public
-     */
-    getBarrierLocation: function() {
-      return Math.round( this.sceneProperty.get().barrierLocationProperty.get().x );
-    },
-
-    /**
      * Set the incoming source values, in this case it is a plane wave on the left side of the lattice.
      * @param {Lattice} lattice
      * @override
@@ -52,9 +44,11 @@ define( function( require ) {
      */
     setSourceValues: function( lattice ) {
 
+      var scene = this.sceneProperty.get();
+
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
-      for ( var i = 0; i < this.getBarrierLocation() + 1; i++ ) {
+      for ( var i = 0; i < scene.getBarrierLocation() + 1; i++ ) {
         for ( var j = 0; j < lattice.height; j++ ) {
 
           if ( this.button1PressedProperty.get() ) {

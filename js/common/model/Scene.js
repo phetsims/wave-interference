@@ -86,7 +86,9 @@ define( function( require ) {
     //                   - note: this is a floating point 2D representation so it can work seamlessly with DragListener
     //                   - see getBarrierLocation() for how to get the integral x-coordinate.
     //                   - Can be dragged by the node or handle below it.
-    this.barrierLocationProperty = new Property( new Vector2( config.latticeWidth / 2, 0 ) );
+    this.barrierLocationProperty = new Property( new Vector2( config.latticeWidth / 2, 0 ), {
+      units: this.positionUnits
+    } );
 
     // @public {NumberProperty} - width of the slit(s) opening in lattice coordinates.
     this.slitWidthProperty = new NumberProperty( 5 );
@@ -95,6 +97,14 @@ define( function( require ) {
   waveInterference.register( 'Scene', Scene );
 
   return inherit( Object, Scene, {
+
+    /**
+     * Returns the horizontal barrier location in integer coordinates.
+     * @public
+     */
+    getBarrierLocation: function() {
+      return Math.round( this.barrierLocationProperty.get().x );
+    },
 
     /**
      * Restores the initial conditions of this scene.

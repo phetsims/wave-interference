@@ -38,6 +38,9 @@ define( function( require ) {
     // @private
     this.model = model;
 
+    // @private
+    this.scene = scene;
+
     Node.call( this, {
       cursor: 'pointer'
     } );
@@ -54,15 +57,9 @@ define( function( require ) {
     // Update shapes when the model parameters change
     var update = this.update.bind( this );
     model.barrierTypeProperty.link( update );
-    model.waterScene.barrierLocationProperty.link( update );
-    model.soundScene.barrierLocationProperty.link( update );
-    model.lightScene.barrierLocationProperty.link( update );
-    model.waterScene.slitWidthProperty.link( update );
-    model.soundScene.slitWidthProperty.link( update );
-    model.lightScene.slitWidthProperty.link( update );
-    model.waterScene.slitSeparationProperty.link( update );
-    model.soundScene.slitSeparationProperty.link( update );
-    model.lightScene.slitSeparationProperty.link( update );
+    scene.barrierLocationProperty.link( update );
+    scene.slitWidthProperty.link( update );
+    scene.slitSeparationProperty.link( update );
   }
 
   waveInterference.register( 'BarriersNode', BarriersNode );
@@ -83,8 +80,12 @@ define( function( require ) {
       var slitWidth = this.model.sceneProperty.get().slitWidthProperty.get();
       var slitSeparation = this.model.sceneProperty.get().slitSeparationProperty.get();
 
-      var x1 = this.latticeViewTransform.modelToViewX( this.model.getBarrierLocation() );
-      var x2 = this.latticeViewTransform.modelToViewX( this.model.getBarrierLocation() + BARRIER_WIDTH_IN_CELLS );
+      var modelX1 = this.scene.getBarrierLocation();
+      var latticeX1 = this.scene.modelToLatticeTransform.modelToViewX( modelX1 );
+      var viewX1 = this.latticeViewTransform.modelToViewX( latticeX1 );
+
+      var latticeX2 = this.scene.modelToLatticeTransform.modelToViewX( modelX1 ) + BARRIER_WIDTH_IN_CELLS;
+      var viewX2 = this.latticeViewTransform.modelToViewX( latticeX2 );
 
       if ( barrierType === BarrierTypeEnum.NO_BARRIER ) {
 
@@ -93,12 +94,12 @@ define( function( require ) {
       else if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
         var y1 = Util.linear( dampY, lattice.height - dampY - 1, this.waveAreaBounds.top, this.waveAreaBounds.bottom, lattice.height / 2 - slitWidth / 2 );
         var y2 = Util.linear( dampY, lattice.height - dampY - 1, this.waveAreaBounds.top, this.waveAreaBounds.bottom, lattice.height / 2 + slitWidth / 2 );
-        this.addChild( new Rectangle( x1, this.waveAreaBounds.top, x2 - x1, y1 - this.waveAreaBounds.top, 2, 2, {
+        this.addChild( new Rectangle( viewX1, this.waveAreaBounds.top, viewX2 - viewX1, y1 - this.waveAreaBounds.top, 2, 2, {
           fill: '#f3d99b',
           stroke: 'black',
           lineWidth: 1
         } ) );
-        this.addChild( new Rectangle( x1, y2, x2 - x1, this.waveAreaBounds.bottom - y2, 2, 2, {
+        this.addChild( new Rectangle( viewX1, y2, viewX2 - viewX1, this.waveAreaBounds.bottom - y2, 2, 2, {
           fill: '#f3d99b',
           stroke: 'black',
           lineWidth: 1
@@ -110,17 +111,17 @@ define( function( require ) {
         var topOfCentralBarrier = this.latticeViewTransform.modelToViewY( lattice.height / 2 - slitSeparation / 2 + slitWidth / 2 );
         var bottomOfCentralBarrier = this.latticeViewTransform.modelToViewY( lattice.height / 2 + slitSeparation / 2 - slitWidth / 2 );
         var topOfBottomBarrier = this.latticeViewTransform.modelToViewY( lattice.height / 2 + slitSeparation / 2 + slitWidth / 2 );
-        this.addChild( new Rectangle( x1, this.waveAreaBounds.top, x2 - x1, Math.max( 0, bottomOfTopBarrier - this.waveAreaBounds.top ), 2, 2, {
+        this.addChild( new Rectangle( viewX1, this.waveAreaBounds.top, viewX2 - viewX1, Math.max( 0, bottomOfTopBarrier - this.waveAreaBounds.top ), 2, 2, {
           fill: '#f3d99b',
           stroke: 'black',
           lineWidth: 1
         } ) );
-        this.addChild( new Rectangle( x1, topOfCentralBarrier, x2 - x1, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ), 2, 2, {
+        this.addChild( new Rectangle( viewX1, topOfCentralBarrier, viewX2 - viewX1, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ), 2, 2, {
           fill: '#f3d99b',
           stroke: 'black',
           lineWidth: 1
         } ) );
-        this.addChild( new Rectangle( x1, topOfBottomBarrier, x2 - x1, Math.max( this.waveAreaBounds.bottom - topOfBottomBarrier ), 2, 2, {
+        this.addChild( new Rectangle( viewX1, topOfBottomBarrier, viewX2 - viewX1, Math.max( this.waveAreaBounds.bottom - topOfBottomBarrier ), 2, 2, {
           fill: '#f3d99b',
           stroke: 'black',
           lineWidth: 1
