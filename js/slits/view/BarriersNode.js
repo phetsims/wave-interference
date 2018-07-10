@@ -21,15 +21,15 @@ define( function( require ) {
   /**
    * @param {SlitsScreenModel} model
    * @param {Scene} scene
-   * @param {Bounds2} waveAreaBounds
+   * @param {Bounds2} viewBounds
    * @constructor
    */
-  function BarriersNode( model, scene, waveAreaBounds ) {
+  function BarriersNode( model, scene, viewBounds ) {
 
     assert && assert( model instanceof SlitsScreenModel );
 
     // @private
-    this.waveAreaBounds = waveAreaBounds;
+    this.waveAreaViewBounds = viewBounds;
 
     // @private
     this.model = model;
@@ -58,10 +58,10 @@ define( function( require ) {
     } );
 
     // @private - View width for one cell
-    this.cellWidth = ModelViewTransform2.createRectangleMapping( this.model.lattice.getVisibleBounds(), waveAreaBounds ).modelToViewDeltaX( 1 );
+    this.cellWidth = ModelViewTransform2.createRectangleMapping( this.model.lattice.getVisibleBounds(), viewBounds ).modelToViewDeltaX( 1 );
 
-    // @private - Convert from lattice coordinates to view coordinates
-    this.modelViewTransform = ModelViewTransform2.createRectangleMapping( this.scene.getLatticeModelBounds(), waveAreaBounds );
+    // @private - Convert from model coordinates to view coordinates
+    this.modelViewTransform = ModelViewTransform2.createRectangleMapping( this.scene.getWaveAreaBounds(), viewBounds );
 
     this.addInputListener( new DragListener( {
       applyOffset: false,
@@ -108,10 +108,10 @@ define( function( require ) {
         this.rectangleC.visible = false;
 
         var slitWidthView = this.modelViewTransform.modelToViewDeltaY( slitWidth );
-        var y1 = this.waveAreaBounds.centerY - slitWidthView / 2;
-        var y2 = this.waveAreaBounds.centerY + slitWidthView / 2;
-        this.rectangleA.setRect( x, this.waveAreaBounds.top, this.cellWidth, y1 - this.waveAreaBounds.top, 2, 2 );
-        this.rectangleB.setRect( x, y2, this.cellWidth, this.waveAreaBounds.bottom - y2, 2, 2 );
+        var y1 = this.waveAreaViewBounds.centerY - slitWidthView / 2;
+        var y2 = this.waveAreaViewBounds.centerY + slitWidthView / 2;
+        this.rectangleA.setRect( x, this.waveAreaViewBounds.top, this.cellWidth, y1 - this.waveAreaViewBounds.top, 2, 2 );
+        this.rectangleB.setRect( x, y2, this.cellWidth, this.waveAreaViewBounds.bottom - y2, 2, 2 );
       }
       else if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
         this.rectangleA.visible = true;
@@ -123,9 +123,9 @@ define( function( require ) {
         var topOfCentralBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 + slitWidth / 2 );
         var bottomOfCentralBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 - slitWidth / 2 );
         var topOfBottomBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 + slitWidth / 2 );
-        this.rectangleA.setRect( x, this.waveAreaBounds.top, this.cellWidth, Math.max( 0, bottomOfTopBarrier - this.waveAreaBounds.top ), 2, 2 );
+        this.rectangleA.setRect( x, this.waveAreaViewBounds.top, this.cellWidth, Math.max( 0, bottomOfTopBarrier - this.waveAreaViewBounds.top ), 2, 2 );
         this.rectangleB.setRect( x, topOfCentralBarrier, this.cellWidth, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ), 2, 2 );
-        this.rectangleC.setRect( x, topOfBottomBarrier, this.cellWidth, Math.max( this.waveAreaBounds.bottom - topOfBottomBarrier ), 2, 2 );
+        this.rectangleC.setRect( x, topOfBottomBarrier, this.cellWidth, Math.max( this.waveAreaViewBounds.bottom - topOfBottomBarrier ), 2, 2 );
       }
     }
   } );

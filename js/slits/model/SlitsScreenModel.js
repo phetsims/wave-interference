@@ -44,29 +44,53 @@ define( function( require ) {
     setSourceValues: function( lattice ) {
 
       var scene = this.sceneProperty.get();
-      var barrierLatticeX = scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() );
+      var barrierLatticeX = scene.modelToFullLatticeTransform.modelToViewX( scene.getBarrierLocation() );
 
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
 
       // TODO: Plane wave is wrong speed/wavelength
-      for ( var i = 0; i < barrierLatticeX + 1; i++ ) {
+      for ( var i = 0; i <= barrierLatticeX; i++ ) {
 
         // Find the physical model coordinate corresponding to the lattice coordinate
-        var x = scene.modelToLatticeTransform.viewToModelX( i );
+        var x = scene.modelToFullLatticeTransform.viewToModelX( i );
 
         var frequency = scene.frequencyProperty.get();
         var wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: is this correct for sound and light?
 
         for ( var j = 0; j < lattice.height; j++ ) {
 
-          if ( this.button1PressedProperty.get() ) {
+          // Zero out values in the barrier
+          var isCellInBarrier = false;
+
+          if ( i === barrierLatticeX ) {
+
+            var slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( scene.slitWidthProperty.get() );
+            var slitSeparationModelCoordinates = scene.slitSeparationProperty.get();
+            var slitSeparationInLatticeCoordinates = scene.modelToLatticeTransform.modelToViewDeltaY( slitSeparationModelCoordinates );
+            var latticeCenterY = this.lattice.height / 2;
+
+            if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
+              var low = j > latticeCenterY + slitWidth / 2;
+              var high = j < latticeCenterY - slitWidth / 2;
+              isCellInBarrier = low || high;
+            }
+            else if ( this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
+
+              // Spacing is between center of slits
+              var top = Math.abs( latticeCenterY - slitSeparationInLatticeCoordinates / 2 - j ) > slitWidth;
+              var bottom = Math.abs( latticeCenterY + slitSeparationInLatticeCoordinates / 2 - j ) > slitWidth;
+              isCellInBarrier = top && bottom;
+            }
+          }
+
+          if ( this.button1PressedProperty.get() && !isCellInBarrier ) {
 
             // lambda * k = 2 * pi
             // k = 2pi/lambda
             var k = Math.PI * 2 / wavelength;
 
-            // TODO: use wave speed to track the wavefront, there is an issue for this
+            // TODO: use wave speed to track the wavefront and back, there is an issue for this
 
             // Scale the amplitude because it is calibrated for a point source, not a plane wave
             var value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - frequency * this.time );
@@ -79,38 +103,6 @@ define( function( require ) {
             // Instantly clear the incoming wave, otherwise there are too many odd reflections
             lattice.setCurrentValue( i, j, 0 );
             lattice.setLastValue( i, j, 0 );
-          }
-        }
-      }
-
-      // Zero out values in the barrier
-      if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT || this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
-        var barrierX = barrierLatticeX;
-        var slitWidth = scene.slitWidthProperty.get();
-        var slitSeparationModelCoordinates = scene.slitSeparationProperty.get();
-        var slitSeparationInLatticeCoordinates = scene.modelToLatticeTransform.modelToViewDeltaY( slitSeparationModelCoordinates );
-        var latticeCenterY = this.lattice.height / 2;
-
-        for ( j = 0; j < lattice.height; j++ ) {
-
-          var isCellInBarrier = false;
-
-          if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
-            var low = j > latticeCenterY + slitWidth;
-            var high = j < latticeCenterY - slitWidth;
-            isCellInBarrier = low || high;
-          }
-          else if ( this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
-
-            // Spacing is between center of slits
-            var top = Math.abs( latticeCenterY - slitSeparationInLatticeCoordinates / 2 - j ) > slitWidth;
-            var bottom = Math.abs( latticeCenterY + slitSeparationInLatticeCoordinates / 2 - j ) > slitWidth;
-            isCellInBarrier = top && bottom;
-          }
-
-          if ( isCellInBarrier ) {
-            lattice.setLastValue( barrierX, j, 0 );
-            lattice.setCurrentValue( barrierX, j, 0 );
           }
         }
       }

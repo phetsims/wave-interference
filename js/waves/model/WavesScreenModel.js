@@ -100,6 +100,7 @@ define( function( require ) {
       timeUnitsConversion: 1,
       numberOfSources: options.numberOfSources,
       latticeBounds: this.lattice.getVisibleBounds(),
+      latticeWidth: this.lattice.width,
       waveSpeed: 1.5909090909090908 // in position units / time units, measured empirically in screen 1 as 7.0cm/4.40s
     } );
 
@@ -122,7 +123,8 @@ define( function( require ) {
       timeScaleFactor: 2E-2, // This value is chosen to make the wave look accurate on the lattice
       timeUnitsConversion: 343 / 0.8 / 1.57, // This value is chosen so that the wave speed is accurate
       numberOfSources: options.numberOfSources,
-      latticeBounds: this.lattice.getVisibleBounds(),
+      latticeBounds: this.lattice.getVisibleBounds(), // TODO: rename latticeVisibleBounds
+      latticeWidth: this.lattice.width,
       waveSpeed: 1 // in position units / time units
     } );
 
@@ -146,7 +148,8 @@ define( function( require ) {
       timeUnitsConversion: 1E15 * 0.15904736243338724, // Tuned empirically so that light would have the correct THz and hence the correct speed of light
       numberOfSources: options.numberOfSources,
       latticeBounds: this.lattice.getVisibleBounds(),
-      waveSpeed: 299.792 // in position units / time units
+      latticeWidth: this.lattice.width,
+      waveSpeed: 299.792 // in nm/fs
     } );
 
     var eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );

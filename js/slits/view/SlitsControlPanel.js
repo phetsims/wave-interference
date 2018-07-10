@@ -46,10 +46,10 @@ define( function( require ) {
     } );
 
     // TODO: these controls need to respect the scene--units, ranges, etc.
-    var waterSlitWidthControl = new NumberControl( slitWidthString, model.waterScene.slitWidthProperty, new Range( 0, 20 ), _.extend( {
+    var waterSlitWidthControl = new NumberControl( slitWidthString, model.waterScene.slitWidthProperty, new Range( 0, 5 ), _.extend( {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
-        { value: 200, label: new WaveInterferenceText( 200, { fontSize: 10 } ) } ]
+        { value: 5, label: new WaveInterferenceText( 5, { fontSize: 10 } ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     var soundSlitWidthControl = new NumberControl( slitWidthString, model.soundScene.slitWidthProperty, new Range( 0, 20 ), _.extend( {
       majorTicks: [
