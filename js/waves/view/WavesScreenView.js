@@ -172,7 +172,7 @@ define( function( require ) {
     var measuringTapeProperty = new Property();
     model.sceneProperty.link( function( scene ) {
       measuringTapeProperty.set( {
-        name: scene.measuringTapeUnits,
+        name: scene.translatedPositionUnits,
         multiplier: scene.latticeWidth / self.waveAreaNode.width
       } );
     } );

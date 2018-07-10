@@ -42,12 +42,12 @@ define( function( require ) {
     } );
 
     // @private - Convert from lattice coordinates to view coordinates
-    this.modelViewTransform = ModelViewTransform2.createRectangleMapping( this.model.lattice.getVisibleBounds(), waveAreaBounds );
+    this.latticeViewTransform = ModelViewTransform2.createRectangleMapping( this.model.lattice.getVisibleBounds(), waveAreaBounds );
 
     this.addInputListener( new DragListener( {
       applyOffset: false,
       locationProperty: model.barrierLocationProperty,
-      transform: this.modelViewTransform
+      transform: this.latticeViewTransform
     } ) );
 
     // Update shapes when the model parameters change
@@ -55,7 +55,9 @@ define( function( require ) {
     model.barrierTypeProperty.link( update );
     model.barrierLocationProperty.link( update );
     model.slitWidthProperty.link( update );
-    model.slitSeparationProperty.link( update );
+    model.waterScene.slitSeparationProperty.link( update );
+    model.soundScene.slitSeparationProperty.link( update );
+    model.lightScene.slitSeparationProperty.link( update );
   }
 
   waveInterference.register( 'BarriersNode', BarriersNode );
@@ -74,10 +76,10 @@ define( function( require ) {
       var lattice = this.model.lattice;
       var dampY = lattice.dampY;
       var slitWidth = this.model.slitWidthProperty.get();
-      var slitSeparation = this.model.slitSeparationProperty.get();
+      var slitSeparation = this.model.sceneProperty.get().slitSeparationProperty.get();
 
-      var x1 = this.modelViewTransform.modelToViewX( this.model.getBarrierLocation() );
-      var x2 = this.modelViewTransform.modelToViewX( this.model.getBarrierLocation() + BARRIER_WIDTH_IN_CELLS );
+      var x1 = this.latticeViewTransform.modelToViewX( this.model.getBarrierLocation() );
+      var x2 = this.latticeViewTransform.modelToViewX( this.model.getBarrierLocation() + BARRIER_WIDTH_IN_CELLS );
 
       if ( barrierType === BarrierTypeEnum.NO_BARRIER ) {
 
@@ -99,10 +101,10 @@ define( function( require ) {
       }
       else if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
 
-        var bottomOfTopBarrier = this.modelViewTransform.modelToViewY( lattice.height / 2 - slitSeparation / 2 - slitWidth / 2 );
-        var topOfCentralBarrier = this.modelViewTransform.modelToViewY( lattice.height / 2 - slitSeparation / 2 + slitWidth / 2 );
-        var bottomOfCentralBarrier = this.modelViewTransform.modelToViewY( lattice.height / 2 + slitSeparation / 2 - slitWidth / 2 );
-        var topOfBottomBarrier = this.modelViewTransform.modelToViewY( lattice.height / 2 + slitSeparation / 2 + slitWidth / 2 );
+        var bottomOfTopBarrier = this.latticeViewTransform.modelToViewY( lattice.height / 2 - slitSeparation / 2 - slitWidth / 2 );
+        var topOfCentralBarrier = this.latticeViewTransform.modelToViewY( lattice.height / 2 - slitSeparation / 2 + slitWidth / 2 );
+        var bottomOfCentralBarrier = this.latticeViewTransform.modelToViewY( lattice.height / 2 + slitSeparation / 2 - slitWidth / 2 );
+        var topOfBottomBarrier = this.latticeViewTransform.modelToViewY( lattice.height / 2 + slitSeparation / 2 + slitWidth / 2 );
         this.addChild( new Rectangle( x1, this.waveAreaBounds.top, x2 - x1, Math.max( 0, bottomOfTopBarrier - this.waveAreaBounds.top ), 2, 2, {
           fill: '#f3d99b',
           stroke: 'black',

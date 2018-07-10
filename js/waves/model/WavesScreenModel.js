@@ -71,6 +71,11 @@ define( function( require ) {
     }, options );
     assert && assert( options.numberOfSources === 1 || options.numberOfSources === 2, 'Model only supports 1 or 2 sources' );
 
+    // @public {Lattice} the grid that contains the wave values
+    // TODO(after-webgl): evaluate dimensions.  Could increase to get better resolution or decrease to get better
+    // TODO(after-webgl): performance.  Maybe choose our slowest device and tune it based on that.
+    this.lattice = new Lattice( 100, 100, 20, 20 ); // Java was 60 + 20 padding on each side
+
     // @public {Property.<ViewType>}
     this.viewTypeProperty = new Property( ViewType.TOP, {
       validValues: ViewType.VALUES
@@ -78,43 +83,54 @@ define( function( require ) {
 
     // Water scene
     this.waterScene = new Scene( {
+      positionUnits: 'cm',
+      translatedPositionUnits: cmUnitsString,
+      timerUnits: secondsUnitsString,
+      oneTimerUnit: oneSecondString,
+
       verticalAxisTitle: waterLevelString,
       graphTitle: waterLevelAtCenterString,
       graphHorizontalAxisLabel: positionCMString,
-      latticeWidth: 0.1, // 10 centimeters
+      latticeWidth: 10, // 10 centimeters
       minimumFrequency: 1,
       maximumFrequency: 8,
       scaleIndicatorText: oneCentimeterString,
-      scaleIndicatorLength: 0.01, // 1 centimeter
+      scaleIndicatorLength: 1, // 1 centimeter
       timeScaleFactor: 1,
-      measuringTapeUnits: cmUnitsString,
       timeUnitsConversion: 1,
-      timerUnits: secondsUnitsString,
-      oneTimerUnit: oneSecondString,
-      numberOfSources: options.numberOfSources
+      numberOfSources: options.numberOfSources,
+      latticeBounds: this.lattice.getVisibleBounds()
     } );
 
     // Sound scene
     var concertA = 440; // Hz
     this.soundScene = new Scene( {
+      positionUnits: 'cm',
+      translatedPositionUnits: cmUnitsString,
+      timerUnits: millisecondsUnitsString,
+      oneTimerUnit: oneMillisecondString,
+
       verticalAxisTitle: pressureString,
       graphTitle: pressureAtCenterString,
       graphHorizontalAxisLabel: positionCMString,
-      latticeWidth: 1, // 1 meter
+      latticeWidth: 100, // 1 meter
       minimumFrequency: concertA - 200,
       maximumFrequency: concertA + 200,
       scaleIndicatorText: tenCentimetersString,
       scaleIndicatorLength: 0.1, // 10 cm
       timeScaleFactor: 2E-2, // This value is chosen to make the wave look accurate on the lattice
-      measuringTapeUnits: cmUnitsString,
       timeUnitsConversion: 343 / 0.8 / 1.57, // This value is chosen so that the wave speed is accurate
-      timerUnits: millisecondsUnitsString,
-      oneTimerUnit: oneMillisecondString,
-      numberOfSources: options.numberOfSources
+      numberOfSources: options.numberOfSources,
+      latticeBounds: this.lattice.getVisibleBounds()
     } );
 
     // Light scene
     this.lightScene = new Scene( {
+      positionUnits: 'nm',
+      translatedPositionUnits: nanometersUnitsString,
+      timerUnits: femtosecondsUnitsString,
+      oneTimerUnit: oneFemtosecondString,
+
       verticalAxisTitle: electricFieldString,
       graphTitle: electricFieldAtCenterString,
       graphHorizontalAxisLabel: positionNMString,
@@ -125,11 +141,9 @@ define( function( require ) {
       scaleIndicatorText: fiveHundredNanometersString,
       scaleIndicatorLength: 500, // nm
       timeScaleFactor: 1.5807768030572316e-14, // Tuned empirically so the waves have the right size on the lattice.
-      measuringTapeUnits: nanometersUnitsString,
       timeUnitsConversion: 1E15 * 0.15904736243338724, // Tuned empirically so that light would have the correct THz and hence the correct speed of light
-      timerUnits: femtosecondsUnitsString,
-      oneTimerUnit: oneFemtosecondString,
-      numberOfSources: options.numberOfSources
+      numberOfSources: options.numberOfSources,
+      latticeBounds: this.lattice.getVisibleBounds()
     } );
 
     var eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
@@ -232,11 +246,6 @@ define( function( require ) {
 
     // @public {BooleanProperty} - true when the second source is continuously oscillating
     this.continuousWave2OscillatingProperty = new BooleanProperty( false );
-
-    // @public {Lattice} the grid that contains the wave values
-    // TODO(after-webgl): evaluate dimensions.  Could increase to get better resolution or decrease to get better
-    // TODO(after-webgl): performance.  Maybe choose our slowest device and tune it based on that.
-    this.lattice = new Lattice( 100, 100, 20, 20 ); // Java was 60 + 20 padding on each side
 
     // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
     this.intensitySample = new IntensitySample( this.lattice );

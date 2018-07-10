@@ -57,17 +57,17 @@ define( function( require ) {
     } );
 
     // TODO: these controls need to respect the scene--units, ranges, etc.
-    var waterSeparationControl = new NumberControl( slitSeparationString, model.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
+    var waterSeparationControl = new NumberControl( slitSeparationString, model.waterScene.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
         { value: 2000, label: new WaveInterferenceText( 2000, { fontSize: 10 } ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-    var soundSeparationControl = new NumberControl( slitSeparationString, model.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
+    var soundSeparationControl = new NumberControl( slitSeparationString, model.soundScene.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
         { value: 2000, label: new WaveInterferenceText( 2000, { fontSize: 10 } ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-    var lightSeparationControl = new NumberControl( slitSeparationString, model.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
+    var lightSeparationControl = new NumberControl( slitSeparationString, model.lightScene.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
       majorTicks: [
         { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
         { value: 2000, label: new WaveInterferenceText( 2000, { fontSize: 10 } ) } ]
