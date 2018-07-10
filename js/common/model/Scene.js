@@ -80,7 +80,8 @@ define( function( require ) {
       units: this.positionUnits
     } );
 
-    // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice coordinates
+    // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice
+    // coordinates, does not include damping regions
     this.modelToLatticeTransform = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, config.latticeBounds.width / this.waveAreaWidth );
 
     // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)

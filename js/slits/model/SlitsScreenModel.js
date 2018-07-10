@@ -44,13 +44,13 @@ define( function( require ) {
     setSourceValues: function( lattice ) {
 
       var scene = this.sceneProperty.get();
-      var barrierLocationInLatticeCoordinates = scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() );
+      var barrierLatticeX = scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() );
 
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
 
       // TODO: Plane wave is wrong speed/wavelength
-      for ( var i = 0; i < barrierLocationInLatticeCoordinates + 1; i++ ) {
+      for ( var i = 0; i < barrierLatticeX + 1; i++ ) {
 
         // Find the physical model coordinate corresponding to the lattice coordinate
         var x = scene.modelToLatticeTransform.viewToModelX( i );
@@ -85,7 +85,7 @@ define( function( require ) {
 
       // Zero out values in the barrier
       if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT || this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
-        var barrierX = barrierLocationInLatticeCoordinates;
+        var barrierX = barrierLatticeX;
         var slitWidth = scene.slitWidthProperty.get();
         var slitSeparationModelCoordinates = scene.slitSeparationProperty.get();
         var slitSeparationInLatticeCoordinates = scene.modelToLatticeTransform.modelToViewDeltaY( slitSeparationModelCoordinates );
