@@ -105,6 +105,8 @@ define( function( require ) {
       waveSpeed: 1.5909090909090908 // in position units / time units, measured empirically in screen 1 as 7.0cm/4.40s
     } );
 
+    // TODO: are we leaving time in seconds, or converting to local units?  It seems recommendation was to convert units.
+
     // Sound scene
     var concertA = 440; // Hz
     this.soundScene = new Scene( {
