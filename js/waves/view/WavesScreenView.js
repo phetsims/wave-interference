@@ -186,9 +186,6 @@ define( function( require ) {
       return toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).containsPoint( point );
     };
 
-    // Transform lattice coordinates to view coordinates.
-    var transform = ModelViewTransform2.createRectangleMapping( model.lattice.getVisibleBounds(), this.waveAreaNode.bounds );
-
     var measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
 
       // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
@@ -356,16 +353,13 @@ define( function( require ) {
     this.addChild( laserPointerNode1 );
     this.addChild( laserPointerNode2 );
 
-    // TODO: fix coordinate transform, source separation should be in metric coordinates.  Use the modelViewTransform for this?
-    // TODO: See BarriersNode for a MVT
-    // TODO: This transform is very confusing.  Can we go straight from model (meters) to view instead of going through the lattice coordinates?
+    // TODO: each scene needs its own source graphics
+    var lightModelViewTransform = ModelViewTransform2.createRectangleMapping( model.lightScene.getWaveAreaBounds(), this.waveAreaNode.bounds );
 
-    // TODO: Uncomment this code once each scene has its own source separation property
     model.lightScene.sourceSeparationProperty.link( function( sourceSeparation ) {
       laserPointerNode2.visible = sourceSeparation > 0;
 
-      // TODO: A way to go straight from model coordinates to view coordinates, without going through lattice coordinates
-      var viewSeparation = transform.modelToViewDeltaX( sourceSeparation * model.lattice.getVisibleBounds().width / model.sceneProperty.get().waveAreaWidth );
+      var viewSeparation = lightModelViewTransform.modelToViewDeltaY( sourceSeparation );
       laserPointerNode1.centerY = self.waveAreaNode.centerY + viewSeparation / 2;
       laserPointerNode2.centerY = self.waveAreaNode.centerY - viewSeparation / 2;
     } );
