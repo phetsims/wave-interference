@@ -126,7 +126,7 @@ define( function( require ) {
       timeScaleFactor: 2E-2, // This value is chosen to make the wave look accurate on the lattice
       timeUnitsConversion: 343 / 0.8 / 1.57, // This value is chosen so that the wave speed is accurate
       numberOfSources: options.numberOfSources,
-      latticeVisibleBounds: this.lattice.getVisibleBounds(), // TODO: rename latticeVisibleBounds
+      latticeVisibleBounds: this.lattice.getVisibleBounds(),
       latticeBounds: this.lattice.getBounds(),
       latticeWidth: this.lattice.width,
       waveSpeed: 34.3 // in cm/ms
