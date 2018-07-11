@@ -271,8 +271,8 @@ define( function( require ) {
     // TODO: this should be in metric coordinates
     this.measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ) );
 
-    // TODO: this should be in metric coordinates
     // @public {Property.<Vector2>} - model for the physical coordinates of the tip of the measuring tape, in meters
+    // TODO: this should be in metric coordinates
     this.measuringTapeTipPositionProperty = new Property( new Vector2( 220, 200 ) );
 
     // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
