@@ -70,6 +70,9 @@ which is about 4% off of the true speed of light.  Measuring the colored wavefro
 Since the distance and wave propagation speeds are independent of frequency, measurements for different colors will
 give the same speed of light.
 
+Here is a schematic for the two-slit dimensions:
+![schematic for the two-slit dimensions](images/slitDimensions.jpg?raw=true "Two-Slit Dimensions")
+
 # Diffraction Screen
 In the fourth screen, we use a Fast Fourier Transform (FFT) in order to compute the diffraction pattern, see
 https://en.wikipedia.org/wiki/Diffraction
