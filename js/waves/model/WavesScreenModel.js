@@ -120,7 +120,7 @@ define( function( require ) {
       minimumFrequency: concertA - 200,
       maximumFrequency: concertA + 200,
       scaleIndicatorText: tenCentimetersString,
-      scaleIndicatorLength: 0.1, // 10 cm
+      scaleIndicatorLength: 10, // cm
       timeScaleFactor: 2E-2, // This value is chosen to make the wave look accurate on the lattice
       timeUnitsConversion: 343 / 0.8 / 1.57, // This value is chosen so that the wave speed is accurate
       numberOfSources: options.numberOfSources,
