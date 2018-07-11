@@ -27,7 +27,7 @@ define( function( require ) {
 
     // When the barrier moves, it creates a lot of artifacts, so clear the wave when the barrier moves
     var barrierMoved = function() {
-      self.clear(); // start propagating again
+      self.clear(); // TODO: restart propagation from the left
     };
     this.waterScene.barrierLocationProperty.link( barrierMoved );
     this.soundScene.barrierLocationProperty.link( barrierMoved );
