@@ -18,6 +18,9 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
+   * @param {WavesScreenModel} model
+   * @param {Scene} scene - TODO: after we have all nodes, this can be hardcoded to work with just light
+   * @param {Node} waveAreaNode - for bounds
    * @constructor
    */
   function LightEmitterNode( model, scene, waveAreaNode ) {

@@ -26,6 +26,7 @@ define( function( require ) {
   var ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
   var ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   var ScreenView = require( 'JOIST/ScreenView' );
+  var SoundEmitterNode = require( 'WAVE_INTERFERENCE/common/view/SoundEmitterNode' );
   var TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
   var ToggleNode = require( 'SUN/ToggleNode' );
   var ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
@@ -330,7 +331,7 @@ define( function( require ) {
     // TODO: each scene needs its own source graphics
     this.addChild( new ToggleNode( [
       { value: model.waterScene, node: new LightEmitterNode( model, model.waterScene, this.waveAreaNode ) },
-      { value: model.soundScene, node: new LightEmitterNode( model, model.soundScene, this.waveAreaNode ) },
+      { value: model.soundScene, node: new SoundEmitterNode( model, model.soundScene, this.waveAreaNode ) },
       { value: model.lightScene, node: new LightEmitterNode( model, model.lightScene, this.waveAreaNode ) }
     ], model.sceneProperty, {
       alignChildren: ToggleNode.NONE
