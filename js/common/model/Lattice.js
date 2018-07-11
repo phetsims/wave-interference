@@ -290,7 +290,7 @@ define( function( require ) {
     step: function( forcingFunction ) {
 
       // Apply values before lattice step so the values will be used to propagate
-      forcingFunction( this );
+      forcingFunction();
 
       this.currentMatrixIndex = ( this.currentMatrixIndex - 1 + this.matrices.length ) % this.matrices.length;
 
@@ -327,7 +327,7 @@ define( function( require ) {
       this.decayHorizontal( this.height - 1, -1, this.dampX / 2 );
 
       // Apply values on top of the computed lattice values so there is no noise at the point sources
-      forcingFunction( this );
+      forcingFunction();
     }
   } );
 } );

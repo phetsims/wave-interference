@@ -438,7 +438,8 @@ define( function( require ) {
      * @override
      * @protected
      */
-    setSourceValues: function( lattice ) {
+    setSourceValues: function() {
+      var lattice = this.lattice;
       var continuous1 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
       var continuous2 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
 

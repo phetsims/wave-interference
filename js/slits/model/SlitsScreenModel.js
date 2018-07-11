@@ -26,9 +26,12 @@ define( function( require ) {
     this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
 
     // When the barrier moves, it creates a lot of artifacts, so clear the wave when the barrier moves
-    this.waterScene.barrierLocationProperty.link( function() { self.clear(); } );
-    this.soundScene.barrierLocationProperty.link( function() { self.clear(); } );
-    this.lightScene.barrierLocationProperty.link( function() { self.clear(); } );
+    var barrierMoved = function() {
+      self.clear(); // start propagating again
+    };
+    this.waterScene.barrierLocationProperty.link( barrierMoved );
+    this.soundScene.barrierLocationProperty.link( barrierMoved );
+    this.lightScene.barrierLocationProperty.link( barrierMoved );
   }
 
   waveInterference.register( 'SlitsScreenModel', SlitsScreenModel );
@@ -37,11 +40,11 @@ define( function( require ) {
 
     /**
      * Set the incoming source values, in this case it is a plane wave on the left side of the lattice.
-     * @param {Lattice} lattice
      * @override
      * @protected
      */
-    setSourceValues: function( lattice ) {
+    setSourceValues: function() {
+      var lattice = this.lattice;
 
       var scene = this.sceneProperty.get();
       var barrierLatticeX = scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() );
