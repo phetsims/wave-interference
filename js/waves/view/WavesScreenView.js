@@ -173,6 +173,9 @@ define( function( require ) {
     model.sceneProperty.link( function( scene ) {
       measuringTapeProperty.set( {
         name: scene.translatedPositionUnits,
+
+        // The measuring tape tip and tail are in the view coordinate frame, this scale factor converts to model
+        // coordinates according to the scene
         multiplier: scene.waveAreaWidth / self.waveAreaNode.width
       } );
     } );
@@ -190,7 +193,6 @@ define( function( require ) {
 
       // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
       textBackgroundColor: 'rgba( 255, 255, 255, 0.6 )',
-      // modelViewTransform: transform, // TODO: get transform working for measuring tape
       textColor: 'black',
       basePositionProperty: model.measuringTapeBasePositionProperty,
       tipPositionProperty: model.measuringTapeTipPositionProperty,
