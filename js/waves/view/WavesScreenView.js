@@ -33,6 +33,7 @@ define( function( require ) {
   var Util = require( 'SCENERY/util/Util' );
   var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
   var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  var WaterEmitterNode = require( 'WAVE_INTERFERENCE/common/view/WaterEmitterNode' );
   var WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
   var WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
   var WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
@@ -330,7 +331,7 @@ define( function( require ) {
 
     // TODO: each scene needs its own source graphics
     this.addChild( new ToggleNode( [
-      { value: model.waterScene, node: new LightEmitterNode( model, model.waterScene, this.waveAreaNode ) },
+      { value: model.waterScene, node: new WaterEmitterNode( model, model.waterScene, this.waveAreaNode ) },
       { value: model.soundScene, node: new SoundEmitterNode( model, model.soundScene, this.waveAreaNode ) },
       { value: model.lightScene, node: new LightEmitterNode( model, model.lightScene, this.waveAreaNode ) }
     ], model.sceneProperty, {

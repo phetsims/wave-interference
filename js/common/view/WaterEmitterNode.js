@@ -1,7 +1,9 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * For the sound scene, shows one speaker for each emitter, each with its own on/off button.
+ * For the water scene, shows one hose for each emitter, each with its own on/off button.
+ * TODO: factor out code between this and other emitter nodes?  Do this after getting them to be fully functional,
+ * TODO: because they might diverge.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -18,7 +20,7 @@ define( function( require ) {
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // image
-  var speakerImage = require( 'image!WAVE_INTERFERENCE/speaker.png' );
+  var hoseImage = require( 'image!WAVE_INTERFERENCE/hose.png' );
 
   /**
    * @param {WavesScreenModel} model
@@ -26,32 +28,32 @@ define( function( require ) {
    * @param {Node} waveAreaNode - for bounds
    * @constructor
    */
-  function SoundEmitterNode( model, scene, waveAreaNode ) {
+  function WaterEmitterNode( model, scene, waveAreaNode ) {
     var options = {
-      rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 ),
+      rightCenter: waveAreaNode.leftCenter.plusXY( 40, 0 ),
       scale: 0.75
     };
-    var speakerNode1 = new Image( speakerImage, options );
+    var hoseNode1 = new Image( hoseImage, options );
     var button1 = new RoundStickyToggleButton( false, true, model.button1PressedProperty, {
-      centerY: speakerNode1.height * 0.68,
+      centerY: hoseNode1.height * 0.68,
       left: 8,
 
       // TODO: these are copied from LaserPointerNode and again in this file
       baseColor: 'red',
       radius: 22
     } );
-    speakerNode1.addChild( button1 );
+    hoseNode1.addChild( button1 );
 
-    var speakerNode2 = new Image( speakerImage, options );
+    var hoseNode2 = new Image( hoseImage, options );
     var button2 = new RoundStickyToggleButton( false, true, model.button2PressedProperty, {
-      centerY: speakerNode1.height * 0.68, // TODO: why doesn't 0.5 work?
+      centerY: hoseNode1.height * 0.68, // TODO: why doesn't 0.5 work?
       left: 8, // TODO: duplicated
 
       // TODO: these are copied from LaserPointerNode
       baseColor: 'red',
       radius: 22
     } );
-    speakerNode2.addChild( button2 );
+    hoseNode2.addChild( button2 );
 
     // TODO: this is duplicated in LightEmitterNode
     var updateEnabled = function() {
@@ -67,22 +69,22 @@ define( function( require ) {
     model.inputTypeProperty.link( updateEnabled );
     model.pulseFiringProperty.link( updateEnabled );
     Node.call( this, {
-      children: [ speakerNode1, speakerNode2 ]
+      children: [ hoseNode1, hoseNode2 ]
     } );
 
     var lightModelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), waveAreaNode.bounds );
 
     // TODO: this is duplicated in LightEmitterNode
     scene.sourceSeparationProperty.link( function( sourceSeparation ) {
-      speakerNode2.visible = sourceSeparation > 0;
+      hoseNode2.visible = sourceSeparation > 0;
 
       var viewSeparation = lightModelViewTransform.modelToViewDeltaY( sourceSeparation );
-      speakerNode1.centerY = waveAreaNode.centerY + viewSeparation / 2;
-      speakerNode2.centerY = waveAreaNode.centerY - viewSeparation / 2;
+      hoseNode1.centerY = waveAreaNode.centerY + viewSeparation / 2;
+      hoseNode2.centerY = waveAreaNode.centerY - viewSeparation / 2;
     } );
   }
 
-  waveInterference.register( 'SoundEmitterNode', SoundEmitterNode );
+  waveInterference.register( 'WaterEmitterNode', WaterEmitterNode );
 
-  return inherit( Node, SoundEmitterNode );
+  return inherit( Node, WaterEmitterNode );
 } );
