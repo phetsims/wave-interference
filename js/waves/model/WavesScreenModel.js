@@ -127,7 +127,7 @@ define( function( require ) {
       latticeVisibleBounds: this.lattice.getVisibleBounds(), // TODO: rename latticeVisibleBounds
       latticeBounds: this.lattice.getBounds(),
       latticeWidth: this.lattice.width,
-      waveSpeed: 1 // in position units / time units
+      waveSpeed: 34.3 // in cm/ms
     } );
 
     // Light scene

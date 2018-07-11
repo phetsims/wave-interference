@@ -51,19 +51,24 @@ define( function( require ) {
     };
     var waterSlitWidthControl = new NumberControl( slitWidthString, model.waterScene.slitWidthProperty, new Range( 0, 5 ), _.extend( {
       majorTicks: [
-        { value: 0, label: createLabel( '0' ) },
-        { value: 5, label: createLabel( '5' ) } ]
+        { value: 0, label: createLabel( '0 cm' ) },
+        { value: 5, label: createLabel( '5 cm' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-    var soundSlitWidthControl = new NumberControl( slitWidthString, model.soundScene.slitWidthProperty, new Range( 0, 20 ), _.extend( {
+    var soundSlitWidthControl = new NumberControl( slitWidthString, model.soundScene.slitWidthProperty, new Range( 0, 50 ), _.extend( {
       majorTicks: [
-        { value: 0, label: createLabel( '0' ) },
-        { value: 200, label: createLabel( '200' ) } ]
+        { value: 0, label: createLabel( '0 cm' ) },
+        { value: 50, label: createLabel( '50 cm' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     var lightSlitWidthControl = new NumberControl( slitWidthString, model.lightScene.slitWidthProperty, new Range( 0, 20 ), _.extend( {
       majorTicks: [
         { value: 0, label: createLabel( '0' ) },
         { value: 200, label: createLabel( '200' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+    var slitWidthControl = new ToggleNode( [
+      { value: model.waterScene, node: waterSlitWidthControl },
+      { value: model.soundScene, node: soundSlitWidthControl },
+      { value: model.lightScene, node: lightSlitWidthControl }
+    ], model.sceneProperty );
     model.barrierTypeProperty.link( function( barrierType ) {
       waterSlitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
       soundSlitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
@@ -73,13 +78,13 @@ define( function( require ) {
     // TODO: these controls need to respect the scene--units, ranges, etc.
     var waterSeparationControl = new NumberControl( slitSeparationString, model.waterScene.slitSeparationProperty, new Range( 0, 5 ), _.extend( {
       majorTicks: [
-        { value: 0, label: createLabel( '0' ) },
-        { value: 5, label: createLabel( '5' ) } ]
+        { value: 0, label: createLabel( '0 cm' ) },
+        { value: 5, label: createLabel( '5 cm' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-    var soundSeparationControl = new NumberControl( slitSeparationString, model.soundScene.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
+    var soundSeparationControl = new NumberControl( slitSeparationString, model.soundScene.slitSeparationProperty, new Range( 0, 50 ), _.extend( {
       majorTicks: [
-        { value: 0, label: createLabel( '0' ) },
-        { value: 2000, label: createLabel( '2000' ) } ]
+        { value: 0, label: createLabel( '0 cm' ) },
+        { value: 50, label: createLabel( '50 cm' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     var lightSeparationControl = new NumberControl( slitSeparationString, model.lightScene.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
       majorTicks: [
@@ -99,17 +104,17 @@ define( function( require ) {
     } );
 
     // Vertical layout
-    waterSlitWidthControl.top = comboBox.bottom + 2;
-    slitSeparationControl.top = waterSlitWidthControl.bottom + 2;
+    slitWidthControl.top = comboBox.bottom + 2;
+    slitSeparationControl.top = slitWidthControl.bottom + 2;
 
     // Horizontal layout
-    waterSlitWidthControl.centerX = comboBox.centerX;
-    slitSeparationControl.left = waterSlitWidthControl.left;
+    slitWidthControl.centerX = comboBox.centerX;
+    slitSeparationControl.left = slitWidthControl.left;
 
     var content = alignGroup.createBox( new Node( {
       children: [
         comboBox,
-        waterSlitWidthControl,
+        slitWidthControl,
         slitSeparationControl
       ]
     } ) );
