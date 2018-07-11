@@ -12,15 +12,12 @@ define( function( require ) {
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Color = require( 'SCENERY/util/Color' );
   var DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
-  var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
+  var LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
   var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
   var Property = require( 'AXON/Property' );
   var PulseContinuousRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/PulseContinuousRadioButtonGroup' );
@@ -330,41 +327,14 @@ define( function( require ) {
     this.addChild( timerNode );
     this.addChild( waveDetectorToolNode );
 
-    var laserPointerOptions = {
-      bodySize: new Dimension2( 80, 40 ),
-      nozzleSize: new Dimension2( 10, 28 ),
-      buttonRadius: 18,
-      hasGlass: true,
-      rightCenter: this.waveAreaNode.leftCenter.plusXY( 20, 0 )
-    };
-    var laserPointerNode1 = new LaserPointerNode( model.button1PressedProperty, laserPointerOptions );
-    var laserPointerNode2 = new LaserPointerNode( model.button2PressedProperty, laserPointerOptions );
-
-    var updateEnabled = function() {
-      if ( model.inputTypeProperty.value === IncomingWaveType.PULSE ) {
-        laserPointerNode1.enabled = !model.pulseFiringProperty.value;
-        laserPointerNode2.enabled = !model.pulseFiringProperty.value;
-      }
-      else if ( model.inputTypeProperty.value === IncomingWaveType.CONTINUOUS ) {
-        laserPointerNode1.enabled = true;
-        laserPointerNode2.enabled = true;
-      }
-    };
-    model.inputTypeProperty.link( updateEnabled );
-    model.pulseFiringProperty.link( updateEnabled );
-    this.addChild( laserPointerNode1 );
-    this.addChild( laserPointerNode2 );
-
     // TODO: each scene needs its own source graphics
-    var lightModelViewTransform = ModelViewTransform2.createRectangleMapping( model.lightScene.getWaveAreaBounds(), this.waveAreaNode.bounds );
-
-    model.lightScene.sourceSeparationProperty.link( function( sourceSeparation ) {
-      laserPointerNode2.visible = sourceSeparation > 0;
-
-      var viewSeparation = lightModelViewTransform.modelToViewDeltaY( sourceSeparation );
-      laserPointerNode1.centerY = self.waveAreaNode.centerY + viewSeparation / 2;
-      laserPointerNode2.centerY = self.waveAreaNode.centerY - viewSeparation / 2;
-    } );
+    this.addChild( new ToggleNode( [
+      { value: model.waterScene, node: new LightEmitterNode( model, model.waterScene, this.waveAreaNode ) },
+      { value: model.soundScene, node: new LightEmitterNode( model, model.soundScene, this.waveAreaNode ) },
+      { value: model.lightScene, node: new LightEmitterNode( model, model.lightScene, this.waveAreaNode ) }
+    ], model.sceneProperty, {
+      alignChildren: ToggleNode.NONE
+    } ) );
   }
 
   waveInterference.register( 'WavesScreenView', WavesScreenView );
