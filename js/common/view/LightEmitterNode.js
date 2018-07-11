@@ -16,6 +16,7 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   /**
    * @param {WavesScreenModel} model
@@ -26,10 +27,12 @@ define( function( require ) {
     var laserPointerOptions = {
       bodySize: new Dimension2( 80, 40 ),
       nozzleSize: new Dimension2( 10, 28 ),
-      buttonRadius: 18,
       hasGlass: true,
-      rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 )
+      rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 ),
+      buttonColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
+      buttonRadius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
     };
+    // TODO: if we use LaserPointerNode with no button, we can use the same code for adding the buttons in all scenes
     var laserPointerNode1 = new LaserPointerNode( model.button1PressedProperty, laserPointerOptions );
     var laserPointerNode2 = new LaserPointerNode( model.button2PressedProperty, laserPointerOptions );
 

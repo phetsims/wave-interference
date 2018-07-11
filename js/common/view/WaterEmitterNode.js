@@ -18,6 +18,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // images
   var hoseImage = require( 'image!WAVE_INTERFERENCE/hose.png' );
@@ -34,25 +35,25 @@ define( function( require ) {
     };
     var hoseNode1 = new Image( hoseImage, options );
     var button1 = new RoundStickyToggleButton( false, true, model.button1PressedProperty, {
-      centerY: hoseNode1.height * 0.68,
+      centerY: hoseNode1.centerY,
       left: 8,
-
-      // TODO: these are copied from LaserPointerNode and again in this file
-      baseColor: 'red',
-      radius: 22
+      baseColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
+      radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
     } );
-    hoseNode1.addChild( button1 );
+    var hoseWithButton1 = new Node( {
+      children: [ hoseNode1, button1 ]
+    } );
 
     var hoseNode2 = new Image( hoseImage, options );
     var button2 = new RoundStickyToggleButton( false, true, model.button2PressedProperty, {
-      centerY: hoseNode1.height * 0.68, // TODO: why doesn't 0.5 work?
+      centerY: hoseNode1.centerY, // TODO: why doesn't 0.5 work?
       left: 8, // TODO: duplicated
-
-      // TODO: these are copied from LaserPointerNode
-      baseColor: 'red',
-      radius: 22
+      baseColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
+      radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
     } );
-    hoseNode2.addChild( button2 );
+    var hoseWithButton2 = new Node( {
+      children: [ hoseNode2, button2 ]
+    } );
 
     // TODO: this is duplicated in LightEmitterNode
     var updateEnabled = function() {
@@ -68,7 +69,7 @@ define( function( require ) {
     model.inputTypeProperty.link( updateEnabled );
     model.pulseFiringProperty.link( updateEnabled );
     Node.call( this, {
-      children: [ hoseNode1, hoseNode2 ]
+      children: [ hoseWithButton1, hoseWithButton2 ]
     } );
 
     var lightModelViewTransform = ModelViewTransform2.createRectangleMapping( model.waterScene.getWaveAreaBounds(), waveAreaNode.bounds );
@@ -78,8 +79,8 @@ define( function( require ) {
       hoseNode2.visible = sourceSeparation > 0;
 
       var viewSeparation = lightModelViewTransform.modelToViewDeltaY( sourceSeparation );
-      hoseNode1.centerY = waveAreaNode.centerY + viewSeparation / 2;
-      hoseNode2.centerY = waveAreaNode.centerY - viewSeparation / 2;
+      hoseWithButton1.centerY = waveAreaNode.centerY + viewSeparation / 2;
+      hoseWithButton2.centerY = waveAreaNode.centerY - viewSeparation / 2;
     } );
   }
 

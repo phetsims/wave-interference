@@ -16,6 +16,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // image
   var speakerImage = require( 'image!WAVE_INTERFERENCE/speaker.png' );
@@ -31,26 +32,27 @@ define( function( require ) {
       scale: 0.75
     };
     var speakerNode1 = new Image( speakerImage, options );
+    var left = 42;
     var button1 = new RoundStickyToggleButton( false, true, model.button1PressedProperty, {
-      centerY: speakerNode1.height * 0.68,
-      left: 8,
-
-      // TODO: these are copied from LaserPointerNode and again in this file
-      baseColor: 'red',
-      radius: 22
+      centerY: speakerNode1.centerY,
+      left: left,
+      baseColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
+      radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
     } );
-    speakerNode1.addChild( button1 );
+    var speakerWithButton1 = new Node( {
+      children: [ speakerNode1, button1 ]
+    } );
 
     var speakerNode2 = new Image( speakerImage, options );
     var button2 = new RoundStickyToggleButton( false, true, model.button2PressedProperty, {
-      centerY: speakerNode1.height * 0.68, // TODO: why doesn't 0.5 work?
-      left: 8, // TODO: duplicated
-
-      // TODO: these are copied from LaserPointerNode
-      baseColor: 'red',
-      radius: 22
+      centerY: speakerNode2.centerY,
+      left: left,
+      baseColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
+      radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
     } );
-    speakerNode2.addChild( button2 );
+    var speakerWithButton2 = new Node( {
+      children: [ speakerNode2, button2 ]
+    } );
 
     // TODO: this is duplicated in LightEmitterNode
     var updateEnabled = function() {
@@ -66,7 +68,7 @@ define( function( require ) {
     model.inputTypeProperty.link( updateEnabled );
     model.pulseFiringProperty.link( updateEnabled );
     Node.call( this, {
-      children: [ speakerNode1, speakerNode2 ]
+      children: [ speakerWithButton1, speakerWithButton2 ]
     } );
 
     var lightModelViewTransform = ModelViewTransform2.createRectangleMapping( model.soundScene.getWaveAreaBounds(), waveAreaNode.bounds );
@@ -76,8 +78,8 @@ define( function( require ) {
       speakerNode2.visible = sourceSeparation > 0;
 
       var viewSeparation = lightModelViewTransform.modelToViewDeltaY( sourceSeparation );
-      speakerNode1.centerY = waveAreaNode.centerY + viewSeparation / 2;
-      speakerNode2.centerY = waveAreaNode.centerY - viewSeparation / 2;
+      speakerWithButton1.centerY = waveAreaNode.centerY + viewSeparation / 2;
+      speakerWithButton2.centerY = waveAreaNode.centerY - viewSeparation / 2;
     } );
   }
 

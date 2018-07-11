@@ -39,7 +39,11 @@ define( function( require ) {
     CELL_WIDTH: 10,
 
     // lineJoin for the graph and the surface of the water
-    CHART_LINE_JOIN: 'round'
+    CHART_LINE_JOIN: 'round',
+
+    // Look of the emitter button across all 3 scenes
+    EMITTER_BUTTON_COLOR: 'red',
+    EMITTER_BUTTON_RADIUS: 14
   };
 
   waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );
