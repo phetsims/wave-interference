@@ -50,14 +50,13 @@ define( function( require ) {
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
 
-      // TODO: Plane wave is wrong speed/wavelength
       for ( var i = 0; i <= barrierLatticeX; i++ ) {
 
         // Find the physical model coordinate corresponding to the lattice coordinate
         var x = scene.modelToLatticeTransform.viewToModelX( i );
 
         var frequency = scene.frequencyProperty.get();
-        var wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: is this correct for water, sound and light?
+        var wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: is this correct for sound and light?
 
         for ( var j = 0; j < lattice.height; j++ ) {
           var y = scene.modelToLatticeTransform.viewToModelY( j );
