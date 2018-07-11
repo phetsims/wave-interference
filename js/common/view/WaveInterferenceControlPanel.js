@@ -9,10 +9,14 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Checkbox = require( 'SUN/Checkbox' );
+  var Dimension2 = require( 'DOT/Dimension2' );
   var FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
   var HSeparator = require( 'SUN/HSeparator' );
+  var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   var Node = require( 'SCENERY/nodes/Node' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -26,6 +30,10 @@ define( function( require ) {
   var graphString = require( 'string!WAVE_INTERFERENCE/graph' );
   var intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
   var screenString = require( 'string!WAVE_INTERFERENCE/screen' );
+
+  // images
+  var hoseImage = require( 'image!WAVE_INTERFERENCE/hose.png' );
+  var speakerImage = require( 'image!WAVE_INTERFERENCE/speaker.png' );
 
   // constants
   var CHECKBOX_OPTIONS = {
@@ -73,15 +81,30 @@ define( function( require ) {
     var maxComponentWidth = _.max( [ screenCheckbox.width, graphCheckbox.width, frequencySliderContainer.width, amplitudeSlider.width, lightFrequencySlider.width ] );
     var separator = new HSeparator( maxComponentWidth );
 
+    var hoseIcon = new Image( hoseImage );
+    var speakerIcon = new Image( speakerImage );
+    var laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), {
+
+      // TODO: copied from LightEmitterNode
+      bodySize: new Dimension2( 80, 40 ),
+      nozzleSize: new Dimension2( 10, 28 ),
+      hasGlass: true,
+      hasButton: false
+    } );
+    var iconWidth = 44;
+    var iconHeight = iconWidth;
+    hoseIcon.scale( iconWidth / hoseIcon.width );
+    speakerIcon.scale( iconHeight / speakerIcon.height );
+    laserPointerIcon.scale( iconWidth / laserPointerIcon.width );
     var sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [ {
       value: model.waterScene,
-      node: new WaveInterferenceText( 'water' )
+      node: hoseIcon
     }, {
       value: model.soundScene,
-      node: new WaveInterferenceText( 'sound' )
+      node: speakerIcon
     }, {
       value: model.lightScene,
-      node: new WaveInterferenceText( 'light' )
+      node: laserPointerIcon
     } ], {
       orientation: 'horizontal'
     } );

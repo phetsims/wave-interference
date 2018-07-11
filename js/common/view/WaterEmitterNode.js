@@ -19,7 +19,7 @@ define( function( require ) {
   var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  // image
+  // images
   var hoseImage = require( 'image!WAVE_INTERFERENCE/hose.png' );
 
   /**
