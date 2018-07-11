@@ -82,8 +82,10 @@ define( function( require ) {
 
     // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice
     // coordinates, does not include damping regions
-    var waveAreaModelBounds = new Rectangle( 0, 0, config.waveAreaWidth, config.waveAreaWidth );
-    this.modelToLatticeTransform = ModelViewTransform2.createRectangleMapping( waveAreaModelBounds, config.latticeVisibleBounds );
+    this.modelToLatticeTransform = ModelViewTransform2.createRectangleMapping(
+      new Rectangle( 0, 0, config.waveAreaWidth, config.waveAreaWidth ),
+      config.latticeVisibleBounds
+    );
 
     // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)
     //                   - note: this is a floating point 2D representation so it can work seamlessly with DragListener
