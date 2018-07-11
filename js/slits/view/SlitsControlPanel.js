@@ -27,6 +27,8 @@ define( function( require ) {
   var slitSeparationString = require( 'string!WAVE_INTERFERENCE/slitSeparation' );
   var slitWidthString = require( 'string!WAVE_INTERFERENCE/slitWidth' );
   var twoSlitsString = require( 'string!WAVE_INTERFERENCE/twoSlits' );
+  var cmValueString = require( 'string!WAVE_INTERFERENCE/cmValue' );
+  var nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
 
   /**
    * @param {AlignGroup} alignGroup
@@ -50,19 +52,22 @@ define( function( require ) {
       return new WaveInterferenceText( text, { fontSize: 10 } );
     };
     var waterSlitWidthControl = new NumberControl( slitWidthString, model.waterScene.slitWidthProperty, new Range( 0, 5 ), _.extend( {
+      valuePattern: cmValueString,
       majorTicks: [
         { value: 0, label: createLabel( '0 cm' ) },
         { value: 5, label: createLabel( '5 cm' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     var soundSlitWidthControl = new NumberControl( slitWidthString, model.soundScene.slitWidthProperty, new Range( 0, 50 ), _.extend( {
+      valuePattern: cmValueString,
       majorTicks: [
         { value: 0, label: createLabel( '0 cm' ) },
         { value: 50, label: createLabel( '50 cm' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-    var lightSlitWidthControl = new NumberControl( slitWidthString, model.lightScene.slitWidthProperty, new Range( 0, 20 ), _.extend( {
+    var lightSlitWidthControl = new NumberControl( slitWidthString, model.lightScene.slitWidthProperty, new Range( 0, 2000 ), _.extend( {
+      valuePattern: nmValueString,
       majorTicks: [
-        { value: 0, label: createLabel( '0' ) },
-        { value: 200, label: createLabel( '200' ) } ]
+        { value: 0, label: createLabel( '0 nm' ) },
+        { value: 2000, label: createLabel( '2000 nm' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     var slitWidthControl = new ToggleNode( [
       { value: model.waterScene, node: waterSlitWidthControl },
@@ -77,19 +82,22 @@ define( function( require ) {
 
     // TODO: these controls need to respect the scene--units, ranges, etc.
     var waterSeparationControl = new NumberControl( slitSeparationString, model.waterScene.slitSeparationProperty, new Range( 0, 5 ), _.extend( {
+      valuePattern: cmValueString,
       majorTicks: [
         { value: 0, label: createLabel( '0 cm' ) },
         { value: 5, label: createLabel( '5 cm' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     var soundSeparationControl = new NumberControl( slitSeparationString, model.soundScene.slitSeparationProperty, new Range( 0, 50 ), _.extend( {
+      valuePattern: cmValueString,
       majorTicks: [
         { value: 0, label: createLabel( '0 cm' ) },
         { value: 50, label: createLabel( '50 cm' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-    var lightSeparationControl = new NumberControl( slitSeparationString, model.lightScene.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
+    var lightSeparationControl = new NumberControl( slitSeparationString, model.lightScene.slitSeparationProperty, new Range( 0, 2000 ), _.extend( {
+      valuePattern: nmValueString,
       majorTicks: [
-        { value: 0, label: createLabel( '0' ) },
-        { value: 2000, label: createLabel( '2000' ) } ]
+        { value: 0, label: createLabel( '0 nm' ) },
+        { value: 2000, label: createLabel( '2000 nm' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     var slitSeparationControl = new ToggleNode( [
       { value: model.waterScene, node: waterSeparationControl },
