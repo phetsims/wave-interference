@@ -44,7 +44,9 @@ define( function( require ) {
     setSourceValues: function( lattice ) {
 
       var scene = this.sceneProperty.get();
-      var barrierLatticeX = scene.modelToFullLatticeTransform.modelToViewX( scene.getBarrierLocation() );
+      var barrierLatticeX = scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() );
+      console.log( barrierLatticeX );
+      var slitSeparationModel = scene.slitSeparationProperty.get();
 
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
@@ -56,18 +58,18 @@ define( function( require ) {
         var x = scene.modelToFullLatticeTransform.viewToModelX( i );
 
         var frequency = scene.frequencyProperty.get();
-        var wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: is this correct for sound and light?
+        var wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: is this correct for water, sound and light?
 
         for ( var j = 0; j < lattice.height; j++ ) {
+          var y = scene.modelToFullLatticeTransform.viewToModelY( j );
 
           // Zero out values in the barrier
           var isCellInBarrier = false;
 
           if ( i === barrierLatticeX ) {
 
-            var slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( scene.slitWidthProperty.get() );
-            var slitSeparationModelCoordinates = scene.slitSeparationProperty.get();
-            var slitSeparationInLatticeCoordinates = scene.modelToLatticeTransform.modelToViewDeltaY( slitSeparationModelCoordinates );
+            var slitWidthModel = scene.slitWidthProperty.get();
+            var slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel );
             var latticeCenterY = this.lattice.height / 2;
 
             if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
@@ -77,10 +79,13 @@ define( function( require ) {
             }
             else if ( this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
 
-              // Spacing is between center of slits
-              var top = Math.abs( latticeCenterY - slitSeparationInLatticeCoordinates / 2 - j ) > slitWidth;
-              var bottom = Math.abs( latticeCenterY + slitSeparationInLatticeCoordinates / 2 - j ) > slitWidth;
-              isCellInBarrier = top && bottom;
+              // Spacing is between center of slits.  This computation is done in model coordinates
+              var topBarrierWidth = ( scene.waveAreaWidth - slitWidthModel - slitSeparationModel ) / 2;
+              var centralBarrierWidth = scene.waveAreaWidth - 2 * topBarrierWidth - 2 * slitWidthModel;
+              var inTop = y <= topBarrierWidth;
+              var inBottom = y >= scene.waveAreaWidth - topBarrierWidth;
+              var inCenter = ( y >= topBarrierWidth + slitWidthModel ) && ( y <= topBarrierWidth + slitWidthModel + centralBarrierWidth );
+              isCellInBarrier = inTop || inBottom || inCenter;
             }
           }
 

@@ -99,7 +99,8 @@ define( function( require ) {
       timeScaleFactor: 1,
       timeUnitsConversion: 1,
       numberOfSources: options.numberOfSources,
-      latticeBounds: this.lattice.getVisibleBounds(),
+      latticeVisibleBounds: this.lattice.getVisibleBounds(),
+      latticeBounds: this.lattice.getBounds(),
       latticeWidth: this.lattice.width,
       waveSpeed: 1.5909090909090908 // in position units / time units, measured empirically in screen 1 as 7.0cm/4.40s
     } );
@@ -123,7 +124,8 @@ define( function( require ) {
       timeScaleFactor: 2E-2, // This value is chosen to make the wave look accurate on the lattice
       timeUnitsConversion: 343 / 0.8 / 1.57, // This value is chosen so that the wave speed is accurate
       numberOfSources: options.numberOfSources,
-      latticeBounds: this.lattice.getVisibleBounds(), // TODO: rename latticeVisibleBounds
+      latticeVisibleBounds: this.lattice.getVisibleBounds(), // TODO: rename latticeVisibleBounds
+      latticeBounds: this.lattice.getBounds(),
       latticeWidth: this.lattice.width,
       waveSpeed: 1 // in position units / time units
     } );
@@ -147,7 +149,8 @@ define( function( require ) {
       timeScaleFactor: 1.5807768030572316e-14, // Tuned empirically so the waves have the right size on the lattice.
       timeUnitsConversion: 1E15 * 0.15904736243338724, // Tuned empirically so that light would have the correct THz and hence the correct speed of light
       numberOfSources: options.numberOfSources,
-      latticeBounds: this.lattice.getVisibleBounds(),
+      latticeVisibleBounds: this.lattice.getVisibleBounds(),
+      latticeBounds: this.lattice.getBounds(), // TODO: just pass in lattice?
       latticeWidth: this.lattice.width,
       waveSpeed: 299.792 // in nm/fs
     } );

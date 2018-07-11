@@ -84,6 +84,15 @@ define( function( require ) {
       return new Bounds2( this.dampX, this.dampY, this.width - this.dampX, this.height - this.dampY );
     },
 
+
+    /**
+     * Gets a Bounds2 representing the full region of the lattice, including damping regions.
+     * @returns {Bounds2}
+     */
+    getBounds: function() {
+      return new Bounds2( 0, 0, this.width, this.height );
+    },
+
     /**
      * Read the values on the center line of the lattice (omits the out-of-bounds damping regions), for display in the
      * WaveAreaGraphNode
