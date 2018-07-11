@@ -46,20 +46,23 @@ define( function( require ) {
     } );
 
     // TODO: these controls need to respect the scene--units, ranges, etc.
+    var createLabel = function( text ) {
+      return new WaveInterferenceText( text, { fontSize: 10 } );
+    };
     var waterSlitWidthControl = new NumberControl( slitWidthString, model.waterScene.slitWidthProperty, new Range( 0, 5 ), _.extend( {
       majorTicks: [
-        { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
-        { value: 5, label: new WaveInterferenceText( 5, { fontSize: 10 } ) } ]
+        { value: 0, label: createLabel( '0' ) },
+        { value: 5, label: createLabel( '5' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     var soundSlitWidthControl = new NumberControl( slitWidthString, model.soundScene.slitWidthProperty, new Range( 0, 20 ), _.extend( {
       majorTicks: [
-        { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
-        { value: 200, label: new WaveInterferenceText( 200, { fontSize: 10 } ) } ]
+        { value: 0, label: createLabel( '0' ) },
+        { value: 200, label: createLabel( '200' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     var lightSlitWidthControl = new NumberControl( slitWidthString, model.lightScene.slitWidthProperty, new Range( 0, 20 ), _.extend( {
       majorTicks: [
-        { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
-        { value: 200, label: new WaveInterferenceText( 200, { fontSize: 10 } ) } ]
+        { value: 0, label: createLabel( '0' ) },
+        { value: 200, label: createLabel( '200' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     model.barrierTypeProperty.link( function( barrierType ) {
       waterSlitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
@@ -70,18 +73,18 @@ define( function( require ) {
     // TODO: these controls need to respect the scene--units, ranges, etc.
     var waterSeparationControl = new NumberControl( slitSeparationString, model.waterScene.slitSeparationProperty, new Range( 0, 5 ), _.extend( {
       majorTicks: [
-        { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
-        { value: 5, label: new WaveInterferenceText( 5, { fontSize: 10 } ) } ]
+        { value: 0, label: createLabel( '0' ) },
+        { value: 5, label: createLabel( '5' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     var soundSeparationControl = new NumberControl( slitSeparationString, model.soundScene.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
       majorTicks: [
-        { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
-        { value: 2000, label: new WaveInterferenceText( 2000, { fontSize: 10 } ) } ]
+        { value: 0, label: createLabel( '0' ) },
+        { value: 2000, label: createLabel( '2000' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     var lightSeparationControl = new NumberControl( slitSeparationString, model.lightScene.slitSeparationProperty, new Range( 0, 30 ), _.extend( {
       majorTicks: [
-        { value: 0, label: new WaveInterferenceText( 0, { fontSize: 10 } ) },
-        { value: 2000, label: new WaveInterferenceText( 2000, { fontSize: 10 } ) } ]
+        { value: 0, label: createLabel( '0' ) },
+        { value: 2000, label: createLabel( '2000' ) } ]
     }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     var slitSeparationControl = new ToggleNode( [
       { value: model.waterScene, node: waterSeparationControl },
