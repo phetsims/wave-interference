@@ -47,7 +47,6 @@ define( function( require ) {
       buttonYMargin: 0
     } );
 
-    // TODO: these controls need to respect the scene--units, ranges, etc.
     var createLabel = function( text ) {
       return new WaveInterferenceText( text, { fontSize: 10 } );
     };
@@ -75,12 +74,12 @@ define( function( require ) {
       { value: model.lightScene, node: lightSlitWidthControl }
     ], model.sceneProperty );
     model.barrierTypeProperty.link( function( barrierType ) {
-      waterSlitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
-      soundSlitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
-      lightSlitWidthControl.enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
+      var enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
+      waterSlitWidthControl.enabled = enabled;
+      soundSlitWidthControl.enabled = enabled;
+      lightSlitWidthControl.enabled = enabled;
     } );
 
-    // TODO: these controls need to respect the scene--units, ranges, etc.
     var waterSeparationControl = new NumberControl( slitSeparationString, model.waterScene.slitSeparationProperty, new Range( 0, 5 ), _.extend( {
       valuePattern: cmValueString,
       majorTicks: [
@@ -106,9 +105,10 @@ define( function( require ) {
     ], model.sceneProperty );
 
     model.barrierTypeProperty.link( function( barrierType ) {
-      waterSeparationControl.enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
-      soundSeparationControl.enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
-      lightSeparationControl.enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
+      var enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
+      waterSeparationControl.enabled = enabled;
+      soundSeparationControl.enabled = enabled;
+      lightSeparationControl.enabled = enabled;
     } );
 
     // Vertical layout

@@ -59,7 +59,7 @@ define( function( require ) {
         var x = scene.modelToLatticeTransform.viewToModelX( i );
 
         var frequency = scene.frequencyProperty.get();
-        var wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: is this correct for sound and light?
+        var wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: this in incorrect for sound and light
 
         for ( var j = 0; j < lattice.height; j++ ) {
           var y = scene.modelToLatticeTransform.viewToModelY( j );
@@ -73,7 +73,7 @@ define( function( require ) {
             var slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel );
             var latticeCenterY = this.lattice.height / 2;
 
-            // TODO: NO_SLIT should just propagate the plane wave the entire area, this will avoid artifacts everywhere
+            // TODO: NO_SLIT should just propagate the plane wave across the entire wave area to avoid artifacts
 
             if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
               var low = j > latticeCenterY + slitWidth / 2;
