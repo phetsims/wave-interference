@@ -70,6 +70,8 @@ define( function( require ) {
             var slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel );
             var latticeCenterY = this.lattice.height / 2;
 
+            // TODO: NO_SLIT should just propagate the plane wave the entire area, this will avoid artifacts everywhere
+
             if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
               var low = j > latticeCenterY + slitWidth / 2;
               var high = j < latticeCenterY - slitWidth / 2;
