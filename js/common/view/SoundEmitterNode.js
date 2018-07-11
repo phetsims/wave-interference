@@ -22,11 +22,10 @@ define( function( require ) {
 
   /**
    * @param {WavesScreenModel} model
-   * @param {Scene} scene - TODO: after we have all nodes, this can be hardcoded to work with just sound
    * @param {Node} waveAreaNode - for bounds
    * @constructor
    */
-  function SoundEmitterNode( model, scene, waveAreaNode ) {
+  function SoundEmitterNode( model, waveAreaNode ) {
     var options = {
       rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 ),
       scale: 0.75
@@ -70,10 +69,10 @@ define( function( require ) {
       children: [ speakerNode1, speakerNode2 ]
     } );
 
-    var lightModelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), waveAreaNode.bounds );
+    var lightModelViewTransform = ModelViewTransform2.createRectangleMapping( model.soundScene.getWaveAreaBounds(), waveAreaNode.bounds );
 
     // TODO: this is duplicated in LightEmitterNode
-    scene.sourceSeparationProperty.link( function( sourceSeparation ) {
+    model.soundScene.sourceSeparationProperty.link( function( sourceSeparation ) {
       speakerNode2.visible = sourceSeparation > 0;
 
       var viewSeparation = lightModelViewTransform.modelToViewDeltaY( sourceSeparation );

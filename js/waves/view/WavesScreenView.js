@@ -331,9 +331,9 @@ define( function( require ) {
 
     // TODO: each scene needs its own source graphics
     this.addChild( new ToggleNode( [
-      { value: model.waterScene, node: new WaterEmitterNode( model, model.waterScene, this.waveAreaNode ) },
-      { value: model.soundScene, node: new SoundEmitterNode( model, model.soundScene, this.waveAreaNode ) },
-      { value: model.lightScene, node: new LightEmitterNode( model, model.lightScene, this.waveAreaNode ) }
+      { value: model.waterScene, node: new WaterEmitterNode( model, this.waveAreaNode ) },
+      { value: model.soundScene, node: new SoundEmitterNode( model, this.waveAreaNode ) },
+      { value: model.lightScene, node: new LightEmitterNode( model, this.waveAreaNode ) }
     ], model.sceneProperty, {
       alignChildren: ToggleNode.NONE
     } ) );

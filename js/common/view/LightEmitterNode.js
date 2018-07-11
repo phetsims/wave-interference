@@ -19,11 +19,10 @@ define( function( require ) {
 
   /**
    * @param {WavesScreenModel} model
-   * @param {Scene} scene - TODO: after we have all nodes, this can be hardcoded to work with just light
    * @param {Node} waveAreaNode - for bounds
    * @constructor
    */
-  function LightEmitterNode( model, scene, waveAreaNode ) {
+  function LightEmitterNode( model, waveAreaNode ) {
     var laserPointerOptions = {
       bodySize: new Dimension2( 80, 40 ),
       nozzleSize: new Dimension2( 10, 28 ),
@@ -50,9 +49,9 @@ define( function( require ) {
       children: [ laserPointerNode1, laserPointerNode2 ]
     } );
 
-    var lightModelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), waveAreaNode.bounds );
+    var lightModelViewTransform = ModelViewTransform2.createRectangleMapping( model.lightScene.getWaveAreaBounds(), waveAreaNode.bounds );
 
-    scene.sourceSeparationProperty.link( function( sourceSeparation ) {
+    model.lightScene.sourceSeparationProperty.link( function( sourceSeparation ) {
       laserPointerNode2.visible = sourceSeparation > 0;
 
       var viewSeparation = lightModelViewTransform.modelToViewDeltaY( sourceSeparation );
