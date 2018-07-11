@@ -45,7 +45,6 @@ define( function( require ) {
 
       var scene = this.sceneProperty.get();
       var barrierLatticeX = scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() );
-      console.log( barrierLatticeX );
       var slitSeparationModel = scene.slitSeparationProperty.get();
 
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
@@ -55,13 +54,13 @@ define( function( require ) {
       for ( var i = 0; i <= barrierLatticeX; i++ ) {
 
         // Find the physical model coordinate corresponding to the lattice coordinate
-        var x = scene.modelToFullLatticeTransform.viewToModelX( i );
+        var x = scene.modelToLatticeTransform.viewToModelX( i );
 
         var frequency = scene.frequencyProperty.get();
         var wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: is this correct for water, sound and light?
 
         for ( var j = 0; j < lattice.height; j++ ) {
-          var y = scene.modelToFullLatticeTransform.viewToModelY( j );
+          var y = scene.modelToLatticeTransform.viewToModelY( j );
 
           // Zero out values in the barrier
           var isCellInBarrier = false;
