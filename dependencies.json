@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.14 Thu Jul 12 2018 06:59:55 GMT-0600 (MDT)",
+  "comment": "# wave-interference 1.0.0-dev.15 Fri Jul 13 2018 16:33:21 GMT-0600 (MDT)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
@@ -13,7 +13,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "73de3049163dce024044049f449c15052e6e70d8",
+    "sha": "6d7a5fc027bbc855686e2a8424fccf6058dc4b9a",
     "branch": "master"
   },
   "dot": {
@@ -21,7 +21,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "4eea34f0dd9f98072ee53fb77105bff6c76c2206",
+    "sha": "f853819282257527dde4c72a0ef606f1c1474083",
     "branch": "master"
   },
   "kite": {
@@ -33,7 +33,7 @@
     "branch": "master"
   },
   "phet-io": {
-    "sha": "01b564898b50a7db34827134f47f5333b3ca3f9f",
+    "sha": "2a3c3457e07deb737eefdb33fbd659f8f7bb6fc9",
     "branch": "master"
   },
   "phet-io-wrapper-classroom-activity": {
@@ -49,7 +49,7 @@
     "branch": "master"
   },
   "phet-io-wrappers": {
-    "sha": "af803cd27a9d38371f25366e768a3a0d3ecc569f",
+    "sha": "22fc57500c20e3b94c460ebe1b43954879233def",
     "branch": "master"
   },
   "phetcommon": {
@@ -61,19 +61,19 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "5b42ad9aff14f391b497a438cd4a3a4adb9510f2",
+    "sha": "3f99fe32e47c992f6c86d608cb258afb4d877de2",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "9d14e580a8d34c862f001de249447d33ea8f6194",
+    "sha": "80fa4ab9d1ec8b731409e26683f478ea3cdb8b69",
     "branch": "master"
   },
   "sherpa": {
-    "sha": "341552b7e46696a8ffa9394d31912974bc9be9ee",
+    "sha": "4b8710ca4dca159ab3d8e32afe62dff34f096343",
     "branch": "master"
   },
   "sun": {
-    "sha": "025cd0b2606c7a224a5f736455457fb928dc6667",
+    "sha": "dbf9cb407c79d664c47710efac44581a3e6b71ff",
     "branch": "master"
   },
   "tandem": {
@@ -85,7 +85,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "143c3bc176ffb348edd0d62980439b511e5db668",
+    "sha": "ee91d43215b389baec93b631b702f36f2aebad71",
     "branch": "master"
   }
 }
