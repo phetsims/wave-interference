@@ -13,7 +13,6 @@ define( function( require ) {
 
   // modules
   const Color = require( 'SCENERY/util/Color' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
@@ -23,85 +22,84 @@ define( function( require ) {
   const vertexShader = require( 'text!WAVE_INTERFERENCE/common/view/LatticeWebGLNode.vert' );
   const fragmentShader = require( 'text!WAVE_INTERFERENCE/common/view/LatticeWebGLNode.frag' );
 
-  /**
-   * @param {Lattice} lattice
-   * @param {Object} [options]
-   * @constructor
-   */
-  function LatticeWebGLNode( lattice, options ) {
+  class LatticeWebGLNode {
 
-    // @private
-    this.lattice = lattice;
+    /**
+     * @param {Lattice} lattice
+     * @param {Object} [options]
+     * @constructor
+     */constructor( lattice, options ) {
 
-    // @private
-    this.baseColor = new Color( 'blue' );
+      // @private
+      this.lattice = lattice;
 
-    // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light source
-    this.vacuumColor = null;
+      // @private
+      this.baseColor = new Color( 'blue' );
 
-    options = _.extend( {
+      // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light source
+      this.vacuumColor = null;
 
-      // only use the visible part for the bounds (not the damping regions)
-      canvasBounds: WaveInterferenceUtils.getCanvasBounds( lattice ),
-      layerSplit: true // ensure we're on our own layer
-    }, options );
+      options = _.extend( {
 
-    WebGLNode.call( this, Painter, options );
+        // only use the visible part for the bounds (not the damping regions)
+        canvasBounds: WaveInterferenceUtils.getCanvasBounds( lattice ),
+        layerSplit: true // ensure we're on our own layer
+      }, options );
 
-    // Invalidate paint when model indicates changes
-    const invalidateSelfListener = this.invalidatePaint.bind( this );
-    lattice.changedEmitter.addListener( invalidateSelfListener );
+      WebGLNode.call( this, Painter, options );
+
+      // Invalidate paint when model indicates changes
+      const invalidateSelfListener = this.invalidatePaint.bind( this );
+      lattice.changedEmitter.addListener( invalidateSelfListener );
+    }
+
+    setBaseColor( baseColor ) {
+      this.baseColor = baseColor || new Color( 'black' );
+    }
   }
 
   waveInterference.register( 'LatticeWebGLNode', LatticeWebGLNode );
 
-  inherit( WebGLNode, LatticeWebGLNode, {
-    setBaseColor: function( baseColor ) {
-      this.baseColor = baseColor || new Color( 'black' );
-    }
-  } );
+  class Painter {
+    constructor( gl, node ) {
+      this.gl = gl;
+      this.node = node;
+      const lattice = node.lattice;
 
-  function Painter( gl, node ) {
-    this.gl = gl;
-    this.node = node;
-    const lattice = node.lattice;
+      this.shaderProgram = new ShaderProgram( gl, vertexShader, fragmentShader, {
+        attributes: [ 'aPosition', 'aWaveValue', 'aHasCellBeenVisited' ],
+        uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uBaseColor' ]
+      } );
 
-    this.shaderProgram = new ShaderProgram( gl, vertexShader, fragmentShader, {
-      attributes: [ 'aPosition', 'aWaveValue', 'aHasCellBeenVisited' ],
-      uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix', 'uBaseColor' ]
-    } );
+      this.vertexBuffer = gl.createBuffer();
 
-    this.vertexBuffer = gl.createBuffer();
+      // The vertices are created and buffered once, the geometry never changes
+      const width = lattice.width - lattice.dampX * 2;
+      const height = lattice.height - lattice.dampY * 2;
+      const vertices = [];
+      for ( var i = 0; i < width; i++ ) {
+        for ( var k = 0; k < height; k++ ) {
+          vertices.push( i, k );
+          vertices.push( i + 1, k );
+          vertices.push( i, k + 1 );
 
-    // The vertices are created and buffered once, the geometry never changes
-    const width = lattice.width - lattice.dampX * 2;
-    const height = lattice.height - lattice.dampY * 2;
-    const vertices = [];
-    for ( var i = 0; i < width; i++ ) {
-      for ( var k = 0; k < height; k++ ) {
-        vertices.push( i, k );
-        vertices.push( i + 1, k );
-        vertices.push( i, k + 1 );
-
-        vertices.push( i + 1, k );
-        vertices.push( i + 1, k + 1 );
-        vertices.push( i, k + 1 );
+          vertices.push( i + 1, k );
+          vertices.push( i + 1, k + 1 );
+          vertices.push( i, k + 1 );
+        }
       }
+      gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
+      gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( vertices ), gl.STATIC_DRAW );
+
+      this.waveValueBuffer = gl.createBuffer();
+      this.hasCellBeenVisitedBuffer = gl.createBuffer();
+
+      // @private - allocate and reuse to populate the buffer
+      this.valueArray = [];
+
+      // @private - allocate and reuse to populate the buffer
+      this.hasCellBeenVisitedArray = [];
     }
-    gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( vertices ), gl.STATIC_DRAW );
-
-    this.waveValueBuffer = gl.createBuffer();
-    this.hasCellBeenVisitedBuffer = gl.createBuffer();
-
-    // @private - allocate and reuse to populate the buffer
-    this.valueArray = [];
-
-    // @private - allocate and reuse to populate the buffer
-    this.hasCellBeenVisitedArray = [];
-  }
-
-  inherit( Object, Painter, {
 
     /**
      * Renders the lattice using WebGL
@@ -109,7 +107,7 @@ define( function( require ) {
      * @param {Matrix3} projectionMatrix
      * @returns {number} - flag that indicates paint state
      */
-    paint: function( modelViewMatrix, projectionMatrix ) {
+    paint( modelViewMatrix, projectionMatrix ) {
       const gl = this.gl;
       const shaderProgram = this.shaderProgram;
       const node = this.node;
@@ -130,8 +128,8 @@ define( function( require ) {
       // Add the color values
       gl.bindBuffer( gl.ARRAY_BUFFER, this.waveValueBuffer );
       let index = 0;
-      for ( var i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
-        for ( var k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
+      for ( let i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
+        for ( let k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
 
           // TODO(webgl): optimize?  Inline getIndex or move this to the GPU?
           // Getting the value at each vertex makes it possible to linearly interpolate in the graphics, which
@@ -155,8 +153,8 @@ define( function( require ) {
       // Add whether the cells have been visited
       gl.bindBuffer( gl.ARRAY_BUFFER, this.hasCellBeenVisitedBuffer );
       index = 0;
-      for ( i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
-        for ( k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
+      for ( let i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
+        for ( let k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
           // If there is no vacuum, then act as if the cell has been visited, so it will get the normal coloring.
           let hasCellBeenVisited = 1.0;
           let hasCellBeenVisitedX = 1.0;
@@ -190,15 +188,15 @@ define( function( require ) {
       shaderProgram.unuse();
 
       return WebGLNode.PAINTED_SOMETHING;
-    },
+    }
 
-    dispose: function() {
+    dispose() {
       this.shaderProgram.dispose();
       this.gl.deleteBuffer( this.vertexBuffer );
 
       this.shaderProgram = null;
     }
-  } );
+  }
 
   return LatticeWebGLNode;
 } );

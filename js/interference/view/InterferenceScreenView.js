@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  const inherit = require( 'PHET_CORE/inherit' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Range = require( 'DOT/Range' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );

@@ -13,7 +13,6 @@ define( function( require ) {
   const Bounds2 = require( 'DOT/Bounds2' );
   const Easing = require( 'TWIXT/Easing' );
   const HBox = require( 'SCENERY/nodes/HBox' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -25,88 +24,86 @@ define( function( require ) {
   // strings
   const topString = require( 'string!WAVE_INTERFERENCE/top' );
 
-  /**
-   * @param {Bounds2} waveAreaBounds
-   * @param {NumberProperty} rotationAmountProperty
-   * @param {DerivedProperty.<boolean>} isRotatingProperty
-   * @constructor
-   */
-  function Perspective3DNode( waveAreaBounds, rotationAmountProperty, isRotatingProperty ) {
+  class Perspective3DNode extends Node {
 
-    // @private
-    this.waveAreaBounds = waveAreaBounds;
+    /**
+     * @param {Bounds2} waveAreaBounds
+     * @param {NumberProperty} rotationAmountProperty
+     * @param {DerivedProperty.<boolean>} isRotatingProperty
+     * @constructor
+     */
+    constructor( waveAreaBounds, rotationAmountProperty, isRotatingProperty ) {
 
-    // @private
-    this.rotationAmountProperty = rotationAmountProperty;
+      // depicts the top face
+      const topFacePath = new Path( null, {
+        stroke: 'black',
+        lineWidth: 4,
+        lineJoin: 'round',
 
-    // @private
-    this.isRotatingProperty = isRotatingProperty;
+        // prevent bounds computations during main loop
+        boundsMethod: 'none',
+        localBounds: new Bounds2( 0, 0, 10, 10 ) // TODO(webgl): Does it matter what this value is?  ZERO doesn't seem to work though.
+      } );
 
-    // @private - depicts the top face
-    this.topFacePath = new Path( null, {
-      stroke: 'black',
-      lineWidth: 4,
-      lineJoin: 'round',
+      // depicts the side face (when the user selects "side view")
+      const sideFacePath = new Path( null, {
+        stroke: 'black',
+        lineWidth: 4,
+        lineJoin: 'round',
 
-      // prevent bounds computations during main loop
-      boundsMethod: 'none',
-      localBounds: new Bounds2( 0, 0, 10, 10 ) // TODO(webgl): Does it matter what this value is?  ZERO doesn't seem to work though.
-    } );
+        // prevent bounds computations during main loop
+        boundsMethod: 'none',
+        localBounds: new Bounds2( 0, 0, 10, 10 ) // TODO(webgl): Does it matter what this value is?  ZERO doesn't seem to work though.
+      } );
 
-    // @private - depicts the side face (when the user selects "side view")
-    this.sideFacePath = new Path( null, {
-      stroke: 'black',
-      lineWidth: 4,
-      lineJoin: 'round',
+      // shows the up arrow
+      const upNode = new HBox( {
+        children: [
+          new WaveInterferenceText( topString, { fontSize: 32 } ),
+          new ArrowNode( 0, 0, 0, -110, {
+            stroke: 'black',
+            fill: 'yellow',
+            lineWidth: 2,
+            headHeight: 30,
+            headWidth: 35,
+            tailWidth: 20
+          } )
+        ]
+      } );
+      super( { children: [ topFacePath, sideFacePath, upNode ] } );
 
-      // prevent bounds computations during main loop
-      boundsMethod: 'none',
-      localBounds: new Bounds2( 0, 0, 10, 10 ) // TODO(webgl): Does it matter what this value is?  ZERO doesn't seem to work though.
-    } );
+      // @private
+      this.waveAreaBounds = waveAreaBounds;
+      this.rotationAmountProperty = rotationAmountProperty;
+      this.isRotatingProperty = isRotatingProperty;
+      this.topFacePath = topFacePath;
+      this.sideFacePath = sideFacePath;
+      this.upNode = upNode;
+      this.topFacePath = topFacePath;
+      this.sideFacePath = sideFacePath;
+      this.upNode = upNode;
 
-    // @private
-    this.upNode = new HBox( {
-      children: [
-        new WaveInterferenceText( topString, { fontSize: 32 } ),
-        new ArrowNode( 0, 0, 0, -110, {
-          stroke: 'black',
-          fill: 'yellow',
-          lineWidth: 2,
-          headHeight: 30,
-          headWidth: 35,
-          tailWidth: 20
-        } )
-      ]
-    } );
-    Node.call( this, {
-      children: [ this.topFacePath, this.sideFacePath, this.upNode ]
-    } );
-
-    // Update the shapes and text when the rotationAmount has changed
-    rotationAmountProperty.link( this.update.bind( this ) );
-  }
-
-  waveInterference.register( 'Perspective3DNode', Perspective3DNode );
-
-  return inherit( Node, Perspective3DNode, {
+      // Update the shapes and text when the rotationAmount has changed
+      rotationAmountProperty.link( this.update.bind( this ) );
+    }
 
     /**
      * Sets the top face color, when the scene changes.
      * @param {Color|string} color - the top face color
      * @public
      */
-    setTopFaceColor: function( color ) {
+    setTopFaceColor( color ) {
       this.topFacePath.fill = color;
-    },
+    }
 
     /**
      * Sets the side face color, when the scene changes.
      * @param {Color|string} color - the side face color
      * @public
      */
-    setSideFaceColor: function( color ) {
+    setSideFaceColor( color ) {
       this.sideFacePath.fill = color;
-    },
+    }
 
     /**
      * Creates a shape for the top or side Face, at the correct perspective angle.
@@ -114,18 +111,18 @@ define( function( require ) {
      * @param {number} y - vertical coordinate of the Face
      * @private
      */
-    createFaceShape: function( reduction, y ) {
+    createFaceShape( reduction, y ) {
       return new Shape()
         .moveTo( this.waveAreaBounds.left, this.waveAreaBounds.centerY )
         .lineTo( this.waveAreaBounds.left + reduction, y )
         .lineTo( this.waveAreaBounds.right - reduction, y )
         .lineTo( this.waveAreaBounds.right, this.waveAreaBounds.centerY ).close();
-    },
+    }
 
     /**
      * @private - update the shapes and text when the rotationAmount has changed
      */
-    update: function() {
+    update() {
 
       // Apply easing to make the transition look visually nicer
       const rotationAmount = Easing.CUBIC_IN_OUT.value( this.rotationAmountProperty.get() );
@@ -154,5 +151,9 @@ define( function( require ) {
         this.upNode.right = this.sideFacePath.shape.bounds.right - 80;
       }
     }
-  } );
+  }
+
+  waveInterference.register( 'Perspective3DNode', Perspective3DNode );
+
+  return Perspective3DNode;
 } );

@@ -11,7 +11,6 @@ define( function( require ) {
   // modules
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   const Color = require( 'SCENERY/util/Color' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -21,72 +20,72 @@ define( function( require ) {
   // constants
   const CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
 
-  /**
-   * @param {Lattice} lattice
-   * @param {Object} [options]
-   * @constructor
-   */
-  function LatticeCanvasNode( lattice, options ) {
+  class LatticeCanvasNode extends CanvasNode {
 
-    // @private
-    this.lattice = lattice;
+    /**
+     * @param {Lattice} lattice
+     * @param {Object} [options]
+     * @constructor
+     */
+    constructor( lattice, options ) {
 
-    // @private
-    this.baseColor = new Color( 'blue' );
+      options = _.extend( {
 
-    // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light source
-    this.vacuumColor = null;
+        // only use the visible part for the bounds (not the damping regions)
+        canvasBounds: WaveInterferenceUtils.getCanvasBounds( lattice ),
+        layerSplit: true // ensure we're on our own layer
+      }, options );
 
-    options = _.extend( {
+      super( options );
 
-      // only use the visible part for the bounds (not the damping regions)
-      canvasBounds: WaveInterferenceUtils.getCanvasBounds( lattice ),
-      layerSplit: true // ensure we're on our own layer
-    }, options );
-    CanvasNode.call( this, options );
+      // @private
+      this.lattice = lattice;
 
-    // Render into a sub-canvas which will be drawn into the rendering context at the right scale.
-    const w = this.lattice.width - this.lattice.dampX * 2;
-    const h = this.lattice.height - this.lattice.dampY * 2;
-    this.directCanvas = document.createElement( 'canvas' );
-    this.directCanvas.width = w;
-    this.directCanvas.height = h;
-    this.directContext = this.directCanvas.getContext( '2d' );
-    this.imageData = this.directContext.createImageData( w, h );
+      // @private
+      this.baseColor = new Color( 'blue' );
 
-    // Invalidate paint when model indicates changes
-    const invalidateSelfListener = this.invalidatePaint.bind( this );
-    lattice.changedEmitter.addListener( invalidateSelfListener );
-  }
+      // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light source
+      this.vacuumColor = null;
 
-  waveInterference.register( 'LatticeCanvasNode', LatticeCanvasNode );
+      // Render into a sub-canvas which will be drawn into the rendering context at the right scale.
+      const w = this.lattice.width - this.lattice.dampX * 2;
+      const h = this.lattice.height - this.lattice.dampY * 2;
+      this.directCanvas = document.createElement( 'canvas' );
+      this.directCanvas.width = w;
+      this.directCanvas.height = h;
+      this.directContext = this.directCanvas.getContext( '2d' );
+      this.imageData = this.directContext.createImageData( w, h );
 
-  return inherit( CanvasNode, LatticeCanvasNode, {
+      // Invalidate paint when model indicates changes
+      const invalidateSelfListener = this.invalidatePaint.bind( this );
+      lattice.changedEmitter.addListener( invalidateSelfListener );
+    }
+
 
     /**
      * Convert the given point (in the local coordinate frame) to the corresponding i,j (integral) coordinates on the lattice.
      * @param {Vector2} point - point in the local coordinate frame
      * @returns {Vector2}
      */
-    localPointToLatticePoint: function( point ) {
+    localPointToLatticePoint( point ) {
       return new Vector2( Math.floor( point.x / CELL_WIDTH ), Math.floor( point.y / CELL_WIDTH ) );
-    },
+    }
 
     /**
      * Sets the color of the peaks of the wave.
      * @param {Color} color
      * @public
      */
-    setBaseColor: function( color ) {
+    setBaseColor( color ) {
       this.baseColor = color;
       this.invalidatePaint();
-    },
+    }
 
     /**
      * Draws into the canvas.  Note this logic must be kept in sync with the WebGL fragment shader and ScreenNode.
      * @param {CanvasRenderingContext2D} context
      */
-    paintCanvas: function( context ) {
+    paintCanvas( context ) {
 
       let m = 0;
       const data = this.imageData.data;
@@ -143,5 +142,9 @@ define( function( require ) {
       context.drawImage( this.directCanvas, 0, 0 );
       context.restore();
     }
-  } );
+  }
+
+  waveInterference.register( 'LatticeCanvasNode', LatticeCanvasNode );
+
+  return LatticeCanvasNode;
 } );
