@@ -9,21 +9,21 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var Easing = require( 'TWIXT/Easing' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Matrix3 = require( 'DOT/Matrix3' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
-  var Util = require( 'DOT/Util' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const Easing = require( 'TWIXT/Easing' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Matrix3 = require( 'DOT/Matrix3' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Shape = require( 'KITE/Shape' );
+  const Util = require( 'DOT/Util' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // strings
-  var topString = require( 'string!WAVE_INTERFERENCE/top' );
+  const topString = require( 'string!WAVE_INTERFERENCE/top' );
 
   /**
    * @param {Bounds2} waveAreaBounds
@@ -128,14 +128,14 @@ define( function( require ) {
     update: function() {
 
       // Apply easing to make the transition look visually nicer
-      var rotationAmount = Easing.CUBIC_IN_OUT.value( this.rotationAmountProperty.get() );
-      var bounds = this.waveAreaBounds;
-      var perspectiveWidth = bounds.width * 0.2;
+      const rotationAmount = Easing.CUBIC_IN_OUT.value( this.rotationAmountProperty.get() );
+      const bounds = this.waveAreaBounds;
+      const perspectiveWidth = bounds.width * 0.2;
 
-      var topFaceTopY = Util.linear( 0, 1, bounds.top, bounds.centerY, rotationAmount );
-      var topReduction = Util.linear( 0, 1, 0, perspectiveWidth, rotationAmount );
-      var sideFaceBottomY = Util.linear( 0, 1, bounds.centerY, bounds.bottom, rotationAmount );
-      var bottomReduction = Util.linear( 0, 1, perspectiveWidth, 0, rotationAmount );
+      const topFaceTopY = Util.linear( 0, 1, bounds.top, bounds.centerY, rotationAmount );
+      const topReduction = Util.linear( 0, 1, 0, perspectiveWidth, rotationAmount );
+      const sideFaceBottomY = Util.linear( 0, 1, bounds.centerY, bounds.bottom, rotationAmount );
+      const bottomReduction = Util.linear( 0, 1, perspectiveWidth, 0, rotationAmount );
 
       this.topFacePath.shape = this.createFaceShape( topReduction, topFaceTopY );
       this.sideFacePath.shape = this.createFaceShape( bottomReduction, sideFaceBottomY );

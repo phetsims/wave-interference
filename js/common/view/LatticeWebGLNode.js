@@ -12,16 +12,16 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/util/Color' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
-  var WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
+  const Color = require( 'SCENERY/util/Color' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
+  const WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
 
   // text
-  var vertexShader = require( 'text!WAVE_INTERFERENCE/common/view/LatticeWebGLNode.vert' );
-  var fragmentShader = require( 'text!WAVE_INTERFERENCE/common/view/LatticeWebGLNode.frag' );
+  const vertexShader = require( 'text!WAVE_INTERFERENCE/common/view/LatticeWebGLNode.vert' );
+  const fragmentShader = require( 'text!WAVE_INTERFERENCE/common/view/LatticeWebGLNode.frag' );
 
   /**
    * @param {Lattice} lattice
@@ -49,7 +49,7 @@ define( function( require ) {
     WebGLNode.call( this, Painter, options );
 
     // Invalidate paint when model indicates changes
-    var invalidateSelfListener = this.invalidatePaint.bind( this );
+    const invalidateSelfListener = this.invalidatePaint.bind( this );
     lattice.changedEmitter.addListener( invalidateSelfListener );
   }
 
@@ -64,7 +64,7 @@ define( function( require ) {
   function Painter( gl, node ) {
     this.gl = gl;
     this.node = node;
-    var lattice = node.lattice;
+    const lattice = node.lattice;
 
     this.shaderProgram = new ShaderProgram( gl, vertexShader, fragmentShader, {
       attributes: [ 'aPosition', 'aWaveValue', 'aHasCellBeenVisited' ],
@@ -74,9 +74,9 @@ define( function( require ) {
     this.vertexBuffer = gl.createBuffer();
 
     // The vertices are created and buffered once, the geometry never changes
-    var width = lattice.width - lattice.dampX * 2;
-    var height = lattice.height - lattice.dampY * 2;
-    var vertices = [];
+    const width = lattice.width - lattice.dampX * 2;
+    const height = lattice.height - lattice.dampY * 2;
+    const vertices = [];
     for ( var i = 0; i < width; i++ ) {
       for ( var k = 0; k < height; k++ ) {
         vertices.push( i, k );
@@ -110,13 +110,13 @@ define( function( require ) {
      * @returns {number} - flag that indicates paint state
      */
     paint: function( modelViewMatrix, projectionMatrix ) {
-      var gl = this.gl;
-      var shaderProgram = this.shaderProgram;
-      var node = this.node;
-      var lattice = node.lattice;
+      const gl = this.gl;
+      const shaderProgram = this.shaderProgram;
+      const node = this.node;
+      const lattice = node.lattice;
 
-      var width = lattice.width - lattice.dampX * 2;
-      var height = lattice.height - lattice.dampY * 2;
+      const width = lattice.width - lattice.dampX * 2;
+      const height = lattice.height - lattice.dampY * 2;
 
       shaderProgram.use();
 
@@ -129,17 +129,17 @@ define( function( require ) {
 
       // Add the color values
       gl.bindBuffer( gl.ARRAY_BUFFER, this.waveValueBuffer );
-      var index = 0;
+      let index = 0;
       for ( var i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
         for ( var k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
 
           // TODO(webgl): optimize?  Inline getIndex or move this to the GPU?
           // Getting the value at each vertex makes it possible to linearly interpolate in the graphics, which
           // looks much better than the discrete form we see in canvas
-          var value = node.lattice.getCurrentValue( i, k );
-          var valueX = node.lattice.getCurrentValue( i + 1, k );
-          var valueY = node.lattice.getCurrentValue( i, k + 1 );
-          var valueXY = node.lattice.getCurrentValue( i + 1, k + 1 );
+          const value = node.lattice.getCurrentValue( i, k );
+          const valueX = node.lattice.getCurrentValue( i + 1, k );
+          const valueY = node.lattice.getCurrentValue( i, k + 1 );
+          const valueXY = node.lattice.getCurrentValue( i + 1, k + 1 );
           this.valueArray[ index++ ] = value;
           this.valueArray[ index++ ] = valueX;
           this.valueArray[ index++ ] = valueY;
@@ -158,10 +158,10 @@ define( function( require ) {
       for ( i = lattice.dampX; i < node.lattice.width - lattice.dampX; i++ ) {
         for ( k = lattice.dampY; k < node.lattice.height - lattice.dampY; k++ ) {
           // If there is no vacuum, then act as if the cell has been visited, so it will get the normal coloring.
-          var hasCellBeenVisited = 1.0;
-          var hasCellBeenVisitedX = 1.0;
-          var hasCellBeenVisitedY = 1.0;
-          var hasCellBeenVisitedXY = 1.0;
+          let hasCellBeenVisited = 1.0;
+          let hasCellBeenVisitedX = 1.0;
+          let hasCellBeenVisitedY = 1.0;
+          let hasCellBeenVisitedXY = 1.0;
 
           // When there is a vacuum, make sure the cell has been visited before it can be colorized.
           // TODO(webgl): there is a visual asymmetry

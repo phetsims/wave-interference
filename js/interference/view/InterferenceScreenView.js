@@ -9,20 +9,20 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var NumberControl = require( 'SCENERY_PHET/NumberControl' );
-  var Range = require( 'DOT/Range' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var ToggleNode = require( 'SUN/ToggleNode' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  var WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const NumberControl = require( 'SCENERY_PHET/NumberControl' );
+  const Range = require( 'DOT/Range' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const ToggleNode = require( 'SUN/ToggleNode' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
 
   // strings
-  var cmValueString = require( 'string!WAVE_INTERFERENCE/cmValue' );
-  var nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
-  var separationString = require( 'string!WAVE_INTERFERENCE/separation' );
+  const cmValueString = require( 'string!WAVE_INTERFERENCE/cmValue' );
+  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
+  const separationString = require( 'string!WAVE_INTERFERENCE/separation' );
 
   /**
    * @param {WavesScreenModel} model
@@ -31,11 +31,11 @@ define( function( require ) {
    */
   function InterferenceScreenView( model, alignGroup ) {
 
-    var createLabelText = function( string ) {
+    const createLabelText = function( string ) {
       return new WaveInterferenceText( string, { fontSize: 10 } );
     };
 
-    var toggleNode = new ToggleNode( [ {
+    const toggleNode = new ToggleNode( [ {
       value: model.waterScene,
       node: new NumberControl( separationString, model.waterScene.sourceSeparationProperty, new Range( 1, 5 ), _.extend( {
         delta: 1,

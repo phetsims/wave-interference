@@ -8,9 +8,9 @@
 define( function( require ) {
   'use strict';
 
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  var IncomingWaveType = {
+  const IncomingWaveType = {
     PULSE: 'PULSE',
     CONTINUOUS: 'CONTINUOUS'
   };

@@ -9,20 +9,20 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
-  var Util = require( 'DOT/Util' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Shape = require( 'KITE/Shape' );
+  const Util = require( 'DOT/Util' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  var NUM_SAMPLES = 100;                 // Number of samples to take along the curve
-  var WAVE_HEIGHT = 10;                  // Amplitude of the wave for the icon
-  var MAX_ANGLE = Math.PI * 2 + Math.PI; // Angle at which the wave ends, in radians
-  var MARGIN = 10;                       // Width of the pulse side segments, in pixels
-  var WIDTH = 50;                        // Size of wave, in pixels
+  const NUM_SAMPLES = 100;                 // Number of samples to take along the curve
+  const WAVE_HEIGHT = 10;                  // Amplitude of the wave for the icon
+  const MAX_ANGLE = Math.PI * 2 + Math.PI; // Angle at which the wave ends, in radians
+  const MARGIN = 10;                       // Width of the pulse side segments, in pixels
+  const WIDTH = 50;                        // Size of wave, in pixels
 
   /**
    * @param {IncomingWaveType} incidentWaveType
@@ -30,15 +30,15 @@ define( function( require ) {
    */
   function InputTypeIconNode( incidentWaveType ) {
     Node.call( this );
-    var minAngle = incidentWaveType === IncomingWaveType.PULSE ? Math.PI : 0;
-    var minX = incidentWaveType === IncomingWaveType.PULSE ? MARGIN : 0;
-    var maxX = incidentWaveType === IncomingWaveType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
+    const minAngle = incidentWaveType === IncomingWaveType.PULSE ? Math.PI : 0;
+    const minX = incidentWaveType === IncomingWaveType.PULSE ? MARGIN : 0;
+    const maxX = incidentWaveType === IncomingWaveType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
 
-    var shape = new Shape();
+    const shape = new Shape();
     for ( var i = 0; i < NUM_SAMPLES; i++ ) {
-      var angle = Util.linear( 0, NUM_SAMPLES - 1, minAngle, MAX_ANGLE, i );
-      var y = -Math.cos( angle ) * WAVE_HEIGHT;
-      var x = Util.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
+      const angle = Util.linear( 0, NUM_SAMPLES - 1, minAngle, MAX_ANGLE, i );
+      const y = -Math.cos( angle ) * WAVE_HEIGHT;
+      const x = Util.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
       if ( i === 0 ) {
         if ( incidentWaveType === IncomingWaveType.PULSE ) {
           shape.moveTo( x - MARGIN, y );

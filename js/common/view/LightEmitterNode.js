@@ -9,11 +9,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var EmitterNode = require( 'WAVE_INTERFERENCE/common/view/EmitterNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const EmitterNode = require( 'WAVE_INTERFERENCE/common/view/EmitterNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
    * @param {WavesScreenModel} model

@@ -9,11 +9,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
-  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
+  const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
    * @param {Property.<IncomingWaveType>} inputTypeProperty

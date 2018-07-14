@@ -9,45 +9,45 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var Color = require( 'SCENERY/util/Color' );
-  var DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
-  var LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
-  var LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
-  var LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
-  var MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
-  var Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
-  var Property = require( 'AXON/Property' );
-  var PulseContinuousRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/PulseContinuousRadioButtonGroup' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
-  var ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var SoundEmitterNode = require( 'WAVE_INTERFERENCE/common/view/SoundEmitterNode' );
-  var TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
-  var ToggleNode = require( 'SUN/ToggleNode' );
-  var ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
-  var Util = require( 'SCENERY/util/Util' );
-  var ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-  var WaterEmitterNode = require( 'WAVE_INTERFERENCE/common/view/WaterEmitterNode' );
-  var WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
-  var WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
-  var WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
-  var WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  var WaveInterferenceControlPanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceControlPanel' );
-  var WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const Color = require( 'SCENERY/util/Color' );
+  const DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
+  const LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
+  const LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
+  const LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
+  const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  const Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
+  const Property = require( 'AXON/Property' );
+  const PulseContinuousRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/PulseContinuousRadioButtonGroup' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  const ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
+  const ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
+  const ScreenView = require( 'JOIST/ScreenView' );
+  const SoundEmitterNode = require( 'WAVE_INTERFERENCE/common/view/SoundEmitterNode' );
+  const TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
+  const ToggleNode = require( 'SUN/ToggleNode' );
+  const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
+  const Util = require( 'SCENERY/util/Util' );
+  const ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
+  const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  const WaterEmitterNode = require( 'WAVE_INTERFERENCE/common/view/WaterEmitterNode' );
+  const WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
+  const WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
+  const WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
+  const WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceControlPanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceControlPanel' );
+  const WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
 
   // constants
-  var MARGIN = 8;
-  var SPACING = 6;
-  var WAVE_MARGIN = 8;
-  var WATER_BLUE = WaveInterferenceConstants.WATER_SIDE_COLOR;
+  const MARGIN = 8;
+  const SPACING = 6;
+  const WAVE_MARGIN = 8;
+  const WATER_BLUE = WaveInterferenceConstants.WATER_SIDE_COLOR;
 
   /**
    * @param {WavesScreenModel} model
@@ -76,7 +76,7 @@ define( function( require ) {
     this.addChild( this.waveAreaNode );
 
     // @private show the scale of the wave area
-    var scaleIndicatorNode = new ToggleNode( [
+    const scaleIndicatorNode = new ToggleNode( [
       { value: model.waterScene, node: new ScaleIndicatorNode( model.waterScene, this.waveAreaNode.width ) },
       { value: model.soundScene, node: new ScaleIndicatorNode( model.soundScene, this.waveAreaNode.width ) },
       { value: model.lightScene, node: new ScaleIndicatorNode( model.lightScene, this.waveAreaNode.width ) }
@@ -88,17 +88,17 @@ define( function( require ) {
 
     this.addChild( scaleIndicatorNode );
 
-    var waveAreaGraphNode = new WaveAreaGraphNode( model, this.waveAreaNode.bounds, {
+    const waveAreaGraphNode = new WaveAreaGraphNode( model, this.waveAreaNode.bounds, {
       x: this.waveAreaNode.left,
       centerY: this.waveAreaNode.top + this.waveAreaNode.height * 0.75
     } );
 
-    var dashedLineNode = new DashedLineNode( {
+    const dashedLineNode = new DashedLineNode( {
       x: this.waveAreaNode.left,
       centerY: this.waveAreaNode.centerY
     } );
 
-    var resetAllButton = new ResetAllButton( {
+    const resetAllButton = new ResetAllButton( {
       listener: function() {
         model.reset();
       },
@@ -107,20 +107,20 @@ define( function( require ) {
     } );
     this.addChild( resetAllButton );
 
-    var webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl && false;
+    const webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl && false;
 
     this.latticeNode = webGLSupported ?
                        new LatticeWebGLNode( model.lattice ) :
                        new LatticeCanvasNode( model.lattice );
-    var self = this;
+    const self = this;
 
-    var scale = this.waveAreaNode.width / this.latticeNode.width;
+    const scale = this.waveAreaNode.width / this.latticeNode.width;
     this.latticeNode.mutate( {
       scale: scale,
       center: this.waveAreaNode.center
     } );
 
-    var screenNode = new ScreenNode( model.lattice, model.intensitySample, {
+    const screenNode = new ScreenNode( model.lattice, model.intensitySample, {
       scale: scale,
       left: this.waveAreaNode.right + 5,
       y: this.waveAreaNode.top
@@ -134,7 +134,7 @@ define( function( require ) {
     // Set the color of highlight on the screen and lattice
     Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, lightFrequency ) {
       if ( scene === model.lightScene ) {
-        var baseColor = VisibleColor.frequencyToColor( lightFrequency );
+        const baseColor = VisibleColor.frequencyToColor( lightFrequency );
         self.latticeNode.setBaseColor( baseColor );
         self.latticeNode.vacuumColor = Color.black;
         screenNode.setBaseColor( baseColor );
@@ -155,7 +155,7 @@ define( function( require ) {
     this.addChild( screenNode );
     this.addChild( this.latticeNode );
 
-    var intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, {
+    const intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, {
       left: screenNode.right + 5
     } );
     Property.multilink( [ model.showIntensityGraphProperty, model.sceneProperty ], function( showIntensityGraph, scene ) {
@@ -168,7 +168,7 @@ define( function( require ) {
     // Make sure the charting area is perfectly aligned with the wave area
     intensityGraphPanel.translate( 0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top );
 
-    var measuringTapeProperty = new Property();
+    const measuringTapeProperty = new Property();
     model.sceneProperty.link( function( scene ) {
       measuringTapeProperty.set( {
         name: scene.translatedPositionUnits,
@@ -184,11 +184,11 @@ define( function( require ) {
      * @param {Vector2} point
      * @returns {boolean}
      */
-    var toolboxContains = function( point ) {
+    const toolboxContains = function( point ) {
       return toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).containsPoint( point );
     };
 
-    var measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
+    const measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
 
       // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
       textBackgroundColor: 'rgba( 255, 255, 255, 0.6 )',
@@ -205,7 +205,7 @@ define( function( require ) {
     } );
     model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
-    var timerNode = new WaveInterferenceTimerNode( model, {
+    const timerNode = new WaveInterferenceTimerNode( model, {
       unitsChoices: [ model.waterScene.timerUnits, model.soundScene.timerUnits, model.lightScene.timerUnits ],
 
       // Drop in toolbox
@@ -216,7 +216,7 @@ define( function( require ) {
       }
     } );
 
-    var waveDetectorToolNode = new WaveDetectorToolNode( model, this, {
+    const waveDetectorToolNode = new WaveDetectorToolNode( model, this, {
 
       // Drop in toolbox
       end: function() {
@@ -237,8 +237,8 @@ define( function( require ) {
       waveDetectorToolNode.reset();
     } );
 
-    var toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );
-    var updateToolboxPosition = function() {
+    const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );
+    const updateToolboxPosition = function() {
       toolboxPanel.mutate( {
         right: self.layoutBounds.right - MARGIN,
         top: MARGIN
@@ -253,7 +253,7 @@ define( function( require ) {
     // @protected {WaveInterferenceControlPanel} for subtype layout
     this.controlPanel = new WaveInterferenceControlPanel( model, alignGroup, options.controlPanelOptions );
 
-    var updateControlPanelPosition = function() {
+    const updateControlPanelPosition = function() {
       self.controlPanel.mutate( {
         right: self.layoutBounds.right - MARGIN,
         top: toolboxPanel.bottom + SPACING
@@ -267,7 +267,7 @@ define( function( require ) {
 
     if ( options.showPulseContinuousRadioButtons ) {
 
-      var continuousPulseGroup = new PulseContinuousRadioButtonGroup( model.inputTypeProperty, {
+      const continuousPulseGroup = new PulseContinuousRadioButtonGroup( model.inputTypeProperty, {
         bottom: this.layoutBounds.bottom - MARGIN,
         left: this.layoutBounds.left + MARGIN
       } );
@@ -281,28 +281,28 @@ define( function( require ) {
       } ) );
     }
 
-    var timeControlPanel = new TimeControlPanel( model, {
+    const timeControlPanel = new TimeControlPanel( model, {
       bottom: this.layoutBounds.bottom - MARGIN
     } );
 
     // Show a gray background for the water to make it easier to see the dotted line in the middle of the screen,
     // and visually partition the play area
-    var waterGrayBackground = Rectangle.bounds( this.waveAreaNode.bounds, { fill: '#e2e3e5' } );
+    const waterGrayBackground = Rectangle.bounds( this.waveAreaNode.bounds, { fill: '#e2e3e5' } );
     this.addChild( waterGrayBackground );
 
     // Play/Pause button centered under the wave area
     timeControlPanel.left = this.waveAreaNode.centerX - timeControlPanel.playPauseButton.width / 2;
 
     // Show the side of the water, when fully rotated and in WATER scene
-    var waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
+    const waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
     Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
       waterSideViewNode.visible = rotationAmount === 1.0 && scene === model.waterScene;
       waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === model.waterScene;
     } );
 
     Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty ], function( rotationAmount, isRotating, scene ) {
-      var isSideWater = rotationAmount === 1 && scene === model.waterScene;
-      var show = !isRotating && !isSideWater;
+      const isSideWater = rotationAmount === 1 && scene === model.waterScene;
+      const show = !isRotating && !isSideWater;
       self.waveAreaNode.visible = show;
       self.latticeNode.visible = show;
     } );
@@ -312,7 +312,7 @@ define( function( require ) {
       dashedLineNode.visible = !isRotating && showGraph;
     } );
 
-    var perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty, model.isRotatingProperty );
+    const perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty, model.isRotatingProperty );
 
     // Initialize and update the colors based on the scene
     Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, frequency ) {
@@ -348,7 +348,7 @@ define( function( require ) {
      * @public
      */
     globalToLatticeCoordinate: function( point ) {
-      var localPoint = this.latticeNode.globalToLocalPoint( point );
+      const localPoint = this.latticeNode.globalToLocalPoint( point );
       return this.latticeNode.localPointToLatticePoint( localPoint );
     }
   }, {

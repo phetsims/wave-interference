@@ -9,51 +9,51 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var Color = require( 'SCENERY/util/Color' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' );
-  var DragListener = require( 'SCENERY/listeners/DragListener' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Line = require( 'SCENERY/nodes/Line' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var NodeProperty = require( 'SCENERY/util/NodeProperty' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Property = require( 'AXON/Property' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
-  var Shape = require( 'KITE/Shape' );
-  var ToggleNode = require( 'SUN/ToggleNode' );
-  var Util = require( 'DOT/Util' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var WaveDetectorToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolProbeNode' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  var WireNode = require( 'SCENERY_PHET/WireNode' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const Color = require( 'SCENERY/util/Color' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' );
+  const DragListener = require( 'SCENERY/listeners/DragListener' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Line = require( 'SCENERY/nodes/Line' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const NodeProperty = require( 'SCENERY/util/NodeProperty' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Property = require( 'AXON/Property' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  const Shape = require( 'KITE/Shape' );
+  const ToggleNode = require( 'SUN/ToggleNode' );
+  const Util = require( 'DOT/Util' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const WaveDetectorToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolProbeNode' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const WireNode = require( 'SCENERY_PHET/WireNode' );
 
   // strings
-  var timeString = require( 'string!WAVE_INTERFERENCE/time' );
+  const timeString = require( 'string!WAVE_INTERFERENCE/time' );
 
   // constants
-  var SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
-  var SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
-  var WIRE_2_COLOR = new Color( SERIES_2_COLOR ).darkerColor( 0.7 );
-  var PATH_LINE_WIDTH = 2;
-  var TOP_MARGIN = 10;
-  var RIGHT_MARGIN = 10;
-  var GRAPH_CORNER_RADIUS = 5;
-  var AXIS_LABEL_FILL = 'white';
-  var LABEL_GRAPH_MARGIN = 3;
-  var LABEL_EDGE_MARGIN = 6;
-  var HORIZONTAL_AXIS_LABEL_MARGIN = 4;
-  var NUMBER_OF_TIME_DIVISIONS = 4;
+  const SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
+  const SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
+  const WIRE_2_COLOR = new Color( SERIES_2_COLOR ).darkerColor( 0.7 );
+  const PATH_LINE_WIDTH = 2;
+  const TOP_MARGIN = 10;
+  const RIGHT_MARGIN = 10;
+  const GRAPH_CORNER_RADIUS = 5;
+  const AXIS_LABEL_FILL = 'white';
+  const LABEL_GRAPH_MARGIN = 3;
+  const LABEL_EDGE_MARGIN = 6;
+  const HORIZONTAL_AXIS_LABEL_MARGIN = 4;
+  const NUMBER_OF_TIME_DIVISIONS = 4;
 
   // For the wires
-  var NORMAL_DISTANCE = 25;
-  var PROBE_ATTACHMENT_POINT = 'centerBottom';
-  var WIRE_LINE_WIDTH = 3;
+  const NORMAL_DISTANCE = 25;
+  const PROBE_ATTACHMENT_POINT = 'centerBottom';
+  const WIRE_LINE_WIDTH = 3;
 
   /**
    * @param {WavesScreenModel} model - model for reading values
@@ -62,7 +62,7 @@ define( function( require ) {
    * @constructor
    */
   function WaveDetectorToolNode( model, view, options ) {
-    var self = this;
+    const self = this;
     options = _.extend( {
       isIcon: false,
       end: function() {}
@@ -98,13 +98,13 @@ define( function( require ) {
     this.backgroundNode.addInputListener( this.backgroundDragListener );
     this.addChild( this.backgroundNode );
 
-    var LABEL_FONT_SIZE = 14;
-    var horizontalAxisTitle = new WaveInterferenceText( timeString, {
+    const LABEL_FONT_SIZE = 14;
+    const horizontalAxisTitle = new WaveInterferenceText( timeString, {
       fontSize: LABEL_FONT_SIZE,
       fill: AXIS_LABEL_FILL
     } );
 
-    var verticalAxisTitle = model ? new ToggleNode( [ {
+    const verticalAxisTitle = model ? new ToggleNode( [ {
       value: model.waterScene,
       node: new WaveInterferenceText( model.waterScene.verticalAxisTitle, {
         fontSize: LABEL_FONT_SIZE,
@@ -127,28 +127,28 @@ define( function( require ) {
       } )
     } ], model.sceneProperty ) : new WaveInterferenceText( '' );
 
-    var leftMargin = LABEL_EDGE_MARGIN + verticalAxisTitle.width + LABEL_GRAPH_MARGIN;
-    var bottomMargin = LABEL_EDGE_MARGIN + horizontalAxisTitle.height + LABEL_GRAPH_MARGIN;
+    const leftMargin = LABEL_EDGE_MARGIN + verticalAxisTitle.width + LABEL_GRAPH_MARGIN;
+    const bottomMargin = LABEL_EDGE_MARGIN + horizontalAxisTitle.height + LABEL_GRAPH_MARGIN;
 
-    var graphWidth = this.backgroundNode.width - leftMargin - RIGHT_MARGIN;
-    var graphHeight = this.backgroundNode.height - TOP_MARGIN - bottomMargin;
+    const graphWidth = this.backgroundNode.width - leftMargin - RIGHT_MARGIN;
+    const graphHeight = this.backgroundNode.height - TOP_MARGIN - bottomMargin;
 
     // Now that we know the graphHeight, use it to limit the text size for the vertical axis label
     verticalAxisTitle.maxWidth = graphHeight;
 
-    var NUMBER_VERTICAL_DASHES = 12;
-    var dashLength = graphHeight / NUMBER_VERTICAL_DASHES / 2;
+    const NUMBER_VERTICAL_DASHES = 12;
+    const dashLength = graphHeight / NUMBER_VERTICAL_DASHES / 2;
 
-    var DASH_PATTERN = [ dashLength + 0.6, dashLength - 0.6 ];
-    var LINE_WIDTH = 0.8;
-    var LINE_OPTIONS = {
+    const DASH_PATTERN = [ dashLength + 0.6, dashLength - 0.6 ];
+    const LINE_WIDTH = 0.8;
+    const LINE_OPTIONS = {
       stroke: 'lightGray',
       lineDash: DASH_PATTERN,
       lineWidth: LINE_WIDTH,
       lineDashOffset: dashLength / 2
     };
 
-    var graphPanel = new Rectangle( 0, 0, graphWidth, graphHeight, GRAPH_CORNER_RADIUS, GRAPH_CORNER_RADIUS, {
+    const graphPanel = new Rectangle( 0, 0, graphWidth, graphHeight, GRAPH_CORNER_RADIUS, GRAPH_CORNER_RADIUS, {
       fill: 'white',
       stroke: 'black', // This stroke is covered by the front panel stroke, only included here to make sure the bounds align
       right: this.backgroundNode.right - RIGHT_MARGIN,
@@ -162,8 +162,8 @@ define( function( require ) {
     graphPanel.addChild( new Line( 0, graphHeight * 3 / 4, graphWidth, graphHeight * 3 / 4, LINE_OPTIONS ) );
 
     // There is a blank space on the right side of the graph so there is room for the pens
-    var rightGraphMargin = 10;
-    var availableGraphWidth = graphWidth - rightGraphMargin;
+    const rightGraphMargin = 10;
+    const availableGraphWidth = graphWidth - rightGraphMargin;
 
     // Vertical lines
     for ( var i = 1; i <= NUMBER_OF_TIME_DIVISIONS; i++ ) {
@@ -182,11 +182,11 @@ define( function( require ) {
       centerY: graphPanel.centerY
     } );
 
-    var scaleIndicatorText = new WaveInterferenceText( '', { fontSize: 11, fill: 'white' } );
+    const scaleIndicatorText = new WaveInterferenceText( '', { fontSize: 11, fill: 'white' } );
     model.sceneProperty.link( function( scene ) {
       scaleIndicatorText.text = scene.oneTimerUnit;
     } );
-    var scaleIndicatorNode = new VBox( {
+    const scaleIndicatorNode = new VBox( {
       spacing: -2,
       children: [
 
@@ -237,17 +237,17 @@ define( function( require ) {
       }
     } );
 
-    var bodyNormalProperty = new Property( new Vector2( NORMAL_DISTANCE, 0 ) );
-    var sensorNormalProperty = new Property( new Vector2( 0, NORMAL_DISTANCE ) );
+    const bodyNormalProperty = new Property( new Vector2( NORMAL_DISTANCE, 0 ) );
+    const sensorNormalProperty = new Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
-    var above = function( amount ) {
+    const above = function( amount ) {
       return function( rightBottom ) {return rightBottom.plusXY( 0, -amount );};
     };
 
     // These do not need to be disposed because there is no connection to the "outside world"
-    var rightBottomProperty = new NodeProperty( this.backgroundNode, 'bounds', 'rightBottom' );
-    var aboveBottomRight1Property = new DerivedProperty( [ rightBottomProperty ], above( 20 ) );
-    var aboveBottomRight2Property = new DerivedProperty( [ rightBottomProperty ], above( 10 ) );
+    const rightBottomProperty = new NodeProperty( this.backgroundNode, 'bounds', 'rightBottom' );
+    const aboveBottomRight1Property = new DerivedProperty( [ rightBottomProperty ], above( 20 ) );
+    const aboveBottomRight2Property = new DerivedProperty( [ rightBottomProperty ], above( 10 ) );
 
     // @private
     this.probe1WireNode = new WireNode(
@@ -276,23 +276,23 @@ define( function( require ) {
     this.alignProbes();
 
     // Create the "pens" which draw the data at the right side of the graph
-    var PEN_RADIUS = 4.5;
-    var pen1Node = new Circle( PEN_RADIUS, {
+    const PEN_RADIUS = 4.5;
+    const pen1Node = new Circle( PEN_RADIUS, {
       fill: SERIES_1_COLOR,
       centerX: availableGraphWidth,
       centerY: graphHeight / 2
     } );
-    var probe1Path = new Path( new Shape(), { stroke: SERIES_1_COLOR, lineWidth: PATH_LINE_WIDTH } );
+    const probe1Path = new Path( new Shape(), { stroke: SERIES_1_COLOR, lineWidth: PATH_LINE_WIDTH } );
     probe1Path.computeShapeBounds = function() {return Bounds2.NOTHING;}; // prevent bounds computations during main loop
     graphPanel.addChild( probe1Path );
     graphPanel.addChild( pen1Node );
 
-    var pen2Node = new Circle( PEN_RADIUS, {
+    const pen2Node = new Circle( PEN_RADIUS, {
       fill: SERIES_2_COLOR,
       centerX: availableGraphWidth,
       centerY: graphHeight / 2
     } );
-    var probe2Path = new Path( new Shape(), {
+    const probe2Path = new Path( new Shape(), {
       stroke: SERIES_2_COLOR,
       lineWidth: PATH_LINE_WIDTH,
 
@@ -312,27 +312,27 @@ define( function( require ) {
 
     this.mutate( options );
 
-    var probe1Samples = [];
-    var probe2Samples = [];
+    const probe1Samples = [];
+    const probe2Samples = [];
 
-    var updateProbeData = function( probeNode, penNode, probeSamples, probePath, scene ) {
+    const updateProbeData = function( probeNode, penNode, probeSamples, probePath, scene ) {
 
       if ( model.isWaveDetectorToolNodeInPlayAreaProperty.get() ) {
 
         // Set the range by incorporating the model's time units, so it will match with the timer.
-        var maxSeconds = NUMBER_OF_TIME_DIVISIONS / scene.timeUnitsConversion;
+        const maxSeconds = NUMBER_OF_TIME_DIVISIONS / scene.timeUnitsConversion;
 
         // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
         // itself as the sensor hot spot.  This doesn't include the damping regions
-        var latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
+        const latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
 
-        var value = model.lattice.getCurrentValue( latticeCoordinates.x + model.lattice.dampX, latticeCoordinates.y + model.lattice.dampY );
+        const value = model.lattice.getCurrentValue( latticeCoordinates.x + model.lattice.dampX, latticeCoordinates.y + model.lattice.dampY );
 
         // NaN is returned for out of bounds
         if ( !isNaN( value ) ) {
 
           // strong wavefronts (bright colors) are positive on the graph
-          var chartYValue = Util.linear( 0, 2, graphHeight / 2, 0, value );
+          let chartYValue = Util.linear( 0, 2, graphHeight / 2, 0, value );
           if ( chartYValue > graphHeight ) {
             chartYValue = graphHeight;
           }
@@ -348,17 +348,17 @@ define( function( require ) {
         }
 
         // TODO(performance): performance caveat
-        var pathShape = new Shape();
+        const pathShape = new Shape();
         for ( var i = 0; i < probeSamples.length; i++ ) {
-          var sample = probeSamples[ i ];
-          var xAxisValue = Util.linear( model.time, model.time - maxSeconds, availableGraphWidth, 0, sample.x );
+          const sample = probeSamples[ i ];
+          const xAxisValue = Util.linear( model.time, model.time - maxSeconds, availableGraphWidth, 0, sample.x );
           pathShape.lineTo( xAxisValue, sample.y );
         }
         probePath.shape = pathShape;
       }
     };
 
-    var updatePaths = function() {
+    const updatePaths = function() {
       updateProbeData( self.probe1Node, pen1Node, probe1Samples, probe1Path, model.sceneProperty.get() );
       updateProbeData( self.probe2Node, pen2Node, probe2Samples, probe2Path, model.sceneProperty.get() );
     };

@@ -9,23 +9,23 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
-  var Color = require( 'SCENERY/util/Color' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Matrix3 = require( 'DOT/Matrix3' );
-  var Util = require( 'DOT/Util' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  var WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  const Color = require( 'SCENERY/util/Color' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Matrix3 = require( 'DOT/Matrix3' );
+  const Util = require( 'DOT/Util' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // constants
-  var CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
-  var CANVAS_WIDTH = 100;
+  const CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
+  const CANVAS_WIDTH = 100;
 
   // This chooses the saturation point for the screen, as well as the "thinness" of the minima
-  var BRIGHTNESS_SCALE_FACTOR = 7;
+  const BRIGHTNESS_SCALE_FACTOR = 7;
 
   /**
    * @param {Lattice} lattice
@@ -44,7 +44,7 @@ define( function( require ) {
     // @private
     this.baseColor = new Color( 'blue' );
 
-    var latticeCanvasBounds = WaveInterferenceUtils.getCanvasBounds( lattice );
+    const latticeCanvasBounds = WaveInterferenceUtils.getCanvasBounds( lattice );
     options = _.extend( {
 
       // only use the visible part for the bounds (not the damping regions)
@@ -55,8 +55,8 @@ define( function( require ) {
 
     // Render into a sub-canvas which will be drawn into the rendering context at the right scale.
     // Use a single column of pixels, then stretch them to the right (since that is a constant)
-    var w = 1;
-    var h = this.lattice.height - this.lattice.dampY * 2;
+    const w = 1;
+    const h = this.lattice.height - this.lattice.dampY * 2;
     this.directCanvas = document.createElement( 'canvas' );
     this.directCanvas.width = w;
     this.directCanvas.height = h;
@@ -64,11 +64,11 @@ define( function( require ) {
     this.imageData = this.directContext.createImageData( w, h );
 
     // Invalidate paint when model indicates changes
-    var invalidateSelfListener = this.invalidatePaint.bind( this );
+    const invalidateSelfListener = this.invalidatePaint.bind( this );
     lattice.changedEmitter.addListener( invalidateSelfListener );
 
     // Show it at a 3d perspective, as if orthogonal to the wave view
-    var shear = Matrix3.dirtyFromPool().setToAffine( 1, 0, 0, -0.5, 1, 0 );
+    const shear = Matrix3.dirtyFromPool().setToAffine( 1, 0, 0, -0.5, 1, 0 );
     this.appendMatrix( shear );
 
     // After shearing, center on the LatticeNode.  Vertical offset determined empirically.
@@ -104,24 +104,24 @@ define( function( require ) {
      */
     paintCanvas: function( context ) {
 
-      var intensityValues = this.intensitySample.getIntensityValues();
+      const intensityValues = this.intensitySample.getIntensityValues();
 
-      var m = 0;
-      var data = this.imageData.data;
-      var dampY = this.lattice.dampY;
-      var height = this.lattice.height;
+      let m = 0;
+      const data = this.imageData.data;
+      const dampY = this.lattice.dampY;
+      const height = this.lattice.height;
       for ( var k = dampY; k < height - dampY; k++ ) {
 
-        var intensity = intensityValues[ k - this.lattice.dampY ];
-        var brightness = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
+        const intensity = intensityValues[ k - this.lattice.dampY ];
+        let brightness = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
         brightness = Util.clamp( brightness * BRIGHTNESS_SCALE_FACTOR, 0, 1 );
 
         // Note this interpolation doesn't include the gamma factor that Color.blend does
-        var r = this.baseColor.red * brightness;
-        var g = this.baseColor.green * brightness;
-        var b = this.baseColor.blue * brightness;
+        const r = this.baseColor.red * brightness;
+        const g = this.baseColor.green * brightness;
+        const b = this.baseColor.blue * brightness;
 
-        var offset = 4 * m;
+        const offset = 4 * m;
         data[ offset + 0 ] = r;
         data[ offset + 1 ] = g;
         data[ offset + 2 ] = b;

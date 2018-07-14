@@ -12,49 +12,49 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var Emitter = require( 'AXON/Emitter' );
-  var EventTimer = require( 'PHET_CORE/EventTimer' );
-  var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
-  var Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
-  var Property = require( 'AXON/Property' );
-  var Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
-  var Util = require( 'DOT/Util' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
-  var VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const Emitter = require( 'AXON/Emitter' );
+  const EventTimer = require( 'PHET_CORE/EventTimer' );
+  const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
+  const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
+  const ObservableArray = require( 'AXON/ObservableArray' );
+  const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
+  const Property = require( 'AXON/Property' );
+  const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
+  const Util = require( 'DOT/Util' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
+  const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // strings
-  var cmUnitsString = require( 'string!WAVE_INTERFERENCE/cmUnits' );
-  var electricFieldAtCenterString = require( 'string!WAVE_INTERFERENCE/electricFieldAtCenter' );
-  var electricFieldString = require( 'string!WAVE_INTERFERENCE/electricField' );
-  var femtosecondsUnitsString = require( 'string!WAVE_INTERFERENCE/femtosecondsUnits' );
-  var fiveHundredNanometersString = require( 'string!WAVE_INTERFERENCE/fiveHundredNanometers' );
-  var millisecondsUnitsString = require( 'string!WAVE_INTERFERENCE/millisecondsUnits' );
-  var nanometersUnitsString = require( 'string!WAVE_INTERFERENCE/nanometersUnits' );
-  var oneCentimeterString = require( 'string!WAVE_INTERFERENCE/oneCentimeter' );
-  var oneFemtosecondString = require( 'string!WAVE_INTERFERENCE/oneFemtosecond' );
-  var oneMillisecondString = require( 'string!WAVE_INTERFERENCE/oneMillisecond' );
-  var oneSecondString = require( 'string!WAVE_INTERFERENCE/oneSecond' );
-  var positionCMString = require( 'string!WAVE_INTERFERENCE/positionCM' );
-  var positionNMString = require( 'string!WAVE_INTERFERENCE/positionNM' );
-  var pressureAtCenterString = require( 'string!WAVE_INTERFERENCE/pressureAtCenter' );
-  var pressureString = require( 'string!WAVE_INTERFERENCE/pressure' );
-  var secondsUnitsString = require( 'string!WAVE_INTERFERENCE/secondsUnits' );
-  var tenCentimetersString = require( 'string!WAVE_INTERFERENCE/tenCentimeters' );
-  var waterLevelAtCenterString = require( 'string!WAVE_INTERFERENCE/waterLevelAtCenter' );
-  var waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
+  const cmUnitsString = require( 'string!WAVE_INTERFERENCE/cmUnits' );
+  const electricFieldAtCenterString = require( 'string!WAVE_INTERFERENCE/electricFieldAtCenter' );
+  const electricFieldString = require( 'string!WAVE_INTERFERENCE/electricField' );
+  const femtosecondsUnitsString = require( 'string!WAVE_INTERFERENCE/femtosecondsUnits' );
+  const fiveHundredNanometersString = require( 'string!WAVE_INTERFERENCE/fiveHundredNanometers' );
+  const millisecondsUnitsString = require( 'string!WAVE_INTERFERENCE/millisecondsUnits' );
+  const nanometersUnitsString = require( 'string!WAVE_INTERFERENCE/nanometersUnits' );
+  const oneCentimeterString = require( 'string!WAVE_INTERFERENCE/oneCentimeter' );
+  const oneFemtosecondString = require( 'string!WAVE_INTERFERENCE/oneFemtosecond' );
+  const oneMillisecondString = require( 'string!WAVE_INTERFERENCE/oneMillisecond' );
+  const oneSecondString = require( 'string!WAVE_INTERFERENCE/oneSecond' );
+  const positionCMString = require( 'string!WAVE_INTERFERENCE/positionCM' );
+  const positionNMString = require( 'string!WAVE_INTERFERENCE/positionNM' );
+  const pressureAtCenterString = require( 'string!WAVE_INTERFERENCE/pressureAtCenter' );
+  const pressureString = require( 'string!WAVE_INTERFERENCE/pressure' );
+  const secondsUnitsString = require( 'string!WAVE_INTERFERENCE/secondsUnits' );
+  const tenCentimetersString = require( 'string!WAVE_INTERFERENCE/tenCentimeters' );
+  const waterLevelAtCenterString = require( 'string!WAVE_INTERFERENCE/waterLevelAtCenter' );
+  const waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
 
   // constants
-  var POINT_SOURCE_HORIZONTAL_COORDINATE = 30;
-  var EVENT_RATE = 20; // Tuned so that iPad2 has enough time to run model computations
+  const POINT_SOURCE_HORIZONTAL_COORDINATE = 30;
+  const EVENT_RATE = 20; // Tuned so that iPad2 has enough time to run model computations
 
   /**
    * @param {Object} [options]
@@ -62,7 +62,7 @@ define( function( require ) {
    */
   function WavesScreenModel( options ) {
 
-    var self = this;
+    const self = this;
 
     options = _.extend( {
 
@@ -106,7 +106,7 @@ define( function( require ) {
     // TODO: are we leaving time in seconds, or converting to local units?  It seems recommendation was to convert units.
 
     // Sound scene
-    var concertA = 440; // Hz
+    const concertA = 440; // Hz
     this.soundScene = new Scene( {
       positionUnits: 'cm',
       translatedPositionUnits: cmUnitsString,
@@ -151,7 +151,7 @@ define( function( require ) {
       waveSpeed: 299.792 // in nm/fs
     } );
 
-    var eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
+    const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
 
     // @private
     this.eventTimer = new EventTimer( eventTimerModel, function( timeElapsed ) {
@@ -171,11 +171,11 @@ define( function( require ) {
 
         // Output in appropriate units
         if ( scene === self.lightScene ) {
-          var speedOfLight = 299792458;
-          var wavelength = speedOfLight / frequency;
-          var frequencyTHz = frequency / 1E12;
-          var wavelengthNM = wavelength / 1E-9;
-          var oscillationFS = 1000 / frequencyTHz;
+          const speedOfLight = 299792458;
+          const wavelength = speedOfLight / frequency;
+          const frequencyTHz = frequency / 1E12;
+          const wavelengthNM = wavelength / 1E-9;
+          const oscillationFS = 1000 / frequencyTHz;
           console.log( 'Frequency = ' + frequencyTHz.toFixed( 2 ) + 'THz' + ', Wavelength = ' + wavelengthNM.toFixed( 2 ) + 'nm' + ' Time for one oscillation: ' + oscillationFS.toFixed( 2 ) + 'fs' );
         }
         else if ( scene === self.waterScene ) {
@@ -230,7 +230,7 @@ define( function( require ) {
     this.isWaveDetectorToolNodeInPlayAreaProperty = new BooleanProperty( false );
 
     // @public {Property.<number>} - amount the 3d view is rotated. 0 means top view, 1 means side view.
-    var rotationRange = { min: 0, max: 1 };
+    const rotationRange = { min: 0, max: 1 };
     this.rotationAmountProperty = new NumberProperty( 0, {
       range: rotationRange
     } );
@@ -277,11 +277,11 @@ define( function( require ) {
 
     // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
     // for continuity
-    var phaseUpdate = function( newFrequency, oldFrequency ) {
-      var oldValue = Math.sin( self.time * oldFrequency + self.phase );
-      var proposedPhase = Math.asin( oldValue ) - self.time * newFrequency;
-      var oldDerivative = Math.cos( self.time * oldFrequency + self.phase );
-      var newDerivative = Math.cos( self.time * newFrequency + proposedPhase );
+    const phaseUpdate = function( newFrequency, oldFrequency ) {
+      const oldValue = Math.sin( self.time * oldFrequency + self.phase );
+      let proposedPhase = Math.asin( oldValue ) - self.time * newFrequency;
+      const oldDerivative = Math.cos( self.time * oldFrequency + self.phase );
+      const newDerivative = Math.cos( self.time * newFrequency + proposedPhase );
 
       // If wrong phase, take the sin value from the opposite side and move forward by half a cycle
       if ( oldDerivative * newDerivative < 0 ) {
@@ -392,7 +392,7 @@ define( function( require ) {
 
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
-      var sign = this.viewTypeProperty.get() === ViewType.TOP ? -1 : +1;
+      const sign = this.viewTypeProperty.get() === ViewType.TOP ? -1 : +1;
       this.rotationAmountProperty.value = Util.clamp( this.rotationAmountProperty.value + dt * sign * 1.4, 0, 1 );
 
       if ( !this.isRunningProperty.get() ) {
@@ -403,7 +403,7 @@ define( function( require ) {
 
       this.time += dt;
 
-      var frequency = this.sceneProperty.get().frequencyProperty.get();
+      const frequency = this.sceneProperty.get().frequencyProperty.get();
 
       if ( this.pulseFiringProperty.get() && ( this.time * frequency + this.phase > Math.PI * 2 ) ) {
         this.pulseFiringProperty.value = false;
@@ -433,21 +433,21 @@ define( function( require ) {
      * @protected
      */
     setSourceValues: function() {
-      var lattice = this.lattice;
-      var continuous1 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
-      var continuous2 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
+      const lattice = this.lattice;
+      const continuous1 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
+      const continuous2 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
 
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
         // The simulation is designed to start with a downward wave, corresponding to water splashing in
-        var v = -Math.sin( this.time * this.sceneProperty.get().frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
+        const v = -Math.sin( this.time * this.sceneProperty.get().frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
 
         // assumes a square lattice
-        var separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().waveAreaWidth * this.lattice.getVisibleBounds().width;
-        var distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
+        const separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().waveAreaWidth * this.lattice.getVisibleBounds().width;
+        const distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
-        var latticeCenterJ = Math.round( this.lattice.height / 2 );
+        const latticeCenterJ = Math.round( this.lattice.height / 2 );
 
         // Point source
         if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {

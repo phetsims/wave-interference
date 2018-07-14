@@ -9,13 +9,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   /**
    * @param {WavesScreenModel} model
@@ -26,19 +26,19 @@ define( function( require ) {
    * @constructor
    */
   function EmitterNode( model, scene, waveAreaNode, buttonPosition, sourceNode ) {
-    var buttonOptions = {
+    const buttonOptions = {
       centerY: sourceNode.centerY,
       left: buttonPosition,
       baseColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
       radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
     };
-    var button1 = new RoundStickyToggleButton( false, true, model.button1PressedProperty, buttonOptions );
-    var nodeWithButton1 = new Node( { children: [ sourceNode, button1 ] } );
+    const button1 = new RoundStickyToggleButton( false, true, model.button1PressedProperty, buttonOptions );
+    const nodeWithButton1 = new Node( { children: [ sourceNode, button1 ] } );
 
-    var button2 = new RoundStickyToggleButton( false, true, model.button2PressedProperty, buttonOptions );
-    var nodeWithButton2 = new Node( { children: [ sourceNode, button2 ] } );
+    const button2 = new RoundStickyToggleButton( false, true, model.button2PressedProperty, buttonOptions );
+    const nodeWithButton2 = new Node( { children: [ sourceNode, button2 ] } );
 
-    var updateEnabled = function() {
+    const updateEnabled = function() {
       if ( model.inputTypeProperty.value === IncomingWaveType.PULSE ) {
         button1.enabled = !model.pulseFiringProperty.value;
         button2.enabled = !model.pulseFiringProperty.value;
@@ -54,12 +54,12 @@ define( function( require ) {
       children: [ nodeWithButton1, nodeWithButton2 ]
     } );
 
-    var modelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), waveAreaNode.bounds );
+    const modelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), waveAreaNode.bounds );
 
     scene.sourceSeparationProperty.link( function( sourceSeparation ) {
       nodeWithButton2.visible = sourceSeparation > 0;
 
-      var viewSeparation = modelViewTransform.modelToViewDeltaY( sourceSeparation );
+      const viewSeparation = modelViewTransform.modelToViewDeltaY( sourceSeparation );
       nodeWithButton1.centerY = waveAreaNode.centerY + viewSeparation / 2;
       nodeWithButton2.centerY = waveAreaNode.centerY - viewSeparation / 2;
     } );

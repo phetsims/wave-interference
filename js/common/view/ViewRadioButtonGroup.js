@@ -9,15 +9,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  var WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
 
   // strings
-  var topViewString = require( 'string!WAVE_INTERFERENCE/topView' );
-  var sideViewString = require( 'string!WAVE_INTERFERENCE/sideView' );
+  const topViewString = require( 'string!WAVE_INTERFERENCE/topView' );
+  const sideViewString = require( 'string!WAVE_INTERFERENCE/sideView' );
 
   /**
    * @param {Property.<ViewType>} viewTypeProperty

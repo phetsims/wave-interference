@@ -8,15 +8,15 @@
 define( function( require ) {
   'use strict';
 
-  var Color = require( 'SCENERY/util/Color' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var NumberControl = require( 'SCENERY_PHET/NumberControl' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const Color = require( 'SCENERY/util/Color' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const NumberControl = require( 'SCENERY_PHET/NumberControl' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  var THUMB_SIZE = new Dimension2( 16, 28 );
+  const THUMB_SIZE = new Dimension2( 16, 28 );
 
-  var WaveInterferenceConstants = {
+  const WaveInterferenceConstants = {
     WAVE_AREA_WIDTH: 500,
 
     // These constants are used for the NumberControls to give them a consistent looks

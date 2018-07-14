@@ -9,34 +9,34 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var Checkbox = require( 'SUN/Checkbox' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
-  var HSeparator = require( 'SUN/HSeparator' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
-  var WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
-  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const Checkbox = require( 'SUN/Checkbox' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
+  const HSeparator = require( 'SUN/HSeparator' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
+  const WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // strings
-  var amplitudeString = require( 'string!WAVE_INTERFERENCE/amplitude' );
-  var frequencyString = require( 'string!WAVE_INTERFERENCE/frequency' );
-  var graphString = require( 'string!WAVE_INTERFERENCE/graph' );
-  var intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
-  var screenString = require( 'string!WAVE_INTERFERENCE/screen' );
+  const amplitudeString = require( 'string!WAVE_INTERFERENCE/amplitude' );
+  const frequencyString = require( 'string!WAVE_INTERFERENCE/frequency' );
+  const graphString = require( 'string!WAVE_INTERFERENCE/graph' );
+  const intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
+  const screenString = require( 'string!WAVE_INTERFERENCE/screen' );
 
   // images
-  var hoseImage = require( 'image!WAVE_INTERFERENCE/hose.png' );
-  var speakerImage = require( 'image!WAVE_INTERFERENCE/speaker.png' );
+  const hoseImage = require( 'image!WAVE_INTERFERENCE/hose.png' );
+  const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker.png' );
 
   // constants
-  var CHECKBOX_OPTIONS = {
+  const CHECKBOX_OPTIONS = {
     boxWidth: 12
   };
 
@@ -57,10 +57,10 @@ define( function( require ) {
     }, options );
 
     // Controls are in the metric coordinate frame
-    var waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.frequencyProperty, model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
-    var soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
+    const waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.frequencyProperty, model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
+    const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
 
-    var lightFrequencySlider = new FrequencySlider( model.lightScene.frequencyProperty, {
+    const lightFrequencySlider = new FrequencySlider( model.lightScene.frequencyProperty, {
       minFrequency: model.lightScene.minimumFrequency,
       maxFrequency: model.lightScene.maximumFrequency,
       trackWidth: 150,
@@ -72,18 +72,18 @@ define( function( require ) {
     } );
 
     lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( 0, 10 );
-    var frequencySliderContainer = new Node( { children: [ waterFrequencySlider, soundFrequencySlider, lightFrequencySlider ] } );
-    var amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, model.amplitudeProperty.range.min, model.amplitudeProperty.range.max );
+    const frequencySliderContainer = new Node( { children: [ waterFrequencySlider, soundFrequencySlider, lightFrequencySlider ] } );
+    const amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, model.amplitudeProperty.range.min, model.amplitudeProperty.range.max );
 
-    var graphCheckbox = new Checkbox( new WaveInterferenceText( graphString ), model.showGraphProperty, CHECKBOX_OPTIONS );
-    var screenCheckbox = new Checkbox( new WaveInterferenceText( screenString ), model.showScreenProperty, CHECKBOX_OPTIONS );
-    var intensityCheckbox = new Checkbox( new WaveInterferenceText( intensityString ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
-    var maxComponentWidth = _.max( [ screenCheckbox.width, graphCheckbox.width, frequencySliderContainer.width, amplitudeSlider.width, lightFrequencySlider.width ] );
-    var separator = new HSeparator( maxComponentWidth );
+    const graphCheckbox = new Checkbox( new WaveInterferenceText( graphString ), model.showGraphProperty, CHECKBOX_OPTIONS );
+    const screenCheckbox = new Checkbox( new WaveInterferenceText( screenString ), model.showScreenProperty, CHECKBOX_OPTIONS );
+    const intensityCheckbox = new Checkbox( new WaveInterferenceText( intensityString ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
+    const maxComponentWidth = _.max( [ screenCheckbox.width, graphCheckbox.width, frequencySliderContainer.width, amplitudeSlider.width, lightFrequencySlider.width ] );
+    const separator = new HSeparator( maxComponentWidth );
 
-    var hoseIcon = new Image( hoseImage );
-    var speakerIcon = new Image( speakerImage );
-    var laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), {
+    const hoseIcon = new Image( hoseImage );
+    const speakerIcon = new Image( speakerImage );
+    const laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), {
 
       // TODO: copied from LightEmitterNode
       bodySize: new Dimension2( 80, 40 ),
@@ -91,12 +91,12 @@ define( function( require ) {
       hasGlass: true,
       hasButton: false
     } );
-    var iconWidth = 44;
-    var iconHeight = iconWidth;
+    const iconWidth = 44;
+    const iconHeight = iconWidth;
     hoseIcon.scale( iconWidth / hoseIcon.width );
     speakerIcon.scale( iconHeight / speakerIcon.height );
     laserPointerIcon.scale( iconWidth / laserPointerIcon.width );
-    var sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [ {
+    const sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [ {
       value: model.waterScene,
       node: hoseIcon
     }, {
@@ -109,18 +109,18 @@ define( function( require ) {
       orientation: 'horizontal'
     } );
 
-    var frequencyTitle = new WaveInterferenceText( frequencyString );
-    var amplitudeTitle = new WaveInterferenceText( amplitudeString );
+    const frequencyTitle = new WaveInterferenceText( frequencyString );
+    const amplitudeTitle = new WaveInterferenceText( amplitudeString );
 
     // Horizontal layout
-    var centerX = frequencyTitle.centerX;
+    const centerX = frequencyTitle.centerX;
     frequencySliderContainer.centerX = centerX;
     amplitudeTitle.centerX = centerX;
     amplitudeSlider.centerX = centerX;
     if ( options.additionalControl ) {options.additionalControl.centerX = centerX;}
     sceneRadioButtons.centerX = centerX;
     separator.centerX = centerX;
-    var minX = _.min( [ frequencySliderContainer.left, amplitudeSlider.left, frequencyTitle.left, amplitudeTitle.left, sceneRadioButtons.left ] );
+    let minX = _.min( [ frequencySliderContainer.left, amplitudeSlider.left, frequencyTitle.left, amplitudeTitle.left, sceneRadioButtons.left ] );
     minX = minX + 11; // Account for half the slider knob width, so it lines up with the slider left tick
     graphCheckbox.left = minX;
     screenCheckbox.left = minX;
@@ -154,7 +154,7 @@ define( function( require ) {
     } );
 
     // z-ordering
-    var children = [
+    const children = [
       frequencyTitle,
       frequencySliderContainer,
       amplitudeTitle,
@@ -169,7 +169,7 @@ define( function( require ) {
     if ( options.showIntensityCheckbox ) {
       children.push( intensityCheckbox );
     }
-    var content = alignGroup.createBox( new Node( {
+    const content = alignGroup.createBox( new Node( {
       children: children
     } ) );
 

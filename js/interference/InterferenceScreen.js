@@ -9,26 +9,26 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var InterferenceScreenModel = require( 'WAVE_INTERFERENCE/interference/model/InterferenceScreenModel' );
-  var InterferenceScreenView = require( 'WAVE_INTERFERENCE/interference/view/InterferenceScreenView' );
-  var Property = require( 'AXON/Property' );
-  var Screen = require( 'JOIST/Screen' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const InterferenceScreenModel = require( 'WAVE_INTERFERENCE/interference/model/InterferenceScreenModel' );
+  const InterferenceScreenView = require( 'WAVE_INTERFERENCE/interference/view/InterferenceScreenView' );
+  const Property = require( 'AXON/Property' );
+  const Screen = require( 'JOIST/Screen' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // images
-  var interferenceScreenIcon = require( 'image!WAVE_INTERFERENCE/interference_screen_icon.png' );
+  const interferenceScreenIcon = require( 'image!WAVE_INTERFERENCE/interference_screen_icon.png' );
 
   // strings
-  var screenInterferenceString = require( 'string!WAVE_INTERFERENCE/screen.interference' );
+  const screenInterferenceString = require( 'string!WAVE_INTERFERENCE/screen.interference' );
 
   /**
    * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
    * @constructor
    */
   function InterferenceScreen( alignGroup ) {
-    var options = {
+    const options = {
       backgroundColorProperty: new Property( 'white' ),
       name: screenInterferenceString,
       homeScreenIcon: new Image( interferenceScreenIcon )

@@ -7,27 +7,27 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
-  var Matrix3 = require( 'DOT/Matrix3' );
-  var NumberControl = require( 'SCENERY_PHET/NumberControl' );
-  var Panel = require( 'SUN/Panel' );
-  var Property = require( 'AXON/Property' );
-  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  var Range = require( 'DOT/Range' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var Util = require( 'DOT/Util' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
+  const Matrix3 = require( 'DOT/Matrix3' );
+  const NumberControl = require( 'SCENERY_PHET/NumberControl' );
+  const Panel = require( 'SUN/Panel' );
+  const Property = require( 'AXON/Property' );
+  const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  const Range = require( 'DOT/Range' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  const ScreenView = require( 'JOIST/ScreenView' );
+  const Util = require( 'DOT/Util' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  var width = 256;
-  var height = width;
+  const width = 256;
+  const height = width;
 
   /**
    * @param {number} x0
@@ -39,10 +39,10 @@ define( function( require ) {
    * @returns {number}
    */
   function gaussian( x0, y0, sigmaX, sigmaY, x, y ) {
-    var dx = x - x0;
-    var dy = y - y0;
-    var a = dx * dx / sigmaX / sigmaX;
-    var b = dy * dy / sigmaY / sigmaY;
+    const dx = x - x0;
+    const dy = y - y0;
+    const a = dx * dx / sigmaX / sigmaX;
+    const b = dy * dy / sigmaY / sigmaY;
     return Math.pow( Math.E, -( a + b ) / 2 );
   }
 
@@ -52,16 +52,16 @@ define( function( require ) {
    */
   function DiffractionScreenView( diffractionModel ) {
 
-    var self = this;
+    const self = this;
     ScreenView.call( this );
 
     this.onProperty = new Property( true );
-    var laserPointerNode = new LaserPointerNode( this.onProperty, {
+    const laserPointerNode = new LaserPointerNode( this.onProperty, {
       left: 10, centerY: 50
     } );
 
     // Reset All button
-    var resetAllButton = new ResetAllButton( {
+    const resetAllButton = new ResetAllButton( {
       listener: function() {
         diffractionModel.reset();
       },
@@ -81,7 +81,7 @@ define( function( require ) {
     this.gaussianMagnitudeProperty = new Property( 400 );
 
     this.sceneProperty = new Property( 'rectangle' );
-    var toggleButtonsContent = [ {
+    const toggleButtonsContent = [ {
       value: 'rectangle',
       node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
     }, {
@@ -96,7 +96,7 @@ define( function( require ) {
         } )
       } )
     } ];
-    var radioButtonGroup = new RadioButtonGroup( this.sceneProperty, toggleButtonsContent, {
+    const radioButtonGroup = new RadioButtonGroup( this.sceneProperty, toggleButtonsContent, {
       left: 10,
       bottom: this.layoutBounds.bottom - 10
     } );
@@ -105,11 +105,11 @@ define( function( require ) {
     this.placeholderImage.width = width;
     this.placeholderImage.height = height;
 
-    var context = this.placeholderImage.getContext( '2d' );
+    const context = this.placeholderImage.getContext( '2d' );
     context.fillStyle = 'black';
     context.fillRect( 0, 0, width, height );
 
-    var imageScale = 1.5;
+    const imageScale = 1.5;
     this.apertureImage = new Image( this.placeholderImage, { scale: imageScale, top: 100, left: 140 } );
     self.addChild( this.apertureImage );
 
@@ -121,7 +121,7 @@ define( function( require ) {
     } );
     self.addChild( this.diffractionImage );
 
-    var ICON_SCALE = 0.2;
+    const ICON_SCALE = 0.2;
     this.apertureIcon = new Image( this.placeholderImage, {
       scale: ICON_SCALE,
       centerY: laserPointerNode.centerY,
@@ -137,7 +137,7 @@ define( function( require ) {
     } );
     self.addChild( this.diffractionIcon );
 
-    var updateCanvases = function() {
+    const updateCanvases = function() {
       self.updateCanvases();
     };
     this.sceneProperty.lazyLink( updateCanvases );
@@ -196,13 +196,13 @@ define( function( require ) {
       self.slitsControlPanel.visible = scene === 'slits';
     } );
 
-    var beamWidth = 40;
-    var incidentBeam = new Rectangle( laserPointerNode.right, laserPointerNode.centerY - beamWidth / 2, this.apertureIcon.centerX - laserPointerNode.right, beamWidth, {
+    const beamWidth = 40;
+    const incidentBeam = new Rectangle( laserPointerNode.right, laserPointerNode.centerY - beamWidth / 2, this.apertureIcon.centerX - laserPointerNode.right, beamWidth, {
       fill: 'gray',
       opacity: 0.7
     } );
 
-    var transmittedBeam = new Rectangle( this.apertureIcon.centerX, laserPointerNode.centerY - beamWidth / 2, this.diffractionIcon.centerX - this.apertureIcon.centerX, beamWidth, {
+    const transmittedBeam = new Rectangle( this.apertureIcon.centerX, laserPointerNode.centerY - beamWidth / 2, this.diffractionIcon.centerX - this.apertureIcon.centerX, beamWidth, {
       fill: 'gray',
       opacity: 0.7
     } );
@@ -231,40 +231,37 @@ define( function( require ) {
     updateCanvases: function() {
 
       // Usage code from JS-Fourier-Image-Analysis/js/main.js
-      var dims = [ width, height ]; // will be set later
-      var cc = 9e-3; // contrast constant
-      var apertureCanvas;
-      var diffractionCanvas;
-      var diffractionContext;
+      const dims = [ width, height ]; // will be set later
+      const cc = 9e-3; // contrast constant
 
-      var start = +new Date();
+      let start = +new Date();
       // make each canvas the image's exact size
-      apertureCanvas = document.createElement( 'canvas' );
+      const apertureCanvas = document.createElement( 'canvas' );
       apertureCanvas.width = dims[ 0 ];
       apertureCanvas.height = dims[ 1 ];
-      var apertureContext = apertureCanvas.getContext( '2d' );
+      const apertureContext = apertureCanvas.getContext( '2d' );
 
-      diffractionCanvas = document.createElement( 'canvas' );
+      const diffractionCanvas = document.createElement( 'canvas' );
       diffractionCanvas.width = dims[ 0 ];
       diffractionCanvas.height = dims[ 1 ];
-      diffractionContext = diffractionCanvas.getContext( '2d' );
+      const diffractionContext = diffractionCanvas.getContext( '2d' );
 
       apertureContext.fillStyle = 'black';
       apertureContext.fillRect( 0, 0, width, height );
 
       apertureContext.fillStyle = 'white';
 
-      var i;
+      let i;
 
       if ( this.sceneProperty.value === 'rectangle' ) {
-        var rectWidth = this.squareWidthProperty.value;
-        var rectHeight = this.squareHeightProperty.value;
+        const rectWidth = this.squareWidthProperty.value;
+        const rectHeight = this.squareHeightProperty.value;
         apertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2, rectWidth, rectHeight );
       }
       else if ( this.sceneProperty.value === 'circle' ) {
         for ( i = 0; i < width; i++ ) {
           for ( var k = 0; k < height; k++ ) {
-            var v = Util.clamp( Math.floor( gaussian( width / 2, height / 2, this.sigmaXProperty.value, this.sigmaYProperty.value, i, k ) * this.gaussianMagnitudeProperty.value ), 0, 255 );
+            const v = Util.clamp( Math.floor( gaussian( width / 2, height / 2, this.sigmaXProperty.value, this.sigmaYProperty.value, i, k ) * this.gaussianMagnitudeProperty.value ), 0, 255 );
             apertureContext.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
             apertureContext.fillRect( i, k, 1, 1 );
           }
@@ -273,9 +270,9 @@ define( function( require ) {
       else if ( this.sceneProperty.value === 'slits' ) {
 
         apertureContext.rotate( this.angleProperty.value );
-        var slitWidth = 1;
-        var numberOfLines = this.numberOfLinesProperty.value;
-        var lineSpacing = width / ( numberOfLines + 1 );
+        const slitWidth = 1;
+        const numberOfLines = this.numberOfLinesProperty.value;
+        const lineSpacing = width / ( numberOfLines + 1 );
 
         // Even number of lines
         if ( numberOfLines % 2 === 0 ) {
@@ -303,8 +300,8 @@ define( function( require ) {
       // apertureContext.fill();
 
       // grab the pixels
-      var imageData = apertureContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
-      var h_es = []; // the h values
+      const imageData = apertureContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
+      const h_es = []; // the h values
       for ( var ai = 0; ai < imageData.data.length; ai += 4 ) {
 
         // greyscale, so you only need every 4th value
@@ -312,29 +309,29 @@ define( function( require ) {
       }
 
       // initialize the h values
-      var h = function( n, m ) {
+      const h = function( n, m ) {
         if ( arguments.length === 0 ) {
           return h_es;
         }
 
-        var idx = n * dims[ 0 ] + m;
+        const idx = n * dims[ 0 ] + m;
         return h_es[ idx ];
       }; // make it a function so the code matches the math
 
-      var duration = +new Date() - start;
+      let duration = +new Date() - start;
       console.log( 'It took ' + duration + 'ms to draw the image.' );
 
       start = +new Date();
 
       // compute the h hat values
-      var h_hats = [];
+      let h_hats = [];
       Fourier.transform( h(), h_hats );
       h_hats = Fourier.shift( h_hats, dims );
 
       // get the largest magnitude
-      var maxMagnitude = 0;
+      let maxMagnitude = 0;
       for ( ai = 0; ai < h_hats.length; ai++ ) {
-        var mag = h_hats[ ai ].magnitude();
+        const mag = h_hats[ ai ].magnitude();
         if ( mag > maxMagnitude ) {
           maxMagnitude = mag;
         }
@@ -343,23 +340,23 @@ define( function( require ) {
       Fourier.filter( h_hats, dims, NaN, NaN );
 
       // store them in a nice function to match the math
-      var $h = function( k, l ) {
+      const $h = function( k, l ) {
         if ( arguments.length === 0 ) {
           return h_hats;
         }
 
-        var idx = k * dims[ 0 ] + l;
+        const idx = k * dims[ 0 ] + l;
         return h_hats[ idx ];
       };
 
       // draw the pixels
-      var currImageData = diffractionContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
-      var logOfMaxMag = Math.log( cc * maxMagnitude + 1 );
+      const currImageData = diffractionContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
+      const logOfMaxMag = Math.log( cc * maxMagnitude + 1 );
       for ( k = 0; k < dims[ 1 ]; k++ ) {
         for ( var l = 0; l < dims[ 0 ]; l++ ) {
-          var idxInPixels = 4 * ( dims[ 0 ] * k + l );
+          const idxInPixels = 4 * ( dims[ 0 ] * k + l );
           currImageData.data[ idxInPixels + 3 ] = 255; // full alpha
-          var color = Math.log( cc * $h( l, k ).magnitude() + 1 );
+          let color = Math.log( cc * $h( l, k ).magnitude() + 1 );
           color = Math.round( 255 * ( color / logOfMaxMag ) );
           // RGB are the same -> gray
           for ( var c = 0; c < 3; c++ ) { // lol c++

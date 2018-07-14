@@ -9,9 +9,9 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
 
   /**
    * @constructor

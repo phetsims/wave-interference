@@ -9,14 +9,14 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
-  var DragListener = require( 'SCENERY/listeners/DragListener' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
+  const DragListener = require( 'SCENERY/listeners/DragListener' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
    * @param {SlitsScreenModel} model
@@ -40,7 +40,7 @@ define( function( require ) {
     /**
      * Creates one of the 3 recycled rectangles used for rendering the barriers.
      */
-    var createRectangle = function() {
+    const createRectangle = function() {
       return new Rectangle( 0, 0, 0, 0, 2, 2, {
         fill: '#f3d99b',
         stroke: 'black',
@@ -70,7 +70,7 @@ define( function( require ) {
     } ) );
 
     // Update shapes when the model parameters change
-    var update = this.update.bind( this );
+    const update = this.update.bind( this );
     model.barrierTypeProperty.link( update );
     scene.barrierLocationProperty.link( update );
     scene.slitWidthProperty.link( update );
@@ -86,13 +86,13 @@ define( function( require ) {
      */
     update: function() {
 
-      var barrierType = this.model.barrierTypeProperty.get();
-      var scene = this.scene;
-      var slitWidth = scene.slitWidthProperty.get();
-      var slitSeparation = scene.slitSeparationProperty.get();
+      const barrierType = this.model.barrierTypeProperty.get();
+      const scene = this.scene;
+      const slitWidth = scene.slitWidthProperty.get();
+      const slitSeparation = scene.slitSeparationProperty.get();
 
       // Barrier origin in view coordinates
-      var x = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() );
+      const x = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() );
 
       if ( barrierType === BarrierTypeEnum.NO_BARRIER ) {
 
@@ -107,9 +107,9 @@ define( function( require ) {
         this.rectangleB.visible = true;
         this.rectangleC.visible = false;
 
-        var slitWidthView = this.modelViewTransform.modelToViewDeltaY( slitWidth );
-        var y1 = this.waveAreaViewBounds.centerY - slitWidthView / 2;
-        var y2 = this.waveAreaViewBounds.centerY + slitWidthView / 2;
+        const slitWidthView = this.modelViewTransform.modelToViewDeltaY( slitWidth );
+        const y1 = this.waveAreaViewBounds.centerY - slitWidthView / 2;
+        const y2 = this.waveAreaViewBounds.centerY + slitWidthView / 2;
         this.rectangleA.setRect( x, this.waveAreaViewBounds.top, this.cellWidth, y1 - this.waveAreaViewBounds.top, 2, 2 );
         this.rectangleB.setRect( x, y2, this.cellWidth, this.waveAreaViewBounds.bottom - y2, 2, 2 );
       }
@@ -118,11 +118,11 @@ define( function( require ) {
         this.rectangleB.visible = true;
         this.rectangleC.visible = true;
 
-        var waveAreaWidth = scene.waveAreaWidth;
-        var bottomOfTopBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 - slitWidth / 2 );
-        var topOfCentralBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 + slitWidth / 2 );
-        var bottomOfCentralBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 - slitWidth / 2 );
-        var topOfBottomBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 + slitWidth / 2 );
+        const waveAreaWidth = scene.waveAreaWidth;
+        const bottomOfTopBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 - slitWidth / 2 );
+        const topOfCentralBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 + slitWidth / 2 );
+        const bottomOfCentralBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 - slitWidth / 2 );
+        const topOfBottomBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 + slitWidth / 2 );
         this.rectangleA.setRect( x, this.waveAreaViewBounds.top, this.cellWidth, Math.max( 0, bottomOfTopBarrier - this.waveAreaViewBounds.top ), 2, 2 );
         this.rectangleB.setRect( x, topOfCentralBarrier, this.cellWidth, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ), 2, 2 );
         this.rectangleC.setRect( x, topOfBottomBarrier, this.cellWidth, Math.max( this.waveAreaViewBounds.bottom - topOfBottomBarrier ), 2, 2 );

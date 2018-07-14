@@ -9,15 +9,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Shape = require( 'KITE/Shape' );
-  var Util = require( 'DOT/Util' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Shape = require( 'KITE/Shape' );
+  const Util = require( 'DOT/Util' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
-  var CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
+  const CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
 
   /**
    * @constructor
@@ -42,12 +42,12 @@ define( function( require ) {
      */
     getWaterSideShape: function( array, lattice, waveAreaBounds, dx, dy ) {
       lattice.getCenterLineValues( array );
-      var shape = new Shape();
+      const shape = new Shape();
 
       for ( var i = 0; i < array.length; i++ ) {
-        var value = array[ i ];
-        var x = Util.linear( 0, array.length - 1, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
-        var y = Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 100, value ) + dy;
+        const value = array[ i ];
+        const x = Util.linear( 0, array.length - 1, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
+        const y = Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 100, value ) + dy;
         shape.lineTo( x, y );
       }
       return shape;

@@ -9,24 +9,24 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var Color = require( 'SCENERY/util/Color' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Line = require( 'SCENERY/nodes/Line' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Shape = require( 'KITE/Shape' );
-  var Util = require( 'DOT/Util' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  var WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
-  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const Color = require( 'SCENERY/util/Color' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Line = require( 'SCENERY/nodes/Line' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const Shape = require( 'KITE/Shape' );
+  const Util = require( 'DOT/Util' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // constants
-  var TITLE_Y_MARGIN = 4;
-  var DARK_GRAY = new Color( 90, 90, 90 );
-  var LINE_DASH = [ 9.1, 9.1 ];
+  const TITLE_Y_MARGIN = 4;
+  const DARK_GRAY = new Color( 90, 90, 90 );
+  const LINE_DASH = [ 9.1, 9.1 ];
 
   /**
    * @param {number} graphHeight - the height of the graph in view coordinates
@@ -35,7 +35,7 @@ define( function( require ) {
    * @constructor
    */
   function IntensityGraphPanel( graphHeight, intensitySample, options ) {
-    var self = this;
+    const self = this;
 
     this.chartRectangle = new Rectangle( 0, 0, 100, graphHeight, { fill: 'white', stroke: 'black', lineWidth: 1 } );
 
@@ -44,7 +44,7 @@ define( function( require ) {
      * @param {number} y
      * @returns {Line}
      */
-    var createLine = function( index, y ) {
+    const createLine = function( index, y ) {
       return new Line( self.chartRectangle.left, y, self.chartRectangle.right, y, {
         stroke: index % 2 === 0 ? DARK_GRAY : 'lightGray',
         lineDash: [ 9.1, 9.1 ] // Solid part touches each edge
@@ -52,8 +52,8 @@ define( function( require ) {
     };
 
     for ( var i = 0; i < 10; i++ ) {
-      var yTop = Util.linear( 0, 10, this.chartRectangle.centerY, this.chartRectangle.top, i );
-      var yBottom = Util.linear( 0, 10, this.chartRectangle.centerY, this.chartRectangle.bottom, i );
+      const yTop = Util.linear( 0, 10, this.chartRectangle.centerY, this.chartRectangle.top, i );
+      const yBottom = Util.linear( 0, 10, this.chartRectangle.centerY, this.chartRectangle.bottom, i );
       this.chartRectangle.addChild( createLine( i, yTop ) );
       if ( i !== 0 ) {
         this.chartRectangle.addChild( createLine( i, yBottom ) );
@@ -65,17 +65,17 @@ define( function( require ) {
       lineDash: LINE_DASH
     } ) );
 
-    var tickLabel0 = new WaveInterferenceText( '0', {
+    const tickLabel0 = new WaveInterferenceText( '0', {
       centerTop: this.chartRectangle.leftBottom
     } );
-    var tickLabel1 = new WaveInterferenceText( '1', {
+    const tickLabel1 = new WaveInterferenceText( '1', {
       centerTop: this.chartRectangle.rightBottom
     } );
-    var title = new WaveInterferenceText( 'Intensity', {
+    const title = new WaveInterferenceText( 'Intensity', {
       centerX: this.chartRectangle.centerX,
       top: tickLabel1.bottom + TITLE_Y_MARGIN
     } );
-    var curve = new Path( null, {
+    const curve = new Path( null, {
       stroke: 'black',
       lineWidth: 2,
 
@@ -84,22 +84,21 @@ define( function( require ) {
       localBounds: Bounds2.NOTHING
     } );
 
-    var chartNode = new Node( {
+    const chartNode = new Node( {
       children: [ this.chartRectangle, curve, tickLabel0, tickLabel1, title ]
     } );
 
     WaveInterferencePanel.call( this, chartNode, options );
 
     intensitySample.changedEmitter.addListener( function() {
-      var intensityValues = intensitySample.getIntensityValues();
-      var shape = new Shape();
+      const intensityValues = intensitySample.getIntensityValues();
+      const shape = new Shape();
       for ( var i = 0; i < intensityValues.length; i++ ) {
-
-        var intensityPlotValue = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, self.chartRectangle.left, self.chartRectangle.right, intensityValues[ i ] );
+        let intensityPlotValue = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, self.chartRectangle.left, self.chartRectangle.right, intensityValues[ i ] );
         if ( intensityPlotValue > self.chartRectangle.right ) {
           intensityPlotValue = self.chartRectangle.right;
         }
-        var positionPlotValue = Util.linear( 0, intensityValues.length - 1, self.chartRectangle.top, self.chartRectangle.bottom, i );
+        const positionPlotValue = Util.linear( 0, intensityValues.length - 1, self.chartRectangle.top, self.chartRectangle.bottom, i );
         shape.lineTo( intensityPlotValue, positionPlotValue );
       }
       curve.shape = shape;

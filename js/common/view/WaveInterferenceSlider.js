@@ -9,22 +9,22 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var HSlider = require( 'SUN/HSlider' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Util = require( 'DOT/Util' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const HSlider = require( 'SUN/HSlider' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Util = require( 'DOT/Util' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // strings
-  var minString = require( 'string!WAVE_INTERFERENCE/min' );
-  var maxString = require( 'string!WAVE_INTERFERENCE/max' );
+  const minString = require( 'string!WAVE_INTERFERENCE/min' );
+  const maxString = require( 'string!WAVE_INTERFERENCE/max' );
 
   // constants
-  var LABEL_OPTIONS = { fontSize: 10 };
-  var MAX_TICK_INDEX = 10;
-  var MAJOR_TICK_MODULUS = 5;
+  const LABEL_OPTIONS = { fontSize: 10 };
+  const MAX_TICK_INDEX = 10;
+  const MAJOR_TICK_MODULUS = 5;
 
   /**
    * @param {Property} property
@@ -33,9 +33,9 @@ define( function( require ) {
    * @constructor
    */
   function WaveInterferenceSlider( property, min, max ) {
-    var minLabel = new WaveInterferenceText( min === 0 ? '0' : minString, LABEL_OPTIONS );
-    var maxLabel = new WaveInterferenceText( maxString, LABEL_OPTIONS );
-    var ticks = _.range( 0, MAX_TICK_INDEX + 1 ).map( function( index ) {
+    const minLabel = new WaveInterferenceText( min === 0 ? '0' : minString, LABEL_OPTIONS );
+    const maxLabel = new WaveInterferenceText( maxString, LABEL_OPTIONS );
+    const ticks = _.range( 0, MAX_TICK_INDEX + 1 ).map( function( index ) {
       return {
         value: Util.linear( 0, MAX_TICK_INDEX, min, max, index ),
         type: index % MAJOR_TICK_MODULUS === 0 ? 'major' : 'minor',
@@ -58,7 +58,7 @@ define( function( require ) {
     } );
 
     for ( var i = 0; i < ticks.length; i++ ) {
-      var tick = ticks[ i ];
+      const tick = ticks[ i ];
       if ( tick.type === 'major' ) {
         this.addMajorTick( tick.value, tick.label ); // Label is optional
       }

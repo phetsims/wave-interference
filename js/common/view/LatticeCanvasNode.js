@@ -9,17 +9,17 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
-  var Color = require( 'SCENERY/util/Color' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Util = require( 'DOT/Util' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  var WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
+  const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  const Color = require( 'SCENERY/util/Color' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Util = require( 'DOT/Util' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // constants
-  var CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
+  const CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
 
   /**
    * @param {Lattice} lattice
@@ -46,8 +46,8 @@ define( function( require ) {
     CanvasNode.call( this, options );
 
     // Render into a sub-canvas which will be drawn into the rendering context at the right scale.
-    var w = this.lattice.width - this.lattice.dampX * 2;
-    var h = this.lattice.height - this.lattice.dampY * 2;
+    const w = this.lattice.width - this.lattice.dampX * 2;
+    const h = this.lattice.height - this.lattice.dampY * 2;
     this.directCanvas = document.createElement( 'canvas' );
     this.directCanvas.width = w;
     this.directCanvas.height = h;
@@ -55,7 +55,7 @@ define( function( require ) {
     this.imageData = this.directContext.createImageData( w, h );
 
     // Invalidate paint when model indicates changes
-    var invalidateSelfListener = this.invalidatePaint.bind( this );
+    const invalidateSelfListener = this.invalidatePaint.bind( this );
     lattice.changedEmitter.addListener( invalidateSelfListener );
   }
 
@@ -88,38 +88,38 @@ define( function( require ) {
      */
     paintCanvas: function( context ) {
 
-      var m = 0;
-      var data = this.imageData.data;
-      var dampX = this.lattice.dampX;
-      var dampY = this.lattice.dampY;
-      var width = this.lattice.width;
-      var height = this.lattice.height;
-      var CUTOFF = 0.3;
-      var intensity;
-      for ( var i = dampX; i < width - dampX; i++ ) {
-        for ( var k = dampY; k < height - dampY; k++ ) {
+      let m = 0;
+      const data = this.imageData.data;
+      const dampX = this.lattice.dampX;
+      const dampY = this.lattice.dampY;
+      const width = this.lattice.width;
+      const height = this.lattice.height;
+      const CUTOFF = 0.3;
+      let intensity;
+      for ( let i = dampX; i < width - dampX; i++ ) {
+        for ( let k = dampY; k < height - dampY; k++ ) {
 
           // Color mapping:
           // wave value => color value
           //          1 => 1.0
           //          0 => 0.3
           //         -1 => 0.0
-          var waveValue = this.lattice.getInterpolatedValue( k, i );  // Note this is transposed because of the ordering of putImageData
+          const waveValue = this.lattice.getInterpolatedValue( k, i );  // Note this is transposed because of the ordering of putImageData
 
           if ( waveValue > 0 ) {
             intensity = Util.linear( 0, 2, CUTOFF, 1, waveValue );
             intensity = Util.clamp( intensity, CUTOFF, 1 );
           }
           else {
-            var MIN_SHADE = 0.03; // Stop before 0 because 0 is too jarring
+            const MIN_SHADE = 0.03; // Stop before 0 because 0 is too jarring
             intensity = Util.linear( -1.5, 0, MIN_SHADE, CUTOFF, waveValue );
             intensity = Util.clamp( intensity, MIN_SHADE, CUTOFF );
           }
 
           // Note this interpolation doesn't include the gamma factor that Color.blend does
-          var r = this.baseColor.red * intensity;
-          var g = this.baseColor.green * intensity;
-          var b = this.baseColor.blue * intensity;
+          let r = this.baseColor.red * intensity;
+          let g = this.baseColor.green * intensity;
+          let b = this.baseColor.blue * intensity;
 
           if ( this.vacuumColor && !this.lattice.hasCellBeenVisited( k, i ) ) { // Note this is transposed because of the ordering of putImageData
             r = this.vacuumColor.r;
@@ -127,7 +127,7 @@ define( function( require ) {
             b = this.vacuumColor.b;
           }
 
-          var offset = 4 * m;
+          const offset = 4 * m;
           data[ offset + 0 ] = r;
           data[ offset + 1 ] = g;
           data[ offset + 2 ] = b;

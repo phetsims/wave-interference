@@ -8,9 +8,9 @@
 define( function( require ) {
   'use strict';
 
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  var PlaySpeedEnum = {
+  const PlaySpeedEnum = {
 
     // At the time of writing, this is a new strategy for enum patterns, partway between our normal enum
     // string pattern and the richer enum pattern exemplified in Orientation.js

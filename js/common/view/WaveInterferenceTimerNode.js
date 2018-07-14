@@ -9,16 +9,16 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var DragListener = require( 'SCENERY/listeners/DragListener' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var TimerNode = require( 'SCENERY_PHET/TimerNode' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const DragListener = require( 'SCENERY/listeners/DragListener' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const TimerNode = require( 'SCENERY_PHET/TimerNode' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
    * @constructor
    */
   function WaveInterferenceTimerNode( model, config ) {
-    var self = this;
+    const self = this;
     assert && assert( !!config.end, 'end is a required argument' );
     TimerNode.call( this, model.timerElapsedTimeProperty, model.isTimerRunningProperty, config );
 

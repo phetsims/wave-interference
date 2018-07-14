@@ -10,11 +10,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  var DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' );
 
   /**
    * @param {Scene} scene
@@ -24,10 +24,10 @@ define( function( require ) {
    */
   function ScaleIndicatorNode( scene, latticeViewWidth, options ) {
 
-    var width = scene.scaleIndicatorLength * latticeViewWidth / scene.waveAreaWidth;
-    var text = new WaveInterferenceText( scene.scaleIndicatorText );
+    const width = scene.scaleIndicatorLength * latticeViewWidth / scene.waveAreaWidth;
+    const text = new WaveInterferenceText( scene.scaleIndicatorText );
 
-    var doubleHeadedArrowWithBars = new DoubleHeadedArrowWithBarsNode( text.height, width );
+    const doubleHeadedArrowWithBars = new DoubleHeadedArrowWithBarsNode( text.height, width );
     text.leftCenter = doubleHeadedArrowWithBars.rightCenter.plusXY( 5, 1 );
 
     Node.call( this, _.extend( {

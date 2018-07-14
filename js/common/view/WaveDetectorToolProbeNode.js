@@ -9,10 +9,10 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var DragListener = require( 'SCENERY/listeners/DragListener' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const DragListener = require( 'SCENERY/listeners/DragListener' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
    * @param {Object} [options]

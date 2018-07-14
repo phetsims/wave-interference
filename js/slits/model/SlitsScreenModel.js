@@ -9,24 +9,24 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
+  const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Property = require( 'AXON/Property' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
 
   /**
    * @constructor
    */
   function SlitsScreenModel() {
     WavesScreenModel.call( this );
-    var self = this;
+    const self = this;
 
     // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
     this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
 
     // When the barrier moves, it creates a lot of artifacts, so clear the wave when the barrier moves
-    var barrierMoved = function() {
+    const barrierMoved = function() {
       self.clear(); // TODO: restart propagation from the left
     };
     this.waterScene.barrierLocationProperty.link( barrierMoved );
@@ -44,11 +44,11 @@ define( function( require ) {
      * @protected
      */
     setSourceValues: function() {
-      var lattice = this.lattice;
+      const lattice = this.lattice;
 
-      var scene = this.sceneProperty.get();
-      var barrierLatticeX = scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() );
-      var slitSeparationModel = scene.slitSeparationProperty.get();
+      const scene = this.sceneProperty.get();
+      const barrierLatticeX = scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() );
+      const slitSeparationModel = scene.slitSeparationProperty.get();
 
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
@@ -56,38 +56,38 @@ define( function( require ) {
       for ( var i = 0; i <= barrierLatticeX; i++ ) {
 
         // Find the physical model coordinate corresponding to the lattice coordinate
-        var x = scene.modelToLatticeTransform.viewToModelX( i );
+        const x = scene.modelToLatticeTransform.viewToModelX( i );
 
-        var frequency = scene.frequencyProperty.get();
-        var wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: this in incorrect for sound and light
+        const frequency = scene.frequencyProperty.get();
+        const wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: this in incorrect for sound and light
 
         for ( var j = 0; j < lattice.height; j++ ) {
-          var y = scene.modelToLatticeTransform.viewToModelY( j );
+          const y = scene.modelToLatticeTransform.viewToModelY( j );
 
           // Zero out values in the barrier
-          var isCellInBarrier = false;
+          let isCellInBarrier = false;
 
           if ( i === barrierLatticeX ) {
 
-            var slitWidthModel = scene.slitWidthProperty.get();
-            var slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel );
-            var latticeCenterY = this.lattice.height / 2;
+            const slitWidthModel = scene.slitWidthProperty.get();
+            const slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel );
+            const latticeCenterY = this.lattice.height / 2;
 
             // TODO: NO_SLIT should just propagate the plane wave across the entire wave area to avoid artifacts
 
             if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
-              var low = j > latticeCenterY + slitWidth / 2;
-              var high = j < latticeCenterY - slitWidth / 2;
+              const low = j > latticeCenterY + slitWidth / 2;
+              const high = j < latticeCenterY - slitWidth / 2;
               isCellInBarrier = low || high;
             }
             else if ( this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
 
               // Spacing is between center of slits.  This computation is done in model coordinates
-              var topBarrierWidth = ( scene.waveAreaWidth - slitWidthModel - slitSeparationModel ) / 2;
-              var centralBarrierWidth = scene.waveAreaWidth - 2 * topBarrierWidth - 2 * slitWidthModel;
-              var inTop = y <= topBarrierWidth;
-              var inBottom = y >= scene.waveAreaWidth - topBarrierWidth;
-              var inCenter = ( y >= topBarrierWidth + slitWidthModel ) && ( y <= topBarrierWidth + slitWidthModel + centralBarrierWidth );
+              const topBarrierWidth = ( scene.waveAreaWidth - slitWidthModel - slitSeparationModel ) / 2;
+              const centralBarrierWidth = scene.waveAreaWidth - 2 * topBarrierWidth - 2 * slitWidthModel;
+              const inTop = y <= topBarrierWidth;
+              const inBottom = y >= scene.waveAreaWidth - topBarrierWidth;
+              const inCenter = ( y >= topBarrierWidth + slitWidthModel ) && ( y <= topBarrierWidth + slitWidthModel + centralBarrierWidth );
               isCellInBarrier = inTop || inBottom || inCenter;
             }
           }
@@ -96,13 +96,13 @@ define( function( require ) {
 
             // lambda * k = 2 * pi
             // k = 2pi/lambda
-            var k = Math.PI * 2 / wavelength;
+            const k = Math.PI * 2 / wavelength;
 
             // TODO: use wave speed to track the wavefront and back, there is an issue for this
 
             // Scale the amplitude because it is calibrated for a point source, not a plane wave
-            var value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - frequency * this.time );
-            var lastValue = lattice.getCurrentValue( i, j );
+            const value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - frequency * this.time );
+            const lastValue = lattice.getCurrentValue( i, j );
             lattice.setCurrentValue( i, j, value );
             lattice.setLastValue( i, j, lastValue );
           }

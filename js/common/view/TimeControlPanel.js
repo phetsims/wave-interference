@@ -9,18 +9,18 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
-  var PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
-  var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  var WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
+  const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
+  const StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
 
   // strings
-  var normalString = require( 'string!WAVE_INTERFERENCE/normal' );
-  var slowString = require( 'string!WAVE_INTERFERENCE/slow' );
+  const normalString = require( 'string!WAVE_INTERFERENCE/normal' );
+  const slowString = require( 'string!WAVE_INTERFERENCE/slow' );
 
   /**
    * @constructor
@@ -30,7 +30,7 @@ define( function( require ) {
     // @public (read-only) for layout
     this.playPauseButton = new PlayPauseButton( model.isRunningProperty );
 
-    var radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
+    const radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
       node: new WaveInterferenceText( normalString ),
       value: PlaySpeedEnum.NORMAL,
       property: model.playSpeedProperty
@@ -40,7 +40,7 @@ define( function( require ) {
       property: model.playSpeedProperty
     } ] );
 
-    var stepButton = new StepButton();
+    const stepButton = new StepButton();
     stepButton.addListener( function() {
 
       // If we need to move forward further than one frame, call advanceTime several times rather than increasing the

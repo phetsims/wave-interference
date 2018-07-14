@@ -9,13 +9,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var EmitterNode = require( 'WAVE_INTERFERENCE/common/view/EmitterNode' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const EmitterNode = require( 'WAVE_INTERFERENCE/common/view/EmitterNode' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // images
-  var speakerImage = require( 'image!WAVE_INTERFERENCE/speaker.png' );
+  const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker.png' );
 
   /**
    * @param {WavesScreenModel} model

@@ -9,26 +9,26 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var DiffractionModel = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionModel' );
-  var DiffractionScreenView = require( 'WAVE_INTERFERENCE/diffraction/view/DiffractionScreenView' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
-  var Screen = require( 'JOIST/Screen' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const DiffractionModel = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionModel' );
+  const DiffractionScreenView = require( 'WAVE_INTERFERENCE/diffraction/view/DiffractionScreenView' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Property = require( 'AXON/Property' );
+  const Screen = require( 'JOIST/Screen' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // images
-  var diffractionScreenIcon = require( 'image!WAVE_INTERFERENCE/diffraction_screen_icon.png' );
+  const diffractionScreenIcon = require( 'image!WAVE_INTERFERENCE/diffraction_screen_icon.png' );
 
   // strings
-  var screenDiffractionString = require( 'string!WAVE_INTERFERENCE/screen.diffraction' );
+  const screenDiffractionString = require( 'string!WAVE_INTERFERENCE/screen.diffraction' );
 
   /**
    * @constructor
    */
   function DiffractionScreen() {
 
-    var options = {
+    const options = {
       backgroundColorProperty: new Property( 'white' ),
       name: screenDiffractionString,
       homeScreenIcon: new Image( diffractionScreenIcon )

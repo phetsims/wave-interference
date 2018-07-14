@@ -9,12 +9,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LineStyles = require( 'KITE/util/LineStyles' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  var WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LineStyles = require( 'KITE/util/LineStyles' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Shape = require( 'KITE/Shape' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   /**
    * @param {Object} [options]
@@ -22,9 +22,9 @@ define( function( require ) {
    */
   function DashedLineNode( options ) {
 
-    var line = Shape.lineSegment( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, 0 );
-    var dashedShape = line.getDashedShape( [ 16 ], 0 );
-    var strokedShape = dashedShape.getStrokedShape( new LineStyles( {
+    const line = Shape.lineSegment( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, 0 );
+    const dashedShape = line.getDashedShape( [ 16 ], 0 );
+    const strokedShape = dashedShape.getStrokedShape( new LineStyles( {
       lineWidth: 4,
       lineCap: 'round'
     } ) );

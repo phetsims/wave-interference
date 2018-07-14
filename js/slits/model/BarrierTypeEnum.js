@@ -8,9 +8,9 @@
 define( function( require ) {
   'use strict';
 
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  var BarrierTypeEnum = {
+  const BarrierTypeEnum = {
     NO_BARRIER: 'NO_BARRIER',
     ONE_SLIT: 'ONE_SLIT',
     TWO_SLITS: 'TWO_SLITS'

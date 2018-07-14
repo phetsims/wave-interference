@@ -10,11 +10,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Line = require( 'SCENERY/nodes/Line' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Line = require( 'SCENERY/nodes/Line' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
    * @param {number} lineHeight
@@ -32,13 +32,13 @@ define( function( require ) {
       stroke: 'black'
     }, options.lineOptions );
 
-    var createLine = function() {
+    const createLine = function() {
       return new Line( 0, 0, 0, lineHeight, options.lineOptions );
     };
-    var line1 = createLine();
-    var line2 = createLine();
+    const line1 = createLine();
+    const line2 = createLine();
 
-    var desiredArrowWidth = width - line1.width / 2 - line2.width / 2;
+    const desiredArrowWidth = width - line1.width / 2 - line2.width / 2;
     options.arrowOptions = _.extend( {
       doubleHead: true,
       headHeight: 5,
@@ -49,7 +49,7 @@ define( function( require ) {
       // The middle of the left line to the middle of the right line should be the given width
       maxWidth: desiredArrowWidth
     }, options.arrowOptions );
-    var arrowNode = new ArrowNode( 0, 0, desiredArrowWidth, 0, options.arrowOptions );
+    const arrowNode = new ArrowNode( 0, 0, desiredArrowWidth, 0, options.arrowOptions );
 
     // Layout
     arrowNode.leftCenter = line1.rightCenter;
