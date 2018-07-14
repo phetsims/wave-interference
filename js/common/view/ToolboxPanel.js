@@ -44,10 +44,10 @@ define( function( require ) {
         scale: 0.7
       } );
 
-      const measuringTapeIcon = createIcon( measuringTapeIconNode, model.isMeasuringTapeInPlayAreaProperty, function( event ) {
+      const measuringTapeIcon = createIcon( measuringTapeIconNode, model.isMeasuringTapeInPlayAreaProperty, event => {
 
         // When clicking on the measuring tape icon, pop it out into the play area
-        const targetPosition = self.globalToParentPoint( event.pointer.point );
+        const targetPosition = this.globalToParentPoint( event.pointer.point );
         const currentPosition = measuringTapeNode.basePositionProperty.value;
         const delta = targetPosition.minus( currentPosition );
         measuringTapeNode.basePositionProperty.set( measuringTapeNode.basePositionProperty.value.plus( delta ) );
@@ -63,8 +63,8 @@ define( function( require ) {
       } );
 
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
-      const timerNodeIcon = createIcon( iconTimerNode, model.isTimerInPlayAreaProperty, function( event ) {
-        timerNode.center = self.globalToParentPoint( event.pointer.point );
+      const timerNodeIcon = createIcon( iconTimerNode, model.isTimerInPlayAreaProperty, event => {
+        timerNode.center = this.globalToParentPoint( event.pointer.point );
 
         // timerNode provided as targetNode in the DragListener constructor, so this press will target it
         timerNode.timerNodeDragListener.press( event );
@@ -77,8 +77,8 @@ define( function( require ) {
       } );
 
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
-      const waveDetectorNodeIcon = createIcon( waveDetectorToolNodeIcon, model.isWaveDetectorToolNodeInPlayAreaProperty, function( event ) {
-        waveDetectorToolNode.center = self.globalToParentPoint( event.pointer.point );
+      const waveDetectorNodeIcon = createIcon( waveDetectorToolNodeIcon, model.isWaveDetectorToolNodeInPlayAreaProperty, event => {
+        waveDetectorToolNode.center = this.globalToParentPoint( event.pointer.point );
         waveDetectorToolNode.startDrag( event );
         model.isWaveDetectorToolNodeInPlayAreaProperty.value = true;
       } );
@@ -94,9 +94,6 @@ define( function( require ) {
         } ) ),
         options
       );
-
-      // Hoisted for callbacks above
-      const self = this;
     }
   }
 

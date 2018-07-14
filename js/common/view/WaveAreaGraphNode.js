@@ -41,8 +41,6 @@ define( function( require ) {
     constructor( model, waveAreaBounds, options ) {
       super();
 
-      const self = this;
-
       const graphWidth = WaveInterferenceConstants.WAVE_AREA_WIDTH;
       const graphHeight = WaveInterferenceConstants.WAVE_AREA_WIDTH / 3;
 
@@ -164,8 +162,8 @@ define( function( require ) {
       dashedLineNode.centerY = plotHeight / 2;
       this.addChild( dashedLineNode );
 
-      [ 1 / 4, 3 / 4 ].forEach( function( horizontalGridLineFraction ) {
-        self.addChild( new Line( 0, horizontalGridLineFraction * plotHeight, graphWidth, horizontalGridLineFraction * plotHeight, GRID_LINE_OPTIONS ) );
+      [ 1 / 4, 3 / 4 ].forEach( horizontalGridLineFraction => {
+        this.addChild( new Line( 0, horizontalGridLineFraction * plotHeight, graphWidth, horizontalGridLineFraction * plotHeight, GRID_LINE_OPTIONS ) );
       } );
 
       const verticalAxisLabel = new WaveInterferenceText( model.sceneProperty.value.verticalAxisTitle, {

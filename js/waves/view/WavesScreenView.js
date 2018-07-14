@@ -112,7 +112,6 @@ define( function( require ) {
       this.latticeNode = webGLSupported ?
                          new LatticeWebGLNode( model.lattice ) :
                          new LatticeCanvasNode( model.lattice );
-      const self = this;
 
       const scale = this.waveAreaNode.width / this.latticeNode.width;
       this.latticeNode.mutate( {
@@ -132,21 +131,21 @@ define( function( require ) {
       } );
 
       // Set the color of highlight on the screen and lattice
-      Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, lightFrequency ) {
+      Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], ( scene, lightFrequency ) => {
         if ( scene === model.lightScene ) {
           const baseColor = VisibleColor.frequencyToColor( lightFrequency );
-          self.latticeNode.setBaseColor( baseColor );
-          self.latticeNode.vacuumColor = Color.black;
+          this.latticeNode.setBaseColor( baseColor );
+          this.latticeNode.vacuumColor = Color.black;
           screenNode.setBaseColor( baseColor );
         }
         else if ( scene === model.soundScene ) {
-          self.latticeNode.setBaseColor( Color.white );
-          self.latticeNode.vacuumColor = null;
+          this.latticeNode.setBaseColor( Color.white );
+          this.latticeNode.vacuumColor = null;
           screenNode.setBaseColor( Color.white );
         }
         else if ( scene === model.waterScene ) {
-          self.latticeNode.setBaseColor( WATER_BLUE );
-          self.latticeNode.vacuumColor = null;
+          this.latticeNode.setBaseColor( WATER_BLUE );
+          this.latticeNode.vacuumColor = null;
           screenNode.setBaseColor( WATER_BLUE );
         }
       } );
@@ -169,13 +168,13 @@ define( function( require ) {
       intensityGraphPanel.translate( 0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top );
 
       const measuringTapeProperty = new Property();
-      model.sceneProperty.link( function( scene ) {
+      model.sceneProperty.link( scene => {
         measuringTapeProperty.set( {
           name: scene.translatedPositionUnits,
 
           // The measuring tape tip and tail are in the view coordinate frame, this scale factor converts to model
           // coordinates according to the scene
-          multiplier: scene.waveAreaWidth / self.waveAreaNode.width
+          multiplier: scene.waveAreaWidth / this.waveAreaNode.width
         } );
       } );
 
@@ -238,9 +237,9 @@ define( function( require ) {
       } );
 
       const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );
-      const updateToolboxPosition = function() {
+      const updateToolboxPosition = () => {
         toolboxPanel.mutate( {
-          right: self.layoutBounds.right - MARGIN,
+          right: this.layoutBounds.right - MARGIN,
           top: MARGIN
         } );
       };
@@ -253,9 +252,9 @@ define( function( require ) {
       // @protected {WaveInterferenceControlPanel} for subtype layout
       this.controlPanel = new WaveInterferenceControlPanel( model, alignGroup, options.controlPanelOptions );
 
-      const updateControlPanelPosition = function() {
-        self.controlPanel.mutate( {
-          right: self.layoutBounds.right - MARGIN,
+      const updateControlPanelPosition = () => {
+        this.controlPanel.mutate( {
+          right: this.layoutBounds.right - MARGIN,
           top: toolboxPanel.bottom + SPACING
         } );
       };
@@ -300,11 +299,11 @@ define( function( require ) {
         waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === model.waterScene;
       } );
 
-      Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty ], function( rotationAmount, isRotating, scene ) {
+      Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty ], ( rotationAmount, isRotating, scene ) => {
         const isSideWater = rotationAmount === 1 && scene === model.waterScene;
         const show = !isRotating && !isSideWater;
-        self.waveAreaNode.visible = show;
-        self.latticeNode.visible = show;
+        this.waveAreaNode.visible = show;
+        this.latticeNode.visible = show;
       } );
 
       Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.showGraphProperty ], function( rotationAmount, isRotating, showGraph ) {

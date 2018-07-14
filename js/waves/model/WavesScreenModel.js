@@ -62,8 +62,6 @@ define( function( require ) {
      */
     constructor( options ) {
 
-      const self = this;
-
       options = _.extend( {
 
         // This model supports one or two sources.  If the sources are initially separated, there are two sources
@@ -154,9 +152,7 @@ define( function( require ) {
       const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
 
       // @private
-      this.eventTimer = new EventTimer( eventTimerModel, function( timeElapsed ) {
-        self.advanceTime( 1 / EVENT_RATE );
-      } );
+      this.eventTimer = new EventTimer( eventTimerModel, timeElapsed => this.advanceTime( 1 / EVENT_RATE ) );
 
       // @public {Property.<Scene>} - selected scene
       this.sceneProperty = new Property( this.waterScene, {
@@ -167,10 +163,10 @@ define( function( require ) {
 
       // Show debugging information in the console when ?dev is selected
       if ( phet.chipper.queryParameters.dev ) {
-        Property.multilink( [ this.frequencyProperty, this.sceneProperty ], function( frequency, scene ) {
+        Property.multilink( [ this.frequencyProperty, this.sceneProperty ], ( frequency, scene ) => {
 
           // Output in appropriate units
-          if ( scene === self.lightScene ) {
+          if ( scene === this.lightScene ) {
             const speedOfLight = 299792458;
             const wavelength = speedOfLight / frequency;
             const frequencyTHz = frequency / 1E12;
@@ -178,7 +174,7 @@ define( function( require ) {
             const oscillationFS = 1000 / frequencyTHz;
             console.log( 'Frequency = ' + frequencyTHz.toFixed( 2 ) + 'THz' + ', Wavelength = ' + wavelengthNM.toFixed( 2 ) + 'nm' + ' Time for one oscillation: ' + oscillationFS.toFixed( 2 ) + 'fs' );
           }
-          else if ( scene === self.waterScene ) {
+          else if ( scene === this.waterScene ) {
             console.log( 'Frequency = ' + frequency );
           }
         } );
@@ -277,22 +273,22 @@ define( function( require ) {
 
       // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
       // for continuity
-      const phaseUpdate = function( newFrequency, oldFrequency ) {
-        const oldValue = Math.sin( self.time * oldFrequency + self.phase );
-        let proposedPhase = Math.asin( oldValue ) - self.time * newFrequency;
-        const oldDerivative = Math.cos( self.time * oldFrequency + self.phase );
-        const newDerivative = Math.cos( self.time * newFrequency + proposedPhase );
+      const phaseUpdate = ( newFrequency, oldFrequency ) => {
+        const oldValue = Math.sin( this.time * oldFrequency + this.phase );
+        let proposedPhase = Math.asin( oldValue ) - this.time * newFrequency;
+        const oldDerivative = Math.cos( this.time * oldFrequency + this.phase );
+        const newDerivative = Math.cos( this.time * newFrequency + proposedPhase );
 
         // If wrong phase, take the sin value from the opposite side and move forward by half a cycle
         if ( oldDerivative * newDerivative < 0 ) {
-          proposedPhase = Math.asin( -oldValue ) - self.time * newFrequency + Math.PI;
+          proposedPhase = Math.asin( -oldValue ) - this.time * newFrequency + Math.PI;
         }
 
-        self.phase = proposedPhase;
+        this.phase = proposedPhase;
 
         // The wave area resets when the wavelength changes in the light scene
-        if ( self.sceneProperty.get() === self.lightScene ) {
-          self.clear();
+        if ( this.sceneProperty.get() === this.lightScene ) {
+          this.clear();
         }
       };
       this.waterScene.frequencyProperty.lazyLink( phaseUpdate );
@@ -301,46 +297,46 @@ define( function( require ) {
 
       // When the scene changes, the wave clears and time resets.  This prevents a problem where the amplitude of the
       // emitter would get stuck when switching from water to light after 20 seconds.
-      this.sceneProperty.link( function() {
-        self.time = 0;
-        self.clear();
-        self.timerElapsedTimeProperty.reset(); // Timer units change when the scene changes, so we re-start the timer.
+      this.sceneProperty.link( () => {
+        this.time = 0;
+        this.clear();
+        this.timerElapsedTimeProperty.reset(); // Timer units change when the scene changes, so we re-start the timer.
       } );
 
       // The first button can trigger a pulse, or continuous wave, depending on the inputTypeProperty
-      this.button1PressedProperty.lazyLink( function( isPressed ) {
-        if ( isPressed && self.inputTypeProperty.value === IncomingWaveType.PULSE ) {
-          assert && assert( !self.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
-          self.resetPhase();
-          self.pulseFiringProperty.value = true;
+      this.button1PressedProperty.lazyLink( isPressed => {
+        if ( isPressed && this.inputTypeProperty.value === IncomingWaveType.PULSE ) {
+          assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
+          this.resetPhase();
+          this.pulseFiringProperty.value = true;
         }
         else {
-          self.continuousWave1OscillatingProperty.value = isPressed;
+          this.continuousWave1OscillatingProperty.value = isPressed;
           if ( isPressed ) {
-            self.resetPhase();
+            this.resetPhase();
           }
         }
       } );
 
       // The 2nd button starts the second continuous wave
-      this.button2PressedProperty.lazyLink( function( isPressed ) {
-        self.continuousWave2OscillatingProperty.value = isPressed;
+      this.button2PressedProperty.lazyLink( isPressed => {
+        this.continuousWave2OscillatingProperty.value = isPressed;
         if ( isPressed ) {
-          self.resetPhase();
+          this.resetPhase();
         }
       } );
 
       // When the pulse ends, the button pops out
-      this.pulseFiringProperty.lazyLink( function( pulseFiring ) {
+      this.pulseFiringProperty.lazyLink( pulseFiring => {
         if ( !pulseFiring ) {
-          self.button1PressedProperty.value = false;
+          this.button1PressedProperty.value = false;
         }
       } );
 
       // When the user selects "PULSE", the button pops out.
-      this.inputTypeProperty.link( function( inputType ) {
+      this.inputTypeProperty.link( inputType => {
         if ( inputType === IncomingWaveType.PULSE ) {
-          self.button1PressedProperty.value = false;
+          this.button1PressedProperty.value = false;
         }
       } );
 

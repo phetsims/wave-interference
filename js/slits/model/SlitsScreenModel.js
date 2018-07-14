@@ -18,15 +18,13 @@ define( function( require ) {
 
     constructor() {
       super();
-      const self = this;
 
       // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
       this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
 
       // When the barrier moves, it creates a lot of artifacts, so clear the wave when the barrier moves
-      const barrierMoved = function() {
-        self.clear(); // TODO: restart propagation from the left
-      };
+      // TODO: restart propagation from the left
+      const barrierMoved = this.clear.bind( this );
       this.waterScene.barrierLocationProperty.link( barrierMoved );
       this.soundScene.barrierLocationProperty.link( barrierMoved );
       this.lightScene.barrierLocationProperty.link( barrierMoved );

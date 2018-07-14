@@ -68,8 +68,6 @@ define( function( require ) {
       }, options );
       super();
 
-      const self = this;
-
       // @private - true if the probes are being dragged with the wave detector tool
       this.synchronizeProbeLocations = true;
 
@@ -81,19 +79,19 @@ define( function( require ) {
       // @private
       this.backgroundDragListener = new DragListener( {
         translateNode: true,
-        drag: function() {
-          if ( self.synchronizeProbeLocations ) {
+        drag: () => {
+          if ( this.synchronizeProbeLocations ) {
 
-            self.alignProbes();
+            this.alignProbes();
 
             // When the wave is paused and the user is dragging the entire WaveDetectorToolNode with the probes aligned, they
             // need to sample their new locations
             updatePaths();
           }
         },
-        end: function() {
+        end: () => {
           options.end();
-          self.synchronizeProbeLocations = false;
+          this.synchronizeProbeLocations = false;
         }
       } );
       this.backgroundNode.addInputListener( this.backgroundDragListener );
@@ -359,9 +357,9 @@ define( function( require ) {
         }
       };
 
-      const updatePaths = function() {
-        updateProbeData( self.probe1Node, pen1Node, probe1Samples, probe1Path, model.sceneProperty.get() );
-        updateProbeData( self.probe2Node, pen2Node, probe2Samples, probe2Path, model.sceneProperty.get() );
+      const updatePaths = () => {
+        updateProbeData( this.probe1Node, pen1Node, probe1Samples, probe1Path, model.sceneProperty.get() );
+        updateProbeData( this.probe2Node, pen2Node, probe2Samples, probe2Path, model.sceneProperty.get() );
       };
 
       // Update the graph value when the lattice changes, but only when this is not for an icon
@@ -377,11 +375,11 @@ define( function( require ) {
       }
 
       // @private
-      this.resetWaveDetectorToolNode = function() {
+      this.resetWaveDetectorToolNode = () => {
         probe1Samples.length = 0;
         probe2Samples.length = 0;
         updatePaths();
-        self.alignProbes();
+        this.alignProbes();
       };
     }
 

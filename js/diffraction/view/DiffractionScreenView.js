@@ -53,7 +53,6 @@ define( function( require ) {
     constructor( diffractionModel ) {
 
       super();
-      const self = this;
 
       this.onProperty = new Property( true );
       const laserPointerNode = new LaserPointerNode( this.onProperty, {
@@ -111,7 +110,7 @@ define( function( require ) {
 
       const imageScale = 1.5;
       this.apertureImage = new Image( this.placeholderImage, { scale: imageScale, top: 100, left: 140 } );
-      self.addChild( this.apertureImage );
+      this.addChild( this.apertureImage );
 
 
       this.diffractionImage = new Image( this.placeholderImage, {
@@ -119,7 +118,7 @@ define( function( require ) {
         scale: imageScale,
         top: 100
       } );
-      self.addChild( this.diffractionImage );
+      this.addChild( this.diffractionImage );
 
       const ICON_SCALE = 0.2;
       this.apertureIcon = new Image( this.placeholderImage, {
@@ -135,11 +134,10 @@ define( function( require ) {
         centerX: this.diffractionImage.centerX,
         matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
       } );
-      self.addChild( this.diffractionIcon );
+      this.addChild( this.diffractionIcon );
 
-      const updateCanvases = function() {
-        self.updateCanvases();
-      };
+      const updateCanvases = this.updateCanvases.bind( this );
+
       this.sceneProperty.lazyLink( updateCanvases );
 
       this.addChild( radioButtonGroup );
@@ -190,10 +188,10 @@ define( function( require ) {
       } );
       this.addChild( this.slitsControlPanel );
 
-      this.sceneProperty.link( function( scene ) {
-        self.squareControlPanel.visible = scene === 'rectangle';
-        self.gaussianControlPanel.visible = scene === 'circle';
-        self.slitsControlPanel.visible = scene === 'slits';
+      this.sceneProperty.link( scene => {
+        this.squareControlPanel.visible = scene === 'rectangle';
+        this.gaussianControlPanel.visible = scene === 'circle';
+        this.slitsControlPanel.visible = scene === 'slits';
       } );
 
       const beamWidth = 40;
@@ -211,7 +209,7 @@ define( function( require ) {
       this.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
       this.addChild( transmittedBeam );
-      self.addChild( this.apertureIcon );
+      this.addChild( this.apertureIcon );
       this.addChild( incidentBeam );
       this.addChild( laserPointerNode );
 

@@ -22,7 +22,6 @@ define( function( require ) {
     constructor( model, config ) {
       assert && assert( !!config.end, 'end is a required argument' );
       super( model.timerElapsedTimeProperty, model.isTimerRunningProperty, config );
-      const self = this;
 
       // @public - for forwarding drag events
       this.timerNodeDragListener = new DragListener( {
@@ -35,9 +34,7 @@ define( function( require ) {
 
       this.addInputListener( this.timerNodeDragListener );
       model.isTimerInPlayAreaProperty.linkAttribute( this, 'visible' );
-      model.sceneProperty.link( function( scene ) {
-        self.setUnits( scene.timerUnits );
-      } );
+      model.sceneProperty.link( scene => this.setUnits( scene.timerUnits ) );
     }
   }
 

@@ -27,17 +27,15 @@ define( function( require ) {
         showPulseContinuousRadioButtons: false
       } );
 
-      const self = this;
-
       // The Slits screen has an additional control panel below the main control panel, which controls the barrier/slits
       const slitControlPanel = new SlitsControlPanel( alignGroup, model, this );
 
       // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.  Should only happen
       // during startup.  Use the same pattern as required in WavesScreenView for consistency.
-      const updateSlitControlPanel = function() {
+      const updateSlitControlPanel = () => {
         slitControlPanel.mutate( {
-          left: self.controlPanel.left,
-          top: self.controlPanel.bottom + WavesScreenView.SPACING
+          left: this.controlPanel.left,
+          top: this.controlPanel.bottom + WavesScreenView.SPACING
         } );
       };
       updateSlitControlPanel();
