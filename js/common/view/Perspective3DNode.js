@@ -79,9 +79,6 @@ define( function( require ) {
       this.topFacePath = topFacePath;
       this.sideFacePath = sideFacePath;
       this.upNode = upNode;
-      this.topFacePath = topFacePath;
-      this.sideFacePath = sideFacePath;
-      this.upNode = upNode;
 
       // Update the shapes and text when the rotationAmount has changed
       rotationAmountProperty.link( this.update.bind( this ) );
