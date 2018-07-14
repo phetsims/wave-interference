@@ -12,7 +12,6 @@ define( function( require ) {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Color = require( 'SCENERY/util/Color' );
   const DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   const LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   const LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
@@ -49,309 +48,310 @@ define( function( require ) {
   const WAVE_MARGIN = 8;
   const WATER_BLUE = WaveInterferenceConstants.WATER_SIDE_COLOR;
 
-  /**
-   * @param {WavesScreenModel} model
-   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-   * @param {Object} [options]
-   * @constructor
-   */
-  function WavesScreenView( model, alignGroup, options ) {
+  class WavesScreenView extends ScreenView {
+    /**
+     * @param {WavesScreenModel} model
+     * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
+     * @param {Object} [options]
+     * @constructor
+     */
+    constructor( model, alignGroup, options ) {
 
-    options = _.extend( {
+      options = _.extend( {
 
-      showViewRadioButtonGroup: false, // Only allow side view in single source/no slits context
+        showViewRadioButtonGroup: false, // Only allow side view in single source/no slits context
 
-      showPulseContinuousRadioButtons: true,
+        showPulseContinuousRadioButtons: true,
 
-      // Nested options as discussed in https://github.com/phetsims/tasks/issues/730, see WaveInterferenceControlPanel for keys/values
-      controlPanelOptions: {}
-    }, options );
-    ScreenView.call( this );
+        // Nested options as discussed in https://github.com/phetsims/tasks/issues/730, see WaveInterferenceControlPanel for keys/values
+        controlPanelOptions: {}
+      }, options );
+      super();
 
-    // @private - for layout only
-    this.waveAreaNode = new WaveAreaNode( model, {
-      top: MARGIN + WAVE_MARGIN + 15,
-      centerX: this.layoutBounds.centerX - 142
-    } );
-    this.addChild( this.waveAreaNode );
+      // @private - for layout only
+      this.waveAreaNode = new WaveAreaNode( model, {
+        top: MARGIN + WAVE_MARGIN + 15,
+        centerX: this.layoutBounds.centerX - 142
+      } );
+      this.addChild( this.waveAreaNode );
 
-    // @private show the scale of the wave area
-    const scaleIndicatorNode = new ToggleNode( [
-      { value: model.waterScene, node: new ScaleIndicatorNode( model.waterScene, this.waveAreaNode.width ) },
-      { value: model.soundScene, node: new ScaleIndicatorNode( model.soundScene, this.waveAreaNode.width ) },
-      { value: model.lightScene, node: new ScaleIndicatorNode( model.lightScene, this.waveAreaNode.width ) }
-    ], model.sceneProperty, {
-      alignChildren: ToggleNode.LEFT,
-      top: MARGIN,
-      left: this.waveAreaNode.left
-    } );
+      // @private show the scale of the wave area
+      const scaleIndicatorNode = new ToggleNode( [
+        { value: model.waterScene, node: new ScaleIndicatorNode( model.waterScene, this.waveAreaNode.width ) },
+        { value: model.soundScene, node: new ScaleIndicatorNode( model.soundScene, this.waveAreaNode.width ) },
+        { value: model.lightScene, node: new ScaleIndicatorNode( model.lightScene, this.waveAreaNode.width ) }
+      ], model.sceneProperty, {
+        alignChildren: ToggleNode.LEFT,
+        top: MARGIN,
+        left: this.waveAreaNode.left
+      } );
 
-    this.addChild( scaleIndicatorNode );
+      this.addChild( scaleIndicatorNode );
 
-    const waveAreaGraphNode = new WaveAreaGraphNode( model, this.waveAreaNode.bounds, {
-      x: this.waveAreaNode.left,
-      centerY: this.waveAreaNode.top + this.waveAreaNode.height * 0.75
-    } );
+      const waveAreaGraphNode = new WaveAreaGraphNode( model, this.waveAreaNode.bounds, {
+        x: this.waveAreaNode.left,
+        centerY: this.waveAreaNode.top + this.waveAreaNode.height * 0.75
+      } );
 
-    const dashedLineNode = new DashedLineNode( {
-      x: this.waveAreaNode.left,
-      centerY: this.waveAreaNode.centerY
-    } );
+      const dashedLineNode = new DashedLineNode( {
+        x: this.waveAreaNode.left,
+        centerY: this.waveAreaNode.centerY
+      } );
 
-    const resetAllButton = new ResetAllButton( {
-      listener: function() {
-        model.reset();
-      },
-      right: this.layoutBounds.right - MARGIN,
-      bottom: this.layoutBounds.bottom - MARGIN
-    } );
-    this.addChild( resetAllButton );
+      const resetAllButton = new ResetAllButton( {
+        listener: function() {
+          model.reset();
+        },
+        right: this.layoutBounds.right - MARGIN,
+        bottom: this.layoutBounds.bottom - MARGIN
+      } );
+      this.addChild( resetAllButton );
 
-    const webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl && false;
+      const webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl && false;
 
-    this.latticeNode = webGLSupported ?
-                       new LatticeWebGLNode( model.lattice ) :
-                       new LatticeCanvasNode( model.lattice );
-    const self = this;
+      this.latticeNode = webGLSupported ?
+                         new LatticeWebGLNode( model.lattice ) :
+                         new LatticeCanvasNode( model.lattice );
+      const self = this;
 
-    const scale = this.waveAreaNode.width / this.latticeNode.width;
-    this.latticeNode.mutate( {
-      scale: scale,
-      center: this.waveAreaNode.center
-    } );
+      const scale = this.waveAreaNode.width / this.latticeNode.width;
+      this.latticeNode.mutate( {
+        scale: scale,
+        center: this.waveAreaNode.center
+      } );
 
-    const screenNode = new ScreenNode( model.lattice, model.intensitySample, {
-      scale: scale,
-      left: this.waveAreaNode.right + 5,
-      y: this.waveAreaNode.top
-    } );
-
-    // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-    Property.multilink( [ model.showScreenProperty, model.sceneProperty ], function( showScreen, scene ) {
-      screenNode.visible = showScreen && scene === model.lightScene;
-    } );
-
-    // Set the color of highlight on the screen and lattice
-    Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, lightFrequency ) {
-      if ( scene === model.lightScene ) {
-        const baseColor = VisibleColor.frequencyToColor( lightFrequency );
-        self.latticeNode.setBaseColor( baseColor );
-        self.latticeNode.vacuumColor = Color.black;
-        screenNode.setBaseColor( baseColor );
-      }
-      else if ( scene === model.soundScene ) {
-        self.latticeNode.setBaseColor( Color.white );
-        self.latticeNode.vacuumColor = null;
-        screenNode.setBaseColor( Color.white );
-      }
-      else if ( scene === model.waterScene ) {
-        self.latticeNode.setBaseColor( WATER_BLUE );
-        self.latticeNode.vacuumColor = null;
-        screenNode.setBaseColor( WATER_BLUE );
-      }
-    } );
-    model.showScreenProperty.linkAttribute( screenNode, 'visible' );
-
-    this.addChild( screenNode );
-    this.addChild( this.latticeNode );
-
-    const intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, {
-      left: screenNode.right + 5
-    } );
-    Property.multilink( [ model.showIntensityGraphProperty, model.sceneProperty ], function( showIntensityGraph, scene ) {
+      const screenNode = new ScreenNode( model.lattice, model.intensitySample, {
+        scale: scale,
+        left: this.waveAreaNode.right + 5,
+        y: this.waveAreaNode.top
+      } );
 
       // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-      intensityGraphPanel.visible = showIntensityGraph && scene === model.lightScene;
-    } );
-    this.addChild( intensityGraphPanel );
-
-    // Make sure the charting area is perfectly aligned with the wave area
-    intensityGraphPanel.translate( 0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top );
-
-    const measuringTapeProperty = new Property();
-    model.sceneProperty.link( function( scene ) {
-      measuringTapeProperty.set( {
-        name: scene.translatedPositionUnits,
-
-        // The measuring tape tip and tail are in the view coordinate frame, this scale factor converts to model
-        // coordinates according to the scene
-        multiplier: scene.waveAreaWidth / self.waveAreaNode.width
+      Property.multilink( [ model.showScreenProperty, model.sceneProperty ], function( showScreen, scene ) {
+        screenNode.visible = showScreen && scene === model.lightScene;
       } );
-    } );
 
-    /**
-     * Checks if the toolbox contains the given point, to see if a tool can be dropped back into the toolbox.
-     * @param {Vector2} point
-     * @returns {boolean}
-     */
-    const toolboxContains = function( point ) {
-      return toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).containsPoint( point );
-    };
-
-    const measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
-
-      // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
-      textBackgroundColor: 'rgba( 255, 255, 255, 0.6 )',
-      textColor: 'black',
-      basePositionProperty: model.measuringTapeBasePositionProperty,
-      tipPositionProperty: model.measuringTapeTipPositionProperty,
-
-      // Drop in toolbox
-      baseDragEnded: function() {
-        if ( toolboxContains( measuringTapeNode.localToGlobalPoint( measuringTapeNode.baseImage.center ) ) ) {
-          model.isMeasuringTapeInPlayAreaProperty.value = false;
+      // Set the color of highlight on the screen and lattice
+      Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, lightFrequency ) {
+        if ( scene === model.lightScene ) {
+          const baseColor = VisibleColor.frequencyToColor( lightFrequency );
+          self.latticeNode.setBaseColor( baseColor );
+          self.latticeNode.vacuumColor = Color.black;
+          screenNode.setBaseColor( baseColor );
         }
-      }
-    } );
-    model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
-
-    const timerNode = new WaveInterferenceTimerNode( model, {
-      unitsChoices: [ model.waterScene.timerUnits, model.soundScene.timerUnits, model.lightScene.timerUnits ],
-
-      // Drop in toolbox
-      end: function() {
-        if ( toolboxContains( timerNode.parentToGlobalPoint( timerNode.center ) ) ) {
-          model.isTimerInPlayAreaProperty.value = false;
+        else if ( scene === model.soundScene ) {
+          self.latticeNode.setBaseColor( Color.white );
+          self.latticeNode.vacuumColor = null;
+          screenNode.setBaseColor( Color.white );
         }
-      }
-    } );
-
-    const waveDetectorToolNode = new WaveDetectorToolNode( model, this, {
-
-      // Drop in toolbox
-      end: function() {
-        if ( toolboxContains( waveDetectorToolNode.getBackgroundNodeGlobalBounds().center ) ) {
-          model.isWaveDetectorToolNodeInPlayAreaProperty.value = false;
-          waveDetectorToolNode.alignProbes();
+        else if ( scene === model.waterScene ) {
+          self.latticeNode.setBaseColor( WATER_BLUE );
+          self.latticeNode.vacuumColor = null;
+          screenNode.setBaseColor( WATER_BLUE );
         }
+      } );
+      model.showScreenProperty.linkAttribute( screenNode, 'visible' );
+
+      this.addChild( screenNode );
+      this.addChild( this.latticeNode );
+
+      const intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, {
+        left: screenNode.right + 5
+      } );
+      Property.multilink( [ model.showIntensityGraphProperty, model.sceneProperty ], function( showIntensityGraph, scene ) {
+
+        // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
+        intensityGraphPanel.visible = showIntensityGraph && scene === model.lightScene;
+      } );
+      this.addChild( intensityGraphPanel );
+
+      // Make sure the charting area is perfectly aligned with the wave area
+      intensityGraphPanel.translate( 0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top );
+
+      const measuringTapeProperty = new Property();
+      model.sceneProperty.link( function( scene ) {
+        measuringTapeProperty.set( {
+          name: scene.translatedPositionUnits,
+
+          // The measuring tape tip and tail are in the view coordinate frame, this scale factor converts to model
+          // coordinates according to the scene
+          multiplier: scene.waveAreaWidth / self.waveAreaNode.width
+        } );
+      } );
+
+      /**
+       * Checks if the toolbox contains the given point, to see if a tool can be dropped back into the toolbox.
+       * @param {Vector2} point
+       * @returns {boolean}
+       */
+      const toolboxContains = function( point ) {
+        return toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).containsPoint( point );
+      };
+
+      const measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
+
+        // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
+        textBackgroundColor: 'rgba( 255, 255, 255, 0.6 )',
+        textColor: 'black',
+        basePositionProperty: model.measuringTapeBasePositionProperty,
+        tipPositionProperty: model.measuringTapeTipPositionProperty,
+
+        // Drop in toolbox
+        baseDragEnded: function() {
+          if ( toolboxContains( measuringTapeNode.localToGlobalPoint( measuringTapeNode.baseImage.center ) ) ) {
+            model.isMeasuringTapeInPlayAreaProperty.value = false;
+          }
+        }
+      } );
+      model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
+
+      const timerNode = new WaveInterferenceTimerNode( model, {
+        unitsChoices: [ model.waterScene.timerUnits, model.soundScene.timerUnits, model.lightScene.timerUnits ],
+
+        // Drop in toolbox
+        end: function() {
+          if ( toolboxContains( timerNode.parentToGlobalPoint( timerNode.center ) ) ) {
+            model.isTimerInPlayAreaProperty.value = false;
+          }
+        }
+      } );
+
+      const waveDetectorToolNode = new WaveDetectorToolNode( model, this, {
+
+        // Drop in toolbox
+        end: function() {
+          if ( toolboxContains( waveDetectorToolNode.getBackgroundNodeGlobalBounds().center ) ) {
+            model.isWaveDetectorToolNodeInPlayAreaProperty.value = false;
+            waveDetectorToolNode.alignProbes();
+          }
+        }
+      } );
+      model.isWaveDetectorToolNodeInPlayAreaProperty.link( function( isWaveDetectorToolNodeInPlayArea ) {
+        waveDetectorToolNode.visible = isWaveDetectorToolNodeInPlayArea;
+
+        // Make sure probes are re-aligned on reset-all
+        waveDetectorToolNode.alignProbes();
+      } );
+
+      model.resetEmitter.addListener( function() {
+        waveDetectorToolNode.reset();
+      } );
+
+      const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );
+      const updateToolboxPosition = function() {
+        toolboxPanel.mutate( {
+          right: self.layoutBounds.right - MARGIN,
+          top: MARGIN
+        } );
+      };
+      updateToolboxPosition();
+
+      // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.
+      toolboxPanel.on( 'bounds', updateToolboxPosition );
+      this.addChild( toolboxPanel );
+
+      // @protected {WaveInterferenceControlPanel} for subtype layout
+      this.controlPanel = new WaveInterferenceControlPanel( model, alignGroup, options.controlPanelOptions );
+
+      const updateControlPanelPosition = function() {
+        self.controlPanel.mutate( {
+          right: self.layoutBounds.right - MARGIN,
+          top: toolboxPanel.bottom + SPACING
+        } );
+      };
+      updateControlPanelPosition();
+
+      // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.
+      this.controlPanel.on( 'bounds', updateControlPanelPosition );
+      this.addChild( this.controlPanel );
+
+      if ( options.showPulseContinuousRadioButtons ) {
+
+        const continuousPulseGroup = new PulseContinuousRadioButtonGroup( model.inputTypeProperty, {
+          bottom: this.layoutBounds.bottom - MARGIN,
+          left: this.layoutBounds.left + MARGIN
+        } );
+        this.addChild( continuousPulseGroup );
       }
-    } );
-    model.isWaveDetectorToolNodeInPlayAreaProperty.link( function( isWaveDetectorToolNodeInPlayArea ) {
-      waveDetectorToolNode.visible = isWaveDetectorToolNodeInPlayArea;
 
-      // Make sure probes are re-aligned on reset-all
-      waveDetectorToolNode.alignProbes();
-    } );
+      if ( options.showViewRadioButtonGroup ) {
+        this.addChild( new ViewRadioButtonGroup( model.viewTypeProperty, {
+          bottom: this.layoutBounds.bottom - MARGIN,
+          left: this.waveAreaNode.left + SPACING + 10
+        } ) );
+      }
 
-    model.resetEmitter.addListener( function() {
-      waveDetectorToolNode.reset();
-    } );
-
-    const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );
-    const updateToolboxPosition = function() {
-      toolboxPanel.mutate( {
-        right: self.layoutBounds.right - MARGIN,
-        top: MARGIN
+      const timeControlPanel = new TimeControlPanel( model, {
+        bottom: this.layoutBounds.bottom - MARGIN
       } );
-    };
-    updateToolboxPosition();
 
-    // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.
-    toolboxPanel.on( 'bounds', updateToolboxPosition );
-    this.addChild( toolboxPanel );
+      // Show a gray background for the water to make it easier to see the dotted line in the middle of the screen,
+      // and visually partition the play area
+      const waterGrayBackground = Rectangle.bounds( this.waveAreaNode.bounds, { fill: '#e2e3e5' } );
+      this.addChild( waterGrayBackground );
 
-    // @protected {WaveInterferenceControlPanel} for subtype layout
-    this.controlPanel = new WaveInterferenceControlPanel( model, alignGroup, options.controlPanelOptions );
+      // Play/Pause button centered under the wave area
+      timeControlPanel.left = this.waveAreaNode.centerX - timeControlPanel.playPauseButton.width / 2;
 
-    const updateControlPanelPosition = function() {
-      self.controlPanel.mutate( {
-        right: self.layoutBounds.right - MARGIN,
-        top: toolboxPanel.bottom + SPACING
+      // Show the side of the water, when fully rotated and in WATER scene
+      const waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
+      Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
+        waterSideViewNode.visible = rotationAmount === 1.0 && scene === model.waterScene;
+        waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === model.waterScene;
       } );
-    };
-    updateControlPanelPosition();
 
-    // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.
-    this.controlPanel.on( 'bounds', updateControlPanelPosition );
-    this.addChild( this.controlPanel );
-
-    if ( options.showPulseContinuousRadioButtons ) {
-
-      const continuousPulseGroup = new PulseContinuousRadioButtonGroup( model.inputTypeProperty, {
-        bottom: this.layoutBounds.bottom - MARGIN,
-        left: this.layoutBounds.left + MARGIN
+      Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty ], function( rotationAmount, isRotating, scene ) {
+        const isSideWater = rotationAmount === 1 && scene === model.waterScene;
+        const show = !isRotating && !isSideWater;
+        self.waveAreaNode.visible = show;
+        self.latticeNode.visible = show;
       } );
-      this.addChild( continuousPulseGroup );
-    }
 
-    if ( options.showViewRadioButtonGroup ) {
-      this.addChild( new ViewRadioButtonGroup( model.viewTypeProperty, {
-        bottom: this.layoutBounds.bottom - MARGIN,
-        left: this.waveAreaNode.left + SPACING + 10
+      Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.showGraphProperty ], function( rotationAmount, isRotating, showGraph ) {
+        waveAreaGraphNode.visible = !isRotating && showGraph;
+        dashedLineNode.visible = !isRotating && showGraph;
+      } );
+
+      const perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty, model.isRotatingProperty );
+
+      // Initialize and update the colors based on the scene
+      Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, frequency ) {
+        perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' : scene === model.soundScene ? 'gray' : VisibleColor.frequencyToColor( frequency ) );
+        perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR : scene === model.soundScene ? 'darkGray' : VisibleColor.frequencyToColor( frequency ).colorUtilsDarker( 0.15 ) );
+      } );
+      this.addChild( perspective3DNode );
+
+      this.addChild( waterSideViewNode );
+      this.addChild( timeControlPanel );
+      this.addChild( dashedLineNode );
+      this.addChild( waveAreaGraphNode );
+      this.addChild( measuringTapeNode );
+      this.addChild( timerNode );
+      this.addChild( waveDetectorToolNode );
+
+      // TODO: each scene needs its own source graphics
+      this.addChild( new ToggleNode( [
+        { value: model.waterScene, node: new WaterEmitterNode( model, this.waveAreaNode ) },
+        { value: model.soundScene, node: new SoundEmitterNode( model, this.waveAreaNode ) },
+        { value: model.lightScene, node: new LightEmitterNode( model, this.waveAreaNode ) }
+      ], model.sceneProperty, {
+        alignChildren: ToggleNode.NONE
       } ) );
     }
-
-    const timeControlPanel = new TimeControlPanel( model, {
-      bottom: this.layoutBounds.bottom - MARGIN
-    } );
-
-    // Show a gray background for the water to make it easier to see the dotted line in the middle of the screen,
-    // and visually partition the play area
-    const waterGrayBackground = Rectangle.bounds( this.waveAreaNode.bounds, { fill: '#e2e3e5' } );
-    this.addChild( waterGrayBackground );
-
-    // Play/Pause button centered under the wave area
-    timeControlPanel.left = this.waveAreaNode.centerX - timeControlPanel.playPauseButton.width / 2;
-
-    // Show the side of the water, when fully rotated and in WATER scene
-    const waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
-    Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
-      waterSideViewNode.visible = rotationAmount === 1.0 && scene === model.waterScene;
-      waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === model.waterScene;
-    } );
-
-    Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty ], function( rotationAmount, isRotating, scene ) {
-      const isSideWater = rotationAmount === 1 && scene === model.waterScene;
-      const show = !isRotating && !isSideWater;
-      self.waveAreaNode.visible = show;
-      self.latticeNode.visible = show;
-    } );
-
-    Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.showGraphProperty ], function( rotationAmount, isRotating, showGraph ) {
-      waveAreaGraphNode.visible = !isRotating && showGraph;
-      dashedLineNode.visible = !isRotating && showGraph;
-    } );
-
-    const perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty, model.isRotatingProperty );
-
-    // Initialize and update the colors based on the scene
-    Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, frequency ) {
-      perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' : scene === model.soundScene ? 'gray' : VisibleColor.frequencyToColor( frequency ) );
-      perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR : scene === model.soundScene ? 'darkGray' : VisibleColor.frequencyToColor( frequency ).colorUtilsDarker( 0.15 ) );
-    } );
-    this.addChild( perspective3DNode );
-
-    this.addChild( waterSideViewNode );
-    this.addChild( timeControlPanel );
-    this.addChild( dashedLineNode );
-    this.addChild( waveAreaGraphNode );
-    this.addChild( measuringTapeNode );
-    this.addChild( timerNode );
-    this.addChild( waveDetectorToolNode );
-
-    // TODO: each scene needs its own source graphics
-    this.addChild( new ToggleNode( [
-      { value: model.waterScene, node: new WaterEmitterNode( model, this.waveAreaNode ) },
-      { value: model.soundScene, node: new SoundEmitterNode( model, this.waveAreaNode ) },
-      { value: model.lightScene, node: new LightEmitterNode( model, this.waveAreaNode ) }
-    ], model.sceneProperty, {
-      alignChildren: ToggleNode.NONE
-    } ) );
-  }
-
-  waveInterference.register( 'WavesScreenView', WavesScreenView );
-
-  return inherit( ScreenView, WavesScreenView, {
 
     /**
      * @param {Vector2} point
      * @public
      */
-    globalToLatticeCoordinate: function( point ) {
+    globalToLatticeCoordinate( point ) {
       const localPoint = this.latticeNode.globalToLocalPoint( point );
       return this.latticeNode.localPointToLatticePoint( localPoint );
     }
-  }, {
-    SPACING: SPACING
-  } );
+
+    static get SPACING() {return SPACING;}
+  }
+
+  waveInterference.register( 'WavesScreenView', WavesScreenView );
+
+  return WavesScreenView;
 } );
