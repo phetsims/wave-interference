@@ -32,7 +32,6 @@ define( function( require ) {
      * @param {Lattice} lattice
      * @param {IntensitySample} intensitySample
      * @param {Object} [options]
-     * @constructor
      */
     constructor( lattice, intensitySample, options ) {
       const latticeCanvasBounds = WaveInterferenceUtils.getCanvasBounds( lattice );

@@ -21,7 +21,6 @@ define( function( require ) {
     /**
      * @param {Bounds2} waveAreaBounds
      * @param {WavesScreenModel} model
-     * @constructor
      */
     constructor( waveAreaBounds, model ) {
 

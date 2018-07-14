@@ -32,7 +32,6 @@ define( function( require ) {
      * @param {AlignGroup} alignGroup - to align with neighbors
      * @param {WavesScreenModel} model
      * @param {Object} [options]
-     * @constructor
      */
     constructor( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model, options ) {
       const measuringTapeIconNode = new MeasuringTapeNode( new Property( {

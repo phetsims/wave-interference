@@ -21,7 +21,6 @@ define( function( require ) {
     /**
      * @param {WavesScreenModel} model
      * @param {Node} waveAreaNode - for bounds
-     * @constructor
      */
     constructor( model, waveAreaNode ) {
       super( model, model.waterScene, waveAreaNode, 62, new Image( hoseImage, {

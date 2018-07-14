@@ -17,7 +17,6 @@ define( function( require ) {
     /**
      * @param {Node} content
      * @param {Object} [options]
-     * @constructor // TODO: remove extraneous constructor annotations, see https://github.com/phetsims/chipper/issues/691#issuecomment-405025033
      */
     constructor( content, options ) {
       options = _.extend( {

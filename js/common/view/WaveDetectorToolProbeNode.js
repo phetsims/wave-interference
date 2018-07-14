@@ -17,7 +17,6 @@ define( function( require ) {
 
     /**
      * @param {Object} [options]
-     * @constructor
      */
     constructor( options ) {
 

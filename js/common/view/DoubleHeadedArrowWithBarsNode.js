@@ -23,7 +23,6 @@ define( function( require ) {
      * @param {number} lineHeight
      * @param {number} width
      * @param {Object} [options] - uses the pattern identified in https://github.com/phetsims/tasks/issues/730#issuecomment-370860967
-     * @constructor
      */
     constructor( lineHeight, width, options ) {
       options = _.extend( {

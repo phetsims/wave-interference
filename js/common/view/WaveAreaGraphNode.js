@@ -37,7 +37,6 @@ define( function( require ) {
      * @param {WavesScreenModel} model
      * @param {Bounds2} waveAreaBounds
      * @param {Object} [options]
-     * @constructor
      */
     constructor( model, waveAreaBounds, options ) {
       super();

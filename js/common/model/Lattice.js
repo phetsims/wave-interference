@@ -37,7 +37,6 @@ define( function( require ) {
      * @param {number} height - height of the lattice
      * @param {number} dampX - number of cells on the left and again on the right to use for damping
      * @param {number} dampY - number of cells on the top and again on the bottom to use for damping
-     * @constructor
      */
     constructor( width, height, dampX, dampY ) {
 

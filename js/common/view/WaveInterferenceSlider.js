@@ -31,8 +31,8 @@ define( function( require ) {
      * @param {Property} property
      * @param {number} min
      * @param {number} max
-     * @constructor
-     */constructor( property, min, max ) {
+     */
+    constructor( property, min, max ) {
       const minLabel = new WaveInterferenceText( min === 0 ? '0' : minString, LABEL_OPTIONS );
       const maxLabel = new WaveInterferenceText( maxString, LABEL_OPTIONS );
       const ticks = _.range( 0, MAX_TICK_INDEX + 1 ).map( function( index ) {

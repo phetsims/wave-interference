@@ -25,7 +25,6 @@ define( function( require ) {
      * @param {Node} waveAreaNode - for bounds
      * @param {number} buttonPosition - x offset
      * @param {Node} sourceNode - for the emitters, shared with scenery DAG
-     * @constructor
      */
     constructor( model, scene, waveAreaNode, buttonPosition, sourceNode ) {
       const buttonOptions = {

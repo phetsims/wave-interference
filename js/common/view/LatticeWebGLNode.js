@@ -27,8 +27,8 @@ define( function( require ) {
     /**
      * @param {Lattice} lattice
      * @param {Object} [options]
-     * @constructor
-     */constructor( lattice, options ) {
+     */
+    constructor( lattice, options ) {
 
       // @private
       this.lattice = lattice;

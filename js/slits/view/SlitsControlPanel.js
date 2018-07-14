@@ -36,7 +36,6 @@ define( function( require ) {
      * @param {SlitsScreenModel} model
      * @param {Node} comboBoxParent
      * @param {Object} [options]
-     * @constructor
      */
     constructor( alignGroup, model, comboBoxParent, options ) {
 

@@ -26,7 +26,6 @@ define( function( require ) {
 
     /**
      * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-     * @constructor
      */
     constructor( alignGroup ) {
       const options = {

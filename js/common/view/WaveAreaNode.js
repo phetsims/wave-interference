@@ -18,7 +18,6 @@ define( function( require ) {
     /**
      * @param {WavesScreenModel} model
      * @param {Object} [options]
-     * @constructor
      */
     constructor( model, options ) {
       super( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, _.extend( {

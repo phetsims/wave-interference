@@ -60,7 +60,6 @@ define( function( require ) {
      * @param {WavesScreenModel} model - model for reading values
      * @param {WavesScreenView|null} view - for getting coordinates for model
      * @param {Object} [options]
-     * @constructor
      */
     constructor( model, view, options ) {
       options = _.extend( {

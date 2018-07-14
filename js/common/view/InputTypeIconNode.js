@@ -27,7 +27,6 @@ define( function( require ) {
 
     /**
      * @param {IncomingWaveType} incidentWaveType
-     * @constructor
      */
     constructor( incidentWaveType ) {
       super();

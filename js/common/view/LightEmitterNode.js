@@ -19,7 +19,6 @@ define( function( require ) {
     /**
      * @param {WavesScreenModel} model
      * @param {Node} waveAreaNode - for bounds
-     * @constructor
      */
     constructor( model, waveAreaNode ) {
       super( model, model.lightScene, waveAreaNode, 70, new LaserPointerNode( model.button1PressedProperty, {

@@ -22,7 +22,6 @@ define( function( require ) {
 
     /**
      * @param {Lattice} lattice
-     * @constructor
      */
     constructor( lattice ) {
 

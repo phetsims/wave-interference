@@ -19,7 +19,6 @@ define( function( require ) {
     /**
      * @param {Property.<IncomingWaveType>} inputTypeProperty
      * @param {Object} [options]
-     * @constructor
      */
     constructor( inputTypeProperty, options ) {
       super( inputTypeProperty, [ {

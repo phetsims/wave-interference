@@ -23,7 +23,6 @@ define( function( require ) {
     /**
      * @param {Property.<ViewType>} viewTypeProperty
      * @param {Object} [options]
-     * @constructor
      */
     constructor( viewTypeProperty, options ) {
       super( [ {

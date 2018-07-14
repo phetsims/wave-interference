@@ -21,7 +21,6 @@ define( function( require ) {
     /**
      * @param {SlitsScreenModel} model
      * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-     * @constructor
      */
     constructor( model, alignGroup ) {
       super( model, alignGroup, {

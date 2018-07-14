@@ -26,7 +26,6 @@ define( function( require ) {
     /**
      * @param {WavesScreenModel} model
      * @param {Object} [options]
-     * @constructor
      */
     constructor( model, options ) {
 

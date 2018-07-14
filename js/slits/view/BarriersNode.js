@@ -23,7 +23,6 @@ define( function( require ) {
      * @param {SlitsScreenModel} model
      * @param {Scene} scene
      * @param {Bounds2} viewBounds
-     * @constructor
      */
     constructor( model, scene, viewBounds ) {
 

@@ -24,10 +24,10 @@ define( function( require ) {
   const separationString = require( 'string!WAVE_INTERFERENCE/separation' );
 
   class InterferenceScreenView extends WavesScreenView {
+
     /**
      * @param {WavesScreenModel} model
      * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-     * @constructor
      */
     constructor( model, alignGroup ) {
 

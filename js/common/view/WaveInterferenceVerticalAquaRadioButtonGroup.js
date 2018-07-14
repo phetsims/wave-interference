@@ -12,9 +12,6 @@ define( function( require ) {
   const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  /**
-   * @constructor
-   */
   class WaveInterferenceVerticalAquaRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
     /**

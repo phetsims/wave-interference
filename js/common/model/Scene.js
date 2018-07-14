@@ -19,7 +19,6 @@ define( function( require ) {
 
     /**
      * @param {Object} config - see below for required properties
-     * @constructor
      */
     constructor( config ) {
 

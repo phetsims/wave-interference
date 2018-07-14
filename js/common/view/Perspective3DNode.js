@@ -30,7 +30,6 @@ define( function( require ) {
      * @param {Bounds2} waveAreaBounds
      * @param {NumberProperty} rotationAmountProperty
      * @param {DerivedProperty.<boolean>} isRotatingProperty
-     * @constructor
      */
     constructor( waveAreaBounds, rotationAmountProperty, isRotatingProperty ) {
 

@@ -18,9 +18,6 @@ define( function( require ) {
   // constants
   const CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
 
-  /**
-   * @constructor
-   */
   class WaveInterferenceUtils {
 
 

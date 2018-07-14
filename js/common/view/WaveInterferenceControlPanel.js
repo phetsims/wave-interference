@@ -45,7 +45,6 @@ define( function( require ) {
      * @param {WavesScreenModel} model
      * @param {AlignGroup} alignGroup
      * @param {Object} [options]
-     * @constructor
      */
     constructor( model, alignGroup, options ) {
 

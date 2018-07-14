@@ -33,7 +33,6 @@ define( function( require ) {
      * @param {number} graphHeight - the height of the graph in view coordinates
      * @param {IntensitySample} intensitySample - values for the intensity
      * @param {Object} [options]
-     * @constructor
      */
     constructor( graphHeight, intensitySample, options ) {
 

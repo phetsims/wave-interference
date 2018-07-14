@@ -49,11 +49,11 @@ define( function( require ) {
   const WATER_BLUE = WaveInterferenceConstants.WATER_SIDE_COLOR;
 
   class WavesScreenView extends ScreenView {
+
     /**
      * @param {WavesScreenModel} model
      * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
      * @param {Object} [options]
-     * @constructor
      */
     constructor( model, alignGroup, options ) {
 

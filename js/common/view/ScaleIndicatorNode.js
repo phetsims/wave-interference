@@ -21,7 +21,6 @@ define( function( require ) {
      * @param {Scene} scene
      * @param {number} latticeViewWidth
      * @param {Object} [options]
-     * @constructor
      */
     constructor( scene, latticeViewWidth, options ) {
 
