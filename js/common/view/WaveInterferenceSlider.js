@@ -11,7 +11,6 @@ define( function( require ) {
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
   const HSlider = require( 'SUN/HSlider' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -26,49 +25,49 @@ define( function( require ) {
   const MAX_TICK_INDEX = 10;
   const MAJOR_TICK_MODULUS = 5;
 
-  /**
-   * @param {Property} property
-   * @param {number} min
-   * @param {number} max
-   * @constructor
-   */
-  function WaveInterferenceSlider( property, min, max ) {
-    const minLabel = new WaveInterferenceText( min === 0 ? '0' : minString, LABEL_OPTIONS );
-    const maxLabel = new WaveInterferenceText( maxString, LABEL_OPTIONS );
-    const ticks = _.range( 0, MAX_TICK_INDEX + 1 ).map( function( index ) {
-      return {
-        value: Util.linear( 0, MAX_TICK_INDEX, min, max, index ),
-        type: index % MAJOR_TICK_MODULUS === 0 ? 'major' : 'minor',
-        label: index === 0 ? minLabel :
-               index === MAX_TICK_INDEX ? maxLabel :
-               null
-      };
-    } );
+  class WaveInterferenceSlider extends HSlider {
 
-    HSlider.call( this, property, {
-      min: min, max: max
-    }, {
-      thumbSize: WaveInterferenceConstants.THUMB_SIZE,
-      trackSize: new Dimension2( 150, 5 ),
+    /**
+     * @param {Property} property
+     * @param {number} min
+     * @param {number} max
+     * @constructor
+     */constructor( property, min, max ) {
+      const minLabel = new WaveInterferenceText( min === 0 ? '0' : minString, LABEL_OPTIONS );
+      const maxLabel = new WaveInterferenceText( maxString, LABEL_OPTIONS );
+      const ticks = _.range( 0, MAX_TICK_INDEX + 1 ).map( function( index ) {
+        return {
+          value: Util.linear( 0, MAX_TICK_INDEX, min, max, index ),
+          type: index % MAJOR_TICK_MODULUS === 0 ? 'major' : 'minor',
+          label: index === 0 ? minLabel :
+                 index === MAX_TICK_INDEX ? maxLabel :
+                 null
+        };
+      } );
 
-      // ticks
-      tickLabelSpacing: 2,
-      majorTickLength: 15,
-      minorTickLength: 8
-    } );
+      super( property, {
+        min: min, max: max
+      }, {
+        thumbSize: WaveInterferenceConstants.THUMB_SIZE,
+        trackSize: new Dimension2( 150, 5 ),
 
-    for ( var i = 0; i < ticks.length; i++ ) {
-      const tick = ticks[ i ];
-      if ( tick.type === 'major' ) {
-        this.addMajorTick( tick.value, tick.label ); // Label is optional
-      }
-      else {
-        this.addMinorTick( tick.value, tick.label ); // Label is optional
+        // ticks
+        tickLabelSpacing: 2,
+        majorTickLength: 15,
+        minorTickLength: 8
+      } );
+
+      for ( let i = 0; i < ticks.length; i++ ) {
+        const tick = ticks[ i ];
+        if ( tick.type === 'major' ) {
+          this.addMajorTick( tick.value, tick.label ); // Label is optional
+        }
+        else {
+          this.addMinorTick( tick.value, tick.label ); // Label is optional
+        }
       }
     }
   }
 
-  waveInterference.register( 'WaveInterferenceSlider', WaveInterferenceSlider );
-
-  return inherit( HSlider, WaveInterferenceSlider );
+  return waveInterference.register( 'WaveInterferenceSlider', WaveInterferenceSlider );
 } );

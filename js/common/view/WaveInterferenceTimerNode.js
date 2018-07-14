@@ -10,35 +10,36 @@ define( function( require ) {
 
   // modules
   const DragListener = require( 'SCENERY/listeners/DragListener' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const TimerNode = require( 'SCENERY_PHET/TimerNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  /**
-   * @constructor
-   */
-  function WaveInterferenceTimerNode( model, config ) {
-    const self = this;
-    assert && assert( !!config.end, 'end is a required argument' );
-    TimerNode.call( this, model.timerElapsedTimeProperty, model.isTimerRunningProperty, config );
+  class WaveInterferenceTimerNode extends TimerNode {
 
-    // @public - for forwarding drag events
-    this.timerNodeDragListener = new DragListener( {
-      targetNode: this,
-      translateNode: true,
+    /**
+     * @param {WavesScreenModel} model
+     * @param {Object} config
+     */
+    constructor( model, config ) {
+      assert && assert( !!config.end, 'end is a required argument' );
+      super( model.timerElapsedTimeProperty, model.isTimerRunningProperty, config );
+      const self = this;
 
-      // Drop in toolbox
-      end: config.end
-    } );
+      // @public - for forwarding drag events
+      this.timerNodeDragListener = new DragListener( {
+        targetNode: this,
+        translateNode: true,
 
-    this.addInputListener( this.timerNodeDragListener );
-    model.isTimerInPlayAreaProperty.linkAttribute( this, 'visible' );
-    model.sceneProperty.link( function( scene ) {
-      self.setUnits( scene.timerUnits );
-    } );
+        // Drop in toolbox
+        end: config.end
+      } );
+
+      this.addInputListener( this.timerNodeDragListener );
+      model.isTimerInPlayAreaProperty.linkAttribute( this, 'visible' );
+      model.sceneProperty.link( function( scene ) {
+        self.setUnits( scene.timerUnits );
+      } );
+    }
   }
 
-  waveInterference.register( 'WaveInterferenceTimerNode', WaveInterferenceTimerNode );
-
-  return inherit( TimerNode, WaveInterferenceTimerNode );
+  return waveInterference.register( 'WaveInterferenceTimerNode', WaveInterferenceTimerNode );
 } );

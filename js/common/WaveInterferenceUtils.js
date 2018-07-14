@@ -38,7 +38,7 @@ define( function( require ) {
       lattice.getCenterLineValues( array );
       const shape = new Shape();
 
-      for ( var i = 0; i < array.length; i++ ) {
+      for ( let i = 0; i < array.length; i++ ) {
         const value = array[ i ];
         const x = Util.linear( 0, array.length - 1, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
         const y = Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 100, value ) + dy;

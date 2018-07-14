@@ -9,20 +9,16 @@ define( function( require ) {
   'use strict';
 
   // modules
-  const inherit = require( 'PHET_CORE/inherit' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
 
-  /**
-   * @constructor
-   */
-  function InterferenceScreenModel() {
-    WavesScreenModel.call( this, {
-      numberOfSources: 2
-    } );
+  class InterferenceScreenModel extends WavesScreenModel {
+    constructor() {
+      super( {
+        numberOfSources: 2
+      } );
+    }
   }
 
-  waveInterference.register( 'InterferenceScreenModel', InterferenceScreenModel );
-
-  return inherit( WavesScreenModel, InterferenceScreenModel );
+  return waveInterference.register( 'InterferenceScreenModel', InterferenceScreenModel );
 } );

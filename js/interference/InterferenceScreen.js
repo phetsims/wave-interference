@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   const Image = require( 'SCENERY/nodes/Image' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const InterferenceScreenModel = require( 'WAVE_INTERFERENCE/interference/model/InterferenceScreenModel' );
   const InterferenceScreenView = require( 'WAVE_INTERFERENCE/interference/view/InterferenceScreenView' );
   const Property = require( 'AXON/Property' );
@@ -23,24 +22,25 @@ define( function( require ) {
   // strings
   const screenInterferenceString = require( 'string!WAVE_INTERFERENCE/screen.interference' );
 
-  /**
-   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-   * @constructor
-   */
-  function InterferenceScreen( alignGroup ) {
-    const options = {
-      backgroundColorProperty: new Property( 'white' ),
-      name: screenInterferenceString,
-      homeScreenIcon: new Image( interferenceScreenIcon )
-    };
-    Screen.call( this,
-      function() { return new InterferenceScreenModel(); },
-      function( model ) { return new InterferenceScreenView( model, alignGroup ); },
-      options
-    );
+  class InterferenceScreen extends Screen {
+
+    /**
+     * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
+     * @constructor
+     */
+    constructor( alignGroup ) {
+      const options = {
+        backgroundColorProperty: new Property( 'white' ),
+        name: screenInterferenceString,
+        homeScreenIcon: new Image( interferenceScreenIcon )
+      };
+      super(
+        function() { return new InterferenceScreenModel(); },
+        function( model ) { return new InterferenceScreenView( model, alignGroup ); },
+        options
+      );
+    }
   }
 
-  waveInterference.register( 'InterferenceScreen', InterferenceScreen );
-
-  return inherit( Screen, InterferenceScreen );
+  return waveInterference.register( 'InterferenceScreen', InterferenceScreen );
 } );

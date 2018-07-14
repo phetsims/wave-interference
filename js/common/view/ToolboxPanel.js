@@ -13,7 +13,6 @@ define( function( require ) {
   const WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const HBox = require( 'SCENERY/nodes/HBox' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberProperty = require( 'AXON/NumberProperty' );
@@ -24,78 +23,82 @@ define( function( require ) {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
 
-  /**
-   * @param {MeasuringTapeNode} measuringTapeNode
-   * @param {WaveInterferenceTimerNode} timerNode
-   * @param {WaveDetectorToolNode} waveDetectorToolNode
-   * @param {AlignGroup} alignGroup - to align with neighbors
-   * @param {WavesScreenModel} model
-   * @param {Object} [options]
-   * @constructor
-   */
-  function ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model, options ) {
-    const self = this;
-    const measuringTapeIconNode = new MeasuringTapeNode( new Property( {
-      name: 'cm',
-      multiplier: 1000
-    } ), new BooleanProperty( true ), {
-      tipPositionProperty: new Property( new Vector2( 20, 0 ) ),
-      hasValue: false,
-      interactive: false,
-      scale: 0.7
-    } );
+  class ToolboxPanel extends WaveInterferencePanel {
 
-    const measuringTapeIcon = createIcon( measuringTapeIconNode, model.isMeasuringTapeInPlayAreaProperty, function( event ) {
+    /**
+     * @param {MeasuringTapeNode} measuringTapeNode
+     * @param {WaveInterferenceTimerNode} timerNode
+     * @param {WaveDetectorToolNode} waveDetectorToolNode
+     * @param {AlignGroup} alignGroup - to align with neighbors
+     * @param {WavesScreenModel} model
+     * @param {Object} [options]
+     * @constructor
+     */
+    constructor( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model, options ) {
+      const measuringTapeIconNode = new MeasuringTapeNode( new Property( {
+        name: 'cm',
+        multiplier: 1000
+      } ), new BooleanProperty( true ), {
+        tipPositionProperty: new Property( new Vector2( 20, 0 ) ),
+        hasValue: false,
+        interactive: false,
+        scale: 0.7
+      } );
 
-      // When clicking on the measuring tape icon, pop it out into the play area
-      const targetPosition = self.globalToParentPoint( event.pointer.point );
-      const currentPosition = measuringTapeNode.basePositionProperty.value;
-      const delta = targetPosition.minus( currentPosition );
-      measuringTapeNode.basePositionProperty.set( measuringTapeNode.basePositionProperty.value.plus( delta ) );
-      measuringTapeNode.tipPositionProperty.set( measuringTapeNode.tipPositionProperty.value.plus( delta ) );
-      measuringTapeNode.startBaseDrag( event );
-      model.isMeasuringTapeInPlayAreaProperty.value = true;
-    } );
+      const measuringTapeIcon = createIcon( measuringTapeIconNode, model.isMeasuringTapeInPlayAreaProperty, function( event ) {
 
-    // Node used to create the icon
-    const iconTimerNode = new TimerNode( new NumberProperty( 0 ), new BooleanProperty( false ), {
-      scale: 0.5,
-      pickable: false
-    } );
+        // When clicking on the measuring tape icon, pop it out into the play area
+        const targetPosition = self.globalToParentPoint( event.pointer.point );
+        const currentPosition = measuringTapeNode.basePositionProperty.value;
+        const delta = targetPosition.minus( currentPosition );
+        measuringTapeNode.basePositionProperty.set( measuringTapeNode.basePositionProperty.value.plus( delta ) );
+        measuringTapeNode.tipPositionProperty.set( measuringTapeNode.tipPositionProperty.value.plus( delta ) );
+        measuringTapeNode.startBaseDrag( event );
+        model.isMeasuringTapeInPlayAreaProperty.value = true;
+      } );
 
-    // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
-    const timerNodeIcon = createIcon( iconTimerNode, model.isTimerInPlayAreaProperty, function( event ) {
-      timerNode.center = self.globalToParentPoint( event.pointer.point );
+      // Node used to create the icon
+      const iconTimerNode = new TimerNode( new NumberProperty( 0 ), new BooleanProperty( false ), {
+        scale: 0.5,
+        pickable: false
+      } );
 
-      // timerNode provided as targetNode in the DragListener constructor, so this press will target it
-      timerNode.timerNodeDragListener.press( event );
-      model.isTimerInPlayAreaProperty.value = true;
-    } );
+      // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
+      const timerNodeIcon = createIcon( iconTimerNode, model.isTimerInPlayAreaProperty, function( event ) {
+        timerNode.center = self.globalToParentPoint( event.pointer.point );
 
-    const waveDetectorToolNodeIcon = new WaveDetectorToolNode( model, null, {
-      isIcon: true,
-      scale: 0.3
-    } );
+        // timerNode provided as targetNode in the DragListener constructor, so this press will target it
+        timerNode.timerNodeDragListener.press( event );
+        model.isTimerInPlayAreaProperty.value = true;
+      } );
 
-    // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
-    const waveDetectorNodeIcon = createIcon( waveDetectorToolNodeIcon, model.isWaveDetectorToolNodeInPlayAreaProperty, function( event ) {
-      waveDetectorToolNode.center = self.globalToParentPoint( event.pointer.point );
-      waveDetectorToolNode.startDrag( event );
-      model.isWaveDetectorToolNodeInPlayAreaProperty.value = true;
-    } );
+      const waveDetectorToolNodeIcon = new WaveDetectorToolNode( model, null, {
+        isIcon: true,
+        scale: 0.3
+      } );
 
-    // Layout for the toolbox
-    WaveInterferencePanel.call( this,
-      alignGroup.createBox( new HBox( {
-        spacing: 10,
-        children: [
-          measuringTapeIcon,
-          timerNodeIcon,
-          waveDetectorNodeIcon
-        ]
-      } ) ),
-      options
-    );
+      // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
+      const waveDetectorNodeIcon = createIcon( waveDetectorToolNodeIcon, model.isWaveDetectorToolNodeInPlayAreaProperty, function( event ) {
+        waveDetectorToolNode.center = self.globalToParentPoint( event.pointer.point );
+        waveDetectorToolNode.startDrag( event );
+        model.isWaveDetectorToolNodeInPlayAreaProperty.value = true;
+      } );
+
+      // Layout for the toolbox
+      super( alignGroup.createBox( new HBox( {
+          spacing: 10,
+          children: [
+            measuringTapeIcon,
+            timerNodeIcon,
+            waveDetectorNodeIcon
+          ]
+        } ) ),
+        options
+      );
+
+      // Hoisted for callbacks above
+      const self = this;
+    }
   }
 
   /**
@@ -120,7 +123,5 @@ define( function( require ) {
     return iconNode;
   };
 
-  waveInterference.register( 'ToolboxPanel', ToolboxPanel );
-
-  return inherit( WaveInterferencePanel, ToolboxPanel );
+  return waveInterference.register( 'ToolboxPanel', ToolboxPanel );
 } );

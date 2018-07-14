@@ -15,7 +15,6 @@ define( function( require ) {
   const FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
   const HSeparator = require( 'SUN/HSeparator' );
   const Image = require( 'SCENERY/nodes/Image' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
@@ -40,143 +39,144 @@ define( function( require ) {
     boxWidth: 12
   };
 
-  /**
-   * @param {WavesScreenModel} model
-   * @param {AlignGroup} alignGroup
-   * @param {Object} [options]
-   * @constructor
-   */
-  function WaveInterferenceControlPanel( model, alignGroup, options ) {
+  class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
-    options = _.extend( {
+    /**
+     * @param {WavesScreenModel} model
+     * @param {AlignGroup} alignGroup
+     * @param {Object} [options]
+     * @constructor
+     */
+    constructor( model, alignGroup, options ) {
 
-      // This additional control (if present) will be shown beneath the Amplitude slider in the WaveInterferenceControlPanel
-      additionalControl: null,
+      options = _.extend( {
 
-      showIntensityCheckbox: true
-    }, options );
+        // This additional control (if present) will be shown beneath the Amplitude slider in the WaveInterferenceControlPanel
+        additionalControl: null,
 
-    // Controls are in the metric coordinate frame
-    const waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.frequencyProperty, model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
-    const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
+        showIntensityCheckbox: true
+      }, options );
 
-    const lightFrequencySlider = new FrequencySlider( model.lightScene.frequencyProperty, {
-      minFrequency: model.lightScene.minimumFrequency,
-      maxFrequency: model.lightScene.maximumFrequency,
-      trackWidth: 150,
-      trackHeight: 20,
-      valueVisible: false,
-      tweakersVisible: false,
-      thumbWidth: 20,
-      thumbHeight: 20
-    } );
+      // Controls are in the metric coordinate frame
+      const waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.frequencyProperty, model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
+      const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
 
-    lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( 0, 10 );
-    const frequencySliderContainer = new Node( { children: [ waterFrequencySlider, soundFrequencySlider, lightFrequencySlider ] } );
-    const amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, model.amplitudeProperty.range.min, model.amplitudeProperty.range.max );
+      const lightFrequencySlider = new FrequencySlider( model.lightScene.frequencyProperty, {
+        minFrequency: model.lightScene.minimumFrequency,
+        maxFrequency: model.lightScene.maximumFrequency,
+        trackWidth: 150,
+        trackHeight: 20,
+        valueVisible: false,
+        tweakersVisible: false,
+        thumbWidth: 20,
+        thumbHeight: 20
+      } );
 
-    const graphCheckbox = new Checkbox( new WaveInterferenceText( graphString ), model.showGraphProperty, CHECKBOX_OPTIONS );
-    const screenCheckbox = new Checkbox( new WaveInterferenceText( screenString ), model.showScreenProperty, CHECKBOX_OPTIONS );
-    const intensityCheckbox = new Checkbox( new WaveInterferenceText( intensityString ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
-    const maxComponentWidth = _.max( [ screenCheckbox.width, graphCheckbox.width, frequencySliderContainer.width, amplitudeSlider.width, lightFrequencySlider.width ] );
-    const separator = new HSeparator( maxComponentWidth );
+      lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( 0, 10 );
+      const frequencySliderContainer = new Node( { children: [ waterFrequencySlider, soundFrequencySlider, lightFrequencySlider ] } );
+      const amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, model.amplitudeProperty.range.min, model.amplitudeProperty.range.max );
 
-    const hoseIcon = new Image( hoseImage );
-    const speakerIcon = new Image( speakerImage );
-    const laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), {
+      const graphCheckbox = new Checkbox( new WaveInterferenceText( graphString ), model.showGraphProperty, CHECKBOX_OPTIONS );
+      const screenCheckbox = new Checkbox( new WaveInterferenceText( screenString ), model.showScreenProperty, CHECKBOX_OPTIONS );
+      const intensityCheckbox = new Checkbox( new WaveInterferenceText( intensityString ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
+      const maxComponentWidth = _.max( [ screenCheckbox.width, graphCheckbox.width, frequencySliderContainer.width, amplitudeSlider.width, lightFrequencySlider.width ] );
+      const separator = new HSeparator( maxComponentWidth );
 
-      // TODO: copied from LightEmitterNode
-      bodySize: new Dimension2( 80, 40 ),
-      nozzleSize: new Dimension2( 10, 28 ),
-      hasGlass: true,
-      hasButton: false
-    } );
-    const iconWidth = 44;
-    const iconHeight = iconWidth;
-    hoseIcon.scale( iconWidth / hoseIcon.width );
-    speakerIcon.scale( iconHeight / speakerIcon.height );
-    laserPointerIcon.scale( iconWidth / laserPointerIcon.width );
-    const sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [ {
-      value: model.waterScene,
-      node: hoseIcon
-    }, {
-      value: model.soundScene,
-      node: speakerIcon
-    }, {
-      value: model.lightScene,
-      node: laserPointerIcon
-    } ], {
-      orientation: 'horizontal'
-    } );
+      const hoseIcon = new Image( hoseImage );
+      const speakerIcon = new Image( speakerImage );
+      const laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), {
 
-    const frequencyTitle = new WaveInterferenceText( frequencyString );
-    const amplitudeTitle = new WaveInterferenceText( amplitudeString );
+        // TODO: copied from LightEmitterNode
+        bodySize: new Dimension2( 80, 40 ),
+        nozzleSize: new Dimension2( 10, 28 ),
+        hasGlass: true,
+        hasButton: false
+      } );
+      const iconWidth = 44;
+      const iconHeight = iconWidth;
+      hoseIcon.scale( iconWidth / hoseIcon.width );
+      speakerIcon.scale( iconHeight / speakerIcon.height );
+      laserPointerIcon.scale( iconWidth / laserPointerIcon.width );
+      const sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [ {
+        value: model.waterScene,
+        node: hoseIcon
+      }, {
+        value: model.soundScene,
+        node: speakerIcon
+      }, {
+        value: model.lightScene,
+        node: laserPointerIcon
+      } ], {
+        orientation: 'horizontal'
+      } );
 
-    // Horizontal layout
-    const centerX = frequencyTitle.centerX;
-    frequencySliderContainer.centerX = centerX;
-    amplitudeTitle.centerX = centerX;
-    amplitudeSlider.centerX = centerX;
-    if ( options.additionalControl ) {options.additionalControl.centerX = centerX;}
-    sceneRadioButtons.centerX = centerX;
-    separator.centerX = centerX;
-    let minX = _.min( [ frequencySliderContainer.left, amplitudeSlider.left, frequencyTitle.left, amplitudeTitle.left, sceneRadioButtons.left ] );
-    minX = minX + 11; // Account for half the slider knob width, so it lines up with the slider left tick
-    graphCheckbox.left = minX;
-    screenCheckbox.left = minX;
-    intensityCheckbox.left = minX + 20;
+      const frequencyTitle = new WaveInterferenceText( frequencyString );
+      const amplitudeTitle = new WaveInterferenceText( amplitudeString );
 
-    // Vertical layout
-    frequencySliderContainer.top = frequencyTitle.bottom - 5;
-    amplitudeTitle.top = frequencySliderContainer.bottom + 2;
-    amplitudeSlider.top = amplitudeTitle.bottom - 5;
-    if ( options.additionalControl ) {
-      options.additionalControl.top = amplitudeSlider.bottom + 5;
-      sceneRadioButtons.top = options.additionalControl.bottom + 5;
+      // Horizontal layout
+      const centerX = frequencyTitle.centerX;
+      frequencySliderContainer.centerX = centerX;
+      amplitudeTitle.centerX = centerX;
+      amplitudeSlider.centerX = centerX;
+      if ( options.additionalControl ) {options.additionalControl.centerX = centerX;}
+      sceneRadioButtons.centerX = centerX;
+      separator.centerX = centerX;
+      let minX = _.min( [ frequencySliderContainer.left, amplitudeSlider.left, frequencyTitle.left, amplitudeTitle.left, sceneRadioButtons.left ] );
+      minX = minX + 11; // Account for half the slider knob width, so it lines up with the slider left tick
+      graphCheckbox.left = minX;
+      screenCheckbox.left = minX;
+      intensityCheckbox.left = minX + 20;
+
+      // Vertical layout
+      frequencySliderContainer.top = frequencyTitle.bottom - 5;
+      amplitudeTitle.top = frequencySliderContainer.bottom + 2;
+      amplitudeSlider.top = amplitudeTitle.bottom - 5;
+      if ( options.additionalControl ) {
+        options.additionalControl.top = amplitudeSlider.bottom + 5;
+        sceneRadioButtons.top = options.additionalControl.bottom + 5;
+      }
+      else {
+        sceneRadioButtons.top = amplitudeSlider.bottom + 5;
+      }
+
+      separator.top = sceneRadioButtons.bottom + 7;
+      graphCheckbox.top = separator.bottom + 7;
+      screenCheckbox.top = graphCheckbox.bottom + 5;
+      intensityCheckbox.top = screenCheckbox.bottom + 5;
+
+      model.sceneProperty.link( function( scene ) {
+        waterFrequencySlider.visible = scene === model.waterScene;
+        soundFrequencySlider.visible = scene === model.soundScene;
+        lightFrequencySlider.visible = scene === model.lightScene;
+
+        // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
+        screenCheckbox.enabled = scene === model.lightScene;
+        intensityCheckbox.enabled = scene === model.lightScene;
+      } );
+
+      // z-ordering
+      const children = [
+        frequencyTitle,
+        frequencySliderContainer,
+        amplitudeTitle,
+        options.additionalControl || new Node(), // This is ugly but preferable to using concat calls
+        amplitudeSlider,
+        sceneRadioButtons,
+        separator,
+        graphCheckbox,
+        screenCheckbox
+      ];
+
+      if ( options.showIntensityCheckbox ) {
+        children.push( intensityCheckbox );
+      }
+      const content = alignGroup.createBox( new Node( {
+        children: children
+      } ) );
+
+      super( content, options );
     }
-    else {
-      sceneRadioButtons.top = amplitudeSlider.bottom + 5;
-    }
-
-    separator.top = sceneRadioButtons.bottom + 7;
-    graphCheckbox.top = separator.bottom + 7;
-    screenCheckbox.top = graphCheckbox.bottom + 5;
-    intensityCheckbox.top = screenCheckbox.bottom + 5;
-
-    model.sceneProperty.link( function( scene ) {
-      waterFrequencySlider.visible = scene === model.waterScene;
-      soundFrequencySlider.visible = scene === model.soundScene;
-      lightFrequencySlider.visible = scene === model.lightScene;
-
-      // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-      screenCheckbox.enabled = scene === model.lightScene;
-      intensityCheckbox.enabled = scene === model.lightScene;
-    } );
-
-    // z-ordering
-    const children = [
-      frequencyTitle,
-      frequencySliderContainer,
-      amplitudeTitle,
-      options.additionalControl || new Node(), // This is ugly but preferable to using concat calls
-      amplitudeSlider,
-      sceneRadioButtons,
-      separator,
-      graphCheckbox,
-      screenCheckbox
-    ];
-
-    if ( options.showIntensityCheckbox ) {
-      children.push( intensityCheckbox );
-    }
-    const content = alignGroup.createBox( new Node( {
-      children: children
-    } ) );
-
-    WaveInterferencePanel.call( this, content, options );
   }
 
-  waveInterference.register( 'WaveInterferenceControlPanel', WaveInterferenceControlPanel );
-
-  return inherit( WaveInterferencePanel, WaveInterferenceControlPanel );
+  return waveInterference.register( 'WaveInterferenceControlPanel', WaveInterferenceControlPanel );
 } );

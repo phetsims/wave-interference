@@ -9,20 +9,19 @@ define( function( require ) {
   'use strict';
 
   // modules
-  const inherit = require( 'PHET_CORE/inherit' );
   const Text = require( 'SCENERY/nodes/Text' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  /**
-   * @param {string} string
-   * @param {Object} [options]
-   * @constructor
-   */
-  function WaveInterferenceText( string, options ) {
-    Text.call( this, string, _.extend( { fontSize: 12 }, options ) );
+  class WaveInterferenceText extends Text {
+
+    /**
+     * @param {string} string
+     * @param {Object} [options]
+     */
+    constructor( string, options ) {
+      super( string, _.extend( { fontSize: 12 }, options ) );
+    }
   }
 
-  waveInterference.register( 'WaveInterferenceText', WaveInterferenceText );
-
-  return inherit( Text, WaveInterferenceText );
+  return waveInterference.register( 'WaveInterferenceText', WaveInterferenceText );
 } );

@@ -11,80 +11,82 @@ define( function( require ) {
   // modules
   const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  /**
-   * @param {SlitsScreenModel} model
-   * @param {Scene} scene
-   * @param {Bounds2} viewBounds
-   * @constructor
-   */
-  function BarriersNode( model, scene, viewBounds ) {
-
-    assert && assert( model instanceof SlitsScreenModel );
-
-    // @private
-    this.waveAreaViewBounds = viewBounds;
-
-    // @private
-    this.model = model;
-
-    // @private
-    this.scene = scene;
+  class BarriersNode extends Node {
 
     /**
-     * Creates one of the 3 recycled rectangles used for rendering the barriers.
+     * @param {SlitsScreenModel} model
+     * @param {Scene} scene
+     * @param {Bounds2} viewBounds
+     * @constructor
      */
-    const createRectangle = function() {
-      return new Rectangle( 0, 0, 0, 0, 2, 2, {
-        fill: '#f3d99b',
-        stroke: 'black',
-        lineWidth: 1
+    constructor( model, scene, viewBounds ) {
+
+      assert && assert( model instanceof SlitsScreenModel );
+
+      /**
+       * Creates one of the 3 recycled rectangles used for rendering the barriers.
+       */
+      const createRectangle = function() {
+        return new Rectangle( 0, 0, 0, 0, 2, 2, {
+          fill: '#f3d99b',
+          stroke: 'black',
+          lineWidth: 1
+        } );
+      };
+
+      const rectangleA = createRectangle();
+      const rectangleB = createRectangle();
+      const rectangleC = createRectangle();
+
+      super( {
+        cursor: 'pointer',
+        children: [ rectangleA, rectangleB, rectangleC ]
       } );
-    };
-    // @private - create and reuse rectangles
-    this.rectangleA = createRectangle();
-    this.rectangleB = createRectangle();
-    this.rectangleC = createRectangle();
 
-    Node.call( this, {
-      cursor: 'pointer',
-      children: [ this.rectangleA, this.rectangleB, this.rectangleC ]
-    } );
+      // @private
+      this.waveAreaViewBounds = viewBounds;
 
-    // @private - View width for one cell
-    this.cellWidth = ModelViewTransform2.createRectangleMapping( this.model.lattice.getVisibleBounds(), viewBounds ).modelToViewDeltaX( 1 );
+      // @private
+      this.model = model;
 
-    // @private - Convert from model coordinates to view coordinates
-    this.modelViewTransform = ModelViewTransform2.createRectangleMapping( this.scene.getWaveAreaBounds(), viewBounds );
+      // @private
+      this.scene = scene;
 
-    this.addInputListener( new DragListener( {
-      applyOffset: false,
-      locationProperty: scene.barrierLocationProperty,
-      transform: this.modelViewTransform
-    } ) );
+      // @private - create and reuse rectangles
+      this.rectangleA = rectangleA;
+      this.rectangleB = rectangleB;
+      this.rectangleC = rectangleC;
 
-    // Update shapes when the model parameters change
-    const update = this.update.bind( this );
-    model.barrierTypeProperty.link( update );
-    scene.barrierLocationProperty.link( update );
-    scene.slitWidthProperty.link( update );
-    scene.slitSeparationProperty.link( update );
-  }
+      // @private - View width for one cell
+      this.cellWidth = ModelViewTransform2.createRectangleMapping( this.model.lattice.getVisibleBounds(), viewBounds ).modelToViewDeltaX( 1 );
 
-  waveInterference.register( 'BarriersNode', BarriersNode );
+      // @private - Convert from model coordinates to view coordinates
+      this.modelViewTransform = ModelViewTransform2.createRectangleMapping( this.scene.getWaveAreaBounds(), viewBounds );
 
-  return inherit( Node, BarriersNode, {
+      this.addInputListener( new DragListener( {
+        applyOffset: false,
+        locationProperty: scene.barrierLocationProperty,
+        transform: this.modelViewTransform
+      } ) );
+
+      // Update shapes when the model parameters change
+      const update = this.update.bind( this );
+      model.barrierTypeProperty.link( update );
+      scene.barrierLocationProperty.link( update );
+      scene.slitWidthProperty.link( update );
+      scene.slitSeparationProperty.link( update );
+    }
 
     /**
      * @private - update the shapes and text when the rotationAmount has changed
      */
-    update: function() {
+    update() {
 
       const barrierType = this.model.barrierTypeProperty.get();
       const scene = this.scene;
@@ -128,5 +130,7 @@ define( function( require ) {
         this.rectangleC.setRect( x, topOfBottomBarrier, this.cellWidth, Math.max( this.waveAreaViewBounds.bottom - topOfBottomBarrier ), 2, 2 );
       }
     }
-  } );
+  }
+
+  return waveInterference.register( 'BarriersNode', BarriersNode );
 } );

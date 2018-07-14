@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  const inherit = require( 'PHET_CORE/inherit' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -17,48 +16,50 @@ define( function( require ) {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
-  /**
-   * @param {Bounds2} waveAreaBounds
-   * @param {WavesScreenModel} model
-   * @constructor
-   */
-  function WaterSideViewNode( waveAreaBounds, model ) {
+  class WaterSideViewNode extends Node {
 
-    // @private
-    this.waveAreaBounds = waveAreaBounds;
+    /**
+     * @param {Bounds2} waveAreaBounds
+     * @param {WavesScreenModel} model
+     * @constructor
+     */
+    constructor( waveAreaBounds, model ) {
 
-    // @private - depicts the side face (when the user selects "side view")
-    this.sideFacePath = new Path( null, {
-      lineJoin: WaveInterferenceConstants.CHART_LINE_JOIN,
-      fill: WaveInterferenceConstants.WATER_SIDE_COLOR
-    } );
+      // @private - depicts the side face (when the user selects "side view")
+      const sideFacePath = new Path( null, {
+        lineJoin: WaveInterferenceConstants.CHART_LINE_JOIN,
+        fill: WaveInterferenceConstants.WATER_SIDE_COLOR
+      } );
 
-    // @private
-    this.model = model;
+      super( {
+        children: [ Rectangle.bounds( waveAreaBounds, { fill: '#e2e3e5' } ), sideFacePath ]
+      } );
 
-    // @private - reduce garbage by reusing the same array to get model values
-    this.array = [];
+      // @private
+      this.waveAreaBounds = waveAreaBounds;
 
-    Node.call( this, {
-      children: [ Rectangle.bounds( waveAreaBounds, { fill: '#e2e3e5' } ), this.sideFacePath ]
-    } );
+      // @private
+      this.sideFacePath = sideFacePath;
 
-    model.lattice.changedEmitter.addListener( this.update.bind( this ) );
-  }
+      // @private
+      this.model = model;
 
-  waveInterference.register( 'WaterSideViewNode', WaterSideViewNode );
+      // @private - reduce garbage by reusing the same array to get model values
+      this.array = [];
 
-  return inherit( Node, WaterSideViewNode, {
+      model.lattice.changedEmitter.addListener( this.update.bind( this ) );
+    }
 
     /**
      * @private - update the shapes and text when the rotationAmount has changed
      */
-    update: function() {
-      const shape = WaveInterferenceUtils.getWaterSideShape( this.array, this.model.lattice, this.waveAreaBounds, 0, 0 )
+    update() {
+      this.sideFacePath.shape = WaveInterferenceUtils.getWaterSideShape( this.array, this.model.lattice, this.waveAreaBounds, 0, 0 )
         .lineTo( this.waveAreaBounds.right, this.waveAreaBounds.maxY )
         .lineTo( this.waveAreaBounds.left, this.waveAreaBounds.maxY )
         .close();
-      this.sideFacePath.shape = shape;
     }
-  } );
+  }
+
+  return waveInterference.register( 'WaterSideViewNode', WaterSideViewNode );
 } );

@@ -10,32 +10,32 @@ define( function( require ) {
   'use strict';
 
   // modules
-  const inherit = require( 'PHET_CORE/inherit' );
   const Node = require( 'SCENERY/nodes/Node' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' );
 
-  /**
-   * @param {Scene} scene
-   * @param {number} latticeViewWidth
-   * @param {Object} [options]
-   * @constructor
-   */
-  function ScaleIndicatorNode( scene, latticeViewWidth, options ) {
+  class ScaleIndicatorNode extends Node {
 
-    const width = scene.scaleIndicatorLength * latticeViewWidth / scene.waveAreaWidth;
-    const text = new WaveInterferenceText( scene.scaleIndicatorText );
+    /**
+     * @param {Scene} scene
+     * @param {number} latticeViewWidth
+     * @param {Object} [options]
+     * @constructor
+     */
+    constructor( scene, latticeViewWidth, options ) {
 
-    const doubleHeadedArrowWithBars = new DoubleHeadedArrowWithBarsNode( text.height, width );
-    text.leftCenter = doubleHeadedArrowWithBars.rightCenter.plusXY( 5, 1 );
+      const width = scene.scaleIndicatorLength * latticeViewWidth / scene.waveAreaWidth;
+      const text = new WaveInterferenceText( scene.scaleIndicatorText );
 
-    Node.call( this, _.extend( {
-      children: [ doubleHeadedArrowWithBars, text ]
-    }, options ) );
+      const doubleHeadedArrowWithBars = new DoubleHeadedArrowWithBarsNode( text.height, width );
+      text.leftCenter = doubleHeadedArrowWithBars.rightCenter.plusXY( 5, 1 );
+
+      super( _.extend( {
+        children: [ doubleHeadedArrowWithBars, text ]
+      }, options ) );
+    }
   }
 
-  waveInterference.register( 'ScaleIndicatorNode', ScaleIndicatorNode );
-
-  return inherit( Node, ScaleIndicatorNode );
+  return waveInterference.register( 'ScaleIndicatorNode', ScaleIndicatorNode );
 } );

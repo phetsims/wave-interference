@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   const HBox = require( 'SCENERY/nodes/HBox' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   const StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
@@ -22,47 +21,52 @@ define( function( require ) {
   const normalString = require( 'string!WAVE_INTERFERENCE/normal' );
   const slowString = require( 'string!WAVE_INTERFERENCE/slow' );
 
-  /**
-   * @constructor
-   */
-  function TimeControlPanel( model, options ) {
+  class TimeControlPanel extends HBox {
 
-    // @public (read-only) for layout
-    this.playPauseButton = new PlayPauseButton( model.isRunningProperty );
+    /**
+     * @param {WavesScreenModel} model
+     * @param {Object} [options]
+     * @constructor
+     */
+    constructor( model, options ) {
 
-    const radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
-      node: new WaveInterferenceText( normalString ),
-      value: PlaySpeedEnum.NORMAL,
-      property: model.playSpeedProperty
-    }, {
-      node: new WaveInterferenceText( slowString ),
-      value: PlaySpeedEnum.SLOW,
-      property: model.playSpeedProperty
-    } ] );
+      const playPauseButton = new PlayPauseButton( model.isRunningProperty );
 
-    const stepButton = new StepButton();
-    stepButton.addListener( function() {
+      const radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
+        node: new WaveInterferenceText( normalString ),
+        value: PlaySpeedEnum.NORMAL,
+        property: model.playSpeedProperty
+      }, {
+        node: new WaveInterferenceText( slowString ),
+        value: PlaySpeedEnum.SLOW,
+        property: model.playSpeedProperty
+      } ] );
 
-      // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
-      // dt, so the model will behave the same
-      model.advanceTime( 1 / 60 );
-    } );
+      const stepButton = new StepButton();
+      stepButton.addListener( function() {
 
-    // Only enable the step button when the model is paused.
-    model.isRunningProperty.link( function( isRunning ) {
-      stepButton.enabled = !isRunning;
-    } );
+        // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
+        // dt, so the model will behave the same
+        model.advanceTime( 1 / 60 );
+      } );
 
-    HBox.call( this, _.extend( {
-      spacing: 20,
-      children: [ new HBox( {
-        spacing: 6,
-        children: [ this.playPauseButton, stepButton ]
-      } ), radioButtonGroup ]
-    }, options ) );
+      // Only enable the step button when the model is paused.
+      model.isRunningProperty.link( function( isRunning ) {
+        stepButton.enabled = !isRunning;
+      } );
+
+      super( _.extend( {
+        spacing: 20,
+        children: [ new HBox( {
+          spacing: 6,
+          children: [ playPauseButton, stepButton ]
+        } ), radioButtonGroup ]
+      }, options ) );
+
+      // @public (read-only) for layout
+      this.playPauseButton = playPauseButton;
+    }
   }
 
-  waveInterference.register( 'TimeControlPanel', TimeControlPanel );
-
-  return inherit( HBox, TimeControlPanel );
+  return waveInterference.register( 'TimeControlPanel', TimeControlPanel );
 } );

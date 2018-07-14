@@ -9,19 +9,23 @@ define( function( require ) {
   'use strict';
 
   // modules
-  const inherit = require( 'PHET_CORE/inherit' );
   const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   /**
    * @constructor
    */
-  function WaveInterferenceVerticalAquaRadioButtonGroup( items, options ) {
-    options = _.extend( { spacing: 8 }, options );
-    VerticalAquaRadioButtonGroup.call( this, items, options );
+  class WaveInterferenceVerticalAquaRadioButtonGroup extends VerticalAquaRadioButtonGroup {
+
+    /**
+     * @param {Object[]} items - see VerticalAquaRadioButtonGroup
+     * @param {Object} [options]
+     */
+    constructor( items, options ) {
+      options = _.extend( { spacing: 8 }, options );
+      super( items, options );
+    }
   }
 
-  waveInterference.register( 'WaveInterferenceVerticalAquaRadioButtonGroup', WaveInterferenceVerticalAquaRadioButtonGroup );
-
-  return inherit( VerticalAquaRadioButtonGroup, WaveInterferenceVerticalAquaRadioButtonGroup );
+  return waveInterference.register( 'WaveInterferenceVerticalAquaRadioButtonGroup', WaveInterferenceVerticalAquaRadioButtonGroup );
 } );

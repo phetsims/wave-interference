@@ -10,40 +10,34 @@ define( function( require ) {
 
   // modules
   const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const Property = require( 'AXON/Property' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
 
-  /**
-   * @constructor
-   */
-  function SlitsScreenModel() {
-    WavesScreenModel.call( this );
-    const self = this;
+  class SlitsScreenModel extends WavesScreenModel {
 
-    // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
-    this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
+    constructor() {
+      super();
+      const self = this;
 
-    // When the barrier moves, it creates a lot of artifacts, so clear the wave when the barrier moves
-    const barrierMoved = function() {
-      self.clear(); // TODO: restart propagation from the left
-    };
-    this.waterScene.barrierLocationProperty.link( barrierMoved );
-    this.soundScene.barrierLocationProperty.link( barrierMoved );
-    this.lightScene.barrierLocationProperty.link( barrierMoved );
-  }
+      // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
+      this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
 
-  waveInterference.register( 'SlitsScreenModel', SlitsScreenModel );
-
-  return inherit( WavesScreenModel, SlitsScreenModel, {
+      // When the barrier moves, it creates a lot of artifacts, so clear the wave when the barrier moves
+      const barrierMoved = function() {
+        self.clear(); // TODO: restart propagation from the left
+      };
+      this.waterScene.barrierLocationProperty.link( barrierMoved );
+      this.soundScene.barrierLocationProperty.link( barrierMoved );
+      this.lightScene.barrierLocationProperty.link( barrierMoved );
+    }
 
     /**
      * Set the incoming source values, in this case it is a plane wave on the left side of the lattice.
      * @override
      * @protected
      */
-    setSourceValues: function() {
+    setSourceValues() {
       const lattice = this.lattice;
 
       const scene = this.sceneProperty.get();
@@ -53,7 +47,7 @@ define( function( require ) {
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
       // and unwanted artifacts
 
-      for ( var i = 0; i <= barrierLatticeX; i++ ) {
+      for ( let i = 0; i <= barrierLatticeX; i++ ) {
 
         // Find the physical model coordinate corresponding to the lattice coordinate
         const x = scene.modelToLatticeTransform.viewToModelX( i );
@@ -61,7 +55,7 @@ define( function( require ) {
         const frequency = scene.frequencyProperty.get();
         const wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: this in incorrect for sound and light
 
-        for ( var j = 0; j < lattice.height; j++ ) {
+        for ( let j = 0; j < lattice.height; j++ ) {
           const y = scene.modelToLatticeTransform.viewToModelY( j );
 
           // Zero out values in the barrier
@@ -115,5 +109,7 @@ define( function( require ) {
         }
       }
     }
-  } );
+  }
+
+  return waveInterference.register( 'SlitsScreenModel', SlitsScreenModel );
 } );

@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   const Image = require( 'SCENERY/nodes/Image' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
   const SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
@@ -23,24 +22,25 @@ define( function( require ) {
   // strings
   const screenSlitsString = require( 'string!WAVE_INTERFERENCE/screen.slits' );
 
-  /**
-   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-   * @constructor
-   */
-  function SlitsScreen( alignGroup ) {
-    const options = {
-      backgroundColorProperty: new Property( 'white' ),
-      name: screenSlitsString,
-      homeScreenIcon: new Image( slitsScreenIcon )
-    };
-    Screen.call( this,
-      function() { return new SlitsScreenModel(); },
-      function( model ) { return new SlitsScreenView( model, alignGroup ); },
-      options
-    );
+  class SlitsScreen extends Screen {
+
+    /**
+     * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
+     * @constructor
+     */
+    constructor( alignGroup ) {
+      const options = {
+        backgroundColorProperty: new Property( 'white' ),
+        name: screenSlitsString,
+        homeScreenIcon: new Image( slitsScreenIcon )
+      };
+      super(
+        function() { return new SlitsScreenModel(); },
+        function( model ) { return new SlitsScreenView( model, alignGroup ); },
+        options
+      );
+    }
   }
 
-  waveInterference.register( 'SlitsScreen', SlitsScreen );
-
-  return inherit( Screen, SlitsScreen );
+  return waveInterference.register( 'SlitsScreen', SlitsScreen );
 } );

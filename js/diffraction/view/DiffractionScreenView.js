@@ -10,7 +10,6 @@ define( function( require ) {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const Image = require( 'SCENERY/nodes/Image' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
@@ -46,189 +45,187 @@ define( function( require ) {
     return Math.pow( Math.E, -( a + b ) / 2 );
   }
 
-  /**
-   * @param {WaveInterferenceModel} diffractionModel
-   * @constructor
-   */
-  function DiffractionScreenView( diffractionModel ) {
+  class DiffractionScreenView extends ScreenView {
 
-    const self = this;
-    ScreenView.call( this );
+    /**
+     * @param {WaveInterferenceModel} diffractionModel
+     */
+    constructor( diffractionModel ) {
 
-    this.onProperty = new Property( true );
-    const laserPointerNode = new LaserPointerNode( this.onProperty, {
-      left: 10, centerY: 50
-    } );
+      super();
+      const self = this;
 
-    // Reset All button
-    const resetAllButton = new ResetAllButton( {
-      listener: function() {
-        diffractionModel.reset();
-      },
-      right: this.layoutBounds.maxX - 10,
-      bottom: this.layoutBounds.maxY - 10
-    } );
-    this.addChild( resetAllButton );
+      this.onProperty = new Property( true );
+      const laserPointerNode = new LaserPointerNode( this.onProperty, {
+        left: 10, centerY: 50
+      } );
 
-    this.squareWidthProperty = new Property( 10 );
-    this.squareHeightProperty = new Property( 10 );
+      // Reset All button
+      const resetAllButton = new ResetAllButton( {
+        listener: function() {
+          diffractionModel.reset();
+        },
+        right: this.layoutBounds.maxX - 10,
+        bottom: this.layoutBounds.maxY - 10
+      } );
+      this.addChild( resetAllButton );
 
-    this.numberOfLinesProperty = new Property( 10 );
-    this.angleProperty = new Property( 0 );
+      this.squareWidthProperty = new Property( 10 );
+      this.squareHeightProperty = new Property( 10 );
 
-    this.sigmaXProperty = new Property( 10 );
-    this.sigmaYProperty = new Property( 10 );
-    this.gaussianMagnitudeProperty = new Property( 400 );
+      this.numberOfLinesProperty = new Property( 10 );
+      this.angleProperty = new Property( 0 );
 
-    this.sceneProperty = new Property( 'rectangle' );
-    const toggleButtonsContent = [ {
-      value: 'rectangle',
-      node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
-    }, {
-      value: 'circle',
-      node: new Circle( 10, { fill: 'black' } )
-    }, {
-      value: 'slits',
-      node: new HBox( {
-        spacing: 2,
-        children: _.range( 1, 8 ).map( function( r ) {
-          return new Rectangle( 0, 0, 2, 20, { fill: 'black' } );
+      this.sigmaXProperty = new Property( 10 );
+      this.sigmaYProperty = new Property( 10 );
+      this.gaussianMagnitudeProperty = new Property( 400 );
+
+      this.sceneProperty = new Property( 'rectangle' );
+      const toggleButtonsContent = [ {
+        value: 'rectangle',
+        node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
+      }, {
+        value: 'circle',
+        node: new Circle( 10, { fill: 'black' } )
+      }, {
+        value: 'slits',
+        node: new HBox( {
+          spacing: 2,
+          children: _.range( 1, 8 ).map( function( r ) {
+            return new Rectangle( 0, 0, 2, 20, { fill: 'black' } );
+          } )
         } )
-      } )
-    } ];
-    const radioButtonGroup = new RadioButtonGroup( this.sceneProperty, toggleButtonsContent, {
-      left: 10,
-      bottom: this.layoutBounds.bottom - 10
-    } );
+      } ];
+      const radioButtonGroup = new RadioButtonGroup( this.sceneProperty, toggleButtonsContent, {
+        left: 10,
+        bottom: this.layoutBounds.bottom - 10
+      } );
 
-    this.placeholderImage = document.createElement( 'canvas' );
-    this.placeholderImage.width = width;
-    this.placeholderImage.height = height;
+      this.placeholderImage = document.createElement( 'canvas' );
+      this.placeholderImage.width = width;
+      this.placeholderImage.height = height;
 
-    const context = this.placeholderImage.getContext( '2d' );
-    context.fillStyle = 'black';
-    context.fillRect( 0, 0, width, height );
+      const context = this.placeholderImage.getContext( '2d' );
+      context.fillStyle = 'black';
+      context.fillRect( 0, 0, width, height );
 
-    const imageScale = 1.5;
-    this.apertureImage = new Image( this.placeholderImage, { scale: imageScale, top: 100, left: 140 } );
-    self.addChild( this.apertureImage );
+      const imageScale = 1.5;
+      this.apertureImage = new Image( this.placeholderImage, { scale: imageScale, top: 100, left: 140 } );
+      self.addChild( this.apertureImage );
 
 
-    this.diffractionImage = new Image( this.placeholderImage, {
-      right: this.layoutBounds.right - 10,
-      scale: imageScale,
-      top: 100
-    } );
-    self.addChild( this.diffractionImage );
+      this.diffractionImage = new Image( this.placeholderImage, {
+        right: this.layoutBounds.right - 10,
+        scale: imageScale,
+        top: 100
+      } );
+      self.addChild( this.diffractionImage );
 
-    const ICON_SCALE = 0.2;
-    this.apertureIcon = new Image( this.placeholderImage, {
-      scale: ICON_SCALE,
-      centerY: laserPointerNode.centerY,
-      centerX: this.apertureImage.centerX,
-      matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
-    } );
+      const ICON_SCALE = 0.2;
+      this.apertureIcon = new Image( this.placeholderImage, {
+        scale: ICON_SCALE,
+        centerY: laserPointerNode.centerY,
+        centerX: this.apertureImage.centerX,
+        matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
+      } );
 
-    this.diffractionIcon = new Image( this.placeholderImage, {
-      scale: ICON_SCALE,
-      centerY: laserPointerNode.centerY,
-      centerX: this.diffractionImage.centerX,
-      matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
-    } );
-    self.addChild( this.diffractionIcon );
+      this.diffractionIcon = new Image( this.placeholderImage, {
+        scale: ICON_SCALE,
+        centerY: laserPointerNode.centerY,
+        centerX: this.diffractionImage.centerX,
+        matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
+      } );
+      self.addChild( this.diffractionIcon );
 
-    const updateCanvases = function() {
-      self.updateCanvases();
-    };
-    this.sceneProperty.lazyLink( updateCanvases );
+      const updateCanvases = function() {
+        self.updateCanvases();
+      };
+      this.sceneProperty.lazyLink( updateCanvases );
 
-    this.addChild( radioButtonGroup );
+      this.addChild( radioButtonGroup );
 
-    this.squareWidthProperty.lazyLink( updateCanvases );
-    this.squareHeightProperty.lazyLink( updateCanvases );
-    this.sigmaXProperty.lazyLink( updateCanvases );
-    this.sigmaYProperty.lazyLink( updateCanvases );
-    this.onProperty.lazyLink( updateCanvases );
-    this.numberOfLinesProperty.lazyLink( updateCanvases );
-    this.angleProperty.lazyLink( updateCanvases );
-    this.gaussianMagnitudeProperty.lazyLink( updateCanvases );
-    this.squareControlPanel = new Panel( new VBox( {
-      children: [
-        new NumberControl( 'width', this.squareWidthProperty, new Range( 2, 100 ), {
-          delta: 2 // avoid odd/even artifacts
-        } ),
-        new NumberControl( 'height', this.squareHeightProperty, new Range( 2, 100 ), {
-          delta: 2 // avoid odd/even artifacts
-        } ) ]
-    } ), {
-      centerTop: this.apertureImage.centerBottom.plusXY( 0, 5 )
-    } );
-    this.addChild( this.squareControlPanel );
+      this.squareWidthProperty.lazyLink( updateCanvases );
+      this.squareHeightProperty.lazyLink( updateCanvases );
+      this.sigmaXProperty.lazyLink( updateCanvases );
+      this.sigmaYProperty.lazyLink( updateCanvases );
+      this.onProperty.lazyLink( updateCanvases );
+      this.numberOfLinesProperty.lazyLink( updateCanvases );
+      this.angleProperty.lazyLink( updateCanvases );
+      this.gaussianMagnitudeProperty.lazyLink( updateCanvases );
+      this.squareControlPanel = new Panel( new VBox( {
+        children: [
+          new NumberControl( 'width', this.squareWidthProperty, new Range( 2, 100 ), {
+            delta: 2 // avoid odd/even artifacts
+          } ),
+          new NumberControl( 'height', this.squareHeightProperty, new Range( 2, 100 ), {
+            delta: 2 // avoid odd/even artifacts
+          } ) ]
+      } ), {
+        centerTop: this.apertureImage.centerBottom.plusXY( 0, 5 )
+      } );
+      this.addChild( this.squareControlPanel );
 
-    this.gaussianControlPanel = new Panel( new HBox( {
-      children: [
-        new VBox( {
-          children: [
-            new NumberControl( 'sigmaX', this.sigmaXProperty, new Range( 2, 40 ) ),
-            new NumberControl( 'sigmaY', this.sigmaYProperty, new Range( 2, 40 ) )
-          ]
-        } ), new NumberControl( 'magnitude', this.gaussianMagnitudeProperty, new Range( 1, 1000 ) ) ]
-    } ), {
-      leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
-    } );
-    this.addChild( this.gaussianControlPanel );
+      this.gaussianControlPanel = new Panel( new HBox( {
+        children: [
+          new VBox( {
+            children: [
+              new NumberControl( 'sigmaX', this.sigmaXProperty, new Range( 2, 40 ) ),
+              new NumberControl( 'sigmaY', this.sigmaYProperty, new Range( 2, 40 ) )
+            ]
+          } ), new NumberControl( 'magnitude', this.gaussianMagnitudeProperty, new Range( 1, 1000 ) ) ]
+      } ), {
+        leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
+      } );
+      this.addChild( this.gaussianControlPanel );
 
-    this.slitsControlPanel = new Panel( new VBox( {
-      children: [
-        new NumberControl( 'number of lines', this.numberOfLinesProperty, new Range( 2, 200 ) ),
-        new NumberControl( 'angle', this.angleProperty, new Range( 0, Math.PI * 2 ), {
-          delta: 0.01
-        } )
-      ]
-    } ), {
-      leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
-    } );
-    this.addChild( this.slitsControlPanel );
+      this.slitsControlPanel = new Panel( new VBox( {
+        children: [
+          new NumberControl( 'number of lines', this.numberOfLinesProperty, new Range( 2, 200 ) ),
+          new NumberControl( 'angle', this.angleProperty, new Range( 0, Math.PI * 2 ), {
+            delta: 0.01
+          } )
+        ]
+      } ), {
+        leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
+      } );
+      this.addChild( this.slitsControlPanel );
 
-    this.sceneProperty.link( function( scene ) {
-      self.squareControlPanel.visible = scene === 'rectangle';
-      self.gaussianControlPanel.visible = scene === 'circle';
-      self.slitsControlPanel.visible = scene === 'slits';
-    } );
+      this.sceneProperty.link( function( scene ) {
+        self.squareControlPanel.visible = scene === 'rectangle';
+        self.gaussianControlPanel.visible = scene === 'circle';
+        self.slitsControlPanel.visible = scene === 'slits';
+      } );
 
-    const beamWidth = 40;
-    const incidentBeam = new Rectangle( laserPointerNode.right, laserPointerNode.centerY - beamWidth / 2, this.apertureIcon.centerX - laserPointerNode.right, beamWidth, {
-      fill: 'gray',
-      opacity: 0.7
-    } );
+      const beamWidth = 40;
+      const incidentBeam = new Rectangle( laserPointerNode.right, laserPointerNode.centerY - beamWidth / 2, this.apertureIcon.centerX - laserPointerNode.right, beamWidth, {
+        fill: 'gray',
+        opacity: 0.7
+      } );
 
-    const transmittedBeam = new Rectangle( this.apertureIcon.centerX, laserPointerNode.centerY - beamWidth / 2, this.diffractionIcon.centerX - this.apertureIcon.centerX, beamWidth, {
-      fill: 'gray',
-      opacity: 0.7
-    } );
+      const transmittedBeam = new Rectangle( this.apertureIcon.centerX, laserPointerNode.centerY - beamWidth / 2, this.diffractionIcon.centerX - this.apertureIcon.centerX, beamWidth, {
+        fill: 'gray',
+        opacity: 0.7
+      } );
 
-    this.onProperty.linkAttribute( incidentBeam, 'visible' );
-    this.onProperty.linkAttribute( transmittedBeam, 'visible' );
+      this.onProperty.linkAttribute( incidentBeam, 'visible' );
+      this.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
-    this.addChild( transmittedBeam );
-    self.addChild( this.apertureIcon );
-    this.addChild( incidentBeam );
-    this.addChild( laserPointerNode );
+      this.addChild( transmittedBeam );
+      self.addChild( this.apertureIcon );
+      this.addChild( incidentBeam );
+      this.addChild( laserPointerNode );
 
-    updateCanvases();
-  }
+      updateCanvases();
+    }
 
-  waveInterference.register( 'DiffractionScreenView', DiffractionScreenView );
-
-  return inherit( ScreenView, DiffractionScreenView, {
 
     //TODO Called by the animation loop. Optional, so if your view has no animation, please delete this.
     // @public
-    step: function( dt ) {
+    step( dt ) {
       //TODO Handle view animation here.
-    },
+    }
 
-    updateCanvases: function() {
+    updateCanvases() {
 
       // Usage code from JS-Fourier-Image-Analysis/js/main.js
       const dims = [ width, height ]; // will be set later
@@ -260,7 +257,7 @@ define( function( require ) {
       }
       else if ( this.sceneProperty.value === 'circle' ) {
         for ( i = 0; i < width; i++ ) {
-          for ( var k = 0; k < height; k++ ) {
+          for ( let k = 0; k < height; k++ ) {
             const v = Util.clamp( Math.floor( gaussian( width / 2, height / 2, this.sigmaXProperty.value, this.sigmaYProperty.value, i, k ) * this.gaussianMagnitudeProperty.value ), 0, 255 );
             apertureContext.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
             apertureContext.fillRect( i, k, 1, 1 );
@@ -302,7 +299,7 @@ define( function( require ) {
       // grab the pixels
       const imageData = apertureContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
       const h_es = []; // the h values
-      for ( var ai = 0; ai < imageData.data.length; ai += 4 ) {
+      for ( let ai = 0; ai < imageData.data.length; ai += 4 ) {
 
         // greyscale, so you only need every 4th value
         h_es.push( imageData.data[ ai ] );
@@ -330,7 +327,7 @@ define( function( require ) {
 
       // get the largest magnitude
       let maxMagnitude = 0;
-      for ( ai = 0; ai < h_hats.length; ai++ ) {
+      for ( let ai = 0; ai < h_hats.length; ai++ ) {
         const mag = h_hats[ ai ].magnitude();
         if ( mag > maxMagnitude ) {
           maxMagnitude = mag;
@@ -352,14 +349,14 @@ define( function( require ) {
       // draw the pixels
       const currImageData = diffractionContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
       const logOfMaxMag = Math.log( cc * maxMagnitude + 1 );
-      for ( k = 0; k < dims[ 1 ]; k++ ) {
-        for ( var l = 0; l < dims[ 0 ]; l++ ) {
+      for ( let k = 0; k < dims[ 1 ]; k++ ) {
+        for ( let l = 0; l < dims[ 0 ]; l++ ) {
           const idxInPixels = 4 * ( dims[ 0 ] * k + l );
           currImageData.data[ idxInPixels + 3 ] = 255; // full alpha
           let color = Math.log( cc * $h( l, k ).magnitude() + 1 );
           color = Math.round( 255 * ( color / logOfMaxMag ) );
           // RGB are the same -> gray
-          for ( var c = 0; c < 3; c++ ) { // lol c++
+          for ( let c = 0; c < 3; c++ ) { // lol c++
             currImageData.data[ idxInPixels + c ] = color;
           }
         }
@@ -375,5 +372,7 @@ define( function( require ) {
       duration = +new Date() - start;
       console.log( 'It took ' + duration + 'ms to compute the FT.' );
     }
-  } );
+  }
+
+  return waveInterference.register( 'DiffractionScreenView', DiffractionScreenView );
 } );

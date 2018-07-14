@@ -9,24 +9,26 @@ define( function( require ) {
   'use strict';
 
   // modules
-  const inherit = require( 'PHET_CORE/inherit' );
   const Panel = require( 'SUN/Panel' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  /**
-   * @constructor
-   */
-  function WaveInterferencePanel( content, options ) {
-    options = _.extend( {
-      yMargin: 6,
-      xMargin: 10,
-      stroke: 'gray',
-      fill: 'rgb(230,231,232)'
-    }, options );
-    Panel.call( this, content, options );
+  class WaveInterferencePanel extends Panel {
+
+    /**
+     * @param {Node} content
+     * @param {Object} [options]
+     * @constructor // TODO: remove extraneous constructor annotations, see https://github.com/phetsims/chipper/issues/691#issuecomment-405025033
+     */
+    constructor( content, options ) {
+      options = _.extend( {
+        yMargin: 6,
+        xMargin: 10,
+        stroke: 'gray',
+        fill: 'rgb(230,231,232)'
+      }, options );
+      super( content, options );
+    }
   }
 
-  waveInterference.register( 'WaveInterferencePanel', WaveInterferencePanel );
-
-  return inherit( Panel, WaveInterferencePanel );
+  return waveInterference.register( 'WaveInterferencePanel', WaveInterferencePanel );
 } );

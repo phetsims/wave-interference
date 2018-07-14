@@ -77,8 +77,8 @@ define( function( require ) {
       const width = lattice.width - lattice.dampX * 2;
       const height = lattice.height - lattice.dampY * 2;
       const vertices = [];
-      for ( var i = 0; i < width; i++ ) {
-        for ( var k = 0; k < height; k++ ) {
+      for ( let i = 0; i < width; i++ ) {
+        for ( let k = 0; k < height; k++ ) {
           vertices.push( i, k );
           vertices.push( i + 1, k );
           vertices.push( i, k + 1 );
