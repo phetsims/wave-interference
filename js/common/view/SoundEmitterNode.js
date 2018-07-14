@@ -11,25 +11,27 @@ define( function( require ) {
   // modules
   const EmitterNode = require( 'WAVE_INTERFERENCE/common/view/EmitterNode' );
   const Image = require( 'SCENERY/nodes/Image' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // images
   const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker.png' );
 
-  /**
-   * @param {WavesScreenModel} model
-   * @param {Node} waveAreaNode - for bounds
-   * @constructor
-   */
-  function SoundEmitterNode( model, waveAreaNode ) {
-    EmitterNode.call( this, model, model.soundScene, waveAreaNode, 42, new Image( speakerImage, {
-      rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 ),
-      scale: 0.75
-    } ) );
+  class SoundEmitterNode extends EmitterNode {
+
+    /**
+     * @param {WavesScreenModel} model
+     * @param {Node} waveAreaNode - for bounds
+     * @constructor
+     */
+    constructor( model, waveAreaNode ) {
+      super( model, model.soundScene, waveAreaNode, 42, new Image( speakerImage, {
+        rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 ),
+        scale: 0.75
+      } ) );
+    }
   }
 
   waveInterference.register( 'SoundEmitterNode', SoundEmitterNode );
 
-  return inherit( EmitterNode, SoundEmitterNode );
+  return SoundEmitterNode;
 } );

@@ -22,6 +22,8 @@ define( function( require ) {
    * @param {Object} [options] - uses the pattern identified in https://github.com/phetsims/tasks/issues/730#issuecomment-370860967
    * @constructor
    */
+  // TODO: see https://github.com/phetsims/wave-interference/issues/79 about whether this should be moved to common code
+  // TODO: before converting to ES6
   function DoubleHeadedArrowWithBarsNode( lineHeight, width, options ) {
     options = _.extend( {
       lineOptions: null,

@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
-  const inherit = require( 'PHET_CORE/inherit' );
   const Shape = require( 'KITE/Shape' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -22,12 +21,7 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function WaveInterferenceUtils() {
-  }
-
-  waveInterference.register( 'WaveInterferenceUtils', WaveInterferenceUtils );
-
-  return inherit( Object, WaveInterferenceUtils, {}, {
+  class WaveInterferenceUtils {
 
 
     /**
@@ -40,7 +34,7 @@ define( function( require ) {
      * @returns {Shape}
      * @public
      */
-    getWaterSideShape: function( array, lattice, waveAreaBounds, dx, dy ) {
+    static getWaterSideShape( array, lattice, waveAreaBounds, dx, dy ) {
       lattice.getCenterLineValues( array );
       const shape = new Shape();
 
@@ -51,7 +45,7 @@ define( function( require ) {
         shape.lineTo( x, y );
       }
       return shape;
-    },
+    }
 
     /**
      * Gets the bounds to use for a canvas (webgl or canvas), in view coordinates
@@ -59,8 +53,12 @@ define( function( require ) {
      * @public
      * @static
      */
-    getCanvasBounds: function( lattice ) {
+    static getCanvasBounds( lattice ) {
       return new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH );
     }
-  } );
+  }
+
+  waveInterference.register( 'WaveInterferenceUtils', WaveInterferenceUtils );
+
+  return WaveInterferenceUtils;
 } );

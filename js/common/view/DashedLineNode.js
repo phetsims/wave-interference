@@ -9,34 +9,36 @@ define( function( require ) {
   'use strict';
 
   // modules
-  const inherit = require( 'PHET_CORE/inherit' );
   const LineStyles = require( 'KITE/util/LineStyles' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Shape = require( 'KITE/Shape' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
-  /**
-   * @param {Object} [options]
-   * @constructor
-   */
-  function DashedLineNode( options ) {
+  class DashedLineNode extends Path {
 
-    const line = Shape.lineSegment( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, 0 );
-    const dashedShape = line.getDashedShape( [ 16 ], 0 );
-    const strokedShape = dashedShape.getStrokedShape( new LineStyles( {
-      lineWidth: 4,
-      lineCap: 'round'
-    } ) );
+    /**
+     * @param {Object} [options]
+     * @constructor
+     */
+    constructor( options ) {
 
-    Path.call( this, strokedShape, _.extend( {
-      fill: 'white',
-      stroke: 'black',
-      lineWidth: 1
-    }, options ) );
+      const line = Shape.lineSegment( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, 0 );
+      const dashedShape = line.getDashedShape( [ 16 ], 0 );
+      const strokedShape = dashedShape.getStrokedShape( new LineStyles( {
+        lineWidth: 4,
+        lineCap: 'round'
+      } ) );
+
+      super( strokedShape, _.extend( {
+        fill: 'white',
+        stroke: 'black',
+        lineWidth: 1
+      }, options ) );
+    }
   }
 
   waveInterference.register( 'DashedLineNode', DashedLineNode );
 
-  return inherit( Path, DashedLineNode );
+  return DashedLineNode;
 } );

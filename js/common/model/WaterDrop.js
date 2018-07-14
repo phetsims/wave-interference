@@ -9,19 +9,18 @@ define( function( require ) {
   'use strict';
 
   // modules
-  const inherit = require( 'PHET_CORE/inherit' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  /**
-   * @constructor
-   */
-  function WaterDrop() {
+  class WaterDrop {
+    constructor() {
 
-    this.heightProperty = new NumberProperty();
+      // @public
+      this.heightProperty = new NumberProperty();
+    }
   }
 
   waveInterference.register( 'WaterDrop', WaterDrop );
 
-  return inherit( Object, WaterDrop );
+  return WaterDrop;
 } );
