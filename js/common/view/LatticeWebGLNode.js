@@ -58,8 +58,6 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'LatticeWebGLNode', LatticeWebGLNode );
-
   class Painter {
     constructor( gl, node ) {
       this.gl = gl;
@@ -198,5 +196,6 @@ define( function( require ) {
     }
   }
 
-  return LatticeWebGLNode;
+  return waveInterference.register( 'LatticeWebGLNode', LatticeWebGLNode );
+  ;
 } );

@@ -21,7 +21,5 @@ define( function( require ) {
   // in development mode, catch any attempted changes to the enum
   if ( assert ) { Object.freeze( ViewType ); }
 
-  waveInterference.register( 'ViewType', ViewType );
-
-  return ViewType;
+  return waveInterference.register( 'ViewType', ViewType );
 } );

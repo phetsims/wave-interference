@@ -76,7 +76,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'IntensitySample', IntensitySample );
-
-  return IntensitySample;
+  return waveInterference.register( 'IntensitySample', IntensitySample );
 } );

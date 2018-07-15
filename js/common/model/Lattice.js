@@ -326,7 +326,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'Lattice', Lattice );
-
-  return Lattice;
+  return waveInterference.register( 'Lattice', Lattice );
 } );

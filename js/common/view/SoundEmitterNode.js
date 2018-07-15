@@ -30,7 +30,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'SoundEmitterNode', SoundEmitterNode );
-
-  return SoundEmitterNode;
+  return waveInterference.register( 'SoundEmitterNode', SoundEmitterNode );
 } );

@@ -118,7 +118,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'IntensityGraphPanel', IntensityGraphPanel );
-
-  return IntensityGraphPanel;
+  return waveInterference.register( 'IntensityGraphPanel', IntensityGraphPanel );
 } );

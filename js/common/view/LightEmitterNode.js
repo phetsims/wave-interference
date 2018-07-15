@@ -31,7 +31,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'LightEmitterNode', LightEmitterNode );
-
-  return LightEmitterNode;
+  return waveInterference.register( 'LightEmitterNode', LightEmitterNode );
 } );

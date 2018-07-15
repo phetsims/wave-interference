@@ -55,7 +55,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'WaveInterferenceUtils', WaveInterferenceUtils );
-
-  return WaveInterferenceUtils;
+  return waveInterference.register( 'WaveInterferenceUtils', WaveInterferenceUtils );
 } );

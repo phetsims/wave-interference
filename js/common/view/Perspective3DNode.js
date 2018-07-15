@@ -149,7 +149,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'Perspective3DNode', Perspective3DNode );
-
-  return Perspective3DNode;
+  return waveInterference.register( 'Perspective3DNode', Perspective3DNode );
 } );

@@ -20,7 +20,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'WaterDrop', WaterDrop );
-
-  return WaterDrop;
+  return waveInterference.register( 'WaterDrop', WaterDrop );
 } );

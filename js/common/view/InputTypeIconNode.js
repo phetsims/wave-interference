@@ -62,7 +62,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'InputTypeIconNode', InputTypeIconNode );
-
-  return InputTypeIconNode;
+  return waveInterference.register( 'InputTypeIconNode', InputTypeIconNode );
 } );

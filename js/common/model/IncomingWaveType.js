@@ -20,7 +20,5 @@ define( function( require ) {
   // in development mode, catch any attempted changes to the enum
   if ( assert ) { Object.freeze( IncomingWaveType ); }
 
-  waveInterference.register( 'IncomingWaveType', IncomingWaveType );
-
-  return IncomingWaveType;
+  return waveInterference.register( 'IncomingWaveType', IncomingWaveType );
 } );

@@ -21,7 +21,5 @@ define( function( require ) {
   // in development mode, catch any attempted changes to the enum
   if ( assert ) { Object.freeze( BarrierTypeEnum ); }
 
-  waveInterference.register( 'BarrierTypeEnum', BarrierTypeEnum );
-
-  return BarrierTypeEnum;
+  return waveInterference.register( 'BarrierTypeEnum', BarrierTypeEnum );
 } );

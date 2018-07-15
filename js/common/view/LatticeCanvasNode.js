@@ -143,7 +143,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'LatticeCanvasNode', LatticeCanvasNode );
-
-  return LatticeCanvasNode;
+  return waveInterference.register( 'LatticeCanvasNode', LatticeCanvasNode );
 } );

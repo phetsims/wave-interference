@@ -59,7 +59,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'SlitsScreenView', SlitsScreenView );
-
-  return SlitsScreenView;
+  return waveInterference.register( 'SlitsScreenView', SlitsScreenView );
 } );

@@ -30,7 +30,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'WaterEmitterNode', WaterEmitterNode );
-
-  return WaterEmitterNode;
+  return waveInterference.register( 'WaterEmitterNode', WaterEmitterNode );
 } );

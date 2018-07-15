@@ -76,7 +76,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'InterferenceScreenView', InterferenceScreenView );
-
-  return InterferenceScreenView;
+  return waveInterference.register( 'InterferenceScreenView', InterferenceScreenView );
 } );

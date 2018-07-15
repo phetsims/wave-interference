@@ -133,7 +133,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'Scene', Scene );
-
-  return Scene;
+  return waveInterference.register( 'Scene', Scene );
 } );

@@ -37,7 +37,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'DashedLineNode', DashedLineNode );
-
-  return DashedLineNode;
+  return waveInterference.register( 'DashedLineNode', DashedLineNode );
 } );

@@ -40,6 +40,5 @@ define( function( require ) {
     }
   }
 
-  // TODO: Use this uniformly or not at all
   return waveInterference.register( 'PulseContinuousRadioButtonGroup', PulseContinuousRadioButtonGroup );
 } );

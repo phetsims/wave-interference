@@ -348,7 +348,5 @@ define( function( require ) {
     static get SPACING() {return SPACING;}
   }
 
-  waveInterference.register( 'WavesScreenView', WavesScreenView );
-
-  return WavesScreenView;
+  return waveInterference.register( 'WavesScreenView', WavesScreenView );
 } );

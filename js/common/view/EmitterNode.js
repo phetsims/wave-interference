@@ -67,7 +67,5 @@ define( function( require ) {
     }
   }
 
-  waveInterference.register( 'EmitterNode', EmitterNode );
-
-  return EmitterNode;
+  return waveInterference.register( 'EmitterNode', EmitterNode );
 } );

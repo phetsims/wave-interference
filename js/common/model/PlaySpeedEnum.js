@@ -23,7 +23,5 @@ define( function( require ) {
   // in development mode, catch any attempted changes to the enum
   if ( assert ) { Object.freeze( PlaySpeedEnum ); }
 
-  waveInterference.register( 'PlaySpeedEnum', PlaySpeedEnum );
-
-  return PlaySpeedEnum;
+  return waveInterference.register( 'PlaySpeedEnum', PlaySpeedEnum );
 } );
