@@ -90,9 +90,7 @@ define( function( require ) {
         value: 'slits',
         node: new HBox( {
           spacing: 2,
-          children: _.range( 1, 8 ).map( function( r ) {
-            return new Rectangle( 0, 0, 2, 20, { fill: 'black' } );
-          } )
+          children: _.range( 1, 8 ).map( r => new Rectangle( 0, 0, 2, 20, { fill: 'black' } ) )
         } )
       } ];
       const radioButtonGroup = new RadioButtonGroup( this.sceneProperty, toggleButtonsContent, {
