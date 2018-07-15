@@ -15,8 +15,6 @@ define( function( require ) {
   const Node = require( 'SCENERY/nodes/Node' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  // TODO: see https://github.com/phetsims/wave-interference/issues/79 about whether this should be moved to common code
-  // TODO: before converting to ES6
   class DoubleHeadedArrowWithBarsNode extends Node {
 
     /**
