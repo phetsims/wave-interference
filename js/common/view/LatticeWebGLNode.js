@@ -197,5 +197,4 @@ define( function( require ) {
   }
 
   return waveInterference.register( 'LatticeWebGLNode', LatticeWebGLNode );
-  ;
 } );

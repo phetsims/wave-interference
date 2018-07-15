@@ -11,7 +11,6 @@ define( function( require ) {
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Checkbox = require( 'SUN/Checkbox' );
-  const Dimension2 = require( 'DOT/Dimension2' );
   const FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
   const HSeparator = require( 'SUN/HSeparator' );
   const Image = require( 'SCENERY/nodes/Image' );
