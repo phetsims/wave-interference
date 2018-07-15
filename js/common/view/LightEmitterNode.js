@@ -14,6 +14,14 @@ define( function( require ) {
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
+  // constants
+  const DEFAULTS = {
+    bodySize: new Dimension2( 80, 40 ),
+    nozzleSize: new Dimension2( 10, 28 ),
+    hasGlass: true,
+    hasButton: false
+  };
+
   class LightEmitterNode extends EmitterNode {
 
     /**
@@ -21,13 +29,17 @@ define( function( require ) {
      * @param {Node} waveAreaNode - for bounds
      */
     constructor( model, waveAreaNode ) {
-      super( model, model.lightScene, waveAreaNode, 70, new LaserPointerNode( model.button1PressedProperty, {
-        bodySize: new Dimension2( 80, 40 ),
-        nozzleSize: new Dimension2( 10, 28 ),
-        hasGlass: true,
-        rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 ),
-        hasButton: false
-      } ) );
+      super( model, model.lightScene, waveAreaNode, 70, new LaserPointerNode( model.button1PressedProperty, _.extend( {
+        rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 )
+      }, DEFAULTS ) ) );
+    }
+
+    /**
+     * Returns the defaults for the WavesScreenModel
+     * @returns {Object}
+     */
+    static get DEFAULT_OPTIONS() {
+      return DEFAULTS;
     }
   }
 

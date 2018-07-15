@@ -16,6 +16,7 @@ define( function( require ) {
   const HSeparator = require( 'SUN/HSeparator' );
   const Image = require( 'SCENERY/nodes/Image' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
+  const LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -83,14 +84,7 @@ define( function( require ) {
 
       const hoseIcon = new Image( hoseImage );
       const speakerIcon = new Image( speakerImage );
-      const laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), {
-
-        // TODO: copied from LightEmitterNode
-        bodySize: new Dimension2( 80, 40 ),
-        nozzleSize: new Dimension2( 10, 28 ),
-        hasGlass: true,
-        hasButton: false
-      } );
+      const laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), LightEmitterNode.DEFAULT_OPTIONS );
       const iconWidth = 44;
       const iconHeight = iconWidth;
       hoseIcon.scale( iconWidth / hoseIcon.width );
