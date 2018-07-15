@@ -143,7 +143,7 @@ define( function( require ) {
       screenCheckbox.top = graphCheckbox.bottom + 5;
       intensityCheckbox.top = screenCheckbox.bottom + 5;
 
-      model.sceneProperty.link( function( scene ) {
+      model.sceneProperty.link( scene => {
         waterFrequencySlider.visible = scene === model.waterScene;
         soundFrequencySlider.visible = scene === model.soundScene;
         lightFrequencySlider.visible = scene === model.lightScene;

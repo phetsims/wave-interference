@@ -42,17 +42,13 @@ define( function( require ) {
       } ] );
 
       const stepButton = new StepButton();
-      stepButton.addListener( function() {
 
-        // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
-        // dt, so the model will behave the same
-        model.advanceTime( 1 / 60 );
-      } );
+      // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
+      // dt, so the model will behave the same
+      stepButton.addListener( () => model.advanceTime( 1 / 60 ) );
 
       // Only enable the step button when the model is paused.
-      model.isRunningProperty.link( function( isRunning ) {
-        stepButton.enabled = !isRunning;
-      } );
+      model.isRunningProperty.link( isRunning => {stepButton.enabled = !isRunning;} );
 
       super( _.extend( {
         spacing: 20,

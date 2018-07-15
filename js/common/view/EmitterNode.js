@@ -57,7 +57,7 @@ define( function( require ) {
 
       const modelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), waveAreaNode.bounds );
 
-      scene.sourceSeparationProperty.link( function( sourceSeparation ) {
+      scene.sourceSeparationProperty.link( sourceSeparation => {
         nodeWithButton2.visible = sourceSeparation > 0;
 
         const viewSeparation = modelViewTransform.modelToViewDeltaY( sourceSeparation );

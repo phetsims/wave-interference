@@ -93,7 +93,7 @@ define( function( require ) {
       // @private
       this.chartRectangle = chartRectangle;
 
-      intensitySample.changedEmitter.addListener( function() {
+      intensitySample.changedEmitter.addListener( () => {
         const intensityValues = intensitySample.getIntensityValues();
         const shape = new Shape();
         for ( let i = 0; i < intensityValues.length; i++ ) {

@@ -225,16 +225,14 @@ define( function( require ) {
           }
         }
       } );
-      model.isWaveDetectorToolNodeInPlayAreaProperty.link( function( isWaveDetectorToolNodeInPlayArea ) {
+      model.isWaveDetectorToolNodeInPlayAreaProperty.link( isWaveDetectorToolNodeInPlayArea => {
         waveDetectorToolNode.visible = isWaveDetectorToolNodeInPlayArea;
 
         // Make sure probes are re-aligned on reset-all
         waveDetectorToolNode.alignProbes();
       } );
 
-      model.resetEmitter.addListener( function() {
-        waveDetectorToolNode.reset();
-      } );
+      model.resetEmitter.addListener( () => waveDetectorToolNode.reset() );
 
       const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );
       const updateToolboxPosition = () => {

@@ -112,9 +112,7 @@ define( function( require ) {
         Rectangle.bounds( node.bounds, { fill: 'rgba(0,0,0,0)' } )
       ]
     } );
-    inPlayAreaProperty.link( function( inPlayArea ) {
-      iconNode.visible = !inPlayArea;
-    } );
+    inPlayAreaProperty.link( inPlayArea => { iconNode.visible = !inPlayArea; } );
     iconNode.addInputListener( DragListener.createForwardingListener( forwardingListener ) );
     return iconNode;
   };

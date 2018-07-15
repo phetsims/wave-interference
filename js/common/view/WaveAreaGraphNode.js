@@ -170,7 +170,7 @@ define( function( require ) {
         rotation: 3 * Math.PI / 2
       } );
       this.addChild( verticalAxisLabel.mutate( { right: 0 - TEXT_MARGIN_Y } ) );
-      model.sceneProperty.link( function( scene ) {
+      model.sceneProperty.link( scene => {
         verticalAxisLabel.text = scene.verticalAxisTitle;
         verticalAxisLabel.centerY = graphHeight / 2;
       } );
@@ -189,7 +189,7 @@ define( function( require ) {
       const array = [];
       const dx = -options.x;
       const dy = -options.centerY / 2 - 1.7;
-      model.lattice.changedEmitter.addListener( function() {
+      model.lattice.changedEmitter.addListener( () => {
         path.shape = WaveInterferenceUtils.getWaterSideShape( array, model.lattice, waveAreaBounds, dx, dy );
       } );
 

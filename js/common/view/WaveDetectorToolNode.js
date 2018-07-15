@@ -182,7 +182,7 @@ define( function( require ) {
       } );
 
       const scaleIndicatorText = new WaveInterferenceText( '', { fontSize: 11, fill: 'white' } );
-      model.sceneProperty.link( function( scene ) {
+      model.sceneProperty.link( scene => {
         scaleIndicatorText.text = scene.oneTimerUnit;
       } );
       const scaleIndicatorNode = new VBox( {
@@ -367,7 +367,7 @@ define( function( require ) {
         model.lattice.changedEmitter.addListener( updatePaths );
 
         // Redraw the probe data when the scene changes
-        model.sceneProperty.link( function() {
+        model.sceneProperty.link( () => {
           probe1Samples.length = 0;
           probe2Samples.length = 0;
           updatePaths();
