@@ -39,7 +39,9 @@ define( function( require ) {
       const lattice = this.lattice;
 
       const scene = this.sceneProperty.get();
-      const barrierLatticeX = scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() );
+
+      // Round this to make sure it appears at an integer cell column
+      const barrierLatticeX = Math.round( scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() ) );
       const slitSeparationModel = scene.slitSeparationProperty.get();
 
       // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
@@ -50,8 +52,8 @@ define( function( require ) {
         // Find the physical model coordinate corresponding to the lattice coordinate
         const x = scene.modelToLatticeTransform.viewToModelX( i );
 
-        const frequency = scene.frequencyProperty.get();
-        const wavelength = scene.waveSpeed / frequency * Math.PI * 2; // TODO: this in incorrect for sound and light
+        let frequency = scene.frequencyProperty.get();
+        let wavelength = scene.waveSpeed / frequency;
 
         for ( let j = 0; j < lattice.height; j++ ) {
           const y = scene.modelToLatticeTransform.viewToModelY( j );
@@ -93,7 +95,8 @@ define( function( require ) {
             // TODO: use wave speed to track the wavefront and back, there is an issue for this
 
             // Scale the amplitude because it is calibrated for a point source, not a plane wave
-            const value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - frequency * this.time );
+            const angularFrequency = frequency * Math.PI * 2;
+            const value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - angularFrequency * this.time );
             const lastValue = lattice.getCurrentValue( i, j );
             lattice.setCurrentValue( i, j, value );
             lattice.setLastValue( i, j, lastValue );
