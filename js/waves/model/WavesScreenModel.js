@@ -116,7 +116,7 @@ define( function( require ) {
         waveAreaWidth: 200, // in cm
         minimumFrequency: 220 / 1000, // A3 in cycles per ms, 156.82cm
         maximumFrequency: 1760 / 1000, // A6 in cycles per ms, 19.60cm
-        scaleIndicatorText: '10 cm', // TODO: compute these readouts so they don't need to be maintained
+        scaleIndicatorText: tenCentimetersString, // TODO: compute these readouts so they don't need to be maintained
         scaleIndicatorLength: 10, // cm
         timeScaleFactor: 1, // This is confusing.  One second of real time should show up as 1ms, so this factor is 1
         timeUnitsConversion: 1, // This value is chosen so that the wave speed is accurate
