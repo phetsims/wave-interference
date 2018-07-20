@@ -52,7 +52,7 @@ define( function( require ) {
       // @public (read-only) {number} - scale factor for converting between time units (like showing seconds in femtoseconds)
       this.timeUnitsConversion = config.timeUnitsConversion;
 
-      // @public {Property.<number>} - the frequency in Hz
+      // @public {Property.<number>} - the linear frequency in the appropriate units for the scene
       this.frequencyProperty = new Property( this.initialFrequency );
 
       // @public (read-only) {string} - units associated with the time units conversion

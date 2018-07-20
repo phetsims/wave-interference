@@ -104,7 +104,6 @@ define( function( require ) {
       // TODO: are we leaving time in seconds, or converting to local units?  It seems recommendation was to convert units.
 
       // Sound scene
-      const concertA = 440; // Hz
       this.soundScene = new Scene( {
         positionUnits: 'cm',
         translatedPositionUnits: cmUnitsString,
@@ -114,13 +113,13 @@ define( function( require ) {
         verticalAxisTitle: pressureString,
         graphTitle: pressureAtCenterString,
         graphHorizontalAxisLabel: positionCMString,
-        waveAreaWidth: 100, // 1 meter
-        minimumFrequency: concertA - 200,
-        maximumFrequency: concertA + 200,
-        scaleIndicatorText: tenCentimetersString,
+        waveAreaWidth: 200, // in cm
+        minimumFrequency: 220 / 1000, // A3 in cycles per ms, 156.82cm
+        maximumFrequency: 1760 / 1000, // A6 in cycles per ms, 19.60cm
+        scaleIndicatorText: '10 cm', // TODO: compute these readouts so they don't need to be maintained
         scaleIndicatorLength: 10, // cm
-        timeScaleFactor: 2E-2, // This value is chosen to make the wave look accurate on the lattice
-        timeUnitsConversion: 343 / 0.8 / 1.57, // This value is chosen so that the wave speed is accurate
+        timeScaleFactor: 1, // This is confusing.  One second of real time should show up as 1ms, so this factor is 1
+        timeUnitsConversion: 1, // This value is chosen so that the wave speed is accurate
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
         waveSpeed: 34.3 // in cm/ms
@@ -257,7 +256,8 @@ define( function( require ) {
       // @public {number} phase of the emitter
       this.phase = 0;
 
-      // @public {Property.<Boolean>} - whether the button for the first source is pressed
+      // @public {Property.<Boolean>} - whether the button for the first source is pressed.  This is also used for the
+      // slits screen plane wave source.
       this.button1PressedProperty = new BooleanProperty( false );
 
       // @public {Property.<Boolean>} - whether the button for the second source is pressed
