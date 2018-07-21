@@ -90,18 +90,16 @@ define( function( require ) {
         graphTitle: waterLevelAtCenterString,
         graphHorizontalAxisLabel: positionCMString,
         waveAreaWidth: 10, // 10 centimeters
-        minimumFrequency: 1,
-        maximumFrequency: 8,
+        minimumFrequency: 0.25, // cycles per second
+        maximumFrequency: 1, // cycles per second
         scaleIndicatorText: oneCentimeterString,
         scaleIndicatorLength: 1, // 1 centimeter
-        timeScaleFactor: 1,
+        timeScaleFactor: 1, // 1 second in real time = 1 second on the simulation timer
         timeUnitsConversion: 1,
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
-        waveSpeed: 1.5909090909090908 // in position units / time units, measured empirically in screen 1 as 7.0cm/4.40s
+        waveSpeed: 10 / 5.4 // in position units / time units, measured empirically as 5.4 seconds to cross the 10cm lattice
       } );
-
-      // TODO: are we leaving time in seconds, or converting to local units?  It seems recommendation was to convert units.
 
       // Sound scene
       this.soundScene = new Scene( {
@@ -125,6 +123,7 @@ define( function( require ) {
         waveSpeed: 34.3 // in cm/ms
       } );
 
+      // TODO: are we leaving time in seconds, or converting to local units?  It seems recommendation was to convert units.
       // Light scene
       this.lightScene = new Scene( {
         positionUnits: 'nm',
@@ -274,6 +273,12 @@ define( function( require ) {
       // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
       // for continuity
       const phaseUpdate = ( newFrequency, oldFrequency ) => {
+
+        // For the main model, Math.sin is performed on angular frequency, so to match the phase, that computation
+        // should also be based on angular frequencies
+        oldFrequency = oldFrequency * Math.PI * 2;
+        newFrequency = newFrequency * Math.PI * 2;
+
         const oldValue = Math.sin( this.time * oldFrequency + this.phase );
         let proposedPhase = Math.asin( oldValue ) - this.time * newFrequency;
         const oldDerivative = Math.cos( this.time * oldFrequency + this.phase );
@@ -433,7 +438,9 @@ define( function( require ) {
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
         // The simulation is designed to start with a downward wave, corresponding to water splashing in
-        const v = -Math.sin( this.time * this.sceneProperty.get().frequencyProperty.value + this.phase ) * this.amplitudeProperty.get();
+        var frequency = this.sceneProperty.get().frequencyProperty.value;
+        var angularFrequency = Math.PI * 2 * frequency;
+        const v = -Math.sin( this.time * angularFrequency + this.phase ) * this.amplitudeProperty.get();
 
         // assumes a square lattice
         const separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().waveAreaWidth * this.lattice.getVisibleBounds().width;
