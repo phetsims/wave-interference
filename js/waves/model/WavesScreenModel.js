@@ -139,16 +139,18 @@ define( function( require ) {
         scaleIndicatorLength: 500, // nm
         scaleIndicatorText: fiveHundredNanometersString, // TODO: this should be computed
 
-        // TODO: if timeScaleFactor and timeUnitsConversion are always 1 can they be eliminated?
-        timeScaleFactor: 1, // One second in real time = 1 femtosecond
-        timeUnitsConversion: 16.6 / 5.75, // See below
-
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
 
-        // in nm/fs, to cross a 5000nm wave area, it should take 5000nm / (300nm/fs) = 16.6fs
+        // in nm/fs
+        waveSpeed: 299.792458,
+
+        // to cross a 5000nm wave area, it should take 5000nm / (300nm/fs) = 16.6fs
         // However, I measured the time on the lattice as 5.75fs, so we need to scale up timeUnitsConversion by 16.6/5.75
-        waveSpeed: 299.792458
+        timeUnitsConversion: 16.6 / 5.75, // See below
+
+        // One second in real time = 1 femtosecond.  Determined empirically by checking the wavelength of red light and dividing by the desired wavelengeth
+        timeScaleFactor: 1853 / 660
       } );
 
       const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
