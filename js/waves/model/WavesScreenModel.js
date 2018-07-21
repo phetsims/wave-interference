@@ -156,7 +156,7 @@ define( function( require ) {
       const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
 
       // @private
-      this.eventTimer = new EventTimer( eventTimerModel, timeElapsed => this.advanceTime( 1 / EVENT_RATE ) );
+      this.eventTimer = new EventTimer( eventTimerModel, timeElapsed => this.advanceTime( 1 / EVENT_RATE, false ) );
 
       // @public {Property.<Scene>} - selected scene
       this.sceneProperty = new Property( this.waterScene, {
@@ -374,32 +374,25 @@ define( function( require ) {
      * @public
      */
     step( dt ) {
+
+      // Feed the real time to the eventTimer and it will trigger advanceTime at the appropriate rate
       this.eventTimer.step( dt );
-
-      this.lattice.interpolationRatio = this.eventTimer.getRatio();
-
-      // Notify listeners that a frame has advanced
-      this.stepEmitter.emit();
-
-      // Notify listeners about changes
-      this.lattice.changedEmitter.emit();
-
-      this.intensitySample.step();
     }
 
     /**
      * Additionally called from the "step" button
      * @param {number} dt - amount of time in seconds to move the model forward
+     * @param {boolean} manualStep - true if the step button is being pressed
      * @public
      */
-    advanceTime( dt ) {
+    advanceTime( dt, manualStep ) {
 
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
       const sign = this.viewTypeProperty.get() === ViewType.TOP ? -1 : +1;
       this.rotationAmountProperty.value = Util.clamp( this.rotationAmountProperty.value + dt * sign * 1.4, 0, 1 );
 
-      if ( !this.isRunningProperty.get() ) {
+      if ( !this.isRunningProperty.get() && !manualStep ) {
         return;
       }
 
@@ -421,6 +414,16 @@ define( function( require ) {
       if ( this.isTimerRunningProperty.get() ) {
         this.timerElapsedTimeProperty.set( this.timerElapsedTimeProperty.get() + dt * this.sceneProperty.value.timeUnitsConversion );
       }
+
+      this.lattice.interpolationRatio = this.eventTimer.getRatio();
+
+      // Notify listeners that a frame has advanced
+      this.stepEmitter.emit();
+
+      // Notify listeners about changes
+      this.lattice.changedEmitter.emit();
+
+      this.intensitySample.step();
     }
 
     /**
@@ -505,6 +508,10 @@ define( function( require ) {
 
       // Signify for listeners that the model reset is complete
       this.resetEmitter.emit();
+    }
+
+    static get EVENT_RATE() {
+      return EVENT_RATE;
     }
   }
 

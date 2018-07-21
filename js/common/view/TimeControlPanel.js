@@ -16,6 +16,7 @@ define( function( require ) {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
+  const WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
 
   // strings
   const normalString = require( 'string!WAVE_INTERFERENCE/normal' );
@@ -45,7 +46,7 @@ define( function( require ) {
 
       // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
       // dt, so the model will behave the same
-      stepButton.addListener( () => model.advanceTime( 1 / 60 ) );
+      stepButton.addListener( () => model.advanceTime( 1 / WavesScreenModel.EVENT_RATE, true ) );
 
       // Only enable the step button when the model is paused.
       model.isRunningProperty.link( isRunning => {stepButton.enabled = !isRunning;} );
