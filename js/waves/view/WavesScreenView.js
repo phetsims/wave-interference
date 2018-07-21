@@ -133,7 +133,7 @@ define( function( require ) {
       // Set the color of highlight on the screen and lattice
       Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], ( scene, lightFrequency ) => {
         if ( scene === model.lightScene ) {
-          const baseColor = VisibleColor.frequencyToColor( lightFrequency );
+          const baseColor = VisibleColor.frequencyToColor( lightFrequency * 1E15 ); // TODO: factor out all the E15/E-15
           this.latticeNode.setBaseColor( baseColor );
           this.latticeNode.vacuumColor = Color.black;
           screenNode.setBaseColor( baseColor );
@@ -313,8 +313,12 @@ define( function( require ) {
 
       // Initialize and update the colors based on the scene
       Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, frequency ) {
-        perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' : scene === model.soundScene ? 'gray' : VisibleColor.frequencyToColor( frequency ) );
-        perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR : scene === model.soundScene ? 'darkGray' : VisibleColor.frequencyToColor( frequency ).colorUtilsDarker( 0.15 ) );
+        perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' :
+                                           scene === model.soundScene ? 'gray' :
+                                           VisibleColor.frequencyToColor( frequency * 1E15 ) );
+        perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR :
+                                            scene === model.soundScene ? 'darkGray' :
+                                            VisibleColor.frequencyToColor( frequency * 1E15 ).colorUtilsDarker( 0.15 ) );
       } );
       this.addChild( perspective3DNode );
 

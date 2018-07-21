@@ -17,6 +17,7 @@ define( function( require ) {
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const Property = require( 'AXON/Property' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
@@ -60,9 +61,15 @@ define( function( require ) {
       const waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.frequencyProperty, model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
       const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
 
-      const lightFrequencySlider = new FrequencySlider( model.lightScene.frequencyProperty, {
-        minFrequency: model.lightScene.minimumFrequency,
-        maxFrequency: model.lightScene.maximumFrequency,
+      // Create a Property in Hz as required by the FrequencySlider.
+      // TODO: should this be in the model?
+      const frequencyInHzProperty = new Property( model.lightScene.frequencyProperty.get() * 1E15 );
+      model.lightScene.frequencyProperty.link( frequency => frequencyInHzProperty.set( frequency * 1E15 ) );
+      frequencyInHzProperty.link( frequencyHz => model.lightScene.frequencyProperty.set( frequencyHz * 1E-15 ) );
+
+      const lightFrequencySlider = new FrequencySlider( frequencyInHzProperty, {
+        minFrequency: model.lightScene.minimumFrequency * 1E15,
+        maxFrequency: model.lightScene.maximumFrequency * 1E15,
         trackWidth: 150,
         trackHeight: 20,
         valueVisible: false,

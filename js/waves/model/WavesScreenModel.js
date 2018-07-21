@@ -123,28 +123,32 @@ define( function( require ) {
         waveSpeed: 34.3 // in cm/ms
       } );
 
-      // TODO: are we leaving time in seconds, or converting to local units?  It seems recommendation was to convert units.
       // Light scene
       this.lightScene = new Scene( {
         positionUnits: 'nm',
         translatedPositionUnits: nanometersUnitsString,
         timerUnits: femtosecondsUnitsString,
         oneTimerUnit: oneFemtosecondString,
-
         verticalAxisTitle: electricFieldString,
         graphTitle: electricFieldAtCenterString,
         graphHorizontalAxisLabel: positionNMString,
         waveAreaWidth: 5000, // nm
-        minimumFrequency: VisibleColor.MIN_FREQUENCY,
-        maximumFrequency: VisibleColor.MAX_FREQUENCY,
-        initialFrequency: VisibleColor.SPEED_OF_LIGHT / 660E-9, // Start with red light because it is a familiar LED color
-        scaleIndicatorText: fiveHundredNanometersString,
+        minimumFrequency: VisibleColor.MIN_FREQUENCY * 1E-15, // in cycles per femtosecond
+        maximumFrequency: VisibleColor.MAX_FREQUENCY * 1E-15, // in cycles per femtosecond
+        initialFrequency: VisibleColor.SPEED_OF_LIGHT / 660E-9 * 1E-15, // Start with red light because it is a familiar LED color
         scaleIndicatorLength: 500, // nm
-        timeScaleFactor: 1.5807768030572316e-14, // Tuned empirically so the waves have the right size on the lattice.
-        timeUnitsConversion: 1E15 * 0.15904736243338724, // Tuned empirically so that light would have the correct THz and hence the correct speed of light
+        scaleIndicatorText: fiveHundredNanometersString, // TODO: this should be computed
+
+        // TODO: if timeScaleFactor and timeUnitsConversion are always 1 can they be eliminated?
+        timeScaleFactor: 1, // One second in real time = 1 femtosecond
+        timeUnitsConversion: 16.6 / 5.75, // See below
+
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
-        waveSpeed: 299.792 // in nm/fs
+
+        // in nm/fs, to cross a 5000nm wave area, it should take 5000nm / (300nm/fs) = 16.6fs
+        // However, I measured the time on the lattice as 5.75fs, so we need to scale up timeUnitsConversion by 16.6/5.75
+        waveSpeed: 299.792458
       } );
 
       const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
