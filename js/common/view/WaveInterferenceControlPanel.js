@@ -62,7 +62,7 @@ define( function( require ) {
       const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
 
       // Create a Property in Hz as required by the FrequencySlider.
-      // TODO: should this be in the model?
+      // TODO: should this be in the model?  Should we use DynamicProperty?
       const frequencyInHzProperty = new Property( model.lightScene.frequencyProperty.get() * 1E15 );
       model.lightScene.frequencyProperty.link( frequency => frequencyInHzProperty.set( frequency * 1E15 ) );
       frequencyInHzProperty.link( frequencyHz => model.lightScene.frequencyProperty.set( frequencyHz * 1E-15 ) );
@@ -169,9 +169,7 @@ define( function( require ) {
       if ( options.showIntensityCheckbox ) {
         children.push( intensityCheckbox );
       }
-      const content = alignGroup.createBox( new Node( {
-        children: children
-      } ) );
+      const content = alignGroup.createBox( new Node( { children } ) );
 
       super( content, options );
     }
