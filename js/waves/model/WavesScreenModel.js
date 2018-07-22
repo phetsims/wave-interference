@@ -94,11 +94,12 @@ define( function( require ) {
         maximumFrequency: 1, // cycles per second
         scaleIndicatorText: oneCentimeterString,
         scaleIndicatorLength: 1, // 1 centimeter
-        timeScaleFactor: 1, // 1 second in real time = 1 second on the simulation timer
-        timeUnitsConversion: 1,
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
-        waveSpeed: 10 / 5.4 // in position units / time units, measured empirically as 5.4 seconds to cross the 10cm lattice
+        waveSpeed: 1.85, // in position units / time units, measured empirically as 5.4 seconds to cross the 10cm lattice
+
+        timeScaleFactor: 1, // 1 second in real time = 1 second on the simulation timer
+        timeUnitsConversion: 1
       } );
 
       // Sound scene
@@ -116,11 +117,12 @@ define( function( require ) {
         maximumFrequency: 1760 / 1000, // A6 in cycles per ms, 19.60cm
         scaleIndicatorText: tenCentimetersString, // TODO: compute these readouts so they don't need to be maintained
         scaleIndicatorLength: 10, // cm
-        timeScaleFactor: 1, // This is confusing.  One second of real time should show up as 1ms, so this factor is 1
-        timeUnitsConversion: 1, // This value is chosen so that the wave speed is accurate
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
-        waveSpeed: 34.3 // in cm/ms
+        waveSpeed: 34.3, // in cm/ms
+
+        timeScaleFactor: 1, // This is confusing.  One second of real time should show up as 1ms, so this factor is 1
+        timeUnitsConversion: 1 // This value is chosen so that the wave speed is accurate
       } );
 
       // Light scene
@@ -146,11 +148,11 @@ define( function( require ) {
         waveSpeed: 299.792458,
 
         // One second in real time = 1 femtosecond.  Determined empirically by checking the displayed wavelength of red
-        // light and dividing by the desired wavelength
+        // light on the lattice and dividing by the desired wavelength
         timeScaleFactor: 1853 / 660,
 
         // to cross a 5000nm wave area, it should take 5000nm / (300nm/fs) = 16.6fs.
-        timeUnitsConversion: 1.09 // TODO: can this be 1.0?
+        timeUnitsConversion: 1 // TODO: can we eliminate this an an option?
       } );
 
       const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
