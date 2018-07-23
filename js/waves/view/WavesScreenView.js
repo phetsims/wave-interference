@@ -18,6 +18,7 @@ define( function( require ) {
   const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
   const LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  const Node = require( 'SCENERY/nodes/Node' );
   const Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Property = require( 'AXON/Property' );
@@ -76,6 +77,9 @@ define( function( require ) {
         centerX: this.layoutBounds.centerX - 142
       } );
       this.addChild( this.waveAreaNode );
+
+      // @protected {Node} placeholder for z-ordering for subclasses
+      this.afterWaveAreaNode = new Node();
 
       // show the length scale at the top left of the wave area
       const lengthScaleIndicatorNode = new ToggleNode( [
@@ -339,6 +343,7 @@ define( function( require ) {
       this.addChild( waterSideViewNode );
       this.addChild( timeControlPanel );
       this.addChild( dashedLineNode );
+      this.addChild( this.afterWaveAreaNode );
       this.addChild( waveAreaGraphNode );
       this.addChild( measuringTapeNode );
       this.addChild( timerNode );

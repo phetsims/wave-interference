@@ -45,6 +45,7 @@ define( function( require ) {
       slitControlPanel.on( 'bounds', updateSlitControlPanel );
       this.addChild( slitControlPanel );
 
+      // TODO: Can we use ToggleNode here?
       const waterBarriersNode = new BarriersNode( model, model.waterScene, this.waveAreaNode.bounds );
       const soundBarriersNode = new BarriersNode( model, model.soundScene, this.waveAreaNode.bounds );
       const lightBarriersNode = new BarriersNode( model, model.lightScene, this.waveAreaNode.bounds );
@@ -56,9 +57,9 @@ define( function( require ) {
         soundBarriersNode.visible = !hide && scene === model.soundScene;
         lightBarriersNode.visible = !hide && scene === model.lightScene;
       } );
-      this.addChild( waterBarriersNode );
-      this.addChild( soundBarriersNode );
-      this.addChild( lightBarriersNode );
+      this.afterWaveAreaNode.addChild( waterBarriersNode );
+      this.afterWaveAreaNode.addChild( soundBarriersNode );
+      this.afterWaveAreaNode.addChild( lightBarriersNode );
     }
   }
 
