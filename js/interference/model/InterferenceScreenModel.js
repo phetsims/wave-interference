@@ -15,7 +15,8 @@ define( function( require ) {
   class InterferenceScreenModel extends WavesScreenModel {
     constructor() {
       super( {
-        numberOfSources: 2
+        numberOfSources: 2,
+        initialAmplitude: 10
       } );
     }
   }

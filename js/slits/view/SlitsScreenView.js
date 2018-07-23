@@ -24,7 +24,10 @@ define( function( require ) {
      */
     constructor( model, alignGroup ) {
       super( model, alignGroup, {
-        showPulseContinuousRadioButtons: false
+        showPulseContinuousRadioButtons: false,
+        controlPanelOptions: {
+          showAmplitudeSlider: false
+        }
       } );
 
       // The Slits screen has an additional control panel below the main control panel, which controls the barrier/slits

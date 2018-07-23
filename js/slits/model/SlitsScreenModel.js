@@ -17,7 +17,9 @@ define( function( require ) {
   class SlitsScreenModel extends WavesScreenModel {
 
     constructor() {
-      super();
+      super( {
+        initialAmplitude: 10
+      } );
 
       // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
       this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );

@@ -65,7 +65,10 @@ define( function( require ) {
       options = _.extend( {
 
         // This model supports one or two sources.  If the sources are initially separated, there are two sources
-        numberOfSources: 1
+        numberOfSources: 1,
+
+        // Initial amplitude, between 0-10
+        initialAmplitude: 8
       }, options );
       assert && assert( options.numberOfSources === 1 || options.numberOfSources === 2, 'Model only supports 1 or 2 sources' );
 
@@ -190,7 +193,7 @@ define( function( require ) {
       // the value at the extreme may prevent the user from exploring the range, so we start closer to the max but not
       // at the max.  I chose 8 so it would match up directly with a tickmark (when it was at 7.5, it covered 2 tickmarks
       // and looked odd)
-      this.amplitudeProperty = new NumberProperty( 8, { range: { min: 0, max: 10 } } );
+      this.amplitudeProperty = new NumberProperty( options.initialAmplitude, { range: { min: 0, max: 10 } } );
 
       // @public {BooleanProperty} - whether the wave area graph should be displayed
       this.showGraphProperty = new BooleanProperty( false );

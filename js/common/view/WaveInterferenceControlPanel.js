@@ -54,7 +54,8 @@ define( function( require ) {
         // This additional control (if present) will be shown beneath the Amplitude slider in the WaveInterferenceControlPanel
         additionalControl: null,
 
-        showIntensityCheckbox: true
+        showIntensityCheckbox: true,
+        showAmplitudeSlider: true
       }, options );
 
       // Controls are in the metric coordinate frame
@@ -128,14 +129,18 @@ define( function( require ) {
 
       // Vertical layout
       frequencySliderContainer.top = frequencyTitle.bottom - 5;
+      let y = frequencySliderContainer.bottom + 2;
       amplitudeTitle.top = frequencySliderContainer.bottom + 2;
       amplitudeSlider.top = amplitudeTitle.bottom - 5;
+      if ( options.showAmplitudeSlider ) {
+        y = amplitudeSlider.bottom + 5;
+      }
       if ( options.additionalControl ) {
-        options.additionalControl.top = amplitudeSlider.bottom + 5;
+        options.additionalControl.top = y;
         sceneRadioButtons.top = options.additionalControl.bottom + 5;
       }
       else {
-        sceneRadioButtons.top = amplitudeSlider.bottom + 5;
+        sceneRadioButtons.top = y;
       }
 
       separator.top = sceneRadioButtons.bottom + 7;
@@ -157,9 +162,11 @@ define( function( require ) {
       const children = [
         frequencyTitle,
         frequencySliderContainer,
-        amplitudeTitle,
-        options.additionalControl || new Node(), // This is ugly but preferable to using concat calls
-        amplitudeSlider,
+
+        // This is ugly but preferable to using concat calls
+        options.showAmplitudeSlider ? amplitudeTitle : new Node(),
+        options.showAmplitudeSlider ? amplitudeSlider : new Node(),
+        options.additionalControl || new Node(),
         sceneRadioButtons,
         separator,
         graphCheckbox,
