@@ -185,7 +185,7 @@ define( function( require ) {
       model.sceneProperty.link( scene => {
         scaleIndicatorText.text = scene.oneTimerUnit;
       } );
-      const scaleIndicatorNode = new VBox( {
+      const lengthScaleIndicatorNode = new VBox( {
         spacing: -2,
         children: [
 
@@ -204,15 +204,15 @@ define( function( require ) {
         left: graphPanel.left,
         top: graphPanel.bottom + 2
       } );
-      this.backgroundNode.addChild( scaleIndicatorNode );
+      this.backgroundNode.addChild( lengthScaleIndicatorNode );
       this.backgroundNode.addChild( horizontalAxisTitle );
       this.backgroundNode.addChild( verticalAxisTitle );
 
       // For i18n, “Time” will expand symmetrically L/R until it gets too close to the scale bar. Then, the string will
       // expand to the R only, until it reaches the point it must be scaled down in size.
-      horizontalAxisTitle.maxWidth = graphPanel.right - scaleIndicatorNode.right - 2 * HORIZONTAL_AXIS_LABEL_MARGIN;
-      if ( horizontalAxisTitle.left < scaleIndicatorNode.right + HORIZONTAL_AXIS_LABEL_MARGIN ) {
-        horizontalAxisTitle.left = scaleIndicatorNode.right + HORIZONTAL_AXIS_LABEL_MARGIN;
+      horizontalAxisTitle.maxWidth = graphPanel.right - lengthScaleIndicatorNode.right - 2 * HORIZONTAL_AXIS_LABEL_MARGIN;
+      if ( horizontalAxisTitle.left < lengthScaleIndicatorNode.right + HORIZONTAL_AXIS_LABEL_MARGIN ) {
+        horizontalAxisTitle.left = lengthScaleIndicatorNode.right + HORIZONTAL_AXIS_LABEL_MARGIN;
       }
 
       // If maxWidth reduced the scale of the text, it may be too far below the graph.  In that case, move it back up.

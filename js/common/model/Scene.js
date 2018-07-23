@@ -40,10 +40,10 @@ define( function( require ) {
       // @public (read-only) {number} [initialFrequency] - initial frequency in Hz, defaults to the average of min and max
       this.initialFrequency = config.initialFrequency || ( config.minimumFrequency + config.maximumFrequency ) / 2;
 
-      // @public (read-only) {string} - text to show to indicate the relative scale, see ScaleIndicatorNode
+      // @public (read-only) {string} - text to show to indicate the relative scale, see LengthScaleIndicatorNode
       this.scaleIndicatorText = config.scaleIndicatorText;
 
-      // @public (read-only) {number} - length in meters to depict to indicate relative scale, see ScaleIndicatorNode
+      // @public (read-only) {number} - length in meters to depict to indicate relative scale, see LengthScaleIndicatorNode
       this.scaleIndicatorLength = config.scaleIndicatorLength;
 
       // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene

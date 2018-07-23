@@ -22,7 +22,7 @@ define( function( require ) {
   const PulseContinuousRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/PulseContinuousRadioButtonGroup' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  const ScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/ScaleIndicatorNode' );
+  const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
   const ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const SoundEmitterNode = require( 'WAVE_INTERFERENCE/common/view/SoundEmitterNode' );
@@ -76,17 +76,17 @@ define( function( require ) {
       this.addChild( this.waveAreaNode );
 
       // @private show the scale of the wave area
-      const scaleIndicatorNode = new ToggleNode( [
-        { value: model.waterScene, node: new ScaleIndicatorNode( model.waterScene, this.waveAreaNode.width ) },
-        { value: model.soundScene, node: new ScaleIndicatorNode( model.soundScene, this.waveAreaNode.width ) },
-        { value: model.lightScene, node: new ScaleIndicatorNode( model.lightScene, this.waveAreaNode.width ) }
+      const lengthScaleIndicatorNode = new ToggleNode( [
+        { value: model.waterScene, node: new LengthScaleIndicatorNode( model.waterScene, this.waveAreaNode.width ) },
+        { value: model.soundScene, node: new LengthScaleIndicatorNode( model.soundScene, this.waveAreaNode.width ) },
+        { value: model.lightScene, node: new LengthScaleIndicatorNode( model.lightScene, this.waveAreaNode.width ) }
       ], model.sceneProperty, {
         alignChildren: ToggleNode.LEFT,
         top: MARGIN,
         left: this.waveAreaNode.left
       } );
 
-      this.addChild( scaleIndicatorNode );
+      this.addChild( lengthScaleIndicatorNode );
 
       const waveAreaGraphNode = new WaveAreaGraphNode( model, this.waveAreaNode.bounds, {
         x: this.waveAreaNode.left,

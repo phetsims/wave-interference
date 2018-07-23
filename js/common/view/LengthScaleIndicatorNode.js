@@ -15,7 +15,7 @@ define( function( require ) {
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' );
 
-  class ScaleIndicatorNode extends Node {
+  class LengthScaleIndicatorNode extends Node {
 
     /**
      * @param {Scene} scene
@@ -36,5 +36,5 @@ define( function( require ) {
     }
   }
 
-  return waveInterference.register( 'ScaleIndicatorNode', ScaleIndicatorNode );
+  return waveInterference.register( 'LengthScaleIndicatorNode', LengthScaleIndicatorNode );
 } );
