@@ -62,6 +62,12 @@
   "femtosecondsUnits": {
     "value": "fs"
   },
+  "millisecondConversion": {
+    "value": "1 ms = 10<sup>-3</sup> s"
+  },
+  "femtosecondConversion": {
+    "value": "1 fs = 10<sup>-15</sup> s"
+  },
   "oneSecond": {
     "value": "1 s"
   },

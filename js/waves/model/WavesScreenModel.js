@@ -50,6 +50,8 @@ define( function( require ) {
   const tenCentimetersString = require( 'string!WAVE_INTERFERENCE/tenCentimeters' );
   const waterLevelAtCenterString = require( 'string!WAVE_INTERFERENCE/waterLevelAtCenter' );
   const waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
+  const millisecondConversionString = require( 'string!WAVE_INTERFERENCE/millisecondConversion' );
+  const femtosecondConversionString = require( 'string!WAVE_INTERFERENCE/femtosecondConversion' );
 
   // constants
   const POINT_SOURCE_HORIZONTAL_COORDINATE = 30;
@@ -88,6 +90,7 @@ define( function( require ) {
         translatedPositionUnits: cmUnitsString,
         timerUnits: secondsUnitsString,
         oneTimerUnit: oneSecondString,
+        timeScaleString: '',
 
         verticalAxisTitle: waterLevelString,
         graphTitle: waterLevelAtCenterString,
@@ -111,6 +114,7 @@ define( function( require ) {
         translatedPositionUnits: cmUnitsString,
         timerUnits: millisecondsUnitsString,
         oneTimerUnit: oneMillisecondString,
+        timeScaleString: millisecondConversionString,
 
         verticalAxisTitle: pressureString,
         graphTitle: pressureAtCenterString,
@@ -134,6 +138,7 @@ define( function( require ) {
         translatedPositionUnits: nanometersUnitsString,
         timerUnits: femtosecondsUnitsString,
         oneTimerUnit: oneFemtosecondString,
+        timeScaleString: femtosecondConversionString,
         verticalAxisTitle: electricFieldString,
         graphTitle: electricFieldAtCenterString,
         graphHorizontalAxisLabel: positionNMString,

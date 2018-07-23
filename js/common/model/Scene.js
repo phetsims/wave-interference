@@ -100,8 +100,10 @@ define( function( require ) {
 
       // @public (read-only) {number}
       this.waveSpeed = config.waveSpeed;
-    }
 
+      // @public (read-only) {string} - displayed at the top right of the wave area
+      this.timeScaleString = config.timeScaleString;
+    }
 
     /**
      * Returns the horizontal barrier location in integer coordinates.

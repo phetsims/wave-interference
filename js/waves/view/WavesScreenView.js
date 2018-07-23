@@ -15,14 +15,16 @@ define( function( require ) {
   const IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   const LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   const LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
+  const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
   const LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   const Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Property = require( 'AXON/Property' );
   const PulseContinuousRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/PulseContinuousRadioButtonGroup' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
   const ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const SoundEmitterNode = require( 'WAVE_INTERFERENCE/common/view/SoundEmitterNode' );
@@ -75,18 +77,30 @@ define( function( require ) {
       } );
       this.addChild( this.waveAreaNode );
 
-      // @private show the scale of the wave area
+      // show the length scale at the top left of the wave area
       const lengthScaleIndicatorNode = new ToggleNode( [
         { value: model.waterScene, node: new LengthScaleIndicatorNode( model.waterScene, this.waveAreaNode.width ) },
         { value: model.soundScene, node: new LengthScaleIndicatorNode( model.soundScene, this.waveAreaNode.width ) },
         { value: model.lightScene, node: new LengthScaleIndicatorNode( model.lightScene, this.waveAreaNode.width ) }
       ], model.sceneProperty, {
         alignChildren: ToggleNode.LEFT,
-        top: MARGIN,
+        bottom: this.waveAreaNode.top - 2,
         left: this.waveAreaNode.left
       } );
-
       this.addChild( lengthScaleIndicatorNode );
+
+      // show the time scale at the top right of the wave area
+      const font = new PhetFont( { size: 12 } );
+      const timeScaleIndicatorNode = new ToggleNode( [
+        { value: model.waterScene, node: new RichText( model.waterScene.timeScaleString, { font: font } ) },
+        { value: model.soundScene, node: new RichText( model.soundScene.timeScaleString, { font: font } ) },
+        { value: model.lightScene, node: new RichText( model.lightScene.timeScaleString, { font: font } ) }
+      ], model.sceneProperty, {
+        alignChildren: ToggleNode.RIGHT,
+        bottom: this.waveAreaNode.top - 2,
+        right: this.waveAreaNode.right
+      } );
+      this.addChild( timeScaleIndicatorNode );
 
       const waveAreaGraphNode = new WaveAreaGraphNode( model, this.waveAreaNode.bounds, {
         x: this.waveAreaNode.left,
