@@ -50,7 +50,7 @@ define( function( require ) {
   const pressureAtCenterString = require( 'string!WAVE_INTERFERENCE/pressureAtCenter' );
   const pressureString = require( 'string!WAVE_INTERFERENCE/pressure' );
   const secondsUnitsString = require( 'string!WAVE_INTERFERENCE/secondsUnits' );
-  const tenCentimetersString = require( 'string!WAVE_INTERFERENCE/tenCentimeters' );
+  const tenCentimetersString = require( 'string!WAVE_INTERFERENCE/tenCentimeters' ); // This string is separately translated because some are singular
   const waterLevelAtCenterString = require( 'string!WAVE_INTERFERENCE/waterLevelAtCenter' );
   const waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
 
@@ -124,7 +124,7 @@ define( function( require ) {
         waveAreaWidth: 200, // in cm
         minimumFrequency: 220 / 1000, // A3 in cycles per ms, 156.82cm
         maximumFrequency: 1760 / 1000, // A6 in cycles per ms, 19.60cm
-        scaleIndicatorText: tenCentimetersString, // TODO: compute these readouts so they don't need to be maintained
+        scaleIndicatorText: tenCentimetersString,
         scaleIndicatorLength: 10, // cm
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
@@ -149,7 +149,7 @@ define( function( require ) {
         maximumFrequency: toFemto( VisibleColor.MAX_FREQUENCY ), // in cycles per femtosecond
         initialFrequency: toFemto( VisibleColor.SPEED_OF_LIGHT / 660E-9 ), // Start with red light because it is a familiar LED color
         scaleIndicatorLength: 500, // nm
-        scaleIndicatorText: fiveHundredNanometersString, // TODO: this should be computed
+        scaleIndicatorText: fiveHundredNanometersString,
 
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,

@@ -45,7 +45,7 @@ define( function( require ) {
       slitControlPanel.on( 'bounds', updateSlitControlPanel );
       this.addChild( slitControlPanel );
 
-      // TODO: Can we use ToggleNode here?
+      // Show the barriers when appropriate. Cannot use ToggleNode because of asymmetry, see the multilink
       const waterBarriersNode = new BarriersNode( model, model.waterScene, this.waveAreaNode.bounds );
       const soundBarriersNode = new BarriersNode( model, model.soundScene, this.waveAreaNode.bounds );
       const lightBarriersNode = new BarriersNode( model, model.lightScene, this.waveAreaNode.bounds );
