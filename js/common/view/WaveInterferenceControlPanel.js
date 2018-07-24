@@ -64,7 +64,6 @@ define( function( require ) {
       const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
 
       // Create a Property in Hz as required by the FrequencySlider.
-      // TODO: should this be in the model?  Should we use DynamicProperty?
       const frequencyInHzProperty = new DynamicProperty( new Property( model.lightScene.frequencyProperty ), {
         bidirectional: true,
         map: function( frequency ) { return WaveInterferenceUtils.fromFemto( frequency ); },
