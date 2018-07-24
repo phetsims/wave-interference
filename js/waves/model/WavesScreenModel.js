@@ -29,13 +29,16 @@ define( function( require ) {
   const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // strings
   const cmUnitsString = require( 'string!WAVE_INTERFERENCE/cmUnits' );
   const electricFieldAtCenterString = require( 'string!WAVE_INTERFERENCE/electricFieldAtCenter' );
   const electricFieldString = require( 'string!WAVE_INTERFERENCE/electricField' );
+  const femtosecondConversionString = require( 'string!WAVE_INTERFERENCE/femtosecondConversion' );
   const femtosecondsUnitsString = require( 'string!WAVE_INTERFERENCE/femtosecondsUnits' );
   const fiveHundredNanometersString = require( 'string!WAVE_INTERFERENCE/fiveHundredNanometers' );
+  const millisecondConversionString = require( 'string!WAVE_INTERFERENCE/millisecondConversion' );
   const millisecondsUnitsString = require( 'string!WAVE_INTERFERENCE/millisecondsUnits' );
   const nanometersUnitsString = require( 'string!WAVE_INTERFERENCE/nanometersUnits' );
   const oneCentimeterString = require( 'string!WAVE_INTERFERENCE/oneCentimeter' );
@@ -50,12 +53,11 @@ define( function( require ) {
   const tenCentimetersString = require( 'string!WAVE_INTERFERENCE/tenCentimeters' );
   const waterLevelAtCenterString = require( 'string!WAVE_INTERFERENCE/waterLevelAtCenter' );
   const waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
-  const millisecondConversionString = require( 'string!WAVE_INTERFERENCE/millisecondConversion' );
-  const femtosecondConversionString = require( 'string!WAVE_INTERFERENCE/femtosecondConversion' );
 
   // constants
   const POINT_SOURCE_HORIZONTAL_COORDINATE = 30;
   const EVENT_RATE = 20; // Tuned so that iPad2 has enough time to run model computations
+  const FEMTO = WaveInterferenceConstants.FEMTO;
 
   class WavesScreenModel {
 
@@ -143,9 +145,9 @@ define( function( require ) {
         graphTitle: electricFieldAtCenterString,
         graphHorizontalAxisLabel: positionNMString,
         waveAreaWidth: 5000, // nm
-        minimumFrequency: VisibleColor.MIN_FREQUENCY * 1E-15, // in cycles per femtosecond
-        maximumFrequency: VisibleColor.MAX_FREQUENCY * 1E-15, // in cycles per femtosecond
-        initialFrequency: VisibleColor.SPEED_OF_LIGHT / 660E-9 * 1E-15, // Start with red light because it is a familiar LED color
+        minimumFrequency: VisibleColor.MIN_FREQUENCY * FEMTO, // in cycles per femtosecond
+        maximumFrequency: VisibleColor.MAX_FREQUENCY * FEMTO, // in cycles per femtosecond
+        initialFrequency: VisibleColor.SPEED_OF_LIGHT / 660E-9 * FEMTO, // Start with red light because it is a familiar LED color
         scaleIndicatorLength: 500, // nm
         scaleIndicatorText: fiveHundredNanometersString, // TODO: this should be computed
 

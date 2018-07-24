@@ -31,7 +31,7 @@ define( function( require ) {
 
     // The IntensityGraphPanel and ScreenNode have a shared maximum, this value indicates the wave amplitude that
     // maps to the highest value on the chart or brightest node in the ScreenNode. If the source amplitude or
-    // attenuation as altered, this would likely need to change.  When tuning this, use a reddinsh wavelength because
+    // attenuation as altered, this would likely need to change.  When tuning this, use a reddish wavelength because
     // for unknown reasons it yields a higher output amplitude
     MAX_AMPLITUDE_TO_PLOT_ON_RIGHT: 2.14,
 
@@ -43,7 +43,9 @@ define( function( require ) {
 
     // Look of the emitter button across all 3 scenes
     EMITTER_BUTTON_COLOR: 'red',
-    EMITTER_BUTTON_RADIUS: 14
+    EMITTER_BUTTON_RADIUS: 14,
+
+    FEMTO: 1E-15
   };
 
   waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );

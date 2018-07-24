@@ -50,6 +50,7 @@ define( function( require ) {
   const SPACING = 6;
   const WAVE_MARGIN = 8;
   const WATER_BLUE = WaveInterferenceConstants.WATER_SIDE_COLOR;
+  const FEMTO = WaveInterferenceConstants.FEMTO;
 
   class WavesScreenView extends ScreenView {
 
@@ -151,7 +152,7 @@ define( function( require ) {
       // Set the color of highlight on the screen and lattice
       Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], ( scene, lightFrequency ) => {
         if ( scene === model.lightScene ) {
-          const baseColor = VisibleColor.frequencyToColor( lightFrequency * 1E15 ); // TODO: factor out all the E15/E-15
+          const baseColor = VisibleColor.frequencyToColor( lightFrequency / FEMTO );
           this.latticeNode.setBaseColor( baseColor );
           this.latticeNode.vacuumColor = Color.black;
           screenNode.setBaseColor( baseColor );
@@ -333,10 +334,10 @@ define( function( require ) {
       Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, frequency ) {
         perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' :
                                            scene === model.soundScene ? 'gray' :
-                                           VisibleColor.frequencyToColor( frequency * 1E15 ) );
+                                           VisibleColor.frequencyToColor( frequency / FEMTO ) );
         perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR :
                                             scene === model.soundScene ? 'darkGray' :
-                                            VisibleColor.frequencyToColor( frequency * 1E15 ).colorUtilsDarker( 0.15 ) );
+                                            VisibleColor.frequencyToColor( frequency / FEMTO ).colorUtilsDarker( 0.15 ) );
       } );
       this.addChild( perspective3DNode );
 

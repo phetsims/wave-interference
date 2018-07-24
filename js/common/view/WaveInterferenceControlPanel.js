@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Checkbox = require( 'SUN/Checkbox' );
+  const DynamicProperty = require( 'AXON/DynamicProperty' );
   const FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
   const HSeparator = require( 'SUN/HSeparator' );
   const Image = require( 'SCENERY/nodes/Image' );
@@ -20,6 +21,7 @@ define( function( require ) {
   const Property = require( 'AXON/Property' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   const WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -36,9 +38,8 @@ define( function( require ) {
   const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker.png' );
 
   // constants
-  const CHECKBOX_OPTIONS = {
-    boxWidth: 12
-  };
+  const CHECKBOX_OPTIONS = { boxWidth: 12 };
+  const FEMTO = WaveInterferenceConstants.FEMTO;
 
   class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
@@ -64,13 +65,15 @@ define( function( require ) {
 
       // Create a Property in Hz as required by the FrequencySlider.
       // TODO: should this be in the model?  Should we use DynamicProperty?
-      const frequencyInHzProperty = new Property( model.lightScene.frequencyProperty.get() * 1E15 );
-      model.lightScene.frequencyProperty.link( frequency => frequencyInHzProperty.set( frequency * 1E15 ) );
-      frequencyInHzProperty.link( frequencyHz => model.lightScene.frequencyProperty.set( frequencyHz * 1E-15 ) );
+      const frequencyInHzProperty = new DynamicProperty( new Property( model.lightScene.frequencyProperty ), {
+        bidirectional: true,
+        map: function( frequency ) { return frequency / FEMTO; },
+        inverseMap: function( frequency ) { return frequency * FEMTO; }
+      } );
 
       const lightFrequencySlider = new FrequencySlider( frequencyInHzProperty, {
-        minFrequency: model.lightScene.minimumFrequency * 1E15,
-        maxFrequency: model.lightScene.maximumFrequency * 1E15,
+        minFrequency: model.lightScene.minimumFrequency / FEMTO,
+        maxFrequency: model.lightScene.maximumFrequency / FEMTO,
         trackWidth: 150,
         trackHeight: 20,
         valueVisible: false,
