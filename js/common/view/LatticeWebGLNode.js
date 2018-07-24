@@ -2,8 +2,7 @@
 
 /**
  * Renders the lattice using rectangles in WebGL. Adapted from charges and fields.
- * TODO(performance): @jonathanolson pointed out that we should use 2 triangles + texture map to render everything, if we can't get
- * TODO(performance): fast enough performance with canvas.
+ * TODO(performance): @jonathanolson pointed out that we should use 2 triangles + texture map to render everything, if we can't get fast enough performance with canvas.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Jonathan Olson (PhET Interactive Simulations)

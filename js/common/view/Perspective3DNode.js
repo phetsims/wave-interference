@@ -41,7 +41,7 @@ define( function( require ) {
 
         // prevent bounds computations during main loop
         boundsMethod: 'none',
-        localBounds: new Bounds2( 0, 0, 10, 10 ) // TODO(webgl): Does it matter what this value is?  ZERO doesn't seem to work though.
+        localBounds: new Bounds2( 0, 0, 10, 10 ) // TODO: Does it matter what this value is?  ZERO doesn't seem to work though.
       } );
 
       // depicts the side face (when the user selects "side view")
@@ -52,7 +52,7 @@ define( function( require ) {
 
         // prevent bounds computations during main loop
         boundsMethod: 'none',
-        localBounds: new Bounds2( 0, 0, 10, 10 ) // TODO(webgl): Does it matter what this value is?  ZERO doesn't seem to work though.
+        localBounds: new Bounds2( 0, 0, 10, 10 ) // TODO: Does it matter what this value is?  ZERO doesn't seem to work though.
       } );
 
       // shows the up arrow
