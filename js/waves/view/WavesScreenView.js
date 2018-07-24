@@ -351,7 +351,6 @@ define( function( require ) {
       this.addChild( timerNode );
       this.addChild( waveDetectorToolNode );
 
-      // TODO: each scene needs its own source graphics
       this.addChild( new ToggleNode( [
         { value: model.waterScene, node: new WaterEmitterNode( model, this.waveAreaNode ) },
         { value: model.soundScene, node: new SoundEmitterNode( model, this.waveAreaNode ) },
