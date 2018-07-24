@@ -175,27 +175,6 @@ define( function( require ) {
         validValues: [ this.waterScene, this.soundScene, this.lightScene ]
       } );
 
-      // TODO: account for time scale in dt and stopwatch time
-
-      // Show debugging information in the console when ?dev is selected
-      if ( phet.chipper.queryParameters.dev ) {
-        Property.multilink( [ this.frequencyProperty, this.sceneProperty ], ( frequency, scene ) => {
-
-          // Output in appropriate units
-          if ( scene === this.lightScene ) {
-            const speedOfLight = 299792458;
-            const wavelength = speedOfLight / frequency;
-            const frequencyTHz = frequency / 1E12;
-            const wavelengthNM = wavelength / 1E-9;
-            const oscillationFS = 1000 / frequencyTHz;
-            console.log( 'Frequency = ' + frequencyTHz.toFixed( 2 ) + 'THz' + ', Wavelength = ' + wavelengthNM.toFixed( 2 ) + 'nm' + ' Time for one oscillation: ' + oscillationFS.toFixed( 2 ) + 'fs' );
-          }
-          else if ( scene === this.waterScene ) {
-            console.log( 'Frequency = ' + frequency );
-          }
-        } );
-      }
-
       // @public {NumberProperty} - controls the amplitude of the wave.  We optimize the view for the max, but starting
       // the value at the extreme may prevent the user from exploring the range, so we start closer to the max but not
       // at the max.  I chose 8 so it would match up directly with a tickmark (when it was at 7.5, it covered 2 tickmarks
