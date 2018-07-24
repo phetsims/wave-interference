@@ -162,7 +162,7 @@ define( function( require ) {
         timeScaleFactor: 1853 / 660,
 
         // to cross a 5000nm wave area, it should take 5000nm / (300nm/fs) = 16.6fs.
-        timeUnitsConversion: 1 // TODO: can we eliminate this an an option?
+        timeUnitsConversion: 1 // TODO(design): can we eliminate this an an option?  It means 1 sec => 1 sec, or 1ms or 1fs.  It is a question for the design team.
       } );
 
       const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
