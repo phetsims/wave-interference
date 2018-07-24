@@ -21,10 +21,10 @@ define( function( require ) {
   const Property = require( 'AXON/Property' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   const WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // strings
   const amplitudeString = require( 'string!WAVE_INTERFERENCE/amplitude' );
@@ -39,7 +39,7 @@ define( function( require ) {
 
   // constants
   const CHECKBOX_OPTIONS = { boxWidth: 12 };
-  const FEMTO = WaveInterferenceConstants.FEMTO;
+  const fromFemto = WaveInterferenceUtils.fromFemto;
 
   class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
@@ -67,13 +67,13 @@ define( function( require ) {
       // TODO: should this be in the model?  Should we use DynamicProperty?
       const frequencyInHzProperty = new DynamicProperty( new Property( model.lightScene.frequencyProperty ), {
         bidirectional: true,
-        map: function( frequency ) { return frequency / FEMTO; },
-        inverseMap: function( frequency ) { return frequency * FEMTO; }
+        map: function( frequency ) { return WaveInterferenceUtils.fromFemto( frequency ); },
+        inverseMap: function( frequency ) { return WaveInterferenceUtils.toFemto( frequency ); }
       } );
 
       const lightFrequencySlider = new FrequencySlider( frequencyInHzProperty, {
-        minFrequency: model.lightScene.minimumFrequency / FEMTO,
-        maxFrequency: model.lightScene.maximumFrequency / FEMTO,
+        minFrequency: fromFemto( model.lightScene.minimumFrequency ),
+        maxFrequency: fromFemto( model.lightScene.maximumFrequency ),
         trackWidth: 150,
         trackHeight: 20,
         valueVisible: false,

@@ -44,13 +44,14 @@ define( function( require ) {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceControlPanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceControlPanel' );
   const WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
+  const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // constants
   const MARGIN = 8;
   const SPACING = 6;
   const WAVE_MARGIN = 8;
   const WATER_BLUE = WaveInterferenceConstants.WATER_SIDE_COLOR;
-  const FEMTO = WaveInterferenceConstants.FEMTO;
+  const fromFemto = WaveInterferenceUtils.fromFemto;
 
   class WavesScreenView extends ScreenView {
 
@@ -152,7 +153,7 @@ define( function( require ) {
       // Set the color of highlight on the screen and lattice
       Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], ( scene, lightFrequency ) => {
         if ( scene === model.lightScene ) {
-          const baseColor = VisibleColor.frequencyToColor( lightFrequency / FEMTO );
+          const baseColor = VisibleColor.frequencyToColor( fromFemto( lightFrequency ) );
           this.latticeNode.setBaseColor( baseColor );
           this.latticeNode.vacuumColor = Color.black;
           screenNode.setBaseColor( baseColor );
@@ -334,10 +335,10 @@ define( function( require ) {
       Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, frequency ) {
         perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' :
                                            scene === model.soundScene ? 'gray' :
-                                           VisibleColor.frequencyToColor( frequency / FEMTO ) );
+                                           VisibleColor.frequencyToColor( fromFemto( frequency ) ) );
         perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR :
                                             scene === model.soundScene ? 'darkGray' :
-                                            VisibleColor.frequencyToColor( frequency / FEMTO ).colorUtilsDarker( 0.15 ) );
+                                            VisibleColor.frequencyToColor( fromFemto( frequency ) ).colorUtilsDarker( 0.15 ) );
       } );
       this.addChild( perspective3DNode );
 

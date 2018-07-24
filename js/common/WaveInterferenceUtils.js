@@ -53,6 +53,26 @@ define( function( require ) {
     static getCanvasBounds( lattice ) {
       return new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH );
     }
+
+    /**
+     * Convert a value to femto.
+     * @param {number} value
+     * @returns {number}
+     * @public
+     */
+    static toFemto( value ) {
+      return value * WaveInterferenceConstants.FEMTO;
+    }
+
+    /**
+     * Convert a value from femto.
+     * @param {number} value
+     * @returns {number}
+     * @public
+     */
+    static fromFemto( value ) {
+      return value / WaveInterferenceConstants.FEMTO;
+    }
   }
 
   return waveInterference.register( 'WaveInterferenceUtils', WaveInterferenceUtils );

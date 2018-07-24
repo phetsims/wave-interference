@@ -29,7 +29,7 @@ define( function( require ) {
   const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // strings
   const cmUnitsString = require( 'string!WAVE_INTERFERENCE/cmUnits' );
@@ -57,7 +57,7 @@ define( function( require ) {
   // constants
   const POINT_SOURCE_HORIZONTAL_COORDINATE = 30;
   const EVENT_RATE = 20; // Tuned so that iPad2 has enough time to run model computations
-  const FEMTO = WaveInterferenceConstants.FEMTO;
+  const toFemto = WaveInterferenceUtils.toFemto;
 
   class WavesScreenModel {
 
@@ -145,9 +145,9 @@ define( function( require ) {
         graphTitle: electricFieldAtCenterString,
         graphHorizontalAxisLabel: positionNMString,
         waveAreaWidth: 5000, // nm
-        minimumFrequency: VisibleColor.MIN_FREQUENCY * FEMTO, // in cycles per femtosecond
-        maximumFrequency: VisibleColor.MAX_FREQUENCY * FEMTO, // in cycles per femtosecond
-        initialFrequency: VisibleColor.SPEED_OF_LIGHT / 660E-9 * FEMTO, // Start with red light because it is a familiar LED color
+        minimumFrequency: toFemto( VisibleColor.MIN_FREQUENCY ), // in cycles per femtosecond
+        maximumFrequency: toFemto( VisibleColor.MAX_FREQUENCY ), // in cycles per femtosecond
+        initialFrequency: toFemto( VisibleColor.SPEED_OF_LIGHT / 660E-9 ), // Start with red light because it is a familiar LED color
         scaleIndicatorLength: 500, // nm
         scaleIndicatorText: fiveHundredNanometersString, // TODO: this should be computed
 
