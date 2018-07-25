@@ -22,6 +22,9 @@ define( function( require ) {
   const normalString = require( 'string!WAVE_INTERFERENCE/normal' );
   const slowString = require( 'string!WAVE_INTERFERENCE/slow' );
 
+  // constants
+  const BUTTON_SCALE = 0.75;
+
   class TimeControlPanel extends HBox {
 
     /**
@@ -30,7 +33,9 @@ define( function( require ) {
      */
     constructor( model, options ) {
 
-      const playPauseButton = new PlayPauseButton( model.isRunningProperty );
+      const playPauseButton = new PlayPauseButton( model.isRunningProperty, {
+        scale: BUTTON_SCALE
+      } );
 
       const radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
         node: new WaveInterferenceText( normalString ),
@@ -42,7 +47,9 @@ define( function( require ) {
         property: model.playSpeedProperty
       } ] );
 
-      const stepButton = new StepButton();
+      const stepButton = new StepButton( {
+        scale: BUTTON_SCALE
+      } );
 
       // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
       // dt, so the model will behave the same
