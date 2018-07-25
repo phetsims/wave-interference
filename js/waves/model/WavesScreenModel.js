@@ -109,7 +109,7 @@ define( function( require ) {
 
         initialSlitWidth: 2, // cm
         initialSlitSeparation: 4, // cm
-        initialSourceSeparation: 3 // cm TODO(design): Should the initialSourceSeparation always equal the initialSlitSeparation?
+        initialSourceSeparation: options.numberOfSources === 1 ? 0 : 3 // cm TODO(design): Should the initialSourceSeparation always equal the initialSlitSeparation?
       } );
 
       // Sound scene
@@ -137,7 +137,7 @@ define( function( require ) {
 
         initialSlitWidth: 25, // cm
         initialSlitSeparation: 50, // cm
-        initialSourceSeparation: 50 // cm
+        initialSourceSeparation: options.numberOfSources === 1 ? 0 : 50 // cm
       } );
 
       // Light scene
@@ -172,7 +172,7 @@ define( function( require ) {
 
         initialSlitWidth: 500, // nm
         initialSlitSeparation: 1500, // nm
-        initialSourceSeparation: 1500 // nm
+        initialSourceSeparation: options.numberOfSources === 1 ? 0 : 1500 // nm
       } );
 
       const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
