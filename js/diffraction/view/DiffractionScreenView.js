@@ -214,13 +214,6 @@ define( function( require ) {
       updateCanvases();
     }
 
-
-    //TODO Called by the animation loop. Optional, so if your view has no animation, please delete this.
-    // @public
-    step( dt ) {
-      //TODO Handle view animation here.
-    }
-
     updateCanvases() {
 
       // Usage code from JS-Fourier-Image-Analysis/js/main.js

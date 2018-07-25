@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * TODO: documentation
+ * The Diffraction model is implemented in DiffractionScreenView
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

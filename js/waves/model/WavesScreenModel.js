@@ -77,9 +77,7 @@ define( function( require ) {
       assert && assert( options.numberOfSources === 1 || options.numberOfSources === 2, 'Model only supports 1 or 2 sources' );
 
       // @public {Lattice} the grid that contains the wave values
-      // TODO(after-webgl): evaluate dimensions.  Could increase to get better resolution or decrease to get better
-      // TODO(after-webgl): performance.  Maybe choose our slowest device and tune it based on that.
-      this.lattice = new Lattice( 100, 100, 20, 20 ); // Java was 60 + 20 padding on each side
+      this.lattice = new Lattice( 100, 100, 20, 20 );
 
       // @public {Property.<ViewType>}
       this.viewTypeProperty = new Property( ViewType.TOP, {
@@ -259,12 +257,11 @@ define( function( require ) {
       // @public {Property.<Boolean>} - whether the button for the second source is pressed
       this.button2PressedProperty = new BooleanProperty( false );
 
-      // @public {Property.<Vector2>} - model for the physical coordinates of the base of the measuring tape, in meters
-      // TODO: this should be in metric coordinates
+      // @public {Property.<Vector2>} - model for the view coordinates of the base of the measuring tape
+      // We use view coordinates so that nothing needs to be done when switching scenes and coordinate frames.
       this.measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ) );
 
-      // @public {Property.<Vector2>} - model for the physical coordinates of the tip of the measuring tape, in meters
-      // TODO: this should be in metric coordinates
+      // @public {Property.<Vector2>} - model for the view coordinates of the tip of the measuring tape
       this.measuringTapeTipPositionProperty = new Property( new Vector2( 220, 200 ) );
 
       // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
