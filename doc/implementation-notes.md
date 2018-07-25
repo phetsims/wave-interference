@@ -52,12 +52,6 @@ is a reasonable wave speed for a wave pool, even though it doesn't match wave sp
 | mid |  |  |
 | max |  |  |
 
-In the Java version, sound is observed to be traveling 351.7 m/s.  We will need to change the stopwatch units to get
-this to work in HTML5 because we want the wave area to be 1m. TODO(after-webgl): calibrate after view optimized
-Also, the default frequency of sound in the Java version is measured to be 52cm = E5 (the E above concert A)
-See https://pages.mtu.edu/~suits/notefreqs.html
-However, Java sound does not show a good interference pattern because the wavelength on the lattice is too big
-
 ## Light
 | Color | Frequency (THz) | Wavelength (nm) | Oscillation Time (fs) |
 | :--- | ---: | ---: | ---: |
