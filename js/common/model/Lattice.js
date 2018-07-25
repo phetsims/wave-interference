@@ -269,7 +269,7 @@ define( function( require ) {
      */
     getOutputColumn() {
 
-      // TODO(performance): garbage-free form?  Would require preallocating the entire intensitySample matrix
+      // TODO(performance): garbage-free form?  Would require preallocating the entire intensitySample matrix and using an index pointer
       const column = [];
       for ( let j = this.dampY; j < this.height - this.dampY; j++ ) {
         column.push( this.getCurrentValue( this.width - this.dampX - 1, j ) );
