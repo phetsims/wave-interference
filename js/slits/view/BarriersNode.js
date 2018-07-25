@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
@@ -74,6 +75,16 @@ define( function( require ) {
         transform: this.modelViewTransform
       } ) );
 
+      // @private - draggable double-headed arrow beneath the barrier
+      this.arrowNode = new ArrowNode( 0, 0, 56, 0, {
+        doubleHead: true,
+        fill: '#61af5e',
+        headHeight: 18,
+        headWidth: 18,
+        tailWidth: 8
+      } );
+      this.addChild( this.arrowNode );
+
       // Update shapes when the model parameters change
       const update = this.update.bind( this );
       model.barrierTypeProperty.link( update );
@@ -101,23 +112,28 @@ define( function( require ) {
         this.rectangleA.visible = false;
         this.rectangleB.visible = false;
         this.rectangleC.visible = false;
+        this.arrowNode.visible = false;
       }
       else if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
 
         this.rectangleA.visible = true;
         this.rectangleB.visible = true;
         this.rectangleC.visible = false;
+        this.arrowNode.visible = true;
 
         const slitWidthView = this.modelViewTransform.modelToViewDeltaY( slitWidth );
         const y1 = this.waveAreaViewBounds.centerY - slitWidthView / 2;
         const y2 = this.waveAreaViewBounds.centerY + slitWidthView / 2;
         this.rectangleA.setRect( x, this.waveAreaViewBounds.top, this.cellWidth, y1 - this.waveAreaViewBounds.top, 2, 2 );
         this.rectangleB.setRect( x, y2, this.cellWidth, this.waveAreaViewBounds.bottom - y2, 2, 2 );
+        this.arrowNode.centerX = x + this.cellWidth / 2;
+        this.arrowNode.top = this.rectangleB.bottom + 2;
       }
       else if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
         this.rectangleA.visible = true;
         this.rectangleB.visible = true;
         this.rectangleC.visible = true;
+        this.arrowNode.visible = true;
 
         const waveAreaWidth = scene.waveAreaWidth;
         const bottomOfTopBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 - slitWidth / 2 );
@@ -127,6 +143,8 @@ define( function( require ) {
         this.rectangleA.setRect( x, this.waveAreaViewBounds.top, this.cellWidth, Math.max( 0, bottomOfTopBarrier - this.waveAreaViewBounds.top ), 2, 2 );
         this.rectangleB.setRect( x, topOfCentralBarrier, this.cellWidth, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ), 2, 2 );
         this.rectangleC.setRect( x, topOfBottomBarrier, this.cellWidth, Math.max( this.waveAreaViewBounds.bottom - topOfBottomBarrier ), 2, 2 );
+        this.arrowNode.centerX = x + this.cellWidth / 2;
+        this.arrowNode.top = this.rectangleC.bottom + 2;
       }
     }
   }
