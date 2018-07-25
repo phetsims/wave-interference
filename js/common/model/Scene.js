@@ -75,11 +75,6 @@ define( function( require ) {
         units: this.positionUnits
       } );
 
-      // @public {Property.<Number>} - distance between the center of the slits, in the units for this scene
-      this.slitSeparationProperty = new NumberProperty( 0, {
-        units: this.positionUnits
-      } );
-
       // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice
       // coordinates, does not include damping regions
       this.modelToLatticeTransform = ModelViewTransform2.createRectangleMapping(
@@ -95,8 +90,15 @@ define( function( require ) {
         units: this.positionUnits
       } );
 
-      // @public {NumberProperty} - width of the slit(s) opening in lattice coordinates.
-      this.slitWidthProperty = new NumberProperty( 5 );
+      // @public {NumberProperty} - width of the slit(s) opening in the units for this scene
+      this.slitWidthProperty = new NumberProperty( config.initialSlitWidth, {
+        units: this.positionUnits
+      } );
+
+      // @public {Property.<Number>} - distance between the center of the slits, in the units for this scene
+      this.slitSeparationProperty = new NumberProperty( config.initialSlitSeparation, {
+        units: this.positionUnits
+      } );
 
       // @public (read-only) {number}
       this.waveSpeed = config.waveSpeed;

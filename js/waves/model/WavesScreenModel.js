@@ -105,7 +105,10 @@ define( function( require ) {
         waveSpeed: 1.85, // in position units / time units, measured empirically as 5.4 seconds to cross the 10cm lattice
 
         timeScaleFactor: 1, // 1 second in real time = 1 second on the simulation timer
-        timeUnitsConversion: 1
+        timeUnitsConversion: 1,
+
+        initialSlitWidth: 2, // cm
+        initialSlitSeparation: 4 // cm
       } );
 
       // Sound scene
@@ -129,7 +132,10 @@ define( function( require ) {
         waveSpeed: 34.3, // in cm/ms
 
         timeScaleFactor: 1, // This is confusing.  One second of real time should show up as 1ms, so this factor is 1
-        timeUnitsConversion: 1 // This value is chosen so that the wave speed is accurate
+        timeUnitsConversion: 1, // This value is chosen so that the wave speed is accurate
+
+        initialSlitWidth: 25, // cm
+        initialSlitSeparation: 50 // cm
       } );
 
       // Light scene
@@ -160,7 +166,10 @@ define( function( require ) {
         timeScaleFactor: 1853 / 660,
 
         // to cross a 5000nm wave area, it should take 5000nm / (300nm/fs) = 16.6fs.
-        timeUnitsConversion: 1 // TODO(design): can we eliminate this an an option?  It means 1 sec => 1 sec, or 1ms or 1fs.  It is a question for the design team.
+        timeUnitsConversion: 1, // TODO(design): can we eliminate this an an option?  It means 1 sec => 1 sec, or 1ms or 1fs.  It is a question for the design team.
+
+        initialSlitWidth: 500, // nm
+        initialSlitSeparation: 1500 // nm
       } );
 
       const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
