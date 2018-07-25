@@ -16,6 +16,7 @@ define( function( require ) {
   const Matrix3 = require( 'DOT/Matrix3' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
+  const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -41,7 +42,7 @@ define( function( require ) {
 
         // prevent bounds computations during main loop
         boundsMethod: 'none',
-        localBounds: new Bounds2( 0, 0, 10, 10 ) // TODO: Does it matter what this value is?  ZERO doesn't seem to work though.
+        localBounds: ScreenView.DEFAULT_LAYOUT_BOUNDS
       } );
 
       // depicts the side face (when the user selects "side view")
@@ -52,7 +53,7 @@ define( function( require ) {
 
         // prevent bounds computations during main loop
         boundsMethod: 'none',
-        localBounds: new Bounds2( 0, 0, 10, 10 ) // TODO: Does it matter what this value is?  ZERO doesn't seem to work though.
+        localBounds: ScreenView.DEFAULT_LAYOUT_BOUNDS
       } );
 
       // shows the up arrow
