@@ -70,8 +70,8 @@ define( function( require ) {
       // @public (read-only) {string} - the units (in English and for the PhET-iO data stream)
       this.positionUnits = config.positionUnits;
 
-      // @public {Property.<Number>} - distance between the sources, or 0 if there is only one source
-      this.sourceSeparationProperty = new NumberProperty( 0, {
+      // @public {Property.<Number>} - distance between the sources in the units of the scene, or 0 if there is only one source
+      this.sourceSeparationProperty = new NumberProperty( config.initialSourceSeparation, {
         units: this.positionUnits
       } );
 

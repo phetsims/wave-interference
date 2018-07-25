@@ -108,7 +108,8 @@ define( function( require ) {
         timeUnitsConversion: 1,
 
         initialSlitWidth: 2, // cm
-        initialSlitSeparation: 4 // cm
+        initialSlitSeparation: 4, // cm
+        initialSourceSeparation: 3 // cm TODO(design): Should the initialSourceSeparation always equal the initialSlitSeparation?
       } );
 
       // Sound scene
@@ -135,7 +136,8 @@ define( function( require ) {
         timeUnitsConversion: 1, // This value is chosen so that the wave speed is accurate
 
         initialSlitWidth: 25, // cm
-        initialSlitSeparation: 50 // cm
+        initialSlitSeparation: 50, // cm
+        initialSourceSeparation: 50 // cm
       } );
 
       // Light scene
@@ -169,7 +171,8 @@ define( function( require ) {
         timeUnitsConversion: 1, // TODO(design): can we eliminate this an an option?  It means 1 sec => 1 sec, or 1ms or 1fs.  It is a question for the design team.
 
         initialSlitWidth: 500, // nm
-        initialSlitSeparation: 1500 // nm
+        initialSlitSeparation: 1500, // nm
+        initialSourceSeparation: 1500 // nm
       } );
 
       const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
