@@ -31,7 +31,6 @@ define( function( require ) {
   const TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
-  const Util = require( 'SCENERY/util/Util' );
   const ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterEmitterNode = require( 'WAVE_INTERFERENCE/common/view/WaterEmitterNode' );

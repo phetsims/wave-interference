@@ -28,11 +28,13 @@ define( function( require ) {
       // @private {Lattice}
       this.lattice = lattice;
 
-      // @private {Array.<Array.<number>>} - each element is one output column
-      this.history = [ this.lattice.getOutputColumn() ];
-
       // @public {Emitter} - signifies when the intensitySample has changed values.
       this.changedEmitter = new Emitter();
+
+      // @private {Array.<Array.<number>>} - each element is one output column
+      this.history = [];
+
+      this.clear();
     }
 
 
@@ -59,8 +61,7 @@ define( function( require ) {
      */
     clear() {
       this.history.length = 0;
-      this.history.push( this.lattice.getOutputColumn() );
-      this.changedEmitter.emit();
+      this.step(); // populate with one column
     }
 
     /**
