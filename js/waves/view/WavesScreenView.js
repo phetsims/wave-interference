@@ -14,7 +14,6 @@ define( function( require ) {
   const DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
   const IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   const LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
-  const LatticeWebGLNode = require( 'WAVE_INTERFERENCE/common/view/LatticeWebGLNode' );
   const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
   const LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
@@ -127,11 +126,7 @@ define( function( require ) {
       } );
       this.addChild( resetAllButton );
 
-      const webGLSupported = Util.isWebGLSupported && phet.chipper.queryParameters.webgl && false;
-
-      this.latticeNode = webGLSupported ?
-                         new LatticeWebGLNode( model.lattice ) :
-                         new LatticeCanvasNode( model.lattice );
+      this.latticeNode = new LatticeCanvasNode( model.lattice );
 
       const scale = this.waveAreaNode.width / this.latticeNode.width;
       this.latticeNode.mutate( {

@@ -45,7 +45,7 @@ define( function( require ) {
     }
 
     /**
-     * Gets the bounds to use for a canvas (webgl or canvas), in view coordinates
+     * Gets the bounds to use for a canvas, in view coordinates
      * @param {Lattice} lattice
      * @public
      * @static
