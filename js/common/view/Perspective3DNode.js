@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  const Bounds2 = require( 'DOT/Bounds2' );
   const Easing = require( 'TWIXT/Easing' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const Matrix3 = require( 'DOT/Matrix3' );
