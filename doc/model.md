@@ -19,4 +19,4 @@ produces spherical waves, and hence the part that passes through the slit produc
 
 # Diffraction Screen
 
-TODO(diffraction): document this part
+The diffraction pattern is computed as the discrete Fast Fourier Transform of the input pattern.
