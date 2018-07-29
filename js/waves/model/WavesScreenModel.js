@@ -168,7 +168,7 @@ define( function( require ) {
         timeScaleFactor: 1853 / 660,
 
         // to cross a 5000nm wave area, it should take 5000nm / (300nm/fs) = 16.6fs.
-        timeUnitsConversion: 1, // TODO(design): can we eliminate this an an option?  It means 1 sec => 1 sec, or 1ms or 1fs.  It is a question for the design team.
+        timeUnitsConversion: 1,
 
         initialSlitWidth: 500, // nm
         initialSlitSeparation: 1500, // nm
