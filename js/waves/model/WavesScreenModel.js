@@ -109,7 +109,7 @@ define( function( require ) {
 
         initialSlitWidth: 2, // cm
         initialSlitSeparation: 4, // cm
-        initialSourceSeparation: options.numberOfSources === 1 ? 0 : 3 // cm TODO(design): Should the initialSourceSeparation always equal the initialSlitSeparation?
+        initialSourceSeparation: options.numberOfSources === 1 ? 0 : 3 // cm
       } );
 
       // Sound scene
