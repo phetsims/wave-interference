@@ -328,10 +328,9 @@ define( function( require ) {
 
           const sampleI = latticeCoordinates.x + model.lattice.dampX;
           const sampleJ = latticeCoordinates.y + model.lattice.dampY;
-          const value = model.lattice.getCurrentValue( sampleI, sampleJ );
 
-          // NaN is returned for out of bounds
           if ( model.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
+            const value = model.lattice.getCurrentValue( sampleI, sampleJ );
 
             // strong wavefronts (bright colors) are positive on the graph
             let chartYValue = Util.linear( 0, 2, graphHeight / 2, 0, value );
