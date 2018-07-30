@@ -72,7 +72,7 @@ define( function( require ) {
       this.interpolationRatio = 0;
 
       // @public (read-only) {Bounds2} - a Bounds2 representing the visible (non-damping) region of the lattice.
-      this.visibleBounds = new Bounds2( this.dampX, this.dampY, this.width - this.dampX, this.height - this.dampY )
+      this.visibleBounds = new Bounds2( this.dampX, this.dampY, this.width - this.dampX, this.height - this.dampY );
     }
 
     /**
