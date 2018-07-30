@@ -326,10 +326,12 @@ define( function( require ) {
           // itself as the sensor hot spot.  This doesn't include the damping regions
           const latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
 
-          const value = model.lattice.getCurrentValue( latticeCoordinates.x + model.lattice.dampX, latticeCoordinates.y + model.lattice.dampY );
+          var sampleI = latticeCoordinates.x + model.lattice.dampX;
+          var sampleJ = latticeCoordinates.y + model.lattice.dampY;
+          const value = model.lattice.getCurrentValue( sampleI, sampleJ );
 
           // NaN is returned for out of bounds
-          if ( !isNaN( value ) ) {
+          if ( model.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
 
             // strong wavefronts (bright colors) are positive on the graph
             let chartYValue = Util.linear( 0, 2, graphHeight / 2, 0, value );

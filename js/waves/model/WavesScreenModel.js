@@ -464,7 +464,7 @@ define( function( require ) {
         const waveValue = -Math.sin( this.time * angularFrequency + this.phase ) * this.amplitudeProperty.get();
 
         // assumes a square lattice
-        const separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().waveAreaWidth * this.lattice.getVisibleBounds().width;
+        const separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().waveAreaWidth * this.lattice.visibleBounds.width;
         const distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.

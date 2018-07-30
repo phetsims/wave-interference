@@ -79,7 +79,7 @@ define( function( require ) {
       // coordinates, does not include damping regions
       this.modelToLatticeTransform = ModelViewTransform2.createRectangleMapping(
         new Rectangle( 0, 0, config.waveAreaWidth, config.waveAreaWidth ),
-        config.lattice.getVisibleBounds()
+        config.lattice.visibleBounds
       );
 
       // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)

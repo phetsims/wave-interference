@@ -70,14 +70,9 @@ define( function( require ) {
       // @public {number} - Determines how far we have animated between the "last" and "current" matrices, so that we
       // can use getInterpolatedValue to update the view at 60fps even though the model is running at a slower rate
       this.interpolationRatio = 0;
-    }
 
-    /**
-     * Gets a Bounds2 representing the visible (non-damping) region of the lattice.
-     * @returns {Bounds2}
-     */
-    getVisibleBounds() {
-      return new Bounds2( this.dampX, this.dampY, this.width - this.dampX, this.height - this.dampY );
+      // @public (read-only) {Bounds2} - a Bounds2 representing the visible (non-damping) region of the lattice.
+      this.visibleBounds = new Bounds2( this.dampX, this.dampY, this.width - this.dampX, this.height - this.dampY )
     }
 
     /**
@@ -86,6 +81,16 @@ define( function( require ) {
      */
     getBounds() {
       return new Bounds2( 0, 0, this.width, this.height );
+    }
+
+    /**
+     * Returns true if the visible bounds contains the lattice coordinate
+     * @param {number} i integer for the horizontal coordinate
+     * @param {number} j integer for the vertical coordinate
+     * @returns {boolean}
+     */
+    visibleBoundsContains( i, j ) {
+      return this.visibleBounds.containsCoordinates( i, j );
     }
 
     /**
