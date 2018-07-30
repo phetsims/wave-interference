@@ -439,7 +439,11 @@ define( function( require ) {
      * @private
      */
     resetPhase() {
-      this.phase = -this.time * this.sceneProperty.get().frequencyProperty.get();
+      const frequency = this.sceneProperty.get().frequencyProperty.get();
+      const angularFrequency = Math.PI * 2 * frequency;
+
+      // Solve for the sin arg = 0 in Math.sin( this.time * angularFrequency + this.phase )
+      this.phase = -this.time * angularFrequency;
     }
 
     /**
