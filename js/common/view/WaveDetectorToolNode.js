@@ -326,8 +326,8 @@ define( function( require ) {
           // itself as the sensor hot spot.  This doesn't include the damping regions
           const latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
 
-          var sampleI = latticeCoordinates.x + model.lattice.dampX;
-          var sampleJ = latticeCoordinates.y + model.lattice.dampY;
+          const sampleI = latticeCoordinates.x + model.lattice.dampX;
+          const sampleJ = latticeCoordinates.y + model.lattice.dampY;
           const value = model.lattice.getCurrentValue( sampleI, sampleJ );
 
           // NaN is returned for out of bounds
