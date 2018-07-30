@@ -247,6 +247,9 @@ define( function( require ) {
       // @public {BooleanProperty} - true while a single pulse is being generated
       this.pulseFiringProperty = new BooleanProperty( false );
 
+      // @private {number} - indicates the time when the pulse began, or 0 if there is no pulse.
+      this.pulseStartTime = 0;
+
       // @public {BooleanProperty} - true when the first source is continuously oscillating
       this.continuousWave1OscillatingProperty = new BooleanProperty( false );
 
@@ -320,6 +323,7 @@ define( function( require ) {
           assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
           this.resetPhase();
           this.pulseFiringProperty.value = true;
+          this.pulseStartTime = this.time;
         }
         else {
           this.continuousWave1OscillatingProperty.value = isPressed;
@@ -402,12 +406,15 @@ define( function( require ) {
 
       const frequency = this.sceneProperty.get().frequencyProperty.get();
 
-      // If the pulse is running, end the pulse at the appropriate time.
-      if ( this.pulseFiringProperty.get() && ( this.time * frequency + this.phase > Math.PI * 2 ) ) {
-        this.pulseFiringProperty.value = false;
+      // If the pulse is running, end the pulse after one period
+      if ( this.pulseFiringProperty.get() ) {
+        const period = 1 / frequency;
+        const timeSincePulseStarted = this.time - this.pulseStartTime;
+        if ( timeSincePulseStarted > period ) {
+          this.pulseFiringProperty.set( false );
+          this.pulseStartTime = 0;
+        }
       }
-
-      // Track the time since the last lattice update so we can get comparable performance on machines with different speeds
 
       // Update the lattice
       this.lattice.step( this.setSourceValues.bind( this ) );
@@ -450,6 +457,7 @@ define( function( require ) {
         // The simulation is designed to start with a downward wave, corresponding to water splashing in
         const frequency = this.sceneProperty.get().frequencyProperty.value;
         const angularFrequency = Math.PI * 2 * frequency;
+        // TODO: phase is wrong after we changed the units.  Need to start with downward wave
         const v = -Math.sin( this.time * angularFrequency + this.phase ) * this.amplitudeProperty.get();
 
         // assumes a square lattice
