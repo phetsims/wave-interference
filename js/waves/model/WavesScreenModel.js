@@ -285,17 +285,17 @@ define( function( require ) {
 
         // For the main model, Math.sin is performed on angular frequency, so to match the phase, that computation
         // should also be based on angular frequencies
-        oldFrequency = oldFrequency * Math.PI * 2;
-        newFrequency = newFrequency * Math.PI * 2;
+        const oldAngularFrequency = oldFrequency * Math.PI * 2;
+        const newAngularFrequency = newFrequency * Math.PI * 2;
 
-        const oldValue = Math.sin( this.time * oldFrequency + this.phase );
-        let proposedPhase = Math.asin( oldValue ) - this.time * newFrequency;
-        const oldDerivative = Math.cos( this.time * oldFrequency + this.phase );
-        const newDerivative = Math.cos( this.time * newFrequency + proposedPhase );
+        const oldValue = Math.sin( this.time * oldAngularFrequency + this.phase );
+        let proposedPhase = Math.asin( oldValue ) - this.time * newAngularFrequency;
+        const oldDerivative = Math.cos( this.time * oldAngularFrequency + this.phase );
+        const newDerivative = Math.cos( this.time * newAngularFrequency + proposedPhase );
 
         // If wrong phase, take the sin value from the opposite side and move forward by half a cycle
         if ( oldDerivative * newDerivative < 0 ) {
-          proposedPhase = Math.asin( -oldValue ) - this.time * newFrequency + Math.PI;
+          proposedPhase = Math.asin( -oldValue ) - this.time * newAngularFrequency + Math.PI;
         }
 
         this.phase = proposedPhase;
@@ -461,8 +461,7 @@ define( function( require ) {
         // The simulation is designed to start with a downward wave, corresponding to water splashing in
         const frequency = this.sceneProperty.get().frequencyProperty.value;
         const angularFrequency = Math.PI * 2 * frequency;
-        // TODO: phase is wrong after we changed the units.  Need to start with downward wave
-        const v = -Math.sin( this.time * angularFrequency + this.phase ) * this.amplitudeProperty.get();
+        const waveValue = -Math.sin( this.time * angularFrequency + this.phase ) * this.amplitudeProperty.get();
 
         // assumes a square lattice
         const separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().waveAreaWidth * this.lattice.getVisibleBounds().width;
@@ -473,12 +472,12 @@ define( function( require ) {
 
         // Point source
         if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
-          lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ + distanceAboveAxis, v );
+          lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ + distanceAboveAxis, waveValue );
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
         if ( this.continuousWave2OscillatingProperty.get() ) {
-          lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ - distanceAboveAxis, v );
+          lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ - distanceAboveAxis, waveValue );
         }
       }
     }
