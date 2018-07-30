@@ -25,7 +25,7 @@ define( function( require ) {
       this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
 
       // When the barrier moves, it creates a lot of artifacts, so clear the wave when the barrier moves
-      // TODO: restart propagation from the left
+      // TODO: restart propagation from the left, see https://github.com/phetsims/wave-interference/issues/47
       const barrierMoved = this.clear.bind( this );
       this.waterScene.barrierLocationProperty.link( barrierMoved );
       this.soundScene.barrierLocationProperty.link( barrierMoved );
@@ -69,7 +69,7 @@ define( function( require ) {
             const slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel );
             const latticeCenterY = this.lattice.height / 2;
 
-            // TODO: NO_SLIT should just propagate the plane wave across the entire wave area to avoid artifacts
+            // TODO: NO_SLIT should just propagate the plane wave across the entire wave area to avoid artifacts, see https://github.com/phetsims/wave-interference/issues/47
 
             if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
               const low = j > latticeCenterY + slitWidth / 2;
@@ -94,7 +94,7 @@ define( function( require ) {
             // k = 2pi/lambda
             const k = Math.PI * 2 / wavelength;
 
-            // TODO: use wave speed to track the wavefront and back, there is an issue for this
+            // TODO: use wave speed to track the wavefront and back, see https://github.com/phetsims/wave-interference/issues/47
 
             // Scale the amplitude because it is calibrated for a point source, not a plane wave
             const angularFrequency = frequency * Math.PI * 2;
