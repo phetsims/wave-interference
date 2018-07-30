@@ -402,6 +402,7 @@ define( function( require ) {
 
       const frequency = this.sceneProperty.get().frequencyProperty.get();
 
+      // If the pulse is running, end the pulse at the appropriate time.
       if ( this.pulseFiringProperty.get() && ( this.time * frequency + this.phase > Math.PI * 2 ) ) {
         this.pulseFiringProperty.value = false;
       }
@@ -447,8 +448,8 @@ define( function( require ) {
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
         // The simulation is designed to start with a downward wave, corresponding to water splashing in
-        var frequency = this.sceneProperty.get().frequencyProperty.value;
-        var angularFrequency = Math.PI * 2 * frequency;
+        const frequency = this.sceneProperty.get().frequencyProperty.value;
+        const angularFrequency = Math.PI * 2 * frequency;
         const v = -Math.sin( this.time * angularFrequency + this.phase ) * this.amplitudeProperty.get();
 
         // assumes a square lattice
