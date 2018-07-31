@@ -38,7 +38,7 @@ define( function( require ) {
           this.button1PressTime = this.time;
         }
         else {
-          this.lattice.clear();
+          this.clear();
         }
       } );
     }
