@@ -30,6 +30,17 @@ define( function( require ) {
       this.waterScene.barrierLocationProperty.link( barrierMoved );
       this.soundScene.barrierLocationProperty.link( barrierMoved );
       this.lightScene.barrierLocationProperty.link( barrierMoved );
+
+      // @protected {number} - record the time the button was pressed, so the SlitsScreenModel can propagate the right distance
+      this.button1PressTime = 0;
+      this.button1PressedProperty.link( ( pressed ) => {
+        if ( pressed ) {
+          this.button1PressTime = this.time;
+        }
+        else {
+          this.lattice.clear();
+        }
+      } );
     }
 
     /**
@@ -43,13 +54,22 @@ define( function( require ) {
       const scene = this.sceneProperty.get();
 
       // Round this to make sure it appears at an integer cell column
-      const barrierLatticeX = Math.round( scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() ) );
+      let barrierLatticeX = Math.round( scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() ) );
       const slitSeparationModel = scene.slitSeparationProperty.get();
 
-      // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
-      // and unwanted artifacts
+      const frontTime = this.time - this.button1PressTime;
+      let frontPosition = Math.round( scene.modelToLatticeTransform.modelToViewX( scene.waveSpeed * frontTime ) );
 
-      for ( let i = 0; i <= barrierLatticeX; i++ ) {
+      // Split into 2 regions.
+      // 1. The region where there could be a wave (if it matches the button press and isn't in the barrier)
+      // 2. The empirical part beyond the barrier
+
+      // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
+      // and unwanted artifacts, see https://github.com/phetsims/wave-interference/issues/47
+      if ( this.barrierTypeProperty.value === BarrierTypeEnum.NO_BARRIER ) {
+        barrierLatticeX = lattice.width - lattice.dampX;
+      }
+      for ( let i = lattice.dampX; i <= barrierLatticeX; i++ ) {
 
         // Find the physical model coordinate corresponding to the lattice coordinate
         const x = scene.modelToLatticeTransform.viewToModelX( i );
@@ -68,8 +88,6 @@ define( function( require ) {
             const slitWidthModel = scene.slitWidthProperty.get();
             const slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel );
             const latticeCenterY = this.lattice.height / 2;
-
-            // TODO: NO_SLIT should just propagate the plane wave across the entire wave area to avoid artifacts, see https://github.com/phetsims/wave-interference/issues/47
 
             if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
               const low = j > latticeCenterY + slitWidth / 2;
@@ -94,11 +112,13 @@ define( function( require ) {
             // k = 2pi/lambda
             const k = Math.PI * 2 / wavelength;
 
-            // TODO: use wave speed to track the wavefront and back, see https://github.com/phetsims/wave-interference/issues/47
-
             // Scale the amplitude because it is calibrated for a point source, not a plane wave
             const angularFrequency = frequency * Math.PI * 2;
-            const value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - angularFrequency * this.time );
+            let value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - angularFrequency * this.time );
+
+            if ( i >= frontPosition ) {
+              value = 0;
+            }
             const lastValue = lattice.getCurrentValue( i, j );
             lattice.setCurrentValue( i, j, value );
             lattice.setLastValue( i, j, lastValue );
