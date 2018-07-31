@@ -348,7 +348,7 @@ define( function( require ) {
             probeSamples.shift();
           }
 
-          // TODO(performance): performance caveat
+          // Draw the graph with line segments
           const pathShape = new Shape();
           for ( let i = 0; i < probeSamples.length; i++ ) {
             const sample = probeSamples[ i ];
