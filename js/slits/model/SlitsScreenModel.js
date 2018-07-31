@@ -58,7 +58,21 @@ define( function( require ) {
       const slitSeparationModel = scene.slitSeparationProperty.get();
 
       const frontTime = this.time - this.button1PressTime;
-      let frontPosition = Math.round( scene.modelToLatticeTransform.modelToViewX( scene.waveSpeed * frontTime ) );
+      const frontPosition = Math.round( scene.modelToLatticeTransform.modelToViewX( scene.waveSpeed * frontTime ) );
+
+      const slitWidthModel = scene.slitWidthProperty.get();
+      const slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel );
+      const latticeCenterY = this.lattice.height / 2;
+
+      const frequency = scene.frequencyProperty.get();
+      const wavelength = scene.waveSpeed / frequency;
+
+      // lambda * k = 2 * pi
+      // k = 2pi/lambda
+      const k = Math.PI * 2 / wavelength;
+
+      // Scale the amplitude because it is calibrated for a point source, not a plane wave
+      const angularFrequency = frequency * Math.PI * 2;
 
       // Split into 2 regions.
       // 1. The region where there could be a wave (if it matches the button press and isn't in the barrier)
@@ -74,9 +88,6 @@ define( function( require ) {
         // Find the physical model coordinate corresponding to the lattice coordinate
         const x = scene.modelToLatticeTransform.viewToModelX( i );
 
-        let frequency = scene.frequencyProperty.get();
-        let wavelength = scene.waveSpeed / frequency;
-
         for ( let j = 0; j < lattice.height; j++ ) {
           const y = scene.modelToLatticeTransform.viewToModelY( j );
 
@@ -84,11 +95,6 @@ define( function( require ) {
           let isCellInBarrier = false;
 
           if ( i === barrierLatticeX ) {
-
-            const slitWidthModel = scene.slitWidthProperty.get();
-            const slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel );
-            const latticeCenterY = this.lattice.height / 2;
-
             if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
               const low = j > latticeCenterY + slitWidth / 2;
               const high = j < latticeCenterY - slitWidth / 2;
@@ -105,17 +111,10 @@ define( function( require ) {
               isCellInBarrier = inTop || inBottom || inCenter;
             }
           }
-
           if ( this.button1PressedProperty.get() && !isCellInBarrier ) {
-
-            // lambda * k = 2 * pi
-            // k = 2pi/lambda
-            const k = Math.PI * 2 / wavelength;
-
-            // Scale the amplitude because it is calibrated for a point source, not a plane wave
-            const angularFrequency = frequency * Math.PI * 2;
             let value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - angularFrequency * this.time );
 
+            // If the coordinate is past where the front of the wave would be, then zero it out.
             if ( i >= frontPosition ) {
               value = 0;
             }
@@ -125,7 +124,7 @@ define( function( require ) {
           }
           else {
 
-            // Instantly clear the incoming wave, otherwise there are too many odd reflections
+            // Instantly clear the incoming wave, otherwise there are too many reflections
             lattice.setCurrentValue( i, j, 0 );
             lattice.setLastValue( i, j, 0 );
           }
