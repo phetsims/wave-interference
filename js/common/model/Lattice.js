@@ -278,7 +278,9 @@ define( function( require ) {
      */
     getOutputColumn() {
 
-      // TODO(performance): garbage-free form?  Would require preallocating the entire intensitySample matrix and using an index pointer
+      // This could be implemented in garbage-free from by require preallocating the entire intensitySample matrix and
+      // using an index pointer like a circular array.  However, profiling in Mac Chrome did not show a significant
+      // amount of time spent in this function, hence we use the simpler implementation.
       const column = [];
       for ( let j = this.dampY; j < this.height - this.dampY; j++ ) {
         column.push( this.getCurrentValue( this.width - this.dampX - 1, j ) );
