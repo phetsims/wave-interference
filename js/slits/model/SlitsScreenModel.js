@@ -24,8 +24,8 @@ define( function( require ) {
       // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
       this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
 
-      // When the barrier moves, it creates a lot of artifacts, so clear the wave when the barrier moves
-      // TODO: restart propagation from the left, see https://github.com/phetsims/wave-interference/issues/47
+      // When the barrier moves, it creates a lot of artifacts, so clear the wave to the right of the barrier
+      // when it moves
       const barrierMoved = this.clear.bind( this );
       this.waterScene.barrierLocationProperty.link( barrierMoved );
       this.soundScene.barrierLocationProperty.link( barrierMoved );
