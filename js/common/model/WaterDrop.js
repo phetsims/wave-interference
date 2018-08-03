@@ -18,10 +18,14 @@ define( function( require ) {
   class WaterDrop {
     constructor() {
 
-      // @public
+      // @public {Property.<number>} - the distance above the pool
       this.distanceAboveWaterProperty = new NumberProperty( 10 );
     }
 
+    /**
+     * Move the water forward in time.
+     * @param {number} dt - elapsed time in the units of the scene
+     */
     step( dt ) {
       this.distanceAboveWaterProperty.value = this.distanceAboveWaterProperty.value - SPEED * dt;
     }

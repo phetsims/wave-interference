@@ -16,6 +16,10 @@ define( function( require ) {
   const waterDropImage = require( 'image!WAVE_INTERFERENCE/water_drop.png' );
 
   class WaterDropNode extends Image {
+
+    /**
+     * @param {WaterDrop} waterDrop
+     */
     constructor( waterDrop ) {
       super( waterDropImage, {
         scale: 0.3,

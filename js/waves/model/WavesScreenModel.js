@@ -358,9 +358,10 @@ define( function( require ) {
       // @public - Notifies listeners when the model reset is complete
       this.resetEmitter = new Emitter();
 
-      // @public - the water drops that are falling toward the water
+      // @public {ObservableArray.<WaterDrop> - the water drops that are falling toward the water
       this.waterDrops = new ObservableArray();
 
+      // TODO: clean up
       // for ( let i = 0; i < 100; i++ ) {
       //   const waterDrop = new WaterDrop();
       //   waterDrop.distanceAboveWaterProperty.value = i * 50 + 20;
