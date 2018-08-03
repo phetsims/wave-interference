@@ -12,11 +12,18 @@ define( function( require ) {
   const NumberProperty = require( 'AXON/NumberProperty' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
+  // constants
+  var SPEED = 80;
+
   class WaterDrop {
     constructor() {
 
       // @public
-      this.heightProperty = new NumberProperty();
+      this.distanceAboveWaterProperty = new NumberProperty( 10 );
+    }
+
+    step( dt ) {
+      this.distanceAboveWaterProperty.value = this.distanceAboveWaterProperty.value - SPEED * dt;
     }
   }
 

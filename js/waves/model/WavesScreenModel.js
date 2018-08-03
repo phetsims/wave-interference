@@ -360,8 +360,13 @@ define( function( require ) {
 
       // @public - the water drops that are falling toward the water
       this.waterDrops = new ObservableArray();
-    }
 
+      // for ( let i = 0; i < 100; i++ ) {
+      //   const waterDrop = new WaterDrop();
+      //   waterDrop.distanceAboveWaterProperty.value = i * 50 + 20;
+      //   this.waterDrops.push( waterDrop );
+      // }
+    }
 
     /**
      * Clears the wave and the Intensity Sample
@@ -390,6 +395,9 @@ define( function( require ) {
      * @public
      */
     advanceTime( dt, manualStep ) {
+
+      // Update the water drops
+      this.waterDrops.forEach( waterDrop => waterDrop.step( dt ) );
 
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.

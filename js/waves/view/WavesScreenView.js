@@ -27,12 +27,14 @@ define( function( require ) {
   const RichText = require( 'SCENERY/nodes/RichText' );
   const ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
+  const Shape = require( 'KITE/Shape' );
   const SoundEmitterNode = require( 'WAVE_INTERFERENCE/common/view/SoundEmitterNode' );
   const TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
   const ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  const WaterDropNode = require( 'WAVE_INTERFERENCE/common/view/WaterDropNode' );
   const WaterEmitterNode = require( 'WAVE_INTERFERENCE/common/view/WaterEmitterNode' );
   const WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
   const WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
@@ -352,6 +354,12 @@ define( function( require ) {
       ], model.sceneProperty, {
         alignChildren: ToggleNode.NONE
       } ) );
+
+      const waterDropLayer = new Node( {
+        clipArea: Shape.rect( 0, 0, 1000, this.waveAreaNode.centerY )
+      } );
+      this.addChild( waterDropLayer );
+      model.waterDrops.forEach( waterDrop => waterDropLayer.addChild( new WaterDropNode( waterDrop ) ) );
     }
 
     /**
