@@ -30,7 +30,6 @@ define( function( require ) {
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
-  const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
 
   // strings
   const cmUnitsString = require( 'string!WAVE_INTERFERENCE/cmUnits' );
@@ -360,13 +359,6 @@ define( function( require ) {
 
       // @public {ObservableArray.<WaterDrop> - the water drops that are falling toward the water
       this.waterDrops = new ObservableArray();
-
-      // TODO: clean up
-      for ( let i = 0; i < 100; i++ ) {
-        const waterDrop = new WaterDrop();
-        waterDrop.distanceAboveWaterProperty.value = i * 50 + 20;
-        this.waterDrops.push( waterDrop );
-      }
     }
 
     /**
@@ -395,25 +387,31 @@ define( function( require ) {
      * @param {boolean} manualStep - true if the step button is being pressed
      * @public
      */
-    advanceTime( dt, manualStep ) {
+    advanceTime( wallDT, manualStep ) {
 
-      // Update the water drops
-      this.waterDrops.forEach( waterDrop => waterDrop.step( dt ) );
+      const frequency = this.sceneProperty.get().frequencyProperty.get();
 
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
       const sign = this.viewTypeProperty.get() === ViewType.TOP ? -1 : +1;
-      this.rotationAmountProperty.value = Util.clamp( this.rotationAmountProperty.value + dt * sign * 1.4, 0, 1 );
+      this.rotationAmountProperty.value = Util.clamp( this.rotationAmountProperty.value + wallDT * sign * 1.4, 0, 1 );
 
       if ( !this.isRunningProperty.get() && !manualStep ) {
         return;
       }
 
-      dt = dt * this.sceneProperty.value.timeScaleFactor * this.playSpeedProperty.get().scaleFactor;
+      const dt = wallDT * this.sceneProperty.value.timeScaleFactor * this.playSpeedProperty.get().scaleFactor;
 
       this.time += dt;
 
-      const frequency = this.sceneProperty.get().frequencyProperty.get();
+      // Create a new water drop if necessary
+      // const period = 1 / frequency;
+      // const waterDrop = new WaterDrop();
+      // waterDrop.distanceAboveWaterProperty.value = 20;
+      // this.waterDrops.push( waterDrop );
+
+      // Update the water drops
+      this.waterDrops.forEach( waterDrop => waterDrop.step( wallDT ) );
 
       // If the pulse is running, end the pulse after one period
       if ( this.pulseFiringProperty.get() ) {
@@ -426,7 +424,7 @@ define( function( require ) {
       }
 
       // Update the lattice
-      this.lattice.step( this.setSourceValues.bind( this ) );
+      this.lattice.step( () => this.setSourceValues() );
 
       if ( this.isTimerRunningProperty.get() ) {
         this.timerElapsedTimeProperty.set( this.timerElapsedTimeProperty.get() + dt * this.sceneProperty.value.timeUnitsConversion );

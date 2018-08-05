@@ -359,7 +359,10 @@ define( function( require ) {
         clipArea: Shape.rect( 0, 0, 1000, this.waveAreaNode.centerY )
       } );
       this.addChild( waterDropLayer );
-      model.waterDrops.forEach( waterDrop => waterDropLayer.addChild( new WaterDropNode( waterDrop ) ) );
+
+      var addWaterDropNode = waterDrop => waterDropLayer.addChild( new WaterDropNode( waterDrop ) );
+      model.waterDrops.forEach( addWaterDropNode );
+      model.waterDrops.addItemAddedListener( addWaterDropNode );
     }
 
     /**
