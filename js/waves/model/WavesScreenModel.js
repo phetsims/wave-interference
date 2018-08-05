@@ -30,6 +30,7 @@ define( function( require ) {
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
+  const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
 
   // strings
   const cmUnitsString = require( 'string!WAVE_INTERFERENCE/cmUnits' );
@@ -319,26 +320,25 @@ define( function( require ) {
 
       // The first button can trigger a pulse, or continuous wave, depending on the inputTypeProperty
       this.button1PressedProperty.lazyLink( isPressed => {
+        if ( isPressed ) {
+          this.resetPhase();
+        }
         if ( isPressed && this.inputTypeProperty.value === IncomingWaveType.PULSE ) {
           assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
-          this.resetPhase();
           this.pulseFiringProperty.value = true;
           this.pulseStartTime = this.time;
         }
         else {
           this.continuousWave1OscillatingProperty.value = isPressed;
-          if ( isPressed ) {
-            this.resetPhase();
-          }
         }
       } );
 
       // The 2nd button starts the second continuous wave
       this.button2PressedProperty.lazyLink( isPressed => {
-        this.continuousWave2OscillatingProperty.value = isPressed;
         if ( isPressed ) {
           this.resetPhase();
         }
+        this.continuousWave2OscillatingProperty.value = isPressed;
       } );
 
       // When the pulse ends, the button pops out
@@ -362,11 +362,11 @@ define( function( require ) {
       this.waterDrops = new ObservableArray();
 
       // TODO: clean up
-      // for ( let i = 0; i < 100; i++ ) {
-      //   const waterDrop = new WaterDrop();
-      //   waterDrop.distanceAboveWaterProperty.value = i * 50 + 20;
-      //   this.waterDrops.push( waterDrop );
-      // }
+      for ( let i = 0; i < 100; i++ ) {
+        const waterDrop = new WaterDrop();
+        waterDrop.distanceAboveWaterProperty.value = i * 50 + 20;
+        this.waterDrops.push( waterDrop );
+      }
     }
 
     /**
