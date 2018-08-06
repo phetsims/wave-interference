@@ -101,6 +101,8 @@ define( function( require ) {
       const firstTickLabel = horizontalAxisTickLabels[ 0 ];
       const tickBubbleXMargin = 2;
       const outline = new Shape()
+
+      // start at the top left
         .moveTo( 0, 0 )
 
         // Top tab with title
@@ -114,11 +116,8 @@ define( function( require ) {
         .arc( topTabBounds.maxX + CURVE_RADIUS, topTabBounds.maxY - CURVE_RADIUS, CURVE_RADIUS, Math.PI, Math.PI / 2, true )
 
         // Right edge, and bubble out around the last horizontal axis tick label
-        .lineTo( graphWidth, 0 )
-        .lineTo( graphWidth, lastTickLabel.top )
-        .lineTo( lastTickLabel.right + tickBubbleXMargin, lastTickLabel.top )
-        .lineTo( lastTickLabel.right + tickBubbleXMargin, lastTickLabel.bottom )
-        .lineTo( graphWidth, graphHeight )
+        .lineTo( lastTickLabel.right + tickBubbleXMargin, 0 )
+        .lineTo( lastTickLabel.right + tickBubbleXMargin, graphHeight )
 
         // Bottom tab with horizontal axis label
         .lineTo( bottomTabBounds.maxX + CURVE_RADIUS, bottomTabBounds.minY )
@@ -131,10 +130,8 @@ define( function( require ) {
         .arc( bottomTabBounds.minX - CURVE_RADIUS, bottomTabBounds.minY + CURVE_RADIUS, CURVE_RADIUS, 0, Math.PI * 3 / 2, true )
 
         // Left edge, and bubble out around the first horizontal axis tick label
-        .lineTo( 0, graphHeight )
-        .lineTo( firstTickLabel.left - tickBubbleXMargin, firstTickLabel.bottom )
-        .lineTo( firstTickLabel.left - tickBubbleXMargin, firstTickLabel.top )
-        .lineTo( 0, firstTickLabel.top )
+        .lineTo( firstTickLabel.left - tickBubbleXMargin, graphHeight )
+        .lineTo( firstTickLabel.left - tickBubbleXMargin, 0 )
         .close();
 
       const outlinePath = new Path( outline, { lineWidth: 1, stroke: 'black', fill: 'rgba(230,230,230,0.9)' } );
