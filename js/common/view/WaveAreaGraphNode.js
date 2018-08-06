@@ -134,8 +134,9 @@ define( function( require ) {
 
         // Right edge, and bubble out around the last horizontal axis tick label
         .lineTo( lastTickLabel.right + tickBubbleXMargin - RADIUS, 0 )
-        .arc( lastTickLabel.right + tickBubbleXMargin - RADIUS, 0 + RADIUS, RADIUS, UP, RIGHT, CLOCKWISE )
-        .lineTo( lastTickLabel.right + tickBubbleXMargin, graphHeight )
+        .arc( lastTickLabel.right + tickBubbleXMargin - RADIUS, RADIUS, RADIUS, UP, RIGHT, CLOCKWISE )
+        .lineTo( lastTickLabel.right + tickBubbleXMargin, graphHeight - RADIUS )
+        .arc( lastTickLabel.right + tickBubbleXMargin - RADIUS, graphHeight - RADIUS, RADIUS, RIGHT, DOWN, CLOCKWISE )
 
         // Bottom tab with horizontal axis label
         .lineTo( bottomTabBounds.maxX + RADIUS, bottomTabBounds.minY )
@@ -148,8 +149,10 @@ define( function( require ) {
         .arc( bottomTabBounds.minX - RADIUS, bottomTabBounds.minY + RADIUS, RADIUS, RIGHT, UP, ANTICLOCKWISE )
 
         // Left edge, and bubble out around the first horizontal axis tick label
-        .lineTo( verticalAxisLabel.left - TEXT_MARGIN_Y, graphHeight )
-        .lineTo( verticalAxisLabel.left - TEXT_MARGIN_Y, 0 )
+        .lineTo( verticalAxisLabel.left - TEXT_MARGIN_Y + RADIUS, graphHeight )
+        .arc( verticalAxisLabel.left - TEXT_MARGIN_Y + RADIUS, graphHeight - RADIUS, RADIUS, DOWN, LEFT, CLOCKWISE )
+        .lineTo( verticalAxisLabel.left - TEXT_MARGIN_Y, RADIUS )
+        .arc( verticalAxisLabel.left - TEXT_MARGIN_Y + RADIUS, RADIUS, RADIUS, LEFT, UP, CLOCKWISE )
         .close();
 
       const outlinePath = new Path( outline, { lineWidth: 1, stroke: 'black', fill: 'rgba(230,230,230,0.9)' } );
