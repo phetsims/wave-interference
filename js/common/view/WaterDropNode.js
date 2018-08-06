@@ -27,6 +27,9 @@ define( function( require ) {
       } );
       var bottom = 100;
       waterDrop.distanceAboveWaterProperty.link( distanceAboveWater => this.setBottom( bottom - distanceAboveWater ) );
+
+      // @public (read-only) for identity checking at removal time
+      this.waterDrop = waterDrop;
     }
   }
 

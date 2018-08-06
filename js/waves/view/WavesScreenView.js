@@ -363,6 +363,10 @@ define( function( require ) {
       var addWaterDropNode = waterDrop => waterDropLayer.addChild( new WaterDropNode( waterDrop ) );
       model.waterDrops.forEach( addWaterDropNode );
       model.waterDrops.addItemAddedListener( addWaterDropNode );
+      model.waterDrops.addItemRemovedListener( waterDrop => {
+        const toRemove = waterDropLayer.children.filter( waterDropNode => waterDropNode.waterDrop === waterDrop );
+        toRemove.forEach( waterDropNode => waterDropLayer.removeChild( waterDropNode ) );
+      } );
     }
 
     /**

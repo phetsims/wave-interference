@@ -13,13 +13,15 @@ define( function( require ) {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  var SPEED = 80;
+  const SPEED = 100;
+  const INITIAL_HEIGHT = 200;
 
   class WaterDrop {
     constructor() {
 
-      // @public {Property.<number>} - the distance above the pool
-      this.distanceAboveWaterProperty = new NumberProperty( 10 );
+      // @public {Property.<number>} - the distance above the pool in view coordinates
+
+      this.distanceAboveWaterProperty = new NumberProperty( INITIAL_HEIGHT );
     }
 
     /**
@@ -28,6 +30,14 @@ define( function( require ) {
      */
     step( dt ) {
       this.distanceAboveWaterProperty.value = this.distanceAboveWaterProperty.value - SPEED * dt;
+    }
+
+    /**
+     * Determine how long it takes on drop of water to fall.
+     * @returns {number}
+     */
+    static get TIME_TO_FALL() {
+      return INITIAL_HEIGHT / SPEED;
     }
   }
 
