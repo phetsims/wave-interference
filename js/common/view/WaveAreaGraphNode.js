@@ -26,8 +26,8 @@ define( function( require ) {
   const TEXT_MARGIN_X = 8;
   const TEXT_MARGIN_Y = 6;
 
-  // Round the tabs
-  const CURVE_RADIUS = 5;
+  // Curve radius for the roundings on corners and tabs
+  const RADIUS = 5;
 
   const GRID_LINE_OPTIONS = { stroke: 'gray', lineWidth: 1, lineDash: [ 4, 4 ] };
 
@@ -110,34 +110,42 @@ define( function( require ) {
         centerY: graphHeight / 2
       } );
 
+      const UP = 3 * Math.PI / 2;
+      const DOWN = Math.PI / 2;
+      const RIGHT = 0;
+      const LEFT = Math.PI;
+      const CLOCKWISE = false;
+      const ANTICLOCKWISE = true;
+
       const outline = new Shape()
 
       // start at the top left
-        .moveTo( 0, 0 )
+        .moveTo( RADIUS, 0 )
 
         // Top tab with title
-        .lineTo( topTabBounds.minX - CURVE_RADIUS, topTabBounds.maxY )
-        .arc( topTabBounds.minX - CURVE_RADIUS, topTabBounds.maxY - CURVE_RADIUS, CURVE_RADIUS, Math.PI / 2, 0, true )
-        .lineTo( topTabBounds.minX, topTabBounds.minY + CURVE_RADIUS )
-        .arc( topTabBounds.minX + CURVE_RADIUS, topTabBounds.minY + CURVE_RADIUS, CURVE_RADIUS, Math.PI, 3 * Math.PI / 2, false )
-        .lineTo( topTabBounds.maxX - CURVE_RADIUS, topTabBounds.minY )
-        .arc( topTabBounds.maxX - CURVE_RADIUS, topTabBounds.minY + CURVE_RADIUS, CURVE_RADIUS, 3 * Math.PI / 2, 0, false )
-        .lineTo( topTabBounds.maxX, topTabBounds.maxY - CURVE_RADIUS )
-        .arc( topTabBounds.maxX + CURVE_RADIUS, topTabBounds.maxY - CURVE_RADIUS, CURVE_RADIUS, Math.PI, Math.PI / 2, true )
+        .lineTo( topTabBounds.minX - RADIUS, topTabBounds.maxY )
+        .arc( topTabBounds.minX - RADIUS, topTabBounds.maxY - RADIUS, RADIUS, DOWN, RIGHT, ANTICLOCKWISE )
+        .lineTo( topTabBounds.minX, topTabBounds.minY + RADIUS )
+        .arc( topTabBounds.minX + RADIUS, topTabBounds.minY + RADIUS, RADIUS, LEFT, UP, CLOCKWISE )
+        .lineTo( topTabBounds.maxX - RADIUS, topTabBounds.minY )
+        .arc( topTabBounds.maxX - RADIUS, topTabBounds.minY + RADIUS, RADIUS, UP, RIGHT, CLOCKWISE )
+        .lineTo( topTabBounds.maxX, topTabBounds.maxY - RADIUS )
+        .arc( topTabBounds.maxX + RADIUS, topTabBounds.maxY - RADIUS, RADIUS, LEFT, DOWN, ANTICLOCKWISE )
 
         // Right edge, and bubble out around the last horizontal axis tick label
-        .lineTo( lastTickLabel.right + tickBubbleXMargin, 0 )
+        .lineTo( lastTickLabel.right + tickBubbleXMargin - RADIUS, 0 )
+        .arc( lastTickLabel.right + tickBubbleXMargin - RADIUS, 0 + RADIUS, RADIUS, UP, RIGHT, CLOCKWISE )
         .lineTo( lastTickLabel.right + tickBubbleXMargin, graphHeight )
 
         // Bottom tab with horizontal axis label
-        .lineTo( bottomTabBounds.maxX + CURVE_RADIUS, bottomTabBounds.minY )
-        .arc( bottomTabBounds.maxX + CURVE_RADIUS, bottomTabBounds.minY + CURVE_RADIUS, CURVE_RADIUS, 3 / 2 * Math.PI, Math.PI, true )
-        .lineTo( bottomTabBounds.maxX, bottomTabBounds.maxY - CURVE_RADIUS )
-        .arc( bottomTabBounds.maxX - CURVE_RADIUS, bottomTabBounds.maxY - CURVE_RADIUS, CURVE_RADIUS, 0, Math.PI / 2, false )
-        .lineTo( bottomTabBounds.minX + CURVE_RADIUS, bottomTabBounds.maxY )
-        .arc( bottomTabBounds.minX + CURVE_RADIUS, bottomTabBounds.maxY - CURVE_RADIUS, CURVE_RADIUS, Math.PI / 2, Math.PI, false )
-        .lineTo( bottomTabBounds.minX, bottomTabBounds.minY + CURVE_RADIUS )
-        .arc( bottomTabBounds.minX - CURVE_RADIUS, bottomTabBounds.minY + CURVE_RADIUS, CURVE_RADIUS, 0, Math.PI * 3 / 2, true )
+        .lineTo( bottomTabBounds.maxX + RADIUS, bottomTabBounds.minY )
+        .arc( bottomTabBounds.maxX + RADIUS, bottomTabBounds.minY + RADIUS, RADIUS, UP, LEFT, ANTICLOCKWISE )
+        .lineTo( bottomTabBounds.maxX, bottomTabBounds.maxY - RADIUS )
+        .arc( bottomTabBounds.maxX - RADIUS, bottomTabBounds.maxY - RADIUS, RADIUS, RIGHT, DOWN, CLOCKWISE )
+        .lineTo( bottomTabBounds.minX + RADIUS, bottomTabBounds.maxY )
+        .arc( bottomTabBounds.minX + RADIUS, bottomTabBounds.maxY - RADIUS, RADIUS, DOWN, LEFT, CLOCKWISE )
+        .lineTo( bottomTabBounds.minX, bottomTabBounds.minY + RADIUS )
+        .arc( bottomTabBounds.minX - RADIUS, bottomTabBounds.minY + RADIUS, RADIUS, RIGHT, UP, ANTICLOCKWISE )
 
         // Left edge, and bubble out around the first horizontal axis tick label
         .lineTo( verticalAxisLabel.left - TEXT_MARGIN_Y, graphHeight )
