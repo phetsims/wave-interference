@@ -100,10 +100,15 @@ define( function( require ) {
       const lastTickLabel = horizontalAxisTickLabels[ horizontalAxisTickLabels.length - 1 ];
       const tickBubbleXMargin = 2;
 
-      const verticalAxisLabel = new WaveInterferenceText( model.sceneProperty.value.verticalAxisTitle, {
-        rotation: 3 * Math.PI / 2
+      const verticalAxisLabel = new ToggleNode( [
+        { value: model.waterScene, node: new WaveInterferenceText( model.waterScene.verticalAxisTitle ) },
+        { value: model.soundScene, node: new WaveInterferenceText( model.soundScene.verticalAxisTitle ) },
+        { value: model.lightScene, node: new WaveInterferenceText( model.lightScene.verticalAxisTitle ) },
+      ], model.sceneProperty, {
+        rotation: 3 * Math.PI / 2,
+        right: -TEXT_MARGIN_Y,
+        centerY: graphHeight / 2
       } );
-      verticalAxisLabel.mutate( { right: 0 - TEXT_MARGIN_Y } );
 
       const outline = new Shape()
 
@@ -169,11 +174,6 @@ define( function( require ) {
       } );
 
       this.addChild( verticalAxisLabel );
-
-      model.sceneProperty.link( scene => {
-        verticalAxisLabel.text = scene.verticalAxisTitle;
-        verticalAxisLabel.centerY = graphHeight / 2;
-      } );
 
       const path = new Path( new Shape(), {
         stroke: 'black',
