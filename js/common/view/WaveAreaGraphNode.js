@@ -98,7 +98,6 @@ define( function( require ) {
         graphHeight + TEXT_MARGIN_Y + horizontalAxisLabel.height
       );
       const lastTickLabel = horizontalAxisTickLabels[ horizontalAxisTickLabels.length - 1 ];
-      const firstTickLabel = horizontalAxisTickLabels[ 0 ];
       const tickBubbleXMargin = 2;
 
       const verticalAxisLabel = new WaveInterferenceText( model.sceneProperty.value.verticalAxisTitle, {
