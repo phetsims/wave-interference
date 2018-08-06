@@ -429,7 +429,9 @@ define( function( require ) {
 
       // If na and nb are just on the other sides of the same integer, then releasing a drop now will hit at the
       // appropriate time
-      if ( oppositeSidesOfSameInteger( na, nb ) && this.sceneProperty.value === this.waterScene ) {
+      if ( oppositeSidesOfSameInteger( na, nb ) &&
+           this.sceneProperty.value === this.waterScene &&
+           this.button1PressedProperty.value ) {
         const waterDrop = new WaterDrop();
         waterDrop.distanceAboveWaterProperty.value = 20;
         this.waterDrops.push( waterDrop );

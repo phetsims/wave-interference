@@ -100,6 +100,12 @@ define( function( require ) {
       const lastTickLabel = horizontalAxisTickLabels[ horizontalAxisTickLabels.length - 1 ];
       const firstTickLabel = horizontalAxisTickLabels[ 0 ];
       const tickBubbleXMargin = 2;
+
+      const verticalAxisLabel = new WaveInterferenceText( model.sceneProperty.value.verticalAxisTitle, {
+        rotation: 3 * Math.PI / 2
+      } );
+      verticalAxisLabel.mutate( { right: 0 - TEXT_MARGIN_Y } );
+
       const outline = new Shape()
 
       // start at the top left
@@ -130,8 +136,8 @@ define( function( require ) {
         .arc( bottomTabBounds.minX - CURVE_RADIUS, bottomTabBounds.minY + CURVE_RADIUS, CURVE_RADIUS, 0, Math.PI * 3 / 2, true )
 
         // Left edge, and bubble out around the first horizontal axis tick label
-        .lineTo( firstTickLabel.left - tickBubbleXMargin, graphHeight )
-        .lineTo( firstTickLabel.left - tickBubbleXMargin, 0 )
+        .lineTo( verticalAxisLabel.left - TEXT_MARGIN_Y, graphHeight )
+        .lineTo( verticalAxisLabel.left - TEXT_MARGIN_Y, 0 )
         .close();
 
       const outlinePath = new Path( outline, { lineWidth: 1, stroke: 'black', fill: 'rgba(230,230,230,0.9)' } );
@@ -163,10 +169,8 @@ define( function( require ) {
         this.addChild( new Line( 0, horizontalGridLineFraction * plotHeight, graphWidth, horizontalGridLineFraction * plotHeight, GRID_LINE_OPTIONS ) );
       } );
 
-      const verticalAxisLabel = new WaveInterferenceText( model.sceneProperty.value.verticalAxisTitle, {
-        rotation: 3 * Math.PI / 2
-      } );
-      this.addChild( verticalAxisLabel.mutate( { right: 0 - TEXT_MARGIN_Y } ) );
+      this.addChild( verticalAxisLabel );
+
       model.sceneProperty.link( scene => {
         verticalAxisLabel.text = scene.verticalAxisTitle;
         verticalAxisLabel.centerY = graphHeight / 2;
