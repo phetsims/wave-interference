@@ -103,7 +103,7 @@ define( function( require ) {
       const verticalAxisLabel = new ToggleNode( [
         { value: model.waterScene, node: new WaveInterferenceText( model.waterScene.verticalAxisTitle ) },
         { value: model.soundScene, node: new WaveInterferenceText( model.soundScene.verticalAxisTitle ) },
-        { value: model.lightScene, node: new WaveInterferenceText( model.lightScene.verticalAxisTitle ) },
+        { value: model.lightScene, node: new WaveInterferenceText( model.lightScene.verticalAxisTitle ) }
       ], model.sceneProperty, {
         rotation: 3 * Math.PI / 2,
         right: -TEXT_MARGIN_Y,
