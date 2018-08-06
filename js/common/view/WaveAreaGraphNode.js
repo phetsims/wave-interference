@@ -110,6 +110,7 @@ define( function( require ) {
         centerY: graphHeight / 2
       } );
 
+      // Nicknames to simplify the rounded corners in the chart
       const UP = 3 * Math.PI / 2;
       const DOWN = Math.PI / 2;
       const RIGHT = 0;
@@ -157,9 +158,8 @@ define( function( require ) {
 
       const outlinePath = new Path( outline, { lineWidth: 1, stroke: 'black', fill: 'rgba(230,230,230,0.6)' } );
       this.addChild( outlinePath );
-      const addChild = this.addChild.bind( this );
-      horizontalAxisTickLabels.forEach( addChild );
-      verticalGridLines.forEach( addChild );
+      horizontalAxisTickLabels.forEach( label => this.addChild( label ) );
+      verticalGridLines.forEach( label => this.addChild( label ) );
 
       title.centerX = graphWidth / 2;
       title.bottom = 0;
