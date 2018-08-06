@@ -20,7 +20,6 @@ define( function( require ) {
     constructor() {
 
       // @public {Property.<number>} - the distance above the pool in view coordinates
-
       this.distanceAboveWaterProperty = new NumberProperty( INITIAL_HEIGHT );
     }
 
