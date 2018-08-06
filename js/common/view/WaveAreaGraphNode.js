@@ -59,7 +59,8 @@ define( function( require ) {
         { value: model.lightScene, node: new WaveInterferenceText( model.lightScene.graphTitle ) }
       ], model.sceneProperty );
 
-      const horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height;
+      const HORIZONTAL_LABEL_VERTICAL_MARGIN = 2;
+      const horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height - HORIZONTAL_LABEL_VERTICAL_MARGIN * 2;
 
       const horizontalAxisTickLabels = [];
       const verticalGridLines = [];
@@ -73,13 +74,22 @@ define( function( require ) {
 
         const horizontalAxisTickLabel = new ToggleNode( [ {
           value: model.waterScene,
-          node: new WaveInterferenceText( waterReadout.toFixed( 0 ), { centerX: x, top: horizontalLineY } )
+          node: new WaveInterferenceText( waterReadout.toFixed( 0 ), {
+            centerX: x,
+            top: horizontalLineY + HORIZONTAL_LABEL_VERTICAL_MARGIN
+          } )
         }, {
           value: model.soundScene,
-          node: new WaveInterferenceText( soundReadout.toFixed( 0 ), { centerX: x, top: horizontalLineY } )
+          node: new WaveInterferenceText( soundReadout.toFixed( 0 ), {
+            centerX: x,
+            top: horizontalLineY + HORIZONTAL_LABEL_VERTICAL_MARGIN
+          } )
         }, {
           value: model.lightScene,
-          node: new WaveInterferenceText( lightReadout.toFixed( 0 ), { centerX: x, top: horizontalLineY } )
+          node: new WaveInterferenceText( lightReadout.toFixed( 0 ), {
+            centerX: x,
+            top: horizontalLineY + HORIZONTAL_LABEL_VERTICAL_MARGIN
+          } )
         } ], model.sceneProperty );
         horizontalAxisTickLabels.push( horizontalAxisTickLabel );
         verticalGridLines.push( new Line( x, horizontalLineY, x, 0, GRID_LINE_OPTIONS ) );
