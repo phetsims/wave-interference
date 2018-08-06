@@ -155,7 +155,7 @@ define( function( require ) {
         .arc( verticalAxisLabel.left - TEXT_MARGIN_Y + RADIUS, RADIUS, RADIUS, LEFT, UP, CLOCKWISE )
         .close();
 
-      const outlinePath = new Path( outline, { lineWidth: 1, stroke: 'black', fill: 'rgba(230,230,230,0.9)' } );
+      const outlinePath = new Path( outline, { lineWidth: 1, stroke: 'black', fill: 'rgba(230,230,230,0.6)' } );
       this.addChild( outlinePath );
       const addChild = this.addChild.bind( this );
       horizontalAxisTickLabels.forEach( addChild );
