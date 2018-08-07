@@ -8,12 +8,17 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+
+  // strings
+  const distanceUnitsString = require( 'string!WAVE_INTERFERENCE/distanceUnits' );
 
   class Scene {
 
@@ -40,11 +45,17 @@ define( function( require ) {
       // @public (read-only) {number} [initialFrequency] - initial frequency in Hz, defaults to the average of min and max
       this.initialFrequency = config.initialFrequency || ( config.minimumFrequency + config.maximumFrequency ) / 2;
 
-      // @public (read-only) {string} - text to show to indicate the relative scale, see LengthScaleIndicatorNode
-      this.scaleIndicatorText = config.scaleIndicatorText;
-
       // @public (read-only) {number} - length in meters to depict to indicate relative scale, see LengthScaleIndicatorNode
       this.scaleIndicatorLength = config.scaleIndicatorLength;
+
+      // @public (read-only) {string} - the units (in English and for the PhET-iO data stream)
+      this.positionUnits = config.positionUnits;
+
+      // @public (read-only) {string} - text to show to indicate the relative scale, see LengthScaleIndicatorNode
+      this.scaleIndicatorText = StringUtils.fillIn( distanceUnitsString, {
+        distance: this.scaleIndicatorLength,
+        units: this.positionUnits
+      } );
 
       // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
       this.timeScaleFactor = config.timeScaleFactor;
@@ -66,9 +77,6 @@ define( function( require ) {
 
       // @public (read-only) {string} - the unit to display on the WaveDetectorToolNode, like "1 s"
       this.oneTimerUnit = config.oneTimerUnit;
-
-      // @public (read-only) {string} - the units (in English and for the PhET-iO data stream)
-      this.positionUnits = config.positionUnits;
 
       // @public {Property.<Number>} - distance between the sources in the units of the scene, or 0 if there is only one source
       this.sourceSeparationProperty = new NumberProperty( config.initialSourceSeparation, {

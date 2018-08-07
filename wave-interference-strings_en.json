@@ -89,14 +89,8 @@
   "sideView": {
     "value": "Side View"
   },
-  "oneCentimeter": {
-    "value": "1 centimeter"
-  },
-  "tenCentimeters": {
-    "value": "10 centimeters"
-  },
-  "fiveHundredNanometers": {
-    "value": "500 nanometers"
+  "distanceUnits": {
+    "value": "{{distance}} {{units}}"
   },
   "normal": {
     "value": "Normal"

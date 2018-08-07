@@ -38,11 +38,9 @@ define( function( require ) {
   const electricFieldString = require( 'string!WAVE_INTERFERENCE/electricField' );
   const femtosecondConversionString = require( 'string!WAVE_INTERFERENCE/femtosecondConversion' );
   const femtosecondsUnitsString = require( 'string!WAVE_INTERFERENCE/femtosecondsUnits' );
-  const fiveHundredNanometersString = require( 'string!WAVE_INTERFERENCE/fiveHundredNanometers' );
   const millisecondConversionString = require( 'string!WAVE_INTERFERENCE/millisecondConversion' );
   const millisecondsUnitsString = require( 'string!WAVE_INTERFERENCE/millisecondsUnits' );
   const nanometersUnitsString = require( 'string!WAVE_INTERFERENCE/nanometersUnits' );
-  const oneCentimeterString = require( 'string!WAVE_INTERFERENCE/oneCentimeter' );
   const oneFemtosecondString = require( 'string!WAVE_INTERFERENCE/oneFemtosecond' );
   const oneMillisecondString = require( 'string!WAVE_INTERFERENCE/oneMillisecond' );
   const oneSecondString = require( 'string!WAVE_INTERFERENCE/oneSecond' );
@@ -51,7 +49,6 @@ define( function( require ) {
   const pressureAtCenterString = require( 'string!WAVE_INTERFERENCE/pressureAtCenter' );
   const pressureString = require( 'string!WAVE_INTERFERENCE/pressure' );
   const secondsUnitsString = require( 'string!WAVE_INTERFERENCE/secondsUnits' );
-  const tenCentimetersString = require( 'string!WAVE_INTERFERENCE/tenCentimeters' ); // This string is separately translated because some are singular
   const waterLevelAtCenterString = require( 'string!WAVE_INTERFERENCE/waterLevelAtCenter' );
   const waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
 
@@ -99,7 +96,6 @@ define( function( require ) {
         waveAreaWidth: 10, // 10 centimeters
         minimumFrequency: 0.25, // cycles per second
         maximumFrequency: 1, // cycles per second
-        scaleIndicatorText: oneCentimeterString,
         scaleIndicatorLength: 1, // 1 centimeter
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
@@ -125,9 +121,8 @@ define( function( require ) {
         graphTitle: pressureAtCenterString,
         graphHorizontalAxisLabel: positionCMString,
         waveAreaWidth: 200, // in cm
-        minimumFrequency: 220 / 1000, // A3 in cycles per ms, 156.82cm
-        maximumFrequency: 1760 / 1000, // A6 in cycles per ms, 19.60cm
-        scaleIndicatorText: tenCentimetersString,
+        minimumFrequency: 220 / 1000, // A3 in cycles per ms, wavelength is 156.82cm
+        maximumFrequency: 1760 / 1000, // A6 in cycles per ms, wavelength is 19.60cm
         scaleIndicatorLength: 10, // cm
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
@@ -156,7 +151,6 @@ define( function( require ) {
         maximumFrequency: toFemto( VisibleColor.MAX_FREQUENCY ), // in cycles per femtosecond
         initialFrequency: toFemto( VisibleColor.SPEED_OF_LIGHT / 660E-9 ), // Start with red light because it is a familiar LED color
         scaleIndicatorLength: 500, // nm
-        scaleIndicatorText: fiveHundredNanometersString,
 
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
