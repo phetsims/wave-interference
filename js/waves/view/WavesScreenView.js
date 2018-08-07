@@ -221,7 +221,7 @@ define( function( require ) {
       model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
       const timerNode = new WaveInterferenceTimerNode( model, {
-        unitsChoices: [ model.waterScene.timerUnits, model.soundScene.timerUnits, model.lightScene.timerUnits ],
+        unitsChoices: [ model.waterScene.timeUnits, model.soundScene.timeUnits, model.lightScene.timeUnits ],
 
         // Drop in toolbox
         end: function() {

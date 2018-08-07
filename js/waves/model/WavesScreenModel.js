@@ -83,7 +83,7 @@ define( function( require ) {
       this.waterScene = new Scene( {
         positionUnits: 'cm',
         translatedPositionUnits: cmUnitsString,
-        timerUnits: secondsUnitsString,
+        timeUnits: secondsUnitsString,
         timeScaleString: '',
 
         verticalAxisTitle: waterLevelString,
@@ -109,7 +109,7 @@ define( function( require ) {
       this.soundScene = new Scene( {
         positionUnits: 'cm',
         translatedPositionUnits: cmUnitsString,
-        timerUnits: millisecondsUnitsString,
+        timeUnits: millisecondsUnitsString,
         timeScaleString: millisecondConversionString,
 
         verticalAxisTitle: pressureString,
@@ -135,7 +135,7 @@ define( function( require ) {
       this.lightScene = new Scene( {
         positionUnits: 'nm',
         translatedPositionUnits: nanometersUnitsString,
-        timerUnits: femtosecondsUnitsString,
+        timeUnits: femtosecondsUnitsString,
         timeScaleString: femtosecondConversionString,
         verticalAxisTitle: electricFieldString,
         graphTitle: electricFieldAtCenterString,

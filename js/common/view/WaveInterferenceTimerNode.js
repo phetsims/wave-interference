@@ -34,7 +34,7 @@ define( function( require ) {
 
       this.addInputListener( this.timerNodeDragListener );
       model.isTimerInPlayAreaProperty.linkAttribute( this, 'visible' );
-      model.sceneProperty.link( scene => this.setUnits( scene.timerUnits ) );
+      model.sceneProperty.link( scene => this.setUnits( scene.timeUnits ) );
     }
   }
 

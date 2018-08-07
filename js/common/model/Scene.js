@@ -67,9 +67,8 @@ define( function( require ) {
       // @public {Property.<number>} - the linear frequency in the appropriate units for the scene
       this.frequencyProperty = new Property( this.initialFrequency );
 
-      // @public (read-only) {string} - units associated with the time units conversion
-      // TODO: should this be timeUnits?
-      this.timerUnits = config.timerUnits;
+      // @public (read-only) {string} - units for time, shown in the timer and optionally at the top right of the lattice
+      this.timeUnits = config.timeUnits;
 
       // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
       this.verticalAxisTitle = config.verticalAxisTitle;
@@ -80,7 +79,7 @@ define( function( require ) {
       // @public (read-only) {string} - the unit to display on the WaveDetectorToolNode, like "1 s"
       this.oneTimerUnit = StringUtils.fillIn( timeUnitsString, {
         time: 1,
-        units: this.timerUnits
+        units: this.timeUnits
       } );
 
       // @public {Property.<Number>} - distance between the sources in the units of the scene, or 0 if there is only one source
