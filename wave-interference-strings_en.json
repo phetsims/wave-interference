@@ -68,15 +68,6 @@
   "femtosecondConversion": {
     "value": "1 fs = 10<sup>-15</sup> s"
   },
-  "oneSecond": {
-    "value": "1 s"
-  },
-  "oneFemtosecond": {
-    "value": "1 fs"
-  },
-  "oneMillisecond": {
-    "value": "1 ms"
-  },
   "screen": {
     "value": "Screen"
   },
@@ -91,6 +82,9 @@
   },
   "distanceUnits": {
     "value": "{{distance}} {{units}}"
+  },
+  "timeUnits": {
+    "value": "{{time}} {{units}}"
   },
   "normal": {
     "value": "Normal"

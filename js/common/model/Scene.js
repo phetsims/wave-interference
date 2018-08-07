@@ -19,6 +19,7 @@ define( function( require ) {
 
   // strings
   const distanceUnitsString = require( 'string!WAVE_INTERFERENCE/distanceUnits' );
+  const timeUnitsString = require( 'string!WAVE_INTERFERENCE/timeUnits' );
 
   class Scene {
 
@@ -67,6 +68,7 @@ define( function( require ) {
       this.frequencyProperty = new Property( this.initialFrequency );
 
       // @public (read-only) {string} - units associated with the time units conversion
+      // TODO: should this be timeUnits?
       this.timerUnits = config.timerUnits;
 
       // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
@@ -76,7 +78,10 @@ define( function( require ) {
       this.graphTitle = config.graphTitle;
 
       // @public (read-only) {string} - the unit to display on the WaveDetectorToolNode, like "1 s"
-      this.oneTimerUnit = config.oneTimerUnit;
+      this.oneTimerUnit = StringUtils.fillIn( timeUnitsString, {
+        time: 1,
+        units: this.timerUnits
+      } );
 
       // @public {Property.<Number>} - distance between the sources in the units of the scene, or 0 if there is only one source
       this.sourceSeparationProperty = new NumberProperty( config.initialSourceSeparation, {

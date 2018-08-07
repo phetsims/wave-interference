@@ -41,9 +41,6 @@ define( function( require ) {
   const millisecondConversionString = require( 'string!WAVE_INTERFERENCE/millisecondConversion' );
   const millisecondsUnitsString = require( 'string!WAVE_INTERFERENCE/millisecondsUnits' );
   const nanometersUnitsString = require( 'string!WAVE_INTERFERENCE/nanometersUnits' );
-  const oneFemtosecondString = require( 'string!WAVE_INTERFERENCE/oneFemtosecond' );
-  const oneMillisecondString = require( 'string!WAVE_INTERFERENCE/oneMillisecond' );
-  const oneSecondString = require( 'string!WAVE_INTERFERENCE/oneSecond' );
   const positionCMString = require( 'string!WAVE_INTERFERENCE/positionCM' );
   const positionNMString = require( 'string!WAVE_INTERFERENCE/positionNM' );
   const pressureAtCenterString = require( 'string!WAVE_INTERFERENCE/pressureAtCenter' );
@@ -87,7 +84,6 @@ define( function( require ) {
         positionUnits: 'cm',
         translatedPositionUnits: cmUnitsString,
         timerUnits: secondsUnitsString,
-        oneTimerUnit: oneSecondString,
         timeScaleString: '',
 
         verticalAxisTitle: waterLevelString,
@@ -114,7 +110,6 @@ define( function( require ) {
         positionUnits: 'cm',
         translatedPositionUnits: cmUnitsString,
         timerUnits: millisecondsUnitsString,
-        oneTimerUnit: oneMillisecondString,
         timeScaleString: millisecondConversionString,
 
         verticalAxisTitle: pressureString,
@@ -141,7 +136,6 @@ define( function( require ) {
         positionUnits: 'nm',
         translatedPositionUnits: nanometersUnitsString,
         timerUnits: femtosecondsUnitsString,
-        oneTimerUnit: oneFemtosecondString,
         timeScaleString: femtosecondConversionString,
         verticalAxisTitle: electricFieldString,
         graphTitle: electricFieldAtCenterString,
