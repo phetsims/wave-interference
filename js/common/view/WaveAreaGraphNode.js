@@ -196,6 +196,7 @@ define( function( require ) {
 
       this.addChild( verticalAxisLabel );
 
+      // The path that shows the curve in the chart.
       const path = new Path( new Shape(), {
         stroke: 'black',
         lineWidth: 2,
@@ -203,7 +204,10 @@ define( function( require ) {
 
         // prevent bounds computations during main loop
         boundsMethod: 'none',
-        localBounds: Bounds2.NOTHING
+        localBounds: Bounds2.NOTHING,
+
+        // prevent the shape from going outside of the chart area
+        clipArea: Shape.rect( 0, 0, graphWidth, horizontalLineY )
       } );
       this.addChild( path );
 
