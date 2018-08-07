@@ -2,7 +2,6 @@
 
 /**
  * Depicts the draggable graph node with two probes which begins in the toolbox.
- * TODO: move to common code, see https://github.com/phetsims/scenery-phet/issues/385
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
