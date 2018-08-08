@@ -10,7 +10,9 @@ define( function( require ) {
 
   // modules
   const DragListener = require( 'SCENERY/listeners/DragListener' );
+  const Text = require( 'SCENERY/nodes/Text' );
   const TimerNode = require( 'SCENERY_PHET/TimerNode' );
+  const ToggleNode = require( 'SUN/ToggleNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   class WaveInterferenceTimerNode extends TimerNode {
@@ -20,6 +22,18 @@ define( function( require ) {
      * @param {Object} config
      */
     constructor( model, config ) {
+
+      // TODO: A pattern for ToggleNode, like model.sceneMap().  Or createToggleNode.  Or WaveInterferenceToggleNode
+      var unitsNode = new ToggleNode( [
+        { value: model.waterScene, node: new Text( model.waterScene.timeUnits ) },
+        { value: model.soundScene, node: new Text( model.soundScene.timeUnits ) },
+        { value: model.lightScene, node: new Text( model.lightScene.timeUnits ) }
+      ], model.sceneProperty, {
+        alignChildren: ToggleNode.LEFT
+      } );
+
+      // TODO: what to do when TimerNode exceeds maxValue?
+      config = _.extend( { unitsNode, maxValue: 999.99, }, config );
       assert && assert( !!config.end, 'end is a required argument' );
       super( model.timerElapsedTimeProperty, model.isTimerRunningProperty, config );
 
@@ -34,7 +48,6 @@ define( function( require ) {
 
       this.addInputListener( this.timerNodeDragListener );
       model.isTimerInPlayAreaProperty.linkAttribute( this, 'visible' );
-      model.sceneProperty.link( scene => this.setUnits( scene.timeUnits ) );
     }
   }
 
