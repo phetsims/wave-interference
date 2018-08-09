@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   const DragListener = require( 'SCENERY/listeners/DragListener' );
+  const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const Text = require( 'SCENERY/nodes/Text' );
   const TimerNode = require( 'SCENERY_PHET/TimerNode' );
   const ToggleNode = require( 'SUN/ToggleNode' );
@@ -23,12 +24,7 @@ define( function( require ) {
      */
     constructor( model, config ) {
 
-      // TODO: A pattern for ToggleNode, like model.sceneMap().  Or createToggleNode.  Or WaveInterferenceToggleNode
-      var unitsNode = new ToggleNode( [
-        { value: model.waterScene, node: new Text( model.waterScene.timeUnits ) },
-        { value: model.soundScene, node: new Text( model.soundScene.timeUnits ) },
-        { value: model.lightScene, node: new Text( model.lightScene.timeUnits ) }
-      ], model.sceneProperty, {
+      const unitsNode = new SceneToggleNode( model, scene => new Text( scene.timeUnits ), {
         alignChildren: ToggleNode.LEFT
       } );
 
