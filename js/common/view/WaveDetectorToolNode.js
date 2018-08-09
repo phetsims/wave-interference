@@ -21,9 +21,9 @@ define( function( require ) {
   const Path = require( 'SCENERY/nodes/Path' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   const Shape = require( 'KITE/Shape' );
-  const ToggleNode = require( 'SUN/ToggleNode' );
   const Util = require( 'DOT/Util' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -103,28 +103,12 @@ define( function( require ) {
         fill: AXIS_LABEL_FILL
       } );
 
-      const verticalAxisTitle = model ? new ToggleNode( [ {
-        value: model.waterScene,
-        node: new WaveInterferenceText( model.waterScene.verticalAxisTitle, {
+      const verticalAxisTitle = model ? new SceneToggleNode( model, scene => new WaveInterferenceText( scene.verticalAxisTitle, {
           fontSize: LABEL_FONT_SIZE,
           rotation: -Math.PI / 2,
           fill: AXIS_LABEL_FILL
         } )
-      }, {
-        value: model.soundScene,
-        node: new WaveInterferenceText( model.soundScene.verticalAxisTitle, {
-          fontSize: LABEL_FONT_SIZE,
-          rotation: -Math.PI / 2,
-          fill: AXIS_LABEL_FILL
-        } )
-      }, {
-        value: model.lightScene,
-        node: new WaveInterferenceText( model.lightScene.verticalAxisTitle, {
-          fontSize: LABEL_FONT_SIZE,
-          rotation: -Math.PI / 2,
-          fill: AXIS_LABEL_FILL
-        } )
-      } ], model.sceneProperty ) : new WaveInterferenceText( '' );
+      ) : new WaveInterferenceText( '' );
 
       const leftMargin = LABEL_EDGE_MARGIN + verticalAxisTitle.width + LABEL_GRAPH_MARGIN;
       const bottomMargin = LABEL_EDGE_MARGIN + horizontalAxisTitle.height + LABEL_GRAPH_MARGIN;

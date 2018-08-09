@@ -14,8 +14,8 @@ define( function( require ) {
   const Line = require( 'SCENERY/nodes/Line' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
+  const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const Shape = require( 'KITE/Shape' );
-  const ToggleNode = require( 'SUN/ToggleNode' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -46,18 +46,10 @@ define( function( require ) {
 
       // Horizontal Axis Label, which updates when the scene changes.  Uses visibility instead of setChildren so that
       // the bottom tab will fit the largest label.
-      const horizontalAxisLabel = new ToggleNode( [
-        { value: model.waterScene, node: new WaveInterferenceText( model.waterScene.graphHorizontalAxisLabel ) },
-        { value: model.soundScene, node: new WaveInterferenceText( model.soundScene.graphHorizontalAxisLabel ) },
-        { value: model.lightScene, node: new WaveInterferenceText( model.lightScene.graphHorizontalAxisLabel ) }
-      ], model.sceneProperty );
+      const horizontalAxisLabel = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.graphHorizontalAxisLabel ) );
 
       // Switchable title of the chart
-      const title = new ToggleNode( [
-        { value: model.waterScene, node: new WaveInterferenceText( model.waterScene.graphTitle ) },
-        { value: model.soundScene, node: new WaveInterferenceText( model.soundScene.graphTitle ) },
-        { value: model.lightScene, node: new WaveInterferenceText( model.lightScene.graphTitle ) }
-      ], model.sceneProperty );
+      const title = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.graphTitle ) );
 
       const HORIZONTAL_LABEL_VERTICAL_MARGIN = 2;
       const horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height - HORIZONTAL_LABEL_VERTICAL_MARGIN * 2;
@@ -68,29 +60,11 @@ define( function( require ) {
         const x = Util.linear( 0, 10, 0, graphWidth, i );
 
         // Find the position of the tick mark in the units of the scene
-        const waterReadout = model.waterScene.waveAreaWidth * x / graphWidth;
-        const soundReadout = model.soundScene.waveAreaWidth * x / graphWidth;
-        const lightReadout = model.lightScene.waveAreaWidth * x / graphWidth;
-
-        const horizontalAxisTickLabel = new ToggleNode( [ {
-          value: model.waterScene,
-          node: new WaveInterferenceText( waterReadout.toFixed( 0 ), {
+        const horizontalAxisTickLabel = new SceneToggleNode( model, scene => new WaveInterferenceText( ( scene.waveAreaWidth * x / graphWidth ).toFixed( 0 ), {
             centerX: x,
             top: horizontalLineY + HORIZONTAL_LABEL_VERTICAL_MARGIN
           } )
-        }, {
-          value: model.soundScene,
-          node: new WaveInterferenceText( soundReadout.toFixed( 0 ), {
-            centerX: x,
-            top: horizontalLineY + HORIZONTAL_LABEL_VERTICAL_MARGIN
-          } )
-        }, {
-          value: model.lightScene,
-          node: new WaveInterferenceText( lightReadout.toFixed( 0 ), {
-            centerX: x,
-            top: horizontalLineY + HORIZONTAL_LABEL_VERTICAL_MARGIN
-          } )
-        } ], model.sceneProperty );
+        );
         horizontalAxisTickLabels.push( horizontalAxisTickLabel );
         verticalGridLines.push( new Line( x, horizontalLineY, x, 0, GRID_LINE_OPTIONS ) );
       }
@@ -109,12 +83,7 @@ define( function( require ) {
       );
       const lastTickLabel = horizontalAxisTickLabels[ horizontalAxisTickLabels.length - 1 ];
       const tickBubbleXMargin = 2;
-
-      const verticalAxisLabel = new ToggleNode( [
-        { value: model.waterScene, node: new WaveInterferenceText( model.waterScene.verticalAxisTitle ) },
-        { value: model.soundScene, node: new WaveInterferenceText( model.soundScene.verticalAxisTitle ) },
-        { value: model.lightScene, node: new WaveInterferenceText( model.lightScene.verticalAxisTitle ) }
-      ], model.sceneProperty, {
+      const verticalAxisLabel = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.verticalAxisTitle ), {
         rotation: 3 * Math.PI / 2,
         right: -TEXT_MARGIN_Y,
         centerY: graphHeight / 2

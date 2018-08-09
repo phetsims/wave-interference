@@ -25,6 +25,7 @@ define( function( require ) {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const RichText = require( 'SCENERY/nodes/RichText' );
+  const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
@@ -84,11 +85,7 @@ define( function( require ) {
       this.afterWaveAreaNode = new Node();
 
       // show the length scale at the top left of the wave area
-      const lengthScaleIndicatorNode = new ToggleNode( [
-        { value: model.waterScene, node: new LengthScaleIndicatorNode( model.waterScene, this.waveAreaNode.width ) },
-        { value: model.soundScene, node: new LengthScaleIndicatorNode( model.soundScene, this.waveAreaNode.width ) },
-        { value: model.lightScene, node: new LengthScaleIndicatorNode( model.lightScene, this.waveAreaNode.width ) }
-      ], model.sceneProperty, {
+      const lengthScaleIndicatorNode = new SceneToggleNode( model, scene => new LengthScaleIndicatorNode( scene, this.waveAreaNode.width ), {
         alignChildren: ToggleNode.LEFT,
         bottom: this.waveAreaNode.top - 2,
         left: this.waveAreaNode.left
@@ -97,11 +94,7 @@ define( function( require ) {
 
       // show the time scale at the top right of the wave area
       const font = new PhetFont( { size: 12 } );
-      const timeScaleIndicatorNode = new ToggleNode( [
-        { value: model.waterScene, node: new RichText( model.waterScene.timeScaleString, { font: font } ) },
-        { value: model.soundScene, node: new RichText( model.soundScene.timeScaleString, { font: font } ) },
-        { value: model.lightScene, node: new RichText( model.lightScene.timeScaleString, { font: font } ) }
-      ], model.sceneProperty, {
+      const timeScaleIndicatorNode = new SceneToggleNode( model, scene => new RichText( scene.timeScaleString, { font: font } ), {
         alignChildren: ToggleNode.RIGHT,
         bottom: this.waveAreaNode.top - 2,
         right: this.waveAreaNode.right
