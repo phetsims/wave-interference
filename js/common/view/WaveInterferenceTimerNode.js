@@ -28,7 +28,6 @@ define( function( require ) {
         alignChildren: ToggleNode.LEFT
       } );
 
-      // TODO: what to do when TimerNode exceeds maxValue?
       config = _.extend( { unitsNode, maxValue: 999.99 }, config );
       assert && assert( !!config.end, 'end is a required argument' );
       super( model.timerElapsedTimeProperty, model.isTimerRunningProperty, config );
