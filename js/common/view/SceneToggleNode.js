@@ -2,7 +2,6 @@
 
 /**
  * A ToggleNode that shows something different for each scene.
- * TODO: Apply this class elsewhere
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -17,15 +16,12 @@ define( function( require ) {
 
     /**
      * @param {WavesScreenModel} model
-     * @param {function} sceneToNode
+     * @param {function} sceneToNode given a {Scene}, create a corresponding {Node}
      * @param {Object} [options]
      */
     constructor( model, sceneToNode, options ) {
-      super( [
-        { value: model.waterScene, node: sceneToNode( model.waterScene ) },
-        { value: model.soundScene, node: sceneToNode( model.soundScene ) },
-        { value: model.lightScene, node: sceneToNode( model.lightScene ) }
-      ], model.sceneProperty, options );
+      var toElement = scene => ( { value: scene, node: sceneToNode( scene ) } );
+      super( [ model.waterScene, model.soundScene, model.lightScene ].map( toElement ), model.sceneProperty, options );
     }
   }
 
