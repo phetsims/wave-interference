@@ -31,9 +31,7 @@ define( function( require ) {
      */
     constructor( model, alignGroup ) {
 
-      const createLabelText = function( string ) {
-        return new WaveInterferenceText( string, { fontSize: 10 } );
-      };
+      const createLabelText = string => new WaveInterferenceText( string, { fontSize: 10 } );
 
       const toggleNode = new ToggleNode( [ {
         value: model.waterScene,

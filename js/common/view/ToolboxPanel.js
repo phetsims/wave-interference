@@ -104,7 +104,7 @@ define( function( require ) {
    * @param {Property.<Boolean>} inPlayAreaProperty
    * @param {Object} forwardingListener
    */
-  const createIcon = function( node, inPlayAreaProperty, forwardingListener ) {
+  const createIcon = ( node, inPlayAreaProperty, forwardingListener ) => {
     const iconNode = new Node( {
       cursor: 'pointer',
       children: [

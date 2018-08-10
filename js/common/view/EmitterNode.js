@@ -37,7 +37,7 @@ define( function( require ) {
       const button = new RoundStickyToggleButton( false, true, isPrimarySource ? model.button1PressedProperty : model.button2PressedProperty, buttonOptions );
       const nodeWithButton = new Node( { children: [ sourceNode, button ] } );
 
-      const updateEnabled = function() {
+      const updateEnabled = () => {
         if ( model.inputTypeProperty.value === IncomingWaveType.PULSE ) {
           button.enabled = !model.pulseFiringProperty.value;
         }

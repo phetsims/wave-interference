@@ -32,13 +32,11 @@ define( function( require ) {
       /**
        * Creates one of the 3 recycled rectangles used for rendering the barriers.
        */
-      const createRectangle = function() {
-        return new Rectangle( 0, 0, 0, 0, 2, 2, {
-          fill: '#f3d99b',
-          stroke: 'black',
-          lineWidth: 1
-        } );
-      };
+      const createRectangle = () => new Rectangle( 0, 0, 0, 0, 2, 2, {
+        fill: '#f3d99b',
+        stroke: 'black',
+        lineWidth: 1
+      } );
 
       const rectangleA = createRectangle();
       const rectangleB = createRectangle();

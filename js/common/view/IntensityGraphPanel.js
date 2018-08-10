@@ -44,12 +44,10 @@ define( function( require ) {
        * @param {number} y
        * @returns {Line}
        */
-      const createLine = function( index, y ) {
-        return new Line( chartRectangle.left, y, chartRectangle.right, y, {
-          stroke: index % 2 === 0 ? DARK_GRAY : 'lightGray',
-          lineDash: [ 9.1, 9.1 ] // Solid part touches each edge
-        } );
-      };
+      const createLine = ( index, y ) => new Line( chartRectangle.left, y, chartRectangle.right, y, {
+        stroke: index % 2 === 0 ? DARK_GRAY : 'lightGray',
+        lineDash: [ 9.1, 9.1 ] // Solid part touches each edge
+      } );
 
       for ( let i = 0; i < 10; i++ ) {
         const yTop = Util.linear( 0, 10, chartRectangle.centerY, chartRectangle.top, i );

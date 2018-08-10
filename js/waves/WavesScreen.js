@@ -34,17 +34,15 @@ define( function( require ) {
         homeScreenIcon: new Image( wavesScreenIcon )
       };
       super(
-        function() { return new WavesScreenModel(); },
-        function( model ) {
-          return new WavesScreenView( model, alignGroup, {
-            showViewRadioButtonGroup: true,
+        () => new WavesScreenModel(),
+        model => new WavesScreenView( model, alignGroup, {
+          showViewRadioButtonGroup: true,
 
-            // The intensity checkbox is not available in the waves screen because it distracts from the learing goals of the screen
-            controlPanelOptions: {
-              showIntensityCheckbox: false
-            }
-          } );
-        },
+          // The intensity checkbox is not available in the waves screen because it distracts from the learing goals of the screen
+          controlPanelOptions: {
+            showIntensityCheckbox: false
+          }
+        } ),
         options
       );
     }

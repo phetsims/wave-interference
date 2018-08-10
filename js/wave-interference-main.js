@@ -30,7 +30,7 @@ define( function( require ) {
     }
   };
 
-  SimLauncher.launch( function() {
+  SimLauncher.launch( () => {
 
     // Panels on the right side of the lattice (in the first three screens) have matching widths, within each screen and
     // across screens.

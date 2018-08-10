@@ -31,8 +31,9 @@ define( function( require ) {
         homeScreenIcon: new Image( diffractionScreenIcon )
       };
 
-      super( function() { return new DiffractionModel(); },
-        function( model ) { return new DiffractionScreenView( model ); },
+      super(
+        () => new DiffractionModel(),
+        model => new DiffractionScreenView( model ),
         options
       );
     }

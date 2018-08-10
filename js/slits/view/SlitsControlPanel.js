@@ -47,9 +47,8 @@ define( function( require ) {
         buttonYMargin: 0
       } );
 
-      const createLabel = function( text ) {
-        return new WaveInterferenceText( text, { fontSize: 10 } );
-      };
+      const createLabel = text => new WaveInterferenceText( text, { fontSize: 10 } );
+
       const waterSlitWidthControl = new NumberControl( slitWidthString, model.waterScene.slitWidthProperty, new Range( 0, 5 ), _.extend( {
         valuePattern: cmValueString,
         majorTicks: [
@@ -73,7 +72,7 @@ define( function( require ) {
         { value: model.soundScene, node: soundSlitWidthControl },
         { value: model.lightScene, node: lightSlitWidthControl }
       ], model.sceneProperty );
-      model.barrierTypeProperty.link( function( barrierType ) {
+      model.barrierTypeProperty.link( barrierType => {
         const enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
         waterSlitWidthControl.enabled = enabled;
         soundSlitWidthControl.enabled = enabled;
@@ -104,7 +103,7 @@ define( function( require ) {
         { value: model.lightScene, node: lightSeparationControl }
       ], model.sceneProperty );
 
-      model.barrierTypeProperty.link( function( barrierType ) {
+      model.barrierTypeProperty.link( barrierType => {
         const enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
         waterSeparationControl.enabled = enabled;
         soundSeparationControl.enabled = enabled;

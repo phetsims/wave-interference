@@ -34,8 +34,8 @@ define( function( require ) {
         homeScreenIcon: new Image( slitsScreenIcon )
       };
       super(
-        function() { return new SlitsScreenModel(); },
-        function( model ) { return new SlitsScreenView( model, alignGroup ); },
+        () => new SlitsScreenModel(),
+        model => new SlitsScreenView( model, alignGroup ),
         options
       );
     }

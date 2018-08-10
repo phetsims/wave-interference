@@ -32,9 +32,7 @@ define( function( require ) {
         stroke: 'black'
       }, options.lineOptions );
 
-      const createLine = function() {
-        return new Line( 0, 0, 0, lineHeight, options.lineOptions );
-      };
+      const createLine = () => new Line( 0, 0, 0, lineHeight, options.lineOptions );
       const line1 = createLine();
       const line2 = createLine();
 
