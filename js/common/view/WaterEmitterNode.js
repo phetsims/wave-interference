@@ -88,7 +88,7 @@ define( function( require ) {
             // TODO: performance?
             // drop size is a function of amplitude
             waterDrops[ n ].setScaleMagnitude( amplitude / 10 / 2 + 1E-6 );
-            waterDrops[ n ].centerY = 300 - dropPosition;
+            waterDrops[ n ].bottom = -dropPosition;
             waterDrops[ n ].centerX = 206;
           }
         }
