@@ -46,7 +46,7 @@ define( require => {
       // also shows the water drops
       // TODO: use an image strip with a pattern?  Or at least fewer images?
       const waterDrops = [];
-      for ( let i = 0; i < 100; i++ ) {
+      for ( let i = 0; i < 10; i++ ) {
         const waterDrop = new Image( waterDropImage, {
           scale: 0.5
         } );
@@ -65,32 +65,31 @@ define( require => {
 
         // compute the distances of the water drops
         // the water drops hit when
-        // const waveValue = -Math.sin( this.time * angularFrequency + this.phase ) * this.amplitudeProperty.get();
-        // (this.time + timeToDrop )* angularFrequency + this.phase = 2*Math.PI*n
-        // timeToDrop = (2*Math.PI*n-this.phase)/angularFrequency - this.time
+        // const waveValue = -Math.sin( time * angularFrequency + phase ) * amplitudeProperty.get();
+        // (time + timeToDrop )* angularFrequency + phase = 2*Math.PI*n
+        // timeToDrop = (2*Math.PI*n-phase)/angularFrequency - time
         // choose n_min and n_max so everything is in range
         // timeToDrop = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
         // dropPosition/dropSpeed = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
         // n = ((dropPosition/dropSpeed + time) * angularFrequency + phase)/2/Math.PI
-        // TODO: After running for a while, the drops disappear.  That probably indicates a bug with nMin/nMax or time
-        // TODO: phase is wrong, sometimes drops coincide with a trough, sometimes with a peak
-        const minPosition = -1000;
-        const maxPosition = 1000;
+        const minPosition = -200;
+        const maxPosition = 200;
         const nMin = Math.round( ( ( minPosition / dropSpeed + time ) * angularFrequency + phase ) / 2 / Math.PI );
         const nMax = Math.round( ( ( maxPosition / dropSpeed + time ) * angularFrequency + phase ) / 2 / Math.PI );
         for ( let n = 0; n < waterDrops.length; n++ ) {
-          const visible = n >= nMin && n <= nMax;
-          waterDrops[ n ].visible = visible;
-          if ( visible ) {
-            const timeToDrop = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
-            const dropPosition = timeToDrop * dropSpeed;
+          waterDrops[ n ].visible = false;
+        }
+        for ( let n = nMin; n < nMax; n++ ) {
+          const index = n - nMin;
+          waterDrops[ index ].visible = true;
+          const timeToDrop = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
+          const dropPosition = timeToDrop * dropSpeed;
 
-            // TODO: performance?
-            // drop size is a function of amplitude
-            waterDrops[ n ].setScaleMagnitude( amplitude / 10 / 2 + 1E-6 );
-            waterDrops[ n ].bottom = -dropPosition;
-            waterDrops[ n ].centerX = 206;
-          }
+          // TODO: performance?
+          // drop size is a function of amplitude
+          waterDrops[ index ].setScaleMagnitude( amplitude / 10 / 2 + 1E-6 );
+          waterDrops[ index ].bottom = -dropPosition;
+          waterDrops[ index ].centerX = 206;
         }
       };
 
