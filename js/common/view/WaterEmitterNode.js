@@ -21,7 +21,7 @@ define( require => {
   const waterDropImage = require( 'image!WAVE_INTERFERENCE/water_drop.png' );
 
   // constants
-  const FAUCET_VERTICAL_OFFSET = -100;
+  const FAUCET_VERTICAL_OFFSET = -100; // how far the water drops have to fall
 
   class WaterEmitterNode extends EmitterNode {
 
