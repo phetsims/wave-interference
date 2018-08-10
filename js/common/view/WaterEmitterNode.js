@@ -21,6 +21,9 @@ define( require => {
   const hoseImage = require( 'image!WAVE_INTERFERENCE/hose.png' );
   const waterDropImage = require( 'image!WAVE_INTERFERENCE/water_drop.png' );
 
+  // constants
+  const FAUCET_VERTICAL_OFFSET = -100;
+
   class WaterEmitterNode extends EmitterNode {
 
     /**
@@ -30,26 +33,21 @@ define( require => {
      */
     constructor( model, waveAreaNode, isPrimarySource ) {
 
-      // TODO: set up the alignments correctly
-      const verticalOffset = -100;
       super( model, model.waterScene, waveAreaNode, 62, isPrimarySource, new Image( hoseImage, {
         rightCenter: waveAreaNode.leftCenter.plusXY( 40, 0 ),
         scale: 0.75
-      } ), verticalOffset );
+      } ), FAUCET_VERTICAL_OFFSET );
 
       const dropLayer = new Node( {
-        clipArea: Shape.rect( 0, -100, 1000, 100 )
+        clipArea: Shape.rect( 0, FAUCET_VERTICAL_OFFSET, 1000, Math.abs( FAUCET_VERTICAL_OFFSET ) )
       } );
       this.addChild( dropLayer );
       dropLayer.moveToBack();
 
       // also shows the water drops
-      // TODO: use an image strip with a pattern?  Or at least fewer images?
       const waterDrops = [];
       for ( let i = 0; i < 10; i++ ) {
-        const waterDrop = new Image( waterDropImage, {
-          scale: 0.5
-        } );
+        const waterDrop = new Image( waterDropImage );
         waterDrops.push( waterDrop );
         dropLayer.addChild( waterDrop );
       }
@@ -85,7 +83,6 @@ define( require => {
           const timeToDrop = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
           const dropPosition = timeToDrop * dropSpeed;
 
-          // TODO: performance?
           // drop size is a function of amplitude
           waterDrops[ index ].setScaleMagnitude( amplitude / 10 / 2 + 1E-6 );
           waterDrops[ index ].bottom = -dropPosition;
@@ -101,16 +98,10 @@ define( require => {
       model.stepEmitter.addListener( update );
 
       const buttonPressedProperty = isPrimarySource ? model.button1PressedProperty : model.button2PressedProperty;
-      buttonPressedProperty.link( buttonPressed => {dropLayer.visible = buttonPressed;} );
+      buttonPressedProperty.link( buttonPressed => dropLayer.setVisible( buttonPressed ) );
 
-      // TODO: some duplicated logic here.  Maybe if we don't use centerY to transform the parent, this can all be done together
-      const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.waterScene.getWaveAreaBounds(), waveAreaNode.bounds );
-      model.waterScene.sourceSeparationProperty.link( sourceSeparation => {
-        const sign = isPrimarySource ? 1 : -1;
-
-        const viewSeparation = modelViewTransform.modelToViewDeltaY( sourceSeparation );
-        dropLayer.y = waveAreaNode.centerY + sign * viewSeparation / 2;
-      } );
+      // Vertically offset move when there are two sources
+      this.centerYProperty.link( offset => dropLayer.setY( offset ) );
     }
   }
 

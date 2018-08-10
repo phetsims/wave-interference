@@ -12,6 +12,7 @@ define( require => {
   const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const Property = require( 'AXON/Property' );
   const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -53,6 +54,9 @@ define( require => {
 
       const modelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), waveAreaNode.bounds );
 
+      // @protected {Property.<number>} vertical offset, used by WaterEmitterNode
+      this.centerYProperty = new Property();
+
       scene.sourceSeparationProperty.link( sourceSeparation => {
         if ( !isPrimarySource ) {
           nodeWithButton.visible = sourceSeparation > 0;
@@ -60,8 +64,8 @@ define( require => {
         const sign = isPrimarySource ? 1 : -1;
         const viewSeparation = modelViewTransform.modelToViewDeltaY( sourceSeparation );
 
-        // TODO: translate the whole node, not just the nodeWithButton
-        nodeWithButton.centerY = waveAreaNode.centerY + sign * viewSeparation / 2 + verticalOffset;
+        this.centerYProperty.value = waveAreaNode.centerY + sign * viewSeparation / 2;
+        nodeWithButton.centerY = this.centerYProperty.value + verticalOffset;
       } );
     }
   }
