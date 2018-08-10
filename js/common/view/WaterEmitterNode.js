@@ -12,7 +12,6 @@ define( require => {
   // modules
   const EmitterNode = require( 'WAVE_INTERFERENCE/common/view/EmitterNode' );
   const Image = require( 'SCENERY/nodes/Image' );
-  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Shape = require( 'KITE/Shape' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
