@@ -35,7 +35,6 @@ define( function( require ) {
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
   const ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-  const WaterDropNode = require( 'WAVE_INTERFERENCE/common/view/WaterDropNode' );
   const WaterEmitterNode = require( 'WAVE_INTERFERENCE/common/view/WaterEmitterNode' );
   const WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
   const WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
@@ -339,26 +338,30 @@ define( function( require ) {
       this.addChild( timerNode );
       this.addChild( waveDetectorToolNode );
 
-      this.addChild( new ToggleNode( [
-        { value: model.waterScene, node: new WaterEmitterNode( model, this.waveAreaNode ) },
-        { value: model.soundScene, node: new SoundEmitterNode( model, this.waveAreaNode ) },
-        { value: model.lightScene, node: new LightEmitterNode( model, this.waveAreaNode ) }
-      ], model.sceneProperty, {
-        alignChildren: ToggleNode.NONE
-      } ) );
+      /**
+       * Creates a ToggleNode that shows the primary or secondary source
+       * @param {boolean} isPrimarySource - true if it should show the primary source
+       */
+      const createEmitterToggleNode = function( isPrimarySource ) {
+        return new ToggleNode( [
+          { value: model.waterScene, node: new WaterEmitterNode( model, this.waveAreaNode, isPrimarySource ) },
+          { value: model.soundScene, node: new SoundEmitterNode( model, this.waveAreaNode, isPrimarySource ) },
+          { value: model.lightScene, node: new LightEmitterNode( model, this.waveAreaNode, isPrimarySource ) }
+        ], model.sceneProperty, {
+          alignChildren: ToggleNode.NONE
+        } );
+      };
+
+      // Primary source
+      this.addChild( createEmitterToggleNode( true ) );
+
+      // Secondary source
+      this.addChild( createEmitterToggleNode( false ) );
 
       const waterDropLayer = new Node( {
         clipArea: Shape.rect( 0, 0, 1000, this.waveAreaNode.centerY )
       } );
       this.addChild( waterDropLayer );
-
-      var addWaterDropNode = waterDrop => waterDropLayer.addChild( new WaterDropNode( waterDrop ) );
-      model.waterDrops.forEach( addWaterDropNode );
-      model.waterDrops.addItemAddedListener( addWaterDropNode );
-      model.waterDrops.addItemRemovedListener( waterDrop => {
-        const toRemove = waterDropLayer.children.filter( waterDropNode => waterDropNode.waterDrop === waterDrop );
-        toRemove.forEach( waterDropNode => waterDropLayer.removeChild( waterDropNode ) );
-      } );
     }
 
     /**

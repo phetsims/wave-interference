@@ -23,45 +23,45 @@ define( function( require ) {
      * @param {Scene} scene
      * @param {Node} waveAreaNode - for bounds
      * @param {number} buttonPosition - x offset
+     * @param {boolean} isPrimarySource
      * @param {Node} sourceNode - for the emitters, shared with scenery DAG
+     * @param {number} verticalOffset - offset for the hose, so the water has some distance to fall
      */
-    constructor( model, scene, waveAreaNode, buttonPosition, sourceNode ) {
+    constructor( model, scene, waveAreaNode, buttonPosition, isPrimarySource, sourceNode, verticalOffset = 0 ) {
       const buttonOptions = {
         centerY: sourceNode.centerY,
         left: buttonPosition,
         baseColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
         radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
       };
-      const button1 = new RoundStickyToggleButton( false, true, model.button1PressedProperty, buttonOptions );
-      const nodeWithButton1 = new Node( { children: [ sourceNode, button1 ] } );
-
-      const button2 = new RoundStickyToggleButton( false, true, model.button2PressedProperty, buttonOptions );
-      const nodeWithButton2 = new Node( { children: [ sourceNode, button2 ] } );
+      const button = new RoundStickyToggleButton( false, true, isPrimarySource ? model.button1PressedProperty : model.button2PressedProperty, buttonOptions );
+      const nodeWithButton = new Node( { children: [ sourceNode, button ] } );
 
       const updateEnabled = function() {
         if ( model.inputTypeProperty.value === IncomingWaveType.PULSE ) {
-          button1.enabled = !model.pulseFiringProperty.value;
-          button2.enabled = !model.pulseFiringProperty.value;
+          button.enabled = !model.pulseFiringProperty.value;
         }
         else if ( model.inputTypeProperty.value === IncomingWaveType.CONTINUOUS ) {
-          button1.enabled = true;
-          button2.enabled = true;
+          button.enabled = true;
         }
       };
       model.inputTypeProperty.link( updateEnabled );
       model.pulseFiringProperty.link( updateEnabled );
       super( {
-        children: [ nodeWithButton1, nodeWithButton2 ]
+        children: [ nodeWithButton ]
       } );
 
       const modelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), waveAreaNode.bounds );
 
       scene.sourceSeparationProperty.link( sourceSeparation => {
-        nodeWithButton2.visible = sourceSeparation > 0;
-
+        if ( !isPrimarySource ) {
+          nodeWithButton.visible = sourceSeparation > 0;
+        }
+        const sign = isPrimarySource ? 1 : -1;
         const viewSeparation = modelViewTransform.modelToViewDeltaY( sourceSeparation );
-        nodeWithButton1.centerY = waveAreaNode.centerY + viewSeparation / 2;
-        nodeWithButton2.centerY = waveAreaNode.centerY - viewSeparation / 2;
+
+        // TODO: translate the whole node, not just the nodeWithButton
+        nodeWithButton.centerY = waveAreaNode.centerY + sign * viewSeparation / 2 + verticalOffset;
       } );
     }
   }

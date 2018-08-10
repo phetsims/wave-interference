@@ -27,9 +27,10 @@ define( function( require ) {
     /**
      * @param {WavesScreenModel} model
      * @param {Node} waveAreaNode - for bounds
+     * @param {boolean} isPrimarySource
      */
-    constructor( model, waveAreaNode ) {
-      super( model, model.lightScene, waveAreaNode, 70, new LaserPointerNode( model.button1PressedProperty, _.extend( {
+    constructor( model, waveAreaNode, isPrimarySource ) {
+      super( model, model.lightScene, waveAreaNode, 70, isPrimarySource, new LaserPointerNode( model.button1PressedProperty, _.extend( {
         rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 )
       }, DEFAULTS ) ) );
     }

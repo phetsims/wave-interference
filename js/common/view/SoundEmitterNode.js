@@ -21,9 +21,10 @@ define( function( require ) {
     /**
      * @param {WavesScreenModel} model
      * @param {Node} waveAreaNode - for bounds
+     * @param {boolean} isPrimarySource
      */
-    constructor( model, waveAreaNode ) {
-      super( model, model.soundScene, waveAreaNode, 42, new Image( speakerImage, {
+    constructor( model, waveAreaNode, isPrimarySource ) {
+      super( model, model.soundScene, waveAreaNode, 42, isPrimarySource, new Image( speakerImage, {
         rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 ),
         scale: 0.75
       } ) );

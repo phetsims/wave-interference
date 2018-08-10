@@ -20,7 +20,6 @@ define( function( require ) {
   const IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
   const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   const NumberProperty = require( 'AXON/NumberProperty' );
-  const ObservableArray = require( 'AXON/ObservableArray' );
   const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   const Property = require( 'AXON/Property' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
@@ -28,7 +27,6 @@ define( function( require ) {
   const Vector2 = require( 'DOT/Vector2' );
   const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
-  const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
@@ -338,15 +336,11 @@ define( function( require ) {
       // @public - Notifies listeners when the model reset is complete
       this.resetEmitter = new Emitter();
 
-      // @public {ObservableArray.<WaterDrop> - the water drops that are falling toward the water
-      this.waterDrops = new ObservableArray();
-
       // When the scene changes, the wave clears and time resets.  This prevents a problem where the amplitude of the
       // emitter would get stuck when switching from water to light after 20 seconds.
       this.sceneProperty.link( () => {
         this.time = 0;
         this.clear();
-        this.waterDrops.clear();
         this.timerElapsedTimeProperty.reset(); // Timer units change when the scene changes, so we re-start the timer.
       } );
     }
@@ -381,7 +375,6 @@ define( function( require ) {
 
       const frequency = this.sceneProperty.get().frequencyProperty.get();
       const period = 1 / frequency;
-      const angularFrequency = Math.PI * 2 * frequency;
 
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
@@ -393,40 +386,7 @@ define( function( require ) {
       }
 
       const dt = wallDT * this.sceneProperty.value.timeScaleFactor * this.playSpeedProperty.get().scaleFactor;
-
       this.time += dt;
-
-      const oppositeSidesOfSameInteger = function( a, b ) {
-        const a1 = Util.roundSymmetric( a );
-        const b1 = Util.roundSymmetric( b );
-        if ( a1 === b1 ) {
-          const n = a1;
-          return ( a > n && b < n ) || ( a < n && b > n );
-        }
-        else {
-          return false;
-        }
-      };
-
-      // Create a new water drop if necessary.  Determine the time to the next "down" wave.  If that matches the time it
-      // takes a drop to fall, then launch the next drop.  The next down wave will be when the sin arg passes an integral
-      // number of 2pi.
-      const timeForDropToFall = WaterDrop.TIME_TO_FALL;
-      const na = ( angularFrequency * ( timeForDropToFall + this.time ) + this.phase ) / 2 / Math.PI;
-      const nb = ( angularFrequency * ( timeForDropToFall + this.time + dt ) + this.phase ) / 2 / Math.PI;
-
-      // If na and nb are just on the other sides of the same integer, then releasing a drop now will hit at the
-      // appropriate time
-      if ( oppositeSidesOfSameInteger( na, nb ) &&
-           this.sceneProperty.value === this.waterScene &&
-           this.button1PressedProperty.value ) {
-        const waterDrop = new WaterDrop();
-        waterDrop.distanceAboveWaterProperty.value = 20;
-        this.waterDrops.push( waterDrop );
-      }
-
-      // Update the water drops
-      this.waterDrops.forEach( waterDrop => waterDrop.step( wallDT ) );
 
       // If the pulse is running, end the pulse after one period
       if ( this.pulseFiringProperty.get() ) {

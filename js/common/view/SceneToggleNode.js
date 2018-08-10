@@ -20,7 +20,7 @@ define( function( require ) {
      * @param {Object} [options]
      */
     constructor( model, sceneToNode, options ) {
-      var toElement = scene => ( { value: scene, node: sceneToNode( scene ) } );
+      const toElement = scene => ( { value: scene, node: sceneToNode( scene ) } );
       super( [ model.waterScene, model.soundScene, model.lightScene ].map( toElement ), model.sceneProperty, options );
     }
   }
