@@ -38,7 +38,7 @@ define( require => {
       } ), verticalOffset );
 
       const dropLayer = new Node( {
-        clipArea: Shape.rect( 0, 100, 1000, 100 )
+        clipArea: Shape.rect( 0, -100, 1000, 100 )
       } );
       this.addChild( dropLayer );
       dropLayer.moveToBack();
@@ -110,7 +110,7 @@ define( require => {
         const sign = isPrimarySource ? 1 : -1;
 
         const viewSeparation = modelViewTransform.modelToViewDeltaY( sourceSeparation );
-        dropLayer.y = waveAreaNode.centerY + sign * viewSeparation / 2 + verticalOffset - 100;
+        dropLayer.y = waveAreaNode.centerY + sign * viewSeparation / 2;
       } );
     }
   }
