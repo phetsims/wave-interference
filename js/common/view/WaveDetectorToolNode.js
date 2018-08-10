@@ -266,7 +266,7 @@ define( require => {
         centerY: graphHeight / 2
       } );
       const probe1Path = new Path( new Shape(), { stroke: SERIES_1_COLOR, lineWidth: PATH_LINE_WIDTH } );
-      probe1Path.computeShapeBounds = function() {return Bounds2.NOTHING;}; // prevent bounds computations during main loop
+      probe1Path.computeShapeBounds = () => Bounds2.NOTHING; // prevent bounds computations during main loop
       graphPanel.addChild( probe1Path );
       graphPanel.addChild( pen1Node );
 
