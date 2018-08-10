@@ -95,6 +95,9 @@ define( require => {
       model.sceneProperty.link( update );
       model.waterScene.frequencyProperty.link( update );
       model.stepEmitter.addListener( update );
+      model.button1PressedProperty.link( update );
+      model.button2PressedProperty.link( update );
+      model.pulseFiringProperty.link( update );
 
       const buttonPressedProperty = isPrimarySource ? model.button1PressedProperty : model.button2PressedProperty;
       buttonPressedProperty.link( buttonPressed => dropLayer.setVisible( buttonPressed ) );
