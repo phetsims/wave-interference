@@ -42,7 +42,6 @@ define( require => {
      */
     constructor( model, view, options ) {
       options = _.extend( {
-        isIcon: false,
         end: function() {}
       }, options );
       super();
@@ -60,12 +59,7 @@ define( require => {
         translateNode: true,
         drag: () => {
           if ( this.synchronizeProbeLocations ) {
-
             this.alignProbes();
-
-            // When the wave is paused and the user is dragging the entire WaveDetectorToolNode with the probes aligned, they
-            // need to sample their new locations
-            waveDetectorToolContentNode.updatePaths(); // TODO: eliminate this reference
           }
         },
         end: () => {
@@ -78,18 +72,12 @@ define( require => {
 
       // @private
       this.probe1Node = new WaveDetectorToolProbeNode( {
-        color: SERIES_1_COLOR,
-        drag: function() {
-          waveDetectorToolContentNode.updatePaths(); // TODO: eliminate this reference
-        }
+        color: SERIES_1_COLOR
       } );
 
       // @private {Node}
       this.probe2Node = new WaveDetectorToolProbeNode( {
-        color: SERIES_2_COLOR,
-        drag: function() {
-          waveDetectorToolContentNode.updatePaths(); // TODO: eliminate this reference
-        }
+        color: SERIES_2_COLOR
       } );
 
       const bodyNormalProperty = new Property( new Vector2( NORMAL_DISTANCE, 0 ) );
@@ -105,8 +93,7 @@ define( require => {
       const aboveBottomRight2Property = new DerivedProperty( [ rightBottomProperty ], above( 10 ) );
 
       // @private
-      this.probe1WireNode = new WireNode(
-        aboveBottomRight1Property, bodyNormalProperty,
+      this.probe1WireNode = new WireNode( aboveBottomRight1Property, bodyNormalProperty,
         new NodeProperty( this.probe1Node, 'bounds', PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
           lineWidth: WIRE_LINE_WIDTH,
           stroke: SERIES_1_COLOR
@@ -114,8 +101,7 @@ define( require => {
       );
 
       // @private
-      this.probe2WireNode = new WireNode(
-        aboveBottomRight2Property, bodyNormalProperty,
+      this.probe2WireNode = new WireNode( aboveBottomRight2Property, bodyNormalProperty,
         new NodeProperty( this.probe2Node, 'bounds', PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
           lineWidth: WIRE_LINE_WIDTH,
           stroke: WIRE_2_COLOR
@@ -163,8 +149,8 @@ define( require => {
      * @param event
      */
     startDrag( event ) {
-      this.backgroundDragListener.press( event, this.backgroundNode );
       this.synchronizeProbeLocations = true;
+      this.backgroundDragListener.press( event, this.backgroundNode );
     }
   }
 

@@ -227,8 +227,8 @@ define( require => {
         // Drop in toolbox
         end: function() {
           if ( toolboxContains( waveDetectorToolNode.getBackgroundNodeGlobalBounds().center ) ) {
-            model.isWaveDetectorToolNodeInPlayAreaProperty.value = false;
             waveDetectorToolNode.alignProbes();
+            model.isWaveDetectorToolNodeInPlayAreaProperty.value = false;
           }
         }
       } );

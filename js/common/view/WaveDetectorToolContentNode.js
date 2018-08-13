@@ -251,7 +251,6 @@ define( require => {
         updateProbeData( probe1Node, pen1Node, probe1Samples, probe1Path, model.sceneProperty.get() );
         updateProbeData( probe2Node, pen2Node, probe2Samples, probe2Path, model.sceneProperty.get() );
       };
-      this.updatePaths = updatePaths;
 
       // Update the graph value when the lattice changes, but only when this is not for an icon
       if ( !options.isIcon ) {
@@ -264,6 +263,10 @@ define( require => {
           updatePaths();
         } );
       }
+
+      // When the wave is paused and the user is dragging the entire WaveDetectorToolNode with the probes aligned, they
+      // need to sample their new locations.
+      probe1Node.on( 'transform', updatePaths );
 
       model.resetEmitter.addListener( () => {
         probe1Samples.length = 0;
