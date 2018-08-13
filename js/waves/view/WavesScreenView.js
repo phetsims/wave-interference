@@ -239,8 +239,6 @@ define( require => {
         waveDetectorToolNode.alignProbes();
       } );
 
-      model.resetEmitter.addListener( () => waveDetectorToolNode.reset() );
-
       const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );
       const updateToolboxPosition = () => {
         toolboxPanel.mutate( {
