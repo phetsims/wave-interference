@@ -232,6 +232,7 @@ define( require => {
           }
         }
       } );
+      model.resetEmitter.addListener( () => waveDetectorToolNode.alignProbes() );
       model.isWaveDetectorToolNodeInPlayAreaProperty.link( isWaveDetectorToolNodeInPlayArea => {
         waveDetectorToolNode.visible = isWaveDetectorToolNodeInPlayArea;
 

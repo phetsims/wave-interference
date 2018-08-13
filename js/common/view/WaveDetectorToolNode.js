@@ -71,14 +71,10 @@ define( require => {
       this.addChild( this.backgroundNode );
 
       // @private
-      this.probe1Node = new WaveDetectorToolProbeNode( {
-        color: SERIES_1_COLOR
-      } );
+      this.probe1Node = new WaveDetectorToolProbeNode( { color: SERIES_1_COLOR } );
 
       // @private {Node}
-      this.probe2Node = new WaveDetectorToolProbeNode( {
-        color: SERIES_2_COLOR
-      } );
+      this.probe2Node = new WaveDetectorToolProbeNode( { color: SERIES_2_COLOR } );
 
       const bodyNormalProperty = new Property( new Vector2( NORMAL_DISTANCE, 0 ) );
       const sensorNormalProperty = new Property( new Vector2( 0, NORMAL_DISTANCE ) );
@@ -117,8 +113,6 @@ define( require => {
       this.alignProbes();
 
       this.mutate( options );
-
-      model.resetEmitter.addListener( () => this.alignProbes() );
 
       const waveDetectorToolContentNode = new WaveDetectorToolContentNode( model, view, this.backgroundNode, this.probe1Node, this.probe2Node, options );
       this.addChild( waveDetectorToolContentNode );
