@@ -65,7 +65,7 @@ define( require => {
 
             // When the wave is paused and the user is dragging the entire WaveDetectorToolNode with the probes aligned, they
             // need to sample their new locations
-            waveDetectorToolContentNode.updatePaths();
+            waveDetectorToolContentNode.updatePaths(); // TODO: eliminate this reference
           }
         },
         end: () => {
@@ -80,7 +80,7 @@ define( require => {
       this.probe1Node = new WaveDetectorToolProbeNode( {
         color: SERIES_1_COLOR,
         drag: function() {
-          waveDetectorToolContentNode.updatePaths();
+          waveDetectorToolContentNode.updatePaths(); // TODO: eliminate this reference
         }
       } );
 
@@ -88,12 +88,9 @@ define( require => {
       this.probe2Node = new WaveDetectorToolProbeNode( {
         color: SERIES_2_COLOR,
         drag: function() {
-          waveDetectorToolContentNode.updatePaths();
+          waveDetectorToolContentNode.updatePaths(); // TODO: eliminate this reference
         }
       } );
-
-      const waveDetectorToolContentNode = new WaveDetectorToolContentNode( model, view, this.backgroundNode, this.probe1Node, this.probe2Node, options );
-      this.addChild( waveDetectorToolContentNode );
 
       const bodyNormalProperty = new Property( new Vector2( NORMAL_DISTANCE, 0 ) );
       const sensorNormalProperty = new Property( new Vector2( 0, NORMAL_DISTANCE ) );
@@ -136,6 +133,9 @@ define( require => {
       this.mutate( options );
 
       model.resetEmitter.addListener( () => this.alignProbes() );
+
+      const waveDetectorToolContentNode = new WaveDetectorToolContentNode( model, view, this.backgroundNode, this.probe1Node, this.probe2Node, options );
+      this.addChild( waveDetectorToolContentNode );
     }
 
     /**
