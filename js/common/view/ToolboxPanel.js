@@ -10,7 +10,6 @@ define( require => {
 
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
-  const WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
@@ -22,6 +21,7 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
+  const WaveInterferenceWaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceWaveDetectorToolNode' );
 
   class ToolboxPanel extends WaveInterferencePanel {
 
@@ -71,7 +71,7 @@ define( require => {
         model.isTimerInPlayAreaProperty.value = true;
       } );
 
-      const waveDetectorToolNodeIcon = new WaveDetectorToolNode( model, null, {
+      const waveDetectorToolNodeIcon = new WaveInterferenceWaveDetectorToolNode( model, null, {
         isIcon: true,
         scale: 0.3
       } );

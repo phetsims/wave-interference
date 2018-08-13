@@ -39,12 +39,12 @@ define( require => {
   const WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
   const WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
   const WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
-  const WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceControlPanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceControlPanel' );
   const WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
+  const WaveInterferenceWaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceWaveDetectorToolNode' );
 
   // constants
   const MARGIN = 8;
@@ -222,7 +222,7 @@ define( require => {
         }
       } );
 
-      const waveDetectorToolNode = new WaveDetectorToolNode( model, this, {
+      const waveDetectorToolNode = new WaveInterferenceWaveDetectorToolNode( model, this, {
 
         // Drop in toolbox
         end: function() {

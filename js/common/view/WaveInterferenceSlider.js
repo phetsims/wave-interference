@@ -17,8 +17,8 @@ define( require => {
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // strings
-  const minString = require( 'string!WAVE_INTERFERENCE/min' );
   const maxString = require( 'string!WAVE_INTERFERENCE/max' );
+  const minString = require( 'string!WAVE_INTERFERENCE/min' );
 
   // constants
   const LABEL_OPTIONS = { fontSize: 10 };

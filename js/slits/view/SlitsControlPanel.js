@@ -21,13 +21,13 @@ define( require => {
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // strings
+  const cmValueString = require( 'string!WAVE_INTERFERENCE/cmValue' );
+  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
   const noBarrierString = require( 'string!WAVE_INTERFERENCE/noBarrier' );
   const oneSlitString = require( 'string!WAVE_INTERFERENCE/oneSlit' );
   const slitSeparationString = require( 'string!WAVE_INTERFERENCE/slitSeparation' );
   const slitWidthString = require( 'string!WAVE_INTERFERENCE/slitWidth' );
   const twoSlitsString = require( 'string!WAVE_INTERFERENCE/twoSlits' );
-  const cmValueString = require( 'string!WAVE_INTERFERENCE/cmValue' );
-  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
 
   class SlitsControlPanel extends WaveInterferencePanel {
 

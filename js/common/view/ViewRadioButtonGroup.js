@@ -15,8 +15,8 @@ define( require => {
   const WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
 
   // strings
-  const topViewString = require( 'string!WAVE_INTERFERENCE/topView' );
   const sideViewString = require( 'string!WAVE_INTERFERENCE/sideView' );
+  const topViewString = require( 'string!WAVE_INTERFERENCE/topView' );
 
   class ViewRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonGroup {
 

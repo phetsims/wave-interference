@@ -19,7 +19,6 @@ define( require => {
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   const Vector2 = require( 'DOT/Vector2' );
   const WaveDetectorToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolProbeNode' );
-  const WaveDetectorToolContentNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolContentNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WireNode = require( 'SCENERY_PHET/WireNode' );
 
@@ -36,11 +35,9 @@ define( require => {
   class WaveDetectorToolNode extends Node {
 
     /**
-     * @param {WavesScreenModel} model - model for reading values
-     * @param {WavesScreenView|null} view - for getting coordinates for model
      * @param {Object} [options]
      */
-    constructor( model, view, options ) {
+    constructor( options ) {
       options = _.extend( {
         end: function() {}
       }, options );
@@ -113,9 +110,6 @@ define( require => {
       this.alignProbes();
 
       this.mutate( options );
-
-      const waveDetectorToolContentNode = new WaveDetectorToolContentNode( model, view, this.backgroundNode, this.probe1Node, this.probe2Node, options );
-      this.addChild( waveDetectorToolContentNode );
     }
 
     /**

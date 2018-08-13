@@ -267,6 +267,7 @@ define( require => {
       // When the wave is paused and the user is dragging the entire WaveDetectorToolNode with the probes aligned, they
       // need to sample their new locations.
       probe1Node.on( 'transform', updatePaths );
+      probe2Node.on( 'transform', updatePaths );
 
       model.resetEmitter.addListener( () => {
         probe1Samples.length = 0;
