@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Depicts the draggable graph node with two probes which begins in the toolbox.
+ * The scrolling graph component shown in the WaveDetectorToolNode.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
