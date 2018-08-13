@@ -41,7 +41,7 @@ define( require => {
         end: config.end
       } );
 
-      this.addInputListener( this.timerNodeDragListener );
+      this.dragTarget.addInputListener( this.timerNodeDragListener );
       model.isTimerInPlayAreaProperty.linkAttribute( this, 'visible' );
     }
   }
