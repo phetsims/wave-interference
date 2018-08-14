@@ -27,8 +27,6 @@ define( require => {
   const timeString = require( 'string!WAVE_INTERFERENCE/time' );
 
   // constants
-  const SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
-  const SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
   const PATH_LINE_WIDTH = 2;
   const TOP_MARGIN = 10;
   const RIGHT_MARGIN = 10;
@@ -45,13 +43,10 @@ define( require => {
      * @param {WavesScreenModel} model - model for reading values
      * @param {number} width
      * @param {number} height
-     * @param {Vector2[]} series1
-     * @param {Emitter} series1Emitter
-     * @param {Vector2[]} series2
-     * @param {Emitter} series2Emitter
+     * @param {Object[]} seriesArray, each element has {series: Vector2[],emitter: Emitter, color: Color}
      * @param {Object} [options]
      */
-    constructor( model, width, height, series1, series1Emitter, series2, series2Emitter, options ) {
+    constructor( model, width, height, seriesArray, options ) {
       super();
 
       options = _.extend( {
@@ -187,6 +182,7 @@ define( require => {
         graphPanel.addChild( penNode );
 
         emitter.addListener( () => {
+
           // Set the range by incorporating the model's time units, so it will match with the timer.
           const maxSeconds = NUMBER_OF_TIME_DIVISIONS / model.sceneProperty.value.timeUnitsConversion;
 
@@ -211,8 +207,7 @@ define( require => {
         } );
       };
 
-      addSeries( SERIES_1_COLOR, series1, series1Emitter );
-      addSeries( SERIES_2_COLOR, series2, series2Emitter );
+      seriesArray.forEach( series => addSeries( series.color, series.series, series.emitter ) );
 
       // Stroke on front panel is on top, so that when the curves go to the edges they do not overlap the border stroke.
       // This is a faster alternative to clipping.

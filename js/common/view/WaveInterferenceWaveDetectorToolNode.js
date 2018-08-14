@@ -152,7 +152,13 @@ define( require => {
         model.lattice.changedEmitter.addListener( update2 );
       }
 
-      const waveDetectorToolContentNode = new ScrollingChartNode( model, backgroundNode.width, backgroundNode.height, probe1Samples, series1Emitter, probe2Samples, series2Emitter, options );
+      const waveDetectorToolContentNode = new ScrollingChartNode(
+        model,
+        backgroundNode.width,
+        backgroundNode.height, [
+          { series: probe1Samples, emitter: series1Emitter, color: SERIES_1_COLOR },
+          { series: probe2Samples, emitter: series2Emitter, color: SERIES_2_COLOR }
+        ], options );
       backgroundNode.addChild( waveDetectorToolContentNode );
     }
   }
