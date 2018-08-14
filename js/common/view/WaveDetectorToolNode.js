@@ -66,12 +66,6 @@ define( require => {
       this.backgroundNode.addInputListener( this.backgroundDragListener );
       this.addChild( this.backgroundNode );
 
-      // @private {Node}
-      this.probe1Node = new WaveDetectorToolProbeNode( { color: SERIES_1_COLOR } );
-
-      // @private {Node}
-      this.probe2Node = new WaveDetectorToolProbeNode( { color: SERIES_2_COLOR } );
-
       const bodyNormalProperty = new Property( new Vector2( NORMAL_DISTANCE, 0 ) );
       const sensorNormalProperty = new Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
@@ -82,26 +76,28 @@ define( require => {
       const aboveBottomRight1Property = new DerivedProperty( [ rightBottomProperty ], getPointAbove( 20 ) );
       const aboveBottomRight2Property = new DerivedProperty( [ rightBottomProperty ], getPointAbove( 10 ) );
 
+      // @private {Node}
+      this.probe1Node = new WaveDetectorToolProbeNode( { color: SERIES_1_COLOR } );
+
       // @private
-      this.probe1WireNode = new WireNode( aboveBottomRight1Property, bodyNormalProperty,
+      this.addChild( new WireNode( aboveBottomRight1Property, bodyNormalProperty,
         new NodeProperty( this.probe1Node, 'bounds', PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
           lineWidth: WIRE_LINE_WIDTH,
           stroke: SERIES_1_COLOR
         }
-      );
+      ) );
+      this.addChild( this.probe1Node );
+
+      // @private {Node}
+      this.probe2Node = new WaveDetectorToolProbeNode( { color: SERIES_2_COLOR } );
 
       // @private
-      this.probe2WireNode = new WireNode( aboveBottomRight2Property, bodyNormalProperty,
+      this.addChild( new WireNode( aboveBottomRight2Property, bodyNormalProperty,
         new NodeProperty( this.probe2Node, 'bounds', PROBE_ATTACHMENT_POINT ), sensorNormalProperty, {
           lineWidth: WIRE_LINE_WIDTH,
           stroke: WIRE_2_COLOR
         }
-      );
-
-      this.addChild( this.probe1WireNode );
-      this.addChild( this.probe1Node );
-
-      this.addChild( this.probe2WireNode );
+      ) );
       this.addChild( this.probe2Node );
 
       this.alignProbes();
@@ -120,8 +116,8 @@ define( require => {
       } );
 
       this.probe2Node.mutate( {
-        left: this.probe1Node.right - 10,
-        top: this.probe1Node.bottom - 10
+        left: this.backgroundNode.right + 36,
+        top: this.backgroundNode.top + 54
       } );
     }
 

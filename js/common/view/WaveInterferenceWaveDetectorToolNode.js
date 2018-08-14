@@ -27,6 +27,7 @@ define( require => {
         cursor: 'pointer'
       } ), options );
 
+      // TODO: embed onto the background as a child
       const waveDetectorToolContentNode = new WaveDetectorToolContentNode( model, view, this.backgroundNode, this.probe1Node, this.probe2Node, options );
       this.addChild( waveDetectorToolContentNode );
     }
