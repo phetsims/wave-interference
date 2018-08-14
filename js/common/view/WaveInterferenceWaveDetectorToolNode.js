@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Adds the panel to the wave detector background.
+ * Provides simulation-specific values and customizations to display a ScrollingChartNode in a WaveDetectorToolNode.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -33,6 +33,8 @@ define( require => {
   const NUMBER_OF_TIME_DIVISIONS = 4; // TODO: factor out
   const AXIS_LABEL_FILL = 'white';
   const LABEL_FONT_SIZE = 14;
+  const WIDTH = 181.5;
+  const HEIGHT = 145.2;
 
   // For the wires
   const NORMAL_DISTANCE = 25;
@@ -47,7 +49,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( model, view, options ) {
-      const backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, 181.5, 145.2 ), {
+      const backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, WIDTH, HEIGHT ), {
         cursor: 'pointer'
       } );
       super( backgroundNode, options );
@@ -167,8 +169,8 @@ define( require => {
         verticalAxisTitleNode,
         scaleIndicatorText,
         model.timeProperty,
-        backgroundNode.width,
-        backgroundNode.height, [
+        WIDTH,
+        HEIGHT, [
           { series: probe1Samples, emitter: series1Emitter, color: SERIES_1_COLOR },
           { series: probe2Samples, emitter: series2Emitter, color: SERIES_2_COLOR }
         ], _.omit( options, 'scale' ) );
