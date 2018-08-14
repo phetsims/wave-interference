@@ -40,14 +40,14 @@ define( require => {
   const HORIZONTAL_AXIS_LABEL_MARGIN = 4;
   const NUMBER_OF_TIME_DIVISIONS = 4;
 
-  class WaveDetectorToolContentNode extends Node {
+  class ScrollingChartNode extends Node {
 
     /**
      * @param {WavesScreenModel} model - model for reading values
      * @param {WavesScreenView|null} view - for getting coordinates for model
      * @param {Node} backgroundNode - container for dimensions
      * @param {WaveDetectorToolProbeNode} probe1Node
-     * @param {WaveDetectorToolProbeNode} probe2Node
+     * @param {WaveDetectorToolProbeNode} probe2Node // TODO: decouple this from ProbeNode
      * @param {Object} [options]
      */
     constructor( model, view, backgroundNode, probe1Node, probe2Node, options ) {
@@ -277,5 +277,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'WaveDetectorToolContentNode', WaveDetectorToolContentNode );
+  return waveInterference.register( 'ScrollingChartNode', ScrollingChartNode );
 } );

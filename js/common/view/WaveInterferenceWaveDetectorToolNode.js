@@ -11,7 +11,7 @@ define( require => {
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
-  const WaveDetectorToolContentNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolContentNode' );
+  const ScrollingChartNode = require( 'WAVE_INTERFERENCE/common/view/ScrollingChartNode' );
   const WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
@@ -88,7 +88,7 @@ define( require => {
       );
 
       // TODO: embed onto the background as a child
-      const waveDetectorToolContentNode = new WaveDetectorToolContentNode( model, view, backgroundNode, this.probe1Node, this.probe2Node, options );
+      const waveDetectorToolContentNode = new ScrollingChartNode( model, view, backgroundNode, this.probe1Node, this.probe2Node, options );
       this.addChild( waveDetectorToolContentNode );
     }
   }
