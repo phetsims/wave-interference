@@ -52,7 +52,7 @@ define( require => {
       }
 
       const update = () => {
-        const time = model.time;
+        const time = model.timeProperty.value;
 
         const amplitude = model.amplitudeProperty.value;
         const frequency = model.sceneProperty.value.frequencyProperty.value;

@@ -247,7 +247,7 @@ define( require => {
       this.intensitySample = new IntensitySample( this.lattice );
 
       // @public {number} - elapsed time in seconds
-      this.time = 0;
+      this.timeProperty = new NumberProperty( 0 );
 
       // @public {number} phase of the emitter
       this.phase = 0;
@@ -274,15 +274,16 @@ define( require => {
         // should also be based on angular frequencies
         const oldAngularFrequency = oldFrequency * Math.PI * 2;
         const newAngularFrequency = newFrequency * Math.PI * 2;
+        const time = this.timeProperty.value;
 
-        const oldValue = Math.sin( this.time * oldAngularFrequency + this.phase );
-        let proposedPhase = Math.asin( oldValue ) - this.time * newAngularFrequency;
-        const oldDerivative = Math.cos( this.time * oldAngularFrequency + this.phase );
-        const newDerivative = Math.cos( this.time * newAngularFrequency + proposedPhase );
+        const oldValue = Math.sin( time * oldAngularFrequency + this.phase );
+        let proposedPhase = Math.asin( oldValue ) - time * newAngularFrequency;
+        const oldDerivative = Math.cos( time * oldAngularFrequency + this.phase );
+        const newDerivative = Math.cos( time * newAngularFrequency + proposedPhase );
 
         // If wrong phase, take the sin value from the opposite side and move forward by half a cycle
         if ( oldDerivative * newDerivative < 0 ) {
-          proposedPhase = Math.asin( -oldValue ) - this.time * newAngularFrequency + Math.PI;
+          proposedPhase = Math.asin( -oldValue ) - time * newAngularFrequency + Math.PI;
         }
 
         this.phase = proposedPhase;
@@ -304,7 +305,7 @@ define( require => {
         if ( isPressed && this.inputTypeProperty.value === IncomingWaveType.PULSE ) {
           assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
           this.pulseFiringProperty.value = true;
-          this.pulseStartTime = this.time;
+          this.pulseStartTime = this.timeProperty.value;
         }
         else {
           this.continuousWave1OscillatingProperty.value = isPressed;
@@ -339,7 +340,7 @@ define( require => {
       // When the scene changes, the wave clears and time resets.  This prevents a problem where the amplitude of the
       // emitter would get stuck when switching from water to light after 20 seconds.
       this.sceneProperty.link( () => {
-        this.time = 0;
+        this.timeProperty.value = 0;
         this.clear();
         this.timerElapsedTimeProperty.reset(); // Timer units change when the scene changes, so we re-start the timer.
       } );
@@ -386,11 +387,11 @@ define( require => {
       }
 
       const dt = wallDT * this.sceneProperty.value.timeScaleFactor * this.playSpeedProperty.get().scaleFactor;
-      this.time += dt;
+      this.timeProperty.value += dt;
 
       // If the pulse is running, end the pulse after one period
       if ( this.pulseFiringProperty.get() ) {
-        const timeSincePulseStarted = this.time - this.pulseStartTime;
+        const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
         if ( timeSincePulseStarted > period ) {
           this.pulseFiringProperty.set( false );
           this.pulseStartTime = 0;
@@ -426,7 +427,7 @@ define( require => {
       // Solve for the sin arg = 0 in Math.sin( this.time * angularFrequency + this.phase )
       // The phase was adjusted so that when the water is turned on under default circumstances, a drop doesn't appear
       // right above the water.
-      this.phase = -this.time * angularFrequency + Math.PI * 0.6;
+      this.phase = -this.timeProperty.value * angularFrequency + Math.PI * 0.6;
     }
 
     /**
@@ -444,7 +445,7 @@ define( require => {
         // The simulation is designed to start with a downward wave, corresponding to water splashing in
         const frequency = this.sceneProperty.get().frequencyProperty.value;
         const angularFrequency = Math.PI * 2 * frequency;
-        const waveValue = -Math.sin( this.time * angularFrequency + this.phase ) * this.amplitudeProperty.get();
+        const waveValue = -Math.sin( this.timeProperty.value * angularFrequency + this.phase ) * this.amplitudeProperty.get();
 
         // assumes a square lattice
         const separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().waveAreaWidth * this.lattice.visibleBounds.width;
@@ -477,7 +478,7 @@ define( require => {
       this.soundScene.reset();
       this.lightScene.reset();
 
-      this.time = 0;
+      this.timeProperty.value = 0;
       this.phase = 0;
       this.lattice.clear();
       this.sceneProperty.reset();

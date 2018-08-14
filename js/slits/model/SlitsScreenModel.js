@@ -35,7 +35,7 @@ define( require => {
       this.button1PressTime = 0;
       this.button1PressedProperty.link( ( pressed ) => {
         if ( pressed ) {
-          this.button1PressTime = this.time;
+          this.button1PressTime = this.timeProperty.value;
         }
         else {
           this.clear();
@@ -57,7 +57,7 @@ define( require => {
       let barrierLatticeX = Math.round( scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() ) );
       const slitSeparationModel = scene.slitSeparationProperty.get();
 
-      const frontTime = this.time - this.button1PressTime;
+      const frontTime = this.timeProperty.value - this.button1PressTime;
       const frontPosition = Math.round( scene.modelToLatticeTransform.modelToViewX( scene.waveSpeed * frontTime ) );
 
       const slitWidthModel = scene.slitWidthProperty.get();
@@ -112,7 +112,7 @@ define( require => {
             }
           }
           if ( this.button1PressedProperty.get() && !isCellInBarrier ) {
-            let value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - angularFrequency * this.time );
+            let value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - angularFrequency * this.timeProperty.value );
 
             // If the coordinate is past where the front of the wave would be, then zero it out.
             if ( i >= frontPosition ) {

@@ -41,13 +41,14 @@ define( require => {
 
     /**
      * @param {Node} verticalAxisTitleNode
-     * @param {WavesScreenModel} model - model for reading values
+     * @param {Node} scaleIndicatorText
+     * @param {NumberProperty} timeProperty
      * @param {number} width
      * @param {number} height
      * @param {Object[]} seriesArray, each element has {series: Vector2[],emitter: Emitter, color: Color}
      * @param {Object} [options]
      */
-    constructor( verticalAxisTitleNode, model, width, height, seriesArray, options ) {
+    constructor( verticalAxisTitleNode, scaleIndicatorText, timeProperty, width, height, seriesArray, options ) {
       super();
 
       options = _.extend( {
@@ -115,10 +116,6 @@ define( require => {
         centerY: graphPanel.centerY
       } );
 
-      const scaleIndicatorText = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.oneTimerUnit, {
-        fontSize: 11,
-        fill: 'white'
-      } ) );
       const lengthScaleIndicatorNode = new VBox( {
         spacing: -2,
         children: [
@@ -178,8 +175,7 @@ define( require => {
         emitter.addListener( () => {
 
           // Set the range by incorporating the model's time units, so it will match with the timer.
-          // TODO: timeUnitsConversion is always 1?
-          const maxSeconds = TIME_DIVISIONS / model.sceneProperty.value.timeUnitsConversion;
+          const maxSeconds = TIME_DIVISIONS; // TODO: assumes timeUnitsConversion is always 1
 
           // Draw the graph with line segments
           const pathShape = new Shape();
@@ -192,7 +188,7 @@ define( require => {
             // Clamp at max values
             const clampedValue = Util.clamp( scaledValue, 0, graphHeight );
 
-            const xAxisValue = Util.linear( model.time, model.time - maxSeconds, plotWidth, 0, sample.x );
+            const xAxisValue = Util.linear( timeProperty.value, timeProperty.value - maxSeconds, plotWidth, 0, sample.x );
             pathShape.lineTo( xAxisValue, clampedValue );
             if ( i === series.length - 1 ) {
               penNode.centerY = clampedValue;

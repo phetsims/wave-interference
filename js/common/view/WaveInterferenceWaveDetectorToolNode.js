@@ -113,10 +113,10 @@ define( require => {
           if ( model.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
             const value = model.lattice.getCurrentValue( sampleI, sampleJ );
 
-            probeSamples.push( new Vector2( model.time, value ) );
+            probeSamples.push( new Vector2( model.timeProperty.value, value ) );
           }
         }
-        while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.time - maxSeconds ) {
+        while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.timeProperty.value - maxSeconds ) {
           probeSamples.shift();
         }
         emitter.emit();
@@ -158,10 +158,15 @@ define( require => {
           fill: AXIS_LABEL_FILL
         } )
       );
+      const scaleIndicatorText = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.oneTimerUnit, {
+        fontSize: 11,
+        fill: 'white'
+      } ) );
 
       const waveDetectorToolContentNode = new ScrollingChartNode(
         verticalAxisTitleNode,
-        model,
+        scaleIndicatorText,
+        model.timeProperty,
         backgroundNode.width,
         backgroundNode.height, [
           { series: probe1Samples, emitter: series1Emitter, color: SERIES_1_COLOR },
