@@ -1,4 +1,4 @@
-// Copyright 2016, University of Colorado Boulder
+// Copyright 2018, University of Colorado Boulder
 
 /**
  * The scene determines the medium and emitter types, coordinate frames, relative scale, etc.

@@ -1,4 +1,4 @@
-// Copyright 2016, University of Colorado Boulder
+// Copyright 2018, University of Colorado Boulder
 
 /**
  * Selects whether the wave is shown from the top (default) or side view.  This value represents the user selection--
