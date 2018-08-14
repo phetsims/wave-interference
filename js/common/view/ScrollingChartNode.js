@@ -45,13 +45,13 @@ define( require => {
      * @param {WavesScreenModel} model - model for reading values
      * @param {number} width
      * @param {number} height
-     * @param {Vector2[]} probe1Samples
-     * @param {Emitter} probe1SamplesChangedEmitter
-     * @param {Vector2[]} probe2Samples
-     * @param {Emitter} probe2SamplesChangedEmitter
+     * @param {Vector2[]} series1
+     * @param {Emitter} series1Emitter
+     * @param {Vector2[]} series2
+     * @param {Emitter} series2Emitter
      * @param {Object} [options]
      */
-    constructor( model, width, height, probe1Samples, probe1SamplesChangedEmitter, probe2Samples, probe2SamplesChangedEmitter, options ) {
+    constructor( model, width, height, series1, series1Emitter, series2, series2Emitter, options ) {
       super();
 
       options = _.extend( {
@@ -234,11 +234,8 @@ define( require => {
         probePath.shape = pathShape;
       };
 
-      const updatePath1 = () => updateProbeData( pen1Node, probe1Samples, probe1Path, model.sceneProperty.get() );
-      const updatePath2 = () => updateProbeData( pen2Node, probe2Samples, probe2Path, model.sceneProperty.get() );
-
-      probe1SamplesChangedEmitter.addListener( updatePath1 );
-      probe2SamplesChangedEmitter.addListener( updatePath2 );
+      series1Emitter.addListener( () => updateProbeData( pen1Node, series1, probe1Path, model.sceneProperty.get() ) );
+      series2Emitter.addListener( () => updateProbeData( pen2Node, series2, probe2Path, model.sceneProperty.get() ) );
     }
   }
 
