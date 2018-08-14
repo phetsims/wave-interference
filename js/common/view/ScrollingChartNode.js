@@ -35,7 +35,7 @@ define( require => {
   const LABEL_GRAPH_MARGIN = 3;
   const LABEL_EDGE_MARGIN = 6;
   const HORIZONTAL_AXIS_LABEL_MARGIN = 4;
-  const NUMBER_OF_TIME_DIVISIONS = 4;
+  const TIME_DIVISIONS = 4;
 
   class ScrollingChartNode extends Node {
 
@@ -96,24 +96,24 @@ define( require => {
       } );
 
       // Horizontal Lines
-      graphPanel.addChild( new Line( 0, graphHeight * 1 / 4, graphWidth, graphHeight * 1 / 4, LINE_OPTIONS ) );
-      graphPanel.addChild( new Line( 0, graphHeight * 2 / 4, graphWidth, graphHeight * 2 / 4, LINE_OPTIONS ) );
-      graphPanel.addChild( new Line( 0, graphHeight * 3 / 4, graphWidth, graphHeight * 3 / 4, LINE_OPTIONS ) );
+      [ 1, 2, 3 ].forEach( i =>
+        graphPanel.addChild( new Line( 0, graphHeight * i / 4, graphWidth, graphHeight * i / 4, LINE_OPTIONS ) )
+      );
 
       // There is a blank space on the right side of the graph so there is room for the pens
       const rightGraphMargin = 10;
-      const availableGraphWidth = graphWidth - rightGraphMargin;
+      const plotWidth = graphWidth - rightGraphMargin;
 
       // Vertical lines
-      for ( let i = 1; i <= NUMBER_OF_TIME_DIVISIONS; i++ ) {
-        graphPanel.addChild( new Line( availableGraphWidth * i / NUMBER_OF_TIME_DIVISIONS, 0, availableGraphWidth * i / NUMBER_OF_TIME_DIVISIONS, graphHeight, LINE_OPTIONS ) );
-      }
+      [ 1, 2, 3, 4 ].forEach( i =>
+        graphPanel.addChild( new Line( plotWidth * i / TIME_DIVISIONS, 0, plotWidth * i / TIME_DIVISIONS, graphHeight, LINE_OPTIONS ) )
+      );
 
       this.addChild( graphPanel );
 
       horizontalAxisTitle.mutate( {
         top: graphPanel.bottom + LABEL_GRAPH_MARGIN,
-        centerX: graphPanel.left + availableGraphWidth / 2
+        centerX: graphPanel.left + plotWidth / 2
       } );
 
       verticalAxisTitle.mutate( {
@@ -129,7 +129,7 @@ define( require => {
         spacing: -2,
         children: [
 
-          new DoubleHeadedArrowWithBarsNode( 6, availableGraphWidth / 4, {
+          new DoubleHeadedArrowWithBarsNode( 6, plotWidth / 4, {
             lineOptions: { stroke: 'white' },
             arrowOptions: {
               fill: 'white',
@@ -166,7 +166,7 @@ define( require => {
         // Create the "pens" which draw the data at the right side of the graph
         const penNode = new Circle( 4.5, {
           fill: color,
-          centerX: availableGraphWidth,
+          centerX: plotWidth,
           centerY: graphHeight / 2
         } );
         const pathNode = new Path( new Shape(), {
@@ -185,7 +185,7 @@ define( require => {
 
           // Set the range by incorporating the model's time units, so it will match with the timer.
           // TODO: timeUnitsConversion is always 1?
-          const maxSeconds = NUMBER_OF_TIME_DIVISIONS / model.sceneProperty.value.timeUnitsConversion;
+          const maxSeconds = TIME_DIVISIONS / model.sceneProperty.value.timeUnitsConversion;
 
           // Draw the graph with line segments
           const pathShape = new Shape();
@@ -198,7 +198,7 @@ define( require => {
             // Clamp at max values
             const clampedValue = Util.clamp( scaledValue, 0, graphHeight );
 
-            const xAxisValue = Util.linear( model.time, model.time - maxSeconds, availableGraphWidth, 0, sample.x );
+            const xAxisValue = Util.linear( model.time, model.time - maxSeconds, plotWidth, 0, sample.x );
             pathShape.lineTo( xAxisValue, clampedValue );
             if ( i === series.length - 1 ) {
               penNode.centerY = clampedValue;
