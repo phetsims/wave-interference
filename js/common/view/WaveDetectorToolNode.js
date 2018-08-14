@@ -55,6 +55,7 @@ define( require => {
 
       this.alignProbes();
 
+      // Mutate after backgroundNode is added as a child
       this.mutate( options );
     }
 

@@ -50,8 +50,8 @@ define( require => {
       const rightBottomProperty = new NodeProperty( backgroundNode, 'bounds', 'rightBottom' );
 
       /**
-       * @param {Color} color
-       * @param {Color} wireColor
+       * @param {Color|string} color
+       * @param {Color|string} wireColor
        * @param {number} dx
        * @param {number} dy
        * @param {Property.<Vector2>} connectionProperty
