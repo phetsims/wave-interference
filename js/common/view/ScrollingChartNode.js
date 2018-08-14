@@ -43,13 +43,12 @@ define( require => {
 
     /**
      * @param {WavesScreenModel} model - model for reading values
-     * @param {WavesScreenView|null} view - for getting coordinates for model
      * @param {Node} backgroundNode - container for dimensions
      * @param {Vector2[]} probe1Samples
      * @param {Vector2[]} probe2Samples // TODO: decouple this from ProbeNode
      * @param {Object} [options]
      */
-    constructor( model, view, backgroundNode, probe1Samples, probe2Samples, options ) {
+    constructor( model, backgroundNode, probe1Samples, probe2Samples, options ) {
       super();
 
       const LABEL_FONT_SIZE = 14;

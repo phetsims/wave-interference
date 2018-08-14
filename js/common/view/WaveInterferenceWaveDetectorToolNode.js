@@ -122,7 +122,7 @@ define( require => {
       this.probe2Node.on( 'transform', () => updateSamples( this.probe2Node, probe2Samples, model.sceneProperty.value ) );
 
       // TODO: embed onto the background as a child
-      const waveDetectorToolContentNode = new ScrollingChartNode( model, view, backgroundNode, probe1Samples, probe2Samples, options );
+      const waveDetectorToolContentNode = new ScrollingChartNode( model, backgroundNode, probe1Samples, probe2Samples, options );
       this.addChild( waveDetectorToolContentNode );
     }
   }
