@@ -49,6 +49,9 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( model, view, options ) {
+      options = _.extend( {
+        timeDivisions: NUMBER_OF_TIME_DIVISIONS
+      }, options );
       const backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, WIDTH, HEIGHT ), {
         cursor: 'pointer'
       } );

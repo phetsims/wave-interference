@@ -35,7 +35,6 @@ define( require => {
   const LABEL_GRAPH_MARGIN = 3;
   const LABEL_EDGE_MARGIN = 6;
   const HORIZONTAL_AXIS_LABEL_MARGIN = 4;
-  const TIME_DIVISIONS = 4;
 
   class ScrollingChartNode extends Node {
 
@@ -52,7 +51,8 @@ define( require => {
       super();
 
       options = _.extend( {
-        isIcon: false
+        isIcon: false,
+        timeDivisions: 4
       }, options );
 
       const LABEL_FONT_SIZE = 14;
@@ -101,7 +101,7 @@ define( require => {
 
       // Vertical lines
       [ 1, 2, 3, 4 ].forEach( i =>
-        graphPanel.addChild( new Line( plotWidth * i / TIME_DIVISIONS, 0, plotWidth * i / TIME_DIVISIONS, graphHeight, LINE_OPTIONS ) )
+        graphPanel.addChild( new Line( plotWidth * i / options.timeDivisions, 0, plotWidth * i / options.timeDivisions, graphHeight, LINE_OPTIONS ) )
       );
 
       this.addChild( graphPanel );
@@ -175,7 +175,7 @@ define( require => {
         emitter.addListener( () => {
 
           // Set the range by incorporating the model's time units, so it will match with the timer.
-          const maxSeconds = TIME_DIVISIONS; // TODO: assumes timeUnitsConversion is always 1
+          const maxSeconds = options.timeDivisions; // TODO: assumes timeUnitsConversion is always 1
 
           // Draw the graph with line segments
           const pathShape = new Shape();
