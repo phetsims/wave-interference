@@ -166,41 +166,53 @@ define( require => {
         top: graphPanel.bottom + LABEL_GRAPH_MARGIN
       } );
 
-      // Create the "pens" which draw the data at the right side of the graph
-      const PEN_RADIUS = 4.5;
-      const pen1Node = new Circle( PEN_RADIUS, {
-        fill: SERIES_1_COLOR,
-        centerX: availableGraphWidth,
-        centerY: graphHeight / 2
-      } );
-      const probe1Path = new Path( new Shape(), {
-        stroke: SERIES_1_COLOR,
-        lineWidth: PATH_LINE_WIDTH,
+      const addSeries = ( color, series, emitter ) => {
 
-        // prevent bounds computations during main loop
-        boundsMethod: 'none',
-        localBounds: Bounds2.NOTHING
-      } );
-      probe1Path.computeShapeBounds = () => Bounds2.NOTHING; // prevent bounds computations during main loop
-      graphPanel.addChild( probe1Path );
-      graphPanel.addChild( pen1Node );
+        // Create the "pens" which draw the data at the right side of the graph
+        const penNode = new Circle( 4.5, {
+          fill: color,
+          centerX: availableGraphWidth,
+          centerY: graphHeight / 2
+        } );
+        const pathNode = new Path( new Shape(), {
+          stroke: color,
+          lineWidth: PATH_LINE_WIDTH,
 
-      const pen2Node = new Circle( PEN_RADIUS, {
-        fill: SERIES_2_COLOR,
-        centerX: availableGraphWidth,
-        centerY: graphHeight / 2
-      } );
-      const probe2Path = new Path( new Shape(), {
-        stroke: SERIES_2_COLOR,
-        lineWidth: PATH_LINE_WIDTH,
+          // prevent bounds computations during main loop
+          boundsMethod: 'none',
+          localBounds: Bounds2.NOTHING
+        } );
+        pathNode.computeShapeBounds = () => Bounds2.NOTHING; // prevent bounds computations during main loop
+        graphPanel.addChild( pathNode );
+        graphPanel.addChild( penNode );
 
-        // prevent bounds computations during main loop
-        boundsMethod: 'none',
-        localBounds: Bounds2.NOTHING
-      } );
-      probe2Path.computeShapeBounds = () => Bounds2.NOTHING; // prevent bounds computations during main loop
-      graphPanel.addChild( probe2Path );
-      graphPanel.addChild( pen2Node );
+        emitter.addListener( () => {
+          // Set the range by incorporating the model's time units, so it will match with the timer.
+          const maxSeconds = NUMBER_OF_TIME_DIVISIONS / model.sceneProperty.value.timeUnitsConversion;
+
+          // Draw the graph with line segments
+          const pathShape = new Shape();
+          for ( let i = 0; i < series.length; i++ ) {
+            const sample = series[ i ];
+
+            // strong wavefronts (bright colors) are positive on the graph
+            const scaledValue = Util.linear( 0, 2, graphHeight / 2, 0, sample.y );
+
+            // Clamp at max values
+            const clampedValue = Util.clamp( scaledValue, 0, graphHeight );
+
+            const xAxisValue = Util.linear( model.time, model.time - maxSeconds, availableGraphWidth, 0, sample.x );
+            pathShape.lineTo( xAxisValue, clampedValue );
+            if ( i === series.length - 1 ) {
+              penNode.centerY = clampedValue;
+            }
+          }
+          pathNode.shape = pathShape;
+        } );
+      };
+
+      addSeries( SERIES_1_COLOR, series1, series1Emitter );
+      addSeries( SERIES_2_COLOR, series2, series2Emitter );
 
       // Stroke on front panel is on top, so that when the curves go to the edges they do not overlap the border stroke.
       // This is a faster alternative to clipping.
@@ -208,34 +220,6 @@ define( require => {
         stroke: 'black',
         pickable: false
       } ) );
-
-      const updateProbeData = function( penNode, probeSamples, probePath, scene ) {
-
-        // Set the range by incorporating the model's time units, so it will match with the timer.
-        const maxSeconds = NUMBER_OF_TIME_DIVISIONS / scene.timeUnitsConversion;
-
-        // Draw the graph with line segments
-        const pathShape = new Shape();
-        for ( let i = 0; i < probeSamples.length; i++ ) {
-          const sample = probeSamples[ i ];
-
-          // strong wavefronts (bright colors) are positive on the graph
-          const scaledValue = Util.linear( 0, 2, graphHeight / 2, 0, sample.y );
-
-          // Clamp at max values
-          const clampedValue = Util.clamp( scaledValue, 0, graphHeight );
-
-          const xAxisValue = Util.linear( model.time, model.time - maxSeconds, availableGraphWidth, 0, sample.x );
-          pathShape.lineTo( xAxisValue, clampedValue );
-          if ( i === probeSamples.length - 1 ) {
-            penNode.centerY = clampedValue;
-          }
-        }
-        probePath.shape = pathShape;
-      };
-
-      series1Emitter.addListener( () => updateProbeData( pen1Node, series1, probe1Path, model.sceneProperty.get() ) );
-      series2Emitter.addListener( () => updateProbeData( pen2Node, series2, probe2Path, model.sceneProperty.get() ) );
     }
   }
 
