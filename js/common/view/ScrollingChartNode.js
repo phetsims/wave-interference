@@ -20,7 +20,6 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const Util = require( 'DOT/Util' );
   const VBox = require( 'SCENERY/nodes/VBox' );
-  const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
@@ -46,11 +45,11 @@ define( require => {
      * @param {WavesScreenModel} model - model for reading values
      * @param {WavesScreenView|null} view - for getting coordinates for model
      * @param {Node} backgroundNode - container for dimensions
-     * @param {WaveDetectorToolProbeNode} probe1Node
-     * @param {WaveDetectorToolProbeNode} probe2Node // TODO: decouple this from ProbeNode
+     * @param {Vector2[]} probe1Samples
+     * @param {Vector2[]} probe2Samples // TODO: decouple this from ProbeNode
      * @param {Object} [options]
      */
-    constructor( model, view, backgroundNode, probe1Node, probe2Node, options ) {
+    constructor( model, view, backgroundNode, probe1Samples, probe2Samples, options ) {
       super();
 
       const LABEL_FONT_SIZE = 14;
@@ -199,26 +198,18 @@ define( require => {
         pickable: false
       } ) );
 
-      const probe1Samples = [];
-      const probe2Samples = [];
-
-      const updateProbeData = function( probeNode, penNode, probeSamples, probePath, scene ) {
+      const updateProbeData = function( penNode, probeSamples, probePath, scene ) {
 
         if ( model.isWaveDetectorToolNodeInPlayAreaProperty.get() ) {
 
           // Set the range by incorporating the model's time units, so it will match with the timer.
           const maxSeconds = NUMBER_OF_TIME_DIVISIONS / scene.timeUnitsConversion;
 
-          // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
-          // itself as the sensor hot spot.  This doesn't include the damping regions
-          const latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
-
-          const sampleI = latticeCoordinates.x + model.lattice.dampX;
-          const sampleJ = latticeCoordinates.y + model.lattice.dampY;
-
-          if ( model.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
-            const value = model.lattice.getCurrentValue( sampleI, sampleJ );
-
+          // Draw the graph with line segments
+          const pathShape = new Shape();
+          for ( let i = 0; i < probeSamples.length; i++ ) {
+            const sample = probeSamples[ i ];
+            const value = sample.y;
             // strong wavefronts (bright colors) are positive on the graph
             let chartYValue = Util.linear( 0, 2, graphHeight / 2, 0, value );
             if ( chartYValue > graphHeight ) {
@@ -227,28 +218,19 @@ define( require => {
             if ( chartYValue < 0 ) {
               chartYValue = 0;
             }
-            penNode.centerY = chartYValue;
-            probeSamples.push( new Vector2( model.time, chartYValue ) );
-          }
-
-          while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.time - maxSeconds ) {
-            probeSamples.shift();
-          }
-
-          // Draw the graph with line segments
-          const pathShape = new Shape();
-          for ( let i = 0; i < probeSamples.length; i++ ) {
-            const sample = probeSamples[ i ];
             const xAxisValue = Util.linear( model.time, model.time - maxSeconds, availableGraphWidth, 0, sample.x );
-            pathShape.lineTo( xAxisValue, sample.y );
+            pathShape.lineTo( xAxisValue, chartYValue );
+            if ( i === probeSamples.length - 1 ) {
+              penNode.centerY = chartYValue;
+            }
           }
           probePath.shape = pathShape;
         }
       };
 
       const updatePaths = () => {
-        updateProbeData( probe1Node, pen1Node, probe1Samples, probe1Path, model.sceneProperty.get() );
-        updateProbeData( probe2Node, pen2Node, probe2Samples, probe2Path, model.sceneProperty.get() );
+        updateProbeData( pen1Node, probe1Samples, probe1Path, model.sceneProperty.get() );
+        updateProbeData( pen2Node, probe2Samples, probe2Path, model.sceneProperty.get() );
       };
 
       // Update the graph value when the lattice changes, but only when this is not for an icon
@@ -262,11 +244,6 @@ define( require => {
           updatePaths();
         } );
       }
-
-      // When the wave is paused and the user is dragging the entire WaveDetectorToolNode with the probes aligned, they
-      // need to sample their new locations.
-      probe1Node.on( 'transform', updatePaths );
-      probe2Node.on( 'transform', updatePaths );
 
       model.resetEmitter.addListener( () => {
         probe1Samples.length = 0;

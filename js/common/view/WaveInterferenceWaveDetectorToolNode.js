@@ -27,6 +27,7 @@ define( require => {
   const SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
   const WIRE_1_COLOR = SERIES_1_COLOR;
   const WIRE_2_COLOR = new Color( SERIES_2_COLOR ).darkerColor( 0.7 );
+  const NUMBER_OF_TIME_DIVISIONS = 4; // TODO: factor out
 
   // For the wires
   const NORMAL_DISTANCE = 25;
@@ -87,8 +88,41 @@ define( require => {
         new DerivedProperty( [ rightBottomProperty ], position => position.plusXY( 0, -10 ) )
       );
 
+      const probe1Samples = [];
+      const probe2Samples = [];
+
+      const updateSamples = function( probeNode, probeSamples, scene ) {
+
+        // Set the range by incorporating the model's time units, so it will match with the timer.
+        const maxSeconds = NUMBER_OF_TIME_DIVISIONS / scene.timeUnitsConversion;
+
+        if ( model.isWaveDetectorToolNodeInPlayAreaProperty.get() ) {
+
+          // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
+          // itself as the sensor hot spot.  This doesn't include the damping regions
+          const latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
+
+          const sampleI = latticeCoordinates.x + model.lattice.dampX;
+          const sampleJ = latticeCoordinates.y + model.lattice.dampY;
+
+          if ( model.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
+            const value = model.lattice.getCurrentValue( sampleI, sampleJ );
+
+            probeSamples.push( new Vector2( model.time, value ) );
+          }
+        }
+        while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.time - maxSeconds ) {
+          probeSamples.shift();
+        }
+      };
+
+      // When the wave is paused and the user is dragging the entire WaveDetectorToolNode with the probes aligned, they
+      // need to sample their new locations.
+      this.probe1Node.on( 'transform', () => updateSamples( this.probe1Node, probe1Samples, model.sceneProperty.value ) );
+      this.probe2Node.on( 'transform', () => updateSamples( this.probe2Node, probe2Samples, model.sceneProperty.value ) );
+
       // TODO: embed onto the background as a child
-      const waveDetectorToolContentNode = new ScrollingChartNode( model, view, backgroundNode, this.probe1Node, this.probe2Node, options );
+      const waveDetectorToolContentNode = new ScrollingChartNode( model, view, backgroundNode, probe1Samples, probe2Samples, options );
       this.addChild( waveDetectorToolContentNode );
     }
   }
