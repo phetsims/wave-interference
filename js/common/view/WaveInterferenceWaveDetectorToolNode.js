@@ -38,7 +38,6 @@ define( require => {
 
   // For the wires
   const NORMAL_DISTANCE = 25;
-  const PROBE_ATTACHMENT_POINT = 'centerBottom';
   const WIRE_LINE_WIDTH = 3;
 
   class WaveInterferenceWaveDetectorToolNode extends WaveDetectorToolNode {
@@ -73,7 +72,7 @@ define( require => {
         // Add the wire behind the probe.
         // TODO: connection point should vary as probes move.  Or try connecting at the center with no normal?
         this.addChild( new WireNode( connectionProperty, new Property( new Vector2( NORMAL_DISTANCE, 0 ) ),
-          new NodeProperty( probeNode, 'bounds', PROBE_ATTACHMENT_POINT ), new Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
+          new NodeProperty( probeNode, 'bounds', 'centerBottom' ), new Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
             lineWidth: WIRE_LINE_WIDTH,
             stroke: wireColor
           }
