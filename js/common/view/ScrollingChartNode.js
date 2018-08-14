@@ -121,10 +121,10 @@ define( require => {
         centerY: graphPanel.centerY
       } );
 
-      const scaleIndicatorText = new WaveInterferenceText( '', { fontSize: 11, fill: 'white' } );
-      model.sceneProperty.link( scene => {
-        scaleIndicatorText.text = scene.oneTimerUnit;
-      } );
+      const scaleIndicatorText = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.oneTimerUnit, {
+        fontSize: 11,
+        fill: 'white'
+      } ) );
       const lengthScaleIndicatorNode = new VBox( {
         spacing: -2,
         children: [
@@ -184,6 +184,7 @@ define( require => {
         emitter.addListener( () => {
 
           // Set the range by incorporating the model's time units, so it will match with the timer.
+          // TODO: timeUnitsConversion is always 1?
           const maxSeconds = NUMBER_OF_TIME_DIVISIONS / model.sceneProperty.value.timeUnitsConversion;
 
           // Draw the graph with line segments
@@ -215,6 +216,8 @@ define( require => {
         stroke: 'black',
         pickable: false
       } ) );
+
+      this.mutate( options );
     }
   }
 

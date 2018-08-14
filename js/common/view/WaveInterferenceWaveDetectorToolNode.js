@@ -126,22 +126,18 @@ define( require => {
       const update1 = () => updateSamples( this.probe1Node, probe1Samples, model.sceneProperty.value, series1Emitter );
       const update2 = () => updateSamples( this.probe2Node, probe2Samples, model.sceneProperty.value, series2Emitter );
 
-      // Redraw the probe data when the scene changes
-      model.sceneProperty.link( () => {
-        probe1Samples.length = 0;
-        probe2Samples.length = 0;
-        update1();
-        update2();
-      } );
-
-      model.resetEmitter.addListener( () => {
-        probe1Samples.length = 0;
-        probe2Samples.length = 0;
-        update1();
-        update2();
-      } );
-
       if ( !options.isIcon ) {
+
+        // Redraw the probe data when the scene changes
+        var clear = () => {
+          probe1Samples.length = 0;
+          probe2Samples.length = 0;
+          update1();
+          update2();
+        };
+        model.sceneProperty.link( clear );
+        model.resetEmitter.addListener( clear );
+
         this.probe1Node.on( 'transform', update1 );
         this.probe2Node.on( 'transform', update2 );
 
@@ -158,7 +154,7 @@ define( require => {
         backgroundNode.height, [
           { series: probe1Samples, emitter: series1Emitter, color: SERIES_1_COLOR },
           { series: probe2Samples, emitter: series2Emitter, color: SERIES_2_COLOR }
-        ], options );
+        ], _.omit( options, 'scale' ) );
       backgroundNode.addChild( waveDetectorToolContentNode );
     }
   }
