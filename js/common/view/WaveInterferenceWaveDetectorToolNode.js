@@ -57,7 +57,7 @@ define( require => {
       super( backgroundNode, options );
 
       // These do not need to be disposed because there is no connection to the "outside world"
-      const rightBottomProperty = new NodeProperty( backgroundNode, 'bounds', 'rightBottom' );
+      const leftBottomProperty = new NodeProperty( backgroundNode, 'bounds', 'leftBottom' );
 
       /**
        * @param {Color|string} color
@@ -71,7 +71,7 @@ define( require => {
 
         // Add the wire behind the probe.
         // TODO: connection point should vary as probes move.  Or try connecting at the center with no normal?
-        this.addChild( new WireNode( connectionProperty, new Property( new Vector2( NORMAL_DISTANCE, 0 ) ),
+        this.addChild( new WireNode( connectionProperty, new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
           new NodeProperty( probeNode, 'bounds', 'centerBottom' ), new Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
             lineWidth: WIRE_LINE_WIDTH,
             stroke: wireColor
@@ -80,7 +80,7 @@ define( require => {
         this.addChild( probeNode );
 
         // Standard location in toolbox and when dragging out of toolbox.
-        const alignProbes = () => probeNode.mutate( { left: backgroundNode.right + dx, top: backgroundNode.top + dy } );
+        const alignProbes = () => probeNode.mutate( { right: backgroundNode.left - dx, top: backgroundNode.top + dy } );
         this.alignProbesEmitter.addListener( alignProbes );
         alignProbes();
 
@@ -89,12 +89,12 @@ define( require => {
 
       // @private {Node}
       this.probe1Node = createProbeAndWire( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10,
-        new DerivedProperty( [ rightBottomProperty ], position => position.plusXY( 0, -20 ) )
+        new DerivedProperty( [ leftBottomProperty ], position => position.plusXY( 0, -20 ) )
       );
 
       // @private {Node}
       this.probe2Node = createProbeAndWire( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54,
-        new DerivedProperty( [ rightBottomProperty ], position => position.plusXY( 0, -10 ) )
+        new DerivedProperty( [ leftBottomProperty ], position => position.plusXY( 0, -10 ) )
       );
 
       const probe1Samples = [];
