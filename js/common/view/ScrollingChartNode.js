@@ -43,12 +43,13 @@ define( require => {
 
     /**
      * @param {WavesScreenModel} model - model for reading values
-     * @param {Node} backgroundNode - container for dimensions
+     * @param {number} width
+     * @param {number} height
      * @param {Vector2[]} probe1Samples
-     * @param {Vector2[]} probe2Samples // TODO: decouple this from ProbeNode
+     * @param {Vector2[]} probe2Samples
      * @param {Object} [options]
      */
-    constructor( model, backgroundNode, probe1Samples, probe2Samples, options ) {
+    constructor( model, width, height, probe1Samples, probe2Samples, options ) {
       super();
 
       const LABEL_FONT_SIZE = 14;
@@ -67,8 +68,8 @@ define( require => {
       const leftMargin = LABEL_EDGE_MARGIN + verticalAxisTitle.width + LABEL_GRAPH_MARGIN;
       const bottomMargin = LABEL_EDGE_MARGIN + horizontalAxisTitle.height + LABEL_GRAPH_MARGIN;
 
-      const graphWidth = backgroundNode.width - leftMargin - RIGHT_MARGIN;
-      const graphHeight = backgroundNode.height - TOP_MARGIN - bottomMargin;
+      const graphWidth = width - leftMargin - RIGHT_MARGIN;
+      const graphHeight = height - TOP_MARGIN - bottomMargin;
 
       // Now that we know the graphHeight, use it to limit the text size for the vertical axis label
       verticalAxisTitle.maxWidth = graphHeight;
@@ -88,8 +89,8 @@ define( require => {
       const graphPanel = new Rectangle( 0, 0, graphWidth, graphHeight, GRAPH_CORNER_RADIUS, GRAPH_CORNER_RADIUS, {
         fill: 'white',
         stroke: 'black', // This stroke is covered by the front panel stroke, only included here to make sure the bounds align
-        right: backgroundNode.right - RIGHT_MARGIN,
-        top: backgroundNode.top + TOP_MARGIN,
+        right: width - RIGHT_MARGIN,
+        top: 0 + TOP_MARGIN,
         pickable: false
       } );
 
@@ -107,8 +108,7 @@ define( require => {
         graphPanel.addChild( new Line( availableGraphWidth * i / NUMBER_OF_TIME_DIVISIONS, 0, availableGraphWidth * i / NUMBER_OF_TIME_DIVISIONS, graphHeight, LINE_OPTIONS ) );
       }
 
-      // TODO: addChild to this?
-      backgroundNode.addChild( graphPanel );
+      this.addChild( graphPanel );
 
       horizontalAxisTitle.mutate( {
         top: graphPanel.bottom + LABEL_GRAPH_MARGIN,
@@ -144,10 +144,9 @@ define( require => {
         top: graphPanel.bottom + 2
       } );
 
-      // TODO: addChild to this?
-      backgroundNode.addChild( lengthScaleIndicatorNode );
-      backgroundNode.addChild( horizontalAxisTitle );
-      backgroundNode.addChild( verticalAxisTitle );
+      this.addChild( lengthScaleIndicatorNode );
+      this.addChild( horizontalAxisTitle );
+      this.addChild( verticalAxisTitle );
 
       // For i18n, “Time” will expand symmetrically L/R until it gets too close to the scale bar. Then, the string will
       // expand to the R only, until it reaches the point it must be scaled down in size.

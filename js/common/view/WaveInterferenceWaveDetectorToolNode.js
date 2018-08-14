@@ -121,9 +121,10 @@ define( require => {
       this.probe1Node.on( 'transform', () => updateSamples( this.probe1Node, probe1Samples, model.sceneProperty.value ) );
       this.probe2Node.on( 'transform', () => updateSamples( this.probe2Node, probe2Samples, model.sceneProperty.value ) );
 
-      // TODO: embed onto the background as a child
-      const waveDetectorToolContentNode = new ScrollingChartNode( model, backgroundNode, probe1Samples, probe2Samples, options );
-      this.addChild( waveDetectorToolContentNode );
+      // TODO: embed onto the background as a child in the constructor
+      // TODO: factor out constants for backgroundNode width and height
+      const waveDetectorToolContentNode = new ScrollingChartNode( model, backgroundNode.width, backgroundNode.height, probe1Samples, probe2Samples, options );
+      backgroundNode.addChild( waveDetectorToolContentNode );
     }
   }
 
