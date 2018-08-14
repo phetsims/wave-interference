@@ -59,12 +59,12 @@ define( require => {
         fill: AXIS_LABEL_FILL
       } );
 
-      const verticalAxisTitle = model ? new SceneToggleNode( model, scene => new WaveInterferenceText( scene.verticalAxisTitle, {
+      const verticalAxisTitle = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.verticalAxisTitle, {
           fontSize: LABEL_FONT_SIZE,
           rotation: -Math.PI / 2,
           fill: AXIS_LABEL_FILL
         } )
-      ) : new WaveInterferenceText( '' );
+      );
 
       const leftMargin = LABEL_EDGE_MARGIN + verticalAxisTitle.width + LABEL_GRAPH_MARGIN;
       const bottomMargin = LABEL_EDGE_MARGIN + horizontalAxisTitle.height + LABEL_GRAPH_MARGIN;
