@@ -15,12 +15,14 @@ define( require => {
   const Emitter = require( 'AXON/Emitter' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
   const Property = require( 'AXON/Property' );
+  const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScrollingChartNode = require( 'WAVE_INTERFERENCE/common/view/ScrollingChartNode' );
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   const Vector2 = require( 'DOT/Vector2' );
   const WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
   const WaveDetectorToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolProbeNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WireNode = require( 'SCENERY_PHET/WireNode' );
 
   // constants
@@ -29,6 +31,8 @@ define( require => {
   const WIRE_1_COLOR = SERIES_1_COLOR;
   const WIRE_2_COLOR = new Color( SERIES_2_COLOR ).darkerColor( 0.7 );
   const NUMBER_OF_TIME_DIVISIONS = 4; // TODO: factor out
+  const AXIS_LABEL_FILL = 'white';
+  const LABEL_FONT_SIZE = 14;
 
   // For the wires
   const NORMAL_DISTANCE = 25;
@@ -148,7 +152,15 @@ define( require => {
         model.lattice.changedEmitter.addListener( update2 );
       }
 
+      const verticalAxisTitleNode = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.verticalAxisTitle, {
+          fontSize: LABEL_FONT_SIZE,
+          rotation: -Math.PI / 2,
+          fill: AXIS_LABEL_FILL
+        } )
+      );
+
       const waveDetectorToolContentNode = new ScrollingChartNode(
+        verticalAxisTitleNode,
         model,
         backgroundNode.width,
         backgroundNode.height, [

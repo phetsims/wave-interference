@@ -40,13 +40,14 @@ define( require => {
   class ScrollingChartNode extends Node {
 
     /**
+     * @param {Node} verticalAxisTitleNode
      * @param {WavesScreenModel} model - model for reading values
      * @param {number} width
      * @param {number} height
      * @param {Object[]} seriesArray, each element has {series: Vector2[],emitter: Emitter, color: Color}
      * @param {Object} [options]
      */
-    constructor( model, width, height, seriesArray, options ) {
+    constructor( verticalAxisTitleNode, model, width, height, seriesArray, options ) {
       super();
 
       options = _.extend( {
@@ -59,21 +60,14 @@ define( require => {
         fill: AXIS_LABEL_FILL
       } );
 
-      const verticalAxisTitle = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.verticalAxisTitle, {
-          fontSize: LABEL_FONT_SIZE,
-          rotation: -Math.PI / 2,
-          fill: AXIS_LABEL_FILL
-        } )
-      );
-
-      const leftMargin = LABEL_EDGE_MARGIN + verticalAxisTitle.width + LABEL_GRAPH_MARGIN;
+      const leftMargin = LABEL_EDGE_MARGIN + verticalAxisTitleNode.width + LABEL_GRAPH_MARGIN;
       const bottomMargin = LABEL_EDGE_MARGIN + horizontalAxisTitle.height + LABEL_GRAPH_MARGIN;
 
       const graphWidth = width - leftMargin - RIGHT_MARGIN;
       const graphHeight = height - TOP_MARGIN - bottomMargin;
 
       // Now that we know the graphHeight, use it to limit the text size for the vertical axis label
-      verticalAxisTitle.maxWidth = graphHeight;
+      verticalAxisTitleNode.maxWidth = graphHeight;
 
       const NUMBER_VERTICAL_DASHES = 12;
       const dashLength = graphHeight / NUMBER_VERTICAL_DASHES / 2;
@@ -116,7 +110,7 @@ define( require => {
         centerX: graphPanel.left + plotWidth / 2
       } );
 
-      verticalAxisTitle.mutate( {
+      verticalAxisTitleNode.mutate( {
         right: graphPanel.left - LABEL_GRAPH_MARGIN,
         centerY: graphPanel.centerY
       } );
@@ -147,7 +141,7 @@ define( require => {
 
       this.addChild( lengthScaleIndicatorNode );
       this.addChild( horizontalAxisTitle );
-      this.addChild( verticalAxisTitle );
+      this.addChild( verticalAxisTitleNode );
 
       // For i18n, “Time” will expand symmetrically L/R until it gets too close to the scale bar. Then, the string will
       // expand to the R only, until it reaches the point it must be scaled down in size.
