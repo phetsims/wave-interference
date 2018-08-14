@@ -61,9 +61,7 @@ define( require => {
 
       // Reset All button
       const resetAllButton = new ResetAllButton( {
-        listener: function() {
-          diffractionModel.reset();
-        },
+        listener: () => diffractionModel.reset(),
         right: this.layoutBounds.maxX - 10,
         bottom: this.layoutBounds.maxY - 10
       } );

@@ -224,9 +224,9 @@ define( require => {
       } );
 
       // @public {DerivedProperty.<boolean>} - true if the system is rotating
-      this.isRotatingProperty = new DerivedProperty( [ this.rotationAmountProperty ], function( rotationAmount ) {
-        return rotationAmount !== rotationRange.min && rotationAmount !== rotationRange.max;
-      } );
+      this.isRotatingProperty = new DerivedProperty( [ this.rotationAmountProperty ],
+        rotationAmount => rotationAmount !== rotationRange.min && rotationAmount !== rotationRange.max
+      );
 
       // @public {Emitter} - emits once per step
       this.stepEmitter = new Emitter();

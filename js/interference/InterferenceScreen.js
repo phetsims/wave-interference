@@ -34,8 +34,8 @@ define( require => {
         homeScreenIcon: new Image( interferenceScreenIcon )
       };
       super(
-        function() { return new InterferenceScreenModel(); },
-        function( model ) { return new InterferenceScreenView( model, alignGroup ); },
+        () => new InterferenceScreenModel(),
+        model => new InterferenceScreenView( model, alignGroup ),
         options
       );
     }

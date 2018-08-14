@@ -24,14 +24,12 @@ define( require => {
         cursor: 'pointer',
         sensorTypeFunction: ProbeNode.crosshairs( { stroke: 'white' } ),
         scale: 0.4,
-        drag: function() {}
+        drag: () => {}
       }, options );
       super( options );
       this.addInputListener( new DragListener( {
         translateNode: true,
-        drag: function() {
-          options.drag();
-        }
+        drag: () => options.drag()
       } ) );
     }
   }

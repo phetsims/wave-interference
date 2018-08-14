@@ -66,8 +66,8 @@ define( require => {
       // Create a Property in Hz as required by the FrequencySlider.
       const frequencyInHzProperty = new DynamicProperty( new Property( model.lightScene.frequencyProperty ), {
         bidirectional: true,
-        map: function( frequency ) { return WaveInterferenceUtils.fromFemto( frequency ); },
-        inverseMap: function( frequency ) { return WaveInterferenceUtils.toFemto( frequency ); }
+        map: frequency => WaveInterferenceUtils.fromFemto( frequency ),
+        inverseMap: frequency => WaveInterferenceUtils.toFemto( frequency )
       } );
 
       const lightFrequencySlider = new FrequencySlider( frequencyInHzProperty, {

@@ -49,7 +49,7 @@ define( require => {
       const waterBarriersNode = new BarriersNode( model, model.waterScene, this.waveAreaNode.bounds );
       const soundBarriersNode = new BarriersNode( model, model.soundScene, this.waveAreaNode.bounds );
       const lightBarriersNode = new BarriersNode( model, model.lightScene, this.waveAreaNode.bounds );
-      Property.multilink( [ model.sceneProperty, model.rotationAmountProperty, model.isRotatingProperty, model.viewTypeProperty ], function( scene, rotationAmount, isRotating, viewType ) {
+      Property.multilink( [ model.sceneProperty, model.rotationAmountProperty, model.isRotatingProperty, model.viewTypeProperty ], ( scene, rotationAmount, isRotating, viewType ) => {
 
         // Hide the barriers for water side view and while rotating
         const hide = scene === model.waterScene && viewType === ViewType.SIDE || isRotating;

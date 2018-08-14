@@ -111,9 +111,7 @@ define( require => {
       } );
 
       const resetAllButton = new ResetAllButton( {
-        listener: function() {
-          model.reset();
-        },
+        listener: () => model.reset(),
         right: this.layoutBounds.right - MARGIN,
         bottom: this.layoutBounds.bottom - MARGIN
       } );
@@ -134,7 +132,7 @@ define( require => {
       } );
 
       // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-      Property.multilink( [ model.showScreenProperty, model.sceneProperty ], function( showScreen, scene ) {
+      Property.multilink( [ model.showScreenProperty, model.sceneProperty ], ( showScreen, scene ) => {
         screenNode.visible = showScreen && scene === model.lightScene;
       } );
 
@@ -165,7 +163,7 @@ define( require => {
       const intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, {
         left: screenNode.right + 5
       } );
-      Property.multilink( [ model.showIntensityGraphProperty, model.sceneProperty ], function( showIntensityGraph, scene ) {
+      Property.multilink( [ model.showIntensityGraphProperty, model.sceneProperty ], ( showIntensityGraph, scene ) => {
 
         // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
         intensityGraphPanel.visible = showIntensityGraph && scene === model.lightScene;
@@ -191,9 +189,7 @@ define( require => {
        * @param {Vector2} point
        * @returns {boolean}
        */
-      const toolboxContains = function( point ) {
-        return toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).containsPoint( point );
-      };
+      const toolboxContains = point => toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).containsPoint( point );
 
       const measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
 
@@ -204,7 +200,7 @@ define( require => {
         tipPositionProperty: model.measuringTapeTipPositionProperty,
 
         // Drop in toolbox
-        baseDragEnded: function() {
+        baseDragEnded: () => {
           if ( toolboxContains( measuringTapeNode.localToGlobalPoint( measuringTapeNode.baseImage.center ) ) ) {
             model.isMeasuringTapeInPlayAreaProperty.value = false;
           }
@@ -215,7 +211,7 @@ define( require => {
       const timerNode = new WaveInterferenceTimerNode( model, {
 
         // Drop in toolbox
-        end: function() {
+        end: () => {
           if ( toolboxContains( timerNode.parentToGlobalPoint( timerNode.center ) ) ) {
             model.isTimerInPlayAreaProperty.value = false;
           }
@@ -225,7 +221,7 @@ define( require => {
       const waveDetectorToolNode = new WaveInterferenceWaveDetectorToolNode( model, this, {
 
         // Drop in toolbox
-        end: function() {
+        end: () => {
           if ( toolboxContains( waveDetectorToolNode.getBackgroundNodeGlobalBounds().center ) ) {
             waveDetectorToolNode.alignProbes();
             model.isWaveDetectorToolNodeInPlayAreaProperty.value = false;
@@ -298,7 +294,7 @@ define( require => {
 
       // Show the side of the water, when fully rotated and in WATER scene
       const waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
-      Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], function( rotationAmount, scene ) {
+      Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], ( rotationAmount, scene ) => {
         waterSideViewNode.visible = rotationAmount === 1.0 && scene === model.waterScene;
         waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === model.waterScene;
       } );
@@ -310,7 +306,7 @@ define( require => {
         this.latticeNode.visible = show;
       } );
 
-      Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.showGraphProperty ], function( rotationAmount, isRotating, showGraph ) {
+      Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.showGraphProperty ], ( rotationAmount, isRotating, showGraph ) => {
         waveAreaGraphNode.visible = !isRotating && showGraph;
         dashedLineNode.visible = !isRotating && showGraph;
       } );
@@ -318,7 +314,7 @@ define( require => {
       const perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty, model.isRotatingProperty );
 
       // Initialize and update the colors based on the scene
-      Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], function( scene, frequency ) {
+      Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], ( scene, frequency ) => {
         perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' :
                                            scene === model.soundScene ? 'gray' :
                                            VisibleColor.frequencyToColor( fromFemto( frequency ) ) );

@@ -39,7 +39,9 @@ define( require => {
      */
     constructor( options ) {
       options = _.extend( {
-        end: function() {}
+
+        // This function is called when the a wave detector drag ends.
+        end: () => {}
       }, options );
       super();
 
@@ -76,14 +78,12 @@ define( require => {
       const bodyNormalProperty = new Property( new Vector2( NORMAL_DISTANCE, 0 ) );
       const sensorNormalProperty = new Property( new Vector2( 0, NORMAL_DISTANCE ) );
 
-      const above = function( amount ) {
-        return function( rightBottom ) {return rightBottom.plusXY( 0, -amount );};
-      };
+      const getPointAbove = amount => position => position.plusXY( 0, -amount );
 
       // These do not need to be disposed because there is no connection to the "outside world"
       const rightBottomProperty = new NodeProperty( this.backgroundNode, 'bounds', 'rightBottom' );
-      const aboveBottomRight1Property = new DerivedProperty( [ rightBottomProperty ], above( 20 ) );
-      const aboveBottomRight2Property = new DerivedProperty( [ rightBottomProperty ], above( 10 ) );
+      const aboveBottomRight1Property = new DerivedProperty( [ rightBottomProperty ], getPointAbove( 20 ) );
+      const aboveBottomRight2Property = new DerivedProperty( [ rightBottomProperty ], getPointAbove( 10 ) );
 
       // @private
       this.probe1WireNode = new WireNode( aboveBottomRight1Property, bodyNormalProperty,
