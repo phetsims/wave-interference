@@ -9,14 +9,12 @@ define( require => {
   'use strict';
 
   // modules
-  const Bounds2 = require( 'DOT/Bounds2' );
   const Color = require( 'SCENERY/util/Color' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
   const Property = require( 'AXON/Property' );
-  const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   const Vector2 = require( 'DOT/Vector2' );
   const WaveDetectorToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolProbeNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -35,9 +33,10 @@ define( require => {
   class WaveDetectorToolNode extends Node {
 
     /**
+     * @param {Node} backgroundNode - node that is shown for the main body
      * @param {Object} [options]
      */
-    constructor( options ) {
+    constructor( backgroundNode, options ) {
       options = _.extend( {
 
         // This function is called when the a wave detector drag ends.  It can be used to drop it back into a toolbox.
@@ -48,10 +47,8 @@ define( require => {
       // @private - true if the probes are being dragged with the wave detector tool
       this.synchronizeProbeLocations = true;
 
-      // @private
-      this.backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, 181.5, 145.2 ), {
-        cursor: 'pointer'
-      } );
+      // @private {Node}
+      this.backgroundNode = backgroundNode;
 
       // @private
       this.backgroundDragListener = new DragListener( {

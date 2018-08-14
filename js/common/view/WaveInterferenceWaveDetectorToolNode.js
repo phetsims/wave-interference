@@ -9,6 +9,8 @@ define( require => {
   'use strict';
 
   // modules
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   const WaveDetectorToolContentNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolContentNode' );
   const WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -21,7 +23,9 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( model, view, options ) {
-      super( options );
+      super( new ShadedRectangle( new Bounds2( 0, 0, 181.5, 145.2 ), {
+        cursor: 'pointer'
+      } ), options );
 
       const waveDetectorToolContentNode = new WaveDetectorToolContentNode( model, view, this.backgroundNode, this.probe1Node, this.probe2Node, options );
       this.addChild( waveDetectorToolContentNode );
