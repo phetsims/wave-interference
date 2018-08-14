@@ -128,6 +128,10 @@ define( require => {
       } );
     }
 
+    /**
+     * Gets the region of the background in global coordinates.
+     * @returns {Bounds2}
+     */
     getBackgroundNodeGlobalBounds() {
       return this.localToGlobalBounds( this.backgroundNode.bounds );
     }
