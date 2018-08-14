@@ -199,7 +199,6 @@ define( require => {
         pickable: false
       } ) );
 
-
       const probe1Samples = [];
       const probe2Samples = [];
 
