@@ -149,8 +149,6 @@ define( require => {
         this.probe2Node.on( 'transform', update2 );
 
         // TODO: embed onto the background as a child in the constructor
-        // TODO: factor out constants for backgroundNode width and height
-
         model.lattice.changedEmitter.addListener( update1 );
         model.lattice.changedEmitter.addListener( update2 );
       }
