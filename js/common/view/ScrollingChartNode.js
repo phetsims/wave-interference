@@ -200,32 +200,27 @@ define( require => {
 
       const updateProbeData = function( penNode, probeSamples, probePath, scene ) {
 
-        if ( model.isWaveDetectorToolNodeInPlayAreaProperty.get() ) {
+        // Set the range by incorporating the model's time units, so it will match with the timer.
+        const maxSeconds = NUMBER_OF_TIME_DIVISIONS / scene.timeUnitsConversion;
 
-          // Set the range by incorporating the model's time units, so it will match with the timer.
-          const maxSeconds = NUMBER_OF_TIME_DIVISIONS / scene.timeUnitsConversion;
+        // Draw the graph with line segments
+        const pathShape = new Shape();
+        for ( let i = 0; i < probeSamples.length; i++ ) {
+          const sample = probeSamples[ i ];
 
-          // Draw the graph with line segments
-          const pathShape = new Shape();
-          for ( let i = 0; i < probeSamples.length; i++ ) {
-            const sample = probeSamples[ i ];
-            const value = sample.y;
-            // strong wavefronts (bright colors) are positive on the graph
-            let chartYValue = Util.linear( 0, 2, graphHeight / 2, 0, value );
-            if ( chartYValue > graphHeight ) {
-              chartYValue = graphHeight;
-            }
-            if ( chartYValue < 0 ) {
-              chartYValue = 0;
-            }
-            const xAxisValue = Util.linear( model.time, model.time - maxSeconds, availableGraphWidth, 0, sample.x );
-            pathShape.lineTo( xAxisValue, chartYValue );
-            if ( i === probeSamples.length - 1 ) {
-              penNode.centerY = chartYValue;
-            }
+          // strong wavefronts (bright colors) are positive on the graph
+          const scaledValue = Util.linear( 0, 2, graphHeight / 2, 0, sample.y );
+
+          // Clamp at max values
+          const clampedValue = Util.clamp( scaledValue, 0, graphHeight );
+
+          const xAxisValue = Util.linear( model.time, model.time - maxSeconds, availableGraphWidth, 0, sample.x );
+          pathShape.lineTo( xAxisValue, clampedValue );
+          if ( i === probeSamples.length - 1 ) {
+            penNode.centerY = clampedValue;
           }
-          probePath.shape = pathShape;
         }
+        probePath.shape = pathShape;
       };
 
       const updatePaths = () => {
