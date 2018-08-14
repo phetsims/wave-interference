@@ -94,7 +94,7 @@ define( require => {
         fill: 'white',
         stroke: 'black', // This stroke is covered by the front panel stroke, only included here to make sure the bounds align
         right: width - RIGHT_MARGIN,
-        top: 0 + TOP_MARGIN,
+        top: TOP_MARGIN,
         pickable: false
       } );
 
@@ -171,7 +171,14 @@ define( require => {
         centerX: availableGraphWidth,
         centerY: graphHeight / 2
       } );
-      const probe1Path = new Path( new Shape(), { stroke: SERIES_1_COLOR, lineWidth: PATH_LINE_WIDTH } );
+      const probe1Path = new Path( new Shape(), {
+        stroke: SERIES_1_COLOR,
+        lineWidth: PATH_LINE_WIDTH,
+
+        // prevent bounds computations during main loop
+        boundsMethod: 'none',
+        localBounds: Bounds2.NOTHING
+      } );
       probe1Path.computeShapeBounds = () => Bounds2.NOTHING; // prevent bounds computations during main loop
       graphPanel.addChild( probe1Path );
       graphPanel.addChild( pen1Node );
@@ -189,6 +196,7 @@ define( require => {
         boundsMethod: 'none',
         localBounds: Bounds2.NOTHING
       } );
+      probe2Path.computeShapeBounds = () => Bounds2.NOTHING; // prevent bounds computations during main loop
       graphPanel.addChild( probe2Path );
       graphPanel.addChild( pen2Node );
 
