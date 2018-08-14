@@ -10,17 +10,18 @@ define( require => {
 
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
-  const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
-  const ScrollingChartNode = require( 'WAVE_INTERFERENCE/common/view/ScrollingChartNode' );
-  const WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const Color = require( 'SCENERY/util/Color' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const Emitter = require( 'AXON/Emitter' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
   const Property = require( 'AXON/Property' );
+  const ScrollingChartNode = require( 'WAVE_INTERFERENCE/common/view/ScrollingChartNode' );
+  const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   const Vector2 = require( 'DOT/Vector2' );
+  const WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
   const WaveDetectorToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolProbeNode' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WireNode = require( 'SCENERY_PHET/WireNode' );
-  const Color = require( 'SCENERY/util/Color' );
 
   // constants
   const SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
@@ -91,7 +92,7 @@ define( require => {
       const probe1Samples = [];
       const probe2Samples = [];
 
-      const updateSamples = function( probeNode, probeSamples, scene ) {
+      const updateSamples = function( probeNode, probeSamples, scene, emitter ) {
 
         // Set the range by incorporating the model's time units, so it will match with the timer.
         const maxSeconds = NUMBER_OF_TIME_DIVISIONS / scene.timeUnitsConversion;
@@ -114,16 +115,44 @@ define( require => {
         while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.time - maxSeconds ) {
           probeSamples.shift();
         }
+        emitter.emit();
       };
+
+      const series1Emitter = new Emitter();
+      const series2Emitter = new Emitter();
 
       // When the wave is paused and the user is dragging the entire WaveDetectorToolNode with the probes aligned, they
       // need to sample their new locations.
-      this.probe1Node.on( 'transform', () => updateSamples( this.probe1Node, probe1Samples, model.sceneProperty.value ) );
-      this.probe2Node.on( 'transform', () => updateSamples( this.probe2Node, probe2Samples, model.sceneProperty.value ) );
+      const update1 = () => updateSamples( this.probe1Node, probe1Samples, model.sceneProperty.value, series1Emitter );
+      const update2 = () => updateSamples( this.probe2Node, probe2Samples, model.sceneProperty.value, series2Emitter );
 
-      // TODO: embed onto the background as a child in the constructor
-      // TODO: factor out constants for backgroundNode width and height
-      const waveDetectorToolContentNode = new ScrollingChartNode( model, backgroundNode.width, backgroundNode.height, probe1Samples, probe2Samples, options );
+      // Redraw the probe data when the scene changes
+      model.sceneProperty.link( () => {
+        probe1Samples.length = 0;
+        probe2Samples.length = 0;
+        update1();
+        update2();
+      } );
+
+      model.resetEmitter.addListener( () => {
+        probe1Samples.length = 0;
+        probe2Samples.length = 0;
+        update1();
+        update2();
+      } );
+
+      if ( !options.isIcon ) {
+        this.probe1Node.on( 'transform', update1 );
+        this.probe2Node.on( 'transform', update2 );
+
+        // TODO: embed onto the background as a child in the constructor
+        // TODO: factor out constants for backgroundNode width and height
+
+        model.lattice.changedEmitter.addListener( update1 );
+        model.lattice.changedEmitter.addListener( update2 );
+      }
+
+      const waveDetectorToolContentNode = new ScrollingChartNode( model, backgroundNode.width, backgroundNode.height, probe1Samples, series1Emitter, probe2Samples, series2Emitter, options );
       backgroundNode.addChild( waveDetectorToolContentNode );
     }
   }

@@ -46,10 +46,12 @@ define( require => {
      * @param {number} width
      * @param {number} height
      * @param {Vector2[]} probe1Samples
+     * @param {Emitter} probe1SamplesChangedEmitter
      * @param {Vector2[]} probe2Samples
+     * @param {Emitter} probe2SamplesChangedEmitter
      * @param {Object} [options]
      */
-    constructor( model, width, height, probe1Samples, probe2Samples, options ) {
+    constructor( model, width, height, probe1Samples, probe1SamplesChangedEmitter, probe2Samples, probe2SamplesChangedEmitter, options ) {
       super();
 
       options = _.extend( {
@@ -232,28 +234,11 @@ define( require => {
         probePath.shape = pathShape;
       };
 
-      const updatePaths = () => {
-        updateProbeData( pen1Node, probe1Samples, probe1Path, model.sceneProperty.get() );
-        updateProbeData( pen2Node, probe2Samples, probe2Path, model.sceneProperty.get() );
-      };
+      const updatePath1 = () => updateProbeData( pen1Node, probe1Samples, probe1Path, model.sceneProperty.get() );
+      const updatePath2 = () => updateProbeData( pen2Node, probe2Samples, probe2Path, model.sceneProperty.get() );
 
-      // Update the graph value when the lattice changes, but only when this is not for an icon
-      if ( !options.isIcon ) {
-        model.lattice.changedEmitter.addListener( updatePaths );
-
-        // Redraw the probe data when the scene changes
-        model.sceneProperty.link( () => {
-          probe1Samples.length = 0;
-          probe2Samples.length = 0;
-          updatePaths();
-        } );
-      }
-
-      model.resetEmitter.addListener( () => {
-        probe1Samples.length = 0;
-        probe2Samples.length = 0;
-        updatePaths();
-      } );
+      probe1SamplesChangedEmitter.addListener( updatePath1 );
+      probe2SamplesChangedEmitter.addListener( updatePath2 );
     }
   }
 
