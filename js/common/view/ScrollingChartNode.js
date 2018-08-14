@@ -52,6 +52,10 @@ define( require => {
     constructor( model, width, height, probe1Samples, probe2Samples, options ) {
       super();
 
+      options = _.extend( {
+        isIcon: false
+      }, options );
+
       const LABEL_FONT_SIZE = 14;
       const horizontalAxisTitle = new WaveInterferenceText( timeString, {
         fontSize: LABEL_FONT_SIZE,
@@ -159,7 +163,6 @@ define( require => {
       horizontalAxisTitle.mutate( {
         top: graphPanel.bottom + LABEL_GRAPH_MARGIN
       } );
-
 
       // Create the "pens" which draw the data at the right side of the graph
       const PEN_RADIUS = 4.5;
