@@ -40,7 +40,7 @@ define( require => {
     constructor( options ) {
       options = _.extend( {
 
-        // This function is called when the a wave detector drag ends.
+        // This function is called when the a wave detector drag ends.  It can be used to drop it back into a toolbox.
         end: () => {}
       }, options );
       super();
@@ -69,7 +69,7 @@ define( require => {
       this.backgroundNode.addInputListener( this.backgroundDragListener );
       this.addChild( this.backgroundNode );
 
-      // @private
+      // @private {Node}
       this.probe1Node = new WaveDetectorToolProbeNode( { color: SERIES_1_COLOR } );
 
       // @private {Node}
