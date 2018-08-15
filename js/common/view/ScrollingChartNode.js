@@ -152,6 +152,12 @@ define( require => {
         top: graphPanel.bottom + LABEL_GRAPH_MARGIN
       } );
 
+      /**
+       * Creates and adds a series with the given color
+       * @param {Color|string} color
+       * @param {Vector2[]} series
+       * @param {Emitter} emitter
+       */
       const addSeries = ( color, series, emitter ) => {
 
         // Create the "pens" which draw the data at the right side of the graph

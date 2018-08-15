@@ -29,7 +29,7 @@ define( require => {
       }, options );
       super();
 
-      // @private - true if the probes are being dragged with the wave detector tool
+      // @private {boolean} - true if the probes are being dragged with the wave detector tool
       this.synchronizeProbeLocations = true;
 
       // @private {Node}
@@ -51,7 +51,7 @@ define( require => {
       this.backgroundNode.addInputListener( this.backgroundDragListener );
       this.addChild( this.backgroundNode );
 
-      // @public (listen-only)
+      // @public (listen-only) {Emitter}
       this.alignProbesEmitter = new Emitter();
 
       this.alignProbes();
