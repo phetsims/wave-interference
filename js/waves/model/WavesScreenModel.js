@@ -215,7 +215,7 @@ define( require => {
       this.isTimerInPlayAreaProperty = new BooleanProperty( false );
 
       // @public
-      this.isWaveDetectorToolNodeInPlayAreaProperty = new BooleanProperty( false );
+      this.isWaveMeterInPlayAreaProperty = new BooleanProperty( false );
 
       // @public {Property.<number>} - amount the 3d view is rotated. 0 means top view, 1 means side view.
       const rotationRange = { min: 0, max: 1 };
@@ -500,7 +500,7 @@ define( require => {
       this.isMeasuringTapeInPlayAreaProperty.reset();
       this.continuousWave1OscillatingProperty.reset();
       this.continuousWave2OscillatingProperty.reset();
-      this.isWaveDetectorToolNodeInPlayAreaProperty.reset();
+      this.isWaveMeterInPlayAreaProperty.reset();
 
       // Signify for listeners that the model reset is complete
       this.resetEmitter.emit();

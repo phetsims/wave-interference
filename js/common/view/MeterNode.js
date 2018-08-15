@@ -1,7 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Depicts the draggable graph node with two probes which begins in the toolbox.
+ * Depicts a draggable meter node with an arbitrary number of probes which can optionally travel with the meter.
+ * This type is also set up for usage in a toolbox, including dragging out of a toolbox and dropping back in a toolbox.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -14,7 +15,7 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  class WaveDetectorToolNode extends Node {
+  class MeterNode extends Node {
 
     /**
      * @param {Node} backgroundNode - node that is shown for the main body
@@ -85,5 +86,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'WaveDetectorToolNode', WaveDetectorToolNode );
+  return waveInterference.register( 'MeterNode', MeterNode );
 } );

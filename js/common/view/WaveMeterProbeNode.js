@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * One probe for the WaveDetectorToolNode sensors
+ * One probe for the MeterNode sensors
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -13,7 +13,7 @@ define( require => {
   const ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  class WaveDetectorToolProbeNode extends ProbeNode {
+  class WaveMeterProbeNode extends ProbeNode {
 
     /**
      * @param {Object} [options]
@@ -34,5 +34,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'WaveDetectorToolProbeNode', WaveDetectorToolProbeNode );
+  return waveInterference.register( 'WaveMeterProbeNode', WaveMeterProbeNode );
 } );

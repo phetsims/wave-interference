@@ -44,7 +44,7 @@ define( require => {
   const WaveInterferenceControlPanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceControlPanel' );
   const WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
-  const WaveInterferenceWaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceWaveDetectorToolNode' );
+  const WaveMeterNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterNode' );
 
   // constants
   const MARGIN = 8;
@@ -218,18 +218,18 @@ define( require => {
         }
       } );
 
-      const waveDetectorToolNode = new WaveInterferenceWaveDetectorToolNode( model, this, {
+      const waveDetectorToolNode = new WaveMeterNode( model, this, {
 
         // Drop in toolbox
         end: () => {
           if ( toolboxContains( waveDetectorToolNode.getBackgroundNodeGlobalBounds().center ) ) {
             waveDetectorToolNode.alignProbes();
-            model.isWaveDetectorToolNodeInPlayAreaProperty.value = false;
+            model.isWaveMeterInPlayAreaProperty.value = false;
           }
         }
       } );
       model.resetEmitter.addListener( () => waveDetectorToolNode.alignProbes() );
-      model.isWaveDetectorToolNodeInPlayAreaProperty.link( isWaveDetectorToolNodeInPlayArea => {
+      model.isWaveMeterInPlayAreaProperty.link( isWaveDetectorToolNodeInPlayArea => {
         waveDetectorToolNode.visible = isWaveDetectorToolNodeInPlayArea;
 
         // Make sure probes are re-aligned on reset-all

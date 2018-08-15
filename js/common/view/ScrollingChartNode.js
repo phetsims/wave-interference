@@ -1,8 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * The scrolling graph component shown in the WaveDetectorToolNode.  Like a seismograph, it has pens on the right hand
- * side that record data, and the paper scrolls to the left.
+ * The scrolling graph component which can be shown in the MeterNode or used alone.  Like a seismograph, it has pens on
+ * the right hand side that record data, and the paper scrolls to the left.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

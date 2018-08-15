@@ -21,19 +21,19 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
-  const WaveInterferenceWaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceWaveDetectorToolNode' );
+  const WaveMeterNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterNode' );
 
   class ToolboxPanel extends WaveInterferencePanel {
 
     /**
      * @param {MeasuringTapeNode} measuringTapeNode
      * @param {WaveInterferenceTimerNode} timerNode
-     * @param {WaveDetectorToolNode} waveDetectorToolNode
+     * @param {MeterNode} meterNode
      * @param {AlignGroup} alignGroup - to align with neighbors
      * @param {WavesScreenModel} model
      * @param {Object} [options]
      */
-    constructor( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model, options ) {
+    constructor( measuringTapeNode, timerNode, meterNode, alignGroup, model, options ) {
       const measuringTapeIconNode = new MeasuringTapeNode( new Property( {
         name: 'cm',
         multiplier: 1000
@@ -71,16 +71,16 @@ define( require => {
         model.isTimerInPlayAreaProperty.value = true;
       } );
 
-      const waveDetectorToolNodeIcon = new WaveInterferenceWaveDetectorToolNode( model, null, {
+      const waveMeterNodeIcon = new WaveMeterNode( model, null, {
         isIcon: true,
         scale: 0.3
       } );
 
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
-      const waveDetectorNodeIcon = createIcon( waveDetectorToolNodeIcon, model.isWaveDetectorToolNodeInPlayAreaProperty, event => {
-        waveDetectorToolNode.center = this.globalToParentPoint( event.pointer.point );
-        waveDetectorToolNode.startDrag( event );
-        model.isWaveDetectorToolNodeInPlayAreaProperty.value = true;
+      const waveMeterIcon = createIcon( waveMeterNodeIcon, model.isWaveMeterInPlayAreaProperty, event => {
+        meterNode.center = this.globalToParentPoint( event.pointer.point );
+        meterNode.startDrag( event );
+        model.isWaveMeterInPlayAreaProperty.value = true;
       } );
 
       // Layout for the toolbox
@@ -89,7 +89,7 @@ define( require => {
           children: [
             measuringTapeIcon,
             timerNodeIcon,
-            waveDetectorNodeIcon
+            waveMeterIcon
           ]
         } ) ),
         options

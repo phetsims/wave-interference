@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Provides simulation-specific values and customizations to display a ScrollingChartNode in a WaveDetectorToolNode.
+ * Provides simulation-specific values and customizations to display a ScrollingChartNode in a MeterNode.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -19,8 +19,8 @@ define( require => {
   const ScrollingChartNode = require( 'WAVE_INTERFERENCE/common/view/ScrollingChartNode' );
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   const Vector2 = require( 'DOT/Vector2' );
-  const WaveDetectorToolNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolNode' );
-  const WaveDetectorToolProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveDetectorToolProbeNode' );
+  const MeterNode = require( 'WAVE_INTERFERENCE/common/view/MeterNode' );
+  const WaveMeterProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterProbeNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WireNode = require( 'SCENERY_PHET/WireNode' );
@@ -40,7 +40,7 @@ define( require => {
   const NORMAL_DISTANCE = 25;
   const WIRE_LINE_WIDTH = 3;
 
-  class WaveInterferenceWaveDetectorToolNode extends WaveDetectorToolNode {
+  class WaveMeterNode extends MeterNode {
 
     /**
      * @param {WavesScreenModel} model - model for reading values
@@ -67,7 +67,7 @@ define( require => {
        * @param {Property.<Vector2>} connectionProperty
        */
       const initializeSeries = ( color, wireColor, dx, dy, connectionProperty ) => {
-        const probeNode = new WaveDetectorToolProbeNode( { color } );
+        const probeNode = new WaveMeterProbeNode( { color } );
 
         // Add the wire behind the probe.
         this.addChild( new WireNode( connectionProperty, new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
@@ -92,7 +92,7 @@ define( require => {
           // Set the range by incorporating the model's time units, so it will match with the timer.
           const maxSeconds = NUMBER_OF_TIME_DIVISIONS / scene.timeUnitsConversion;
 
-          if ( model.isWaveDetectorToolNodeInPlayAreaProperty.get() ) {
+          if ( model.isWaveMeterInPlayAreaProperty.get() ) {
 
             // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
             // itself as the sensor hot spot.  This doesn't include the damping regions
@@ -122,7 +122,7 @@ define( require => {
           model.sceneProperty.link( clear );
           model.resetEmitter.addListener( clear );
 
-          // When the wave is paused and the user is dragging the entire WaveDetectorToolNode with the probes aligned, they
+          // When the wave is paused and the user is dragging the entire MeterNode with the probes aligned, they
           // need to sample their new locations.
           probeNode.on( 'transform', updateSamples );
 
@@ -163,5 +163,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'WaveInterferenceWaveDetectorToolNode', WaveInterferenceWaveDetectorToolNode );
+  return waveInterference.register( 'WaveMeterNode', WaveMeterNode );
 } );
