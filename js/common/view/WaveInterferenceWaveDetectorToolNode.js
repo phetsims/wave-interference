@@ -62,8 +62,8 @@ define( require => {
       /**
        * @param {Color|string} color
        * @param {Color|string} wireColor
-       * @param {number} dx
-       * @param {number} dy
+       * @param {number} dx - initial relative x coordinate for the probe
+       * @param {number} dy - initial relative y coordinate for the probe
        * @param {Property.<Vector2>} connectionProperty
        */
       const initializeSeries = ( color, wireColor, dx, dy, connectionProperty ) => {
@@ -132,13 +132,10 @@ define( require => {
         return { color, probeNode, series, emitter };
       };
 
-      const s1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10,
-        new DerivedProperty( [ leftBottomProperty ], position => position.plusXY( 0, -20 ) )
-      );
-
-      const s2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54,
-        new DerivedProperty( [ leftBottomProperty ], position => position.plusXY( 0, -10 ) )
-      );
+      const aboveBottomLeft1 = new DerivedProperty( [ leftBottomProperty ], position => position.plusXY( 0, -20 ) );
+      const aboveBottomLeft2 = new DerivedProperty( [ leftBottomProperty ], position => position.plusXY( 0, -10 ) );
+      const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1 );
+      const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2 );
 
       const verticalAxisTitleNode = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.verticalAxisTitle, {
           fontSize: LABEL_FONT_SIZE,
@@ -157,7 +154,7 @@ define( require => {
         model.timeProperty,
         WIDTH,
         HEIGHT,
-        [ s1, s2 ],
+        [ series1, series2 ],
         _.omit( options, 'scale' )
       );
       backgroundNode.addChild( scrollingChartNode );
