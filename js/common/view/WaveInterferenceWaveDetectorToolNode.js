@@ -148,6 +148,8 @@ define( require => {
         fill: 'white'
       } ) );
 
+      // Create the scrolling chart content and add it to the background.  There is an order-of-creation cycle which
+      // prevents the scrolling node from being added to the background before the super() call, so this will have to suffice.
       const scrollingChartNode = new ScrollingChartNode(
         verticalAxisTitleNode,
         scaleIndicatorText,
