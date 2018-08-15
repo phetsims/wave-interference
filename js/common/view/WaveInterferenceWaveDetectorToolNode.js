@@ -66,7 +66,7 @@ define( require => {
        * @param {number} dy
        * @param {Property.<Vector2>} connectionProperty
        */
-      const createProbeAndWire = ( color, wireColor, dx, dy, connectionProperty ) => {
+      const initializeSeries = ( color, wireColor, dx, dy, connectionProperty ) => {
         const probeNode = new WaveDetectorToolProbeNode( { color } );
 
         // Add the wire behind the probe.
@@ -83,75 +83,62 @@ define( require => {
         this.alignProbesEmitter.addListener( alignProbes );
         alignProbes();
 
-        return probeNode;
+        const series = [];
+        const emitter = new Emitter();
+
+        const updateSamples = function() {
+          const scene = model.sceneProperty.value;
+
+          // Set the range by incorporating the model's time units, so it will match with the timer.
+          const maxSeconds = NUMBER_OF_TIME_DIVISIONS / scene.timeUnitsConversion;
+
+          if ( model.isWaveDetectorToolNodeInPlayAreaProperty.get() ) {
+
+            // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
+            // itself as the sensor hot spot.  This doesn't include the damping regions
+            const latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
+
+            const sampleI = latticeCoordinates.x + model.lattice.dampX;
+            const sampleJ = latticeCoordinates.y + model.lattice.dampY;
+
+            if ( model.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
+              const value = model.lattice.getCurrentValue( sampleI, sampleJ );
+              series.push( new Vector2( model.timeProperty.value, value ) );
+            }
+          }
+          while ( series.length > 0 && series[ 0 ].x < model.timeProperty.value - maxSeconds ) {
+            series.shift();
+          }
+          emitter.emit();
+        };
+
+        if ( !options.isIcon ) {
+
+          // Redraw the probe data when the scene changes
+          const clear = () => {
+            series.length = 0;
+            updateSamples();
+          };
+          model.sceneProperty.link( clear );
+          model.resetEmitter.addListener( clear );
+
+          // When the wave is paused and the user is dragging the entire WaveDetectorToolNode with the probes aligned, they
+          // need to sample their new locations.
+          probeNode.on( 'transform', updateSamples );
+
+          // TODO: embed onto the background as a child in the constructor
+          model.lattice.changedEmitter.addListener( updateSamples );
+        }
+        return { color, probeNode, series, emitter };
       };
 
-      // @private {Node}
-      this.probe1Node = createProbeAndWire( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10,
+      const s1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10,
         new DerivedProperty( [ leftBottomProperty ], position => position.plusXY( 0, -20 ) )
       );
 
-      // @private {Node}
-      this.probe2Node = createProbeAndWire( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54,
+      const s2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54,
         new DerivedProperty( [ leftBottomProperty ], position => position.plusXY( 0, -10 ) )
       );
-
-      const probe1Samples = [];
-      const probe2Samples = [];
-
-      const updateSamples = function( probeNode, probeSamples, scene, emitter ) {
-
-        // Set the range by incorporating the model's time units, so it will match with the timer.
-        const maxSeconds = NUMBER_OF_TIME_DIVISIONS / scene.timeUnitsConversion;
-
-        if ( model.isWaveDetectorToolNodeInPlayAreaProperty.get() ) {
-
-          // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
-          // itself as the sensor hot spot.  This doesn't include the damping regions
-          const latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
-
-          const sampleI = latticeCoordinates.x + model.lattice.dampX;
-          const sampleJ = latticeCoordinates.y + model.lattice.dampY;
-
-          if ( model.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
-            const value = model.lattice.getCurrentValue( sampleI, sampleJ );
-
-            probeSamples.push( new Vector2( model.timeProperty.value, value ) );
-          }
-        }
-        while ( probeSamples.length > 0 && probeSamples[ 0 ].x < model.timeProperty.value - maxSeconds ) {
-          probeSamples.shift();
-        }
-        emitter.emit();
-      };
-
-      const series1Emitter = new Emitter();
-      const series2Emitter = new Emitter();
-
-      // When the wave is paused and the user is dragging the entire WaveDetectorToolNode with the probes aligned, they
-      // need to sample their new locations.
-      const update1 = () => updateSamples( this.probe1Node, probe1Samples, model.sceneProperty.value, series1Emitter );
-      const update2 = () => updateSamples( this.probe2Node, probe2Samples, model.sceneProperty.value, series2Emitter );
-
-      if ( !options.isIcon ) {
-
-        // Redraw the probe data when the scene changes
-        var clear = () => {
-          probe1Samples.length = 0;
-          probe2Samples.length = 0;
-          update1();
-          update2();
-        };
-        model.sceneProperty.link( clear );
-        model.resetEmitter.addListener( clear );
-
-        this.probe1Node.on( 'transform', update1 );
-        this.probe2Node.on( 'transform', update2 );
-
-        // TODO: embed onto the background as a child in the constructor
-        model.lattice.changedEmitter.addListener( update1 );
-        model.lattice.changedEmitter.addListener( update2 );
-      }
 
       const verticalAxisTitleNode = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.verticalAxisTitle, {
           fontSize: LABEL_FONT_SIZE,
@@ -164,16 +151,16 @@ define( require => {
         fill: 'white'
       } ) );
 
-      const waveDetectorToolContentNode = new ScrollingChartNode(
+      const scrollingChartNode = new ScrollingChartNode(
         verticalAxisTitleNode,
         scaleIndicatorText,
         model.timeProperty,
         WIDTH,
-        HEIGHT, [
-          { series: probe1Samples, emitter: series1Emitter, color: SERIES_1_COLOR },
-          { series: probe2Samples, emitter: series2Emitter, color: SERIES_2_COLOR }
-        ], _.omit( options, 'scale' ) );
-      backgroundNode.addChild( waveDetectorToolContentNode );
+        HEIGHT,
+        [ s1, s2 ],
+        _.omit( options, 'scale' )
+      );
+      backgroundNode.addChild( scrollingChartNode );
     }
   }
 
