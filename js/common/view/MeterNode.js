@@ -69,7 +69,8 @@ define( require => {
     }
 
     /**
-     * Gets the region of the background in global coordinates.
+     * Gets the region of the background in global coordinates.  This can be used to determine if the MeterNode should
+     * be dropped back in a toolbox.
      * @returns {Bounds2}
      */
     getBackgroundNodeGlobalBounds() {
@@ -78,7 +79,7 @@ define( require => {
 
     /**
      * Forward an event from the toolbox to start dragging the node in the play area.
-     * @param event
+     * @param {Object} event
      */
     startDrag( event ) {
       this.synchronizeProbeLocations = true;
