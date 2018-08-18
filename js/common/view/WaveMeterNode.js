@@ -157,7 +157,7 @@ define( require => {
         WIDTH,
         HEIGHT,
         [ series1, series2 ],
-        _.omit( options, 'scale' )
+        _.omit( options, 'scale' ) // Don't apply the scale to both parent and children
       );
       backgroundNode.addChild( scrollingChartNode );
     }
