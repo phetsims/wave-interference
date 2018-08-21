@@ -6,86 +6,88 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
+define( function( require ) {
   'use strict';
 
   // modules
-  const DragListener = require( 'SCENERY/listeners/DragListener' );
-  const Emitter = require( 'AXON/Emitter' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  var DragListener = require( 'SCENERY/listeners/DragListener' );
+  var Emitter = require( 'AXON/Emitter' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  class MeterNode extends Node {
+  /**
+   * @param {Node} backgroundNode - node that is shown for the main body
+   * @param {Object} [options]
+   */
+  function MeterNode( backgroundNode, options ) {
 
-    /**
-     * @param {Node} backgroundNode - node that is shown for the main body
-     * @param {Object} [options]
-     */
-    constructor( backgroundNode, options ) {
-      options = _.extend( {
+    var self = this;
+    options = _.extend( {
 
-        // This function is called when the a wave detector drag ends.  It can be used to drop it back into a toolbox.
-        end: () => {}
-      }, options );
-      super();
+      // This function is called when the a wave detector drag ends.  It can be used to drop it back into a toolbox.
+      end: function() {}
+    }, options );
+    Node.call( this );
 
-      // @private {boolean} - true if the probes are being dragged with the wave detector tool
-      this.synchronizeProbeLocations = true;
+    // @private {boolean} - true if the probes are being dragged with the wave detector tool
+    this.synchronizeProbeLocations = true;
 
-      // @private {Node}
-      this.backgroundNode = backgroundNode;
+    // @private {Node}
+    this.backgroundNode = backgroundNode;
 
-      // @private
-      this.backgroundDragListener = new DragListener( {
-        translateNode: true,
-        drag: () => {
-          if ( this.synchronizeProbeLocations ) {
-            this.alignProbes();
-          }
-        },
-        end: () => {
-          options.end();
-          this.synchronizeProbeLocations = false;
+    // @private
+    this.backgroundDragListener = new DragListener( {
+      translateNode: true,
+      drag: function() {
+        if ( self.synchronizeProbeLocations ) {
+          self.alignProbes();
         }
-      } );
-      this.backgroundNode.addInputListener( this.backgroundDragListener );
-      this.addChild( this.backgroundNode );
+      },
+      end: function() {
+        options.end();
+        self.synchronizeProbeLocations = false;
+      }
+    } );
+    this.backgroundNode.addInputListener( this.backgroundDragListener );
+    this.addChild( this.backgroundNode );
 
-      // @public (listen-only) {Emitter}
-      this.alignProbesEmitter = new Emitter();
+    // @public (listen-only) {Emitter}
+    this.alignProbesEmitter = new Emitter();
 
-      this.alignProbes();
+    this.alignProbes();
 
-      // Mutate after backgroundNode is added as a child
-      this.mutate( options );
-    }
+    // Mutate after backgroundNode is added as a child
+    this.mutate( options );
+  }
+
+  inherit( Node, MeterNode, {
 
     /**
      * Put the probes into their standard position relative to the graph body.
      * @public
      */
-    alignProbes() {
+    alignProbes: function() {
       this.alignProbesEmitter.emit();
-    }
+    },
 
     /**
      * Gets the region of the background in global coordinates.  This can be used to determine if the MeterNode should
      * be dropped back in a toolbox.
      * @returns {Bounds2}
      */
-    getBackgroundNodeGlobalBounds() {
+    getBackgroundNodeGlobalBounds: function() {
       return this.localToGlobalBounds( this.backgroundNode.bounds );
-    }
+    },
 
     /**
      * Forward an event from the toolbox to start dragging the node in the play area.
      * @param {Object} event
      */
-    startDrag( event ) {
+    startDrag: function( event ) {
       this.synchronizeProbeLocations = true;
       this.backgroundDragListener.press( event, this.backgroundNode );
     }
-  }
-
+  } );
   return waveInterference.register( 'MeterNode', MeterNode );
 } );
