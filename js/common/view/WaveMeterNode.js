@@ -25,6 +25,9 @@ define( require => {
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WireNode = require( 'SCENERY_PHET/WireNode' );
 
+  // strings
+  const timeString = require( 'string!WAVE_INTERFERENCE/time' );
+
   // constants
   const SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
   const SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
@@ -157,6 +160,7 @@ define( require => {
         WIDTH,
         HEIGHT,
         [ series1, series2 ],
+        timeString,
         _.omit( options, 'scale' ) // Don't apply the scale to both parent and children
       );
       backgroundNode.addChild( scrollingChartNode );

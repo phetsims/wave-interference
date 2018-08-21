@@ -12,19 +12,16 @@ define( require => {
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
   const Circle = require( 'SCENERY/nodes/Circle' );
-  const DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' );
+  const DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' ); // TODO: Move to common code
   const Line = require( 'SCENERY/nodes/Line' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
+  const Text = require( 'SCENERY/nodes/Text' );
   const Util = require( 'DOT/Util' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-
-  // strings
-  const timeString = require( 'string!WAVE_INTERFERENCE/time' );
 
   // constants
   const PATH_LINE_WIDTH = 2;
@@ -45,9 +42,10 @@ define( require => {
      * @param {number} width
      * @param {number} height
      * @param {Object[]} seriesArray, each element has {series: Vector2[],emitter: Emitter, color: Color}
+     * @param {string} timeString - text shown beneath the horizontal axis
      * @param {Object} [options]
      */
-    constructor( verticalAxisTitleNode, scaleIndicatorText, timeProperty, width, height, seriesArray, options ) {
+    constructor( verticalAxisTitleNode, scaleIndicatorText, timeProperty, width, height, seriesArray, timeString, options ) {
       super();
 
       options = _.extend( {
@@ -56,7 +54,7 @@ define( require => {
       }, options );
 
       const LABEL_FONT_SIZE = 14;
-      const horizontalAxisTitle = new WaveInterferenceText( timeString, {
+      const horizontalAxisTitle = new Text( timeString, {
         fontSize: LABEL_FONT_SIZE,
         fill: AXIS_LABEL_FILL
       } );

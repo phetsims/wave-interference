@@ -4,6 +4,8 @@
  * Shows a double headed arrow with bars, like this:
  * |<----->|
  *
+ * TODO: Move this to scenery-phet. There's an issue for that, I think.
+ *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( require => {
