@@ -430,15 +430,15 @@ define( require => {
         this.soundParticles.forEach( soundParticle => {
           const latticeCoordinate = this.soundScene.modelToLatticeTransform.modelToViewXY(
             // TODO: check neighborhood of x,y or initialX, initialY?
-            soundParticle.initialX,
-            soundParticle.initialY
+            soundParticle.x,
+            soundParticle.y
           );
 
-          // feel a force toward most extreme nearby wave value
-          let iBest = 0;
-          let kBest = 0;
-          let maxWaveValue = Number.NEGATIVE_INFINITY;
-          const searchRadius = 1;
+          // feel a force toward each neighboring lattice value
+          let sumFx = 0;
+          let sumFy = 0;
+          const searchRadius = 2;
+          const CLAMPED_WAVE_VALUE = 0.5;
 
           // TODO: sum all contributions instead of taking argmax
           // TODO: why do particles travel along the diagonal axis?
@@ -446,19 +446,27 @@ define( require => {
             for ( let k = -searchRadius; k <= searchRadius; k++ ) {
               const neighborI = Math.round( latticeCoordinate.x ) + i;
               const neighborJ = Math.round( latticeCoordinate.y ) + k;
-              const v = this.lattice.getCurrentValue( neighborI, neighborJ );
-              if ( !isNaN( v ) && v > maxWaveValue ) {
-                maxWaveValue = v;
-                iBest = i;
-                kBest = k;
+              if ( this.lattice.contains( neighborI, neighborJ ) ) {
+                let waveValue = this.lattice.getCurrentValue( neighborI, neighborJ );
+                if ( waveValue > CLAMPED_WAVE_VALUE ) {
+                  waveValue = CLAMPED_WAVE_VALUE;
+                }
+                else if ( waveValue < -CLAMPED_WAVE_VALUE ) {
+                  waveValue = -CLAMPED_WAVE_VALUE;
+                }
+                const springConstant = waveValue / searchRadius / searchRadius;
+                const forceCenter = this.soundScene.modelToLatticeTransform.viewToModelXY( neighborI, neighborJ );
+
+                // use the airK as the magnitude and the forceCenter for direction only.
+                // TODO: move motion into this part as well
+                const fAirX = -springConstant * ( soundParticle.x - forceCenter.x ) / Math.abs( soundParticle.x - forceCenter.x );
+                const fAirY = -springConstant * ( soundParticle.y - forceCenter.y ) / Math.abs( soundParticle.y - forceCenter.y );
+                sumFx += fAirX;
+                sumFy += fAirY;
               }
             }
           }
-          const modelPoint = this.soundScene.modelToLatticeTransform.viewToModelXY( iBest, kBest );
-          if ( maxWaveValue > 1 ) {
-            maxWaveValue = 1;
-          }
-          soundParticle.applyForceTowards( modelPoint, maxWaveValue );
+          soundParticle.applyForce( sumFx, sumFy );
           soundParticle.x += soundParticle.vx;
           soundParticle.y += soundParticle.vy;
         } );

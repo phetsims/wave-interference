@@ -98,6 +98,17 @@ define( require => {
     }
 
     /**
+     * Returns true if the given coordinate is within the lattice
+     * @param {number} i integer for the horizontal coordinate
+     * @param {number} j integer for the vertical coordinate
+     * @returns {boolean}
+     * @public
+     */
+    contains( i, j ) {
+      return i >= 0 && i < this.width && j >= 0 && j < this.height;
+    }
+
+    /**
      * Read the values on the center line of the lattice (omits the out-of-bounds damping regions), for display in the
      * WaveAreaGraphNode
      * @param {number[]} array - array to fill with the values for performance/memory, will be resized if necessary

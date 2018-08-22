@@ -34,23 +34,20 @@ define( require => {
 
     /**
      * Applies a force toward the given point with the given strength;
-     * @param forceCenter
-     * @param amount
+     * @param fx
+     * @param fy
      */
-    applyForceTowards( forceCenter, amount ) {
-      const k = 1.5;
-      assert && assert( !isNaN( forceCenter.x ) );
-      assert && assert( !isNaN( forceCenter.y ) );
-      const airK = amount * 3;
+    applyForce( fx, fy ) {
+
+      // TODO: this could use some tuning.
+      const k = 0.2;
 
       // use the airK as the magnitude and the forceCenter for direction only.
       // TODO: move motion into this part as well
-      const fAirX = -airK * ( this.x - forceCenter.x ) / Math.abs( this.x - forceCenter.x );
-      const fAirY = -airK * ( this.y - forceCenter.y ) / Math.abs( this.y - forceCenter.y );
       const fSpringX = -k * ( this.x - this.initialX );
       const fSpringY = -k * ( this.y - this.initialY );
-      this.vx += fAirX + fSpringX;
-      this.vy += fAirY + fSpringY;
+      this.vx += fx + fSpringX;
+      this.vy += fy + fSpringY;
 
       // friction
       this.vx *= 0.9;
