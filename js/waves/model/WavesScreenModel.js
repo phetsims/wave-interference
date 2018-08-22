@@ -428,25 +428,25 @@ define( require => {
         // http://homepage.physics.uiowa.edu/~fskiff/Physics_044/Some%20more%20details%20on%20Sound.pdf
         // https://www.npr.org/2014/04/09/300563606/what-does-sound-look-like
         this.soundParticles.forEach( soundParticle => {
-          var latticeCoordinate = this.soundScene.modelToLatticeTransform.modelToViewXY(
+          const latticeCoordinate = this.soundScene.modelToLatticeTransform.modelToViewXY(
             // TODO: check neighborhood of x,y or initialX, initialY?
             soundParticle.initialX,
             soundParticle.initialY
           );
 
           // feel a force toward most extreme nearby wave value
-          var iBest = 0;
-          var kBest = 0;
-          var maxWaveValue = Number.NEGATIVE_INFINITY;
-          var searchRadius = 1;
+          let iBest = 0;
+          let kBest = 0;
+          let maxWaveValue = Number.NEGATIVE_INFINITY;
+          const searchRadius = 1;
 
           // TODO: sum all contributions instead of taking argmax
           // TODO: why do particles travel along the diagonal axis?
-          for ( var i = -searchRadius; i <= searchRadius; i++ ) {
-            for ( var k = -searchRadius; k <= searchRadius; k++ ) {
-              var neighborI = Math.round( latticeCoordinate.x ) + i;
-              var neighborJ = Math.round( latticeCoordinate.y ) + k;
-              var v = this.lattice.getCurrentValue( neighborI, neighborJ );
+          for ( let i = -searchRadius; i <= searchRadius; i++ ) {
+            for ( let k = -searchRadius; k <= searchRadius; k++ ) {
+              const neighborI = Math.round( latticeCoordinate.x ) + i;
+              const neighborJ = Math.round( latticeCoordinate.y ) + k;
+              const v = this.lattice.getCurrentValue( neighborI, neighborJ );
               if ( !isNaN( v ) && v > maxWaveValue ) {
                 maxWaveValue = v;
                 iBest = i;
@@ -454,7 +454,7 @@ define( require => {
               }
             }
           }
-          var modelPoint = this.soundScene.modelToLatticeTransform.viewToModelXY( iBest, kBest );
+          const modelPoint = this.soundScene.modelToLatticeTransform.viewToModelXY( iBest, kBest );
           if ( maxWaveValue > 1 ) {
             maxWaveValue = 1;
           }

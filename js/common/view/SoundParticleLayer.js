@@ -25,7 +25,8 @@ define( require => {
       super();
       const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.soundScene.getWaveAreaBounds(), waveAreaNode.bounds );
 
-      // Create one sphere for each particle, some are randomly red
+      // Create one sphere node for each particle, some are randomly red.  There is a fixed number of particles, so
+      // we can add them all during startup.
       model.soundParticles.forEach( soundParticle =>
         this.addChild( new ShadedSphereNode( 10, {
           x: modelViewTransform.modelToViewX( soundParticle.x ),
