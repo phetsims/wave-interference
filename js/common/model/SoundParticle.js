@@ -40,7 +40,7 @@ define( require => {
     applyForce( fx, fy ) {
 
       // TODO: this could use some tuning.
-      const k = 0.2;
+      const k = 0.1;
 
       // use the airK as the magnitude and the forceCenter for direction only.
       // TODO: move motion into this part as well

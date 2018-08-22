@@ -454,7 +454,7 @@ define( require => {
                 else if ( waveValue < -CLAMPED_WAVE_VALUE ) {
                   waveValue = -CLAMPED_WAVE_VALUE;
                 }
-                const springConstant = waveValue / searchRadius / searchRadius;
+                const springConstant = waveValue / searchRadius / searchRadius / 5;
                 const forceCenter = this.soundScene.modelToLatticeTransform.viewToModelXY( neighborI, neighborJ );
 
                 // use the airK as the magnitude and the forceCenter for direction only.
