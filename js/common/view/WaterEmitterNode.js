@@ -78,6 +78,8 @@ define( require => {
         }
         for ( let n = nMin; n < nMax; n++ ) {
           const index = n - nMin;
+
+          // TODO: Error when turning frequency to max
           waterDrops[ index ].visible = true;
           const timeToDrop = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
           const dropPosition = timeToDrop * dropSpeed;

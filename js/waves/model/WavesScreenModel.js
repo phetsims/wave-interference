@@ -21,6 +21,7 @@ define( require => {
   const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
+  const SoundParticle = require( 'WAVE_INTERFERENCE/common/model/SoundParticle' );
   const Property = require( 'AXON/Property' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const Util = require( 'DOT/Util' );
@@ -334,6 +335,20 @@ define( require => {
         }
       } );
 
+      // @public {SoundParticle[]} particles for the sound scene.
+      this.soundParticles = [];
+      const SOUND_PARTICLE_ROWS = 20;
+      const SOUND_PARTICLE_COLUMNS = 20;
+      const RANDOM_RADIUS = 2;
+      for ( let i = 0; i <= SOUND_PARTICLE_ROWS; i++ ) {
+        for ( let k = 0; k <= SOUND_PARTICLE_COLUMNS; k++ ) {
+          this.soundParticles.push( new SoundParticle(
+            i * this.soundScene.waveAreaWidth / SOUND_PARTICLE_ROWS + phet.joist.random.nextGaussian() * RANDOM_RADIUS,
+            k * this.soundScene.waveAreaWidth / SOUND_PARTICLE_COLUMNS + phet.joist.random.nextGaussian() * RANDOM_RADIUS
+          ) );
+        }
+      }
+
       // @public - Notifies listeners when the model reset is complete
       this.resetEmitter = new Emitter();
 
@@ -406,6 +421,48 @@ define( require => {
       }
 
       this.lattice.interpolationRatio = this.eventTimer.getRatio();
+
+      if ( this.sceneProperty.value === this.soundScene ) {
+
+        // TODO: move soundParticles to a subclass of Scene like SoundScene?
+        // http://homepage.physics.uiowa.edu/~fskiff/Physics_044/Some%20more%20details%20on%20Sound.pdf
+        // https://www.npr.org/2014/04/09/300563606/what-does-sound-look-like
+        this.soundParticles.forEach( soundParticle => {
+          var latticeCoordinate = this.soundScene.modelToLatticeTransform.modelToViewXY(
+            // TODO: check neighborhood of x,y or initialX, initialY?
+            soundParticle.initialX,
+            soundParticle.initialY
+          );
+
+          // feel a force toward most extreme nearby wave value
+          var iBest = 0;
+          var kBest = 0;
+          var maxWaveValue = Number.NEGATIVE_INFINITY;
+          var searchRadius = 1;
+
+          // TODO: sum all contributions instead of taking argmax
+          // TODO: why do particles travel along the diagonal axis?
+          for ( var i = -searchRadius; i <= searchRadius; i++ ) {
+            for ( var k = -searchRadius; k <= searchRadius; k++ ) {
+              var neighborI = Math.round( latticeCoordinate.x ) + i;
+              var neighborJ = Math.round( latticeCoordinate.y ) + k;
+              var v = this.lattice.getCurrentValue( neighborI, neighborJ );
+              if ( !isNaN( v ) && v > maxWaveValue ) {
+                maxWaveValue = v;
+                iBest = i;
+                kBest = k;
+              }
+            }
+          }
+          var modelPoint = this.soundScene.modelToLatticeTransform.viewToModelXY( iBest, kBest );
+          if ( maxWaveValue > 1 ) {
+            maxWaveValue = 1;
+          }
+          soundParticle.applyForceTowards( modelPoint, maxWaveValue );
+          soundParticle.x += soundParticle.vx;
+          soundParticle.y += soundParticle.vy;
+        } );
+      }
 
       // Notify listeners that a frame has advanced
       this.stepEmitter.emit();

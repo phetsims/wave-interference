@@ -16,6 +16,7 @@ define( require => {
   const LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
   const LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
+  const Matrix3 = require( 'DOT/Matrix3' );
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
@@ -30,6 +31,7 @@ define( require => {
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
   const SoundEmitterNode = require( 'WAVE_INTERFERENCE/common/view/SoundEmitterNode' );
+  const SoundParticleLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleLayer' );
   const TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
@@ -355,6 +357,17 @@ define( require => {
         clipArea: Shape.rect( 0, 0, 1000, this.waveAreaNode.centerY )
       } );
       this.addChild( waterDropLayer );
+
+      // Show the sound particles for the sound Scene
+      const soundParticleLayer = new SoundParticleLayer( model, this.waveAreaNode, {
+        center: this.waveAreaNode.center
+      } );
+
+      // Don't let the particles appear outside of the wave area
+      soundParticleLayer.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed(
+        Matrix3.translation( -soundParticleLayer.x, -soundParticleLayer.y )
+      );
+      this.addChild( soundParticleLayer );
     }
 
     /**
