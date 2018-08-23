@@ -302,12 +302,30 @@ define( require => {
         waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === model.waterScene;
       } );
 
-      Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty ], ( rotationAmount, isRotating, scene ) => {
-        const isSideWater = rotationAmount === 1 && scene === model.waterScene;
-        const show = !isRotating && !isSideWater;
-        this.waveAreaNode.visible = show;
-        this.latticeNode.visible = show;
+      // Show the sound particles for the sound Scene
+      const soundParticleLayer = new SoundParticleLayer( model, this.waveAreaNode, {
+        center: this.waveAreaNode.center
       } );
+      // Don't let the particles appear outside of the wave area
+      soundParticleLayer.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed(
+        Matrix3.translation( -soundParticleLayer.x, -soundParticleLayer.y )
+      );
+
+      Property.multilink(
+        [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty, model.showWavesProperty, model.showParticlesProperty ],
+        ( rotationAmount, isRotating, scene, showWaves, showParticles ) => {
+          const isSideWater = rotationAmount === 1 && scene === model.waterScene;
+          const okToShow = !isRotating && !isSideWater;
+          this.waveAreaNode.visible = okToShow;
+
+          let showLattice = okToShow;
+          if ( scene === model.soundScene ) {
+            showLattice = showWaves && okToShow;
+          }
+          this.latticeNode.visible = showLattice;
+
+          soundParticleLayer.visible = showParticles && scene === model.soundScene && okToShow;
+        } );
 
       Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.showGraphProperty ], ( rotationAmount, isRotating, showGraph ) => {
         waveAreaGraphNode.visible = !isRotating && showGraph;
@@ -325,17 +343,6 @@ define( require => {
                                             scene === model.soundScene ? 'darkGray' :
                                             VisibleColor.frequencyToColor( fromFemto( frequency ) ).colorUtilsDarker( 0.15 ) );
       } );
-
-      // Show the sound particles for the sound Scene
-      const soundParticleLayer = new SoundParticleLayer( model, this.waveAreaNode, {
-        center: this.waveAreaNode.center
-      } );
-
-      // Don't let the particles appear outside of the wave area
-      soundParticleLayer.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed(
-        Matrix3.translation( -soundParticleLayer.x, -soundParticleLayer.y )
-      );
-      model.showParticlesProperty.linkAttribute( soundParticleLayer, 'visible' );
 
       this.addChild( perspective3DNode );
 
