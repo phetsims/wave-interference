@@ -45,7 +45,7 @@ define( require => {
 
       // also shows the water drops
       const waterDrops = [];
-      for ( let i = 0; i < 10; i++ ) {
+      for ( let i = 0; i < 11; i++ ) {
         const waterDrop = new Image( waterDropImage );
         waterDrops.push( waterDrop );
         dropLayer.addChild( waterDrop );
@@ -79,7 +79,6 @@ define( require => {
         for ( let n = nMin; n < nMax; n++ ) {
           const index = n - nMin;
 
-          // TODO: Error when turning frequency to max
           waterDrops[ index ].visible = true;
           const timeToDrop = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
           const dropPosition = timeToDrop * dropSpeed;
