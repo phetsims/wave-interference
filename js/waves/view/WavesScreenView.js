@@ -120,6 +120,7 @@ define( require => {
       this.addChild( resetAllButton );
 
       this.latticeNode = new LatticeCanvasNode( model.lattice );
+      model.showWavesProperty.linkAttribute( this.latticeNode, 'visible' );
 
       const scale = this.waveAreaNode.width / this.latticeNode.width;
       this.latticeNode.mutate( {
@@ -324,10 +325,23 @@ define( require => {
                                             scene === model.soundScene ? 'darkGray' :
                                             VisibleColor.frequencyToColor( fromFemto( frequency ) ).colorUtilsDarker( 0.15 ) );
       } );
+
+      // Show the sound particles for the sound Scene
+      const soundParticleLayer = new SoundParticleLayer( model, this.waveAreaNode, {
+        center: this.waveAreaNode.center
+      } );
+
+      // Don't let the particles appear outside of the wave area
+      soundParticleLayer.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed(
+        Matrix3.translation( -soundParticleLayer.x, -soundParticleLayer.y )
+      );
+      model.showParticlesProperty.linkAttribute( soundParticleLayer, 'visible' );
+
       this.addChild( perspective3DNode );
 
       this.addChild( waterSideViewNode );
       this.addChild( timeControlPanel );
+      this.addChild( soundParticleLayer );
       this.addChild( dashedLineNode );
       this.addChild( this.afterWaveAreaNode );
       this.addChild( waveAreaGraphNode );
@@ -357,17 +371,6 @@ define( require => {
         clipArea: Shape.rect( 0, 0, 1000, this.waveAreaNode.centerY )
       } );
       this.addChild( waterDropLayer );
-
-      // Show the sound particles for the sound Scene
-      const soundParticleLayer = new SoundParticleLayer( model, this.waveAreaNode, {
-        center: this.waveAreaNode.center
-      } );
-
-      // Don't let the particles appear outside of the wave area
-      soundParticleLayer.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed(
-        Matrix3.translation( -soundParticleLayer.x, -soundParticleLayer.y )
-      );
-      this.addChild( soundParticleLayer );
     }
 
     /**

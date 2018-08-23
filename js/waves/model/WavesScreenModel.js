@@ -179,6 +179,12 @@ define( require => {
       // and looked odd)
       this.amplitudeProperty = new NumberProperty( options.initialAmplitude, { range: { min: 0, max: 10 } } );
 
+      // @public {BooleanProperty} - whether the wave area should be displayed
+      this.showWavesProperty = new BooleanProperty( true );
+
+      // @public {BooleanProperty} - whether particles should be displayed (for sound)
+      this.showParticlesProperty = new BooleanProperty( false );
+
       // @public {BooleanProperty} - whether the wave area graph should be displayed
       this.showGraphProperty = new BooleanProperty( false );
 

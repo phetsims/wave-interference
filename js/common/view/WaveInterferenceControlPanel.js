@@ -86,10 +86,20 @@ define( require => {
       const frequencySliderContainer = new Node( { children: [ waterFrequencySlider, soundFrequencySlider, lightFrequencySlider ] } );
       const amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, model.amplitudeProperty.range.min, model.amplitudeProperty.range.max );
 
+      const wavesCheckbox = new Checkbox( new WaveInterferenceText( 'Waves' ), model.showWavesProperty, CHECKBOX_OPTIONS );
+      const particlesCheckbox = new Checkbox( new WaveInterferenceText( 'Particles' ), model.showParticlesProperty, CHECKBOX_OPTIONS );
       const graphCheckbox = new Checkbox( new WaveInterferenceText( graphString ), model.showGraphProperty, CHECKBOX_OPTIONS );
       const screenCheckbox = new Checkbox( new WaveInterferenceText( screenString ), model.showScreenProperty, CHECKBOX_OPTIONS );
       const intensityCheckbox = new Checkbox( new WaveInterferenceText( intensityString ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
-      const maxComponentWidth = _.max( [ screenCheckbox.width, graphCheckbox.width, frequencySliderContainer.width, amplitudeSlider.width, lightFrequencySlider.width ] );
+      const maxComponentWidth = _.max( [
+        wavesCheckbox.width,
+        particlesCheckbox.width,
+        screenCheckbox.width,
+        graphCheckbox.width,
+        frequencySliderContainer.width,
+        amplitudeSlider.width,
+        lightFrequencySlider.width
+      ] );
       const separator = new HSeparator( maxComponentWidth );
 
       const hoseIcon = new Image( hoseImage );
@@ -126,6 +136,10 @@ define( require => {
       separator.centerX = centerX;
       let minX = _.min( [ frequencySliderContainer.left, amplitudeSlider.left, frequencyTitle.left, amplitudeTitle.left, sceneRadioButtons.left ] );
       minX = minX + 11; // Account for half the slider knob width, so it lines up with the slider left tick
+
+      // TODO: this looks unmaintainable
+      wavesCheckbox.left = minX;
+      particlesCheckbox.left = minX;
       graphCheckbox.left = minX;
       screenCheckbox.left = minX;
       intensityCheckbox.left = minX + 20;
@@ -146,15 +160,30 @@ define( require => {
         sceneRadioButtons.top = y;
       }
 
-      separator.top = sceneRadioButtons.bottom + 7;
-      graphCheckbox.top = separator.bottom + 7;
-      screenCheckbox.top = graphCheckbox.bottom + 5;
-      intensityCheckbox.top = screenCheckbox.bottom + 5;
+      // TODO: this looks unmaintainable
+      const SEPARATOR_MARGIN = 7;
+      const CHECKBOX_SPACING = 5;
+      separator.top = sceneRadioButtons.bottom + SEPARATOR_MARGIN;
+      wavesCheckbox.top = separator.bottom + SEPARATOR_MARGIN;
+      particlesCheckbox.top = wavesCheckbox.bottom + CHECKBOX_SPACING;
+      graphCheckbox.top = particlesCheckbox.bottom + CHECKBOX_SPACING;
+      screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
+      intensityCheckbox.top = screenCheckbox.bottom + CHECKBOX_SPACING;
 
       model.sceneProperty.link( scene => {
         waterFrequencySlider.visible = scene === model.waterScene;
         soundFrequencySlider.visible = scene === model.soundScene;
         lightFrequencySlider.visible = scene === model.lightScene;
+
+        // Only allow user to change between views for the sound scene
+        wavesCheckbox.enabled = scene === model.soundScene;
+        particlesCheckbox.enabled = scene === model.soundScene;
+
+        // TODO: should this be in the model?
+        // TODO: should the user be able to hide the wave area for other scenes?
+        // if ( scene === model.waterScene || scene === model.lightScene ) {
+        //   model.showWavesProperty.value = true;
+        // }
 
         // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
         screenCheckbox.enabled = scene === model.lightScene;
@@ -172,6 +201,8 @@ define( require => {
         options.additionalControl || new Node(),
         sceneRadioButtons,
         separator,
+        wavesCheckbox,
+        particlesCheckbox,
         graphCheckbox,
         screenCheckbox
       ];

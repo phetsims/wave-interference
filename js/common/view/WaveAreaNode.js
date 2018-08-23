@@ -23,7 +23,9 @@ define( require => {
       super( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, _.extend( {
 
         // This node is used for layout, so don't include a stroke which could throw off the dimensions
-        fill: 'blue'
+        // Show the background color required for the sound scene, when the lattice is hidden
+        // TODO(design): What color should this be?
+        fill: '#4c4c4c'
       }, options ) );
     }
   }
