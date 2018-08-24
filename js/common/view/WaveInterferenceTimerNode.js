@@ -9,7 +9,9 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
   const Text = require( 'SCENERY/nodes/Text' );
   const TimerNode = require( 'SCENERY_PHET/TimerNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -33,7 +35,11 @@ define( require => {
         isIcon: false
       }, config );
       assert && assert( !!config.end, 'end is a required argument' );
-      super( model.timerElapsedTimeProperty, model.isTimerRunningProperty, config );
+      super(
+        config.isIcon ? new NumberProperty( 0 ) : model.timerElapsedTimeProperty,
+        config.isIcon ? new BooleanProperty( false ) : model.isTimerRunningProperty,
+        config
+      );
 
       // After the TimerNode is initialized with the maximal layout, use the correct initial value for the current timeUnits
       model.sceneProperty.link( scene => unitsNode.setText( scene.timeUnits ) );

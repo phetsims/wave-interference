@@ -217,6 +217,8 @@ define( require => {
         end: () => {
           if ( toolboxContains( timerNode.parentToGlobalPoint( timerNode.center ) ) ) {
             model.isTimerInPlayAreaProperty.value = false;
+            model.timerElapsedTimeProperty.value = 0;
+            model.isTimerRunningProperty.value = false;
           }
         }
       } );
