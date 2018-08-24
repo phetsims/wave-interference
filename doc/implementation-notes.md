@@ -67,6 +67,10 @@ give the same speed of light.
 Here is a schematic for the two-slit dimensions:
 ![schematic for the two-slit dimensions](images/slitDimensions.jpg?raw=true "Two-Slit Dimensions")
 
+# Slits Screen
+By using ?dev, you can show the IdealInterferenceOverlay, which depicts d sin(θ) = mλ (theoretical maxima) and d sin(θ) = (m+1/2)λ (theoretical minima).
+See https://github.com/phetsims/wave-interference/issues/74
+
 # Diffraction Screen
 In the fourth screen, we use a Fast Fourier Transform (FFT) in order to compute the diffraction pattern, see
 https://en.wikipedia.org/wiki/Diffraction
