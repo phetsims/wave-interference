@@ -65,7 +65,7 @@ define( require => {
       const latticeCenterY = this.lattice.height / 2;
 
       const frequency = scene.frequencyProperty.get();
-      const wavelength = scene.waveSpeed / frequency;
+      const wavelength = scene.wavelength;
 
       // lambda * k = 2 * pi
       // k = 2pi/lambda

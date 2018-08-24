@@ -10,7 +10,9 @@ define( require => {
 
   // modules
   const BarriersNode = require( 'WAVE_INTERFERENCE/slits/view/BarriersNode' );
+  const IdealInterferenceOverlay = require( 'WAVE_INTERFERENCE/slits/view/IdealInterferenceOverlay' );
   const Property = require( 'AXON/Property' );
+  const Shape = require( 'KITE/Shape' );
   const SlitsControlPanel = require( 'WAVE_INTERFERENCE/slits/view/SlitsControlPanel' );
   const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -60,6 +62,13 @@ define( require => {
       this.afterWaveAreaNode.addChild( waterBarriersNode );
       this.afterWaveAreaNode.addChild( soundBarriersNode );
       this.afterWaveAreaNode.addChild( lightBarriersNode );
+
+      if ( phet.chipper.queryParameters.dev ) {
+        const idealInterferenceOverlay = new IdealInterferenceOverlay( model, this.waveAreaNode.bounds, {
+          clipArea: Shape.bounds( this.waveAreaNode.bounds )
+        } );
+        this.addChild( idealInterferenceOverlay );
+      }
     }
   }
 

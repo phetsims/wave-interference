@@ -75,7 +75,7 @@ define( require => {
       }, options );
       super();
 
-      // @private - for layout only
+      // @private - shows the background of the wave area for sound view and used for layout
       this.waveAreaNode = new WaveAreaNode( model, {
         top: MARGIN + WAVE_MARGIN + 15,
         centerX: this.layoutBounds.centerX - 142

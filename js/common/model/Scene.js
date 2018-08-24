@@ -128,6 +128,15 @@ define( require => {
     }
 
     /**
+     * Returns the wavelength in the units of the scene
+     * @returns {number}
+     * @public
+     */
+    get wavelength() {
+      return this.waveSpeed / this.frequencyProperty.get();
+    }
+
+    /**
      * Returns a Bounds2 for the visible part of the wave area, in the coordinates of the scene.
      * @returns {Bounds2} the lattice model bounds, in the coordinates of this scene.
      * @public
