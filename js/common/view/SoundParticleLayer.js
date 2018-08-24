@@ -35,15 +35,21 @@ define( require => {
         } ) ) );
       this.mutate( options );
 
-      // At the end of each model step, update all of the particles as a batch.
-      model.stepEmitter.addListener( () => {
-        model.soundParticles.forEach( ( soundParticle, i ) => {
-          this.getChildAt( i ).mutate( {
-            x: modelViewTransform.modelToViewX( soundParticle.x ),
-            y: modelViewTransform.modelToViewX( soundParticle.y )
-          } );
+      const updateSoundParticleNodes = () => model.soundParticles.forEach( ( soundParticle, i ) => {
+        this.getChildAt( i ).mutate( {
+          x: modelViewTransform.modelToViewX( soundParticle.x ),
+          y: modelViewTransform.modelToViewX( soundParticle.y )
         } );
       } );
+
+      // At the end of each model step, update all of the particles as a batch.
+      const updateIfSoundScene = () => {
+        if ( model.sceneProperty.value === model.soundScene ) {
+          updateSoundParticleNodes();
+        }
+      };
+      model.stepEmitter.addListener( updateIfSoundScene );
+      model.sceneProperty.link( updateIfSoundScene );
     }
   }
 
