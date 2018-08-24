@@ -14,13 +14,12 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  const TimerNode = require( 'SCENERY_PHET/TimerNode' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
+  const WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
   const WaveMeterNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterNode' );
 
   class ToolboxPanel extends WaveInterferencePanel {
@@ -57,9 +56,11 @@ define( require => {
       } );
 
       // Node used to create the icon
-      const iconTimerNode = new TimerNode( new NumberProperty( 0 ), new BooleanProperty( false ), {
+      const iconTimerNode = new WaveInterferenceTimerNode( model, {
         scale: 0.5,
-        pickable: false
+        pickable: false,
+        end: () => {},
+        isIcon: true
       } );
 
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
