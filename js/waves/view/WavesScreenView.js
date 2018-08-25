@@ -346,18 +346,6 @@ define( require => {
                                             VisibleColor.frequencyToColor( fromFemto( frequency ) ).colorUtilsDarker( 0.15 ) );
       } );
 
-      this.addChild( perspective3DNode );
-
-      this.addChild( waterSideViewNode );
-      this.addChild( timeControlPanel );
-      this.addChild( soundParticleLayer );
-      this.addChild( dashedLineNode );
-      this.addChild( this.afterWaveAreaNode );
-      this.addChild( waveAreaGraphNode );
-      this.addChild( measuringTapeNode );
-      this.addChild( timerNode );
-      this.addChild( waveDetectorToolNode );
-
       /**
        * Creates a ToggleNode that shows the primary or secondary source
        * @param {boolean} isPrimarySource - true if it should show the primary source
@@ -370,16 +358,23 @@ define( require => {
         alignChildren: ToggleNode.NONE
       } );
 
-      // Primary source
-      this.addChild( createEmitterToggleNode( true ) );
-
-      // Secondary source
-      this.addChild( createEmitterToggleNode( false ) );
-
       const waterDropLayer = new Node( {
         clipArea: Shape.rect( 0, 0, 1000, this.waveAreaNode.centerY )
       } );
+
+      this.addChild( perspective3DNode );
+      this.addChild( waterSideViewNode );
+      this.addChild( createEmitterToggleNode( true ) ); // Primary source
+      this.addChild( createEmitterToggleNode( false ) ); // Secondary source
       this.addChild( waterDropLayer );
+      this.addChild( timeControlPanel );
+      this.addChild( soundParticleLayer );
+      this.addChild( dashedLineNode );
+      this.addChild( this.afterWaveAreaNode );
+      this.addChild( waveAreaGraphNode );
+      this.addChild( measuringTapeNode );
+      this.addChild( timerNode );
+      this.addChild( waveDetectorToolNode );
     }
 
     /**
