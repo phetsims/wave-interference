@@ -100,7 +100,7 @@ define( require => {
         timeUnitsConversion: 1,
 
         initialSlitWidth: 2, // cm
-        initialSlitSeparation: 4, // cm
+        initialSlitSeparation: 3, // cm
         initialSourceSeparation: options.numberOfSources === 1 ? 0 : 3 // cm
       } );
 
