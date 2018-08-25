@@ -90,7 +90,6 @@ define( require => {
         const emitter = new Emitter();
 
         const updateSamples = function() {
-          const scene = model.sceneProperty.value;
 
           // Set the range by incorporating the model's time units, so it will match with the timer.
           const maxSeconds = NUMBER_OF_TIME_DIVISIONS;
