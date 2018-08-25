@@ -92,7 +92,7 @@ define( require => {
           // drop size is a function of amplitude
           waterDrops[ index ].setScaleMagnitude( amplitude / 10 / 2 + 1E-6 );
           waterDrops[ index ].bottom = -dropPosition;
-          waterDrops[ index ].centerX = 206;
+          waterDrops[ index ].centerX = 157; // This value must coordinate with WavesScreenModel.POINT_SOURCE_HORIZONTAL_COORDINATE
         }
       };
 
