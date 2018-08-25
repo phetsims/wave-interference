@@ -120,11 +120,11 @@ define( require => {
     }
 
     /**
-     * Returns the horizontal barrier location in integer coordinates.
+     * Returns the horizontal barrier location.  Note, this is the floating point value, and some clients may need to round it.
      * @public
      */
     getBarrierLocation() {
-      return Math.round( this.barrierLocationProperty.get().x );
+      return this.barrierLocationProperty.get().x;
     }
 
     /**
