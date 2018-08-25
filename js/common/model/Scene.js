@@ -61,9 +61,6 @@ define( require => {
       // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
       this.timeScaleFactor = config.timeScaleFactor;
 
-      // @public (read-only) {number} - scale factor for converting between time units (like showing seconds in femtoseconds)
-      this.timeUnitsConversion = config.timeUnitsConversion;
-
       // @public {Property.<number>} - the linear frequency in the appropriate units for the scene
       this.frequencyProperty = new Property( this.initialFrequency );
 

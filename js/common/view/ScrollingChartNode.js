@@ -179,7 +179,7 @@ define( require => {
         emitter.addListener( () => {
 
           // Set the range by incorporating the model's time units, so it will match with the timer.
-          const maxSeconds = options.timeDivisions; // TODO: assumes timeUnitsConversion is always 1
+          const maxSeconds = options.timeDivisions;
 
           // Draw the graph with line segments
           const pathShape = new Shape();

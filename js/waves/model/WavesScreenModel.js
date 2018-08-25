@@ -97,7 +97,6 @@ define( require => {
         waveSpeed: 1.85, // in position units / time units, measured empirically as 5.4 seconds to cross the 10cm lattice
 
         timeScaleFactor: 1, // 1 second in real time = 1 second on the simulation timer
-        timeUnitsConversion: 1,
 
         initialSlitWidth: 2, // cm
         initialSlitSeparation: 3 // cm
@@ -122,7 +121,6 @@ define( require => {
         waveSpeed: 34.3, // in cm/ms
 
         timeScaleFactor: 1, // This is confusing.  One second of real time should show up as 1ms, so this factor is 1
-        timeUnitsConversion: 1, // This value is chosen so that the wave speed is accurate
 
         initialSlitWidth: 25, // cm
         initialSlitSeparation: 50 // cm
@@ -152,9 +150,6 @@ define( require => {
         // One second in real time = 1 femtosecond.  Determined empirically by checking the displayed wavelength of red
         // light on the lattice and dividing by the desired wavelength
         timeScaleFactor: 1853 / 660,
-
-        // to cross a 5000nm wave area, it should take 5000nm / (300nm/fs) = 16.6fs.
-        timeUnitsConversion: 1,
 
         initialSlitWidth: 500, // nm
         initialSlitSeparation: 1500 // nm
@@ -420,7 +415,7 @@ define( require => {
       this.lattice.step( () => this.setSourceValues() );
 
       if ( this.isTimerRunningProperty.get() ) {
-        this.timerElapsedTimeProperty.set( this.timerElapsedTimeProperty.get() + dt * this.sceneProperty.value.timeUnitsConversion );
+        this.timerElapsedTimeProperty.set( this.timerElapsedTimeProperty.get() + dt );
       }
 
       this.lattice.interpolationRatio = this.eventTimer.getRatio();
