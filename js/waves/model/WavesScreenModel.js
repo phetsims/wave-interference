@@ -49,7 +49,7 @@ define( require => {
   const waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
 
   // constants
-  const POINT_SOURCE_HORIZONTAL_COORDINATE = 30;
+  const POINT_SOURCE_HORIZONTAL_COORDINATE = 24; // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).
   const EVENT_RATE = 20; // Tuned so that iPad2 has enough time to run model computations
   const toFemto = WaveInterferenceUtils.toFemto;
 
