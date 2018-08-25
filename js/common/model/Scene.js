@@ -83,7 +83,8 @@ define( require => {
       } );
 
       // @public {Property.<Number>} - distance between the sources in the units of the scene, or 0 if there is only one source
-      this.sourceSeparationProperty = new NumberProperty( config.initialSourceSeparation, {
+      // initialized to match the initial slit separation, see https://github.com/phetsims/wave-interference/issues/87
+      this.sourceSeparationProperty = new NumberProperty( config.numberOfSources === 1 ? 0 : config.initialSlitSeparation, {
         units: this.positionUnits
       } );
 

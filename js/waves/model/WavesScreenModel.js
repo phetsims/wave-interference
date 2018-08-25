@@ -100,8 +100,7 @@ define( require => {
         timeUnitsConversion: 1,
 
         initialSlitWidth: 2, // cm
-        initialSlitSeparation: 3, // cm
-        initialSourceSeparation: options.numberOfSources === 1 ? 0 : 3 // cm
+        initialSlitSeparation: 3 // cm
       } );
 
       // Sound scene
@@ -126,8 +125,7 @@ define( require => {
         timeUnitsConversion: 1, // This value is chosen so that the wave speed is accurate
 
         initialSlitWidth: 25, // cm
-        initialSlitSeparation: 50, // cm
-        initialSourceSeparation: options.numberOfSources === 1 ? 0 : 50 // cm
+        initialSlitSeparation: 50 // cm
       } );
 
       // Light scene
@@ -159,8 +157,7 @@ define( require => {
         timeUnitsConversion: 1,
 
         initialSlitWidth: 500, // nm
-        initialSlitSeparation: 1500, // nm
-        initialSourceSeparation: options.numberOfSources === 1 ? 0 : 1500 // nm
+        initialSlitSeparation: 1500 // nm
       } );
 
       const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
