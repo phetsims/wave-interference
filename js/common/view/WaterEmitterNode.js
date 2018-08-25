@@ -14,6 +14,7 @@ define( require => {
   const Image = require( 'SCENERY/nodes/Image' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Shape = require( 'KITE/Shape' );
+  const SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // images
@@ -36,6 +37,11 @@ define( require => {
         rightCenter: waveAreaNode.leftCenter.plusXY( 40, 0 ),
         scale: 0.75
       } ), FAUCET_VERTICAL_OFFSET );
+
+      // Water drops are not shown for plane waves
+      if ( model instanceof SlitsScreenModel ) {
+        return;
+      }
 
       const dropLayer = new Node( {
         clipArea: Shape.rect( 0, FAUCET_VERTICAL_OFFSET, 1000, Math.abs( FAUCET_VERTICAL_OFFSET ) )
