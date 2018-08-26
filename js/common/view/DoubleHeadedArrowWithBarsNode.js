@@ -4,7 +4,7 @@
  * Shows a double headed arrow with bars, like this:
  * |<----->|
  *
- * TODO: Move this to scenery-phet. There's an issue for that, I think.
+ * TODO: Move this to scenery-phet, see https://github.com/phetsims/wave-interference/issues/79
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
