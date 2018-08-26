@@ -10,7 +10,8 @@ define( require => {
   'use strict';
 
   // modules
-  const DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' );
+  const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  const Line = require( 'SCENERY/nodes/Line' );
   const Node = require( 'SCENERY/nodes/Node' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -27,11 +28,19 @@ define( require => {
       const width = scene.scaleIndicatorLength * latticeViewWidth / scene.waveAreaWidth;
       const text = new WaveInterferenceText( scene.scaleIndicatorText );
 
-      const doubleHeadedArrowWithBars = new DoubleHeadedArrowWithBarsNode( text.height, width );
-      text.leftCenter = doubleHeadedArrowWithBars.rightCenter.plusXY( 5, 1 );
+      const createBar = centerX => new Line( 0, 0, 0, text.height, { stroke: 'black', centerX } );
+      const leftBar = createBar( -width / 2 );
+      const rightBar = createBar( width / 2 );
+      const arrowNode = new ArrowNode( leftBar.right + 1, leftBar.centerY, rightBar.left - 1, rightBar.centerY, {
+        doubleHead: true,
+        headHeight: 5,
+        headWidth: 5,
+        tailWidth: 2
+      } );
+      text.leftCenter = rightBar.rightCenter.plusXY( 5, 0 );
 
       super( _.extend( {
-        children: [ doubleHeadedArrowWithBars, text ]
+        children: [ arrowNode, leftBar, rightBar, text ]
       }, options ) );
     }
   }

@@ -10,9 +10,9 @@ define( require => {
   'use strict';
 
   // modules
+  const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   const Bounds2 = require( 'DOT/Bounds2' );
   const Circle = require( 'SCENERY/nodes/Circle' );
-  const DoubleHeadedArrowWithBarsNode = require( 'WAVE_INTERFERENCE/common/view/DoubleHeadedArrowWithBarsNode' ); // TODO: Move to common code
   const Line = require( 'SCENERY/nodes/Line' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -114,22 +114,25 @@ define( require => {
         centerY: graphPanel.centerY
       } );
 
+      // Create double-headed arrow with bars to show the time between gridlines
+      const createBar = centerX => new Line( 0, 0, 0, 6, { stroke: 'white', centerX } );
+      const leftBar = createBar( 0 );
+      const rightBar = createBar( plotWidth / 4 );
+      const arrowNode = new ArrowNode( leftBar.right + 1, leftBar.centerY, rightBar.left - 1, rightBar.centerY, {
+        fill: 'white',
+        stroke: 'white',
+        doubleHead: true,
+        headHeight: 3,
+        headWidth: 3.5,
+        tailWidth: 0.5
+      } );
+      var arrowWithBars = new Node( {
+        children: [ leftBar, rightBar, arrowNode ]
+      } );
+
       const lengthScaleIndicatorNode = new VBox( {
         spacing: -2,
-        children: [
-
-          new DoubleHeadedArrowWithBarsNode( 6, plotWidth / 4, {
-            lineOptions: { stroke: 'white' },
-            arrowOptions: {
-              fill: 'white',
-              stroke: 'white',
-              headHeight: 3,
-              headWidth: 3.5,
-              tailWidth: 0.5
-            }
-          } ),
-          scaleIndicatorText
-        ],
+        children: [ arrowWithBars, scaleIndicatorText ],
         left: graphPanel.left,
         top: graphPanel.bottom + 2
       } );
