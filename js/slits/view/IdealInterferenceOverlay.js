@@ -47,17 +47,17 @@ define( require => {
                 // d sin(θ) = mλ for maxima,
                 // d sin(θ) = (m + 1/2)λ for minima
                 // see http://electron9.phys.utk.edu/optics421/modules/m1/diffraction_and_interference.htm
-                var addition = type === 'maxima' ? 0 : 0.5;
+                const addition = type === 'maxima' ? 0 : 0.5;
                 const arg = ( m + addition ) * scene.wavelength / scene.slitSeparationProperty.value;
 
                 // make sure in bounds
                 if ( arg <= 1 ) {
-                  var theta = sign * Math.asin( arg );
+                  const theta = sign * Math.asin( arg );
 
-                  var length = 500;
-                  var x = length * Math.cos( theta );
-                  var y = length * Math.sin( theta );
-                  var line = new Line( barrierX, barrierY, barrierX + x, barrierY + y, {
+                  const length = 500;
+                  const x = length * Math.cos( theta );
+                  const y = length * Math.sin( theta );
+                  const line = new Line( barrierX, barrierY, barrierX + x, barrierY + y, {
                     stroke: type === 'maxima' ? 'yellow' : 'red',
                     lineWidth: 1
                   } );

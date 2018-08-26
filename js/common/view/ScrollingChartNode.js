@@ -126,7 +126,7 @@ define( require => {
         headWidth: 3.5,
         tailWidth: 0.5
       } );
-      var arrowWithBars = new Node( {
+      const arrowWithBars = new Node( {
         children: [ leftBar, rightBar, arrowNode ]
       } );
 
