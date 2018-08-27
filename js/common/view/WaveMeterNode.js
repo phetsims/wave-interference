@@ -127,8 +127,6 @@ define( require => {
           // When the wave is paused and the user is dragging the entire MeterNode with the probes aligned, they
           // need to sample their new locations.
           probeNode.on( 'transform', updateSamples );
-
-          // TODO: embed onto the background as a child in the constructor
           model.lattice.changedEmitter.addListener( updateSamples );
         }
         return { color, probeNode, series, emitter };
