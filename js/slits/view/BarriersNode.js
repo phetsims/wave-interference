@@ -68,7 +68,6 @@ define( require => {
       this.modelViewTransform = ModelViewTransform2.createRectangleMapping( this.scene.getWaveAreaBounds(), viewBounds );
 
       this.addInputListener( new DragListener( {
-        applyOffset: false,
         locationProperty: scene.barrierLocationProperty,
         transform: this.modelViewTransform
       } ) );
@@ -101,8 +100,9 @@ define( require => {
       const slitWidth = scene.slitWidthProperty.get();
       const slitSeparation = scene.slitSeparationProperty.get();
 
-      // Barrier origin in view coordinates
-      const x = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() );
+      // Barrier origin in view coordinates, sets the parent node location for compatibility with
+      // DragListener, see https://github.com/phetsims/wave-interference/issues/75
+      this.x = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() );
 
       if ( barrierType === BarrierTypeEnum.NO_BARRIER ) {
 
@@ -122,9 +122,9 @@ define( require => {
         const slitWidthView = this.modelViewTransform.modelToViewDeltaY( slitWidth );
         const y1 = this.waveAreaViewBounds.centerY - slitWidthView / 2;
         const y2 = this.waveAreaViewBounds.centerY + slitWidthView / 2;
-        this.rectangleA.setRect( x, this.waveAreaViewBounds.top, this.cellWidth, y1 - this.waveAreaViewBounds.top, 2, 2 );
-        this.rectangleB.setRect( x, y2, this.cellWidth, this.waveAreaViewBounds.bottom - y2, 2, 2 );
-        this.arrowNode.centerX = x + this.cellWidth / 2;
+        this.rectangleA.setRect( 0, this.waveAreaViewBounds.top, this.cellWidth, y1 - this.waveAreaViewBounds.top, 2, 2 );
+        this.rectangleB.setRect( 0, y2, this.cellWidth, this.waveAreaViewBounds.bottom - y2, 2, 2 );
+        this.arrowNode.centerX = this.cellWidth / 2;
         this.arrowNode.top = this.rectangleB.bottom + 2;
       }
       else if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
@@ -138,10 +138,10 @@ define( require => {
         const topOfCentralBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 + slitWidth / 2 );
         const bottomOfCentralBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 - slitWidth / 2 );
         const topOfBottomBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 + slitWidth / 2 );
-        this.rectangleA.setRect( x, this.waveAreaViewBounds.top, this.cellWidth, Math.max( 0, bottomOfTopBarrier - this.waveAreaViewBounds.top ), 2, 2 );
-        this.rectangleB.setRect( x, topOfCentralBarrier, this.cellWidth, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ), 2, 2 );
-        this.rectangleC.setRect( x, topOfBottomBarrier, this.cellWidth, Math.max( this.waveAreaViewBounds.bottom - topOfBottomBarrier ), 2, 2 );
-        this.arrowNode.centerX = x + this.cellWidth / 2;
+        this.rectangleA.setRect( 0, this.waveAreaViewBounds.top, this.cellWidth, Math.max( 0, bottomOfTopBarrier - this.waveAreaViewBounds.top ), 2, 2 );
+        this.rectangleB.setRect( 0, topOfCentralBarrier, this.cellWidth, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ), 2, 2 );
+        this.rectangleC.setRect( 0, topOfBottomBarrier, this.cellWidth, Math.max( this.waveAreaViewBounds.bottom - topOfBottomBarrier ), 2, 2 );
+        this.arrowNode.centerX = this.cellWidth / 2;
         this.arrowNode.top = this.rectangleC.bottom + 2;
       }
     }
