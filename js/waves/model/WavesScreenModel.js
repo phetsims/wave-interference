@@ -438,10 +438,10 @@ define( require => {
           // Check the lattice coordinate of the current location of the particle
           const latticeCoordinate = this.soundScene.modelToLatticeTransform.modelToViewXY( soundParticle.x, soundParticle.y );
 
-          // feel a force toward each neighboring lattice value
+          // feel a force toward each lattice value in a local neighborhood
           let sumFx = 0;
           let sumFy = 0;
-          const searchRadius = 3; // TODO: increase search radius?
+          const searchRadius = 3;
           const CLAMPED_WAVE_VALUE = 1;
 
           for ( let i = -searchRadius; i <= searchRadius; i++ ) {
