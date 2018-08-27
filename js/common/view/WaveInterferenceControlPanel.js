@@ -174,12 +174,6 @@ define( require => {
         wavesCheckbox.enabled = scene === model.soundScene;
         particlesCheckbox.enabled = scene === model.soundScene;
 
-        // TODO: should this be in the model?
-        // TODO: should the user be able to hide the wave area for other scenes?
-        // if ( scene === model.waterScene || scene === model.lightScene ) {
-        //   model.showWavesProperty.value = true;
-        // }
-
         // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
         screenCheckbox.enabled = scene === model.lightScene;
         intensityCheckbox.enabled = scene === model.lightScene;
