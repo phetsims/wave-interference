@@ -440,11 +440,9 @@ define( require => {
           // feel a force toward each neighboring lattice value
           let sumFx = 0;
           let sumFy = 0;
-          const searchRadius = 2;
-          const CLAMPED_WAVE_VALUE = 0.5;
+          const searchRadius = 1;
+          const CLAMPED_WAVE_VALUE = 1;
 
-          // TODO: sum all contributions instead of taking argmax
-          // TODO: why do particles travel along the diagonal axis?
           for ( let i = -searchRadius; i <= searchRadius; i++ ) {
             for ( let k = -searchRadius; k <= searchRadius; k++ ) {
               const neighborI = Math.round( latticeCoordinate.x ) + i;
@@ -457,21 +455,17 @@ define( require => {
                 else if ( waveValue < -CLAMPED_WAVE_VALUE ) {
                   waveValue = -CLAMPED_WAVE_VALUE;
                 }
-                const springConstant = waveValue / searchRadius / searchRadius / 5;
+                const springConstant = waveValue / searchRadius / searchRadius / 5 * 3;
                 const forceCenter = this.soundScene.modelToLatticeTransform.viewToModelXY( neighborI, neighborJ );
 
-                // use the airK as the magnitude and the forceCenter for direction only.
-                // TODO: move motion into this part as well
-                const fAirX = -springConstant * ( soundParticle.x - forceCenter.x ) / Math.abs( soundParticle.x - forceCenter.x );
-                const fAirY = -springConstant * ( soundParticle.y - forceCenter.y ) / Math.abs( soundParticle.y - forceCenter.y );
+                const fAirX = -springConstant * ( soundParticle.x - forceCenter.x );
+                const fAirY = -springConstant * ( soundParticle.y - forceCenter.y );
                 sumFx += fAirX;
                 sumFy += fAirY;
               }
             }
           }
-          soundParticle.applyForce( sumFx, sumFy );
-          soundParticle.x += soundParticle.vx;
-          soundParticle.y += soundParticle.vy;
+          soundParticle.applyForce( sumFx, sumFy, dt );
         } );
       }
 

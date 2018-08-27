@@ -34,24 +34,29 @@ define( require => {
 
     /**
      * Applies a force toward the given point with the given strength;
-     * @param fx
-     * @param fy
+     * @param {number } fx - sum of applied forces in the x direction
+     * @param {number} fy - sum of applied forces in the y direction
+     * @param {number} dt - time to integrate
      */
-    applyForce( fx, fy ) {
+    applyForce( fx, fy, dt ) {
 
       // TODO: this could use some tuning.
-      const k = 0.1;
+      const restorationSpringConstant = 1.8;
 
       // use the airK as the magnitude and the forceCenter for direction only.
       // TODO: move motion into this part as well
-      const fSpringX = -k * ( this.x - this.initialX );
-      const fSpringY = -k * ( this.y - this.initialY );
+      const fSpringX = -restorationSpringConstant * ( this.x - this.initialX );
+      const fSpringY = -restorationSpringConstant * ( this.y - this.initialY );
       this.vx += fx + fSpringX;
       this.vy += fy + fSpringY;
 
       // friction
       this.vx *= 0.9;
       this.vy *= 0.9;
+
+      // motion
+      this.x += this.vx * dt;
+      this.y += this.vy * dt;
     }
   }
 
