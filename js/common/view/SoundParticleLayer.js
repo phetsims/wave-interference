@@ -17,13 +17,13 @@ define( require => {
   class SoundParticleLayer extends Node {
 
     /**
-     * @param {WavesScreenModel} model // TODO: pass a subset
-     * @param {Node} waveAreaNode - for layout // TODO: just pass the modelViewTransform
+     * @param {WavesScreenModel} model
+     * @param {Bounds2} waveAreaNodeBounds
      * @param {Object} [options]
      */
-    constructor( model, waveAreaNode, options ) {
+    constructor( model, waveAreaNodeBounds, options ) {
       super();
-      const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.soundScene.getWaveAreaBounds(), waveAreaNode.bounds );
+      const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.soundScene.getWaveAreaBounds(), waveAreaNodeBounds );
 
       // Create one sphere node for each particle, some are randomly red.  There is a fixed number of particles, so
       // we can add them all during startup.

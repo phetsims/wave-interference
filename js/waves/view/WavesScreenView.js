@@ -305,9 +305,10 @@ define( require => {
       } );
 
       // Show the sound particles for the sound Scene
-      const soundParticleLayer = new SoundParticleLayer( model, this.waveAreaNode, {
+      const soundParticleLayer = new SoundParticleLayer( model, this.waveAreaNode.bounds, {
         center: this.waveAreaNode.center
       } );
+
       // Don't let the particles appear outside of the wave area
       soundParticleLayer.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed(
         Matrix3.translation( -soundParticleLayer.x, -soundParticleLayer.y )
