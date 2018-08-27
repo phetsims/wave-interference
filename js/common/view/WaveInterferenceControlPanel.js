@@ -110,16 +110,11 @@ define( require => {
       hoseIcon.scale( iconWidth / hoseIcon.width );
       speakerIcon.scale( iconHeight / speakerIcon.height );
       laserPointerIcon.scale( iconWidth / laserPointerIcon.width );
-      const sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [ {
-        value: model.waterScene,
-        node: hoseIcon
-      }, {
-        value: model.soundScene,
-        node: speakerIcon
-      }, {
-        value: model.lightScene,
-        node: laserPointerIcon
-      } ], {
+      const sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [
+        { value: model.waterScene, node: hoseIcon },
+        { value: model.soundScene, node: speakerIcon },
+        { value: model.lightScene, node: laserPointerIcon }
+      ], {
         orientation: 'horizontal'
       } );
 

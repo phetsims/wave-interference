@@ -160,6 +160,9 @@ define( require => {
         initialSlitSeparation: 1500 // nm
       } );
 
+      // @public (read-only) {Scene[]} - the Scene instances as an array
+      this.scenes = [ this.waterScene, this.soundScene, this.lightScene ];
+
       const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
 
       // @private

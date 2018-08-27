@@ -21,7 +21,7 @@ define( require => {
      */
     constructor( model, sceneToNode, options ) {
       const toElement = scene => ( { value: scene, node: sceneToNode( scene ) } );
-      super( [ model.waterScene, model.soundScene, model.lightScene ].map( toElement ), model.sceneProperty, options );
+      super( model.scenes.map( toElement ), model.sceneProperty, options );
     }
   }
 
