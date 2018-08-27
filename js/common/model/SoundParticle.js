@@ -40,11 +40,9 @@ define( require => {
      */
     applyForce( fx, fy, dt ) {
 
-      // TODO: this could use some tuning.
       const restorationSpringConstant = 1.8;
 
       // use the airK as the magnitude and the forceCenter for direction only.
-      // TODO: move motion into this part as well
       const fSpringX = -restorationSpringConstant * ( this.x - this.initialX );
       const fSpringY = -restorationSpringConstant * ( this.y - this.initialY );
       this.vx += fx + fSpringX;
