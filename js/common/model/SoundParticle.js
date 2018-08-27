@@ -40,7 +40,7 @@ define( require => {
      */
     applyForce( fx, fy, dt ) {
 
-      const restorationSpringConstant = 1.8;
+      const restorationSpringConstant = 3;
 
       // use the airK as the magnitude and the forceCenter for direction only.
       const fSpringX = -restorationSpringConstant * ( this.x - this.initialX );
@@ -49,8 +49,8 @@ define( require => {
       this.vy += fy + fSpringY;
 
       // friction
-      this.vx *= 0.9;
-      this.vy *= 0.9;
+      this.vx *= 0.96;
+      this.vy *= 0.96;
 
       // motion
       this.x += this.vx * dt;

@@ -441,7 +441,7 @@ define( require => {
           // feel a force toward each neighboring lattice value
           let sumFx = 0;
           let sumFy = 0;
-          const searchRadius = 1; // TODO: increase search radius?
+          const searchRadius = 3; // TODO: increase search radius?
           const CLAMPED_WAVE_VALUE = 1;
 
           for ( let i = -searchRadius; i <= searchRadius; i++ ) {
@@ -456,11 +456,12 @@ define( require => {
                 else if ( waveValue < -CLAMPED_WAVE_VALUE ) {
                   waveValue = -CLAMPED_WAVE_VALUE;
                 }
-                const springConstant = waveValue / searchRadius / searchRadius / 5 * 3;
+                const springConstant = waveValue / searchRadius / searchRadius / 5 * 14;
                 const forceCenter = this.soundScene.modelToLatticeTransform.viewToModelXY( neighborI, neighborJ );
 
-                const fAirX = -springConstant * ( soundParticle.x - forceCenter.x );
-                const fAirY = -springConstant * ( soundParticle.y - forceCenter.y );
+                // Normalize out the distance so that further away points don't contribute more just from being further away
+                const fAirX = -springConstant * ( soundParticle.x - forceCenter.x ) / Math.abs( soundParticle.x - forceCenter.x );
+                const fAirY = -springConstant * ( soundParticle.y - forceCenter.y ) / Math.abs( soundParticle.y - forceCenter.y );
                 sumFx += fAirX;
                 sumFy += fAirY;
               }
