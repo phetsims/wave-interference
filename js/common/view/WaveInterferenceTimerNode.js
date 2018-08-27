@@ -22,7 +22,6 @@ define( require => {
      */
     constructor( model, config ) {
 
-      // TODO: add model.scenes as an array
       // Construct the timer with the unitsNode reserving the max amount of space it will need
       const widestScene = _.maxBy( model.scenes, scene => new Text( scene.timeUnits ).width );
       const unitsNode = new Text( widestScene.timeUnits );
