@@ -24,7 +24,6 @@ define( require => {
 
         // This node is used for layout, so don't include a stroke which could throw off the dimensions
         // Show the background color required for the sound scene, when the lattice is hidden
-        // TODO(design): What color should this be?
         fill: '#4c4c4c'
       }, options ) );
     }
