@@ -434,16 +434,14 @@ define( require => {
         // http://homepage.physics.uiowa.edu/~fskiff/Physics_044/Some%20more%20details%20on%20Sound.pdf
         // https://www.npr.org/2014/04/09/300563606/what-does-sound-look-like
         this.soundParticles.forEach( soundParticle => {
-          const latticeCoordinate = this.soundScene.modelToLatticeTransform.modelToViewXY(
-            // TODO: check neighborhood of x,y or initialX, initialY?
-            soundParticle.x,
-            soundParticle.y
-          );
+
+          // Check the lattice coordinate of the current location of the particle
+          const latticeCoordinate = this.soundScene.modelToLatticeTransform.modelToViewXY( soundParticle.x, soundParticle.y );
 
           // feel a force toward each neighboring lattice value
           let sumFx = 0;
           let sumFy = 0;
-          const searchRadius = 1;
+          const searchRadius = 1; // TODO: increase search radius?
           const CLAMPED_WAVE_VALUE = 1;
 
           for ( let i = -searchRadius; i <= searchRadius; i++ ) {
