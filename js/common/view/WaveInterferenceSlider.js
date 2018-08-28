@@ -57,13 +57,12 @@ define( require => {
         minorTickLength: 8
       } );
 
-      for ( let i = 0; i < ticks.length; i++ ) {
-        const tick = ticks[ i ];
+      for ( let tick of ticks ) {
         if ( tick.type === 'major' ) {
-          this.addMajorTick( tick.value, tick.label ); // Label is optional
+          this.addMajorTick( tick.value, tick.label );
         }
         else {
-          this.addMinorTick( tick.value, tick.label ); // Label is optional
+          this.addMinorTick( tick.value, tick.label );
         }
       }
     }

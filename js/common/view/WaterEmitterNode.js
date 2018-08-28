@@ -79,9 +79,7 @@ define( require => {
         const maxPosition = 200;
         const nMin = Math.round( ( ( minPosition / dropSpeed + time ) * angularFrequency + phase ) / 2 / Math.PI );
         const nMax = Math.round( ( ( maxPosition / dropSpeed + time ) * angularFrequency + phase ) / 2 / Math.PI );
-        for ( let n = 0; n < waterDrops.length; n++ ) {
-          waterDrops[ n ].visible = false;
-        }
+        waterDrops.forEach( waterDrop => waterDrop.setVisible( false ) );
         for ( let n = nMin; n < nMax; n++ ) {
           const index = n - nMin;
 

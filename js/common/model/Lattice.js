@@ -275,10 +275,7 @@ define( require => {
      * @public
      */
     clear() {
-      for ( let i = 0; i < this.matrices.length; i++ ) {
-        this.matrices[ i ].timesEquals( 0 );
-      }
-
+      this.matrices.forEach( matrix => matrix.timesEquals( 0 ) );
       this.visitedMatrix.timesEquals( 0 );
     }
 
