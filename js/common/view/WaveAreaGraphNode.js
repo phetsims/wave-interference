@@ -48,7 +48,7 @@ define( require => {
       // the bottom tab will fit the largest label.
       const horizontalAxisLabel = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.graphHorizontalAxisLabel ) );
 
-      // Switchable title of the chart
+      // Scene-specific title of the chart
       const title = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.graphTitle ) );
 
       const HORIZONTAL_LABEL_VERTICAL_MARGIN = 2;

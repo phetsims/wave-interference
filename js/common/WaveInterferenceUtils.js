@@ -38,7 +38,7 @@ define( require => {
       for ( let i = 0; i < array.length; i++ ) {
         const value = array[ i ];
         const x = Util.linear( 0, array.length - 1, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
-        const y = Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 100, value ) + dy;
+        const y = Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 80, value ) + dy;
         shape.lineTo( x, y );
       }
       return shape;
