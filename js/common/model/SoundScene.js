@@ -72,7 +72,7 @@ define( require => {
               else if ( waveValue < -CLAMPED_WAVE_VALUE ) {
                 waveValue = -CLAMPED_WAVE_VALUE;
               }
-              const springConstant = waveValue / SEARCH_RADIUS / SEARCH_RADIUS / 5 * 14; // TODO: collapse values
+              const springConstant = waveValue / SEARCH_RADIUS / SEARCH_RADIUS * 2.8; // Tuned manually
               const forceCenter = this.modelToLatticeTransform.viewToModelXY( neighborI, neighborJ );
 
               // Normalize out the distance so that further away points don't contribute more just from being further away
