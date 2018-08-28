@@ -359,15 +359,10 @@ define( require => {
         alignChildren: ToggleNode.NONE
       } );
 
-      const waterDropLayer = new Node( {
-        clipArea: Shape.rect( 0, 0, 1000, this.waveAreaNode.centerY )
-      } );
-
       this.addChild( perspective3DNode );
       this.addChild( waterSideViewNode );
       this.addChild( createEmitterToggleNode( true ) ); // Primary source
       this.addChild( createEmitterToggleNode( false ) ); // Secondary source
-      this.addChild( waterDropLayer );
       this.addChild( timeControlPanel );
       this.addChild( soundParticleLayer );
       this.addChild( dashedLineNode );
