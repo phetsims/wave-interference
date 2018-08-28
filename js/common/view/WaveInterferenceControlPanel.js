@@ -132,7 +132,7 @@ define( require => {
       let minX = _.min( [ frequencySliderContainer.left, amplitudeSlider.left, frequencyTitle.left, amplitudeTitle.left, sceneRadioButtons.left ] );
       minX = minX + 11; // Account for half the slider knob width, so it lines up with the slider left tick
 
-      // TODO: this looks unmaintainable
+      // TODO: this looks unmaintainable.  First replace with VerticalAquaRadioButtonGroup.  Then move graph to the top (#114),
       wavesCheckbox.left = minX;
       particlesCheckbox.left = minX;
       graphCheckbox.left = minX;
