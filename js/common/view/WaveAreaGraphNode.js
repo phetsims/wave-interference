@@ -42,7 +42,9 @@ define( require => {
       super();
 
       const graphWidth = WaveInterferenceConstants.WAVE_AREA_WIDTH;
-      const graphHeight = WaveInterferenceConstants.WAVE_AREA_WIDTH / 3;
+
+      // Manually tuned so the graph is the appropriate height, must be synchronized with dy below.
+      const graphHeight = WaveInterferenceConstants.WAVE_AREA_WIDTH * 0.3833333333333333;
 
       // Horizontal Axis Label, which updates when the scene changes.  Uses visibility instead of setChildren so that
       // the bottom tab will fit the largest label.
@@ -182,7 +184,7 @@ define( require => {
 
       const array = [];
       const dx = -options.x;
-      const dy = -options.centerY / 2 - 1.7;
+      const dy = -options.centerY / 2 + 9; // Manually tuned to center the line in the graph, must be synchronized with graphHeight
       model.lattice.changedEmitter.addListener( () => {
         path.shape = WaveInterferenceUtils.getWaterSideShape( array, model.lattice, waveAreaBounds, dx, dy );
       } );
