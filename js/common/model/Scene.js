@@ -154,6 +154,16 @@ define( require => {
       this.slitSeparationProperty.reset();
       this.sourceSeparationProperty.reset();
     }
+
+    /**
+     * Move forward in time by the specified amount
+     * @param {Lattice} lattice
+     * @param {number} dt - amount of time to move forward, in the units of the scene
+     */
+    step( lattice, dt ) {
+
+      // No-op here, subclasses can override to provide behavior.
+    }
   }
 
   return waveInterference.register( 'Scene', Scene );

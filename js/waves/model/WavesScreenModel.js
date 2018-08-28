@@ -21,9 +21,9 @@ define( require => {
   const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
-  const SoundParticle = require( 'WAVE_INTERFERENCE/common/model/SoundParticle' );
   const Property = require( 'AXON/Property' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
+  const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
   const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
@@ -108,7 +108,7 @@ define( require => {
       } );
 
       // Sound scene
-      this.soundScene = new Scene( {
+      this.soundScene = new SoundScene( {
         positionUnits: 'cm',
         translatedPositionUnits: cmUnitsString,
         timeUnits: millisecondsUnitsString,
@@ -341,20 +341,6 @@ define( require => {
         }
       } );
 
-      // @public {SoundParticle[]} particles for the sound scene.
-      this.soundParticles = [];
-      const SOUND_PARTICLE_ROWS = 20;
-      const SOUND_PARTICLE_COLUMNS = 20;
-      const RANDOM_RADIUS = 2;
-      for ( let i = 0; i <= SOUND_PARTICLE_ROWS; i++ ) {
-        for ( let k = 0; k <= SOUND_PARTICLE_COLUMNS; k++ ) {
-          this.soundParticles.push( new SoundParticle(
-            i * this.soundScene.waveAreaWidth / SOUND_PARTICLE_ROWS + phet.joist.random.nextGaussian() * RANDOM_RADIUS,
-            k * this.soundScene.waveAreaWidth / SOUND_PARTICLE_COLUMNS + phet.joist.random.nextGaussian() * RANDOM_RADIUS
-          ) );
-        }
-      }
-
       // @public - Notifies listeners when the model reset is complete
       this.resetEmitter = new Emitter();
 
@@ -428,48 +414,8 @@ define( require => {
 
       this.lattice.interpolationRatio = this.eventTimer.getRatio();
 
-      if ( this.sceneProperty.value === this.soundScene ) {
-
-        // TODO: move soundParticles to a subclass of Scene like SoundScene?
-        // http://homepage.physics.uiowa.edu/~fskiff/Physics_044/Some%20more%20details%20on%20Sound.pdf
-        // https://www.npr.org/2014/04/09/300563606/what-does-sound-look-like
-        this.soundParticles.forEach( soundParticle => {
-
-          // Check the lattice coordinate of the current location of the particle
-          const latticeCoordinate = this.soundScene.modelToLatticeTransform.modelToViewXY( soundParticle.x, soundParticle.y );
-
-          // feel a force toward each lattice value in a local neighborhood
-          let sumFx = 0;
-          let sumFy = 0;
-          const searchRadius = 3;
-          const CLAMPED_WAVE_VALUE = 1;
-
-          for ( let i = -searchRadius; i <= searchRadius; i++ ) {
-            for ( let k = -searchRadius; k <= searchRadius; k++ ) {
-              const neighborI = Math.round( latticeCoordinate.x ) + i;
-              const neighborJ = Math.round( latticeCoordinate.y ) + k;
-              if ( this.lattice.contains( neighborI, neighborJ ) ) {
-                let waveValue = this.lattice.getCurrentValue( neighborI, neighborJ );
-                if ( waveValue > CLAMPED_WAVE_VALUE ) {
-                  waveValue = CLAMPED_WAVE_VALUE;
-                }
-                else if ( waveValue < -CLAMPED_WAVE_VALUE ) {
-                  waveValue = -CLAMPED_WAVE_VALUE;
-                }
-                const springConstant = waveValue / searchRadius / searchRadius / 5 * 14;
-                const forceCenter = this.soundScene.modelToLatticeTransform.viewToModelXY( neighborI, neighborJ );
-
-                // Normalize out the distance so that further away points don't contribute more just from being further away
-                const fAirX = -springConstant * ( soundParticle.x - forceCenter.x ) / Math.abs( soundParticle.x - forceCenter.x );
-                const fAirY = -springConstant * ( soundParticle.y - forceCenter.y ) / Math.abs( soundParticle.y - forceCenter.y );
-                sumFx += fAirX;
-                sumFy += fAirY;
-              }
-            }
-          }
-          soundParticle.applyForce( sumFx, sumFy, dt );
-        } );
-      }
+      // Scene-specific physics updates
+      this.sceneProperty.value.step( this.lattice, dt );
 
       // Notify listeners that a frame has advanced
       this.stepEmitter.emit();

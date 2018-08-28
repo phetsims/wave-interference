@@ -27,7 +27,7 @@ define( require => {
 
       // Create one sphere node for each particle, some are randomly red.  There is a fixed number of particles, so
       // we can add them all during startup.
-      model.soundParticles.forEach( soundParticle =>
+      model.soundScene.soundParticles.forEach( soundParticle =>
         this.addChild( new ShadedSphereNode( 10, {
           x: modelViewTransform.modelToViewX( soundParticle.x ),
           y: modelViewTransform.modelToViewX( soundParticle.y ),
@@ -35,7 +35,7 @@ define( require => {
         } ) ) );
       this.mutate( options );
 
-      const updateSoundParticleNodes = () => model.soundParticles.forEach( ( soundParticle, i ) => {
+      const updateSoundParticleNodes = () => model.soundScene.soundParticles.forEach( ( soundParticle, i ) => {
         this.getChildAt( i ).mutate( {
           x: modelViewTransform.modelToViewX( soundParticle.x ),
           y: modelViewTransform.modelToViewX( soundParticle.y )
