@@ -188,8 +188,6 @@ define( require => {
           const pathShape = new Shape();
           for ( let i = 0; i < series.length; i++ ) {
             const sample = series[ i ];
-
-            // strong wavefronts (bright colors) are positive on the graph
             const scaledValue = Util.linear( 0, 2, graphHeight / 2, 0, sample.y );
 
             // Clamp at max values
