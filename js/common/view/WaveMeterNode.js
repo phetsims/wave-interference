@@ -68,6 +68,7 @@ define( require => {
        * @param {number} dx - initial relative x coordinate for the probe
        * @param {number} dy - initial relative y coordinate for the probe
        * @param {Property.<Vector2>} connectionProperty
+       * @returns { color, probeNode, series, emitter }
        */
       const initializeSeries = ( color, wireColor, dx, dy, connectionProperty ) => {
         const probeNode = new WaveMeterProbeNode( { color } );
