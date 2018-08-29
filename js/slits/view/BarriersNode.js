@@ -14,6 +14,7 @@ define( require => {
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -69,7 +70,10 @@ define( require => {
 
       this.addInputListener( new DragListener( {
         locationProperty: scene.barrierLocationProperty,
-        transform: this.modelViewTransform
+        transform: this.modelViewTransform,
+
+        // Constrain to lie within 80% of the main area
+        dragBoundsProperty: new Property( scene.getWaveAreaBounds().erodedX( scene.getWaveAreaBounds().width / 10 ) )
       } ) );
 
       // @private - draggable double-headed arrow beneath the barrier
