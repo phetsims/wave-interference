@@ -12,8 +12,10 @@ define( require => {
   'use strict';
 
   // modules
+  const Property = require( 'AXON/Property' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SoundParticle = require( 'WAVE_INTERFERENCE/common/model/SoundParticle' );
+  const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   class SoundScene extends Scene {
@@ -23,6 +25,11 @@ define( require => {
      */
     constructor( config ) {
       super( config );
+
+      // @public {Property.<string>} - indicates the selected view for sound
+      this.viewSelectionProperty = new Property( SoundViewType.WAVES, {
+        validValues: SoundViewType.VALUES
+      } );
 
       // @public (read-only) {SoundParticle[]} particles for the sound scene.
       this.soundParticles = [];

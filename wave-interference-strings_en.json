@@ -127,5 +127,14 @@
   },
   "slitSeparation": {
     "value": "Slit Separation"
+  },
+  "waves": {
+    "value": "Waves"
+  },
+  "particles": {
+    "value": "Particles"
+  },
+  "both": {
+    "value": "Both"
   }
 }

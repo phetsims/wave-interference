@@ -20,6 +20,8 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
+  const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   const WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
@@ -32,6 +34,9 @@ define( require => {
   const graphString = require( 'string!WAVE_INTERFERENCE/graph' );
   const intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
   const screenString = require( 'string!WAVE_INTERFERENCE/screen' );
+  const wavesString = require( 'string!WAVE_INTERFERENCE/waves' );
+  const particlesString = require( 'string!WAVE_INTERFERENCE/particles' );
+  const bothString = require( 'string!WAVE_INTERFERENCE/both' );
 
   // images
   const hoseImage = require( 'image!WAVE_INTERFERENCE/hose.png' );
@@ -86,14 +91,25 @@ define( require => {
       const frequencySliderContainer = new Node( { children: [ waterFrequencySlider, soundFrequencySlider, lightFrequencySlider ] } );
       const amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, model.amplitudeProperty.range.min, model.amplitudeProperty.range.max );
 
-      const wavesCheckbox = new Checkbox( new WaveInterferenceText( 'Waves' ), model.showWavesProperty, CHECKBOX_OPTIONS );
-      const particlesCheckbox = new Checkbox( new WaveInterferenceText( 'Particles' ), model.showParticlesProperty, CHECKBOX_OPTIONS );
+      const viewSelectionRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
+        node: new WaveInterferenceText( wavesString ),
+        value: SoundViewType.WAVES,
+        property: model.soundScene.viewSelectionProperty
+      }, {
+        node: new WaveInterferenceText( particlesString ),
+        value: SoundViewType.PARTICLES,
+        property: model.soundScene.viewSelectionProperty
+      }, {
+        node: new WaveInterferenceText( bothString ),
+        value: SoundViewType.BOTH,
+        property: model.soundScene.viewSelectionProperty
+      } ] );
       const graphCheckbox = new Checkbox( new WaveInterferenceText( graphString ), model.showGraphProperty, CHECKBOX_OPTIONS );
+
       const screenCheckbox = new Checkbox( new WaveInterferenceText( screenString ), model.showScreenProperty, CHECKBOX_OPTIONS );
       const intensityCheckbox = new Checkbox( new WaveInterferenceText( intensityString ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
       const maxComponentWidth = _.max( [
-        wavesCheckbox.width,
-        particlesCheckbox.width,
+        viewSelectionRadioButtonGroup.width,
         screenCheckbox.width,
         graphCheckbox.width,
         frequencySliderContainer.width,
@@ -133,8 +149,7 @@ define( require => {
       minX = minX + 11; // Account for half the slider knob width, so it lines up with the slider left tick
 
       // TODO: this looks unmaintainable.  First replace with VerticalAquaRadioButtonGroup.  Then move graph to the top (#114),
-      wavesCheckbox.left = minX;
-      particlesCheckbox.left = minX;
+      viewSelectionRadioButtonGroup.left = minX;
       graphCheckbox.left = minX;
       screenCheckbox.left = minX;
       intensityCheckbox.left = minX + 20;
@@ -159,10 +174,9 @@ define( require => {
       const SEPARATOR_MARGIN = 7;
       const CHECKBOX_SPACING = 5;
       separator.top = sceneRadioButtons.bottom + SEPARATOR_MARGIN;
-      wavesCheckbox.top = separator.bottom + SEPARATOR_MARGIN;
-      particlesCheckbox.top = wavesCheckbox.bottom + CHECKBOX_SPACING;
-      graphCheckbox.top = particlesCheckbox.bottom + CHECKBOX_SPACING;
-      screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
+      graphCheckbox.top = separator.bottom + SEPARATOR_MARGIN;
+      viewSelectionRadioButtonGroup.top = graphCheckbox.bottom + CHECKBOX_SPACING;
+      screenCheckbox.top = viewSelectionRadioButtonGroup.bottom + CHECKBOX_SPACING;
       intensityCheckbox.top = screenCheckbox.bottom + CHECKBOX_SPACING;
 
       model.sceneProperty.link( scene => {
@@ -171,8 +185,7 @@ define( require => {
         lightFrequencySlider.visible = scene === model.lightScene;
 
         // Only allow user to change between views for the sound scene
-        wavesCheckbox.enabled = scene === model.soundScene;
-        particlesCheckbox.enabled = scene === model.soundScene;
+        viewSelectionRadioButtonGroup.enabled = scene === model.soundScene;
 
         // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
         screenCheckbox.enabled = scene === model.lightScene;
@@ -190,8 +203,7 @@ define( require => {
         options.additionalControl || new Node(),
         sceneRadioButtons,
         separator,
-        wavesCheckbox,
-        particlesCheckbox,
+        viewSelectionRadioButtonGroup,
         graphCheckbox,
         screenCheckbox
       ];

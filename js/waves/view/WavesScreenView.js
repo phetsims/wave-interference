@@ -32,6 +32,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const SoundEmitterNode = require( 'WAVE_INTERFERENCE/common/view/SoundEmitterNode' );
   const SoundParticleLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleLayer' );
+  const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
   const TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
@@ -314,9 +315,10 @@ define( require => {
         Matrix3.translation( -soundParticleLayer.x, -soundParticleLayer.y )
       );
 
+      // Update the visibility of the waveAreaNode, latticeNode and soundParticleLayer
       Property.multilink(
-        [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty, model.showWavesProperty, model.showParticlesProperty ],
-        ( rotationAmount, isRotating, scene, showWaves, showParticles ) => {
+        [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty, model.showWavesProperty, model.soundScene.viewSelectionProperty ],
+        ( rotationAmount, isRotating, scene, showWaves, soundViewSelection ) => {
           const isSideWater = rotationAmount === 1 && scene === model.waterScene;
           const okToShow = !isRotating && !isSideWater;
           this.waveAreaNode.visible = okToShow;
@@ -327,7 +329,8 @@ define( require => {
           }
           this.latticeNode.visible = showLattice;
 
-          soundParticleLayer.visible = showParticles && scene === model.soundScene && okToShow;
+          soundParticleLayer.visible = ( soundViewSelection === SoundViewType.PARTICLES || soundViewSelection === SoundViewType.BOTH ) &&
+                                       scene === model.soundScene && okToShow;
         } );
 
       Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.showGraphProperty ], ( rotationAmount, isRotating, showGraph ) => {
