@@ -40,8 +40,8 @@ define( require => {
           const cellWidth = ModelViewTransform2.createRectangleMapping( model.lattice.visibleBounds, viewBounds ).modelToViewDeltaX( 1 );
           const barrierX = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() ) + cellWidth / 2;
 
-          [ 'maxima', 'minima' ].forEach( type => {
-            [ -1, 1 ].forEach( sign => {
+          for ( let type of [ 'maxima', 'minima' ] ) {
+            for ( let sign of [ -1, 1 ] ) {
               for ( let m = 0; m < 20; m++ ) {
 
                 // d sin(θ) = mλ for maxima,
@@ -64,12 +64,10 @@ define( require => {
                   this.addChild( line );
                 }
               }
-            } );
-          } );
-
+            }
+          }
         }
       } );
-
     }
   }
 

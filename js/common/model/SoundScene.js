@@ -56,7 +56,7 @@ define( require => {
 
       super.step( lattice, dt );
 
-      this.soundParticles.forEach( soundParticle => {
+      for ( let soundParticle of this.soundParticles ) {
 
         // Check the lattice coordinate of the current location of the particle
         const latticeCoordinate = this.modelToLatticeTransform.modelToViewXY( soundParticle.x, soundParticle.y );
@@ -91,7 +91,7 @@ define( require => {
           }
         }
         soundParticle.applyForce( sumFx, sumFy, dt );
-      } );
+      }
     }
   }
 
