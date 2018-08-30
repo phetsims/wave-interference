@@ -327,7 +327,7 @@ define( require => {
           if ( scene === model.soundScene ) {
             showLattice = showWaves && okToShow;
           }
-          this.latticeNode.visible = showLattice;
+          this.latticeNode.visible = showLattice && soundViewSelection !== SoundViewType.PARTICLES;
 
           soundParticleLayer.visible = ( soundViewSelection === SoundViewType.PARTICLES || soundViewSelection === SoundViewType.BOTH ) &&
                                        scene === model.soundScene && okToShow;
