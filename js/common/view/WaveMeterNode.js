@@ -13,16 +13,16 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Emitter = require( 'AXON/Emitter' );
+  const MeterNode = require( 'SCENERY_PHET/MeterNode' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
   const Property = require( 'AXON/Property' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScrollingChartNode = require( 'GRIDDLE/ScrollingChartNode' );
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   const Vector2 = require( 'DOT/Vector2' );
-  const MeterNode = require( 'SCENERY_PHET/MeterNode' );
-  const WaveMeterProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterProbeNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const WaveMeterProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterProbeNode' );
   const WireNode = require( 'SCENERY_PHET/WireNode' );
 
   // strings
@@ -62,6 +62,10 @@ define( require => {
       // These do not need to be disposed because there is no connection to the "outside world"
       const leftBottomProperty = new NodeProperty( backgroundNode, 'bounds', 'leftBottom' );
 
+      // @public {Emitter} emits when the WaveMeterNode has been dropped
+      this.droppedEmitter = new Emitter();
+      var droppedEmitter = this.droppedEmitter;
+
       /**
        * @param {Color|string} color
        * @param {Color|string} wireColor
@@ -71,7 +75,27 @@ define( require => {
        * @returns { color, probeNode, series, emitter }
        */
       const initializeSeries = ( color, wireColor, dx, dy, connectionProperty ) => {
-        const probeNode = new WaveMeterProbeNode( { color } );
+        const snapToCenter = () => {
+          if ( model.rotationAmountProperty.value !== 0 && model.sceneProperty.value === model.waterScene ) {
+            var point = view.waveAreaNode.center;
+            var global = view.waveAreaNode.parentToGlobalPoint( point );
+            var local = probeNode.globalToParentPoint( global );
+            probeNode.setY( local.y );
+          }
+        };
+        const probeNode = new WaveMeterProbeNode( {
+          color,
+          drag: snapToCenter
+        } );
+
+        if ( view ) {
+
+          // Move probes to centerline when the meter body is dropped
+          droppedEmitter.addListener( snapToCenter );
+
+          // Move probes when rotation is changed
+          model.rotationAmountProperty.link( snapToCenter );
+        }
 
         // Add the wire behind the probe.
         this.addChild( new WireNode( connectionProperty, new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),

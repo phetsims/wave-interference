@@ -226,12 +226,16 @@ define( require => {
 
       const waveDetectorToolNode = new WaveMeterNode( model, this, {
 
-        // Drop in toolbox
         end: () => {
+
+          // Drop in toolbox
           if ( toolboxContains( waveDetectorToolNode.getBackgroundNodeGlobalBounds().center ) ) {
             waveDetectorToolNode.alignProbes();
             model.isWaveMeterInPlayAreaProperty.value = false;
           }
+
+          // Move probes to centerline (if water side view model)
+          waveDetectorToolNode.droppedEmitter.emit();
         }
       } );
       model.resetEmitter.addListener( () => waveDetectorToolNode.alignProbes() );
