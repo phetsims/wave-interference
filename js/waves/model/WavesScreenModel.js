@@ -52,7 +52,7 @@ define( require => {
 
   // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).  This value
   // must be coordinated with WaterEmitterNode's waterDrops[ index ].centerX
-  const POINT_SOURCE_HORIZONTAL_COORDINATE = 24;
+  const POINT_SOURCE_HORIZONTAL_COORDINATE = 23;
 
   // Tuned so that iPad2 has enough time to run model computations
   const EVENT_RATE = 20;
