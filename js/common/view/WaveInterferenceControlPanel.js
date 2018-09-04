@@ -73,6 +73,10 @@ define( require => {
         bidirectional: true,
         map: frequency => WaveInterferenceUtils.fromFemto( frequency ),
         inverseMap: frequency => WaveInterferenceUtils.toFemto( frequency ),
+
+        // This Property can exhibit re-entry when the user drags the frequency slider.  This is caused by an epsilon
+        // problem, such as: value=526809876917351.56, oldValue=526809876917351.5
+        // Hence it must be marked as reentrant
         reentrant: true
       } );
 
