@@ -158,33 +158,33 @@ define( require => {
       let minX = _.min( [ frequencySliderContainer.left, amplitudeSlider.left, frequencyTitle.left, amplitudeTitle.left, sceneRadioButtons.left ] );
       minX = minX + 11; // Account for half the slider knob width, so it lines up with the slider left tick
 
-      // TODO: this looks unmaintainable.  First replace with VerticalAquaRadioButtonGroup.  Then move graph to the top (#114),
+      // Align controls to the left
       viewSelectionRadioButtonGroup.left = minX;
       graphCheckbox.left = minX;
       screenCheckbox.left = minX;
+
+      // Indent the intensity checkbox
       intensityCheckbox.left = minX + 20;
 
       // Vertical layout
-      frequencySliderContainer.top = frequencyTitle.bottom - 5;
-      let y = frequencySliderContainer.bottom + 2;
+      const TITLE_SPACING = 5;
+      frequencySliderContainer.top = frequencyTitle.bottom - TITLE_SPACING;
       amplitudeTitle.top = frequencySliderContainer.bottom + 2;
-      amplitudeSlider.top = amplitudeTitle.bottom - 5;
-      if ( options.showAmplitudeSlider ) {
-        y = amplitudeSlider.bottom + 5;
-      }
+      amplitudeSlider.top = amplitudeTitle.bottom - TITLE_SPACING;
+      const y = options.showAmplitudeSlider ?
+                amplitudeSlider.bottom + TITLE_SPACING :
+                frequencySliderContainer.bottom + 2;
       if ( options.additionalControl ) {
         options.additionalControl.top = y;
-        sceneRadioButtons.top = options.additionalControl.bottom + 5;
+        sceneRadioButtons.top = options.additionalControl.bottom + TITLE_SPACING;
       }
       else {
         sceneRadioButtons.top = y;
       }
-
-      // TODO: this looks unmaintainable
-      const SEPARATOR_MARGIN = 7;
+      const HORIZONTAL_SEPARATOR_MARGIN = 7;
       const CHECKBOX_SPACING = 5;
-      separator.top = sceneRadioButtons.bottom + SEPARATOR_MARGIN;
-      graphCheckbox.top = separator.bottom + SEPARATOR_MARGIN;
+      separator.top = sceneRadioButtons.bottom + HORIZONTAL_SEPARATOR_MARGIN;
+      graphCheckbox.top = separator.bottom + HORIZONTAL_SEPARATOR_MARGIN;
       viewSelectionRadioButtonGroup.top = graphCheckbox.bottom + CHECKBOX_SPACING;
       screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
       intensityCheckbox.top = screenCheckbox.bottom + CHECKBOX_SPACING;
