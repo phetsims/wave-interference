@@ -107,7 +107,13 @@ define( require => {
         node: new WaveInterferenceText( bothString ),
         value: SoundViewType.BOTH,
         property: model.soundScene.viewSelectionProperty
-      } ] );
+      } ], {
+        radioButtonOptions: {
+
+          // Manually tuned so the radio buttons have the same width as the "Graph" checkbox
+          radius: 5.5
+        }
+      } );
       const graphCheckbox = new Checkbox( new WaveInterferenceText( graphString ), model.showGraphProperty, CHECKBOX_OPTIONS );
 
       const screenCheckbox = new Checkbox( new WaveInterferenceText( screenString ), model.showScreenProperty, CHECKBOX_OPTIONS );
@@ -180,42 +186,38 @@ define( require => {
       separator.top = sceneRadioButtons.bottom + SEPARATOR_MARGIN;
       graphCheckbox.top = separator.bottom + SEPARATOR_MARGIN;
       viewSelectionRadioButtonGroup.top = graphCheckbox.bottom + CHECKBOX_SPACING;
-      screenCheckbox.top = viewSelectionRadioButtonGroup.bottom + CHECKBOX_SPACING;
+      screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
       intensityCheckbox.top = screenCheckbox.bottom + CHECKBOX_SPACING;
 
+      const container = new Node();
+
+      // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
       model.sceneProperty.link( scene => {
         waterFrequencySlider.visible = scene === model.waterScene;
         soundFrequencySlider.visible = scene === model.soundScene;
         lightFrequencySlider.visible = scene === model.lightScene;
 
-        // Only allow user to change between views for the sound scene
-        viewSelectionRadioButtonGroup.enabled = scene === model.soundScene;
+        // z-ordering
+        const children = [];
+        children.push( frequencyTitle );
+        children.push( frequencySliderContainer );
+        options.showAmplitudeSlider && children.push( amplitudeTitle );
+        options.showAmplitudeSlider && children.push( amplitudeSlider );
+        options.additionalControl && children.push( options.additionalControl );
+        children.push( sceneRadioButtons );
+        children.push( separator );
+        children.push( graphCheckbox );
 
-        // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-        screenCheckbox.enabled = scene === model.lightScene;
-        intensityCheckbox.enabled = scene === model.lightScene;
+        // Wave/Particle selection only for Sound scene
+        scene === model.soundScene && children.push( viewSelectionRadioButtonGroup );
+
+        // // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
+        scene === model.lightScene && children.push( screenCheckbox );
+        scene === model.lightScene && options.showIntensityCheckbox && children.push( intensityCheckbox );
+        container.children = children;
       } );
 
-      // z-ordering
-      const children = [
-        frequencyTitle,
-        frequencySliderContainer,
-
-        // This is ugly but preferable to using concat calls
-        options.showAmplitudeSlider ? amplitudeTitle : new Node(),
-        options.showAmplitudeSlider ? amplitudeSlider : new Node(),
-        options.additionalControl || new Node(),
-        sceneRadioButtons,
-        separator,
-        viewSelectionRadioButtonGroup,
-        graphCheckbox,
-        screenCheckbox
-      ];
-
-      if ( options.showIntensityCheckbox ) {
-        children.push( intensityCheckbox );
-      }
-      const content = alignGroup.createBox( new Node( { children } ) );
+      const content = alignGroup.createBox( container );
 
       super( content, options );
     }

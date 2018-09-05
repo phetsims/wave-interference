@@ -45,6 +45,7 @@ define( require => {
       };
       updateSlitControlPanel();
       slitControlPanel.on( 'bounds', updateSlitControlPanel );
+      this.controlPanel.on( 'bounds', updateSlitControlPanel );
       this.addChild( slitControlPanel );
 
       // Show the barriers when appropriate. Cannot use ToggleNode because of asymmetry, see the multilink

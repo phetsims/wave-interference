@@ -20,7 +20,7 @@ define( require => {
      */
     constructor( content, options ) {
       options = _.extend( {
-        yMargin: 6,
+        yMargin: 7,
         xMargin: 10,
         stroke: 'gray',
         fill: 'rgb(230,231,232)'
