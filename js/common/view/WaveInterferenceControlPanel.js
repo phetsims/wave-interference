@@ -215,6 +215,9 @@ define( require => {
         scene === model.lightScene && children.push( screenCheckbox );
         scene === model.lightScene && options.showIntensityCheckbox && children.push( intensityCheckbox );
         container.children = children;
+
+        graphCheckbox.mouseArea = graphCheckbox.localBounds.dilated( 2 ).withX( separator.width );
+        graphCheckbox.touchArea = graphCheckbox.mouseArea;
       } );
 
       const content = alignGroup.createBox( container );
