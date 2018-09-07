@@ -13,7 +13,7 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Emitter = require( 'AXON/Emitter' );
-  const MeterBodyNode = require( 'SCENERY_PHET/MeterBodyNode' );
+  const Node = require( 'SCENERY/nodes/Node' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
   const Property = require( 'AXON/Property' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
@@ -43,7 +43,7 @@ define( require => {
   const NORMAL_DISTANCE = 25;
   const WIRE_LINE_WIDTH = 3;
 
-  class WaveMeterNode extends MeterBodyNode {
+  class WaveMeterNode extends Node {
 
     /**
      * @param {WavesScreenModel} model - model for reading values
@@ -59,7 +59,19 @@ define( require => {
         cursor: 'pointer'
       } );
 
-      super( backgroundNode, dragListener, options );
+      super();
+
+      // @private {Node} - shows the background for the MeterBodyNode.  Any attached probes or other supplemental nodes
+      // should not be children if the backgroundNode if they need to translate independently
+      this.backgroundNode = backgroundNode;
+
+      // @private
+      this.backgroundDragListener = dragListener;
+      this.backgroundNode.addInputListener( this.backgroundDragListener );
+      this.addChild( this.backgroundNode );
+
+      // Mutate after backgroundNode is added as a child
+      this.mutate( options );
 
       // @public {boolean} - true if dragging the MeterBodyNode also causes attached probes to translate.
       // This is accomplished by calling alignProbes() on drag start and each drag event.
@@ -197,6 +209,26 @@ define( require => {
         _.omit( options, 'scale' ) // Don't apply the scale to both parent and children
       );
       backgroundNode.addChild( scrollingChartNode );
+    }
+
+    /**
+     * Gets the region of the background in global coordinates.  This can be used to determine if the MeterBodyNode should
+     * be dropped back in a toolbox.
+     * @returns {Bounds2}
+     */
+    getBackgroundNodeGlobalBounds() {
+      return this.localToGlobalBounds( this.backgroundNode.bounds );
+    }
+
+    /**
+     * Forward an event from the toolbox to start dragging the node in the play area.  This triggers the probes (if any)
+     * to drag together with the MeterBodyNode.  This is accomplished by calling this.alignProbes() at each drag event.
+     * @param {Object} event
+     */
+    startDrag( event ) {
+
+      // Forward the event to the drag listener
+      this.backgroundDragListener.press( event, this.backgroundNode );
     }
   }
 
