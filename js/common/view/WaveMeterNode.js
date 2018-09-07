@@ -48,16 +48,25 @@ define( require => {
     /**
      * @param {WavesScreenModel} model - model for reading values
      * @param {WavesScreenView|null} view - for getting coordinates for model
+     * @param {DragListener} dragListener
      * @param {Object} [options]
      */
-    constructor( model, view, options ) {
+    constructor( model, view, dragListener, options ) {
       options = _.extend( {
         timeDivisions: NUMBER_OF_TIME_DIVISIONS
       }, options );
       const backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, WIDTH, HEIGHT ), {
         cursor: 'pointer'
       } );
-      super( backgroundNode, options );
+
+      super( backgroundNode, dragListener, options );
+
+      // @public {boolean} - true if dragging the MeterBodyNode also causes attached probes to translate.
+      // This is accomplished by calling alignProbes() on drag start and each drag event.
+      this.synchronizeProbeLocations = false;
+
+      // @public {Emitter} - emits when the probes should be put in standard relative location to the body
+      this.alignProbesEmitter = new Emitter();
 
       // These do not need to be disposed because there is no connection to the "outside world"
       const leftBottomProperty = new NodeProperty( backgroundNode, 'bounds', 'leftBottom' );
@@ -108,8 +117,10 @@ define( require => {
 
         // Standard location in toolbox and when dragging out of toolbox.
         const alignProbes = () => probeNode.mutate( { right: backgroundNode.left - dx, top: backgroundNode.top + dy } );
-        this.alignProbesEmitter.addListener( alignProbes );
+        // this.alignProbesEmitter.addListener( alignProbes );
         alignProbes();
+        this.on( 'visible', alignProbes );
+        this.alignProbesEmitter.addListener( alignProbes );
 
         const series = [];
         const emitter = new Emitter();

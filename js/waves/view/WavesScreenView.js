@@ -12,6 +12,7 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Color = require( 'SCENERY/util/Color' );
   const DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
+  const DragListener = require( 'SCENERY/listeners/DragListener' );
   const IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   const LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
@@ -224,26 +225,39 @@ define( require => {
         }
       } );
 
-      const waveDetectorToolNode = new WaveMeterNode( model, this, {
+      const waveDetectorToolNode = new WaveMeterNode( model, this, new DragListener( {
+        translateNode: true,
+        start: () => {
+          if ( waveDetectorToolNode.synchronizeProbeLocations ) {
 
+            // Align the probes each time the MeterBodyNode translates, so they will stay in sync
+            waveDetectorToolNode.alignProbesEmitter.emit();
+          }
+        },
+        drag: () => {
+
+          if ( waveDetectorToolNode.synchronizeProbeLocations ) {
+
+            // Align the probes each time the MeterBodyNode translates, so they will stay in sync
+            waveDetectorToolNode.alignProbesEmitter.emit();
+          }
+        },
         end: () => {
 
           // Drop in toolbox
           if ( toolboxContains( waveDetectorToolNode.getBackgroundNodeGlobalBounds().center ) ) {
-            waveDetectorToolNode.alignProbes();
+            waveDetectorToolNode.alignProbesEmitter.emit();
             model.isWaveMeterInPlayAreaProperty.value = false;
           }
 
-          // Move probes to centerline (if water side view model)
+          // Move probes to center line (if water side view model)
           waveDetectorToolNode.droppedEmitter.emit();
+          waveDetectorToolNode.synchronizeProbeLocations = false;
         }
-      } );
-      model.resetEmitter.addListener( () => waveDetectorToolNode.alignProbes() );
+      } ) );
+      model.resetEmitter.addListener( () => waveDetectorToolNode.alignProbesEmitter.emit() );
       model.isWaveMeterInPlayAreaProperty.link( isWaveDetectorToolNodeInPlayArea => {
         waveDetectorToolNode.visible = isWaveDetectorToolNodeInPlayArea;
-
-        // Make sure probes are re-aligned on reset-all
-        waveDetectorToolNode.alignProbes();
       } );
 
       const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );

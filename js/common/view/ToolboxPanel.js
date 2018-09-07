@@ -72,7 +72,7 @@ define( require => {
         model.isTimerInPlayAreaProperty.value = true;
       } );
 
-      const waveMeterNodeIcon = new WaveMeterNode( model, null, {
+      const waveMeterNodeIcon = new WaveMeterNode( model, null, null, {
         isIcon: true,
         scale: 0.3
       } );
@@ -80,6 +80,9 @@ define( require => {
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
       const waveMeterIcon = createIcon( waveMeterNodeIcon, model.isWaveMeterInPlayAreaProperty, event => {
         meterNode.center = this.globalToParentPoint( event.pointer.point );
+
+        // Set the internal flag that indicates the probes should remain in alignment during the drag
+        meterNode.synchronizeProbeLocations = true;
         meterNode.startDrag( event );
         model.isWaveMeterInPlayAreaProperty.value = true;
       } );
