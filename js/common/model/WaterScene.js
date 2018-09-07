@@ -15,6 +15,9 @@ define( require => {
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
+  // TODO: use correct physics for drop emit times
+  let count = 0;
+
   class WaterScene extends Scene {
 
     /**
@@ -38,9 +41,13 @@ define( require => {
 
       super.step( model, dt );
 
-      if ( Math.random() < 0.1 ) {
-        this.waterDrops.push( new WaterDrop( this.desiredFrequencyProperty.value, model.desiredAmplitudeProperty.value, 300 ) );
+      count++;
+      // TODO: support both emitters
+      if ( count % 20 === 0 ) {
+        var amplitude = model.button1PressedProperty.value ? model.desiredAmplitudeProperty.value : 0;
+        this.waterDrops.push( new WaterDrop( this.desiredFrequencyProperty.value, amplitude, 300 ) );
       }
+
       var toRemove = [];
       for ( let waterDrop of this.waterDrops ) {
         waterDrop.y -= 10;
@@ -48,6 +55,9 @@ define( require => {
           toRemove.push( waterDrop );
           model.amplitudeProperty.set( waterDrop.amplitude );
           model.waterScene.frequencyProperty.set( waterDrop.frequency );
+
+          // TODO: is this better, or an on/off thing?
+          model.continuousWave1OscillatingProperty.value = waterDrop.amplitude > 0;
           // TODO: phase?
         }
       }

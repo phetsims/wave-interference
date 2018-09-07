@@ -19,6 +19,7 @@ define( require => {
      * @param {number} frequency in the units of the water scene
      * @param {number} amplitude - strength of the wave
      * @param {number} y - distance to fall before the particles meets the plane of the lattice
+     * TODO: indicate what lattice cell it is aiming for
      */
     constructor( frequency, amplitude, y ) {
 
@@ -26,6 +27,8 @@ define( require => {
       this.y = y;
       this.frequency = frequency;
       this.amplitude = amplitude;
+
+      // TODO: to end the water, send a drop with 0 amplitude?  Or an off signal?
     }
   }
 

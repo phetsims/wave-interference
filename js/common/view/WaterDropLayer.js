@@ -43,7 +43,7 @@ define( require => {
         model.waterScene.waterDrops.forEach( ( waterDrop, i ) => {
 
           if ( i < dropNodes.length ) {
-            dropNodes[ i ].visible = true;
+            dropNodes[ i ].visible = waterDrop.amplitude > 0;
             dropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.5, 3, waterDrop.amplitude ) );
             dropNodes[ i ].centerY = waveAreaNodeBounds.centerY - waterDrop.y;
           }

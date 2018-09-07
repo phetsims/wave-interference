@@ -313,7 +313,11 @@ define( require => {
           this.pulseStartTime = this.timeProperty.value;
         }
         else {
-          this.continuousWave1OscillatingProperty.value = isPressed;
+          if ( this.sceneProperty.value === this.soundScene || this.sceneProperty.value === this.lightScene ) {
+
+            // Water propagates via the water drop
+            this.continuousWave1OscillatingProperty.value = isPressed;
+          }
         }
       } );
 
