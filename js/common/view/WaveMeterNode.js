@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Provides simulation-specific values and customizations to display a ScrollingChartNode in a MeterNode.
+ * Provides simulation-specific values and customizations to display a ScrollingChartNode in a MeterBodyNode.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -13,7 +13,7 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Emitter = require( 'AXON/Emitter' );
-  const MeterNode = require( 'SCENERY_PHET/MeterNode' );
+  const MeterBodyNode = require( 'SCENERY_PHET/MeterBodyNode' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
   const Property = require( 'AXON/Property' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
@@ -43,7 +43,7 @@ define( require => {
   const NORMAL_DISTANCE = 25;
   const WIRE_LINE_WIDTH = 3;
 
-  class WaveMeterNode extends MeterNode {
+  class WaveMeterNode extends MeterBodyNode {
 
     /**
      * @param {WavesScreenModel} model - model for reading values
@@ -149,7 +149,7 @@ define( require => {
           model.sceneProperty.link( clear );
           model.resetEmitter.addListener( clear );
 
-          // When the wave is paused and the user is dragging the entire MeterNode with the probes aligned, they
+          // When the wave is paused and the user is dragging the entire MeterBodyNode with the probes aligned, they
           // need to sample their new locations.
           probeNode.on( 'transform', updateSamples );
           model.lattice.changedEmitter.addListener( updateSamples );

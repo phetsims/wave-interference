@@ -73,7 +73,7 @@ define( require => {
       // @public (read-only) {string} - the title to the shown on the wave-area graph
       this.graphTitle = config.graphTitle;
 
-      // @public (read-only) {string} - the unit to display on the MeterNode, like "1 s"
+      // @public (read-only) {string} - the unit to display on the MeterBodyNode, like "1 s"
       this.oneTimerUnit = StringUtils.fillIn( timeUnitsString, {
         time: 1,
         units: this.timeUnits

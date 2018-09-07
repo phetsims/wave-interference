@@ -27,7 +27,7 @@ define( require => {
     /**
      * @param {MeasuringTapeNode} measuringTapeNode
      * @param {WaveInterferenceTimerNode} timerNode
-     * @param {MeterNode} meterNode
+     * @param {MeterBodyNode} meterNode
      * @param {AlignGroup} alignGroup - to align with neighbors
      * @param {WavesScreenModel} model
      * @param {Object} [options]
