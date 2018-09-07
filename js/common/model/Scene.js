@@ -160,7 +160,7 @@ define( require => {
      * @param {Lattice} lattice
      * @param {number} dt - amount of time to move forward, in the units of the scene
      */
-    step( lattice, dt ) {
+    step( model, dt ) {
 
       // No-op here, subclasses can override to provide behavior.
     }

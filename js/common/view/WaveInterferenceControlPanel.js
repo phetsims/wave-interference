@@ -65,7 +65,7 @@ define( require => {
       }, options );
 
       // Controls are in the metric coordinate frame
-      const waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.frequencyProperty, model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
+      const waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.desiredFrequencyProperty, model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
       const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
 
       // Create a Property in Hz as required by the FrequencySlider.
@@ -93,7 +93,7 @@ define( require => {
 
       lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( 0, 10 );
       const frequencySliderContainer = new Node( { children: [ waterFrequencySlider, soundFrequencySlider, lightFrequencySlider ] } );
-      const amplitudeSlider = new WaveInterferenceSlider( model.amplitudeProperty, model.amplitudeProperty.range.min, model.amplitudeProperty.range.max );
+      const amplitudeSlider = new WaveInterferenceSlider( model.desiredAmplitudeProperty, model.amplitudeProperty.range.min, model.amplitudeProperty.range.max );
 
       const viewSelectionRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
         node: new WaveInterferenceText( wavesString ),

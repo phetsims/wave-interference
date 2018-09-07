@@ -39,6 +39,7 @@ define( require => {
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
   const ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  const WaterDropLayer = require( 'WAVE_INTERFERENCE/common/view/WaterDropLayer' );
   const WaterEmitterNode = require( 'WAVE_INTERFERENCE/common/view/WaterEmitterNode' );
   const WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
   const WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
@@ -328,6 +329,8 @@ define( require => {
         center: this.waveAreaNode.center
       } );
 
+      const waterDropLayer = new WaterDropLayer( model, this.waveAreaNode.bounds );
+
       // Don't let the particles appear outside of the wave area
       soundParticleLayer.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed(
         Matrix3.translation( -soundParticleLayer.x, -soundParticleLayer.y )
@@ -349,6 +352,8 @@ define( require => {
 
           soundParticleLayer.visible = ( soundViewSelection === SoundViewType.PARTICLES || soundViewSelection === SoundViewType.BOTH ) &&
                                        scene === model.soundScene && okToShow;
+
+          waterDropLayer.visible = scene === model.waterScene;
         } );
 
       Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.showGraphProperty ], ( rotationAmount, isRotating, showGraph ) => {
@@ -386,6 +391,7 @@ define( require => {
       this.addChild( createEmitterToggleNode( false ) ); // Secondary source
       this.addChild( timeControlPanel );
       this.addChild( soundParticleLayer );
+      this.addChild( waterDropLayer );
       this.addChild( dashedLineNode );
       this.addChild( this.afterWaveAreaNode );
       this.addChild( waveAreaGraphNode );

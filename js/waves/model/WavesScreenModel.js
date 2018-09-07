@@ -28,6 +28,7 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
   const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
+  const WaterScene = require( 'WAVE_INTERFERENCE/common/model/WaterScene' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
@@ -84,7 +85,7 @@ define( require => {
       } );
 
       // Water scene
-      this.waterScene = new Scene( {
+      this.waterScene = new WaterScene( {
         positionUnits: 'cm',
         translatedPositionUnits: cmUnitsString,
         timeUnits: secondsUnitsString,
@@ -348,6 +349,13 @@ define( require => {
         this.clear();
         this.timerElapsedTimeProperty.reset(); // Timer units change when the scene changes, so we re-start the timer.
       } );
+
+      this.desiredAmplitudeProperty = new Property( this.amplitudeProperty.value );
+      this.desiredAmplitudeProperty.link( desiredAmplitude => {
+        if ( this.sceneProperty.value !== this.waterScene ) {
+          this.amplitudeProperty.value = desiredAmplitude;
+        }
+      } );
     }
 
     /**
@@ -412,7 +420,7 @@ define( require => {
       this.lattice.interpolationRatio = this.eventTimer.getRatio();
 
       // Scene-specific physics updates
-      this.sceneProperty.value.step( this.lattice, dt );
+      this.sceneProperty.value.step( this, dt );
 
       // Notify listeners that a frame has advanced
       this.stepEmitter.emit();

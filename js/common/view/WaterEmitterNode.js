@@ -57,6 +57,7 @@ define( require => {
         dropLayer.addChild( waterDrop );
       }
 
+      // TODO: eliminate this once the other WaterDrop mechanism is in place
       const update = () => {
         const time = model.timeProperty.value;
 
@@ -83,14 +84,14 @@ define( require => {
         for ( let n = nMin; n < nMax; n++ ) {
           const index = n - nMin;
 
-          waterDrops[ index ].visible = true;
-          const timeToDrop = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
-          const dropPosition = timeToDrop * dropSpeed;
-
-          // drop size is a function of amplitude
-          waterDrops[ index ].setScaleMagnitude( amplitude / 10 / 2 + 1E-6 );
-          waterDrops[ index ].bottom = -dropPosition;
-          waterDrops[ index ].centerX = 149; // This value must coordinate with WavesScreenModel.POINT_SOURCE_HORIZONTAL_COORDINATE
+          // waterDrops[ index ].visible = true;
+          // const timeToDrop = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
+          // const dropPosition = timeToDrop * dropSpeed;
+          //
+          // // drop size is a function of amplitude
+          // waterDrops[ index ].setScaleMagnitude( amplitude / 10 / 2 + 1E-6 );
+          // waterDrops[ index ].bottom = -dropPosition;
+          // waterDrops[ index ].centerX = 149; // This value must coordinate with WavesScreenModel.POINT_SOURCE_HORIZONTAL_COORDINATE
         }
       };
 

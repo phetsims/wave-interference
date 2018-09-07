@@ -49,12 +49,13 @@ define( require => {
 
     /**
      * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
-     * @param {Lattice} lattice
+     * @param {WavesScreenModel} model
      * @param {number} dt - amount of time to move forward, in the units of the scene
      */
-    step( lattice, dt ) {
+    step( model, dt ) {
+      const lattice = model.lattice;
 
-      super.step( lattice, dt );
+      super.step( model, dt );
 
       for ( let soundParticle of this.soundParticles ) {
 
