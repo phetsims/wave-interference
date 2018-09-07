@@ -58,52 +58,52 @@ define( require => {
       }
 
       // TODO: eliminate this once the other WaterDrop mechanism is in place
-      const update = () => {
-        const time = model.timeProperty.value;
-
-        const amplitude = model.amplitudeProperty.value;
-        const frequency = model.sceneProperty.value.frequencyProperty.value;
-        const phase = model.phase;
-        const angularFrequency = Math.PI * 2 * frequency;
-        const dropSpeed = 70;
-
-        // compute the distances of the water drops
-        // the water drops hit when
-        // const waveValue = -Math.sin( time * angularFrequency + phase ) * amplitudeProperty.get();
-        // (time + timeToDrop )* angularFrequency + phase = 2*Math.PI*n
-        // timeToDrop = (2*Math.PI*n-phase)/angularFrequency - time
-        // choose n_min and n_max so everything is in range
-        // timeToDrop = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
-        // dropPosition/dropSpeed = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
-        // n = ((dropPosition/dropSpeed + time) * angularFrequency + phase)/2/Math.PI
-        const minPosition = -200;
-        const maxPosition = 200;
-        const nMin = Math.round( ( ( minPosition / dropSpeed + time ) * angularFrequency + phase ) / 2 / Math.PI );
-        const nMax = Math.round( ( ( maxPosition / dropSpeed + time ) * angularFrequency + phase ) / 2 / Math.PI );
-        waterDrops.forEach( waterDrop => waterDrop.setVisible( false ) );
-        for ( let n = nMin; n < nMax; n++ ) {
-          const index = n - nMin;
-
-          // waterDrops[ index ].visible = true;
-          // const timeToDrop = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
-          // const dropPosition = timeToDrop * dropSpeed;
-          //
-          // // drop size is a function of amplitude
-          // waterDrops[ index ].setScaleMagnitude( amplitude / 10 / 2 + 1E-6 );
-          // waterDrops[ index ].bottom = -dropPosition;
-          // waterDrops[ index ].centerX = 149; // This value must coordinate with WavesScreenModel.POINT_SOURCE_HORIZONTAL_COORDINATE
-        }
-      };
+      // const update = () => {
+      //   const time = model.timeProperty.value;
+      //
+      //   // const amplitude = model.amplitudeProperty.value;
+      //   const frequency = model.sceneProperty.value.frequencyProperty.value;
+      //   const phase = model.phase;
+      //   const angularFrequency = Math.PI * 2 * frequency;
+      //   const dropSpeed = 70;
+      //
+      //   // compute the distances of the water drops
+      //   // the water drops hit when
+      //   // const waveValue = -Math.sin( time * angularFrequency + phase ) * amplitudeProperty.get();
+      //   // (time + timeToDrop )* angularFrequency + phase = 2*Math.PI*n
+      //   // timeToDrop = (2*Math.PI*n-phase)/angularFrequency - time
+      //   // choose n_min and n_max so everything is in range
+      //   // timeToDrop = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
+      //   // dropPosition/dropSpeed = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
+      //   // n = ((dropPosition/dropSpeed + time) * angularFrequency + phase)/2/Math.PI
+      //   const minPosition = -200;
+      //   const maxPosition = 200;
+      //   const nMin = Math.round( ( ( minPosition / dropSpeed + time ) * angularFrequency + phase ) / 2 / Math.PI );
+      //   const nMax = Math.round( ( ( maxPosition / dropSpeed + time ) * angularFrequency + phase ) / 2 / Math.PI );
+      //   waterDrops.forEach( waterDrop => waterDrop.setVisible( false ) );
+      //   for ( let n = nMin; n < nMax; n++ ) {
+      //     const index = n - nMin;
+      //
+      //     // waterDrops[ index ].visible = true;
+      //     // const timeToDrop = ( 2 * Math.PI * n - phase ) / angularFrequency - time;
+      //     // const dropPosition = timeToDrop * dropSpeed;
+      //     //
+      //     // // drop size is a function of amplitude
+      //     // waterDrops[ index ].setScaleMagnitude( amplitude / 10 / 2 + 1E-6 );
+      //     // waterDrops[ index ].bottom = -dropPosition;
+      //     // waterDrops[ index ].centerX = 149; // This value must coordinate with WavesScreenModel.POINT_SOURCE_HORIZONTAL_COORDINATE
+      //   }
+      // };
 
       // link to appropriate properties/emitters in the model.  No dispose is needed since this node exists for the
       // lifetime of the simulation.
-      model.amplitudeProperty.link( update );
-      model.sceneProperty.link( update );
-      model.waterScene.frequencyProperty.link( update );
-      model.stepEmitter.addListener( update );
-      model.button1PressedProperty.link( update );
-      model.button2PressedProperty.link( update );
-      model.pulseFiringProperty.link( update );
+      // model.amplitudeProperty.link( update );
+      // model.sceneProperty.link( update );
+      // model.waterScene.frequencyProperty.link( update );
+      // model.stepEmitter.addListener( update );
+      // model.button1PressedProperty.link( update );
+      // model.button2PressedProperty.link( update );
+      // model.pulseFiringProperty.link( update );
 
       const buttonPressedProperty = isPrimarySource ? model.button1PressedProperty : model.button2PressedProperty;
       buttonPressedProperty.link( buttonPressed => dropLayer.setVisible( buttonPressed ) );
