@@ -29,7 +29,7 @@ define( require => {
       var dropNodes = [];
       for ( let i = 0; i < 100; i++ ) {
         dropNodes.push( new ShadedSphereNode( 10, {
-          x: modelViewTransform.modelToViewX( 100 ),
+          x: modelViewTransform.modelToViewX( 14 ),
           y: modelViewTransform.modelToViewX( 100 ),
           mainColor: 'blue'
         } ) );

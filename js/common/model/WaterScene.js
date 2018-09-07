@@ -16,7 +16,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // TODO: use correct physics for drop emit times
-  let count = 0;
+  let lastDropTime = null;
 
   class WaterScene extends Scene {
 
@@ -30,6 +30,8 @@ define( require => {
 
       // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
       this.waterDrops = [];
+
+      this.inited = false;
     }
 
     /**
@@ -39,18 +41,35 @@ define( require => {
      */
     step( model, dt ) {
 
+      if ( !this.inited ) {
+        model.button1PressedProperty.link( button1Pressed => {
+          if ( button1Pressed ) {
+            lastDropTime = null; // prep to fire a new drop in the next frame
+          }
+        } );
+        this.inited = true;
+      }
+
       super.step( model, dt );
 
-      count++;
+      var time = model.timeProperty.value;
+      var period = 1 / this.desiredFrequencyProperty.value;
+
       // TODO: support both emitters
-      if ( count % 20 === 0 ) {
-        var amplitude = model.button1PressedProperty.value ? model.desiredAmplitudeProperty.value : 0;
-        this.waterDrops.push( new WaterDrop( this.desiredFrequencyProperty.value, amplitude, 300 ) );
+      const timeSinceLastDrop = time - lastDropTime;
+      if ( lastDropTime === null || timeSinceLastDrop > period ) {
+        const amplitude = model.button1PressedProperty.value ? model.desiredAmplitudeProperty.value : 0;
+        this.waterDrops.push( new WaterDrop( this.desiredFrequencyProperty.value, amplitude, 100 ) );
+        lastDropTime = time;
       }
 
       var toRemove = [];
       for ( let waterDrop of this.waterDrops ) {
-        waterDrop.y -= 10;
+
+        // Tuned so that the wave goes underwater when the drop hits
+        waterDrop.y -= 6;
+
+        // Remove drop that have hit the water
         if ( waterDrop.y < 0 ) {
           toRemove.push( waterDrop );
           model.amplitudeProperty.set( waterDrop.amplitude );
