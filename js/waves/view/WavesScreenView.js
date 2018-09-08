@@ -402,7 +402,7 @@ define( require => {
       this.addChild( waveDetectorToolNode );
 
       this.steppedEmitter = new Emitter();
-      this.steppedEmitter.addListener( dt => waterDropLayer.step( this, waterSideViewNode, dt ) );
+      this.steppedEmitter.addListener( () => waterDropLayer.step( waterSideViewNode ) );
     }
 
     /**
@@ -419,7 +419,7 @@ define( require => {
      * @param {number} dt - in seconds
      */
     step( dt ) {
-      this.steppedEmitter.emit1( dt );
+      this.steppedEmitter.emit();
     }
 
     static get SPACING() {return SPACING;}

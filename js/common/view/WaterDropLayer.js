@@ -63,7 +63,7 @@ define( require => {
       model.sceneProperty.link( updateIfWaterScene );
 
       // @private - for closure
-      this.stepWaterDropLayer = ( view, waterSideViewNode, dt ) => { // TODO collapse args
+      this.stepWaterDropLayer = waterSideViewNode => {
         for ( let dropNode of dropNodes ) {
           if ( dropNode.visible ) {
             if ( model.rotationAmountProperty.value === 1.0 && dropNode.waterDrop && ( dropNode.top - 50 > waterSideViewNode.topY ) ) {
@@ -76,15 +76,13 @@ define( require => {
 
     /**
      * Pass-through for the closure.
-     * @param view
-     * @param waterSideViewNode
-     * @param dt
+     * @param {WaterSideViewNode} waterSideViewNode
      * @public
      */
-    step( view, waterSideViewNode, dt ) {
+    step( waterSideViewNode ) {
 
       // if in side view and the drop is submerged, mark it as absorbed so it won't show any longer.
-      this.stepWaterDropLayer( view, waterSideViewNode, dt );
+      this.stepWaterDropLayer( waterSideViewNode );
     }
   }
 
