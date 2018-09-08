@@ -26,10 +26,11 @@ define( require => {
       super();
       const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.soundScene.getWaveAreaBounds(), waveAreaNodeBounds );
 
-      var dropNodes = [];
-      for ( let i = 0; i < 100; i++ ) {
+      const dropNodes = [];
+      const MAX_DROPS = 4;
+      for ( let i = 0; i < MAX_DROPS; i++ ) {
         dropNodes.push( new ShadedSphereNode( 10, {
-          x: modelViewTransform.modelToViewX( 14 ),
+          x: modelViewTransform.modelToViewX( 10 ),
           y: modelViewTransform.modelToViewX( 100 ),
           mainColor: 'blue'
         } ) );
@@ -43,7 +44,8 @@ define( require => {
         model.waterScene.waterDrops.forEach( ( waterDrop, i ) => {
 
           if ( i < dropNodes.length ) {
-            dropNodes[ i ].visible = waterDrop.amplitude > 0;
+            dropNodes[ i ].waterDrop = waterDrop; // TODO: hack alert
+            dropNodes[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed;
             dropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.5, 3, waterDrop.amplitude ) );
             dropNodes[ i ].centerY = waveAreaNodeBounds.centerY - waterDrop.y;
           }
@@ -58,6 +60,30 @@ define( require => {
       };
       model.stepEmitter.addListener( updateIfWaterScene );
       model.sceneProperty.link( updateIfWaterScene );
+
+      // @private - for closure
+      this.stepWaterDropLayer = ( view, waterSideViewNode, dt ) => { // TODO collapse args
+        for ( let dropNode of dropNodes ) {
+          if ( dropNode.visible ) {
+            if ( model.rotationAmountProperty.value === 1.0 && dropNode.waterDrop && ( dropNode.top - 50 > waterSideViewNode.topY ) ) {
+              dropNode.waterDrop.absorbed = true;
+            }
+          }
+        }
+      };
+    }
+
+    /**
+     * Pass-through for the closure.
+     * @param view
+     * @param waterSideViewNode
+     * @param dt
+     * @public
+     */
+    step( view, waterSideViewNode, dt ) {
+
+      // if in side view and the drop is submerged, mark it as absorbed so it won't show any longer.
+      this.stepWaterDropLayer( view, waterSideViewNode, dt );
     }
   }
 

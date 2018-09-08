@@ -71,6 +71,9 @@ define( require => {
 
         // Remove drop that have hit the water
         if ( waterDrop.y < 0 ) {
+
+          // TODO: what if the water is below y=0 in side view--then we would want them to have the same effect on the
+          // lattice but still show in the view.  This is getting complicated.
           toRemove.push( waterDrop );
           model.amplitudeProperty.set( waterDrop.amplitude );
           model.waterScene.frequencyProperty.set( waterDrop.frequency );

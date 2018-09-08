@@ -13,6 +13,7 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
+  const Emitter = require( 'AXON/Emitter' );
   const IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   const LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
@@ -321,7 +322,7 @@ define( require => {
       const waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
       Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], ( rotationAmount, scene ) => {
         waterSideViewNode.visible = rotationAmount === 1.0 && scene === model.waterScene;
-        waterGrayBackground.visible = rotationAmount !== 1 && rotationAmount !== 0 && scene === model.waterScene;
+        waterGrayBackground.visible = rotationAmount !== 0 && scene === model.waterScene;
       } );
 
       // Show the sound particles for the sound Scene
@@ -386,18 +387,22 @@ define( require => {
       } );
 
       this.addChild( perspective3DNode );
+
+      this.addChild( waterDropLayer );
       this.addChild( waterSideViewNode );
       this.addChild( createEmitterToggleNode( true ) ); // Primary source
       this.addChild( createEmitterToggleNode( false ) ); // Secondary source
       this.addChild( timeControlPanel );
       this.addChild( soundParticleLayer );
-      this.addChild( waterDropLayer );
       this.addChild( dashedLineNode );
       this.addChild( this.afterWaveAreaNode );
       this.addChild( waveAreaGraphNode );
       this.addChild( measuringTapeNode );
       this.addChild( timerNode );
       this.addChild( waveDetectorToolNode );
+
+      this.steppedEmitter = new Emitter();
+      this.steppedEmitter.addListener( dt => waterDropLayer.step( this, waterSideViewNode, dt ) );
     }
 
     /**
@@ -407,6 +412,14 @@ define( require => {
     globalToLatticeCoordinate( point ) {
       const localPoint = this.latticeNode.globalToLocalPoint( point );
       return this.latticeNode.localPointToLatticePoint( localPoint );
+    }
+
+    /**
+     * Notify listeners of the step phase.
+     * @param {number} dt - in seconds
+     */
+    step( dt ) {
+      this.steppedEmitter.emit1( dt );
     }
 
     static get SPACING() {return SPACING;}

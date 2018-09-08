@@ -23,7 +23,7 @@ define( require => {
 
     /**
      * Gets a Shape representing the top of the water in water side view from left to right, also used for the chart.
-     * @param {number[]} array
+     * @param {number[]} array - reused to avoid allocations
      * @param {Lattice} lattice
      * @param {Bounds2} waveAreaBounds
      * @param {number} dx
@@ -38,10 +38,21 @@ define( require => {
       for ( let i = 0; i < array.length; i++ ) {
         const value = array[ i ];
         const x = Util.linear( 0, array.length - 1, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
-        const y = Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 80, value ) + dy;
+        const y = WaveInterferenceUtils.getWaterSideY( waveAreaBounds, value ) + dy;
         shape.lineTo( x, y );
       }
       return shape;
+    }
+
+    /**
+     * Finds the y-value at a specific point on the side wave.  This is used to see if a water drop has entered the
+     * water in the side view.
+     * @param {Bounds2} waveAreaBounds
+     * @param {number} waveValue
+     * @returns {number}
+     */
+    static getWaterSideY( waveAreaBounds, waveValue ) {
+      return Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 80, waveValue );
     }
 
     /**

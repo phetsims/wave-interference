@@ -11,7 +11,6 @@ define( require => {
   // modules
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
-  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
@@ -31,7 +30,7 @@ define( require => {
       } );
 
       super( {
-        children: [ Rectangle.bounds( waveAreaBounds, { fill: '#e2e3e5' } ), sideFacePath ]
+        children: [ sideFacePath ] // TODO: extend Path now that we have only one child
       } );
 
       // @private
@@ -50,13 +49,16 @@ define( require => {
     }
 
     /**
-     * @private - update the shapes and text when the rotationAmount has changed
+     * @private - update the shape when the rotationAmount or lattice has changed
      */
     update() {
       this.sideFacePath.shape = WaveInterferenceUtils.getWaterSideShape( this.array, this.model.lattice, this.waveAreaBounds, 0, 0 )
         .lineTo( this.waveAreaBounds.right, this.waveAreaBounds.maxY )
         .lineTo( this.waveAreaBounds.left, this.waveAreaBounds.maxY )
         .close();
+
+      // TODO: hack alert on the cell location
+      this.topY = WaveInterferenceUtils.getWaterSideY( this.waveAreaBounds, this.array[ 3 ] );
     }
   }
 
