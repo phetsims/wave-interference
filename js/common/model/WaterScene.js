@@ -58,12 +58,15 @@ define( require => {
       // TODO: support both emitters
       const timeSinceLastDrop = time - lastDropTime;
       if ( lastDropTime === null || timeSinceLastDrop > period ) {
+
+        // Send a drop with 0 amplitude to signal the wave source to stop oscillating
         const amplitude = model.button1PressedProperty.value ? model.desiredAmplitudeProperty.value : 0;
         this.waterDrops.push( new WaterDrop( this.desiredFrequencyProperty.value, amplitude, 100 ) );
         lastDropTime = time;
       }
 
-      // TODO: water drops shouldn't show for plane waves
+      // TODO: water drops shouldn't show for plane waves.  This may be accomplished by a different source button
+      // that is wired directly to the oscillator
 
       var toRemove = [];
       for ( let waterDrop of this.waterDrops ) {
