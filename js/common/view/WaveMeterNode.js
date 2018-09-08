@@ -85,7 +85,7 @@ define( require => {
 
       // @public {Emitter} emits when the WaveMeterNode has been dropped
       this.droppedEmitter = new Emitter();
-      var droppedEmitter = this.droppedEmitter;
+      const droppedEmitter = this.droppedEmitter;
 
       /**
        * @param {Color|string} color
@@ -98,9 +98,9 @@ define( require => {
       const initializeSeries = ( color, wireColor, dx, dy, connectionProperty ) => {
         const snapToCenter = () => {
           if ( model.rotationAmountProperty.value !== 0 && model.sceneProperty.value === model.waterScene ) {
-            var point = view.waveAreaNode.center;
-            var global = view.waveAreaNode.parentToGlobalPoint( point );
-            var local = probeNode.globalToParentPoint( global );
+            const point = view.waveAreaNode.center;
+            const global = view.waveAreaNode.parentToGlobalPoint( point );
+            const local = probeNode.globalToParentPoint( global );
             probeNode.setY( local.y );
           }
         };

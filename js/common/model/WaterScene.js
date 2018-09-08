@@ -52,8 +52,8 @@ define( require => {
 
       super.step( model, dt );
 
-      var time = model.timeProperty.value;
-      var period = 1 / this.desiredFrequencyProperty.value;
+      const time = model.timeProperty.value;
+      const period = 1 / this.desiredFrequencyProperty.value;
 
       // TODO: support both emitters
       const timeSinceLastDrop = time - lastDropTime;
@@ -68,7 +68,7 @@ define( require => {
       // TODO: water drops shouldn't show for plane waves.  This may be accomplished by a different source button
       // that is wired directly to the oscillator
 
-      var toRemove = [];
+      const toRemove = [];
       for ( let waterDrop of this.waterDrops ) {
 
         // Tuned so that the wave goes underwater when the drop hits
