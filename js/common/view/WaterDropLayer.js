@@ -9,12 +9,14 @@ define( require => {
   'use strict';
 
   // modules
+  const Image = require( 'SCENERY/nodes/Image' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+
+  // images
+  const waterDropImage = require( 'image!WAVE_INTERFERENCE/water_drop.png' );
 
   class WaterDropLayer extends Node {
 
@@ -30,10 +32,9 @@ define( require => {
       const dropNodes = [];
       const MAX_DROPS = 4;
       for ( let i = 0; i < MAX_DROPS; i++ ) {
-        dropNodes.push( new ShadedSphereNode( 10, {
-          x: modelViewTransform.modelToViewX( 10 ),
-          y: modelViewTransform.modelToViewX( 100 ),
-          mainColor: WaveInterferenceConstants.WATER_SIDE_COLOR
+        dropNodes.push( new Image( waterDropImage, {
+          x: modelViewTransform.modelToViewX( 8 ),
+          y: modelViewTransform.modelToViewX( 100 )
         } ) );
       }
 
@@ -44,10 +45,11 @@ define( require => {
         dropNodes.forEach( dropNode => dropNode.setVisible( false ) );
         model.waterScene.waterDrops.forEach( ( waterDrop, i ) => {
 
+          // TODO: clipping?
           if ( i < dropNodes.length ) {
             dropNodes[ i ].waterDrop = waterDrop; // TODO: hack alert
             dropNodes[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed;
-            dropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.5, 3, waterDrop.amplitude ) );
+            dropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
             dropNodes[ i ].centerY = waveAreaNodeBounds.centerY - waterDrop.y;
           }
         } );
