@@ -45,7 +45,14 @@ define( require => {
     EMITTER_BUTTON_COLOR: 'red',
     EMITTER_BUTTON_RADIUS: 14,
 
-    FEMTO: 1E-15
+    FEMTO: 1E-15,
+
+    // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).  This value
+    // must be coordinated with WaterEmitterNode's waterDrops[ index ].centerX
+    POINT_SOURCE_HORIZONTAL_COORDINATE: 23,
+
+    // Number of cells around the boundary of the lattice to avoid reflections at the edge
+    LATTICE_PADDING: 20
   };
 
   waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );

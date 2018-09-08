@@ -30,6 +30,7 @@ define( require => {
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterScene = require( 'WAVE_INTERFERENCE/common/model/WaterScene' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // strings
@@ -48,12 +49,6 @@ define( require => {
   const secondsUnitsString = require( 'string!WAVE_INTERFERENCE/secondsUnits' );
   const waterLevelAtCenterString = require( 'string!WAVE_INTERFERENCE/waterLevelAtCenter' );
   const waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
-
-  // constants
-
-  // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).  This value
-  // must be coordinated with WaterEmitterNode's waterDrops[ index ].centerX
-  const POINT_SOURCE_HORIZONTAL_COORDINATE = 23;
 
   // Tuned so that iPad2 has enough time to run model computations
   const EVENT_RATE = 20;
@@ -77,7 +72,7 @@ define( require => {
       assert && assert( options.numberOfSources === 1 || options.numberOfSources === 2, 'Model only supports 1 or 2 sources' );
 
       // @public {Lattice} the grid that contains the wave values
-      this.lattice = new Lattice( 100, 100, 20, 20 );
+      this.lattice = new Lattice( 100, 100, WaveInterferenceConstants.LATTICE_PADDING, WaveInterferenceConstants.LATTICE_PADDING );
 
       // @public {Property.<ViewType>}
       this.viewTypeProperty = new Property( ViewType.TOP, {
@@ -475,12 +470,12 @@ define( require => {
 
         // Point source
         if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
-          lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ + distanceAboveAxis, waveValue );
+          lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ + distanceAboveAxis, waveValue );
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
         if ( this.continuousWave2OscillatingProperty.get() ) {
-          lattice.setCurrentValue( POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ - distanceAboveAxis, waveValue );
+          lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ - distanceAboveAxis, waveValue );
         }
       }
     }

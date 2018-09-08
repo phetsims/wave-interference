@@ -14,6 +14,10 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
+  // constants
+  // the location in the un-padded lattice array where the source appears
+  const SOURCE_INDEX = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE - WaveInterferenceConstants.LATTICE_PADDING;
+
   class WaterSideViewNode extends Path {
 
     /**
@@ -49,8 +53,9 @@ define( require => {
         .lineTo( this.waveAreaBounds.left, this.waveAreaBounds.maxY )
         .close();
 
-      // TODO: hack alert on the cell location
-      this.topY = WaveInterferenceUtils.getWaterSideY( this.waveAreaBounds, this.array[ 3 ] );
+      // Look up the height of the topmost curve.  Do this after getWaterSideShape since we read a value
+      // from the array.
+      this.topY = WaveInterferenceUtils.getWaterSideY( this.waveAreaBounds, this.array[ SOURCE_INDEX ] );
     }
   }
 
