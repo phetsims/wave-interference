@@ -63,6 +63,8 @@ define( require => {
         lastDropTime = time;
       }
 
+      // TODO: water drops shouldn't show for plane waves
+
       var toRemove = [];
       for ( let waterDrop of this.waterDrops ) {
 
