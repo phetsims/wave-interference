@@ -48,7 +48,7 @@ define( require => {
     /**
      * @param {WavesScreenModel} model - model for reading values
      * @param {WavesScreenView|null} view - for getting coordinates for model
-     * @param {DragListener} dragListener
+     * @param {DragListener|null} dragListener, null for icon
      * @param {Object} [options]
      */
     constructor( model, view, dragListener, options ) {
@@ -67,7 +67,7 @@ define( require => {
 
       // @private
       this.backgroundDragListener = dragListener;
-      this.backgroundNode.addInputListener( this.backgroundDragListener );
+      this.backgroundDragListener && this.backgroundNode.addInputListener( this.backgroundDragListener );
       this.addChild( this.backgroundNode );
 
       // Mutate after backgroundNode is added as a child
