@@ -82,6 +82,7 @@ define( require => {
           toRemove.push( waterDrop );
 
           // TODO: once we add a separate flag for shutoff, we may not need a check here?
+          // TODO: this impacts the "pulse" feature
           if ( waterDrop.amplitude > 0 ) {
             model.amplitudeProperty.set( waterDrop.amplitude );
           }
