@@ -80,10 +80,16 @@ define( require => {
           // TODO: what if the water is below y=0 in side view--then we would want them to have the same effect on the
           // lattice but still show in the view.  This is getting complicated.
           toRemove.push( waterDrop );
-          model.amplitudeProperty.set( waterDrop.amplitude );
+
+          // TODO: once we add a separate flag for shutoff, we may not need a check here?
+          if ( waterDrop.amplitude > 0 ) {
+            model.amplitudeProperty.set( waterDrop.amplitude );
+          }
+
           model.waterScene.frequencyProperty.set( waterDrop.frequency );
 
           // TODO: is this better, or an on/off thing?
+          // zero amplitude signals a shutoff.  TODO: add a shutoff value explicitly instead of reusing amplitude
           model.continuousWave1OscillatingProperty.value = waterDrop.amplitude > 0;
           // TODO: phase?
         }
