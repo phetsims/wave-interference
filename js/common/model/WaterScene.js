@@ -58,12 +58,13 @@ define( require => {
       const timeSinceLastDrop = time - lastDropTime;
       if ( lastDropTime === null || timeSinceLastDrop > period ) {
 
-        // Send a drop with 0 amplitude to signal the wave source to stop oscillating
+        // Send a drop with 0 amplitude to signal the wave source to stop oscillating, so that the previous drop
+        // gets a full cycle
         this.waterDrops.push( new WaterDrop(
           this.desiredFrequencyProperty.value,
           model.desiredAmplitudeProperty.value,
           -1, // TODO: targetCellJ
-          !model.button1PressedProperty.value,
+          model.button1PressedProperty.value,
           100
         ) );
         lastDropTime = time;
@@ -85,11 +86,12 @@ define( require => {
           // lattice but still show in the view.  This is getting complicated.
           toRemove.push( waterDrop );
 
-          if ( waterDrop.isShutoffSignal ) {
-            model.continuousWave1OscillatingProperty.value = false;
-          }
-          else {
-            model.continuousWave1OscillatingProperty.value = true;
+          model.continuousWave1OscillatingProperty.value = waterDrop.startsOscillation;
+
+          // TODO: can we avoid this check?  Maybe it doesn't hurt anything to change the desired amplitude/frequency
+          // if the oscillation is turned off
+          // TODO: why does turning on one pulse cause oscillations right away?
+          if ( waterDrop.startsOscillation ) {
 
             // TODO: once we add a separate flag for shutoff, we may not need a check here?
             // TODO: this impacts the "pulse" feature
@@ -98,9 +100,6 @@ define( require => {
             model.waterScene.frequencyProperty.set( waterDrop.frequency );
           }
 
-          // TODO: is this better, or an on/off thing?
-          // zero amplitude signals a shutoff.  TODO: add a shutoff value explicitly instead of reusing amplitude
-          // model.continuousWave1OscillatingProperty.value = waterDrop.isShutoffSignal;
           // TODO: phase?
         }
       }

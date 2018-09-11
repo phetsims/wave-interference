@@ -48,7 +48,7 @@ define( require => {
           // TODO: clipping?
           if ( i < dropNodes.length ) {
             dropNodes[ i ].waterDrop = waterDrop; // TODO: hack alert
-            dropNodes[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && !waterDrop.isShutoffSignal;
+            dropNodes[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && waterDrop.startsOscillation;
             dropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
             dropNodes[ i ].centerY = waveAreaNodeBounds.centerY - waterDrop.y;
           }
