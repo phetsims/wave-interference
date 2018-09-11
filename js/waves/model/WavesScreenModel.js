@@ -79,8 +79,15 @@ define( require => {
         validValues: ViewType.VALUES
       } );
 
+      // @public {Property.<Boolean>} - whether the button for the first source is pressed.  This is also used for the
+      // slits screen plane wave source.
+      this.button1PressedProperty = new BooleanProperty( false );
+
+      // @public {Property.<Boolean>} - whether the button for the second source is pressed
+      this.button2PressedProperty = new BooleanProperty( false );
+
       // Water scene
-      this.waterScene = new WaterScene( {
+      this.waterScene = new WaterScene( this.button1PressedProperty, {
         positionUnits: 'cm',
         translatedPositionUnits: cmUnitsString,
         timeUnits: secondsUnitsString,
@@ -251,13 +258,6 @@ define( require => {
 
       // @public {number} phase of the emitter
       this.phase = 0;
-
-      // @public {Property.<Boolean>} - whether the button for the first source is pressed.  This is also used for the
-      // slits screen plane wave source.
-      this.button1PressedProperty = new BooleanProperty( false );
-
-      // @public {Property.<Boolean>} - whether the button for the second source is pressed
-      this.button2PressedProperty = new BooleanProperty( false );
 
       // @public {Property.<Vector2>} - model for the view coordinates of the base of the measuring tape
       // We use view coordinates so that nothing needs to be done when switching scenes and coordinate frames.

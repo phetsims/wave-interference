@@ -21,9 +21,10 @@ define( require => {
   class WaterScene extends Scene {
 
     /**
+     * @param {BooleanProperty} button1PressedProperty
      * @param {Object} config - see Scene for required properties
      */
-    constructor( config ) {
+    constructor( button1PressedProperty, config ) {
       super( config );
 
       // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
@@ -33,8 +34,12 @@ define( require => {
       // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
       this.waterDrops = [];
 
-      // @private - TODO: hack alert!  Should be wired up in constructor.
-      this.inited = false;
+      // TODO: same thing for button2Pressed
+      button1PressedProperty.link( button1Pressed => {
+        if ( button1Pressed ) {
+          lastDropTime = null; // prep to fire a new drop in the next frame
+        }
+      } );
     }
 
     /**
@@ -43,15 +48,6 @@ define( require => {
      * @param {number} dt - amount of time to move forward, in the units of the scene
      */
     step( model, dt ) {
-
-      if ( !this.inited ) {
-        model.button1PressedProperty.link( button1Pressed => {
-          if ( button1Pressed ) {
-            lastDropTime = null; // prep to fire a new drop in the next frame
-          }
-        } );
-        this.inited = true;
-      }
 
       super.step( model, dt );
 
