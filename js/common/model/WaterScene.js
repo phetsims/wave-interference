@@ -15,7 +15,7 @@ define( require => {
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  // TODO: use correct physics for drop emit times
+  // TODO: use correct physics for drop emit times, and will need this for both drops
   let lastDropTime = null;
 
   class WaterScene extends Scene {
