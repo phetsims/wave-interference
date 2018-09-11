@@ -26,11 +26,14 @@ define( require => {
     constructor( config ) {
       super( config );
 
+      // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
+      // gets propagated to the lattice via the water drops
       this.desiredFrequencyProperty = new Property( this.initialFrequency );
 
       // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
       this.waterDrops = [];
 
+      // @private - TODO: hack alert!  Should be wired up in constructor.
       this.inited = false;
     }
 
@@ -55,7 +58,7 @@ define( require => {
       const time = model.timeProperty.value;
       const period = 1 / this.desiredFrequencyProperty.value;
 
-      // TODO: support both emitters
+      // TODO: support the top and bottom faucets
       const timeSinceLastDrop = time - lastDropTime;
       if ( lastDropTime === null || timeSinceLastDrop > period ) {
 
