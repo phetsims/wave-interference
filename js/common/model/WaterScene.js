@@ -59,8 +59,13 @@ define( require => {
       if ( lastDropTime === null || timeSinceLastDrop > period ) {
 
         // Send a drop with 0 amplitude to signal the wave source to stop oscillating
-        const amplitude = model.button1PressedProperty.value ? model.desiredAmplitudeProperty.value : 0;
-        this.waterDrops.push( new WaterDrop( this.desiredFrequencyProperty.value, amplitude, 100 ) );
+        this.waterDrops.push( new WaterDrop(
+          this.desiredFrequencyProperty.value,
+          model.desiredAmplitudeProperty.value,
+          -1, // TODO: targetCellJ
+          !model.button1PressedProperty.value,
+          100
+        ) );
         lastDropTime = time;
       }
 
@@ -73,24 +78,29 @@ define( require => {
         // Tuned so that the wave goes underwater when the drop hits
         waterDrop.y -= 6;
 
-        // Remove drop that have hit the water
+        // Remove drop that have hit the water, and set its values to the oscillator
         if ( waterDrop.y < 0 ) {
 
           // TODO: what if the water is below y=0 in side view--then we would want them to have the same effect on the
           // lattice but still show in the view.  This is getting complicated.
           toRemove.push( waterDrop );
 
-          // TODO: once we add a separate flag for shutoff, we may not need a check here?
-          // TODO: this impacts the "pulse" feature
-          if ( waterDrop.amplitude > 0 ) {
-            model.amplitudeProperty.set( waterDrop.amplitude );
+          if ( waterDrop.isShutoffSignal ) {
+            model.continuousWave1OscillatingProperty.value = false;
           }
+          else {
+            model.continuousWave1OscillatingProperty.value = true;
 
-          model.waterScene.frequencyProperty.set( waterDrop.frequency );
+            // TODO: once we add a separate flag for shutoff, we may not need a check here?
+            // TODO: this impacts the "pulse" feature
+            model.amplitudeProperty.set( waterDrop.amplitude );
+
+            model.waterScene.frequencyProperty.set( waterDrop.frequency );
+          }
 
           // TODO: is this better, or an on/off thing?
           // zero amplitude signals a shutoff.  TODO: add a shutoff value explicitly instead of reusing amplitude
-          model.continuousWave1OscillatingProperty.value = waterDrop.amplitude > 0;
+          // model.continuousWave1OscillatingProperty.value = waterDrop.isShutoffSignal;
           // TODO: phase?
         }
       }

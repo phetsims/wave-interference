@@ -18,12 +18,14 @@ define( require => {
     /**
      * @param {number} frequency in the units of the water scene
      * @param {number} amplitude - strength of the wave
-     * @param {number} y - distance to fall before the particles meets the plane of the lattice
      * @param {number} targetCellJ - distance to fall before the particles meets the plane of the lattice
+     * @param {boolean} isShutoffSignal - true if this isn't really a water drop, but instead a signal to shut off the oscillator
+     * @param {number} y - distance to fall before the particles meets the plane of the lattice
+     *
      * TODO: indicate what lattice cell it is aiming for so we can support two sources
      * TODO: this will require factoring out a "desiredPosition" or "desiredSeparation"
      */
-    constructor( frequency, amplitude, targetCellJ, y ) {
+    constructor( frequency, amplitude, targetCellJ, isShutoffSignal, y ) {
 
       // @public (read-only)
       this.y = y;
@@ -31,12 +33,15 @@ define( require => {
       // @public (read-only)
       this.frequency = frequency;
 
-      // @public (read-only) - the amplitude of the water.  0 may also indicate a signal to stop the oscillation
+      // @public (read-only) - the amplitude of the water.  0 may also indicate a signal to stop the oscillation.  TODO: update this doc
       this.amplitude = amplitude;
 
       // @public - In side view, if the drop has gone beneath the water, it gets absorbed.  In this case, it means it
       // should no longer be visible.  But the modeled time that it affects the lattice is the same.
       this.absorbed = false;
+
+      // TODO: docs
+      this.isShutoffSignal = isShutoffSignal;
     }
   }
 
