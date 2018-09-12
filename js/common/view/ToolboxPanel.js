@@ -20,7 +20,6 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   const WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
-  const WaveMeterNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterNode' );
 
   class ToolboxPanel extends WaveInterferencePanel {
 
