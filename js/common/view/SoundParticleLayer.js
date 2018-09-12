@@ -31,7 +31,7 @@ define( require => {
         this.addChild( new ShadedSphereNode( 10, {
           x: modelViewTransform.modelToViewX( soundParticle.x ),
           y: modelViewTransform.modelToViewX( soundParticle.y ),
-          mainColor: phet.joist.random.nextDouble() < 0.05 ? 'red' : 'rgb(210,210,210)',
+          mainColor: ( soundParticle.i % 5 === 0 && soundParticle.k % 5 === 0 ) ? 'red' : 'rgb(210,210,210)',
           stroke: 'black'
         } ) ) );
       this.mutate( options );

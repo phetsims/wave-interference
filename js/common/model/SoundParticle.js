@@ -14,10 +14,12 @@ define( require => {
   class SoundParticle {
 
     /**
+     * @param {number} i - horizontal lattice coordinate of the particle
+     * @param {number} k - vertical lattice coordinate of the particle
      * @param {number} x - initial x coordinate of the particle, in model coordinates
      * @param {number} y - initial y coordinate of the particle, in model coordinates
      */
-    constructor( x, y ) {
+    constructor( i, k, x, y ) {
 
       // @public - x coordinate
       this.x = x;
@@ -30,6 +32,12 @@ define( require => {
       this.initialY = y;
       this.vx = 0;
       this.vy = 0;
+
+      // @public {number} - horizontal lattice coordinate of the particle
+      this.i = i;
+
+      // @public {number} - vertical lattice coordinate of the particle
+      this.k = k;
     }
 
     /**

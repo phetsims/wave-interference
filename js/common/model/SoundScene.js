@@ -40,6 +40,7 @@ define( require => {
       for ( let i = 0; i <= SOUND_PARTICLE_ROWS; i++ ) {
         for ( let k = 0; k <= SOUND_PARTICLE_COLUMNS; k++ ) {
           this.soundParticles.push( new SoundParticle(
+            i, k,
             i * this.waveAreaWidth / SOUND_PARTICLE_ROWS + phet.joist.random.nextGaussian() * RANDOM_RADIUS,
             k * this.waveAreaWidth / SOUND_PARTICLE_COLUMNS + phet.joist.random.nextGaussian() * RANDOM_RADIUS
           ) );
