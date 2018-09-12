@@ -298,7 +298,6 @@ define( require => {
       this.lightScene.frequencyProperty.lazyLink( phaseUpdate );
 
       // The first button can trigger a pulse, or continuous wave, depending on the inputTypeProperty
-      // TODO: should be different for water/pulse
       this.button1PressedProperty.lazyLink( isPressed => {
         if ( this.sceneProperty.value === this.soundScene || this.sceneProperty.value === this.lightScene ) {
           if ( isPressed ) {

@@ -13,6 +13,9 @@ define( require => {
   // modules
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
+  // constants
+  const WATER_DROP_SPEED = 100; // TODO: fine tune
+
   class WaterDrop {
 
     /**
@@ -45,13 +48,11 @@ define( require => {
 
     step( dt ) {
 
-      this.y -= dt * 100; // TODO: fine tune and factor out the speed
+      this.y -= dt * WATER_DROP_SPEED;
 
       // Remove drop that have hit the water, and set its values to the oscillator
       if ( this.y < 0 ) {
-
         this.onAbsorption();
-        // TODO: phase?
       }
     }
   }
