@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Shows the ideal (far field) pattern for interference, when ?dev is specified.
+ * Shows the theoretical/ideal (far field) pattern for interference, when ?dev is specified.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -16,10 +16,11 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  class IdealInterferenceOverlay extends Node {
+  class TheoryInterferenceOverlay extends Node {
 
     /**
      * @param {SlitsScreenModel} model
+     * TODO: JSDOC
      * @param {Object} [options]
      */
     constructor( model, viewBounds, options ) {
@@ -71,5 +72,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'IdealInterferenceOverlay', IdealInterferenceOverlay );
+  return waveInterference.register( 'TheoryInterferenceOverlay', TheoryInterferenceOverlay );
 } );

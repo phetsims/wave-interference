@@ -10,7 +10,7 @@ define( require => {
 
   // modules
   const BarriersNode = require( 'WAVE_INTERFERENCE/slits/view/BarriersNode' );
-  const IdealInterferenceOverlay = require( 'WAVE_INTERFERENCE/slits/view/IdealInterferenceOverlay' );
+  const TheoryInterferenceOverlay = require( 'WAVE_INTERFERENCE/slits/view/TheoryInterferenceOverlay' );
   const Property = require( 'AXON/Property' );
   const Shape = require( 'KITE/Shape' );
   const SlitsControlPanel = require( 'WAVE_INTERFERENCE/slits/view/SlitsControlPanel' );
@@ -66,10 +66,10 @@ define( require => {
       this.afterWaveAreaNode.addChild( lightBarriersNode );
 
       if ( WaveInterferenceQueryParameters.theory ) {
-        const idealInterferenceOverlay = new IdealInterferenceOverlay( model, this.waveAreaNode.bounds, {
+        const theoryInterferenceOverlay = new TheoryInterferenceOverlay( model, this.waveAreaNode.bounds, {
           clipArea: Shape.bounds( this.waveAreaNode.bounds )
         } );
-        this.addChild( idealInterferenceOverlay );
+        this.addChild( theoryInterferenceOverlay );
       }
     }
   }
