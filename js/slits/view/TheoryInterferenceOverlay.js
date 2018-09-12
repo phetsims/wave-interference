@@ -13,8 +13,10 @@ define( require => {
   const Line = require( 'SCENERY/nodes/Line' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const Text = require( 'SCENERY/nodes/Text' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+
+  // constants
+  const LENGTH = 500;
 
   class TheoryInterferenceOverlay extends Node {
 
@@ -26,13 +28,12 @@ define( require => {
     constructor( model, viewBounds, options ) {
       super();
 
-      this.addChild( new Text( 'hello' ) );
       this.mutate( options );
 
       model.stepEmitter.addListener( () => {
         this.removeAllChildren();
         const barrierType = model.barrierTypeProperty.get();
-        if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
+        if ( barrierType !== BarrierTypeEnum.NO_BARRIER ) {
 
           const scene = model.sceneProperty.value;
           this.modelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), viewBounds );
@@ -45,27 +46,62 @@ define( require => {
             for ( let sign of [ -1, 1 ] ) {
               for ( let m = 0; m < 20; m++ ) {
 
+                // For double-slit:
                 // d sin(θ) = mλ for maxima,
                 // d sin(θ) = (m + 1/2)λ for minima
                 // see http://electron9.phys.utk.edu/optics421/modules/m1/diffraction_and_interference.htm
-                const addition = type === 'maxima' ? 0 : 0.5;
-                const arg = ( m + addition ) * scene.wavelength / scene.slitSeparationProperty.value;
+                if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
+                  const addition = type === 'maxima' ? 0 : 0.5;
+                  const d = scene.slitSeparationProperty.value;
+                  const arg = ( m + addition ) * scene.wavelength / d;
 
-                // make sure in bounds
-                if ( arg <= 1 ) {
-                  const theta = sign * Math.asin( arg );
+                  // make sure in bounds
+                  if ( arg <= 1 ) {
+                    const theta = sign * Math.asin( arg );
 
-                  const length = 500;
-                  const x = length * Math.cos( theta );
-                  const y = length * Math.sin( theta );
-                  const line = new Line( barrierX, barrierY, barrierX + x, barrierY + y, {
-                    stroke: type === 'maxima' ? 'yellow' : 'red',
-                    lineWidth: 1
-                  } );
-                  this.addChild( line );
+                    const length = 500;
+                    const x = length * Math.cos( theta );
+                    const y = length * Math.sin( theta );
+                    const line = new Line( barrierX, barrierY, barrierX + x, barrierY + y, {
+                      stroke: type === 'maxima' ? 'yellow' : 'red',
+                      lineWidth: 1
+                    } );
+                    this.addChild( line );
+                  }
+                }
+
+                // For single slit
+                // a sin(θ) = mλ for minima
+                // a sin(θ) = (m+1/2)λ for maxima
+                // see http://hyperphysics.phy-astr.gsu.edu/hbase/phyopt/sinslit.html
+                if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
+                  const addition = type === 'minima' ? 0 : 0.5;
+                  const a = scene.slitWidthProperty.value;
+                  const arg = ( m + addition ) * scene.wavelength / a;
+
+                  // make sure in bounds.  Single slit begins at m=1
+                  if ( arg <= 1 && m > 0 ) {
+                    const theta = sign * Math.asin( arg );
+
+                    const x = LENGTH * Math.cos( theta );
+                    const y = LENGTH * Math.sin( theta );
+                    const line = new Line( barrierX, barrierY, barrierX + x, barrierY + y, {
+                      stroke: type === 'maxima' ? 'yellow' : 'red',
+                      lineWidth: 1
+                    } );
+                    this.addChild( line );
+                  }
                 }
               }
             }
+          }
+
+          // Strong central maximum for one slit, not covered by the math above
+          if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
+            this.addChild( new Line( barrierX, barrierY, barrierX + 500, barrierY, {
+              stroke: 'yellow',
+              lineWidth: 1
+            } ) );
           }
         }
       } );
