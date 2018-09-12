@@ -14,12 +14,13 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  const WATER_DROP_SPEED = 100; // TODO: fine tune
+  const WATER_DROP_SPEED = 100; // TODO: fine tune, this will affect the phase when the water hits.
 
   class WaterDrop {
 
     /**
      * @param {number} amplitude - strength of the wave
+     * @param {boolean} startsOscillation - false if this is a "fake" water drop to shut off the oscillation at one cycle
      * @param {number} targetCellJ - the vertical coordinate of the cell that the water drop is falling to
      * @param {number} y - distance to fall before the particles meets the plane of the lattice
      * @param {function} onAbsorption - called when the water drop is absorbed by the lattice
