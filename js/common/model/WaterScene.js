@@ -56,16 +56,38 @@ define( require => {
 
       // TODO: support the top and bottom faucets
       const timeSinceLastDrop = time - lastDropTime;
-      if ( lastDropTime === null || timeSinceLastDrop > period ) {
+      if ( ( lastDropTime === null || timeSinceLastDrop > period ) && model.button1PressedProperty.value ) {
 
         // Send a drop with 0 amplitude to signal the wave source to stop oscillating, so that the previous drop
         // gets a full cycle
+        // capture closure vars for when the water drop is absorbed.
+        const buttonPressed = model.button1PressedProperty.value;
+        const frequency = this.desiredFrequencyProperty.value;
+        const amplitude = model.desiredAmplitudeProperty.value;
+        const property = model.continuousWave1OscillatingProperty; // TODO: the water drop should know which wave to turn on
         this.waterDrops.push( new WaterDrop(
-          this.desiredFrequencyProperty.value,
-          model.desiredAmplitudeProperty.value,
+          amplitude,
+          buttonPressed,
           -1, // TODO: targetCellJ
-          model.button1PressedProperty.value,
-          100
+          100,
+          () => {
+
+            // TODO: should the drop know when it should turn on a pulse?  I think so.
+            // TODO: or pass an "onAbsorbed" function?
+            property.value = buttonPressed;
+
+            // TODO: can we avoid this check?  Maybe it doesn't hurt anything to change the desired amplitude/frequency
+            // if the oscillation is turned off
+            // TODO: why does turning on one pulse cause oscillations right away?
+            if ( buttonPressed ) {
+
+              // TODO: once we add a separate flag for shutoff, we may not need a check here?
+              // TODO: this impacts the "pulse" feature
+              model.amplitudeProperty.set( amplitude );
+
+              model.waterScene.frequencyProperty.set( frequency );
+            }
+          }
         ) );
         lastDropTime = time;
       }
@@ -77,30 +99,12 @@ define( require => {
       for ( let waterDrop of this.waterDrops ) {
 
         // Tuned so that the wave goes underwater when the drop hits
-        waterDrop.y -= 6;
-
-        // Remove drop that have hit the water, and set its values to the oscillator
+        waterDrop.step( dt );
         if ( waterDrop.y < 0 ) {
 
           // TODO: what if the water is below y=0 in side view--then we would want them to have the same effect on the
           // lattice but still show in the view.  This is getting complicated.
           toRemove.push( waterDrop );
-
-          model.continuousWave1OscillatingProperty.value = waterDrop.startsOscillation;
-
-          // TODO: can we avoid this check?  Maybe it doesn't hurt anything to change the desired amplitude/frequency
-          // if the oscillation is turned off
-          // TODO: why does turning on one pulse cause oscillations right away?
-          if ( waterDrop.startsOscillation ) {
-
-            // TODO: once we add a separate flag for shutoff, we may not need a check here?
-            // TODO: this impacts the "pulse" feature
-            model.amplitudeProperty.set( waterDrop.amplitude );
-
-            model.waterScene.frequencyProperty.set( waterDrop.frequency );
-          }
-
-          // TODO: phase?
         }
       }
       for ( let element of toRemove ) {
