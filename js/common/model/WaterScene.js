@@ -59,11 +59,13 @@ define( require => {
       const timeSinceLastDrop = time - lastDropTime;
       if ( lastDropTime === null || timeSinceLastDrop > period ) {
 
+        // const b = model.button1PressedProperty.value && !model.pulseFiringProperty.value;
         // Send a water drop if the button is pressed but not if the button is still pressed from the last pulse.
-        if ( model.button1PressedProperty.value && !model.pulseFiringProperty.value ) {
+        // const a = model.button1PressedProperty.value && !model.pulseFiringProperty.value;
+        // model.button1PressedProperty.value not consulted because we send a shutoff water drop. so that the previous
+        // drop gets a full cycle
+        if ( !model.pulseFiringProperty.value ) {
 
-          // Send a drop with 0 amplitude to signal the wave source to stop oscillating, so that the previous drop
-          // gets a full cycle
           // capture closure vars for when the water drop is absorbed.
           const buttonPressed = model.button1PressedProperty.value;
           const frequency = this.desiredFrequencyProperty.value;
