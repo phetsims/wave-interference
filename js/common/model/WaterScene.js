@@ -79,14 +79,17 @@ define( require => {
             100,
             () => {
 
+              if ( isPulse && model.pulseFiringProperty.value ) {
+                return;
+              }
               model.amplitudeProperty.set( amplitude );
               model.waterScene.frequencyProperty.set( frequency );
 
+              model.resetPhase();
               if ( isPulse ) {
                 model.startPulse();
               }
               else {
-                model.resetPhase();
                 property.value = buttonPressed;
               }
             }
