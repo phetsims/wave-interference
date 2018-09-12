@@ -9,17 +9,12 @@ define( require => {
   'use strict';
 
   // modules
-  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const HBox = require( 'SCENERY/nodes/HBox' );
-  const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
-  const WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
 
   class ToolboxPanel extends WaveInterferencePanel {
 
@@ -32,15 +27,11 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( measuringTapeNode, timerNode, meterNode, alignGroup, model, options ) {
-      const measuringTapeIconNode = new MeasuringTapeNode( new Property( {
-        name: 'cm',
-        multiplier: 1000
-      } ), new BooleanProperty( true ), {
-        tipPositionProperty: new Property( new Vector2( 20, 0 ) ),
-        hasValue: false,
-        interactive: false,
-        scale: 0.7
-      } );
+      model.isMeasuringTapeInPlayAreaProperty.value = true;
+      measuringTapeNode.setTextVisible( false );
+      const measuringTapeIconNode = measuringTapeNode.rasterized( { wrap: true } ).mutate( { scale: 0.7 } );
+      model.isMeasuringTapeInPlayAreaProperty.value = false;
+      measuringTapeNode.setTextVisible( true );
 
       const measuringTapeIcon = createIcon( measuringTapeIconNode, model.isMeasuringTapeInPlayAreaProperty, event => {
 
@@ -55,12 +46,9 @@ define( require => {
       } );
 
       // Node used to create the icon
-      const iconTimerNode = new WaveInterferenceTimerNode( model, {
-        scale: 0.5,
-        pickable: false,
-        end: () => {},
-        isIcon: true
-      } );
+      model.isTimerInPlayAreaProperty.value = true;
+      const iconTimerNode = timerNode.rasterized().mutate( { scale: 0.5 } );
+      model.isTimerInPlayAreaProperty.value = false;
 
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
       const timerNodeIcon = createIcon( iconTimerNode, model.isTimerInPlayAreaProperty, event => {
