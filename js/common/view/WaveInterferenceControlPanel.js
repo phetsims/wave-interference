@@ -213,7 +213,7 @@ define( require => {
 
           // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
           ...( scene === model.lightScene ? [ screenCheckbox ] : [] ),
-          ...( scene === model.lightScene && options.showIntensityCheckbox ? [ intensityCheckbox ] : [] ),
+          ...( scene === model.lightScene && options.showIntensityCheckbox ? [ intensityCheckbox ] : [] )
         ];
 
         graphCheckbox.mouseArea = graphCheckbox.localBounds.dilated( 2 ).withX( separator.width );
