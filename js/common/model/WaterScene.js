@@ -59,7 +59,8 @@ define( require => {
       const timeSinceLastDrop = time - lastDropTime;
       if ( lastDropTime === null || timeSinceLastDrop > period ) {
 
-        if ( model.button1PressedProperty.value ) {
+        // Send a water drop if the button is pressed but not if the button is still pressed from the last pulse.
+        if ( model.button1PressedProperty.value && !model.pulseFiringProperty.value ) {
 
           // Send a drop with 0 amplitude to signal the wave source to stop oscillating, so that the previous drop
           // gets a full cycle
@@ -76,6 +77,9 @@ define( require => {
             100,
             () => {
 
+              model.amplitudeProperty.set( amplitude );
+              model.waterScene.frequencyProperty.set( frequency );
+
               // TODO: should the drop know when it should turn on a pulse?  I think so.
               // TODO: or pass an "onAbsorbed" function?
               if ( isPulse ) {
@@ -85,13 +89,6 @@ define( require => {
                 model.resetPhase();
                 property.value = buttonPressed;
               }
-
-              // if the oscillation is turned off
-              // TODO: why does turning on one pulse cause oscillations right away?
-
-              // TODO: this impacts the "pulse" feature
-              model.amplitudeProperty.set( amplitude );
-              model.waterScene.frequencyProperty.set( frequency );
             }
           ) );
           lastDropTime = time;
@@ -106,10 +103,11 @@ define( require => {
 
         // Tuned so that the wave goes underwater when the drop hits
         waterDrop.step( dt );
-        if ( waterDrop.y < 0 ) {
 
-          // TODO: what if the water is below y=0 in side view--then we would want them to have the same effect on the
-          // lattice but still show in the view.  This is getting complicated.
+        // Remove any water drops that went below y=0
+        // TODO: what if the water is below y=0 in side view--then we would want them to have the same effect on the
+        // lattice but still show in the view.  This is getting complicated.
+        if ( waterDrop.y < 0 ) {
           toRemove.push( waterDrop );
         }
       }
