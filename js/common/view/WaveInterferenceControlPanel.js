@@ -198,23 +198,23 @@ define( require => {
         lightFrequencySlider.visible = scene === model.lightScene;
 
         // z-ordering
-        const children = [];
-        children.push( frequencyTitle );
-        children.push( frequencySliderContainer );
-        options.showAmplitudeSlider && children.push( amplitudeTitle );
-        options.showAmplitudeSlider && children.push( amplitudeSlider );
-        options.additionalControl && children.push( options.additionalControl );
-        children.push( sceneRadioButtons );
-        children.push( separator );
-        children.push( graphCheckbox );
+        container.children = [
+          frequencyTitle,
+          frequencySliderContainer,
+          ...( options.showAmplitudeSlider ? [ amplitudeTitle ] : [] ),
+          ...( options.showAmplitudeSlider ? [ amplitudeSlider ] : [] ),
+          ...( options.additionalControl ? [ options.additionalControl ] : [] ),
+          sceneRadioButtons,
+          separator,
+          graphCheckbox,
 
-        // Wave/Particle selection only for Sound scene
-        scene === model.soundScene && children.push( viewSelectionRadioButtonGroup );
+          // Wave/Particle selection only for Sound scene
+          ...( scene === model.soundScene ? [ viewSelectionRadioButtonGroup ] : [] ),
 
-        // // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-        scene === model.lightScene && children.push( screenCheckbox );
-        scene === model.lightScene && options.showIntensityCheckbox && children.push( intensityCheckbox );
-        container.children = children;
+          // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
+          ...( scene === model.lightScene ? [ screenCheckbox ] : [] ),
+          ...( scene === model.lightScene && options.showIntensityCheckbox ? [ intensityCheckbox ] : [] ),
+        ];
 
         graphCheckbox.mouseArea = graphCheckbox.localBounds.dilated( 2 ).withX( separator.width );
         graphCheckbox.touchArea = graphCheckbox.mouseArea;
