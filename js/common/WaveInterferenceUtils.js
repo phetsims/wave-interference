@@ -36,7 +36,7 @@ define( require => {
       const shape = new Shape();
 
       for ( let i = 0; i < array.length; i++ ) {
-        const value = array[ i ];
+        const value = i > 0 && i < array.length - 1 ? ( array[ i ] + array[ i - 1 ] + array[ i + 1 ] ) / 3 : array[ i ];
         const x = Util.linear( 0, array.length - 1, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
         const y = WaveInterferenceUtils.getWaterSideY( waveAreaBounds, value ) + dy;
         shape.lineTo( x, y );
