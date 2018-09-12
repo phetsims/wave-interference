@@ -95,6 +95,7 @@ define( require => {
    * @param {Property.<Boolean>} inPlayAreaProperty
    * @param {Object} forwardingListener
    */
+    // TODO: perhaps we can delete or simplify this after using rasterized()
   const createIcon = ( node, inPlayAreaProperty, forwardingListener ) => {
     const iconNode = new Node( {
       cursor: 'pointer',
