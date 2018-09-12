@@ -17,6 +17,7 @@ define( require => {
   const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
+  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
 
   class SlitsScreenView extends WavesScreenView {
 
@@ -64,7 +65,7 @@ define( require => {
       this.afterWaveAreaNode.addChild( soundBarriersNode );
       this.afterWaveAreaNode.addChild( lightBarriersNode );
 
-      if ( phet.chipper.queryParameters.dev ) {
+      if ( WaveInterferenceQueryParameters.theory ) {
         const idealInterferenceOverlay = new IdealInterferenceOverlay( model, this.waveAreaNode.bounds, {
           clipArea: Shape.bounds( this.waveAreaNode.bounds )
         } );
