@@ -47,8 +47,8 @@ define( require => {
 
     /**
      * @param {WavesScreenModel} model - model for reading values
-     * @param {WavesScreenView|null} view - for getting coordinates for model
-     * @param {DragListener|null} dragListener, null for icon
+     * @param {WavesScreenView} view - for getting coordinates for model
+     * @param {DragListener} dragListener
      * @param {Object} [options]
      */
     constructor( model, view, dragListener, options ) {
@@ -67,7 +67,7 @@ define( require => {
 
       // @private
       this.backgroundDragListener = dragListener;
-      this.backgroundDragListener && this.backgroundNode.addInputListener( this.backgroundDragListener );
+      this.backgroundNode.addInputListener( this.backgroundDragListener );
       this.addChild( this.backgroundNode );
 
       // Mutate after backgroundNode is added as a child
@@ -109,14 +109,11 @@ define( require => {
           drag: snapToCenter
         } );
 
-        if ( view ) {
+        // Move probes to centerline when the meter body is dropped
+        droppedEmitter.addListener( snapToCenter );
 
-          // Move probes to centerline when the meter body is dropped
-          droppedEmitter.addListener( snapToCenter );
-
-          // Move probes when rotation is changed
-          model.rotationAmountProperty.link( snapToCenter );
-        }
+        // Move probes when rotation is changed
+        model.rotationAmountProperty.link( snapToCenter );
 
         // Add the wire behind the probe.
         this.addChild( new WireNode( connectionProperty, new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
