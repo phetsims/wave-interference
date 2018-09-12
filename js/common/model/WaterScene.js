@@ -80,8 +80,6 @@ define( require => {
               model.amplitudeProperty.set( amplitude );
               model.waterScene.frequencyProperty.set( frequency );
 
-              // TODO: should the drop know when it should turn on a pulse?  I think so.
-              // TODO: or pass an "onAbsorbed" function?
               if ( isPulse ) {
                 model.startPulse();
               }
