@@ -201,8 +201,7 @@ define( require => {
         container.children = [
           frequencyTitle,
           frequencySliderContainer,
-          ...( options.showAmplitudeSlider ? [ amplitudeTitle ] : [] ),
-          ...( options.showAmplitudeSlider ? [ amplitudeSlider ] : [] ),
+          ...( options.showAmplitudeSlider ? [ amplitudeTitle, amplitudeSlider ] : [] ),
           ...( options.additionalControl ? [ options.additionalControl ] : [] ),
           sceneRadioButtons,
           separator,
