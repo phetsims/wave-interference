@@ -298,17 +298,16 @@ define( require => {
       this.lightScene.frequencyProperty.lazyLink( phaseUpdate );
 
       // The first button can trigger a pulse, or continuous wave, depending on the inputTypeProperty
+      // TODO: should be different for water/pulse
       this.button1PressedProperty.lazyLink( isPressed => {
-        if ( isPressed ) {
-          this.resetPhase();
-        }
-        if ( isPressed && this.inputTypeProperty.value === IncomingWaveType.PULSE ) {
-          assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
-          this.pulseFiringProperty.value = true;
-          this.pulseStartTime = this.timeProperty.value;
-        }
-        else {
-          if ( this.sceneProperty.value === this.soundScene || this.sceneProperty.value === this.lightScene ) {
+        if ( this.sceneProperty.value === this.soundScene || this.sceneProperty.value === this.lightScene ) {
+          if ( isPressed ) {
+            this.resetPhase();
+          }
+          if ( isPressed && this.inputTypeProperty.value === IncomingWaveType.PULSE ) {
+            this.startPulse();
+          }
+          else {
 
             // Water propagates via the water drop
             this.continuousWave1OscillatingProperty.value = isPressed;
@@ -364,6 +363,13 @@ define( require => {
     clear() {
       this.lattice.clear();
       this.intensitySample.clear();
+    }
+
+    startPulse() {
+      assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
+      this.resetPhase();
+      this.pulseFiringProperty.value = true;
+      this.pulseStartTime = this.timeProperty.value;
     }
 
     /**

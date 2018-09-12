@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const arrayRemove = require( 'PHET_CORE/arrayRemove' );
+  const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   const Property = require( 'AXON/Property' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
@@ -56,40 +57,45 @@ define( require => {
 
       // TODO: support the top and bottom faucets
       const timeSinceLastDrop = time - lastDropTime;
-      if ( ( lastDropTime === null || timeSinceLastDrop > period ) && model.button1PressedProperty.value ) {
+      if ( lastDropTime === null || timeSinceLastDrop > period ) {
 
-        // Send a drop with 0 amplitude to signal the wave source to stop oscillating, so that the previous drop
-        // gets a full cycle
-        // capture closure vars for when the water drop is absorbed.
-        const buttonPressed = model.button1PressedProperty.value;
-        const frequency = this.desiredFrequencyProperty.value;
-        const amplitude = model.desiredAmplitudeProperty.value;
-        const property = model.continuousWave1OscillatingProperty; // TODO: the water drop should know which wave to turn on
-        this.waterDrops.push( new WaterDrop(
-          amplitude,
-          buttonPressed,
-          -1, // TODO: targetCellJ
-          100,
-          () => {
+        if ( model.button1PressedProperty.value ) {
 
-            // TODO: should the drop know when it should turn on a pulse?  I think so.
-            // TODO: or pass an "onAbsorbed" function?
-            property.value = buttonPressed;
+          // Send a drop with 0 amplitude to signal the wave source to stop oscillating, so that the previous drop
+          // gets a full cycle
+          // capture closure vars for when the water drop is absorbed.
+          const buttonPressed = model.button1PressedProperty.value;
+          const frequency = this.desiredFrequencyProperty.value;
+          const amplitude = model.desiredAmplitudeProperty.value;
+          const property = model.continuousWave1OscillatingProperty; // TODO: the water drop should know which wave to turn on
+          const isPulse = model.inputTypeProperty.value === IncomingWaveType.PULSE;
+          this.waterDrops.push( new WaterDrop(
+            amplitude,
+            buttonPressed,
+            -1, // TODO: targetCellJ
+            100,
+            () => {
 
-            // TODO: can we avoid this check?  Maybe it doesn't hurt anything to change the desired amplitude/frequency
-            // if the oscillation is turned off
-            // TODO: why does turning on one pulse cause oscillations right away?
-            if ( buttonPressed ) {
+              // TODO: should the drop know when it should turn on a pulse?  I think so.
+              // TODO: or pass an "onAbsorbed" function?
+              if ( isPulse ) {
+                model.startPulse();
+              }
+              else {
+                model.resetPhase();
+                property.value = buttonPressed;
+              }
 
-              // TODO: once we add a separate flag for shutoff, we may not need a check here?
+              // if the oscillation is turned off
+              // TODO: why does turning on one pulse cause oscillations right away?
+
               // TODO: this impacts the "pulse" feature
               model.amplitudeProperty.set( amplitude );
-
               model.waterScene.frequencyProperty.set( frequency );
             }
-          }
-        ) );
-        lastDropTime = time;
+          ) );
+          lastDropTime = time;
+        }
       }
 
       // TODO: water drops shouldn't show for plane waves.  This may be accomplished by a different source button
