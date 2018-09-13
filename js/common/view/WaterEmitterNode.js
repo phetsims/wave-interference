@@ -19,8 +19,6 @@ define( require => {
   // constants
   const FAUCET_VERTICAL_OFFSET = -100; // how far the water drops have to fall
 
-  // TODO: is this file still warranted?
-
   class WaterEmitterNode extends EmitterNode {
 
     /**
@@ -29,6 +27,9 @@ define( require => {
      * @param {boolean} isPrimarySource
      */
     constructor( model, waveAreaNode, isPrimarySource ) {
+
+      // Even though this implementation is trivial and doesn't add state or methods, it simplifies readability at the
+      // call site, so we keep it as a convenience constructor.
       super( model, model.waterScene, waveAreaNode, 62, isPrimarySource, new Image( hoseImage, {
         rightCenter: waveAreaNode.leftCenter.plusXY( 40, 0 ),
         scale: 0.75
