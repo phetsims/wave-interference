@@ -50,10 +50,11 @@ define( require => {
     /**
      * Fire another water drop if one is warranted for the specified faucet.  We already determined that the timing
      * is right (for the period), now we need to know if a drop should fire.
+     * TODO: JSDoc
      * @param {WavesScreenModel} model
      * @private
      */
-    launchWaterDrop( model ) {
+    launchWaterDrop( buttonProperty, model, oscillatingProperty, side ) {
 
       const time = model.timeProperty.value;
 
@@ -65,10 +66,9 @@ define( require => {
       if ( !isPulseMode || firePulseDrop ) {
 
         // capture closure vars for when the water drop is absorbed.
-        const buttonPressed = model.button1PressedProperty.value;
+        const buttonPressed = buttonProperty.value;
         const frequency = this.desiredFrequencyProperty.value;
         const amplitude = model.desiredAmplitudeProperty.value;
-        const property = model.continuousWave1OscillatingProperty; // TODO: the water drop should know which wave to turn on
         const isPulse = model.inputTypeProperty.value === IncomingWaveType.PULSE;
         const sourceSeparation = this.desiredSourceSeparationProperty.value;
         this.waterDrops.push( new WaterDrop(
@@ -76,6 +76,7 @@ define( require => {
           buttonPressed,
           sourceSeparation,
           100,
+          side,
           () => {
 
             if ( isPulse && model.pulseFiringProperty.value ) {
@@ -90,7 +91,7 @@ define( require => {
               model.startPulse();
             }
             else {
-              property.value = buttonPressed;
+              oscillatingProperty.value = buttonPressed;
             }
           }
         ) );
@@ -115,7 +116,8 @@ define( require => {
       if ( lastDropTime === null || timeSinceLastDrop > period ) {
 
         // TODO: support the top and bottom faucets
-        this.launchWaterDrop( model, dt );
+        this.launchWaterDrop( model.button1PressedProperty, model, model.continuousWave1OscillatingProperty, 'bottom' );
+        this.launchWaterDrop( model.button2PressedProperty, model, model.continuousWave2OscillatingProperty, 'top' );
       }
 
       // TODO: water drops shouldn't show for plane waves.  This may be accomplished by a different source button

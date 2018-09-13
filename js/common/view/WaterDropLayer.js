@@ -50,7 +50,8 @@ define( require => {
             dropNodes[ i ].waterDrop = waterDrop; // TODO: hack alert
             dropNodes[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && waterDrop.startsOscillation;
             dropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
-            const dy = modelViewTransform.modelToViewDeltaY( waterDrop.sourceSeparation / 2 );
+            var sign = waterDrop.side === 'top' ? -1 : +1;
+            const dy = sign * modelViewTransform.modelToViewDeltaY( waterDrop.sourceSeparation / 2 );
             dropNodes[ i ].centerY = waveAreaNodeBounds.centerY - waterDrop.y + dy;
           }
         } );

@@ -28,7 +28,7 @@ define( require => {
      * TODO: indicate what lattice cell it is aiming for so we can support two sources
      * TODO: this will require factoring out a "desiredPosition" or "desiredSeparation"
      */
-    constructor( amplitude, startsOscillation, sourceSeparation, y, onAbsorption ) {
+    constructor( amplitude, startsOscillation, sourceSeparation, y, side, onAbsorption ) {
 
       // @public (read-only)
       this.amplitude = amplitude;
@@ -49,6 +49,9 @@ define( require => {
       // @public (read-only) - the distance between the sources when this drop was released, used to show the
       // correct location of the water drop
       this.sourceSeparation = sourceSeparation;
+
+      // @public (read-only) {string}
+      this.side = side;
     }
 
     step( dt ) {
