@@ -19,6 +19,8 @@ define( require => {
   // constants
   const FAUCET_VERTICAL_OFFSET = -100; // how far the water drops have to fall
 
+  // TODO: is this file still warranted?
+
   class WaterEmitterNode extends EmitterNode {
 
     /**

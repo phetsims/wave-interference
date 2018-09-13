@@ -23,9 +23,10 @@ define( require => {
 
     /**
      * @param {BooleanProperty} button1PressedProperty
+     * @param {BooleanProperty} button2PressedProperty
      * @param {Object} config - see Scene for required properties
      */
-    constructor( button1PressedProperty, config ) {
+    constructor( button1PressedProperty, button2PressedProperty, config ) {
       super( config );
 
       // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
@@ -39,10 +40,17 @@ define( require => {
       // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
       this.waterDrops = [];
 
-      // TODO: same thing for button2Pressed
-      button1PressedProperty.link( button1Pressed => {
-        if ( button1Pressed ) {
+      // prep to fire a new drop in the next frame, but only if the other source wasn't already setting the phase
+      button1PressedProperty.link( pressed => {
+        if ( pressed && !button2PressedProperty.value ) {
           lastDropTime = null; // prep to fire a new drop in the next frame
+        }
+      } );
+
+      // prep to fire a new drop in the next frame, but only if the other source wasn't already setting the phase
+      button2PressedProperty.link( pressed => {
+        if ( pressed && !button1PressedProperty.value ) {
+          lastDropTime = null;
         }
       } );
     }

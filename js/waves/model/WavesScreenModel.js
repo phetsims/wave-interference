@@ -87,7 +87,7 @@ define( require => {
       this.button2PressedProperty = new BooleanProperty( false );
 
       // Water scene
-      this.waterScene = new WaterScene( this.button1PressedProperty, {
+      this.waterScene = new WaterScene( this.button1PressedProperty, this.button2PressedProperty, {
         positionUnits: 'cm',
         translatedPositionUnits: cmUnitsString,
         timeUnits: secondsUnitsString,
@@ -316,10 +316,12 @@ define( require => {
 
       // The 2nd button starts the second continuous wave
       this.button2PressedProperty.lazyLink( isPressed => {
-        if ( isPressed ) {
-          this.resetPhase();
+        if ( this.sceneProperty.value === this.soundScene || this.sceneProperty.value === this.lightScene ) {
+          if ( isPressed ) {
+            this.resetPhase();
+          }
+          this.continuousWave2OscillatingProperty.value = isPressed;
         }
-        this.continuousWave2OscillatingProperty.value = isPressed;
       } );
 
       // When the pulse ends, the button pops out
