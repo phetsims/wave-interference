@@ -48,6 +48,57 @@ define( require => {
     }
 
     /**
+     * Fire another water drop if one is warranted for the specified faucet.  We already determined that the timing
+     * is right (for the period), now we need to know if a drop should fire.
+     * @param {WavesScreenModel} model
+     * @private
+     */
+    launchWaterDrop( model ) {
+
+      const time = model.timeProperty.value;
+
+      // Send a water drop if the button is pressed but not if the button is still pressed from the last pulse.
+      // model.button1PressedProperty.value not consulted because we send a shutoff water drop. so that the previous
+      // drop gets a full cycle
+      const isPulseMode = model.inputTypeProperty.value === IncomingWaveType.PULSE;
+      const firePulseDrop = isPulseMode && !model.pulseFiringProperty.value && model.button1PressedProperty.value;
+      if ( !isPulseMode || firePulseDrop ) {
+
+        // capture closure vars for when the water drop is absorbed.
+        const buttonPressed = model.button1PressedProperty.value;
+        const frequency = this.desiredFrequencyProperty.value;
+        const amplitude = model.desiredAmplitudeProperty.value;
+        const property = model.continuousWave1OscillatingProperty; // TODO: the water drop should know which wave to turn on
+        const isPulse = model.inputTypeProperty.value === IncomingWaveType.PULSE;
+        const sourceSeparation = this.desiredSourceSeparationProperty.value;
+        this.waterDrops.push( new WaterDrop(
+          amplitude,
+          buttonPressed,
+          sourceSeparation,
+          100,
+          () => {
+
+            if ( isPulse && model.pulseFiringProperty.value ) {
+              return;
+            }
+            model.amplitudeProperty.set( amplitude );
+            model.waterScene.frequencyProperty.set( frequency );
+            this.sourceSeparationProperty.value = sourceSeparation;
+
+            model.resetPhase();
+            if ( isPulse ) {
+              model.startPulse();
+            }
+            else {
+              property.value = buttonPressed;
+            }
+          }
+        ) );
+        lastDropTime = time;
+      }
+    }
+
+    /**
      * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
      * @param {WavesScreenModel} model
      * @param {number} dt - amount of time to move forward, in the units of the scene
@@ -63,45 +114,8 @@ define( require => {
       const timeSinceLastDrop = time - lastDropTime;
       if ( lastDropTime === null || timeSinceLastDrop > period ) {
 
-        // Send a water drop if the button is pressed but not if the button is still pressed from the last pulse.
-        // model.button1PressedProperty.value not consulted because we send a shutoff water drop. so that the previous
-        // drop gets a full cycle
-        const isPulseMode = model.inputTypeProperty.value === IncomingWaveType.PULSE;
-        const firePulseDrop = isPulseMode && !model.pulseFiringProperty.value && model.button1PressedProperty.value;
-        if ( !isPulseMode || firePulseDrop ) {
-
-          // capture closure vars for when the water drop is absorbed.
-          const buttonPressed = model.button1PressedProperty.value;
-          const frequency = this.desiredFrequencyProperty.value;
-          const amplitude = model.desiredAmplitudeProperty.value;
-          const property = model.continuousWave1OscillatingProperty; // TODO: the water drop should know which wave to turn on
-          const isPulse = model.inputTypeProperty.value === IncomingWaveType.PULSE;
-          const sourceSeparation = this.desiredSourceSeparationProperty.value;
-          this.waterDrops.push( new WaterDrop(
-            amplitude,
-            buttonPressed,
-            sourceSeparation,
-            100,
-            () => {
-
-              if ( isPulse && model.pulseFiringProperty.value ) {
-                return;
-              }
-              model.amplitudeProperty.set( amplitude );
-              model.waterScene.frequencyProperty.set( frequency );
-              this.sourceSeparationProperty.value = sourceSeparation;
-
-              model.resetPhase();
-              if ( isPulse ) {
-                model.startPulse();
-              }
-              else {
-                property.value = buttonPressed;
-              }
-            }
-          ) );
-          lastDropTime = time;
-        }
+        // TODO: support the top and bottom faucets
+        this.launchWaterDrop( model, dt );
       }
 
       // TODO: water drops shouldn't show for plane waves.  This may be accomplished by a different source button
