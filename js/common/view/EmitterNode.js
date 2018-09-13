@@ -57,7 +57,8 @@ define( require => {
       // @protected {Property.<number>} vertical offset, used by WaterEmitterNode
       this.centerYProperty = new Property();
 
-      scene.sourceSeparationProperty.link( sourceSeparation => {
+      var sourceSeparationProperty = scene.desiredSourceSeparationProperty || scene.sourceSeparationProperty;
+      sourceSeparationProperty.link( sourceSeparation => {
         if ( !isPrimarySource ) {
           nodeWithButton.visible = sourceSeparation > 0;
         }

@@ -35,7 +35,7 @@ define( require => {
 
       const toggleNode = new ToggleNode( [ {
         value: model.waterScene,
-        node: new NumberControl( separationString, model.waterScene.sourceSeparationProperty, new Range( 1, 5 ), _.extend( {
+        node: new NumberControl( separationString, model.waterScene.desiredSourceSeparationProperty, new Range( 1, 5 ), _.extend( {
           delta: 1,
           valuePattern: cmValueString,
           decimalPlaces: 0,

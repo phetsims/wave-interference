@@ -27,13 +27,13 @@ define( require => {
      */
     constructor( model, waveAreaNodeBounds, options ) {
       super();
-      const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.soundScene.getWaveAreaBounds(), waveAreaNodeBounds );
+      const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.waterScene.getWaveAreaBounds(), waveAreaNodeBounds );
 
       const dropNodes = [];
       const MAX_DROPS = 4;
       for ( let i = 0; i < MAX_DROPS; i++ ) {
         dropNodes.push( new Image( waterDropImage, {
-          x: modelViewTransform.modelToViewX( 8 ),
+          x: waveAreaNodeBounds.minX + 16, // TODO: better MVT?
           y: modelViewTransform.modelToViewX( 100 )
         } ) );
       }
@@ -50,7 +50,8 @@ define( require => {
             dropNodes[ i ].waterDrop = waterDrop; // TODO: hack alert
             dropNodes[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && waterDrop.startsOscillation;
             dropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
-            dropNodes[ i ].centerY = waveAreaNodeBounds.centerY - waterDrop.y;
+            const dy = modelViewTransform.modelToViewDeltaY( waterDrop.sourceSeparation / 2 );
+            dropNodes[ i ].centerY = waveAreaNodeBounds.centerY - waterDrop.y + dy;
           }
         } );
       };

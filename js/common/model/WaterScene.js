@@ -32,6 +32,10 @@ define( require => {
       // gets propagated to the lattice via the water drops
       this.desiredFrequencyProperty = new Property( this.initialFrequency );
 
+      // @public - In the water Scene, the user specifies the desired source separation.  This is the position of
+      // the faucets.  The sourceSeparationProperty indicates the sources of oscillation once the water has struck.
+      this.desiredSourceSeparationProperty = new Property( this.sourceSeparationProperty.value );
+
       // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
       this.waterDrops = [];
 
@@ -72,10 +76,11 @@ define( require => {
           const amplitude = model.desiredAmplitudeProperty.value;
           const property = model.continuousWave1OscillatingProperty; // TODO: the water drop should know which wave to turn on
           const isPulse = model.inputTypeProperty.value === IncomingWaveType.PULSE;
+          const sourceSeparation = this.desiredSourceSeparationProperty.value;
           this.waterDrops.push( new WaterDrop(
             amplitude,
             buttonPressed,
-            -1, // TODO: targetCellJ
+            sourceSeparation,
             100,
             () => {
 
@@ -84,6 +89,7 @@ define( require => {
               }
               model.amplitudeProperty.set( amplitude );
               model.waterScene.frequencyProperty.set( frequency );
+              this.sourceSeparationProperty.value = sourceSeparation;
 
               model.resetPhase();
               if ( isPulse ) {

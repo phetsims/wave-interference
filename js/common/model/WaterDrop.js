@@ -21,14 +21,14 @@ define( require => {
     /**
      * @param {number} amplitude - strength of the wave
      * @param {boolean} startsOscillation - false if this is a "fake" water drop to shut off the oscillation at one cycle
-     * @param {number} targetCellJ - the vertical coordinate of the cell that the water drop is falling to
+     * @param {number} sourceSeparation - the vertical coordinate of the cell that the water drop is falling to
      * @param {number} y - distance to fall before the particles meets the plane of the lattice
      * @param {function} onAbsorption - called when the water drop is absorbed by the lattice
      *
      * TODO: indicate what lattice cell it is aiming for so we can support two sources
      * TODO: this will require factoring out a "desiredPosition" or "desiredSeparation"
      */
-    constructor( amplitude, startsOscillation, targetCellJ, y, onAbsorption ) {
+    constructor( amplitude, startsOscillation, sourceSeparation, y, onAbsorption ) {
 
       // @public (read-only)
       this.amplitude = amplitude;
@@ -45,6 +45,10 @@ define( require => {
 
       // @public {function} - called when absorbed
       this.onAbsorption = onAbsorption;
+
+      // @public (read-only) - the distance between the sources when this drop was released, used to show the
+      // correct location of the water drop
+      this.sourceSeparation = sourceSeparation;
     }
 
     step( dt ) {
