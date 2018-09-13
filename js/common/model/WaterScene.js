@@ -16,9 +16,6 @@ define( require => {
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  // TODO: use correct physics for drop emit times, and will need this for both drops
-  let lastDropTime = null;
-
   class WaterScene extends Scene {
 
     /**
@@ -40,17 +37,20 @@ define( require => {
       // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
       this.waterDrops = [];
 
+      // @private {number|null} - sets the phase for both drops.  Null means no drops have been emitted.
+      this.lastDropTime = null;
+
       // prep to fire a new drop in the next frame, but only if the other source wasn't already setting the phase
       button1PressedProperty.link( pressed => {
         if ( pressed && !button2PressedProperty.value ) {
-          lastDropTime = null; // prep to fire a new drop in the next frame
+          this.lastDropTime = null; // prep to fire a new drop in the next frame
         }
       } );
 
       // prep to fire a new drop in the next frame, but only if the other source wasn't already setting the phase
       button2PressedProperty.link( pressed => {
         if ( pressed && !button1PressedProperty.value ) {
-          lastDropTime = null;
+          this.lastDropTime = null;
         }
       } );
     }
@@ -103,7 +103,7 @@ define( require => {
             }
           }
         ) );
-        lastDropTime = time;
+        this.lastDropTime = time;
       }
     }
 
@@ -119,11 +119,9 @@ define( require => {
       const time = model.timeProperty.value;
       const period = 1 / this.desiredFrequencyProperty.value;
 
-      // TODO: support the top and bottom faucets
-      const timeSinceLastDrop = time - lastDropTime;
-      if ( lastDropTime === null || timeSinceLastDrop > period ) {
+      const timeSinceLastDrop = time - this.lastDropTime;
+      if ( this.lastDropTime === null || timeSinceLastDrop > period ) {
 
-        // TODO: support the top and bottom faucets
         this.launchWaterDrop( model.button1PressedProperty, model, model.continuousWave1OscillatingProperty, 'bottom' );
         this.launchWaterDrop( model.button2PressedProperty, model, model.continuousWave2OscillatingProperty, 'top' );
       }
