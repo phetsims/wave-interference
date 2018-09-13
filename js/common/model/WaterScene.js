@@ -120,14 +120,13 @@ define( require => {
       const period = 1 / this.desiredFrequencyProperty.value;
 
       const timeSinceLastDrop = time - this.lastDropTime;
-      if ( this.lastDropTime === null || timeSinceLastDrop > period ) {
+
+      // Emit water drops if the phase matches up, but not for the plane waves screen
+      if ( !model.barrierTypeProperty && ( this.lastDropTime === null || timeSinceLastDrop > period ) ) {
 
         this.launchWaterDrop( model.button1PressedProperty, model, model.continuousWave1OscillatingProperty, 'bottom' );
         this.launchWaterDrop( model.button2PressedProperty, model, model.continuousWave2OscillatingProperty, 'top' );
       }
-
-      // TODO: water drops shouldn't show for plane waves.  This may be accomplished by a different source button
-      // that is wired directly to the oscillator
 
       const toRemove = [];
       for ( let waterDrop of this.waterDrops ) {
