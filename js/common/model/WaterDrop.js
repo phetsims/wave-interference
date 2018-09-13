@@ -14,7 +14,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  const WATER_DROP_SPEED = 100; // TODO: fine tune, this will affect the phase when the water hits.
+  const WATER_DROP_SPEED = 100; // TODO: fine tune the water drop speed
 
   class WaterDrop {
 
