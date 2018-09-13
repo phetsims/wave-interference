@@ -22,7 +22,7 @@ define( require => {
 
     /**
      * @param {SlitsScreenModel} model
-     * TODO: JSDOC
+     * @param {Bounds2} viewBounds - the area where the lattice appears
      * @param {Object} [options]
      */
     constructor( model, viewBounds, options ) {
