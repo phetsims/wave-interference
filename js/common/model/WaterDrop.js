@@ -24,10 +24,8 @@ define( require => {
      * @param {number} sourceSeparation - the vertical coordinate of the cell that the water drop is falling to
      * @param {number} y - distance to fall before the particles meets the plane of the lattice
      * @param {function} onAbsorption - called when the water drop is absorbed by the lattice
-     *
-     * TODO: indicate what lattice cell it is aiming for so we can support two sources
-     * TODO: this will require factoring out a "desiredPosition" or "desiredSeparation"
      */
+    // TODO: jsdoc for side or pull it into sourceSeparation
     constructor( amplitude, startsOscillation, sourceSeparation, y, side, onAbsorption ) {
 
       // @public (read-only)
