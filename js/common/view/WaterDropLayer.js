@@ -30,12 +30,20 @@ define( require => {
       const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.waterScene.getWaveAreaBounds(), waveAreaNodeBounds );
 
       const dropNodes = [];
+
+      // Preallocate Images that will be associated with different water drop instances.
       const MAX_DROPS = 4;
       for ( let i = 0; i < MAX_DROPS; i++ ) {
-        dropNodes.push( new Image( waterDropImage, {
+        const image = new Image( waterDropImage, {
           x: waveAreaNodeBounds.minX + 19, // TODO: better MVT?
           y: modelViewTransform.modelToViewX( 100 )
-        } ) );
+        } );
+
+        // Link each Image to its corresponding WaterDrop
+        // @private {WaterDrop} - so that when the view goes underwater, we can mark the corresponding model as absorbed.
+        image.waterDrop = null;
+
+        dropNodes.push( image );
       }
 
       this.children = dropNodes;
@@ -46,7 +54,10 @@ define( require => {
         model.waterScene.waterDrops.forEach( ( waterDrop, i ) => {
 
           if ( i < dropNodes.length ) {
-            dropNodes[ i ].waterDrop = waterDrop; // TODO: hack alert
+
+            // Indicate which WaterDrop corresponds to this image so when the view goes underwater, the model can
+            // be marked as absorbed
+            dropNodes[ i ].waterDrop = waterDrop;
             dropNodes[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && waterDrop.startsOscillation;
             dropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
             const dy = waterDrop.sign * modelViewTransform.modelToViewDeltaY( waterDrop.sourceSeparation / 2 );
@@ -64,7 +75,7 @@ define( require => {
       model.stepEmitter.addListener( updateIfWaterScene );
       model.sceneProperty.link( updateIfWaterScene );
 
-      // @private - for closure
+      // @private - for closure.  If any water drop went underwater, mark it as absorbed so it will no longer be shown.
       this.stepWaterDropLayer = waterSideViewNode => {
         for ( let dropNode of dropNodes ) {
           if ( dropNode.visible ) {
