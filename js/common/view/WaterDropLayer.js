@@ -14,6 +14,7 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // images
   const waterDropImage = require( 'image!WAVE_INTERFERENCE/water_drop.png' );
@@ -31,14 +32,19 @@ define( require => {
 
       const dropNodes = [];
 
+      // Compute the x-coordinate where the drop should be shown.
+      var m = ModelViewTransform2.createRectangleMapping( model.lattice.visibleBounds, waveAreaNodeBounds );
+      var CENTER_X = m.modelToViewX( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE );
+
       // Preallocate Images that will be associated with different water drop instances.
       const MAX_DROPS = 4;
       for ( let i = 0; i < MAX_DROPS; i++ ) {
         const image = new Image( waterDropImage, {
-          x: waveAreaNodeBounds.minX + 19, // TODO: better MVT?
+          centerX: CENTER_X,
           y: modelViewTransform.modelToViewX( 100 )
         } );
 
+        // TODO: perhaps try `{waterDrop: drop, imageNode: new Image()}`
         // Link each Image to its corresponding WaterDrop
         // @private {WaterDrop} - so that when the view goes underwater, we can mark the corresponding model as absorbed.
         image.waterDrop = null;
@@ -62,6 +68,7 @@ define( require => {
             dropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
             const dy = waterDrop.sign * modelViewTransform.modelToViewDeltaY( waterDrop.sourceSeparation / 2 );
             dropNodes[ i ].centerY = waveAreaNodeBounds.centerY - waterDrop.y + dy;
+            dropNodes[ i ].centerX = CENTER_X;
           }
         } );
       };
