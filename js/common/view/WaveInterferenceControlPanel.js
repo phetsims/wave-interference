@@ -118,6 +118,10 @@ define( require => {
 
       const screenCheckbox = new Checkbox( new WaveInterferenceText( screenString ), model.showScreenProperty, CHECKBOX_OPTIONS );
       const intensityCheckbox = new Checkbox( new WaveInterferenceText( intensityString ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
+
+      // Only enable the intensity checkbox when the screen is selected
+      model.showScreenProperty.link( showScreen => intensityCheckbox.setEnabled( showScreen ) );
+
       const maxComponentWidth = _.max( [
         viewSelectionRadioButtonGroup.width,
         screenCheckbox.width,

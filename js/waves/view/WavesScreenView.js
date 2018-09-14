@@ -170,11 +170,12 @@ define( require => {
       const intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, {
         left: screenNode.right + 5
       } );
-      Property.multilink( [ model.showIntensityGraphProperty, model.sceneProperty ], ( showIntensityGraph, scene ) => {
+      Property.multilink( [ model.showScreenProperty, model.showIntensityGraphProperty, model.sceneProperty ],
+        ( showScreen, showIntensityGraph, scene ) => {
 
-        // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-        intensityGraphPanel.visible = showIntensityGraph && scene === model.lightScene;
-      } );
+          // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
+          intensityGraphPanel.visible = showScreen && showIntensityGraph && scene === model.lightScene;
+        } );
       this.addChild( intensityGraphPanel );
 
       // Make sure the charting area is perfectly aligned with the wave area
