@@ -58,11 +58,13 @@ define( require => {
     /**
      * Fire another water drop if one is warranted for the specified faucet.  We already determined that the timing
      * is right (for the period), now we need to know if a drop should fire.
-     * TODO: JSDoc
+     * @param {Property.<Boolean>} buttonProperty - indicates whether the corresponding button is pressed
      * @param {WavesScreenModel} model
+     * @param {Property.<Boolean>} oscillatingProperty - indicates whether the wave source is oscillating
+     * @param {number} sign - -1 for top faucet, +1 for bottom faucet
      * @private
      */
-    launchWaterDrop( buttonProperty, model, oscillatingProperty, side ) {
+    launchWaterDrop( buttonProperty, model, oscillatingProperty, sign ) {
 
       const time = model.timeProperty.value;
 
@@ -84,7 +86,7 @@ define( require => {
           buttonPressed,
           sourceSeparation,
           100,
-          side,
+          sign,
           () => {
 
             if ( isPulse && model.pulseFiringProperty.value ) {
@@ -124,8 +126,8 @@ define( require => {
       // Emit water drops if the phase matches up, but not for the plane waves screen
       if ( !model.barrierTypeProperty && ( this.lastDropTime === null || timeSinceLastDrop > period ) ) {
 
-        this.launchWaterDrop( model.button1PressedProperty, model, model.continuousWave1OscillatingProperty, 'bottom' );
-        this.launchWaterDrop( model.button2PressedProperty, model, model.continuousWave2OscillatingProperty, 'top' );
+        this.launchWaterDrop( model.button1PressedProperty, model, model.continuousWave1OscillatingProperty, +1 );
+        this.launchWaterDrop( model.button2PressedProperty, model, model.continuousWave2OscillatingProperty, -1 );
       }
 
       const toRemove = [];
