@@ -50,19 +50,19 @@ define( require => {
 
       // the particles move randomly even when there are no waves, because they are not at absolute zero
       // see https://github.com/phetsims/wave-interference/issues/123
-      const RANDOM_MAGNITUDE = 8;
+      const RANDOM_MAGNITUDE = 16;
       fx += ( Math.random() - 0.5 ) * 2 * RANDOM_MAGNITUDE;
       fy += ( Math.random() - 0.5 ) * 2 * RANDOM_MAGNITUDE;
 
       // use the airK as the magnitude and the forceCenter for direction only.
-      const RESTORATION_SPRING_CONSTANT = 2;
+      const RESTORATION_SPRING_CONSTANT = 1.5;
       const fSpringX = -RESTORATION_SPRING_CONSTANT * ( this.x - this.initialX );
       const fSpringY = -RESTORATION_SPRING_CONSTANT * ( this.y - this.initialY );
       this.vx += fx + fSpringX;
       this.vy += fy + fSpringY;
 
       // friction
-      const FRICTION_SCALE = 0.90;
+      const FRICTION_SCALE = 0.95;
       this.vx *= FRICTION_SCALE;
       this.vy *= FRICTION_SCALE;
 

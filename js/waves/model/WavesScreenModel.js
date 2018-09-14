@@ -120,10 +120,10 @@ define( require => {
         verticalAxisTitle: pressureString,
         graphTitle: pressureAtCenterString,
         graphHorizontalAxisLabel: positionCMString,
-        waveAreaWidth: 200, // in cm
-        minimumFrequency: 220 / 1000, // A3 in cycles per ms, wavelength is 156.82cm
-        maximumFrequency: 1760 / 1000, // A6 in cycles per ms, wavelength is 19.60cm
-        scaleIndicatorLength: 10, // cm
+        waveAreaWidth: 500, // in cm
+        minimumFrequency: 440 / 1000, // A4 in cycles per ms, wavelength is 156.82cm
+        maximumFrequency: 880 / 1000, // A5 in cycles per ms, wavelength is 39.2cm
+        scaleIndicatorLength: 50, // cm
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
         waveSpeed: 34.3, // in cm/ms
