@@ -9,15 +9,13 @@ define( require => {
   'use strict';
 
   // modules
-  const Image = require( 'SCENERY/nodes/Image' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Util = require( 'DOT/Util' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const WaterDropImage = require( 'WAVE_INTERFERENCE/common/view/WaterDropImage' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-
-  // images
-  const waterDropImage = require( 'image!WAVE_INTERFERENCE/water_drop.png' );
 
   class WaterDropLayer extends Node {
 
@@ -30,45 +28,34 @@ define( require => {
       super();
       const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.waterScene.getWaveAreaBounds(), waveAreaNodeBounds );
 
-      const dropNodes = [];
-
       // Compute the x-coordinate where the drop should be shown.
       var m = ModelViewTransform2.createRectangleMapping( model.lattice.visibleBounds, waveAreaNodeBounds );
-      var CENTER_X = m.modelToViewX( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE );
+
+      // Note this is nudged over 1/2 a cell so it will appear in the center of the cell rather than
+      // at the left edge of the cell
+      var CENTER_X = m.modelToViewX( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE + 0.5 );
 
       // Preallocate Images that will be associated with different water drop instances.
       const MAX_DROPS = 4;
-      for ( let i = 0; i < MAX_DROPS; i++ ) {
-        const image = new Image( waterDropImage, {
-          centerX: CENTER_X,
-          y: modelViewTransform.modelToViewX( 100 )
-        } );
+      const waterDropImages = _.times( MAX_DROPS, () => new WaterDropImage() );
 
-        // TODO: perhaps try `{waterDrop: drop, imageNode: new Image()}`
-        // Link each Image to its corresponding WaterDrop
-        // @private {WaterDrop} - so that when the view goes underwater, we can mark the corresponding model as absorbed.
-        image.waterDrop = null;
-
-        dropNodes.push( image );
-      }
-
-      this.children = dropNodes;
+      this.children = waterDropImages;
       this.mutate( options );
 
       const updateWaterDropNodes = () => {
-        dropNodes.forEach( dropNode => dropNode.setVisible( false ) );
+        waterDropImages.forEach( dropNode => dropNode.setVisible( false ) );
         model.waterScene.waterDrops.forEach( ( waterDrop, i ) => {
 
-          if ( i < dropNodes.length ) {
+          if ( i < waterDropImages.length ) {
 
             // Indicate which WaterDrop corresponds to this image so when the view goes underwater, the model can
             // be marked as absorbed
-            dropNodes[ i ].waterDrop = waterDrop;
-            dropNodes[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && waterDrop.startsOscillation;
-            dropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
+            waterDropImages[ i ].waterDrop = waterDrop;
+
+            waterDropImages[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && waterDrop.startsOscillation;
+            waterDropImages[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
             const dy = waterDrop.sign * modelViewTransform.modelToViewDeltaY( waterDrop.sourceSeparation / 2 );
-            dropNodes[ i ].centerY = waveAreaNodeBounds.centerY - waterDrop.y + dy;
-            dropNodes[ i ].centerX = CENTER_X;
+            waterDropImages[ i ].center = new Vector2( CENTER_X, waveAreaNodeBounds.centerY - waterDrop.y + dy );
           }
         } );
       };
@@ -84,7 +71,7 @@ define( require => {
 
       // @private - for closure.  If any water drop went underwater, mark it as absorbed so it will no longer be shown.
       this.stepWaterDropLayer = waterSideViewNode => {
-        for ( let dropNode of dropNodes ) {
+        for ( let dropNode of waterDropImages ) {
           if ( dropNode.visible ) {
             if ( model.rotationAmountProperty.value === 1.0 && dropNode.waterDrop && ( dropNode.top - 50 > waterSideViewNode.topY ) ) {
               dropNode.waterDrop.absorbed = true;
