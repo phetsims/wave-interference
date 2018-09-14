@@ -137,8 +137,6 @@ define( require => {
         waterDrop.step( dt );
 
         // Remove any water drops that went below y=0
-        // TODO: what if the water is below y=0 in side view--then we would want them to have the same effect on the
-        // lattice but still show in the view.  This is getting complicated.
         if ( waterDrop.y < 0 ) {
           toRemove.push( waterDrop );
         }
