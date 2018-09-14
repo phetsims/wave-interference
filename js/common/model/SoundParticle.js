@@ -62,7 +62,7 @@ define( require => {
       this.vy += fy + fSpringY;
 
       // friction
-      const FRICTION_SCALE = 0.93;
+      const FRICTION_SCALE = 0.90;
       this.vx *= FRICTION_SCALE;
       this.vy *= FRICTION_SCALE;
 

@@ -58,6 +58,8 @@ define( require => {
 
       super.step( model, dt );
 
+      const k = 10;
+
       for ( let soundParticle of this.soundParticles ) {
 
         // Check the lattice coordinate of the current location of the particle
@@ -80,10 +82,11 @@ define( require => {
         const fy1 = lattice.getCurrentValue( latticeX, latticeY - 1 );
         const gradientY = ( fy2 - fy1 ) / 2;
 
-        const k = 10;
         const fx = gradientX * k;
         const fy = gradientY * k;
-        soundParticle.applyForce( fx, fy, dt );
+        if ( !isNaN( fx ) && !isNaN( fy ) ) {
+          soundParticle.applyForce( fx, fy, dt );
+        }
       }
     }
   }
