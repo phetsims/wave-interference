@@ -14,7 +14,8 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  const WATER_DROP_SPEED = 100; // TODO: fine tune the water drop speed, careful how the timing works in side view
+  // Manually tuned so that the speed of the water drops visually approximates the speed of the wave in water side view
+  const WATER_DROP_SPEED = 140;
 
   class WaterDrop {
 
