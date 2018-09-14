@@ -446,9 +446,7 @@ define( require => {
       const angularFrequency = Math.PI * 2 * frequency;
 
       // Solve for the sin arg = 0 in Math.sin( this.time * angularFrequency + this.phase )
-      // The phase was adjusted so that when the water is turned on under default circumstances, a drop doesn't appear
-      // right above the water.
-      this.phase = -this.timeProperty.value * angularFrequency + Math.PI * 0.6;
+      this.phase = -this.timeProperty.value * angularFrequency;
     }
 
     /**
