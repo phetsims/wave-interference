@@ -27,7 +27,6 @@ define( require => {
      * @param {number} sign - -1 for top faucet, +1 for bottom faucet
      * @param {function} onAbsorption - called when the water drop is absorbed by the lattice
      */
-    // TODO: jsdoc for side or pull it into sourceSeparation
     constructor( amplitude, startsOscillation, sourceSeparation, y, sign, onAbsorption ) {
 
       // @public (read-only)
