@@ -62,37 +62,28 @@ define( require => {
 
         // Check the lattice coordinate of the current location of the particle
         const latticeCoordinate = this.modelToLatticeTransform.modelToViewXY( soundParticle.x, soundParticle.y );
+        const latticeX = Math.round( latticeCoordinate.x );
+        const latticeY = Math.round( latticeCoordinate.y );
 
-        // feel a force toward each lattice value in a local neighborhood
-        let sumFx = 0;
-        let sumFy = 0;
-        const SEARCH_RADIUS = 3;
-        const CLAMPED_WAVE_VALUE = 1;
+        // Estimate the numerical gradient in the neighborhood of the particle
+        // https://en.wikipedia.org/wiki/Pressure-gradient_force
+        // https://en.wikipedia.org/wiki/Gradient
+        // https://en.wikipedia.org/wiki/Numerical_differentiation
 
-        for ( let i = -SEARCH_RADIUS; i <= SEARCH_RADIUS; i++ ) {
-          for ( let k = -SEARCH_RADIUS; k <= SEARCH_RADIUS; k++ ) {
-            const neighborI = Math.round( latticeCoordinate.x ) + i;
-            const neighborJ = Math.round( latticeCoordinate.y ) + k;
-            if ( lattice.contains( neighborI, neighborJ ) ) {
-              let waveValue = lattice.getCurrentValue( neighborI, neighborJ );
-              if ( waveValue > CLAMPED_WAVE_VALUE ) {
-                waveValue = CLAMPED_WAVE_VALUE;
-              }
-              else if ( waveValue < -CLAMPED_WAVE_VALUE ) {
-                waveValue = -CLAMPED_WAVE_VALUE;
-              }
-              const springConstant = waveValue / SEARCH_RADIUS / SEARCH_RADIUS * 2.8; // Tuned manually
-              const forceCenter = this.modelToLatticeTransform.viewToModelXY( neighborI, neighborJ );
+        // estimate the spatial derivative in the x-direction
+        const fx2 = lattice.getCurrentValue( latticeX + 1, latticeY );
+        const fx1 = lattice.getCurrentValue( latticeX - 1, latticeY );
+        const gradientX = ( fx2 - fx1 ) / 2;
 
-              // Normalize out the distance so that further away points don't contribute more just from being further away
-              const fAirX = -springConstant * ( soundParticle.x - forceCenter.x ) / Math.abs( soundParticle.x - forceCenter.x );
-              const fAirY = -springConstant * ( soundParticle.y - forceCenter.y ) / Math.abs( soundParticle.y - forceCenter.y );
-              sumFx += fAirX;
-              sumFy += fAirY;
-            }
-          }
-        }
-        soundParticle.applyForce( sumFx, sumFy, dt );
+        // estimate the spatial derivative in the y-direction
+        const fy2 = lattice.getCurrentValue( latticeX, latticeY + 1 );
+        const fy1 = lattice.getCurrentValue( latticeX, latticeY - 1 );
+        const gradientY = ( fy2 - fy1 ) / 2;
+
+        const k = 10;
+        const fx = gradientX * k;
+        const fy = gradientY * k;
+        soundParticle.applyForce( fx, fy, dt );
       }
     }
   }

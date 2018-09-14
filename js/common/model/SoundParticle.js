@@ -62,8 +62,9 @@ define( require => {
       this.vy += fy + fSpringY;
 
       // friction
-      this.vx *= 0.96;
-      this.vy *= 0.96;
+      const FRICTION_SCALE = 0.93;
+      this.vx *= FRICTION_SCALE;
+      this.vy *= FRICTION_SCALE;
 
       // motion
       this.x += this.vx * dt;
