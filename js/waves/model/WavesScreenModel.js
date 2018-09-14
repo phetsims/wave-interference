@@ -410,7 +410,9 @@ define( require => {
       // If the pulse is running, end the pulse after one period
       if ( this.pulseFiringProperty.get() ) {
         const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
-        if ( timeSincePulseStarted > period ) {
+
+        // For 50% longer than one pulse, keep the oscillator fixed at 0 to prevent "ringing"
+        if ( timeSincePulseStarted > period * 1.5 ) {
           this.pulseFiringProperty.set( false );
           this.pulseStartTime = 0;
         }
@@ -455,6 +457,9 @@ define( require => {
      * @protected
      */
     setSourceValues() {
+      const frequency = this.sceneProperty.get().frequencyProperty.get();
+      const period = 1 / frequency;
+      const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
       const lattice = this.lattice;
       const continuous1 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
       const continuous2 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
@@ -464,7 +469,10 @@ define( require => {
         // The simulation is designed to start with a downward wave, corresponding to water splashing in
         const frequency = this.sceneProperty.get().frequencyProperty.value;
         const angularFrequency = Math.PI * 2 * frequency;
-        const waveValue = -Math.sin( this.timeProperty.value * angularFrequency + this.phase ) * this.amplitudeProperty.get();
+
+        // For 50% longer than one pulse, keep the oscillator fixed at 0 to prevent "ringing"
+        let waveValue = timeSincePulseStarted > period ? 0 :
+                        -Math.sin( this.timeProperty.value * angularFrequency + this.phase ) * this.amplitudeProperty.get();
 
         // assumes a square lattice
         const separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().waveAreaWidth * this.lattice.visibleBounds.width;
