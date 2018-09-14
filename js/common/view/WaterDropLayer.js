@@ -33,7 +33,7 @@ define( require => {
       const MAX_DROPS = 4;
       for ( let i = 0; i < MAX_DROPS; i++ ) {
         dropNodes.push( new Image( waterDropImage, {
-          x: waveAreaNodeBounds.minX + 16, // TODO: better MVT?
+          x: waveAreaNodeBounds.minX + 19, // TODO: better MVT?
           y: modelViewTransform.modelToViewX( 100 )
         } ) );
       }
@@ -45,7 +45,6 @@ define( require => {
         dropNodes.forEach( dropNode => dropNode.setVisible( false ) );
         model.waterScene.waterDrops.forEach( ( waterDrop, i ) => {
 
-          // TODO: clipping?
           if ( i < dropNodes.length ) {
             dropNodes[ i ].waterDrop = waterDrop; // TODO: hack alert
             dropNodes[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && waterDrop.startsOscillation;
