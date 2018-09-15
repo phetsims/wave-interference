@@ -54,9 +54,8 @@ define( require => {
         .close();
 
       // Look up the height of the topmost curve.  Do this after getWaterSideShape since we read a value
-      // from the array.
-      // TODO: Better name and docs for this property
-      this.topY = WaveInterferenceUtils.getWaterSideY( this.waveAreaBounds, this.array[ SOURCE_INDEX ] );
+      // from the array.  Used to determine if a water drop has fallen into the water.
+      this.waterSideViewNodeTopY = WaveInterferenceUtils.getWaterSideY( this.waveAreaBounds, this.array[ SOURCE_INDEX ] );
     }
   }
 

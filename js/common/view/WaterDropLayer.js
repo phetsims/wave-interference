@@ -73,7 +73,7 @@ define( require => {
       this.stepWaterDropLayer = waterSideViewNode => {
         for ( let dropNode of waterDropImages ) {
           if ( dropNode.visible ) {
-            if ( model.rotationAmountProperty.value === 1.0 && dropNode.waterDrop && ( dropNode.top - 50 > waterSideViewNode.topY ) ) {
+            if ( model.rotationAmountProperty.value === 1.0 && dropNode.waterDrop && ( dropNode.top - 50 > waterSideViewNode.waterSideViewNodeTopY ) ) {
               dropNode.waterDrop.absorbed = true;
             }
           }
