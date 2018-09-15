@@ -212,7 +212,7 @@ define( require => {
           graphCheckbox,
 
           // Wave/Particle selection only for Sound scene
-          ...( scene === model.soundScene ? [ viewSelectionRadioButtonGroup ] : [] ),
+          ...( scene === model.soundScene && model.soundScene.showSoundParticles ? [ viewSelectionRadioButtonGroup ] : [] ),
 
           // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
           ...( scene === model.lightScene ? [ screenCheckbox ] : [] ),

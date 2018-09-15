@@ -18,7 +18,10 @@ define( require => {
 
     constructor() {
       super( {
-        initialAmplitude: 10
+        initialAmplitude: 10,
+
+        // SoundParticles are not displayed on the Slits screen, see https://github.com/phetsims/wave-interference/issues/109
+        showSoundParticles: false
       } );
 
       // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice

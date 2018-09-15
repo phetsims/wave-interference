@@ -326,17 +326,17 @@ define( require => {
         waterGrayBackground.visible = rotationAmount !== 0 && scene === model.waterScene;
       } );
 
-      // Show the sound particles for the sound Scene
-      const soundParticleLayer = new SoundParticleLayer( model, this.waveAreaNode.bounds, {
+      // Show the sound particles for the sound Scene, or a placeholder for the Slits screen, which does not show SoundParticles
+      const soundParticleLayer = model.soundScene.showSoundParticles ? new SoundParticleLayer( model, this.waveAreaNode.bounds, {
         center: this.waveAreaNode.center
-      } );
-
-      const waterDropLayer = new WaterDropLayer( model, this.waveAreaNode.bounds );
+      } ) : new Node();
 
       // Don't let the particles appear outside of the wave area
       soundParticleLayer.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed(
         Matrix3.translation( -soundParticleLayer.x, -soundParticleLayer.y )
       );
+
+      const waterDropLayer = new WaterDropLayer( model, this.waveAreaNode.bounds );
 
       // Update the visibility of the waveAreaNode, latticeNode and soundParticleLayer
       Property.multilink(
