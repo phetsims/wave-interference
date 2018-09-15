@@ -13,7 +13,8 @@ define( require => {
 
   const WaveInterferenceQueryParameters = QueryStringMachine.getAll( {
 
-    // shows the overlays for the theoretical/ideal (far-field) interference patterns on the "Slits" screen.
+    // Shows the overlays for the theoretical/ideal (far-field) interference patterns on the "Slits" screen. This will
+    // be shared with teachers and should not be changed lightly.
     theory: { type: 'flag' }
   } );
 

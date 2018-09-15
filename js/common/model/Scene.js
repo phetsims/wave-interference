@@ -73,7 +73,7 @@ define( require => {
       // @public (read-only) {string} - the title to the shown on the wave-area graph
       this.graphTitle = config.graphTitle;
 
-      // @public (read-only) {string} - the unit to display on the MeterBodyNode, like "1 s"
+      // @public (read-only) {string} - the unit to display on the WaveMeterNode, like "1 s"
       this.oneTimerUnit = StringUtils.fillIn( timeUnitsString, {
         time: 1,
         units: this.timeUnits
@@ -157,7 +157,7 @@ define( require => {
 
     /**
      * Move forward in time by the specified amount
-     * @param {Lattice} lattice
+     * @param {WavesScreenModel} model
      * @param {number} dt - amount of time to move forward, in the units of the scene
      */
     step( model, dt ) {

@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * One probe for the MeterBodyNode sensors
+ * One probe for the WaveMeterNode
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

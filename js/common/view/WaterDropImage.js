@@ -1,7 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Poolable Image nodes that show WaterDrops.
+ * Reusable Image nodes that show WaterDrops.  Each WaterDropImage can be repurposed for different waterDrops (like
+ * pooling) so they aren't created and garbage collected at all.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

@@ -31,6 +31,8 @@ define( require => {
         this.addChild( new ShadedSphereNode( 10, {
           x: modelViewTransform.modelToViewX( soundParticle.x ),
           y: modelViewTransform.modelToViewX( soundParticle.y ),
+
+          // Show a grid of red particles but not exactly on the edges
           mainColor: ( soundParticle.i % 4 === 2 && soundParticle.k % 4 === 2 ) ? 'red' : 'rgb(210,210,210)',
           stroke: 'black'
         } ) ) );

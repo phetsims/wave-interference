@@ -1,7 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Shows the theoretical/ideal (far field) pattern for interference, when ?dev is specified.
+ * Shows the theoretical/ideal (far field) pattern for interference, when ?theory is specified.
+ * This code is not production ready, because it is buried behind a query parameter, see https://github.com/phetsims/wave-interference/issues/136
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
