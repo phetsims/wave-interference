@@ -14,8 +14,8 @@ define( require => {
 
     // At the time of writing, this is a new strategy for enum patterns, partway between our normal enum
     // string pattern and the richer enum pattern exemplified in Orientation.js
-    NORMAL: { scaleFactor: 1 },
-    SLOW: { scaleFactor: 1 / 3 }
+    NORMAL: { scaleFactor: 1.0 },
+    SLOW: { scaleFactor: 0.5 }
   };
 
   PlaySpeedEnum.VALUES = _.values( PlaySpeedEnum );

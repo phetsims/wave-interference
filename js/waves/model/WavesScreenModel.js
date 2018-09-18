@@ -169,10 +169,21 @@ define( require => {
       // @public (read-only) {Scene[]} - the Scene instances as an array
       this.scenes = [ this.waterScene, this.soundScene, this.lightScene ];
 
-      const eventTimerModel = new EventTimer.ConstantEventModel( EVENT_RATE );
+      // @public {Property.<PlaySpeedEnum>} - the speed at which the simulation is playing
+      this.playSpeedProperty = new Property( PlaySpeedEnum.NORMAL, {
+        validValues: PlaySpeedEnum.VALUES
+      } );
+
+      const eventTimerModel = {
+
+        // @public
+        getPeriodBeforeNextEvent: () => 1 / EVENT_RATE / this.playSpeedProperty.get().scaleFactor
+      };
 
       // @private
-      this.eventTimer = new EventTimer( eventTimerModel, timeElapsed => this.advanceTime( 1 / EVENT_RATE, false ) );
+      this.eventTimer = new EventTimer( eventTimerModel, timeElapsed =>
+        this.advanceTime( 1 / EVENT_RATE, false )
+      );
 
       // @public {Property.<Scene>} - selected scene
       this.sceneProperty = new Property( this.waterScene, {
@@ -200,11 +211,6 @@ define( require => {
       // @public {Property.<IncomingWaveType>} - pulse or continuous
       this.inputTypeProperty = new Property( IncomingWaveType.CONTINUOUS, {
         validValues: IncomingWaveType.VALUES
-      } );
-
-      // @public {Property.<PlaySpeedEnum>} - the speed at which the simulation is playing
-      this.playSpeedProperty = new Property( PlaySpeedEnum.NORMAL, {
-        validValues: PlaySpeedEnum.VALUES
       } );
 
       // @public {BooleanProperty} - whether the model is moving forward in time
@@ -407,7 +413,7 @@ define( require => {
         return;
       }
 
-      const dt = wallDT * this.sceneProperty.value.timeScaleFactor * this.playSpeedProperty.get().scaleFactor;
+      const dt = wallDT * this.sceneProperty.value.timeScaleFactor;
       this.timeProperty.value += dt;
 
       // If the pulse is running, end the pulse after one period
