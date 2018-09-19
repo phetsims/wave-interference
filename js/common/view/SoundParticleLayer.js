@@ -14,6 +14,9 @@ define( require => {
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
+  // constants
+  const RESOLUTION = 2;
+
   class SoundParticleLayer extends CanvasNode {
 
     /**
@@ -38,6 +41,7 @@ define( require => {
         mainColor: color,
         stroke: 'black'
       } ).rasterized( {
+        resolution: RESOLUTION,
         useCanvas: true
       } ).children[ 0 ].image;
       this.whiteSphereImage = toImage( 'rgb(210,210,210)' );
@@ -58,13 +62,14 @@ define( require => {
      * @param {CanvasRenderingContext2D} context
      */
     paintCanvas( context ) {
+      context.transform( 1 / RESOLUTION, 0, 0, 1 / RESOLUTION, 0, 0 );
       this.model.soundScene.soundParticles.forEach( soundParticle => {
         const isRed = ( soundParticle.i % 4 === 2 && soundParticle.k % 4 === 2 );
         const image = isRed ? this.redSphereImage : this.whiteSphereImage;
         context.drawImage(
           image,
-          this.modelViewTransform.modelToViewX( soundParticle.x ) - image.width / 2,
-          this.modelViewTransform.modelToViewY( soundParticle.y ) - image.height / 2
+          RESOLUTION * ( this.modelViewTransform.modelToViewX( soundParticle.x ) - image.width / 2 ),
+          RESOLUTION * ( this.modelViewTransform.modelToViewY( soundParticle.y ) - image.height / 2 )
         );
       } );
     }
