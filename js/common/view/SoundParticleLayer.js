@@ -9,12 +9,12 @@ define( require => {
   'use strict';
 
   // modules
+  const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
-  const Node = require( 'SCENERY/nodes/Node' );
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  class SoundParticleLayer extends Node {
+  class SoundParticleLayer extends CanvasNode {
 
     /**
      * @param {WavesScreenModel} model
@@ -22,37 +22,51 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( model, waveAreaNodeBounds, options ) {
-      super();
-      const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.soundScene.getWaveAreaBounds(), waveAreaNodeBounds );
 
-      // Create one sphere node for each particle, some are randomly red.  There is a fixed number of particles, so
-      // we can add them all during startup.
-      model.soundScene.soundParticles.forEach( soundParticle =>
-        this.addChild( new ShadedSphereNode( 10, {
-          x: modelViewTransform.modelToViewX( soundParticle.x ),
-          y: modelViewTransform.modelToViewX( soundParticle.y ),
+      options = _.extend( {
 
-          // Show a grid of red particles but not exactly on the edges
-          mainColor: ( soundParticle.i % 4 === 2 && soundParticle.k % 4 === 2 ) ? 'red' : 'rgb(210,210,210)',
-          stroke: 'black'
-        } ) ) );
-      this.mutate( options );
+        // only use the visible part for the bounds (not the damping regions)
+        canvasBounds: waveAreaNodeBounds,
+        layerSplit: true // ensure we're on our own layer
+      }, options );
 
-      const updateSoundParticleNodes = () => model.soundScene.soundParticles.forEach( ( soundParticle, i ) => {
-        this.getChildAt( i ).mutate( {
-          x: modelViewTransform.modelToViewX( soundParticle.x ),
-          y: modelViewTransform.modelToViewX( soundParticle.y )
-        } );
-      } );
+      super( options );
+      this.model = model;
+      this.modelViewTransform = ModelViewTransform2.createRectangleMapping( model.soundScene.getWaveAreaBounds(), waveAreaNodeBounds );
+
+      const toImage = color => new ShadedSphereNode( 10, {
+        mainColor: color,
+        stroke: 'black'
+      } ).rasterized( {
+        useCanvas: true
+      } ).children[ 0 ].image;
+      this.whiteSphereImage = toImage( 'rgb(210,210,210)' );
+      this.redSphereImage = toImage( 'red' );
 
       // At the end of each model step, update all of the particles as a batch.
       const updateIfSoundScene = () => {
         if ( model.sceneProperty.value === model.soundScene ) {
-          updateSoundParticleNodes();
+          this.invalidatePaint();
         }
       };
       model.stepEmitter.addListener( updateIfSoundScene );
       model.sceneProperty.link( updateIfSoundScene );
+    }
+
+    /**
+     * Draws into the canvas.
+     * @param {CanvasRenderingContext2D} context
+     */
+    paintCanvas( context ) {
+      this.model.soundScene.soundParticles.forEach( soundParticle => {
+        const isRed = ( soundParticle.i % 4 === 2 && soundParticle.k % 4 === 2 );
+        const image = isRed ? this.redSphereImage : this.whiteSphereImage;
+        context.drawImage(
+          image,
+          this.modelViewTransform.modelToViewX( soundParticle.x ) - image.width / 2,
+          this.modelViewTransform.modelToViewY( soundParticle.y ) - image.height / 2
+        );
+      } );
     }
   }
 
