@@ -130,7 +130,7 @@ define( require => {
         this.on( 'visible', alignProbes );
         this.alignProbesEmitter.addListener( alignProbes );
 
-        const series = [];
+        const data = [];
         const emitter = new Emitter();
 
         const updateSamples = function() {
@@ -149,11 +149,11 @@ define( require => {
 
             if ( model.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
               const value = model.lattice.getCurrentValue( sampleI, sampleJ );
-              series.push( new Vector2( model.timeProperty.value, value ) );
+              data.push( new Vector2( model.timeProperty.value, value ) );
             }
           }
-          while ( series.length > 0 && series[ 0 ].x < model.timeProperty.value - maxSeconds ) {
-            series.shift();
+          while ( data.length > 0 && data[ 0 ].x < model.timeProperty.value - maxSeconds ) {
+            data.shift();
           }
           emitter.emit();
         };
@@ -162,7 +162,7 @@ define( require => {
 
           // Redraw the probe data when the scene changes
           const clear = () => {
-            series.length = 0;
+            data.length = 0;
             updateSamples();
           };
           model.sceneProperty.link( clear );
@@ -173,7 +173,7 @@ define( require => {
           probeNode.on( 'transform', updateSamples );
           model.lattice.changedEmitter.addListener( updateSamples );
         }
-        return { color, probeNode, series, emitter };
+        return { color, probeNode, data, emitter };
       };
 
       const aboveBottomLeft1 = new DerivedProperty( [ leftBottomProperty ], position => position.plusXY( 0, -20 ) );
