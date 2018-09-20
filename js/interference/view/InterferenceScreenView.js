@@ -45,12 +45,12 @@ define( require => {
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.soundScene,
-        node: new NumberControl( separationString, model.soundScene.sourceSeparationProperty, new Range( 25, 70 ), _.extend( {
+        node: new NumberControl( separationString, model.soundScene.sourceSeparationProperty, new Range( 100, 200 ), _.extend( {
           delta: 5,
           valuePattern: cmValueString,
           majorTicks: [
-            { value: 25, label: createLabelText( StringUtils.format( cmValueString, 25 ) ) },
-            { value: 70, label: createLabelText( StringUtils.format( cmValueString, 70 ) ) } ]
+            { value: 100, label: createLabelText( StringUtils.format( cmValueString, 100 ) ) },
+            { value: 200, label: createLabelText( StringUtils.format( cmValueString, 200 ) ) } ]
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.lightScene,

@@ -55,11 +55,11 @@ define( require => {
           { value: 0, label: createLabel( '0 cm' ) },
           { value: 5, label: createLabel( '5 cm' ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-      const soundSlitWidthControl = new NumberControl( slitWidthString, model.soundScene.slitWidthProperty, new Range( 0, 50 ), _.extend( {
+      const soundSlitWidthControl = new NumberControl( slitWidthString, model.soundScene.slitWidthProperty, new Range( 0, 100 ), _.extend( {
         valuePattern: cmValueString,
         majorTicks: [
-          { value: 0, label: createLabel( '0 cm' ) },
-          { value: 50, label: createLabel( '50 cm' ) } ]
+          { value: 0, label: createLabel( '0 cm' ) }, // TODO: i18n
+          { value: 100, label: createLabel( '100 cm' ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const lightSlitWidthControl = new NumberControl( slitWidthString, model.lightScene.slitWidthProperty, new Range( 0, 2000 ), _.extend( {
         valuePattern: nmValueString,
@@ -85,11 +85,11 @@ define( require => {
           { value: 0, label: createLabel( '0 cm' ) },
           { value: 5, label: createLabel( '5 cm' ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-      const soundSeparationControl = new NumberControl( slitSeparationString, model.soundScene.slitSeparationProperty, new Range( 0, 50 ), _.extend( {
+      const soundSeparationControl = new NumberControl( slitSeparationString, model.soundScene.slitSeparationProperty, new Range( 0, 200 ), _.extend( {
         valuePattern: cmValueString,
         majorTicks: [
           { value: 0, label: createLabel( '0 cm' ) },
-          { value: 50, label: createLabel( '50 cm' ) } ]
+          { value: 200, label: createLabel( '200 cm' ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const lightSeparationControl = new NumberControl( slitSeparationString, model.lightScene.slitSeparationProperty, new Range( 0, 2000 ), _.extend( {
         valuePattern: nmValueString,

@@ -133,8 +133,8 @@ define( require => {
 
         timeScaleFactor: 1, // This is confusing.  One second of real time should show up as 1ms, so this factor is 1
 
-        initialSlitWidth: 25, // cm
-        initialSlitSeparation: 50 // cm
+        initialSlitWidth: 50, // cm
+        initialSlitSeparation: 150 // cm
       } );
 
       // Light scene
