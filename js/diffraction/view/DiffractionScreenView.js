@@ -9,7 +9,6 @@ define( require => {
   // modules
   const Circle = require( 'SCENERY/nodes/Circle' );
   const Dimension2 = require( 'DOT/Dimension2' );
-  const HBox = require( 'SCENERY/nodes/HBox' );
   const Image = require( 'SCENERY/nodes/Image' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const Matrix3 = require( 'DOT/Matrix3' );
