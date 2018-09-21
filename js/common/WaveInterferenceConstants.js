@@ -11,20 +11,23 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  const THUMB_SIZE = new Dimension2( 16, 28 );
+  const THUMB_SIZE = new Dimension2( 13, 22 );
 
   const WaveInterferenceConstants = {
     WAVE_AREA_WIDTH: 500,
 
     // These constants are used for the NumberControls to give them a consistent looks
     NUMBER_CONTROL_OPTIONS: {
-      trackSize: new Dimension2( 100, 3 ),
+      trackSize: new Dimension2( 100, 1 ), // TODO: factor out TrackSize with WaveInterferenceSlider
       majorTickLength: 12,
-      thumbSize: new Dimension2( 22, 30 ),
-      layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } )
+      thumbSize: new Dimension2( 13, 22 ), // TODO: share these with
+      layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } ),
+      arrowButtonScale: 0.65,
+      titleFont: new PhetFont( 15 ) // TODO: match with WaveInterferenceText
     },
     THUMB_SIZE: THUMB_SIZE,
     WATER_SIDE_COLOR: new Color( '#58c0fa' ),

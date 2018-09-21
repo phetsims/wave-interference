@@ -19,7 +19,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( string, options ) {
-      super( string, _.extend( { fontSize: 12 }, options ) );
+      super( string, _.extend( { fontSize: 15 }, options ) );
     }
   }
 

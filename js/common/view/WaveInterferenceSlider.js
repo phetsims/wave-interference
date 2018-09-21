@@ -49,11 +49,11 @@ define( require => {
         min: min, max: max
       }, {
         thumbSize: WaveInterferenceConstants.THUMB_SIZE,
-        trackSize: new Dimension2( 150, 5 ),
+        trackSize: new Dimension2( 150, 1 ),
 
         // ticks
         tickLabelSpacing: 2,
-        majorTickLength: 15,
+        majorTickLength: 12, // TODO: share this with WaveInterferenceConstants
         minorTickLength: 8
       } );
 

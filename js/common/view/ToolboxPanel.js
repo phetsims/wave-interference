@@ -27,7 +27,7 @@ define( require => {
     constructor( measuringTapeNode, timerNode, meterNode, alignGroup, model, options ) {
       model.isMeasuringTapeInPlayAreaProperty.value = true;
       measuringTapeNode.setTextVisible( false );
-      const measuringTapeIcon = measuringTapeNode.rasterized( { wrap: true } ).mutate( { scale: 0.7 } );
+      const measuringTapeIcon = measuringTapeNode.rasterized( { wrap: true } ).mutate( { scale: 0.65 } );
       model.isMeasuringTapeInPlayAreaProperty.value = false;
       measuringTapeNode.setTextVisible( true );
 
@@ -45,7 +45,7 @@ define( require => {
 
       // Node used to create the icon
       model.isTimerInPlayAreaProperty.value = true;
-      const timerNodeIcon = timerNode.rasterized().mutate( { scale: 0.5 } );
+      const timerNodeIcon = timerNode.rasterized().mutate( { scale: 0.45 } );
       model.isTimerInPlayAreaProperty.value = false;
 
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
@@ -60,7 +60,7 @@ define( require => {
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
       // Temporarily show the node so it can be rasterized for an icon
       model.isWaveMeterInPlayAreaProperty.value = true;
-      const waveMeterIcon = meterNode.rasterized().mutate( { scale: 0.3 } );
+      const waveMeterIcon = meterNode.rasterized().mutate( { scale: 0.25 } );
       model.isWaveMeterInPlayAreaProperty.value = false;
 
       initializeIcon( waveMeterIcon, model.isWaveMeterInPlayAreaProperty, event => {

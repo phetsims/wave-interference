@@ -43,7 +43,7 @@ define( require => {
   const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker.png' );
 
   // constants
-  const CHECKBOX_OPTIONS = { boxWidth: 12 };
+  const CHECKBOX_OPTIONS = { boxWidth: 14 };
   const fromFemto = WaveInterferenceUtils.fromFemto;
 
   class WaveInterferenceControlPanel extends WaveInterferencePanel {
@@ -87,8 +87,8 @@ define( require => {
         trackHeight: 20,
         valueVisible: false,
         tweakersVisible: false,
-        thumbWidth: 20,
-        thumbHeight: 20
+        thumbWidth: 14,
+        thumbHeight: 18
       } );
 
       lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( 0, 10 );
@@ -111,7 +111,7 @@ define( require => {
         radioButtonOptions: {
 
           // Manually tuned so the radio buttons have the same width as the "Graph" checkbox
-          radius: 5.5
+          radius: 6.5
         }
       } );
       const graphCheckbox = new Checkbox( new WaveInterferenceText( graphString ), model.showGraphProperty, CHECKBOX_OPTIONS );
@@ -135,7 +135,7 @@ define( require => {
       const hoseIcon = new Image( hoseImage );
       const speakerIcon = new Image( speakerImage );
       const laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), LightEmitterNode.DEFAULT_OPTIONS );
-      const iconWidth = 44;
+      const iconWidth = 26;
       const iconHeight = iconWidth;
       hoseIcon.scale( iconWidth / hoseIcon.width );
       speakerIcon.scale( iconHeight / speakerIcon.height );
@@ -145,7 +145,11 @@ define( require => {
         { value: model.soundScene, node: speakerIcon },
         { value: model.lightScene, node: laserPointerIcon }
       ], {
-        orientation: 'horizontal'
+        orientation: 'horizontal',
+        spacing: 15,
+        selectedStroke: '#73bce1',
+        baseColor: 'white',
+        selectedLineWidth: 2
       } );
 
       const frequencyTitle = new WaveInterferenceText( frequencyString );
@@ -180,14 +184,14 @@ define( require => {
                 frequencySliderContainer.bottom + 2;
       if ( options.additionalControl ) {
         options.additionalControl.top = y;
-        sceneRadioButtons.top = options.additionalControl.bottom + TITLE_SPACING;
+        sceneRadioButtons.top = options.additionalControl.bottom + 8;
       }
       else {
-        sceneRadioButtons.top = y;
+        sceneRadioButtons.top = y + 2;
       }
       const HORIZONTAL_SEPARATOR_MARGIN = 7;
       const CHECKBOX_SPACING = 5;
-      separator.top = sceneRadioButtons.bottom + HORIZONTAL_SEPARATOR_MARGIN;
+      separator.top = sceneRadioButtons.bottom + 12;
       graphCheckbox.top = separator.bottom + HORIZONTAL_SEPARATOR_MARGIN;
       viewSelectionRadioButtonGroup.top = graphCheckbox.bottom + CHECKBOX_SPACING;
       screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;

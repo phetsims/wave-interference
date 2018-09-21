@@ -52,20 +52,20 @@ define( require => {
       const waterSlitWidthControl = new NumberControl( slitWidthString, model.waterScene.slitWidthProperty, new Range( 0, 5 ), _.extend( {
         valuePattern: cmValueString,
         majorTicks: [
-          { value: 0, label: createLabel( '0 cm' ) },
-          { value: 5, label: createLabel( '5 cm' ) } ]
+          { value: 0, label: createLabel( '0' ) },
+          { value: 5, label: createLabel( '5' ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const soundSlitWidthControl = new NumberControl( slitWidthString, model.soundScene.slitWidthProperty, new Range( 0, 100 ), _.extend( {
         valuePattern: cmValueString,
         majorTicks: [
-          { value: 0, label: createLabel( '0 cm' ) }, // TODO: i18n
-          { value: 100, label: createLabel( '100 cm' ) } ]
+          { value: 0, label: createLabel( '0' ) }, // TODO: i18n
+          { value: 100, label: createLabel( '100' ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const lightSlitWidthControl = new NumberControl( slitWidthString, model.lightScene.slitWidthProperty, new Range( 0, 2000 ), _.extend( {
         valuePattern: nmValueString,
         majorTicks: [
-          { value: 0, label: createLabel( '0 nm' ) },
-          { value: 2000, label: createLabel( '2000 nm' ) } ]
+          { value: 0, label: createLabel( '0' ) },
+          { value: 2000, label: createLabel( '2000' ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const slitWidthControl = new ToggleNode( [
         { value: model.waterScene, node: waterSlitWidthControl },
@@ -82,20 +82,20 @@ define( require => {
       const waterSeparationControl = new NumberControl( slitSeparationString, model.waterScene.slitSeparationProperty, new Range( 0, 5 ), _.extend( {
         valuePattern: cmValueString,
         majorTicks: [
-          { value: 0, label: createLabel( '0 cm' ) },
-          { value: 5, label: createLabel( '5 cm' ) } ]
+          { value: 0, label: createLabel( '0' ) },
+          { value: 5, label: createLabel( '5' ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const soundSeparationControl = new NumberControl( slitSeparationString, model.soundScene.slitSeparationProperty, new Range( 0, 200 ), _.extend( {
         valuePattern: cmValueString,
         majorTicks: [
-          { value: 0, label: createLabel( '0 cm' ) },
-          { value: 200, label: createLabel( '200 cm' ) } ]
+          { value: 0, label: createLabel( '0' ) },
+          { value: 200, label: createLabel( '200' ) } ]
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const lightSeparationControl = new NumberControl( slitSeparationString, model.lightScene.slitSeparationProperty, new Range( 0, 2000 ), _.extend( {
         valuePattern: nmValueString,
         majorTicks: [
-          { value: 0, label: createLabel( '0 nm' ) },
-          { value: 2000, label: createLabel( '2000 nm' ) } ]
+          { value: 0, label: createLabel( '0' ) },
+          { value: 2000, label: createLabel( '2000' ) } ] // TODO: factor out these numbers
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const slitSeparationControl = new ToggleNode( [
         { value: model.waterScene, node: waterSeparationControl },
@@ -111,8 +111,8 @@ define( require => {
       } );
 
       // Vertical layout
-      slitWidthControl.top = comboBox.bottom + 2;
-      slitSeparationControl.top = slitWidthControl.bottom + 2;
+      slitWidthControl.top = comboBox.bottom + 10;
+      slitSeparationControl.top = slitWidthControl.bottom + 8;
 
       // Horizontal layout
       slitWidthControl.centerX = comboBox.centerX;
