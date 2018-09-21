@@ -1,11 +1,11 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.30 Fri Sep 21 2018 10:34:55 GMT-0600 (MDT)",
+  "comment": "# wave-interference 1.0.0-dev.31 Fri Sep 21 2018 12:56:51 GMT-0600 (MDT)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
   },
   "axon": {
-    "sha": "64b15cff2887ab17d08f59f8963f9277ff604ac4",
+    "sha": "ea39b7092f9d4353fde3e62d90e0811d79ad3d40",
     "branch": "master"
   },
   "brand": {
@@ -53,7 +53,7 @@
     "branch": "master"
   },
   "phet-io-wrappers": {
-    "sha": "852b7ba6ca9f95ff2e523cf8c3685638053d9042",
+    "sha": "77fc548731f28701a97afcee3bb5759e4390f2c8",
     "branch": "master"
   },
   "phetcommon": {
@@ -81,7 +81,7 @@
     "branch": "master"
   },
   "tambo": {
-    "sha": "1efd3c3276e2a0f2d1700f7c4f97427c57a967ad",
+    "sha": "5b2f16bc86a6c33bf4cc5691513ae4e37be3700f",
     "branch": "master"
   },
   "tandem": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "6dd9da6e70847521499e28128b9181b834621fb6",
+    "sha": "66f83b5f4fe96af0ac80e736cc696cfc6ef107b7",
     "branch": "master"
   }
 }
