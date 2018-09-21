@@ -182,12 +182,14 @@ define( require => {
       const y = options.showAmplitudeSlider ?
                 amplitudeSlider.bottom + TITLE_SPACING :
                 frequencySliderContainer.bottom + 2;
+
+      // The Sepration NumberControl is an additionalControl
       if ( options.additionalControl ) {
-        options.additionalControl.top = y;
-        sceneRadioButtons.top = options.additionalControl.bottom + 8;
+        options.additionalControl.top = y + 8;
+        sceneRadioButtons.top = options.additionalControl.bottom + 8 + 8;
       }
       else {
-        sceneRadioButtons.top = y + 2;
+        sceneRadioButtons.top = y + 8;
       }
       const HORIZONTAL_SEPARATOR_MARGIN = 7;
       const CHECKBOX_SPACING = 5;

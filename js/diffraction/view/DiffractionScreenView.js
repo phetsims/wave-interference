@@ -8,6 +8,7 @@ define( require => {
 
   // modules
   const Circle = require( 'SCENERY/nodes/Circle' );
+  const Dimension2 = require( 'DOT/Dimension2' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const Image = require( 'SCENERY/nodes/Image' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
@@ -23,10 +24,18 @@ define( require => {
   const Util = require( 'DOT/Util' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
   const width = 256;
   const height = width;
+  const NUMBER_CONTROL_OPTIONS = WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS;
+  const PANEL_OPTIONS = {
+    xMargin: 10,
+    yMargin: 10,
+    cornerRadius: 5
+  };
+  const BOX_SPACING = 15;
 
   /**
    * @param {number} x0
@@ -56,7 +65,10 @@ define( require => {
 
       this.onProperty = new Property( true );
       const laserPointerNode = new LaserPointerNode( this.onProperty, {
-        left: 10, centerY: 50
+        left: 10,
+        centerY: 50,
+        bodySize: new Dimension2( 110 * 0.8, 78 * 0.8 ),
+        nozzleSize: new Dimension2( 20 * 0.8, 60 * 0.8 )
       } );
 
       // Reset All button
@@ -147,41 +159,41 @@ define( require => {
       this.angleProperty.lazyLink( updateCanvases );
       this.gaussianMagnitudeProperty.lazyLink( updateCanvases );
       this.squareControlPanel = new Panel( new VBox( {
+        spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'width', this.squareWidthProperty, new Range( 2, 100 ), {
+          new NumberControl( 'width', this.squareWidthProperty, new Range( 2, 100 ), _.extend( {
             delta: 2 // avoid odd/even artifacts
-          } ),
-          new NumberControl( 'height', this.squareHeightProperty, new Range( 2, 100 ), {
+          }, NUMBER_CONTROL_OPTIONS ) ),
+          new NumberControl( 'height', this.squareHeightProperty, new Range( 2, 100 ), _.extend( {
             delta: 2 // avoid odd/even artifacts
-          } ) ]
-      } ), {
-        centerTop: this.apertureImage.centerBottom.plusXY( 0, 5 )
-      } );
+          }, NUMBER_CONTROL_OPTIONS ) ) ]
+      } ), _.extend( {
+        leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
+      }, PANEL_OPTIONS ) );
       this.addChild( this.squareControlPanel );
 
-      this.gaussianControlPanel = new Panel( new HBox( {
+      this.gaussianControlPanel = new Panel( new VBox( {
+        spacing: BOX_SPACING,
         children: [
-          new VBox( {
-            children: [
-              new NumberControl( 'sigmaX', this.sigmaXProperty, new Range( 2, 40 ) ),
-              new NumberControl( 'sigmaY', this.sigmaYProperty, new Range( 2, 40 ) )
-            ]
-          } ), new NumberControl( 'magnitude', this.gaussianMagnitudeProperty, new Range( 1, 1000 ) ) ]
-      } ), {
+          new NumberControl( 'sigmaX', this.sigmaXProperty, new Range( 2, 40 ), NUMBER_CONTROL_OPTIONS ),
+          new NumberControl( 'sigmaY', this.sigmaYProperty, new Range( 2, 40 ), NUMBER_CONTROL_OPTIONS )
+        ]
+      } ), _.extend( {
         leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
-      } );
+      }, PANEL_OPTIONS ) );
       this.addChild( this.gaussianControlPanel );
 
       this.slitsControlPanel = new Panel( new VBox( {
+        spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'number of lines', this.numberOfLinesProperty, new Range( 2, 200 ) ),
-          new NumberControl( 'angle', this.angleProperty, new Range( 0, Math.PI * 2 ), {
+          new NumberControl( 'number of lines', this.numberOfLinesProperty, new Range( 2, 200 ), NUMBER_CONTROL_OPTIONS ),
+          new NumberControl( 'angle', this.angleProperty, new Range( 0, Math.PI * 2 ), _.extend( {
             delta: 0.01
-          } )
+          }, NUMBER_CONTROL_OPTIONS ) )
         ]
-      } ), {
+      } ), _.extend( {
         leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
-      } );
+      }, PANEL_OPTIONS ) );
       this.addChild( this.slitsControlPanel );
 
       this.sceneProperty.link( scene => {
