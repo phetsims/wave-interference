@@ -232,40 +232,53 @@ define( require => {
 
       let start = +new Date();
       // make each canvas the image's exact size
-      const apertureCanvas = document.createElement( 'canvas' );
-      apertureCanvas.width = dims[ 0 ];
-      apertureCanvas.height = dims[ 1 ];
-      const apertureContext = apertureCanvas.getContext( '2d' );
+      const syntheticApertureCanvas = document.createElement( 'canvas' );
+      syntheticApertureCanvas.width = dims[ 0 ];
+      syntheticApertureCanvas.height = dims[ 1 ];
+      const syntheticApertureContext = syntheticApertureCanvas.getContext( '2d' );
+
+      const displayedApertureCanvas = document.createElement( 'canvas' );
+      displayedApertureCanvas.width = dims[ 0 ];
+      displayedApertureCanvas.height = dims[ 1 ];
+      const displayedApertureContext = displayedApertureCanvas.getContext( '2d' );
 
       const diffractionCanvas = document.createElement( 'canvas' );
       diffractionCanvas.width = dims[ 0 ];
       diffractionCanvas.height = dims[ 1 ];
       const diffractionContext = diffractionCanvas.getContext( '2d' );
 
-      apertureContext.fillStyle = 'black';
-      apertureContext.fillRect( 0, 0, width, height );
+      syntheticApertureContext.fillStyle = 'black';
+      syntheticApertureContext.fillRect( 0, 0, width, height );
+      syntheticApertureContext.fillStyle = 'white';
 
-      apertureContext.fillStyle = 'white';
+      displayedApertureContext.fillStyle = 'black';
+      displayedApertureContext.fillRect( 0, 0, width, height );
+      displayedApertureContext.fillStyle = 'white';
 
       let i;
 
       if ( this.sceneProperty.value === 'rectangle' ) {
         const rectWidth = this.squareWidthProperty.value;
         const rectHeight = this.squareHeightProperty.value;
-        apertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2, rectWidth, rectHeight );
+        syntheticApertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2, rectWidth, rectHeight );
+        displayedApertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2, rectWidth, rectHeight );
       }
       else if ( this.sceneProperty.value === 'circle' ) {
         for ( i = 0; i < width; i++ ) {
           for ( let k = 0; k < height; k++ ) {
             const v = Util.clamp( Math.floor( gaussian( width / 2, height / 2, this.sigmaXProperty.value, this.sigmaYProperty.value, i, k ) * this.gaussianMagnitudeProperty.value ), 0, 255 );
-            apertureContext.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
-            apertureContext.fillRect( i, k, 1, 1 );
+            const v2 = v > 128 ? 255 : 0;
+            syntheticApertureContext.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
+            displayedApertureContext.fillStyle = 'rgb(' + v2 + ',' + v2 + ',' + v2 + ')';
+            syntheticApertureContext.fillRect( i, k, 1, 1 );
+            displayedApertureContext.fillRect( i, k, 1, 1 );
           }
         }
       }
       else if ( this.sceneProperty.value === 'slits' ) {
 
-        apertureContext.rotate( this.angleProperty.value );
+        syntheticApertureContext.rotate( this.angleProperty.value );
+        displayedApertureContext.rotate( this.angleProperty.value );
         const slitWidth = 1;
         const numberOfLines = this.numberOfLinesProperty.value;
         const lineSpacing = width / ( numberOfLines + 1 );
@@ -274,29 +287,28 @@ define( require => {
         if ( numberOfLines % 2 === 0 ) {
 
           for ( i = 0; i < numberOfLines / 2; i++ ) {
-            apertureContext.fillRect( width / 2 + i * lineSpacing + lineSpacing / 2, -1000, slitWidth, 2000 );
-            apertureContext.fillRect( width / 2 - i * lineSpacing - lineSpacing / 2, -1000, slitWidth, 2000 );
+            syntheticApertureContext.fillRect( width / 2 + i * lineSpacing + lineSpacing / 2, -1000, slitWidth, 2000 );
+            displayedApertureContext.fillRect( width / 2 + i * lineSpacing + lineSpacing / 2, -1000, slitWidth, 2000 );
+            syntheticApertureContext.fillRect( width / 2 - i * lineSpacing - lineSpacing / 2, -1000, slitWidth, 2000 );
+            displayedApertureContext.fillRect( width / 2 - i * lineSpacing - lineSpacing / 2, -1000, slitWidth, 2000 );
           }
         }
         else {
 
           // odd number of lines
           for ( i = 0; i < numberOfLines / 2; i++ ) {
-            apertureContext.fillRect( width / 2 + i * lineSpacing, -1000, slitWidth, 2000 );
+            syntheticApertureContext.fillRect( width / 2 + i * lineSpacing, -1000, slitWidth, 2000 );
+            displayedApertureContext.fillRect( width / 2 + i * lineSpacing, -1000, slitWidth, 2000 );
             if ( i !== 0 ) { // only draw central line once
-              apertureContext.fillRect( width / 2 - i * lineSpacing, -1000, slitWidth, 2000 );
+              syntheticApertureContext.fillRect( width / 2 - i * lineSpacing, -1000, slitWidth, 2000 );
+              displayedApertureContext.fillRect( width / 2 - i * lineSpacing, -1000, slitWidth, 2000 );
             }
           }
         }
       }
 
-      // circle
-      // apertureContext.beginPath();
-      // apertureContext.arc( 75, 75, 5, 0, 2 * Math.PI );
-      // apertureContext.fill();
-
       // grab the pixels
-      const imageData = apertureContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
+      const imageData = syntheticApertureContext.getImageData( 0, 0, dims[ 0 ], dims[ 1 ] );
       const h_es = []; // the h values
       for ( let ai = 0; ai < imageData.data.length; ai += 4 ) {
 
@@ -362,10 +374,10 @@ define( require => {
       }
       diffractionContext.putImageData( currImageData, 0, 0 );
 
-      this.apertureImage.image = apertureCanvas;
+      this.apertureImage.image = displayedApertureCanvas;
       this.diffractionImage.image = this.onProperty.value ? diffractionCanvas : this.placeholderImage;
 
-      this.apertureIcon.image = apertureCanvas;
+      this.apertureIcon.image = displayedApertureCanvas;
       this.diffractionIcon.image = this.onProperty.value ? diffractionCanvas : this.placeholderImage;
 
       duration = +new Date() - start;
