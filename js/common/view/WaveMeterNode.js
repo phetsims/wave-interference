@@ -9,10 +9,10 @@ define( require => {
   'use strict';
 
   // modules
-  const Bounds2 = require( 'DOT/Bounds2' );
   const Color = require( 'SCENERY/util/Color' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Emitter = require( 'AXON/Emitter' );
+  const LabeledScrollingChartNode = require( 'GRIDDLE/LabeledScrollingChartNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
   const Property = require( 'AXON/Property' );
@@ -36,8 +36,8 @@ define( require => {
   const NUMBER_OF_TIME_DIVISIONS = 4;
   const AXIS_LABEL_FILL = 'white';
   const LABEL_FONT_SIZE = 14;
-  const WIDTH = 181.5;
-  const HEIGHT = 145.2;
+  const WIDTH = 190;
+  const HEIGHT = 140;
 
   // For the wires
   const NORMAL_DISTANCE = 25;
@@ -55,9 +55,7 @@ define( require => {
       options = _.extend( {
         timeDivisions: NUMBER_OF_TIME_DIVISIONS
       }, options );
-      const backgroundNode = new ShadedRectangle( new Bounds2( 0, 0, WIDTH, HEIGHT ), {
-        cursor: 'pointer'
-      } );
+      const backgroundNode = new Node( { cursor: 'pointer' } );
 
       super();
 
@@ -126,7 +124,6 @@ define( require => {
 
         // Standard location in toolbox and when dragging out of toolbox.
         const alignProbes = () => probeNode.mutate( { right: backgroundNode.left - dx, top: backgroundNode.top + dy } );
-        alignProbes();
         this.on( 'visible', alignProbes );
         this.alignProbesEmitter.addListener( alignProbes );
 
@@ -176,8 +173,8 @@ define( require => {
         return { color, probeNode, data, emitter };
       };
 
-      const aboveBottomLeft1 = new DerivedProperty( [ leftBottomProperty ], position => position.plusXY( 0, -20 ) );
-      const aboveBottomLeft2 = new DerivedProperty( [ leftBottomProperty ], position => position.plusXY( 0, -10 ) );
+      const aboveBottomLeft1 = new DerivedProperty( [ leftBottomProperty ], position => position.isFinite() ? position.plusXY( 0, -20 ) : Vector2.ZERO );
+      const aboveBottomLeft2 = new DerivedProperty( [ leftBottomProperty ], position => position.isFinite() ? position.plusXY( 0, -10 ) : Vector2.ZERO );
       const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1 );
       const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2 );
 
@@ -194,17 +191,18 @@ define( require => {
 
       // Create the scrolling chart content and add it to the background.  There is an order-of-creation cycle which
       // prevents the scrolling node from being added to the background before the super() call, so this will have to suffice.
-      const scrollingChartNode = new ScrollingChartNode(
+      const scrollingChartNode = new LabeledScrollingChartNode(
+        new ScrollingChartNode( model.timeProperty, [ series1, series2 ], WIDTH - 40, HEIGHT - 30 ),
         verticalAxisTitleNode,
         scaleIndicatorText,
-        model.timeProperty,
-        WIDTH,
-        HEIGHT,
-        [ series1, series2 ],
         timeString,
         _.omit( options, 'scale' ) // Don't apply the scale to both parent and children
       );
-      backgroundNode.addChild( scrollingChartNode );
+      const sr = new ShadedRectangle( scrollingChartNode.bounds.dilated( 7 ) );
+      sr.addChild( scrollingChartNode );
+      backgroundNode.addChild( sr );
+
+      this.alignProbesEmitter.emit();
     }
 
     /**
