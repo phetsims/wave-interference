@@ -192,7 +192,10 @@ define( require => {
       // Create the scrolling chart content and add it to the background.  There is an order-of-creation cycle which
       // prevents the scrolling node from being added to the background before the super() call, so this will have to suffice.
       const scrollingChartNode = new LabeledScrollingChartNode(
-        new ScrollingChartNode( model.timeProperty, [ series1, series2 ], WIDTH - 40, HEIGHT - 30 ),
+        new ScrollingChartNode( model.timeProperty, [ series1, series2 ], {
+          width: 150,
+          height: 110
+        } ),
         verticalAxisTitleNode,
         scaleIndicatorText,
         timeString,
