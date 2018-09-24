@@ -36,8 +36,6 @@ define( require => {
   const NUMBER_OF_TIME_DIVISIONS = 4;
   const AXIS_LABEL_FILL = 'white';
   const LABEL_FONT_SIZE = 14;
-  const WIDTH = 190;
-  const HEIGHT = 140;
 
   // For the wires
   const NORMAL_DISTANCE = 25;
