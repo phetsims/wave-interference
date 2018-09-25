@@ -29,11 +29,11 @@ define( require => {
       const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.waterScene.getWaveAreaBounds(), waveAreaNodeBounds );
 
       // Compute the x-coordinate where the drop should be shown.
-      var m = ModelViewTransform2.createRectangleMapping( model.lattice.visibleBounds, waveAreaNodeBounds );
+      const m = ModelViewTransform2.createRectangleMapping( model.lattice.visibleBounds, waveAreaNodeBounds );
 
       // Note this is nudged over 1/2 a cell so it will appear in the center of the cell rather than
       // at the left edge of the cell
-      var CENTER_X = m.modelToViewX( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE + 0.5 );
+      const CENTER_X = m.modelToViewX( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE + 0.5 );
 
       // Preallocate Images that will be associated with different water drop instances.
       const MAX_DROPS = 4;
