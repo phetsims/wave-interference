@@ -30,13 +30,13 @@ define( require => {
 
   // strings
   const amplitudeString = require( 'string!WAVE_INTERFERENCE/amplitude' );
+  const bothString = require( 'string!WAVE_INTERFERENCE/both' );
   const frequencyString = require( 'string!WAVE_INTERFERENCE/frequency' );
   const graphString = require( 'string!WAVE_INTERFERENCE/graph' );
   const intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
+  const particlesString = require( 'string!WAVE_INTERFERENCE/particles' );
   const screenString = require( 'string!WAVE_INTERFERENCE/screen' );
   const wavesString = require( 'string!WAVE_INTERFERENCE/waves' );
-  const particlesString = require( 'string!WAVE_INTERFERENCE/particles' );
-  const bothString = require( 'string!WAVE_INTERFERENCE/both' );
 
   // images
   const hoseImage = require( 'image!WAVE_INTERFERENCE/hose.png' );

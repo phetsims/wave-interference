@@ -10,14 +10,14 @@ define( require => {
 
   // modules
   const BarriersNode = require( 'WAVE_INTERFERENCE/slits/view/BarriersNode' );
-  const TheoryInterferenceOverlay = require( 'WAVE_INTERFERENCE/slits/view/TheoryInterferenceOverlay' );
   const Property = require( 'AXON/Property' );
   const Shape = require( 'KITE/Shape' );
   const SlitsControlPanel = require( 'WAVE_INTERFERENCE/slits/view/SlitsControlPanel' );
+  const TheoryInterferenceOverlay = require( 'WAVE_INTERFERENCE/slits/view/TheoryInterferenceOverlay' );
   const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
   const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
+  const WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
 
   class SlitsScreenView extends WavesScreenView {
 
