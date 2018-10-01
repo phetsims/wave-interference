@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   class SoundParticle {
 
@@ -48,21 +49,22 @@ define( require => {
      */
     applyForce( fx, fy, dt ) {
 
+      var RANDOMNESS = WaveInterferenceConstants.SOUND_PARTICLE_RANDOMNESS_PROPERTY.get();
+
       // the particles move randomly even when there are no waves, because they are not at absolute zero
       // see https://github.com/phetsims/wave-interference/issues/123
-      const RANDOM_MAGNITUDE = 16;
-      fx += ( Math.random() - 0.5 ) * 2 * RANDOM_MAGNITUDE;
-      fy += ( Math.random() - 0.5 ) * 2 * RANDOM_MAGNITUDE;
+      fx += ( Math.random() - 0.5 ) * 2 * RANDOMNESS;
+      fy += ( Math.random() - 0.5 ) * 2 * RANDOMNESS;
 
       // use the airK as the magnitude and the forceCenter for direction only.
-      const RESTORATION_SPRING_CONSTANT = 1.5;
+      const RESTORATION_SPRING_CONSTANT = WaveInterferenceConstants.SOUND_PARTICLE_RESTORATION_SPRING_CONSTANT_PROPERTY.get();
       const fSpringX = -RESTORATION_SPRING_CONSTANT * ( this.x - this.initialX );
       const fSpringY = -RESTORATION_SPRING_CONSTANT * ( this.y - this.initialY );
       this.vx += fx + fSpringX;
       this.vy += fy + fSpringY;
 
       // friction
-      const FRICTION_SCALE = 0.95;
+      const FRICTION_SCALE = WaveInterferenceConstants.SOUND_PARTICLE_FRICTION_SCALE_PROPERTY.get();
       this.vx *= FRICTION_SCALE;
       this.vy *= FRICTION_SCALE;
 

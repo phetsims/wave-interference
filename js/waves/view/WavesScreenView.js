@@ -33,6 +33,7 @@ define( require => {
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
   const SoundEmitterNode = require( 'WAVE_INTERFERENCE/common/view/SoundEmitterNode' );
+  const SoundParticleDevPanel = require( 'WAVE_INTERFERENCE/common/view/SoundParticleDevPanel' );
   const SoundParticleLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleLayer' );
   const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
   const TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
@@ -330,6 +331,14 @@ define( require => {
       const soundParticleLayer = model.soundScene.showSoundParticles ? new SoundParticleLayer( model, this.waveAreaNode.bounds, {
         center: this.waveAreaNode.center
       } ) : new Node();
+
+      if ( phet.chipper.queryParameters.dev && model.soundScene.showSoundParticles ) {
+        var soundParticleDevPanel = new SoundParticleDevPanel( {
+          right: this.layoutBounds.right - 100,
+          bottom: this.layoutBounds.bottom
+        } );
+        this.addChild( soundParticleDevPanel );
+      }
 
       // Don't let the particles appear outside of the wave area
       soundParticleLayer.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed(
