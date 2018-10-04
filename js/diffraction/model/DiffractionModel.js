@@ -19,8 +19,8 @@ define( require => {
       this.onProperty = new Property( true );
 
       // @public {Property.<number>} dimensions of the square aperture
-      this.squareWidthProperty = new Property( 30 );
-      this.squareHeightProperty = new Property( 30 );
+      this.squareWidthProperty = new Property( 16 );
+      this.squareHeightProperty = new Property( 16 );
 
       // @public {Property.<number>} dimensions of the elliptical aperture
       this.sigmaXProperty = new Property( 10 );

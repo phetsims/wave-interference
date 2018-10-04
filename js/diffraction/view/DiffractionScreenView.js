@@ -84,10 +84,9 @@ define( require => {
       context.fillStyle = 'black';
       context.fillRect( 0, 0, width, height );
 
-      const imageScale = 1.5;
+      const imageScale = 1;
       this.apertureImage = new Image( this.placeholderImage, { scale: imageScale, top: 100, left: 140 } );
       this.addChild( this.apertureImage );
-
 
       this.diffractionImage = new Image( this.placeholderImage, {
         right: this.layoutBounds.right - 10,
@@ -129,14 +128,14 @@ define( require => {
       this.squareControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'width', model.squareWidthProperty, new Range( 2, 100 ), _.extend( {
+          new NumberControl( 'width', model.squareWidthProperty, new Range( 2, 30 ), _.extend( {
             delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ),
-          new NumberControl( 'height', model.squareHeightProperty, new Range( 2, 100 ), _.extend( {
+          new NumberControl( 'height', model.squareHeightProperty, new Range( 2, 30 ), _.extend( {
             delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ) ]
       } ), _.extend( {
-        leftTop: this.layoutBounds.leftTop.plusXY( 200, 0 )
+        leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
       }, PANEL_OPTIONS ) );
       this.addChild( this.squareControlPanel );
 
@@ -147,7 +146,7 @@ define( require => {
           new NumberControl( 'sigmaY', model.sigmaYProperty, new Range( 2, 40 ), NUMBER_CONTROL_OPTIONS )
         ]
       } ), _.extend( {
-        leftTop: this.layoutBounds.leftTop
+        leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
       }, PANEL_OPTIONS ) );
       this.addChild( this.gaussianControlPanel );
 
@@ -160,7 +159,7 @@ define( require => {
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
       } ), _.extend( {
-        leftTop: this.layoutBounds.leftTop
+        leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
       }, PANEL_OPTIONS ) );
       this.addChild( this.slitsControlPanel );
 
@@ -191,23 +190,24 @@ define( require => {
 
       updateCanvases();
 
-      var container = new Rectangle( 0, 0, 256, 256, {
-        lineWidth: 1,
+      var container = new Rectangle( 0, 0, width, height, {
+        lineWidth: 4,
         stroke: 'blue',
-        clipArea: Shape.rect( 0, 0, 256, 256 )
+        clipArea: Shape.rect( 0, 0, 256, 256 ),
+        x: 440,
+        top: 100
       } );
       var squareImageNode = new Image( squareImage, { opacity: 1, pickable: false } );
       this.addChild( container );
       container.addChild( squareImageNode );
       const updateScale = () => {
-        squareImageNode.setScaleMagnitude( 30 / model.squareWidthProperty.value, 30 / model.squareHeightProperty.value );
-        squareImageNode.center = container.center;
+        squareImageNode.setScaleMagnitude( 30 / model.squareWidthProperty.value * 256 / squareImage.width, 30 / model.squareHeightProperty.value * 256 / squareImage.height );
+        squareImageNode.centerX = container.width / 2;
+        squareImageNode.centerY = container.height / 2;
       };
 
       model.squareWidthProperty.link( updateScale );
       model.squareHeightProperty.link( updateScale );
-
-
     }
 
     updateCanvases() {
