@@ -39,24 +39,6 @@ define( require => {
   };
   const BOX_SPACING = 15;
 
-  const saveDataURLAsImage = dataURL => {
-    // construct a blob out of it
-    var requiredPrefix = 'data:image/png;base64,';
-    assert && assert( dataURL.slice( 0, requiredPrefix.length ) === requiredPrefix );
-    var dataBase64 = dataURL.slice( requiredPrefix.length );
-    var byteChars = window.atob( dataBase64 );
-    var byteArray = new window.Uint8Array( byteChars.length );
-    for ( var i = 0; i < byteArray.length; i++ ) {
-      byteArray[ i ] = byteChars.charCodeAt( i ); // need check to make sure this cast doesn't give problems?
-    }
-
-    var blob = new window.Blob( [ byteArray ], { type: 'image/png' } );
-
-    // our preferred filename
-    var filename = 'save.png';
-    window.saveAs( blob, filename );
-  };
-
   class DiffractionScreenView extends ScreenView {
 
     /**
@@ -392,6 +374,24 @@ define( require => {
       console.log( 'It took ' + duration + 'ms to compute the FT.' );
     }
   }
+
+  const saveDataURLAsImage = dataURL => {
+    // construct a blob out of it
+    var requiredPrefix = 'data:image/png;base64,';
+    assert && assert( dataURL.slice( 0, requiredPrefix.length ) === requiredPrefix );
+    var dataBase64 = dataURL.slice( requiredPrefix.length );
+    var byteChars = window.atob( dataBase64 );
+    var byteArray = new window.Uint8Array( byteChars.length );
+    for ( var i = 0; i < byteArray.length; i++ ) {
+      byteArray[ i ] = byteChars.charCodeAt( i ); // need check to make sure this cast doesn't give problems?
+    }
+
+    var blob = new window.Blob( [ byteArray ], { type: 'image/png' } );
+
+    // our preferred filename
+    var filename = 'save.png';
+    window.saveAs( blob, filename );
+  };
 
   /**
    * @param {number} x0
