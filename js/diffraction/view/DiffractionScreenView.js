@@ -142,8 +142,8 @@ define( require => {
       this.gaussianControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'sigmaX', model.sigmaXProperty, new Range( 2, 40 ), NUMBER_CONTROL_OPTIONS ),
-          new NumberControl( 'sigmaY', model.sigmaYProperty, new Range( 2, 40 ), NUMBER_CONTROL_OPTIONS )
+          new NumberControl( 'sigmaX', model.sigmaXProperty, new Range( 2, 20 ), NUMBER_CONTROL_OPTIONS ),
+          new NumberControl( 'sigmaY', model.sigmaYProperty, new Range( 2, 20 ), NUMBER_CONTROL_OPTIONS )
         ]
       } ), _.extend( {
         leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )

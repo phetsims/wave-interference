@@ -23,8 +23,8 @@ define( require => {
       this.squareHeightProperty = new Property( 16 );
 
       // @public {Property.<number>} dimensions of the elliptical aperture
-      this.sigmaXProperty = new Property( 10 );
-      this.sigmaYProperty = new Property( 10 );
+      this.sigmaXProperty = new Property( 20 );
+      this.sigmaYProperty = new Property( 20 );
       this.gaussianMagnitudeProperty = new Property( 400 );
 
       // @public {Property.<number>} characteristics of the grating
