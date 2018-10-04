@@ -7,6 +7,7 @@ define( require => {
   'use strict';
 
   // modules
+  const Bounds2 = require( 'DOT/Bounds2' );
   const Circle = require( 'SCENERY/nodes/Circle' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const Image = require( 'SCENERY/nodes/Image' );
@@ -20,10 +21,14 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const ScreenView = require( 'JOIST/ScreenView' );
+  const Shape = require( 'KITE/Shape' );
   const Util = require( 'DOT/Util' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+
+  // images
+  const squareImage = require( 'image!WAVE_INTERFERENCE/square-30.png' );
 
   // constants
   const width = 256;
@@ -35,6 +40,24 @@ define( require => {
     cornerRadius: 5
   };
   const BOX_SPACING = 15;
+
+  const saveDataURLAsImage = dataURL => {
+    // construct a blob out of it
+    var requiredPrefix = 'data:image/png;base64,';
+    assert && assert( dataURL.slice( 0, requiredPrefix.length ) === requiredPrefix );
+    var dataBase64 = dataURL.slice( requiredPrefix.length );
+    var byteChars = window.atob( dataBase64 );
+    var byteArray = new window.Uint8Array( byteChars.length );
+    for ( var i = 0; i < byteArray.length; i++ ) {
+      byteArray[ i ] = byteChars.charCodeAt( i ); // need check to make sure this cast doesn't give problems?
+    }
+
+    var blob = new window.Blob( [ byteArray ], { type: 'image/png' } );
+
+    // our preferred filename
+    var filename = 'save.png';
+    window.saveAs( blob, filename );
+  };
 
   /**
    * @param {number} x0
@@ -78,8 +101,8 @@ define( require => {
       } );
       this.addChild( resetAllButton );
 
-      this.squareWidthProperty = new Property( 10 );
-      this.squareHeightProperty = new Property( 10 );
+      this.squareWidthProperty = new Property( 30 );
+      this.squareHeightProperty = new Property( 30 );
 
       this.numberOfLinesProperty = new Property( 10 );
       this.angleProperty = new Property( 0 );
@@ -161,7 +184,7 @@ define( require => {
             delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ) ]
       } ), _.extend( {
-        leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
+        leftTop: this.layoutBounds.leftTop.plusXY( 200, 0 )
       }, PANEL_OPTIONS ) );
       this.addChild( this.squareControlPanel );
 
@@ -172,7 +195,7 @@ define( require => {
           new NumberControl( 'sigmaY', this.sigmaYProperty, new Range( 2, 40 ), NUMBER_CONTROL_OPTIONS )
         ]
       } ), _.extend( {
-        leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
+        leftTop: this.layoutBounds.leftTop
       }, PANEL_OPTIONS ) );
       this.addChild( this.gaussianControlPanel );
 
@@ -185,7 +208,7 @@ define( require => {
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
       } ), _.extend( {
-        leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
+        leftTop: this.layoutBounds.leftTop
       }, PANEL_OPTIONS ) );
       this.addChild( this.slitsControlPanel );
 
@@ -201,20 +224,36 @@ define( require => {
         opacity: 0.7
       } );
 
-      const transmittedBeam = new Rectangle( this.apertureIcon.centerX, laserPointerNode.centerY - beamWidth / 2, this.diffractionIcon.centerX - this.apertureIcon.centerX, beamWidth, {
-        fill: 'gray',
-        opacity: 0.7
-      } );
+      // const transmittedBeam = new Rectangle( this.apertureIcon.centerX, laserPointerNode.centerY - beamWidth / 2, this.diffractionIcon.centerX - this.apertureIcon.centerX, beamWidth, {
+      //   fill: 'gray',
+      //   opacity: 0.7
+      // } );
 
       this.onProperty.linkAttribute( incidentBeam, 'visible' );
-      this.onProperty.linkAttribute( transmittedBeam, 'visible' );
+      // this.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
-      this.addChild( transmittedBeam );
+      // this.addChild( transmittedBeam );
       this.addChild( this.apertureIcon );
       this.addChild( incidentBeam );
       this.addChild( laserPointerNode );
 
       updateCanvases();
+
+      var container = new Rectangle( 0, 0, 256, 256, {
+        lineWidth: 1,
+        stroke: 'blue',
+        clipArea: Shape.rect( 0, 0, 256, 256 )
+      } );
+      var squareImageNode = new Image( squareImage, { opacity: 1, pickable: false } );
+      this.addChild( container );
+      container.addChild( squareImageNode );
+      const updateScale = () => {
+        squareImageNode.setScaleMagnitude( 30 / this.squareWidthProperty.value, 30 / this.squareHeightProperty.value );
+        squareImageNode.center = container.center;
+      };
+
+      this.squareWidthProperty.link( updateScale );
+      this.squareHeightProperty.link( updateScale );
     }
 
     updateCanvases() {
@@ -372,6 +411,8 @@ define( require => {
 
       this.apertureIcon.image = displayedApertureCanvas;
       this.diffractionIcon.image = this.onProperty.value ? diffractionCanvas : this.placeholderImage;
+
+      // saveDataURLAsImage( diffractionCanvas.toDataURL() );
 
       duration = +new Date() - start;
       console.log( 'It took ' + duration + 'ms to compute the FT.' );
