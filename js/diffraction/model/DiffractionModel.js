@@ -10,11 +10,42 @@ define( require => {
 
   // modules
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const Property = require( 'AXON/Property' );
 
   class DiffractionModel {
-    constructor() {}
+    constructor() {
 
-    reset() {}
+      // @public {Property.<boolean>} whether the laser is emitting light
+      this.onProperty = new Property( true );
+
+      // @public {Property.<number>} dimensions of the square aperture
+      this.squareWidthProperty = new Property( 30 );
+      this.squareHeightProperty = new Property( 30 );
+
+      // @public {Property.<number>} dimensions of the elliptical aperture
+      this.sigmaXProperty = new Property( 10 );
+      this.sigmaYProperty = new Property( 10 );
+      this.gaussianMagnitudeProperty = new Property( 400 );
+
+      // @public {Property.<number>} characteristics of the grating
+      this.numberOfLinesProperty = new Property( 10 );
+      this.angleProperty = new Property( 0 );
+
+      // @public {Property.<string>} selected scene
+      this.sceneProperty = new Property( 'rectangle' ); // TODO: enum
+    }
+
+    reset() {
+      this.onProperty.reset();
+      this.squareWidthProperty.reset();
+      this.squareHeightProperty.reset();
+      this.sigmaXProperty.reset();
+      this.sigmaYProperty.reset();
+      this.gaussianMagnitudeProperty.reset();
+      this.numberOfLinesProperty.reset();
+      this.angleProperty.reset();
+      this.sceneProperty.reset();
+    }
   }
 
   return waveInterference.register( 'DiffractionModel', DiffractionModel );

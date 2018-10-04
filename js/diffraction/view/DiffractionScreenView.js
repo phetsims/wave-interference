@@ -7,7 +7,6 @@ define( require => {
   'use strict';
 
   // modules
-  const Bounds2 = require( 'DOT/Bounds2' );
   const Circle = require( 'SCENERY/nodes/Circle' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const Image = require( 'SCENERY/nodes/Image' );
@@ -15,7 +14,6 @@ define( require => {
   const Matrix3 = require( 'DOT/Matrix3' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Panel = require( 'SUN/Panel' );
-  const Property = require( 'AXON/Property' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const Range = require( 'DOT/Range' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -59,34 +57,17 @@ define( require => {
     window.saveAs( blob, filename );
   };
 
-  /**
-   * @param {number} x0
-   * @param {number} y0
-   * @param {number} sigmaX
-   * @param {number} sigmaY
-   * @param {number} x
-   * @param {number} y
-   * @returns {number}
-   */
-  function gaussian( x0, y0, sigmaX, sigmaY, x, y ) {
-    const dx = x - x0;
-    const dy = y - y0;
-    const a = dx * dx / sigmaX / sigmaX;
-    const b = dy * dy / sigmaY / sigmaY;
-    return Math.pow( Math.E, -( a + b ) / 2 );
-  }
-
   class DiffractionScreenView extends ScreenView {
 
     /**
-     * @param {WaveInterferenceModel} diffractionModel
+     * @param {WaveInterferenceModel} model
      */
-    constructor( diffractionModel ) {
-
+    constructor( model ) {
       super();
 
-      this.onProperty = new Property( true );
-      const laserPointerNode = new LaserPointerNode( this.onProperty, {
+      // @private
+      this.model = model;
+      const laserPointerNode = new LaserPointerNode( model.onProperty, {
         left: 10,
         centerY: 50,
         bodySize: new Dimension2( 110 * 0.8, 78 * 0.8 ),
@@ -95,23 +76,12 @@ define( require => {
 
       // Reset All button
       const resetAllButton = new ResetAllButton( {
-        listener: () => diffractionModel.reset(),
+        listener: () => model.reset(),
         right: this.layoutBounds.maxX - 10,
         bottom: this.layoutBounds.maxY - 10
       } );
       this.addChild( resetAllButton );
 
-      this.squareWidthProperty = new Property( 30 );
-      this.squareHeightProperty = new Property( 30 );
-
-      this.numberOfLinesProperty = new Property( 10 );
-      this.angleProperty = new Property( 0 );
-
-      this.sigmaXProperty = new Property( 10 );
-      this.sigmaYProperty = new Property( 10 );
-      this.gaussianMagnitudeProperty = new Property( 400 );
-
-      this.sceneProperty = new Property( 'rectangle' );
       const toggleButtonsContent = [ {
         value: 'rectangle',
         node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
@@ -119,7 +89,7 @@ define( require => {
         value: 'circle',
         node: new Circle( 10, { fill: 'black' } )
       } ];
-      const radioButtonGroup = new RadioButtonGroup( this.sceneProperty, toggleButtonsContent, {
+      const radioButtonGroup = new RadioButtonGroup( model.sceneProperty, toggleButtonsContent, {
         left: 10,
         bottom: this.layoutBounds.bottom - 10
       } );
@@ -162,25 +132,25 @@ define( require => {
 
       const updateCanvases = this.updateCanvases.bind( this );
 
-      this.sceneProperty.lazyLink( updateCanvases );
+      model.sceneProperty.lazyLink( updateCanvases );
 
       this.addChild( radioButtonGroup );
 
-      this.squareWidthProperty.lazyLink( updateCanvases );
-      this.squareHeightProperty.lazyLink( updateCanvases );
-      this.sigmaXProperty.lazyLink( updateCanvases );
-      this.sigmaYProperty.lazyLink( updateCanvases );
-      this.onProperty.lazyLink( updateCanvases );
-      this.numberOfLinesProperty.lazyLink( updateCanvases );
-      this.angleProperty.lazyLink( updateCanvases );
-      this.gaussianMagnitudeProperty.lazyLink( updateCanvases );
+      model.squareWidthProperty.lazyLink( updateCanvases );
+      model.squareHeightProperty.lazyLink( updateCanvases );
+      model.sigmaXProperty.lazyLink( updateCanvases );
+      model.sigmaYProperty.lazyLink( updateCanvases );
+      model.onProperty.lazyLink( updateCanvases );
+      model.numberOfLinesProperty.lazyLink( updateCanvases );
+      model.angleProperty.lazyLink( updateCanvases );
+      model.gaussianMagnitudeProperty.lazyLink( updateCanvases );
       this.squareControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'width', this.squareWidthProperty, new Range( 2, 100 ), _.extend( {
+          new NumberControl( 'width', model.squareWidthProperty, new Range( 2, 100 ), _.extend( {
             delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ),
-          new NumberControl( 'height', this.squareHeightProperty, new Range( 2, 100 ), _.extend( {
+          new NumberControl( 'height', model.squareHeightProperty, new Range( 2, 100 ), _.extend( {
             delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ) ]
       } ), _.extend( {
@@ -191,8 +161,8 @@ define( require => {
       this.gaussianControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'sigmaX', this.sigmaXProperty, new Range( 2, 40 ), NUMBER_CONTROL_OPTIONS ),
-          new NumberControl( 'sigmaY', this.sigmaYProperty, new Range( 2, 40 ), NUMBER_CONTROL_OPTIONS )
+          new NumberControl( 'sigmaX', model.sigmaXProperty, new Range( 2, 40 ), NUMBER_CONTROL_OPTIONS ),
+          new NumberControl( 'sigmaY', model.sigmaYProperty, new Range( 2, 40 ), NUMBER_CONTROL_OPTIONS )
         ]
       } ), _.extend( {
         leftTop: this.layoutBounds.leftTop
@@ -202,8 +172,8 @@ define( require => {
       this.slitsControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'number of lines', this.numberOfLinesProperty, new Range( 2, 200 ), NUMBER_CONTROL_OPTIONS ),
-          new NumberControl( 'angle', this.angleProperty, new Range( 0, Math.PI * 2 ), _.extend( {
+          new NumberControl( 'number of lines', model.numberOfLinesProperty, new Range( 2, 200 ), NUMBER_CONTROL_OPTIONS ),
+          new NumberControl( 'angle', model.angleProperty, new Range( 0, Math.PI * 2 ), _.extend( {
             delta: 0.01
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
@@ -212,7 +182,7 @@ define( require => {
       }, PANEL_OPTIONS ) );
       this.addChild( this.slitsControlPanel );
 
-      this.sceneProperty.link( scene => {
+      model.sceneProperty.link( scene => {
         this.squareControlPanel.visible = scene === 'rectangle';
         this.gaussianControlPanel.visible = scene === 'circle';
         this.slitsControlPanel.visible = scene === 'slits';
@@ -224,15 +194,15 @@ define( require => {
         opacity: 0.7
       } );
 
-      // const transmittedBeam = new Rectangle( this.apertureIcon.centerX, laserPointerNode.centerY - beamWidth / 2, this.diffractionIcon.centerX - this.apertureIcon.centerX, beamWidth, {
-      //   fill: 'gray',
-      //   opacity: 0.7
-      // } );
+      const transmittedBeam = new Rectangle( this.apertureIcon.centerX, laserPointerNode.centerY - beamWidth / 2, this.diffractionIcon.centerX - this.apertureIcon.centerX, beamWidth, {
+        fill: 'gray',
+        opacity: 0.7
+      } );
 
-      this.onProperty.linkAttribute( incidentBeam, 'visible' );
-      // this.onProperty.linkAttribute( transmittedBeam, 'visible' );
+      model.onProperty.linkAttribute( incidentBeam, 'visible' );
+      model.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
-      // this.addChild( transmittedBeam );
+      this.addChild( transmittedBeam );
       this.addChild( this.apertureIcon );
       this.addChild( incidentBeam );
       this.addChild( laserPointerNode );
@@ -248,12 +218,14 @@ define( require => {
       this.addChild( container );
       container.addChild( squareImageNode );
       const updateScale = () => {
-        squareImageNode.setScaleMagnitude( 30 / this.squareWidthProperty.value, 30 / this.squareHeightProperty.value );
+        squareImageNode.setScaleMagnitude( 30 / model.squareWidthProperty.value, 30 / model.squareHeightProperty.value );
         squareImageNode.center = container.center;
       };
 
-      this.squareWidthProperty.link( updateScale );
-      this.squareHeightProperty.link( updateScale );
+      model.squareWidthProperty.link( updateScale );
+      model.squareHeightProperty.link( updateScale );
+
+
     }
 
     updateCanvases() {
@@ -289,16 +261,16 @@ define( require => {
 
       let i;
 
-      if ( this.sceneProperty.value === 'rectangle' ) {
-        const rectWidth = this.squareWidthProperty.value;
-        const rectHeight = this.squareHeightProperty.value;
+      if ( this.model.sceneProperty.value === 'rectangle' ) {
+        const rectWidth = this.model.squareWidthProperty.value;
+        const rectHeight = this.model.squareHeightProperty.value;
         syntheticApertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2, rectWidth, rectHeight );
         displayedApertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2, rectWidth, rectHeight );
       }
-      else if ( this.sceneProperty.value === 'circle' ) {
+      else if ( this.model.sceneProperty.value === 'circle' ) {
         for ( i = 0; i < width; i++ ) {
           for ( let k = 0; k < height; k++ ) {
-            const v = Util.clamp( Math.floor( gaussian( width / 2, height / 2, this.sigmaXProperty.value, this.sigmaYProperty.value, i, k ) * this.gaussianMagnitudeProperty.value ), 0, 255 );
+            const v = Util.clamp( Math.floor( gaussian( width / 2, height / 2, this.model.sigmaXProperty.value, this.model.sigmaYProperty.value, i, k ) * this.model.gaussianMagnitudeProperty.value ), 0, 255 );
             const v2 = v > 128 ? 255 : 0;
             syntheticApertureContext.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
             displayedApertureContext.fillStyle = 'rgb(' + v2 + ',' + v2 + ',' + v2 + ')';
@@ -307,12 +279,12 @@ define( require => {
           }
         }
       }
-      else if ( this.sceneProperty.value === 'slits' ) {
+      else if ( this.model.sceneProperty.value === 'slits' ) {
 
-        syntheticApertureContext.rotate( this.angleProperty.value );
-        displayedApertureContext.rotate( this.angleProperty.value );
+        syntheticApertureContext.rotate( this.model.angleProperty.value );
+        displayedApertureContext.rotate( this.model.angleProperty.value );
         const slitWidth = 1;
-        const numberOfLines = this.numberOfLinesProperty.value;
+        const numberOfLines = this.model.numberOfLinesProperty.value;
         const lineSpacing = width / ( numberOfLines + 1 );
 
         // Even number of lines
@@ -407,16 +379,35 @@ define( require => {
       diffractionContext.putImageData( currImageData, 0, 0 );
 
       this.apertureImage.image = displayedApertureCanvas;
-      this.diffractionImage.image = this.onProperty.value ? diffractionCanvas : this.placeholderImage;
+      this.diffractionImage.image = this.model.onProperty.value ? diffractionCanvas : this.placeholderImage;
 
       this.apertureIcon.image = displayedApertureCanvas;
-      this.diffractionIcon.image = this.onProperty.value ? diffractionCanvas : this.placeholderImage;
+      this.diffractionIcon.image = this.model.onProperty.value ? diffractionCanvas : this.placeholderImage;
 
-      // saveDataURLAsImage( diffractionCanvas.toDataURL() );
+      if ( phet.chipper.queryParameters.dev ) {
+        saveDataURLAsImage( diffractionCanvas.toDataURL() );
+      }
 
       duration = +new Date() - start;
       console.log( 'It took ' + duration + 'ms to compute the FT.' );
     }
+  }
+
+  /**
+   * @param {number} x0
+   * @param {number} y0
+   * @param {number} sigmaX
+   * @param {number} sigmaY
+   * @param {number} x
+   * @param {number} y
+   * @returns {number}
+   */
+  function gaussian( x0, y0, sigmaX, sigmaY, x, y ) {
+    const dx = x - x0;
+    const dy = y - y0;
+    const a = dx * dx / sigmaX / sigmaX;
+    const b = dy * dy / sigmaY / sigmaY;
+    return Math.pow( Math.E, -( a + b ) / 2 );
   }
 
   return waveInterference.register( 'DiffractionScreenView', DiffractionScreenView );
