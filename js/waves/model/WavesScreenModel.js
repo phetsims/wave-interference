@@ -75,7 +75,12 @@ define( require => {
       assert && assert( options.numberOfSources === 1 || options.numberOfSources === 2, 'Model only supports 1 or 2 sources' );
 
       // @public {Lattice} the grid that contains the wave values
-      this.lattice = new Lattice( 100, 100, WaveInterferenceConstants.LATTICE_PADDING, WaveInterferenceConstants.LATTICE_PADDING );
+      this.lattice = new Lattice(
+        WaveInterferenceConstants.LATTICE_DIMENSION,
+        WaveInterferenceConstants.LATTICE_DIMENSION,
+        WaveInterferenceConstants.LATTICE_PADDING,
+        WaveInterferenceConstants.LATTICE_PADDING
+      );
 
       // @public {Property.<ViewType>}
       this.viewTypeProperty = new Property( ViewType.TOP, {
