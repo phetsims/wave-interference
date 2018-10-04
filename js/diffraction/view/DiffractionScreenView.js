@@ -30,7 +30,7 @@ define( require => {
 
   // constants
   const width = 256;
-  const height = width;
+  const height = width; // square canvas
   const NUMBER_CONTROL_OPTIONS = WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS;
   const PANEL_OPTIONS = {
     xMargin: 10,
@@ -231,7 +231,7 @@ define( require => {
     updateCanvases() {
 
       // Usage code from JS-Fourier-Image-Analysis/js/main.js
-      const dims = [ width, height ]; // will be set later
+      const dims = [ width, height ];
       const cc = 9e-3; // contrast constant
 
       let start = +new Date();
