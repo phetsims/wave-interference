@@ -26,7 +26,8 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // images
-  const squareImage = require( 'image!WAVE_INTERFERENCE/square-30.png' );
+  // const squareImage = require( 'image!WAVE_INTERFERENCE/square-30.png' );
+  const airyDiskImage = require( 'image!WAVE_INTERFERENCE/airy-disk-10.png' );
 
   // constants
   const width = 256;
@@ -142,8 +143,8 @@ define( require => {
       this.gaussianControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'sigmaX', model.sigmaXProperty, new Range( 2, 20 ), NUMBER_CONTROL_OPTIONS ),
-          new NumberControl( 'sigmaY', model.sigmaYProperty, new Range( 2, 20 ), NUMBER_CONTROL_OPTIONS )
+          new NumberControl( 'sigmaX', model.sigmaXProperty, new Range( 2, 10 ), NUMBER_CONTROL_OPTIONS ),
+          new NumberControl( 'sigmaY', model.sigmaYProperty, new Range( 2, 10 ), NUMBER_CONTROL_OPTIONS )
         ]
       } ), _.extend( {
         leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
@@ -175,10 +176,14 @@ define( require => {
         opacity: 0.7
       } );
 
-      const transmittedBeam = new Rectangle( this.apertureIcon.centerX, laserPointerNode.centerY - beamWidth / 2, this.diffractionIcon.centerX - this.apertureIcon.centerX, beamWidth, {
-        fill: 'gray',
-        opacity: 0.7
-      } );
+      const transmittedBeam = new Rectangle(
+        this.apertureIcon.centerX,
+        laserPointerNode.centerY - beamWidth / 2,
+        Math.max( this.diffractionIcon.centerX - this.apertureIcon.centerX, 0 ), // support for larger canvas for generating rasters
+        beamWidth, {
+          fill: 'gray',
+          opacity: 0.7
+        } );
 
       model.onProperty.linkAttribute( incidentBeam, 'visible' );
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
@@ -197,17 +202,24 @@ define( require => {
         x: 440,
         top: 100
       } );
-      var squareImageNode = new Image( squareImage, { opacity: 1, pickable: false } );
+      var squareImageNode = new Image( airyDiskImage, { pickable: false } );
       this.addChild( container );
       container.addChild( squareImageNode );
       const updateScale = () => {
-        squareImageNode.setScaleMagnitude( 30 / model.squareWidthProperty.value * 256 / squareImage.width, 30 / model.squareHeightProperty.value * 256 / squareImage.height );
+        // squareImageNode.setScaleMagnitude( 30 / model.squareWidthProperty.value * 256 / squareImage.width, 30 / model.squareHeightProperty.value * 256 / squareImage.height );
+        // squareImageNode.centerX = container.width / 2;
+        // squareImageNode.centerY = container.height / 2;
+
+        squareImageNode.setScaleMagnitude( 10 / model.sigmaXProperty.value * width / airyDiskImage.width, 10 / model.sigmaYProperty.value * height / airyDiskImage.height );
         squareImageNode.centerX = container.width / 2;
         squareImageNode.centerY = container.height / 2;
       };
 
       model.squareWidthProperty.link( updateScale );
       model.squareHeightProperty.link( updateScale );
+
+      model.sigmaXProperty.link( updateScale );
+      model.sigmaYProperty.link( updateScale );
     }
 
     updateCanvases() {
