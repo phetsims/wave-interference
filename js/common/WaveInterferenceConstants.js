@@ -53,7 +53,7 @@ define( require => {
 
     // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).  This value
     // must be coordinated with WaterEmitterNode's waterDrops[ index ].centerX
-    POINT_SOURCE_HORIZONTAL_COORDINATE: 5,
+    POINT_SOURCE_HORIZONTAL_COORDINATE: 23,
 
     LATTICE_DIMENSION: 100,
 
