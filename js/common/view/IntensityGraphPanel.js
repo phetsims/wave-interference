@@ -11,9 +11,12 @@ define( require => {
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
   const Color = require( 'SCENERY/util/Color' );
+  const ColorConstants = require( 'SUN/ColorConstants' );
   const Line = require( 'SCENERY/nodes/Line' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
+  const RangeWithValue = require( 'DOT/RangeWithValue' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
   const Util = require( 'DOT/Util' );
@@ -21,6 +24,7 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
 
   // constants
   const TITLE_Y_MARGIN = 4;
@@ -33,9 +37,10 @@ define( require => {
      * @param {number} graphHeight - the height of the graph in view coordinates
      * @param {IntensitySample} intensitySample - values for the intensity
      * @param {number} numberGridLines - how many vertical grid lines to show
+     * @param {Emitter} resetEmitter - emits when the sim is reset
      * @param {Object} [options]
      */
-    constructor( graphHeight, intensitySample, numberGridLines, options ) {
+    constructor( graphHeight, intensitySample, numberGridLines, resetEmitter, options ) {
 
       const chartRectangle = new Rectangle( 0, 0, 100, graphHeight, { fill: 'white', stroke: 'black', lineWidth: 1 } );
 
@@ -64,15 +69,9 @@ define( require => {
         lineDash: LINE_DASH
       } ) );
 
-      const tickLabel0 = new WaveInterferenceText( '0', {
-        centerTop: chartRectangle.leftBottom
-      } );
-      const tickLabel1 = new WaveInterferenceText( '1', {
-        centerTop: chartRectangle.rightBottom
-      } );
       const title = new WaveInterferenceText( 'Intensity', {
         centerX: chartRectangle.centerX,
-        top: tickLabel1.bottom + TITLE_Y_MARGIN
+        top: chartRectangle.bottom + TITLE_Y_MARGIN
       } );
       const curve = new Path( null, {
         stroke: 'black',
@@ -83,8 +82,43 @@ define( require => {
         localBounds: Bounds2.NOTHING
       } );
 
+      // Support for zoom in/out
+      const zoomRange = new RangeWithValue( 1, 5, 3 );
+      const zoomLevelProperty = new NumberProperty( zoomRange.defaultValue, {
+        range: zoomRange
+      } );
+
+      // Reset zoom level when sim is reset
+      resetEmitter.addListener( () => zoomLevelProperty.reset() );
+
+      const zoomButtonOptions = {
+        radius: 6,
+        baseColor: ColorConstants.LIGHT_BLUE,
+        top: title.bottom + 13
+      };
+
+      // Zoom out button on the left
+      const zoomOutButton = new ZoomButton( _.extend( {
+        in: false,
+        left: chartRectangle.left,
+        listener: () => zoomLevelProperty.value--
+      }, zoomButtonOptions ) );
+
+      // Zoom in button on the right
+      const zoomInButton = new ZoomButton( _.extend( {
+        in: true,
+        right: chartRectangle.right,
+        listener: () => zoomLevelProperty.value++
+      }, zoomButtonOptions ) );
+
+      // Disable zoom buttons at the extrema
+      zoomLevelProperty.link( zoomLevel => {
+        zoomOutButton.enabled = zoomLevel > zoomRange.min;
+        zoomInButton.enabled = zoomLevel < zoomRange.max;
+      } );
+
       const chartNode = new Node( {
-        children: [ chartRectangle, curve, tickLabel0, tickLabel1, title ]
+        children: [ chartRectangle, curve, title, zoomOutButton, zoomInButton ]
       } );
 
       super( chartNode, options );
@@ -92,11 +126,13 @@ define( require => {
       // @private
       this.chartRectangle = chartRectangle;
 
-      intensitySample.changedEmitter.addListener( () => {
+      const updateChart = () => {
         const intensityValues = intensitySample.getIntensityValues();
         const shape = new Shape();
         for ( let i = 0; i < intensityValues.length; i++ ) {
-          const SCALING = 2;
+
+          // default scaling is 2
+          const SCALING = Util.linear( zoomRange.min, zoomRange.max, 0.5, 3.5, zoomLevelProperty.value );
           let intensityPlotValue = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, chartRectangle.left, chartRectangle.right * SCALING, intensityValues[ i ] );
           if ( intensityPlotValue > chartRectangle.right ) {
             intensityPlotValue = chartRectangle.right;  // TODO: use clipping instead?
@@ -105,7 +141,9 @@ define( require => {
           shape.lineTo( intensityPlotValue, positionPlotValue );
         }
         curve.shape = shape;
-      } );
+      };
+      intensitySample.changedEmitter.addListener( updateChart );
+      zoomLevelProperty.link( updateChart );
     }
 
     /**
