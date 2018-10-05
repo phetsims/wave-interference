@@ -32,7 +32,7 @@ define( require => {
       const m = ModelViewTransform2.createRectangleMapping( model.lattice.visibleBounds, waveAreaNodeBounds );
 
       // Note this is nudged over 1/2 a cell so it will appear in the center of the cell rather than
-      // at the left edge of the cell
+      // at the left edge of the cell.  See also WaveInterferenceUtils.getWaterSideShape.
       const CENTER_X = m.modelToViewX( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE + 0.5 );
 
       // Preallocate Images that will be associated with different water drop instances.

@@ -119,7 +119,10 @@ define( require => {
       super.step( model, dt );
 
       const time = model.timeProperty.value;
-      const period = 1 / this.desiredFrequencyProperty.value;
+
+      // Use the lattice frequency (rather than the desired frequency) to determine the time of the next drop
+      // so the next drop will not take too long, see https://github.com/phetsims/wave-interference/issues/154
+      const period = 1 / this.frequencyProperty.value;
 
       const timeSinceLastDrop = time - this.lastDropTime;
 
