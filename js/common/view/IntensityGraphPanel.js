@@ -32,9 +32,10 @@ define( require => {
     /**
      * @param {number} graphHeight - the height of the graph in view coordinates
      * @param {IntensitySample} intensitySample - values for the intensity
+     * @param {number} numberGridLines - how many vertical grid lines to show
      * @param {Object} [options]
      */
-    constructor( graphHeight, intensitySample, options ) {
+    constructor( graphHeight, intensitySample, numberGridLines, options ) {
 
       const chartRectangle = new Rectangle( 0, 0, 100, graphHeight, { fill: 'white', stroke: 'black', lineWidth: 1 } );
 
@@ -49,9 +50,9 @@ define( require => {
         lineDash: [ 9.1, 9.1 ] // Solid part touches each edge
       } );
 
-      for ( let i = 0; i < 10; i++ ) {
-        const yTop = Util.linear( 0, 10, chartRectangle.centerY, chartRectangle.top, i );
-        const yBottom = Util.linear( 0, 10, chartRectangle.centerY, chartRectangle.bottom, i );
+      for ( let i = 0; i < numberGridLines; i++ ) {
+        const yTop = Util.linear( 0, numberGridLines, chartRectangle.centerY, chartRectangle.top, i );
+        const yBottom = Util.linear( 0, numberGridLines, chartRectangle.centerY, chartRectangle.bottom, i );
         chartRectangle.addChild( createLine( i, yTop ) );
         if ( i !== 0 ) {
           chartRectangle.addChild( createLine( i, yBottom ) );

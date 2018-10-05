@@ -168,7 +168,9 @@ define( require => {
       this.addChild( screenNode );
       this.addChild( this.latticeNode );
 
-      const intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, {
+      // Match the size of the scale indicator
+      const numberGridLines = model.lightScene.waveAreaWidth / model.lightScene.scaleIndicatorLength;
+      const intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, numberGridLines, {
         left: screenNode.right + 5
       } );
       Property.multilink( [ model.showScreenProperty, model.showIntensityGraphProperty, model.sceneProperty ],
