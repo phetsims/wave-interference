@@ -108,7 +108,7 @@ define( require => {
     }
 
     /**
-     * Returns the bounds of the chart background in the global coordinate frame, used to align the ScreenNode
+     * Returns the bounds of the chart background in the global coordinate frame, used to align the LightScreenNode
      * @returns {Bounds2}
      * @public
      */

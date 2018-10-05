@@ -26,7 +26,7 @@ define( require => {
   // This chooses the saturation point for the screen, as well as the "thinness" of the minima
   const BRIGHTNESS_SCALE_FACTOR = 7;
 
-  class ScreenNode extends CanvasNode {
+  class LightScreenNode extends CanvasNode {
 
     /**
      * @param {Lattice} lattice
@@ -133,5 +133,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'ScreenNode', ScreenNode );
+  return waveInterference.register( 'LightScreenNode', LightScreenNode );
 } );

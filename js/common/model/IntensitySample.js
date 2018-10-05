@@ -2,7 +2,7 @@
 
 /**
  * Keeps track of the history of wave values on the right edge of the visible wave area, for displaying intensity in
- * the ScreenNode and IntensityGraphPanel.
+ * the LightScreenNode and IntensityGraphPanel.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

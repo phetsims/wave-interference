@@ -29,7 +29,7 @@ define( require => {
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const RichText = require( 'SCENERY/nodes/RichText' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
-  const ScreenNode = require( 'WAVE_INTERFERENCE/common/view/ScreenNode' );
+  const LightScreenNode = require( 'WAVE_INTERFERENCE/common/view/LightScreenNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
   const SoundEmitterNode = require( 'WAVE_INTERFERENCE/common/view/SoundEmitterNode' );
@@ -133,7 +133,7 @@ define( require => {
         center: this.waveAreaNode.center
       } );
 
-      const screenNode = new ScreenNode( model.lattice, model.intensitySample, {
+      const screenNode = new LightScreenNode( model.lattice, model.intensitySample, {
         scale: scale,
         left: this.waveAreaNode.right + 5,
         y: this.waveAreaNode.top
