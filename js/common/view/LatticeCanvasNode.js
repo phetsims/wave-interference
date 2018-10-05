@@ -92,27 +92,15 @@ define( require => {
       const dampY = this.lattice.dampY;
       const width = this.lattice.width;
       const height = this.lattice.height;
-      const CUTOFF = 0.3;
       let intensity;
       for ( let i = dampX; i < width - dampX; i++ ) {
         for ( let k = dampY; k < height - dampY; k++ ) {
 
-          // Color mapping:
-          // wave value => color value
-          //          1 => 1.0
-          //          0 => 0.3
-          //         -1 => 0.0
           const waveValue = this.lattice.getInterpolatedValue( k, i );  // Note this is transposed because of the ordering of putImageData
 
-          if ( waveValue > 0 ) {
-            intensity = Util.linear( 0, 2, CUTOFF, 1, waveValue );
-            intensity = Util.clamp( intensity, CUTOFF, 1 );
-          }
-          else {
-            const MIN_SHADE = 0.03; // Stop before 0 because 0 is too jarring
-            intensity = Util.linear( -1.5, 0, MIN_SHADE, CUTOFF, waveValue );
-            intensity = Util.clamp( intensity, MIN_SHADE, CUTOFF );
-          }
+          const MIN_SHADE = 0.03; // Stop before 0 because 0 is too jarring
+          intensity = Util.linear( -1.5, 2, MIN_SHADE, 1, waveValue );
+          intensity = Util.clamp( intensity, MIN_SHADE, 1 );
 
           // Note this interpolation doesn't include the gamma factor that Color.blend does
           let r = this.baseColor.red * intensity;
