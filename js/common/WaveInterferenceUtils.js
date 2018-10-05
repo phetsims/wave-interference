@@ -39,7 +39,9 @@ define( require => {
       for ( let i = 0; i < array.length; i++ ) {
         const value = ( i === POINT_SOURCE ) ? ( array[ i ] + 3 * array[ i - 1 ] + 3 * array[ i + 1 ] ) / 7 :
                       array[ i ];
-        const x = Util.linear( 0, array.length - 1, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
+
+        // Map the center of the cell to the same point on the graph, see https://github.com/phetsims/wave-interference/issues/143
+        const x = Util.linear( -0.5, array.length - 1 + 0.5, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
         const y = WaveInterferenceUtils.getWaterSideY( waveAreaBounds, value ) + dy;
         shape.lineTo( x, y );
       }
