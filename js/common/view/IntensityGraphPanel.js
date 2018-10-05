@@ -96,9 +96,10 @@ define( require => {
         const intensityValues = intensitySample.getIntensityValues();
         const shape = new Shape();
         for ( let i = 0; i < intensityValues.length; i++ ) {
-          let intensityPlotValue = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, chartRectangle.left, chartRectangle.right, intensityValues[ i ] );
+          const SCALING = 2;
+          let intensityPlotValue = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, chartRectangle.left, chartRectangle.right * SCALING, intensityValues[ i ] );
           if ( intensityPlotValue > chartRectangle.right ) {
-            intensityPlotValue = chartRectangle.right;
+            intensityPlotValue = chartRectangle.right;  // TODO: use clipping instead?
           }
           const positionPlotValue = Util.linear( 0, intensityValues.length - 1, chartRectangle.top, chartRectangle.bottom, i );
           shape.lineTo( intensityPlotValue, positionPlotValue );

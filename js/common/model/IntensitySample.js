@@ -16,7 +16,7 @@ define( require => {
   // constants
   // Number of samples to use for a temporal average.  Higher number means more latency. Lower number means more
   // responsive, but we need to make the time longer than one period so it doesn't just show part of the wave cycle
-  const HISTORY_LENGTH = 120;
+  const HISTORY_LENGTH = 180;
 
   class IntensitySample {
 
@@ -52,7 +52,15 @@ define( require => {
         }
         intensities.push( sum / this.history.length );
       }
-      return intensities;
+
+      const result = [];
+      result.length = intensities.length;
+      result[ 0 ] = intensities[ 0 ];
+      result[ result.length - 1 ] = intensities[ result.length - 1 ];
+      for ( let i = 1; i < intensities.length - 1; i++ ) {
+        result[ i ] = ( intensities[ i - 1 ] + intensities[ i ] + intensities[ i + 1 ] ) / 3;
+      }
+      return result;
     }
 
     /**

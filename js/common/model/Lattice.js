@@ -291,7 +291,10 @@ define( require => {
       // amount of time spent in this function, hence we use the simpler implementation.
       const column = [];
       for ( let j = this.dampY; j < this.height - this.dampY; j++ ) {
-        column.push( this.getCurrentValue( this.width - this.dampX - 1, j ) );
+        const a = this.getCurrentValue( this.width - this.dampX - 1, j );
+        const b = this.getCurrentValue( this.width - this.dampX - 2, j );
+        const v = ( a + b ) / 2;
+        column.push( v );
       }
       return column;
     }
