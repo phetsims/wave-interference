@@ -67,7 +67,7 @@ define( require => {
       lattice.changedEmitter.addListener( invalidateSelfListener );
 
       // Show it at a 3d perspective, as if orthogonal to the wave view
-      const shear = Matrix3.dirtyFromPool().setToAffine( 1, 0, 0, -0.5, 1, 0 );
+      const shear = Matrix3.dirtyFromPool().setToAffine( 1, 0, 0, -0.3, 1, 0 );
       this.appendMatrix( shear );
 
       // After shearing, center on the LatticeNode.  Vertical offset determined empirically.
