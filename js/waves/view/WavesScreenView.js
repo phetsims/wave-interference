@@ -87,6 +87,15 @@ define( require => {
       } );
       this.addChild( this.waveAreaNode );
 
+      // Thin border to distinguish between the lattice node and the light screen.  This is not part of the
+      // waveAreaNode because that would extend its bounds
+      const borderNode = new Rectangle( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, {
+        stroke: 'white',
+        lineWidth: 1,
+        top: this.waveAreaNode.top - 0.5,
+        centerX: this.waveAreaNode.centerX
+      } );
+
       // @protected {Node} placeholder for z-ordering for subclasses
       this.afterWaveAreaNode = new Node();
 
@@ -133,7 +142,7 @@ define( require => {
         center: this.waveAreaNode.center
       } );
 
-      const screenNode = new LightScreenNode( model.lattice, model.intensitySample, {
+      const lightScreenNode = new LightScreenNode( model.lattice, model.intensitySample, {
         scale: scale,
         left: this.waveAreaNode.right + 5,
         y: this.waveAreaNode.top
@@ -141,7 +150,7 @@ define( require => {
 
       // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
       Property.multilink( [ model.showScreenProperty, model.sceneProperty ], ( showScreen, scene ) => {
-        screenNode.visible = showScreen && scene === model.lightScene;
+        lightScreenNode.visible = showScreen && scene === model.lightScene;
       } );
 
       // Set the color of highlight on the screen and lattice
@@ -150,29 +159,30 @@ define( require => {
           const baseColor = VisibleColor.frequencyToColor( fromFemto( lightFrequency ) );
           this.latticeNode.setBaseColor( baseColor );
           this.latticeNode.vacuumColor = Color.black;
-          screenNode.setBaseColor( baseColor );
+          lightScreenNode.setBaseColor( baseColor );
         }
         else if ( scene === model.soundScene ) {
           this.latticeNode.setBaseColor( Color.white );
           this.latticeNode.vacuumColor = null;
-          screenNode.setBaseColor( Color.white );
+          lightScreenNode.setBaseColor( Color.white );
         }
         else if ( scene === model.waterScene ) {
           this.latticeNode.setBaseColor( WATER_BLUE );
           this.latticeNode.vacuumColor = null;
-          screenNode.setBaseColor( WATER_BLUE );
+          lightScreenNode.setBaseColor( WATER_BLUE );
         }
       } );
-      model.showScreenProperty.linkAttribute( screenNode, 'visible' );
+      model.showScreenProperty.linkAttribute( lightScreenNode, 'visible' );
 
-      this.addChild( screenNode );
+      this.addChild( lightScreenNode );
       this.addChild( this.latticeNode );
+      this.addChild( borderNode );
 
       // Match the size of the scale indicator
       const numberGridLines = model.lightScene.waveAreaWidth / model.lightScene.scaleIndicatorLength;
       const intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, numberGridLines,
         model.resetEmitter, {
-          left: screenNode.right + 5
+          left: lightScreenNode.right + 5
         } );
       Property.multilink( [ model.showScreenProperty, model.showIntensityGraphProperty, model.sceneProperty ],
         ( showScreen, showIntensityGraph, scene ) => {
