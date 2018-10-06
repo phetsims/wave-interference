@@ -495,16 +495,21 @@ define( require => {
         const distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
-        const latticeCenterJ = Math.round( this.lattice.height / 2 );
+        // To understand why we subtract 1 here, imagine for the sake of conversation that the lattice is 5 units wide,
+        // so the cells are indexed 0,1,2,3,4.  5/2 === 2.5, rounded up that is 3, so we must subtract 1 to find the
+        // center of the lattice.
+        const latticeCenterJ = Math.round( this.lattice.height / 2 ) - 1;
 
         // Point source
         if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
-          lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ + distanceAboveAxis, waveValue );
+          const j1 = latticeCenterJ + distanceAboveAxis;
+          lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j1, waveValue );
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
         if ( this.continuousWave2OscillatingProperty.get() ) {
-          lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, latticeCenterJ - distanceAboveAxis, waveValue );
+          const j2 = latticeCenterJ - distanceAboveAxis;
+          lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j2, waveValue );
         }
       }
     }

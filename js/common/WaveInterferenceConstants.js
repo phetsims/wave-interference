@@ -55,7 +55,9 @@ define( require => {
     // must be coordinated with WaterEmitterNode's waterDrops[ index ].centerX
     POINT_SOURCE_HORIZONTAL_COORDINATE: 23,
 
-    LATTICE_DIMENSION: 100,
+    // The lattice must have an odd dimension, so that there can be a cell exactly in the middle, and symmetry for the
+    // two oscillator screen.  See https://github.com/phetsims/wave-interference/issues/167
+    LATTICE_DIMENSION: 101,
 
     // Number of cells around the boundary of the lattice to avoid reflections at the edge
     LATTICE_PADDING: 20,
