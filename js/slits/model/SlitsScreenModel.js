@@ -67,6 +67,8 @@ define( require => {
       const slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel );
       const latticeCenterY = this.lattice.height / 2;
 
+      // Take the desired frequency for the water scene, or the specified frequency of any other scene
+      // const frequency = scene.desiredFrequencyProperty ? scene.desiredFrequencyProperty.get() : scene.frequencyProperty.get();
       const frequency = scene.frequencyProperty.get();
       const wavelength = scene.wavelength;
 
@@ -133,6 +135,15 @@ define( require => {
           }
         }
       }
+    }
+
+    /**
+     * There are no water drops in this scene, and hence the slider controls the frequency directly.
+     * @override
+     * @public
+     */
+    getWaterFrequencySliderProperty() {
+      return this.waterScene.frequencyProperty;
     }
   }
 

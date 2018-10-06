@@ -96,6 +96,8 @@ define( require => {
 
       // Water scene
       this.waterScene = new WaterScene( this.button1PressedProperty, this.button2PressedProperty, {
+
+        // TODO: Should these values be in WaterScene, or here?
         positionUnits: 'cm',
         translatedPositionUnits: cmUnitsString,
         timeUnits: secondsUnitsString,
@@ -142,7 +144,7 @@ define( require => {
         initialSlitSeparation: 150 // cm
       } );
 
-      // Light scene
+      // Light scene.  TODO: Why is there no subclass for LightScene?
       this.lightScene = new Scene( {
         positionUnits: 'nm',
         translatedPositionUnits: nanometersUnitsString,
@@ -545,6 +547,15 @@ define( require => {
 
       // Signify for listeners that the model reset is complete
       this.resetEmitter.emit();
+    }
+
+    /**
+     * When using water drops, the slider controls the desired frequency.  The actual frequency on the lattice is not
+     * set until the water drop hits.
+     * @public
+     */
+    getWaterFrequencySliderProperty() {
+      return this.waterScene.desiredFrequencyProperty;
     }
 
     static get EVENT_RATE() {

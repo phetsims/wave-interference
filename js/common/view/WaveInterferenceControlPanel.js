@@ -65,10 +65,11 @@ define( require => {
       }, options );
 
       // Controls are in the metric coordinate frame
-      const waterFrequencySlider = new WaveInterferenceSlider( model.waterScene.desiredFrequencyProperty, model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
+      // TODO: should we move the frequency ranges into the Property?
+      const waterFrequencySlider = new WaveInterferenceSlider( model.getWaterFrequencySliderProperty(), model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
       const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
 
-      // Create a Property in Hz as required by the FrequencySlider.
+      // For the light scene, create a Property in Hz as required by the FrequencySlider.
       const frequencyInHzProperty = new DynamicProperty( new Property( model.lightScene.frequencyProperty ), {
         bidirectional: true,
         map: frequency => WaveInterferenceUtils.fromFemto( frequency ),
