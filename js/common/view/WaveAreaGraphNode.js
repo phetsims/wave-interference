@@ -157,9 +157,9 @@ define( require => {
       // The part that displays the values (doesn't include axis labels)
       const plotHeight = horizontalLineY;
 
-      const dashedLineNode = new DashedLineNode();
-      dashedLineNode.centerY = plotHeight / 2;
-      this.addChild( dashedLineNode );
+      this.addChild( new DashedLineNode( {
+        centerY: plotHeight / 2
+      } ) );
 
       [ 1 / 4, 3 / 4 ].forEach( horizontalGridLineFraction => {
         this.addChild( new Line( 0, horizontalGridLineFraction * plotHeight, graphWidth, horizontalGridLineFraction * plotHeight, GRID_LINE_OPTIONS ) );
@@ -185,7 +185,7 @@ define( require => {
 
       const array = [];
       const dx = -options.x;
-      const dy = -options.centerY / 2 + 9; // Manually tuned to center the line in the graph, must be synchronized with graphHeight
+      const dy = -options.centerY / 2 + 7.5; // Manually tuned to center the line in the graph, must be synchronized with graphHeight
       model.lattice.changedEmitter.addListener( () => {
         path.shape = WaveInterferenceUtils.getWaterSideShape( array, model.lattice, waveAreaBounds, dx, dy );
       } );
