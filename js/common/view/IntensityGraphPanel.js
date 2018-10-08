@@ -9,7 +9,6 @@ define( require => {
   'use strict';
 
   // modules
-  const Bounds2 = require( 'DOT/Bounds2' );
   const Color = require( 'SCENERY/util/Color' );
   const ColorConstants = require( 'SUN/ColorConstants' );
   const Line = require( 'SCENERY/nodes/Line' );
