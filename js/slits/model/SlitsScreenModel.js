@@ -34,11 +34,25 @@ define( require => {
       this.soundScene.barrierLocationProperty.link( barrierMoved );
       this.lightScene.barrierLocationProperty.link( barrierMoved );
 
+      // @private {number} - phase of the wave so it doesn't start halfway through a cycle
+      this.planeWavePhase = 0;
+
       // @protected {number} - record the time the button was pressed, so the SlitsScreenModel can propagate the right distance
       this.button1PressTime = 0;
-      this.button1PressedProperty.link( ( pressed ) => {
+      this.button1PressedProperty.link( pressed => {
         if ( pressed ) {
           this.button1PressTime = this.timeProperty.value;
+
+          // See setSourceValues
+          const scene = this.sceneProperty.value;
+          const frequency = scene.frequencyProperty.get();
+          const wavelength = scene.wavelength;
+          const k = Math.PI * 2 / wavelength;
+          const angularFrequency = frequency * Math.PI * 2;
+          const x = scene.modelToLatticeTransform.viewToModelX( this.lattice.dampX );
+
+          // Solve for k * x - angularFrequency * this.timeProperty.value + phase = 0
+          this.planeWavePhase = angularFrequency * this.timeProperty.value - k * x;
         }
         else {
           this.clear();
@@ -117,15 +131,18 @@ define( require => {
             }
           }
           if ( this.button1PressedProperty.get() && !isCellInBarrier ) {
-            let value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - angularFrequency * this.timeProperty.value );
 
             // If the coordinate is past where the front of the wave would be, then zero it out.
-            if ( i >= frontPosition ) {
-              value = 0;
-            }
             const lastValue = lattice.getCurrentValue( i, j );
-            lattice.setCurrentValue( i, j, value );
-            lattice.setLastValue( i, j, lastValue );
+            if ( i >= frontPosition ) {
+              lattice.setCurrentValue( i, j, 0 );
+              lattice.setLastValue( i, j, 0 );
+            }
+            else {
+              const value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - angularFrequency * this.timeProperty.value + this.planeWavePhase );
+              lattice.setCurrentValue( i, j, value );
+              lattice.setLastValue( i, j, lastValue );
+            }
           }
           else {
 
