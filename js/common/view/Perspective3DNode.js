@@ -37,22 +37,14 @@ define( require => {
       const topFacePath = new Path( null, {
         stroke: 'black',
         lineWidth: 4,
-        lineJoin: 'round',
-
-        // prevent bounds computations during main loop
-        boundsMethod: 'none',
-        localBounds: ScreenView.DEFAULT_LAYOUT_BOUNDS
+        lineJoin: 'round'
       } );
 
       // depicts the side face (when the user selects "side view")
       const sideFacePath = new Path( null, {
         stroke: 'black',
         lineWidth: 4,
-        lineJoin: 'round',
-
-        // prevent bounds computations during main loop
-        boundsMethod: 'none',
-        localBounds: ScreenView.DEFAULT_LAYOUT_BOUNDS
+        lineJoin: 'round'
       } );
 
       // shows the up arrow
