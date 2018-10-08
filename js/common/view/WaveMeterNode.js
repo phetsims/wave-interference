@@ -122,7 +122,7 @@ define( require => {
 
         // Standard location in toolbox and when dragging out of toolbox.
         const alignProbes = () => probeNode.mutate( { right: backgroundNode.left - dx, top: backgroundNode.top + dy } );
-        this.on( 'visible', alignProbes );
+        this.on( 'visibility', alignProbes );
         this.alignProbesEmitter.addListener( alignProbes );
 
         const data = [];
