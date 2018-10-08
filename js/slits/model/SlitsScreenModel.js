@@ -14,6 +14,9 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
 
+  // constants
+  const PLANE_WAVE_MAGNITUDE = 0.21;
+
   class SlitsScreenModel extends WavesScreenModel {
 
     constructor() {
@@ -75,7 +78,7 @@ define( require => {
       const slitSeparationModel = scene.slitSeparationProperty.get();
 
       const frontTime = this.timeProperty.value - this.button1PressTime;
-      const frontPosition = Math.round( scene.modelToLatticeTransform.modelToViewX( scene.waveSpeed * frontTime ) );
+      const frontPosition = scene.modelToLatticeTransform.modelToViewX( scene.waveSpeed * frontTime );
 
       const slitWidthModel = scene.slitWidthProperty.get();
       const slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel );
@@ -133,22 +136,19 @@ define( require => {
           if ( this.button1PressedProperty.get() && !isCellInBarrier ) {
 
             // If the coordinate is past where the front of the wave would be, then zero it out.
-            const lastValue = lattice.getCurrentValue( i, j );
             if ( i >= frontPosition ) {
               lattice.setCurrentValue( i, j, 0 );
-              lattice.setLastValue( i, j, 0 );
             }
             else {
-              const value = this.amplitudeProperty.get() * 0.21 * Math.sin( k * x - angularFrequency * this.timeProperty.value + this.planeWavePhase );
+              const amplitude = this.amplitudeProperty.get() * PLANE_WAVE_MAGNITUDE;
+              const value = amplitude * Math.sin( k * x - angularFrequency * this.timeProperty.value + this.planeWavePhase );
               lattice.setCurrentValue( i, j, value );
-              lattice.setLastValue( i, j, lastValue );
             }
           }
           else {
 
             // Instantly clear the incoming wave, otherwise there are too many reflections
             lattice.setCurrentValue( i, j, 0 );
-            lattice.setLastValue( i, j, 0 );
           }
         }
       }
