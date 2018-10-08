@@ -65,11 +65,11 @@ define( require => {
       this.afterWaveAreaNode.addChild( soundBarriersNode );
       this.afterWaveAreaNode.addChild( lightBarriersNode );
 
+      // When enabled by a query parameter, show the theoretical interference pattern.
       if ( WaveInterferenceQueryParameters.theory ) {
-        const theoryInterferenceOverlay = new TheoryInterferenceOverlay( model, this.waveAreaNode.bounds, {
+        this.addChild( new TheoryInterferenceOverlay( model, this.waveAreaNode.bounds, {
           clipArea: Shape.bounds( this.waveAreaNode.bounds )
-        } );
-        this.addChild( theoryInterferenceOverlay );
+        } ) );
       }
     }
   }

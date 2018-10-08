@@ -1,8 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Shows the theoretical/ideal (far field) pattern for interference, when ?theory is specified.
- * This code is not production ready, because it is buried behind a query parameter, see https://github.com/phetsims/wave-interference/issues/136
+ * Shows the theoretical/ideal (far field) pattern for interference, when ?theory is specified, see
+ * https://github.com/phetsims/wave-interference/issues/136
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -18,6 +18,9 @@ define( require => {
 
   // constants
   const LENGTH = 500;
+  const MAXIMUM_COLOR = 'yellow';
+  const MINIMUM_COLOR = 'red';
+  const LINE_WIDTH = 1;
 
   class TheoryInterferenceOverlay extends Node {
 
@@ -31,7 +34,7 @@ define( require => {
 
       this.mutate( options );
 
-      model.stepEmitter.addListener( () => {
+      const updateLines = () => {
         this.removeAllChildren();
         const barrierType = model.barrierTypeProperty.get();
         if ( barrierType !== BarrierTypeEnum.NO_BARRIER ) {
@@ -43,29 +46,32 @@ define( require => {
           const cellWidth = ModelViewTransform2.createRectangleMapping( model.lattice.visibleBounds, viewBounds ).modelToViewDeltaX( 1 );
           const barrierX = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() ) + cellWidth / 2;
 
+          // Render all the minima and maxima on both sides of the origin
           for ( let type of [ 'maxima', 'minima' ] ) {
             for ( let sign of [ -1, 1 ] ) {
+
+              // Limit the maximum number of lines that can be shown on each side.
               for ( let m = 0; m < 20; m++ ) {
 
                 // For double-slit:
                 // d sin(θ) = mλ for maxima,
                 // d sin(θ) = (m + 1/2)λ for minima
                 // see http://electron9.phys.utk.edu/optics421/modules/m1/diffraction_and_interference.htm
+
                 if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
                   const addition = type === 'maxima' ? 0 : 0.5;
-                  const d = scene.slitSeparationProperty.value;
-                  const arg = ( m + addition ) * scene.wavelength / d;
+                  const separation = scene.slitSeparationProperty.value;
+                  const arg = ( m + addition ) * scene.wavelength / separation;
 
                   // make sure in bounds
                   if ( arg <= 1 ) {
                     const theta = sign * Math.asin( arg );
 
-                    const length = 500;
-                    const x = length * Math.cos( theta );
-                    const y = length * Math.sin( theta );
+                    const x = LENGTH * Math.cos( theta );
+                    const y = LENGTH * Math.sin( theta );
                     const line = new Line( barrierX, barrierY, barrierX + x, barrierY + y, {
-                      stroke: type === 'maxima' ? 'yellow' : 'red',
-                      lineWidth: 1
+                      stroke: type === 'maxima' ? MAXIMUM_COLOR : MINIMUM_COLOR,
+                      lineWidth: LINE_WIDTH
                     } );
                     this.addChild( line );
                   }
@@ -77,8 +83,8 @@ define( require => {
                 // see http://hyperphysics.phy-astr.gsu.edu/hbase/phyopt/sinslit.html
                 if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
                   const addition = type === 'minima' ? 0 : 0.5;
-                  const a = scene.slitWidthProperty.value;
-                  const arg = ( m + addition ) * scene.wavelength / a;
+                  const aperture = scene.slitWidthProperty.value;
+                  const arg = ( m + addition ) * scene.wavelength / aperture;
 
                   // make sure in bounds.  Single slit begins at m=1
                   if ( arg <= 1 && m > 0 ) {
@@ -87,8 +93,8 @@ define( require => {
                     const x = LENGTH * Math.cos( theta );
                     const y = LENGTH * Math.sin( theta );
                     const line = new Line( barrierX, barrierY, barrierX + x, barrierY + y, {
-                      stroke: type === 'maxima' ? 'yellow' : 'red',
-                      lineWidth: 1
+                      stroke: type === 'maxima' ? MAXIMUM_COLOR : MINIMUM_COLOR,
+                      lineWidth: LINE_WIDTH
                     } );
                     this.addChild( line );
                   }
@@ -99,12 +105,23 @@ define( require => {
 
           // Strong central maximum for one slit, not covered by the math above
           if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
-            this.addChild( new Line( barrierX, barrierY, barrierX + 500, barrierY, {
-              stroke: 'yellow',
-              lineWidth: 1
+            this.addChild( new Line( barrierX, barrierY, barrierX + LENGTH, barrierY, {
+              stroke: MAXIMUM_COLOR,
+              lineWidth: LINE_WIDTH
             } ) );
           }
         }
+      };
+
+      // When any of the relevant physical Properties change, update the lines.  This node exists for the life of the
+      // sim and does not need to be unlinked.
+      model.barrierTypeProperty.link( updateLines );
+      model.sceneProperty.link( updateLines );
+      model.scenes.forEach( scene => {
+        scene.frequencyProperty.link( updateLines );
+        scene.slitSeparationProperty.link( updateLines );
+        scene.barrierLocationProperty.link( updateLines );
+        scene.slitWidthProperty.link( updateLines );
       } );
     }
   }
