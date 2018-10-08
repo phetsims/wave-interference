@@ -168,17 +168,18 @@ define( require => {
       this.addChild( verticalAxisLabel );
 
       // The path that shows the curve in the chart.
+      const pathClipArea = Shape.rect( 0, 0, graphWidth, horizontalLineY );
       const path = new Path( new Shape(), {
         stroke: 'black',
         lineWidth: 2,
         lineJoin: WaveInterferenceConstants.CHART_LINE_JOIN, // Prevents artifacts at the wave source
 
+        // prevent the shape from going outside of the chart area
+        clipArea: pathClipArea,
+
         // prevent bounds computations during main loop
         boundsMethod: 'none',
-        localBounds: Bounds2.NOTHING,
-
-        // prevent the shape from going outside of the chart area
-        clipArea: Shape.rect( 0, 0, graphWidth, horizontalLineY )
+        localBounds: pathClipArea.bounds
       } );
       this.addChild( path );
 
