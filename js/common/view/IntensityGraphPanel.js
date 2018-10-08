@@ -30,6 +30,7 @@ define( require => {
   const TITLE_Y_MARGIN = 4;
   const DARK_GRAY = new Color( 90, 90, 90 );
   const LINE_DASH = [ 9.1, 9.1 ];
+  const CHART_WIDTH = 100;
 
   class IntensityGraphPanel extends WaveInterferencePanel {
 
@@ -42,7 +43,11 @@ define( require => {
      */
     constructor( graphHeight, intensitySample, numberGridLines, resetEmitter, options ) {
 
-      const chartRectangle = new Rectangle( 0, 0, 100, graphHeight, { fill: 'white', stroke: 'black', lineWidth: 1 } );
+      const chartRectangle = new Rectangle( 0, 0, CHART_WIDTH, graphHeight, {
+        fill: 'white',
+        stroke: 'black',
+        lineWidth: 1
+      } );
 
       /**
        * Creates a line an the given y-coordinate.
@@ -73,13 +78,17 @@ define( require => {
         centerX: chartRectangle.centerX,
         top: chartRectangle.bottom + TITLE_Y_MARGIN
       } );
+      const clipArea = Shape.rectangle( 0, 0, CHART_WIDTH, graphHeight );
       const curve = new Path( null, {
         stroke: 'black',
         lineWidth: 2,
 
+        // Prevent rendering outside the charting area
+        clipArea,
+
         // prevent bounds computations during main loop
         boundsMethod: 'none',
-        localBounds: Bounds2.NOTHING
+        localBounds: clipArea.bounds
       } );
 
       // Support for zoom in/out
@@ -133,10 +142,7 @@ define( require => {
 
           // default scaling is 2
           const SCALING = Util.linear( zoomRange.min, zoomRange.max, 0.5, 3.5, zoomLevelProperty.value );
-          let intensityPlotValue = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, chartRectangle.left, chartRectangle.right * SCALING, intensityValues[ i ] );
-          if ( intensityPlotValue > chartRectangle.right ) {
-            intensityPlotValue = chartRectangle.right;  // TODO: use clipping instead?
-          }
+          const intensityPlotValue = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, CHART_WIDTH * SCALING, intensityValues[ i ] );
           const positionPlotValue = Util.linear( 0, intensityValues.length - 1, chartRectangle.top, chartRectangle.bottom, i );
           shape.lineTo( intensityPlotValue, positionPlotValue );
         }
