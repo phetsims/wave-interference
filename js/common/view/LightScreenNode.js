@@ -24,7 +24,7 @@ define( require => {
   const CANVAS_WIDTH = 100;
 
   // This chooses the saturation point for the screen, as well as the "thinness" of the minima
-  const BRIGHTNESS_SCALE_FACTOR = 2;
+  const BRIGHTNESS_SCALE_FACTOR = 5;
 
   class LightScreenNode extends CanvasNode {
 
