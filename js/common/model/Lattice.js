@@ -85,8 +85,8 @@ define( require => {
 
     /**
      * Returns true if the visible bounds contains the lattice coordinate
-     * @param {number} i integer for the horizontal coordinate
-     * @param {number} j integer for the vertical coordinate
+     * @param {number} i - integer for the horizontal coordinate
+     * @param {number} j - integer for the vertical coordinate
      * @returns {boolean}
      */
     visibleBoundsContains( i, j ) {
@@ -99,8 +99,8 @@ define( require => {
 
     /**
      * Returns true if the given coordinate is within the lattice
-     * @param {number} i integer for the horizontal coordinate
-     * @param {number} j integer for the vertical coordinate
+     * @param {number} i - integer for the horizontal coordinate
+     * @param {number} j - integer for the vertical coordinate
      * @returns {boolean}
      * @public
      */
