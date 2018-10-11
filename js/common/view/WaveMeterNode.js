@@ -11,6 +11,7 @@ define( require => {
   // modules
   const Color = require( 'SCENERY/util/Color' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const DynamicSeries = require( 'GRIDDLE/DynamicSeries' );
   const Emitter = require( 'AXON/Emitter' );
   const LabeledScrollingChartNode = require( 'GRIDDLE/LabeledScrollingChartNode' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -125,8 +126,8 @@ define( require => {
         this.on( 'visibility', alignProbes );
         this.alignProbesEmitter.addListener( alignProbes );
 
-        const data = [];
-        const emitter = new Emitter();
+        const dynamicSeries = new DynamicSeries( { color } );
+        dynamicSeries.probeNode = probeNode;
 
         const updateSamples = function() {
 
@@ -144,20 +145,20 @@ define( require => {
 
             if ( model.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
               const value = model.lattice.getCurrentValue( sampleI, sampleJ );
-              data.push( new Vector2( model.timeProperty.value, value ) );
+              dynamicSeries.data.push( new Vector2( model.timeProperty.value, value ) );
             }
           }
-          while ( data.length > 0 && data[ 0 ].x < model.timeProperty.value - maxSeconds ) {
-            data.shift();
+          while ( dynamicSeries.data.length > 0 && dynamicSeries.data[ 0 ].x < model.timeProperty.value - maxSeconds ) {
+            dynamicSeries.data.shift();
           }
-          emitter.emit();
+          dynamicSeries.emitter.emit();
         };
 
         if ( !options.isIcon ) {
 
           // Redraw the probe data when the scene changes
           const clear = () => {
-            data.length = 0;
+            dynamicSeries.data.length = 0;
             updateSamples();
           };
           model.sceneProperty.link( clear );
@@ -168,7 +169,7 @@ define( require => {
           probeNode.on( 'transform', updateSamples );
           model.lattice.changedEmitter.addListener( updateSamples );
         }
-        return { color, probeNode, data, emitter };
+        return dynamicSeries;
       };
 
       const aboveBottomLeft1 = new DerivedProperty( [ leftBottomProperty ], position => position.isFinite() ? position.plusXY( 0, -20 ) : Vector2.ZERO );
