@@ -30,17 +30,17 @@ define( require => {
             new Range( 0, 30 ),
             _.extend( { delta: 0.25, decimalPlaces: 2 }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS )
           ),
-          new NumberControl( 'home force',
-            WaveInterferenceConstants.SOUND_PARTICLE_RESTORATION_SPRING_CONSTANT_PROPERTY,
-            new Range( 0, 10 ),
-            _.extend( { delta: 0.25, decimalPlaces: 2 }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS )
+          new NumberControl( 'ADJUST home force',
+            WaveInterferenceConstants.SOUND_PARTICLE_RESTORATION_SCALE,
+            new Range( 0.5, 2 ),
+            _.extend( { delta: 0.01, decimalPlaces: 2 }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS )
           ), new NumberControl( 'friction (1=none)',
             WaveInterferenceConstants.SOUND_PARTICLE_FRICTION_SCALE_PROPERTY,
             new Range( 0.7, 1.0 ),
             _.extend( { delta: 0.005, decimalPlaces: 3 }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS )
-          ), new NumberControl( 'gradient force',
+          ), new NumberControl( 'ADJUST gradient force',
             WaveInterferenceConstants.SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY,
-            new Range( 0, 200 ),
+            new Range( 0.5, 2 ),
             _.extend( { delta: 0.01, decimalPlaces: 2 }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS )
           )
         ]

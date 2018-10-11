@@ -66,16 +66,16 @@ define( require => {
     // tuning with developer controls.
 
     // The random motion of the particles
-    SOUND_PARTICLE_RANDOMNESS_PROPERTY: new Property( 16 ),
+    SOUND_PARTICLE_RANDOMNESS_PROPERTY: new Property( 12 ),
 
-    // How strongly the particles are attracted to their initial position
-    SOUND_PARTICLE_RESTORATION_SPRING_CONSTANT_PROPERTY: new Property( 3.5 ),
+    // Additional scaling for the home force
+    SOUND_PARTICLE_RESTORATION_SCALE: new Property( 1.0 ),
 
     // Scaling factor for friction (1.0 = no friction)
     SOUND_PARTICLE_FRICTION_SCALE_PROPERTY: new Property( 0.85 ),
 
-    // Magnitude of the gradient force from the wave
-    SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY: new Property( 100 )
+    // Additional scaling for the gradient force
+    SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY: new Property( 1.0 )
   };
 
   waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );

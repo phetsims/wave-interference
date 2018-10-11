@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
@@ -46,10 +47,11 @@ define( require => {
      * @param {number } fx - sum of applied forces in the x direction
      * @param {number} fy - sum of applied forces in the y direction
      * @param {number} dt - time to integrate
+     * @param {SoundScene} soundScene - to get the frequency range and value
      */
-    applyForce( fx, fy, dt ) {
+    applyForce( fx, fy, dt, soundScene ) {
 
-      var RANDOMNESS = WaveInterferenceConstants.SOUND_PARTICLE_RANDOMNESS_PROPERTY.get();
+      const RANDOMNESS = WaveInterferenceConstants.SOUND_PARTICLE_RANDOMNESS_PROPERTY.get();
 
       // the particles move randomly even when there are no waves, because they are not at absolute zero
       // see https://github.com/phetsims/wave-interference/issues/123
@@ -57,9 +59,9 @@ define( require => {
       fy += ( Math.random() - 0.5 ) * 2 * RANDOMNESS;
 
       // use the airK as the magnitude and the forceCenter for direction only.
-      const RESTORATION_SPRING_CONSTANT = WaveInterferenceConstants.SOUND_PARTICLE_RESTORATION_SPRING_CONSTANT_PROPERTY.get();
-      const fSpringX = -RESTORATION_SPRING_CONSTANT * ( this.x - this.initialX );
-      const fSpringY = -RESTORATION_SPRING_CONSTANT * ( this.y - this.initialY );
+      const restorationSpringConstant = Util.linear( soundScene.minimumFrequency, soundScene.maximumFrequency, 2, 6.5, soundScene.frequencyProperty.value ) * WaveInterferenceConstants.SOUND_PARTICLE_RESTORATION_SCALE.get();
+      const fSpringX = -restorationSpringConstant * ( this.x - this.initialX );
+      const fSpringY = -restorationSpringConstant * ( this.y - this.initialY );
       this.vx += fx + fSpringX;
       this.vy += fy + fSpringY;
 

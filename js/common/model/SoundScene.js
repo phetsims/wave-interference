@@ -16,6 +16,7 @@ define( require => {
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SoundParticle = require( 'WAVE_INTERFERENCE/common/model/SoundParticle' );
   const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
+  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
@@ -70,8 +71,7 @@ define( require => {
         const lattice = model.lattice;
 
         // Increase the gradient force at low frequencies so we can still see the waves clearly.
-        // const k = Util.linear( 0.44, 0.88, 35, 15, model.soundScene.frequencyProperty.value );
-        const k = WaveInterferenceConstants.SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY.get();
+        const k = Util.linear( this.minimumFrequency, this.maximumFrequency, 130, 76, this.frequencyProperty.value ) * WaveInterferenceConstants.SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY.get();
 
         for ( let soundParticle of this.soundParticles ) {
 
@@ -98,7 +98,7 @@ define( require => {
           const fx = gradientX * k;
           const fy = gradientY * k;
           if ( !isNaN( fx ) && !isNaN( fy ) ) {
-            soundParticle.applyForce( fx, fy, dt );
+            soundParticle.applyForce( fx, fy, dt, model.soundScene );
           }
         }
       }
