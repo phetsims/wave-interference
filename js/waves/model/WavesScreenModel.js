@@ -372,7 +372,10 @@ define( require => {
         }
       } );
 
+      // @public (read-only) - the value of the wave at the oscillation point
       this.oscillator1Property = new NumberProperty( 0 );
+
+      // @public (read-only) - the value of the wave at the oscillation point
       this.oscillator2Property = new NumberProperty( 0 );
     }
 
@@ -542,18 +545,20 @@ define( require => {
       this.playSpeedProperty.reset();
       this.isRunningProperty.reset();
       this.showScreenProperty.reset();
+      this.oscillator1Property.reset();
+      this.oscillator2Property.reset();
       this.button1PressedProperty.reset();
       this.button2PressedProperty.reset();
       this.rotationAmountProperty.reset();
       this.timerElapsedTimeProperty.reset();
       this.isTimerInPlayAreaProperty.reset();
       this.showIntensityGraphProperty.reset();
+      this.isWaveMeterInPlayAreaProperty.reset();
       this.measuringTapeTipPositionProperty.reset();
       this.measuringTapeBasePositionProperty.reset();
       this.isMeasuringTapeInPlayAreaProperty.reset();
       this.continuousWave1OscillatingProperty.reset();
       this.continuousWave2OscillatingProperty.reset();
-      this.isWaveMeterInPlayAreaProperty.reset();
 
       // Signify for listeners that the model reset is complete
       this.resetEmitter.emit();
