@@ -371,6 +371,9 @@ define( require => {
           this.amplitudeProperty.value = desiredAmplitude;
         }
       } );
+
+      this.oscillator1Property = new NumberProperty( 0 );
+      this.oscillator2Property = new NumberProperty( 0 );
     }
 
     /**
@@ -504,12 +507,14 @@ define( require => {
         if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
           const j1 = latticeCenterJ + distanceAboveAxis;
           lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j1, waveValue );
+          this.oscillator1Property.value = waveValue;
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
         if ( this.continuousWave2OscillatingProperty.get() ) {
           const j2 = latticeCenterJ - distanceAboveAxis;
           lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j2, waveValue );
+          this.oscillator2Property.value = waveValue;
         }
       }
     }
