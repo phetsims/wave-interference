@@ -15,7 +15,7 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
   const WaterDropImage = require( 'WAVE_INTERFERENCE/common/view/WaterDropImage' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   class WaterDropLayer extends Node {
 
@@ -28,12 +28,7 @@ define( require => {
       super();
       const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.waterScene.getWaveAreaBounds(), waveAreaNodeBounds );
 
-      // Compute the x-coordinate where the drop should be shown.
-      const m = ModelViewTransform2.createRectangleMapping( model.lattice.visibleBounds, waveAreaNodeBounds );
-
-      // Note this is nudged over 1/2 a cell so it will appear in the center of the cell rather than
-      // at the left edge of the cell.  See also WaveInterferenceUtils.getWaterSideShape.
-      const CENTER_X = m.modelToViewX( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE + 0.5 );
+      const waterDropX = WaveInterferenceUtils.getWaterDropX( model, waveAreaNodeBounds );
 
       // Preallocate Images that will be associated with different water drop instances.
       const MAX_DROPS = 4;
@@ -55,7 +50,7 @@ define( require => {
             waterDropImages[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && waterDrop.startsOscillation;
             waterDropImages[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
             const dy = waterDrop.sign * modelViewTransform.modelToViewDeltaY( waterDrop.sourceSeparation / 2 );
-            waterDropImages[ i ].center = new Vector2( CENTER_X, waveAreaNodeBounds.centerY - waterDrop.y + dy );
+            waterDropImages[ i ].center = new Vector2( waterDropX, waveAreaNodeBounds.centerY - waterDrop.y + dy );
           }
         } );
       };

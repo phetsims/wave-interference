@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
+  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Shape = require( 'KITE/Shape' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -87,6 +88,22 @@ define( require => {
      */
     static fromFemto( value ) {
       return value / WaveInterferenceConstants.FEMTO;
+    }
+
+    /**
+     * Gets the horizontal coordinate where water drops come out--aligned with the oscillation cell.
+     * @param {WavesScreenModel} model
+     * @param {Bounds2} waveAreaViewBounds
+     * @returns {number}
+     */
+    static getWaterDropX( model, waveAreaViewBounds ) {
+
+      // Compute the x-coordinate where the drop should be shown.
+      const m = ModelViewTransform2.createRectangleMapping( model.lattice.visibleBounds, waveAreaViewBounds );
+
+      // Note this is nudged over 1/2 a cell so it will appear in the center of the cell rather than
+      // at the left edge of the cell.  See also WaveInterferenceUtils.getWaterSideShape.
+      return m.modelToViewX( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE + 0.5 );
     }
   }
 

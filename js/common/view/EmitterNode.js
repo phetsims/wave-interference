@@ -14,6 +14,7 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
+  const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
@@ -26,17 +27,33 @@ define( require => {
      * @param {number} buttonPosition - x offset
      * @param {boolean} isPrimarySource
      * @param {Node} sourceNode - for the emitters, shared with scenery DAG
-     * @param {number} verticalOffset - offset for the hose, so the water has some distance to fall
+     * @param {number} [verticalOffset] - offset for the hose, so the water has some distance to fall
+     * @param {number} [buttonOffset] - offset for the button, so it can be positioned on the pipe
+     * @param {boolean} [showButtonBackground] - true if a new background for the button should be added
      */
-    constructor( model, scene, waveAreaNode, buttonPosition, isPrimarySource, sourceNode, verticalOffset = 0 ) {
+    constructor( model, scene, waveAreaNode, buttonPosition, isPrimarySource, sourceNode, verticalOffset = 0, buttonOffset = 0, showButtonBackground = false ) {
       const buttonOptions = {
-        centerY: sourceNode.centerY,
+        centerY: sourceNode.centerY + buttonOffset,
         left: buttonPosition,
         baseColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
         radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
       };
+
       const button = new RoundStickyToggleButton( false, true, isPrimarySource ? model.button1PressedProperty : model.button2PressedProperty, buttonOptions );
-      const nodeWithButton = new Node( { children: [ sourceNode, button ] } );
+      const children = [ sourceNode ];
+      if ( showButtonBackground ) {
+        const diameter = button.width * 1.3;
+        children.push( new ShadedSphereNode( diameter, {
+          center: button.center,
+          mainColor: '#b1b1b1',
+          highlightColor: 'white',
+          shadowColor: 'black',
+          highlightXOffset: -0.2,
+          highlightYOffset: -0.5
+        } ) );
+      }
+      children.push( button );
+      const nodeWithButton = new Node( { children } );
 
       const updateEnabled = () => {
         if ( model.inputTypeProperty.value === IncomingWaveType.PULSE ) {
