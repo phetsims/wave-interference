@@ -71,9 +71,14 @@ define( require => {
 
       options = _.extend( {
 
-        showViewRadioButtonGroup: false, // Only allow side view in single source/no slits context
+        // Only allow side view in single source/no slits context
+        showViewRadioButtonGroup: false,
 
+        // Allow the user to choose between pulse and continuous.
         showPulseContinuousRadioButtons: true,
+
+        // If true, Nodes will be added that show each Emitter, otherwise no EmitterNodes are shown.
+        showSceneSpecificEmitterNodes: true,
 
         // Nested options as discussed in https://github.com/phetsims/tasks/issues/730, see WaveInterferenceControlPanel for keys/values
         controlPanelOptions: {}
@@ -413,8 +418,16 @@ define( require => {
 
       this.addChild( waterDropLayer );
       this.addChild( waterSideViewNode );
-      this.addChild( createEmitterToggleNode( true ) ); // Primary source
-      this.addChild( createEmitterToggleNode( false ) ); // Secondary source
+      if ( options.showSceneSpecificEmitterNodes ) {
+        this.addChild( createEmitterToggleNode( true ) ); // Primary source
+        this.addChild( createEmitterToggleNode( false ) ); // Secondary source
+      }
+      else {
+
+        // @protected - placeholder for alternative emitter nodes
+        this.emitterLayer = new Node();
+        this.addChild( this.emitterLayer );
+      }
       this.addChild( timeControlPanel );
       this.addChild( soundParticleLayer );
       this.addChild( dashedLineNode );

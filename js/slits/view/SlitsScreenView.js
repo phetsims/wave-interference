@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const BarriersNode = require( 'WAVE_INTERFERENCE/slits/view/BarriersNode' );
+  const PlaneWaveEmitterNode = require( 'WAVE_INTERFERENCE/slits/view/PlaneWaveEmitterNode' );
   const Property = require( 'AXON/Property' );
   const Shape = require( 'KITE/Shape' );
   const SlitsControlPanel = require( 'WAVE_INTERFERENCE/slits/view/SlitsControlPanel' );
@@ -30,7 +31,8 @@ define( require => {
         showPulseContinuousRadioButtons: false,
         controlPanelOptions: {
           showAmplitudeSlider: false
-        }
+        },
+        showSceneSpecificEmitterNodes: false // Show the plane wave emitter instead of the individual scene-specific emitters
       } );
 
       // The Slits screen has an additional control panel below the main control panel, which controls the barrier/slits
@@ -71,6 +73,10 @@ define( require => {
           clipArea: Shape.bounds( this.waveAreaNode.bounds )
         } ) );
       }
+
+      // Show the plane wave emitter instead of the individual scene-specific emitters
+      const planeWaveEmitterNode = new PlaneWaveEmitterNode( model, this.waveAreaNode.bounds );
+      this.emitterLayer.addChild( planeWaveEmitterNode );
     }
   }
 
