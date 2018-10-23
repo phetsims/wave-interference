@@ -12,6 +12,7 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Checkbox = require( 'SUN/Checkbox' );
   const DynamicProperty = require( 'AXON/DynamicProperty' );
+  const FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   const FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
   const HSeparator = require( 'SUN/HSeparator' );
   const Image = require( 'SCENERY/nodes/Image' );
@@ -39,8 +40,7 @@ define( require => {
   const wavesString = require( 'string!WAVE_INTERFERENCE/waves' );
 
   // images
-  const hoseImage = require( 'image!WAVE_INTERFERENCE/hose.png' );
-  const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker.png' );
+  const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker/speaker_MID.png' );
 
   // constants
   const CHECKBOX_OPTIONS = { boxWidth: 14 };
@@ -133,16 +133,19 @@ define( require => {
       ] );
       const separator = new HSeparator( maxComponentWidth );
 
-      const hoseIcon = new Image( hoseImage );
+      // Create faucet icon, and rasterize to clip out invisible parts (like the ShooterNode)
+      const faucetIcon = new FaucetNode( 1, new Property( 0 ), new Property( true ), {
+        interactiveProperty: new Property( false )
+      } ).rasterized();
       const speakerIcon = new Image( speakerImage );
       const laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), LightEmitterNode.DEFAULT_OPTIONS );
       const iconWidth = 26;
       const iconHeight = iconWidth;
-      hoseIcon.scale( iconWidth / hoseIcon.width );
+      faucetIcon.scale( iconWidth / faucetIcon.width * 0.7 );
       speakerIcon.scale( iconHeight / speakerIcon.height );
       laserPointerIcon.scale( iconWidth / laserPointerIcon.width );
       const sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [
-        { value: model.waterScene, node: hoseIcon },
+        { value: model.waterScene, node: faucetIcon },
         { value: model.soundScene, node: speakerIcon },
         { value: model.lightScene, node: laserPointerIcon }
       ], {
