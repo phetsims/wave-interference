@@ -11,6 +11,7 @@ define( require => {
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
   const HSlider = require( 'SUN/HSlider' );
+  const Range = require( 'DOT/Range' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -45,9 +46,7 @@ define( require => {
         };
       } );
 
-      super( property, {
-        min: min, max: max
-      }, {
+      super( property, new Range( min, max ), {
         thumbSize: WaveInterferenceConstants.THUMB_SIZE,
         trackSize: new Dimension2( 150, 1 ),
 
