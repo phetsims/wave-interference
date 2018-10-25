@@ -11,21 +11,22 @@ define( require => {
   // modules
   const EmitterNode = require( 'WAVE_INTERFERENCE/common/view/EmitterNode' );
   const Image = require( 'SCENERY/nodes/Image' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const Util = require( 'DOT/Util' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // images
-  const speakerL10Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L10.png' );
-  const speakerL9Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L9.png' );
-  const speakerL8Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L8.png' );
-  const speakerL7Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L7.png' );
-  const speakerL6Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L6.png' );
-  const speakerL5Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L5.png' );
-  const speakerL4Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L4.png' );
-  const speakerL3Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L3.png' );
-  const speakerL2Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L2.png' );
-  const speakerL1Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L1.png' );
   const speakerImageMID = require( 'image!WAVE_INTERFERENCE/speaker/speaker_MID.png' );
+  const speakerL10Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L10.png' );
+  const speakerL1Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L1.png' );
+  const speakerL2Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L2.png' );
+  const speakerL3Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L3.png' );
+  const speakerL4Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L4.png' );
+  const speakerL5Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L5.png' );
+  const speakerL6Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L6.png' );
+  const speakerL7Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L7.png' );
+  const speakerL8Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L8.png' );
+  const speakerL9Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_L9.png' );
+  const speakerR10Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_R10.png' );
   const speakerR1Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_R1.png' );
   const speakerR2Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_R2.png' );
   const speakerR3Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_R3.png' );
@@ -35,7 +36,6 @@ define( require => {
   const speakerR7Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_R7.png' );
   const speakerR8Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_R8.png' );
   const speakerR9Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_R9.png' );
-  const speakerR10Image = require( 'image!WAVE_INTERFERENCE/speaker/speaker_R10.png' );
 
   // variables
   const speakers = [

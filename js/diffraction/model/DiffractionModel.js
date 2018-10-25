@@ -9,8 +9,8 @@ define( require => {
   'use strict';
 
   // modules
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const Property = require( 'AXON/Property' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   class DiffractionModel {
     constructor() {
