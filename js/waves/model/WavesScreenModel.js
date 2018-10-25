@@ -22,6 +22,7 @@ define( require => {
   const NumberProperty = require( 'AXON/NumberProperty' );
   const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   const Property = require( 'AXON/Property' );
+  var Range = require( 'DOT/Range' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Util = require( 'DOT/Util' );
@@ -201,7 +202,7 @@ define( require => {
       // the value at the extreme may prevent the user from exploring the range, so we start closer to the max but not
       // at the max.  I chose 8 so it would match up directly with a tickmark (when it was at 7.5, it covered 2 tickmarks
       // and looked odd)
-      this.amplitudeProperty = new NumberProperty( options.initialAmplitude, { range: { min: 0, max: 10 } } );
+      this.amplitudeProperty = new NumberProperty( options.initialAmplitude, { range: new Range( 0, 10 ) } );
 
       // @public {BooleanProperty} - whether the wave area should be displayed
       this.showWavesProperty = new BooleanProperty( true );
@@ -241,7 +242,7 @@ define( require => {
       this.isWaveMeterInPlayAreaProperty = new BooleanProperty( false );
 
       // @public {Property.<number>} - amount the 3d view is rotated. 0 means top view, 1 means side view.
-      const rotationRange = { min: 0, max: 1 };
+      const rotationRange = new Range( 0, 1 );
       this.rotationAmountProperty = new NumberProperty( 0, {
         range: rotationRange
       } );
