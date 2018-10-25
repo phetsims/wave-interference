@@ -92,7 +92,7 @@ define( require => {
       const dampY = this.lattice.dampY;
       const width = this.lattice.width;
       const height = this.lattice.height;
-      const CUTOFF = 0.35;
+      const CUTOFF = 0.4;
       let intensity;
       for ( let i = dampX; i < width - dampX; i++ ) {
         for ( let k = dampY; k < height - dampY; k++ ) {
