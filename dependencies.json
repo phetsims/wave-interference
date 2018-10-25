@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.39 Thu Oct 25 2018 10:16:55 GMT-0600 (MDT)",
+  "comment": "# wave-interference 1.0.0-dev.40 Thu Oct 25 2018 15:08:20 GMT-0600 (MDT)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
@@ -65,11 +65,11 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "a94f22c2eaba6b3cd8f460f9f5ca93f8bacd6abf",
+    "sha": "679144b39cf38363b6890730bf3373f55a597dda",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "bd5d09ac8b03611c303632a04cd8a8c46cf65261",
+    "sha": "b088c817cdd3d936fb32b64a3cd3efd58d9817aa",
     "branch": "master"
   },
   "sherpa": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "344e198c03cea4bc6c24363a1724692a4b8c87c8",
+    "sha": "7292848579bf54ffd4ff765169f8db3c36130513",
     "branch": "master"
   }
 }
