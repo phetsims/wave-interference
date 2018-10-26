@@ -80,8 +80,8 @@ define( require => {
 
         const max = model.amplitudeProperty.range.max;
 
-        // Sign is chosen so that the membrane moving to the left pulls particles in (in the particle view), and
-        // membrane moving to the right pushes wave crests out.
+        // Sign is chosen so that the membrane forward corresponds to a high pressure outside the speaker,
+        // see https://github.com/phetsims/wave-interference/issues/178
         const interpolated = Util.linear( -max, max, 0, speakers.length - 1, oscillator1 );
         const index = Util.roundSymmetric( interpolated );
         image.image = speakers[ index ];
