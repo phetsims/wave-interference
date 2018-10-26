@@ -394,7 +394,7 @@ define( require => {
     const dataBase64 = dataURL.slice( requiredPrefix.length );
     const byteChars = window.atob( dataBase64 );
     const byteArray = new window.Uint8Array( byteChars.length );
-    for ( const i = 0; i < byteArray.length; i++ ) {
+    for ( let i = 0; i < byteArray.length; i++ ) {
       byteArray[ i ] = byteChars.charCodeAt( i ); // need check to make sure this cast doesn't give problems?
     }
 
