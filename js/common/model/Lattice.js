@@ -92,7 +92,7 @@ define( require => {
     visibleBoundsContains( i, j ) {
       const b = this.visibleBounds;
 
-      // Note this differs from the standand Bounds2.containsCoordinate because we must exclude right and bottom edge
+      // Note this differs from the standard Bounds2.containsCoordinate because we must exclude right and bottom edge
       // from reading one cell off the visible lattice, see https://github.com/phetsims/wave-interference/issues/86
       return b.minX <= i && i < b.maxX && b.minY <= j && j < b.maxY;
     }

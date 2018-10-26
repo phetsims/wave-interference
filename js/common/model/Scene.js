@@ -89,7 +89,10 @@ define( require => {
       // coordinates, does not include damping regions
       this.modelToLatticeTransform = ModelViewTransform2.createRectangleMapping(
         new Rectangle( 0, 0, config.waveAreaWidth, config.waveAreaWidth ),
-        config.lattice.visibleBounds
+
+        // I do not understand why, but shifting indices by 1 is necessary to align particle model coordinates with
+        // lattice coordinates, see https://github.com/phetsims/wave-interference/issues/174
+        config.lattice.visibleBounds.shifted( -1, -1 )
       );
 
       // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)

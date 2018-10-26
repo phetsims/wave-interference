@@ -75,7 +75,7 @@ define( require => {
 
         for ( let soundParticle of this.soundParticles ) {
 
-          // Check the lattice coordinate of the current location of the particle
+          // Find the lattice coordinate of the current location of the particle
           const latticeCoordinate = this.modelToLatticeTransform.modelToViewXY( soundParticle.x, soundParticle.y );
           const latticeX = Math.round( latticeCoordinate.x );
           const latticeY = Math.round( latticeCoordinate.y );
