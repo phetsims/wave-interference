@@ -61,6 +61,12 @@ define( require => {
           this.clear();
         }
       } );
+
+      // When a barrier is added, clear the waves to the right instead of letting them dissipate,
+      // see https://github.com/phetsims/wave-interference/issues/176
+      this.barrierTypeProperty.link( barrierType => {
+        this.clear();
+      } );
     }
 
     /**
