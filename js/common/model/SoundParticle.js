@@ -55,8 +55,8 @@ define( require => {
 
       // the particles move randomly even when there are no waves, because they are not at absolute zero
       // see https://github.com/phetsims/wave-interference/issues/123
-      fx += ( Math.random() - 0.5 ) * 2 * RANDOMNESS;
-      fy += ( Math.random() - 0.5 ) * 2 * RANDOMNESS;
+      fx += ( phet.joist.random.nextDouble() - 0.5 ) * 2 * RANDOMNESS;
+      fy += ( phet.joist.random.nextDouble() - 0.5 ) * 2 * RANDOMNESS;
 
       // use the airK as the magnitude and the forceCenter for direction only.
       const restorationSpringConstant = Util.linear( soundScene.minimumFrequency, soundScene.maximumFrequency, 2, 6.5, soundScene.frequencyProperty.value ) * WaveInterferenceConstants.SOUND_PARTICLE_RESTORATION_SCALE.get();
