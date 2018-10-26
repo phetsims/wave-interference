@@ -75,15 +75,15 @@ define( require => {
         scale: 0.75
       } );
       super( model, model.soundScene, waveAreaNode, 42, isPrimarySource, image );
-      var modelProperty = isPrimarySource ? model.oscillator1Property : model.oscillator2Property;
+      const modelProperty = isPrimarySource ? model.oscillator1Property : model.oscillator2Property;
       modelProperty.link( oscillator1 => {
 
         const max = model.amplitudeProperty.range.max;
 
         // Sign is chosen so that the membrane moving to the left pulls particles in (in the particle view), and
         // membrane moving to the right pushes wave crests out.
-        var interpolated = Util.linear( max, -max, 0, speakers.length - 1, oscillator1 );
-        var index = Util.roundSymmetric( interpolated );
+        const interpolated = Util.linear( -max, max, 0, speakers.length - 1, oscillator1 );
+        const index = Util.roundSymmetric( interpolated );
         image.image = speakers[ index ];
       } );
     }

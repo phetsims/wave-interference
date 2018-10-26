@@ -351,7 +351,7 @@ define( require => {
       } ) : new Node();
 
       if ( phet.chipper.queryParameters.dev && model.soundScene.showSoundParticles ) {
-        var soundParticleDevPanel = new SoundParticleDevPanel( {
+        const soundParticleDevPanel = new SoundParticleDevPanel( {
           right: this.layoutBounds.right - 100,
           bottom: this.layoutBounds.bottom
         } );

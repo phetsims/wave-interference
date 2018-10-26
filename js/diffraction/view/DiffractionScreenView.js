@@ -195,14 +195,14 @@ define( require => {
 
       updateCanvases();
 
-      var container = new Rectangle( 0, 0, width, height, {
+      const container = new Rectangle( 0, 0, width, height, {
         lineWidth: 4,
         stroke: 'blue',
         clipArea: Shape.rect( 0, 0, 256, 256 ),
         x: 440,
         top: 100
       } );
-      var squareImageNode = new Image( airyDiskImage, { pickable: false } );
+      const squareImageNode = new Image( airyDiskImage, { pickable: false } );
       this.addChild( container );
       container.addChild( squareImageNode );
       const updateScale = () => {
@@ -389,19 +389,19 @@ define( require => {
 
   const saveDataURLAsImage = dataURL => {
     // construct a blob out of it
-    var requiredPrefix = 'data:image/png;base64,';
+    const requiredPrefix = 'data:image/png;base64,';
     assert && assert( dataURL.slice( 0, requiredPrefix.length ) === requiredPrefix );
-    var dataBase64 = dataURL.slice( requiredPrefix.length );
-    var byteChars = window.atob( dataBase64 );
-    var byteArray = new window.Uint8Array( byteChars.length );
-    for ( var i = 0; i < byteArray.length; i++ ) {
+    const dataBase64 = dataURL.slice( requiredPrefix.length );
+    const byteChars = window.atob( dataBase64 );
+    const byteArray = new window.Uint8Array( byteChars.length );
+    for ( const i = 0; i < byteArray.length; i++ ) {
       byteArray[ i ] = byteChars.charCodeAt( i ); // need check to make sure this cast doesn't give problems?
     }
 
-    var blob = new window.Blob( [ byteArray ], { type: 'image/png' } );
+    const blob = new window.Blob( [ byteArray ], { type: 'image/png' } );
 
     // our preferred filename
-    var filename = 'save.png';
+    const filename = 'save.png';
     window.saveAs( blob, filename );
   };
 
