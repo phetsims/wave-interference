@@ -132,14 +132,18 @@ define( require => {
         graphTitle: pressureAtCenterString,
         graphHorizontalAxisLabel: positionCMString,
         waveAreaWidth: 500, // in cm
-        minimumFrequency: 440 / 1000, // A4 in cycles per ms, wavelength is 156.82cm
+
+        // See https://pages.mtu.edu/~suits/notefreqs.html
+        minimumFrequency: 440 / 1000, // A4 in cycles per ms, wavelength is 78.4cm
         maximumFrequency: 880 / 1000, // A5 in cycles per ms, wavelength is 39.2cm
         scaleIndicatorLength: 50, // cm
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
         waveSpeed: 34.3, // in cm/ms
 
-        timeScaleFactor: 1, // This is confusing.  One second of real time should show up as 1ms, so this factor is 1
+        // Determined empirically by setting timeScaleFactor to 1, then checking the displayed wavelength of maximum
+        // frequency sound on the lattice and dividing by the desired wavelength
+        timeScaleFactor: 90 / 39.2,
 
         initialSlitWidth: 50, // cm
         initialSlitSeparation: 150 // cm
@@ -166,8 +170,8 @@ define( require => {
         // in nm/fs
         waveSpeed: 299.792458,
 
-        // One second in real time = 1 femtosecond.  Determined empirically by checking the displayed wavelength of red
-        // light on the lattice and dividing by the desired wavelength
+        // Determined empirically by setting timeScaleFactor to 1, then checking the displayed wavelength of maximum
+        // frequency wave on the lattice and dividing by the desired wavelength
         timeScaleFactor: 1853 / 660,
 
         initialSlitWidth: 500, // nm

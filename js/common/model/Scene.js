@@ -64,6 +64,9 @@ define( require => {
       // @public {Property.<number>} - the linear frequency in the appropriate units for the scene
       this.frequencyProperty = new Property( this.initialFrequency ); // TODO: move min/max into Property range?
 
+      // wavelength*frequency=wave speed
+      phet.log && this.frequencyProperty.link( frequency => phet.log( 'wavelength = ' + config.waveSpeed / frequency ) );
+
       // @public (read-only) {string} - units for time, shown in the timer and optionally at the top right of the lattice
       this.timeUnits = config.timeUnits;
 
