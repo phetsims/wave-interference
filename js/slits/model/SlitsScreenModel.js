@@ -168,6 +168,16 @@ define( require => {
     getWaterFrequencySliderProperty() {
       return this.waterScene.frequencyProperty;
     }
+
+    /**
+     * Restores the initial conditions
+     * @public
+     * @override
+     */
+    reset() {
+      super.reset();
+      this.barrierTypeProperty.reset();
+    }
   }
 
   return waveInterference.register( 'SlitsScreenModel', SlitsScreenModel );
