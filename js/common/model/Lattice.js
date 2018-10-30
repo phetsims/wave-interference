@@ -306,9 +306,7 @@ define( require => {
      */
     step( forcingFunction ) {
 
-      // Apply values before lattice step so the values will be used to propagate
-      forcingFunction();
-
+      // Move to the next matrix
       this.currentMatrixIndex = ( this.currentMatrixIndex - 1 + this.matrices.length ) % this.matrices.length;
 
       const matrix0 = this.matrices[ ( this.currentMatrixIndex + 0 ) % this.matrices.length ];
