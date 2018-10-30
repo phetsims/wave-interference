@@ -66,6 +66,18 @@ define( require => {
       // see https://github.com/phetsims/wave-interference/issues/176
       this.barrierTypeProperty.link( barrierType => {
         this.clear();
+
+        const scene = this.sceneProperty.get();
+        const frontTime = this.timeProperty.value - this.button1PressTime;
+        const frontPosition = scene.modelToLatticeTransform.modelToViewX( scene.waveSpeed * frontTime );
+        const barrierLatticeX = Math.round( scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() ) );
+
+        // if the wave had passed by the barrier, then repropagate from the barrier.  This requires back-computing the
+        // time the button would have been pressed to propagate the wave to the barrier.  Hence this is the inverse of the
+        // logic in setSourceValues
+        if ( frontPosition > barrierLatticeX ) {
+          this.button1PressTime = this.timeProperty.value - scene.getBarrierLocation() / scene.waveSpeed;
+        }
       } );
     }
 
