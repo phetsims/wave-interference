@@ -25,6 +25,13 @@ define( require => {
       super( new VBox( {
         spacing: 20,
         children: [
+
+          // TODO: delete or keep?
+          new NumberControl( 'cutoff',
+            WaveInterferenceConstants.CUTOFF,
+            new Range( 0, 1 ),
+            _.extend( { delta: 0.01, decimalPlaces: 2 }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS )
+          ),
           new NumberControl( 'randomness',
             WaveInterferenceConstants.SOUND_PARTICLE_RANDOMNESS_PROPERTY,
             new Range( 0, 30 ),

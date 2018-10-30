@@ -75,7 +75,10 @@ define( require => {
     SOUND_PARTICLE_FRICTION_SCALE_PROPERTY: new Property( 0.85 ),
 
     // Additional scaling for the gradient force
-    SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY: new Property( 1.0 )
+    SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY: new Property( 1.0 ),
+
+    // TODO: delete or keep?
+    CUTOFF: new Property( 0.4 )
   };
 
   waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );

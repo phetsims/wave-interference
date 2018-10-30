@@ -58,8 +58,11 @@ define( require => {
       // Invalidate paint when model indicates changes
       const invalidateSelfListener = this.invalidatePaint.bind( this );
       lattice.changedEmitter.addListener( invalidateSelfListener );
-    }
 
+      // In development mode, make it easy to see changes in cutoff
+      // TODO: delete or keep?
+      phet.chipper.queryParameters.dev && setInterval( invalidateSelfListener, 0 );
+    }
 
     /**
      * Convert the given point (in the local coordinate frame) to the corresponding i,j (integral) coordinates on the lattice.
@@ -92,7 +95,7 @@ define( require => {
       const dampY = this.lattice.dampY;
       const width = this.lattice.width;
       const height = this.lattice.height;
-      const CUTOFF = 0.4;
+      const CUTOFF = WaveInterferenceConstants.CUTOFF.value;
       let intensity;
       for ( let i = dampX; i < width - dampX; i++ ) {
         for ( let k = dampY; k < height - dampY; k++ ) {
