@@ -22,6 +22,7 @@ define( require => {
   const NumberProperty = require( 'AXON/NumberProperty' );
   const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   const Property = require( 'AXON/Property' );
+  const Range = require( 'DOT/Range' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Util = require( 'DOT/Util' );
@@ -32,7 +33,6 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
-  const Range = require( 'DOT/Range' );
 
   // strings
   const cmUnitsString = require( 'string!WAVE_INTERFERENCE/cmUnits' );
