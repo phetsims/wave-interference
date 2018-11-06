@@ -35,9 +35,6 @@ define( require => {
   const screenString = require( 'string!WAVE_INTERFERENCE/screen' );
   const wavesString = require( 'string!WAVE_INTERFERENCE/waves' );
 
-  // images
-  const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker/speaker_MID.png' );
-
   // constants
   const CHECKBOX_OPTIONS = { boxWidth: 14 };
   const fromFemto = WaveInterferenceUtils.fromFemto;
