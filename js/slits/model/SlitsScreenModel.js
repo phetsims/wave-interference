@@ -99,7 +99,7 @@ define( require => {
       const frontPosition = scene.modelToLatticeTransform.modelToViewX( scene.waveSpeed * frontTime );
 
       const slitWidthModel = scene.slitWidthProperty.get();
-      const slitWidth = scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel );
+      const slitWidth = Math.round( scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
       const latticeCenterY = this.lattice.height / 2;
 
       // Take the desired frequency for the water scene, or the specified frequency of any other scene
@@ -136,8 +136,8 @@ define( require => {
 
           if ( i === barrierLatticeX ) {
             if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
-              const low = j > latticeCenterY + slitWidth / 2;
-              const high = j < latticeCenterY - slitWidth / 2;
+              const low = j > latticeCenterY + slitWidth / 2 - 0.5;
+              const high = j < latticeCenterY - slitWidth / 2 - 0.5;
               isCellInBarrier = low || high;
             }
             else if ( this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
