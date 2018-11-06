@@ -9,15 +9,10 @@ define( require => {
   'use strict';
 
   // modules
-  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Checkbox = require( 'SUN/Checkbox' );
   const DynamicProperty = require( 'AXON/DynamicProperty' );
-  const FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   const FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
   const HSeparator = require( 'SUN/HSeparator' );
-  const Image = require( 'SCENERY/nodes/Image' );
-  const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
-  const LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
@@ -25,6 +20,7 @@ define( require => {
   const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
+  const WaveInterferenceSceneIcons = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSceneIcons' );
   const WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
@@ -134,20 +130,11 @@ define( require => {
       const separator = new HSeparator( maxComponentWidth );
 
       // Create faucet icon, and rasterize to clip out invisible parts (like the ShooterNode)
-      const faucetIcon = new FaucetNode( 1, new Property( 0 ), new Property( true ), {
-        interactiveProperty: new Property( false )
-      } ).rasterized();
-      const speakerIcon = new Image( speakerImage );
-      const laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), LightEmitterNode.DEFAULT_OPTIONS );
-      const iconWidth = 26;
-      const iconHeight = iconWidth;
-      faucetIcon.scale( iconWidth / faucetIcon.width * 0.7 );
-      speakerIcon.scale( iconHeight / speakerIcon.height );
-      laserPointerIcon.scale( iconWidth / laserPointerIcon.width );
+      const sceneIcons = new WaveInterferenceSceneIcons();
       const sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [
-        { value: model.waterScene, node: faucetIcon },
-        { value: model.soundScene, node: speakerIcon },
-        { value: model.lightScene, node: laserPointerIcon }
+        { value: model.waterScene, node: sceneIcons.faucetIcon },
+        { value: model.soundScene, node: sceneIcons.speakerIcon },
+        { value: model.lightScene, node: sceneIcons.laserPointerIcon }
       ], {
         orientation: 'horizontal',
         spacing: 15,
