@@ -1,11 +1,11 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.41 Tue Nov 06 2018 15:29:07 GMT-0700 (MST)",
+  "comment": "# wave-interference 1.0.0-dev.42 Wed Nov 07 2018 09:06:51 GMT-0700 (MST)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
   },
   "axon": {
-    "sha": "ff00a0bb08819a1803c8593038e14db7169934cc",
+    "sha": "6517b9322db7b00daff48f33b6dca343f2bf39ab",
     "branch": "master"
   },
   "brand": {
@@ -37,23 +37,23 @@
     "branch": "master"
   },
   "phet-io": {
-    "sha": "38d7b161c80b5aab54bef294f0b9290606df1bed",
+    "sha": "bcc2108f2a7c754949bb9e9b9703ea2b33521032",
     "branch": "master"
   },
   "phet-io-wrapper-classroom-activity": {
-    "sha": "246085c1ee2a82e6636a0d69fde7d423ad9e9ffa",
+    "sha": "5af748fcf1dc62ae7814f280543dedc568f00e74",
     "branch": "master"
   },
   "phet-io-wrapper-hookes-law-energy": {
-    "sha": "7479b0ec92a144290023e9435e36cc51d86d83a7",
+    "sha": "5ac059927966113ab30e9d965bc0fd9f1004ad12",
     "branch": "master"
   },
   "phet-io-wrapper-lab-book": {
-    "sha": "c46f783988b3a55b59d3200d1d35dfcb949594b5",
+    "sha": "ddefdd4c34fdb9026ad8e85a5d4159a8ffdccd5d",
     "branch": "master"
   },
   "phet-io-wrappers": {
-    "sha": "a6bc62ca0704bcc525f2beb2a95d46bc1eed495c",
+    "sha": "c2380ca4dad7ff453aa36ff9577ea507054a44d6",
     "branch": "master"
   },
   "phetcommon": {
@@ -65,11 +65,11 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "cd3fd188cb94ed01168381cd2af860ddd251a6ab",
+    "sha": "517166749983f4caf66fc0670b49f33fd4b20f12",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "be1a1bc92f6daf95cc0f6d1560eff05790a0c171",
+    "sha": "15dec251ba0fa08a5f919817dadacc8083c7538e",
     "branch": "master"
   },
   "sherpa": {
@@ -85,7 +85,7 @@
     "branch": "master"
   },
   "tandem": {
-    "sha": "688d0abed6a951c40483aac472af45d2fa0a57cd",
+    "sha": "4f37a91022b587cd917ef868f0da3965103544e7",
     "branch": "master"
   },
   "twixt": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "d324b66c4824387cd2f450162c03f967b6d0563e",
+    "sha": "d95d2c093afbce36f8c6cb5acc2a775e288cf823",
     "branch": "master"
   }
 }
