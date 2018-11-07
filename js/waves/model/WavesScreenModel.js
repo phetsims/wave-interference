@@ -134,8 +134,8 @@ define( require => {
         waveAreaWidth: 500, // in cm
 
         // See https://pages.mtu.edu/~suits/notefreqs.html
-        minimumFrequency: 440 / 1000, // A4 in cycles per ms, wavelength is 78.4cm
-        maximumFrequency: 880 / 1000, // A5 in cycles per ms, wavelength is 39.2cm
+        minimumFrequency: 220 / 1000, // A3 in cycles per ms, wavelength is 156.8cm
+        maximumFrequency: 440 / 1000, // A4 in cycles per ms, wavelength is  78.4cm
         scaleIndicatorLength: 50, // cm
         numberOfSources: options.numberOfSources,
         lattice: this.lattice,
