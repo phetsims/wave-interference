@@ -11,6 +11,7 @@ define( require => {
   // modules
   const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const ComboBox = require( 'SUN/ComboBox' );
+  const DynamicProperty = require( 'AXON/DynamicProperty' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Range = require( 'DOT/Range' );
@@ -39,11 +40,15 @@ define( require => {
      */
     constructor( alignGroup, model, comboBoxParent, options ) {
 
+      let barrierTypeDynamicProperty = new DynamicProperty( model.sceneProperty, {
+        derive: 'barrierTypeProperty',
+        bidirectional: true
+      } );
       const comboBox = new ComboBox( [
         ComboBox.createItem( new WaveInterferenceText( noBarrierString ), BarrierTypeEnum.NO_BARRIER ),
         ComboBox.createItem( new WaveInterferenceText( oneSlitString ), BarrierTypeEnum.ONE_SLIT ),
         ComboBox.createItem( new WaveInterferenceText( twoSlitsString ), BarrierTypeEnum.TWO_SLITS )
-      ], model.barrierTypeProperty, comboBoxParent, {
+      ], barrierTypeDynamicProperty, comboBoxParent, {
         buttonYMargin: 0
       } );
 
@@ -72,7 +77,7 @@ define( require => {
         { value: model.soundScene, node: soundSlitWidthControl },
         { value: model.lightScene, node: lightSlitWidthControl }
       ], model.sceneProperty );
-      model.barrierTypeProperty.link( barrierType => {
+      barrierTypeDynamicProperty.link( barrierType => {
         const enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
         waterSlitWidthControl.enabled = enabled;
         soundSlitWidthControl.enabled = enabled;
@@ -103,7 +108,7 @@ define( require => {
         { value: model.lightScene, node: lightSeparationControl }
       ], model.sceneProperty );
 
-      model.barrierTypeProperty.link( barrierType => {
+      barrierTypeDynamicProperty.link( barrierType => {
         const enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
         waterSeparationControl.enabled = enabled;
         soundSeparationControl.enabled = enabled;

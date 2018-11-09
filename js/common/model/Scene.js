@@ -10,6 +10,7 @@ define( require => {
   'use strict';
 
   // modules
+  const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
   const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
@@ -27,12 +28,18 @@ define( require => {
   const distanceUnitsString = require( 'string!WAVE_INTERFERENCE/distanceUnits' );
   const timeUnitsString = require( 'string!WAVE_INTERFERENCE/timeUnits' );
 
+  // constants
+  const PLANE_WAVE_MAGNITUDE = 0.21;
+
   class Scene {
 
     /**
      * @param {Object} config - see below for required properties
      */
     constructor( config ) {
+
+      // TODO: docs
+      this.oscillatorType = config.oscillatorType;
 
       // @public {Lattice} the grid that contains the wave values
       this.lattice = new Lattice(
@@ -255,6 +262,55 @@ define( require => {
       };
       this.frequencyProperty.lazyLink( phaseUpdate );
 
+      // TODO: Everything below here is just for plane wave screen.  Guard it with an if(config.???)
+
+      // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
+      this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
+
+      // When the barrier moves, it creates a lot of artifacts, so clear the wave to the right of the barrier
+      // when it moves
+      this.barrierLocationProperty.link( this.clear.bind( this ) );
+
+      // @private {number} - phase of the wave so it doesn't start halfway through a cycle
+      this.planeWavePhase = 0;
+
+      // @protected {number} - record the time the button was pressed, so the SlitsScreenModel can propagate the right distance
+      this.button1PressTime = 0;
+      this.button1PressedProperty.link( pressed => {
+        if ( pressed ) {
+          this.button1PressTime = this.timeProperty.value;
+
+          // See setSourceValues
+          const frequency = this.frequencyProperty.get();
+          const wavelength = this.wavelength;
+          const k = Math.PI * 2 / wavelength;
+          const angularFrequency = frequency * Math.PI * 2;
+          const x = this.modelToLatticeTransform.viewToModelX( this.lattice.dampX );
+
+          // Solve for k * x - angularFrequency * this.timeProperty.value + phase = 0
+          this.planeWavePhase = angularFrequency * this.timeProperty.value - k * x;
+        }
+        else {
+          this.clear();
+        }
+      } );
+
+      // When a barrier is added, clear the waves to the right instead of letting them dissipate,
+      // see https://github.com/phetsims/wave-interference/issues/176
+      this.barrierTypeProperty.link( barrierType => {
+        this.clear();
+
+        const frontTime = this.timeProperty.value - this.button1PressTime;
+        const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime );
+        const barrierLatticeX = Math.round( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) );
+
+        // if the wave had passed by the barrier, then repropagate from the barrier.  This requires back-computing the
+        // time the button would have been pressed to propagate the wave to the barrier.  Hence this is the inverse of the
+        // logic in setSourceValues
+        if ( frontPosition > barrierLatticeX ) {
+          this.button1PressTime = this.timeProperty.value - this.getBarrierLocation() / this.waveSpeed;
+        }
+      } );
     }
 
     /**
@@ -263,45 +319,132 @@ define( require => {
      * @protected
      */
     setSourceValues() {
-      const frequency = this.frequencyProperty.get();
-      const period = 1 / frequency;
-      const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
-      const lattice = this.lattice;
-      const continuous1 = ( this.incomingWaveTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
-      const continuous2 = ( this.incomingWaveTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
+      if ( this.oscillatorType === 'point' ) {
+        const frequency = this.frequencyProperty.get();
+        const period = 1 / frequency;
+        const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
+        const lattice = this.lattice;
+        const continuous1 = ( this.incomingWaveTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
+        const continuous2 = ( this.incomingWaveTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
 
-      if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
+        if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
-        // The simulation is designed to start with a downward wave, corresponding to water splashing in
-        const frequency = this.frequencyProperty.value;
-        const angularFrequency = Math.PI * 2 * frequency;
+          // The simulation is designed to start with a downward wave, corresponding to water splashing in
+          const frequency = this.frequencyProperty.value;
+          const angularFrequency = Math.PI * 2 * frequency;
 
-        // For 50% longer than one pulse, keep the oscillator fixed at 0 to prevent "ringing"
-        let waveValue = ( this.pulseFiringProperty.get() && timeSincePulseStarted > period ) ? 0 :
-                        -Math.sin( this.timeProperty.value * angularFrequency + this.phase ) * this.amplitudeProperty.get();
+          // For 50% longer than one pulse, keep the oscillator fixed at 0 to prevent "ringing"
+          let waveValue = ( this.pulseFiringProperty.get() && timeSincePulseStarted > period ) ? 0 :
+                          -Math.sin( this.timeProperty.value * angularFrequency + this.phase ) * this.amplitudeProperty.get();
 
-        // assumes a square lattice
-        const separationInLatticeUnits = this.sourceSeparationProperty.get() / this.waveAreaWidth * this.lattice.visibleBounds.width;
-        const distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
+          // assumes a square lattice
+          const separationInLatticeUnits = this.sourceSeparationProperty.get() / this.waveAreaWidth * this.lattice.visibleBounds.width;
+          const distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
 
-        // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
-        // To understand why we subtract 1 here, imagine for the sake of conversation that the lattice is 5 units wide,
-        // so the cells are indexed 0,1,2,3,4.  5/2 === 2.5, rounded up that is 3, so we must subtract 1 to find the
-        // center of the lattice.
-        const latticeCenterJ = Math.round( this.lattice.height / 2 ) - 1;
+          // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
+          // To understand why we subtract 1 here, imagine for the sake of conversation that the lattice is 5 units wide,
+          // so the cells are indexed 0,1,2,3,4.  5/2 === 2.5, rounded up that is 3, so we must subtract 1 to find the
+          // center of the lattice.
+          const latticeCenterJ = Math.round( this.lattice.height / 2 ) - 1;
 
-        // Point source
-        if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
-          const j1 = latticeCenterJ + distanceAboveAxis;
-          lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j1, waveValue );
-          this.oscillator1Property.value = waveValue;
+          // Point source
+          if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
+            const j1 = latticeCenterJ + distanceAboveAxis;
+            lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j1, waveValue );
+            this.oscillator1Property.value = waveValue;
+          }
+
+          // Secondary source (note if there is only one source, this sets the same value as above)
+          if ( this.continuousWave2OscillatingProperty.get() ) {
+            const j2 = latticeCenterJ - distanceAboveAxis;
+            lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j2, waveValue );
+            this.oscillator2Property.value = waveValue;
+          }
         }
+      }
+      else {
+        // plane waves
 
-        // Secondary source (note if there is only one source, this sets the same value as above)
-        if ( this.continuousWave2OscillatingProperty.get() ) {
-          const j2 = latticeCenterJ - distanceAboveAxis;
-          lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j2, waveValue );
-          this.oscillator2Property.value = waveValue;
+        const lattice = this.lattice;
+
+        // Round this to make sure it appears at an integer cell column
+        let barrierLatticeX = Math.round( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) );
+        const slitSeparationModel = this.slitSeparationProperty.get();
+
+        const frontTime = this.timeProperty.value - this.button1PressTime;
+        const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime );
+
+        const slitWidthModel = this.slitWidthProperty.get();
+        const slitWidth = Math.round( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
+        const latticeCenterY = this.lattice.height / 2;
+
+        // Take the desired frequency for the water scene, or the specified frequency of any other scene
+        // const frequency = scene.desiredFrequencyProperty ? scene.desiredFrequencyProperty.get() : scene.frequencyProperty.get();
+        const frequency = this.frequencyProperty.get();
+        const wavelength = this.wavelength;
+
+        // lambda * k = 2 * pi
+        // k = 2pi/lambda
+        const k = Math.PI * 2 / wavelength;
+
+        // Scale the amplitude because it is calibrated for a point source, not a plane wave
+        const angularFrequency = frequency * Math.PI * 2;
+
+        // Split into 2 regions.
+        // 1. The region where there could be a wave (if it matches the button press and isn't in the barrier)
+        // 2. The empirical part beyond the barrier
+
+        // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
+        // and unwanted artifacts, see https://github.com/phetsims/wave-interference/issues/47
+        if ( this.barrierTypeProperty.value === BarrierTypeEnum.NO_BARRIER ) {
+          barrierLatticeX = lattice.width - lattice.dampX;
+        }
+        for ( let i = lattice.dampX; i <= barrierLatticeX; i++ ) {
+
+          // Find the physical model coordinate corresponding to the lattice coordinate
+          const x = this.modelToLatticeTransform.viewToModelX( i );
+
+          for ( let j = 0; j < lattice.height; j++ ) {
+            const y = this.modelToLatticeTransform.viewToModelY( j );
+
+            // Zero out values in the barrier
+            let isCellInBarrier = false;
+
+            if ( i === barrierLatticeX ) {
+              if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
+                const low = j > latticeCenterY + slitWidth / 2 - 0.5;
+                const high = j < latticeCenterY - slitWidth / 2 - 0.5;
+                isCellInBarrier = low || high;
+              }
+              else if ( this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
+
+                // Spacing is between center of slits.  This computation is done in model coordinates
+                const topBarrierWidth = ( this.waveAreaWidth - slitWidthModel - slitSeparationModel ) / 2;
+                const centralBarrierWidth = this.waveAreaWidth - 2 * topBarrierWidth - 2 * slitWidthModel;
+                const inTop = y <= topBarrierWidth;
+                const inBottom = y >= this.waveAreaWidth - topBarrierWidth;
+                const inCenter = ( y >= topBarrierWidth + slitWidthModel ) && ( y <= topBarrierWidth + slitWidthModel + centralBarrierWidth );
+                isCellInBarrier = inTop || inBottom || inCenter;
+              }
+            }
+            if ( this.button1PressedProperty.get() && !isCellInBarrier ) {
+
+              // If the coordinate is past where the front of the wave would be, then zero it out.
+              if ( i >= frontPosition ) {
+                lattice.setCurrentValue( i, j, 0 );
+              }
+              else {
+                const amplitude = this.amplitudeProperty.get() * PLANE_WAVE_MAGNITUDE;
+                const value = amplitude * Math.sin( k * x - angularFrequency * this.timeProperty.value + this.planeWavePhase );
+                lattice.setCurrentValue( i, j, value );
+              }
+            }
+            else {
+
+              // Instantly clear the incoming wave, otherwise there are too many reflections
+              lattice.setCurrentValue( i, j, 0 );
+            }
+          }
         }
       }
     }

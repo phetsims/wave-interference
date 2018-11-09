@@ -12,6 +12,7 @@ define( require => {
   const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
+  const DynamicProperty = require( 'AXON/DynamicProperty' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
@@ -86,9 +87,14 @@ define( require => {
       } );
       this.addChild( this.arrowNode );
 
+      const barrierTypeDynamicProperty = new DynamicProperty( model.sceneProperty, {
+        derive: 'barrierTypeProperty',
+        bidirectional: true
+      } );
+
       // Update shapes when the model parameters change
       const update = this.update.bind( this );
-      model.barrierTypeProperty.link( update );
+      barrierTypeDynamicProperty.link( update );
       scene.barrierLocationProperty.link( update );
       scene.slitWidthProperty.link( update );
       scene.slitSeparationProperty.link( update );
@@ -99,7 +105,7 @@ define( require => {
      */
     update() {
 
-      const barrierType = this.model.barrierTypeProperty.get();
+      const barrierType = this.scene.barrierTypeProperty.get();
       const scene = this.scene;
       const slitWidth = scene.slitWidthProperty.get();
       const slitSeparation = scene.slitSeparationProperty.get();

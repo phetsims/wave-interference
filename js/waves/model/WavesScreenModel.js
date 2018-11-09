@@ -71,7 +71,9 @@ define( require => {
         initialAmplitude: 8,
 
         // True if SoundParticles should be created and displayed, and if the user can select to view them
-        showSoundParticles: true
+        showSoundParticles: true,
+
+        oscillatorType: 'point' // TODO: docs and enum
       }, options );
       assert && assert( options.numberOfSources === 1 || options.numberOfSources === 2, 'Model only supports 1 or 2 sources' );
 
@@ -82,6 +84,7 @@ define( require => {
 
       // Water scene
       this.waterScene = new WaterScene( {
+        oscillatorType: options.oscillatorType,
 
         // TODO: Should these values be in WaterScene, or here?
         positionUnits: 'cm',
@@ -111,6 +114,7 @@ define( require => {
 
       // Sound scene
       this.soundScene = new SoundScene( options.showSoundParticles, {
+        oscillatorType: options.oscillatorType,
         positionUnits: 'cm',
         translatedPositionUnits: cmUnitsString,
         timeUnits: millisecondsUnitsString,
@@ -141,6 +145,7 @@ define( require => {
 
       // Light scene.  TODO: Why is there no subclass for LightScene?
       this.lightScene = new Scene( {
+        oscillatorType: options.oscillatorType,
         positionUnits: 'nm',
         translatedPositionUnits: nanometersUnitsString,
         timeUnits: femtosecondsUnitsString,
