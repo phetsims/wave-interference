@@ -67,7 +67,10 @@ define( require => {
         // This model supports one or two sources.  If the sources are initially separated, there are two sources
         numberOfSources: 1,
 
-        // Initial amplitude, between 0-10
+        // Initial amplitude, between 0-10.  We optimize the view for the max, but starting
+        // the value at the extreme may prevent the user from exploring the range, so we start closer to the max but not
+        // at the max.  I chose 8 so it would match up directly with a tickmark (when it was at 7.5, it covered 2 tickmarks
+        // and looked odd)
         initialAmplitude: 8,
 
         // True if SoundParticles should be created and displayed, and if the user can select to view them
@@ -202,10 +205,7 @@ define( require => {
         validValues: [ this.waterScene, this.soundScene, this.lightScene ]
       } );
 
-      // @public {NumberProperty} - controls the amplitude of the wave.  We optimize the view for the max, but starting
-      // the value at the extreme may prevent the user from exploring the range, so we start closer to the max but not
-      // at the max.  I chose 8 so it would match up directly with a tickmark (when it was at 7.5, it covered 2 tickmarks
-      // and looked odd)
+      // @public {NumberProperty} - controls the amplitude of the wave.
       this.amplitudeProperty = new NumberProperty( options.initialAmplitude, { range: new Range( 0, 10 ) } );
 
       // @public {BooleanProperty} - whether the wave area should be displayed
@@ -370,7 +370,8 @@ define( require => {
         this.timerElapsedTimeProperty.reset(); // Timer units change when the scene changes, so we re-start the timer.
       } );
 
-      this.desiredAmplitudeProperty = new Property( this.amplitudeProperty.value );
+      // @public - the amplitude the user has selected
+      this.desiredAmplitudeProperty = new NumberProperty( this.amplitudeProperty.value );
       this.desiredAmplitudeProperty.link( desiredAmplitude => {
         if ( this.sceneProperty.value !== this.waterScene ) {
           this.amplitudeProperty.value = desiredAmplitude;
