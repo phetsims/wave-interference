@@ -1,7 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * The scene determines the medium and emitter types, coordinate frames, relative scale, etc.
+ * The scene determines the medium and emitter types, coordinate frames, relative scale, etc.  For a description of which
+ * features are independent or shared across scenes, please see https://github.com/phetsims/wave-interference/issues/179#issuecomment-437176489
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -12,6 +13,7 @@ define( require => {
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
+  const Range = require( 'DOT/Range' );
   const Rectangle = require( 'DOT/Rectangle' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -121,6 +123,17 @@ define( require => {
 
       // @public (read-only) {string} - displayed at the top right of the wave area
       this.timeScaleString = config.timeScaleString;
+
+      // @public {NumberProperty} - controls the amplitude of the wave.
+      this.amplitudeProperty = new NumberProperty( config.initialAmplitude, { range: new Range( 0, 10 ) } );
+
+      // @public - the amplitude the user has selected
+      this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude );
+      this.desiredAmplitudeProperty.link( desiredAmplitude => {
+        if ( config.linkDesiredAmplitudeToAmplitude ) {
+          this.amplitudeProperty.value = desiredAmplitude;
+        }
+      } );
     }
 
     /**
@@ -159,6 +172,8 @@ define( require => {
       this.barrierLocationProperty.reset();
       this.slitSeparationProperty.reset();
       this.sourceSeparationProperty.reset();
+      this.amplitudeProperty.reset();
+      this.desiredAmplitudeProperty.reset();
     }
 
     /**

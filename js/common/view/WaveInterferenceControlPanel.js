@@ -16,6 +16,7 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
   const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -87,7 +88,9 @@ define( require => {
 
       lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( 0, 10 );
       const frequencySliderContainer = new Node( { children: [ waterFrequencySlider, soundFrequencySlider, lightFrequencySlider ] } );
-      const amplitudeSlider = new WaveInterferenceSlider( model.desiredAmplitudeProperty, model.amplitudeProperty.range.min, model.amplitudeProperty.range.max );
+      const amplitudeSliderContainer = new SceneToggleNode( model, scene => {
+        return new WaveInterferenceSlider( scene.desiredAmplitudeProperty, scene.amplitudeProperty.range.min, scene.amplitudeProperty.range.max );
+      } );
 
       const viewSelectionRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
         node: new WaveInterferenceText( wavesString ),
@@ -121,7 +124,7 @@ define( require => {
         screenCheckbox.width,
         graphCheckbox.width,
         frequencySliderContainer.width,
-        amplitudeSlider.width,
+        amplitudeSliderContainer.width,
         lightFrequencySlider.width
       ] );
       const separator = new HSeparator( maxComponentWidth );
@@ -147,11 +150,11 @@ define( require => {
       const centerX = frequencyTitle.centerX;
       frequencySliderContainer.centerX = centerX;
       amplitudeTitle.centerX = centerX;
-      amplitudeSlider.centerX = centerX;
+      amplitudeSliderContainer.centerX = centerX;
       if ( options.additionalControl ) {options.additionalControl.centerX = centerX;}
       sceneRadioButtons.centerX = centerX;
       separator.centerX = centerX;
-      let minX = _.min( [ frequencySliderContainer.left, amplitudeSlider.left, frequencyTitle.left, amplitudeTitle.left, sceneRadioButtons.left ] );
+      let minX = _.min( [ frequencySliderContainer.left, amplitudeSliderContainer.left, frequencyTitle.left, amplitudeTitle.left, sceneRadioButtons.left ] );
       minX = minX + 11; // Account for half the slider knob width, so it lines up with the slider left tick
 
       // Align controls to the left
@@ -166,9 +169,9 @@ define( require => {
       const TITLE_SPACING = 5;
       frequencySliderContainer.top = frequencyTitle.bottom - TITLE_SPACING;
       amplitudeTitle.top = frequencySliderContainer.bottom + 2;
-      amplitudeSlider.top = amplitudeTitle.bottom - TITLE_SPACING;
+      amplitudeSliderContainer.top = amplitudeTitle.bottom - TITLE_SPACING;
       const y = options.showAmplitudeSlider ?
-                amplitudeSlider.bottom + TITLE_SPACING :
+                amplitudeSliderContainer.bottom + TITLE_SPACING :
                 frequencySliderContainer.bottom + 2;
 
       // The Sepration NumberControl is an additionalControl
@@ -199,7 +202,7 @@ define( require => {
         container.children = [
           frequencyTitle,
           frequencySliderContainer,
-          ...( options.showAmplitudeSlider ? [ amplitudeTitle, amplitudeSlider ] : [] ),
+          ...( options.showAmplitudeSlider ? [ amplitudeTitle, amplitudeSliderContainer ] : [] ),
           ...( options.additionalControl ? [ options.additionalControl ] : [] ),
           sceneRadioButtons,
           separator,

@@ -158,7 +158,7 @@ define( require => {
               lattice.setCurrentValue( i, j, 0 );
             }
             else {
-              const amplitude = this.amplitudeProperty.get() * PLANE_WAVE_MAGNITUDE;
+              const amplitude = scene.amplitudeProperty.get() * PLANE_WAVE_MAGNITUDE;
               const value = amplitude * Math.sin( k * x - angularFrequency * this.timeProperty.value + this.planeWavePhase );
               lattice.setCurrentValue( i, j, value );
             }

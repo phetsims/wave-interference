@@ -78,7 +78,7 @@ define( require => {
         // capture closure vars for when the water drop is absorbed.
         const buttonPressed = buttonProperty.value;
         const frequency = this.desiredFrequencyProperty.value;
-        const amplitude = model.desiredAmplitudeProperty.value;
+        const amplitude = this.desiredAmplitudeProperty.value;
         const isPulse = model.inputTypeProperty.value === IncomingWaveType.PULSE;
         const sourceSeparation = this.desiredSourceSeparationProperty.value;
         this.waterDrops.push( new WaterDrop(
@@ -92,8 +92,8 @@ define( require => {
             if ( isPulse && model.pulseFiringProperty.value ) {
               return;
             }
-            model.amplitudeProperty.set( amplitude );
-            model.waterScene.frequencyProperty.set( frequency );
+            this.amplitudeProperty.set( amplitude );
+            this.frequencyProperty.set( frequency );
             this.sourceSeparationProperty.value = sourceSeparation;
 
             model.resetPhase();

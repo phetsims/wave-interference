@@ -121,7 +121,10 @@ define( require => {
         timeScaleFactor: 1, // 1 second in real time = 1 second on the simulation timer
 
         initialSlitWidth: 2, // cm
-        initialSlitSeparation: 3 // cm
+        initialSlitSeparation: 3, // cm
+
+        initialAmplitude: options.initialAmplitude,
+        linkDesiredAmplitudeToAmplitude: false
       } );
 
       // Sound scene
@@ -149,7 +152,10 @@ define( require => {
         timeScaleFactor: 90 / 39.2,
 
         initialSlitWidth: 50, // cm
-        initialSlitSeparation: 150 // cm
+        initialSlitSeparation: 150, // cm
+
+        initialAmplitude: options.initialAmplitude,
+        linkDesiredAmplitudeToAmplitude: true
       } );
 
       // Light scene.  TODO: Why is there no subclass for LightScene?
@@ -178,7 +184,10 @@ define( require => {
         timeScaleFactor: 1853 / 660,
 
         initialSlitWidth: 500, // nm
-        initialSlitSeparation: 1500 // nm
+        initialSlitSeparation: 1500, // nm
+
+        initialAmplitude: options.initialAmplitude,
+        linkDesiredAmplitudeToAmplitude: true
       } );
 
       // @public (read-only) {Scene[]} - the Scene instances as an array
@@ -204,9 +213,6 @@ define( require => {
       this.sceneProperty = new Property( this.waterScene, {
         validValues: [ this.waterScene, this.soundScene, this.lightScene ]
       } );
-
-      // @public {NumberProperty} - controls the amplitude of the wave.
-      this.amplitudeProperty = new NumberProperty( options.initialAmplitude, { range: new Range( 0, 10 ) } );
 
       // @public {BooleanProperty} - whether the wave area should be displayed
       this.showWavesProperty = new BooleanProperty( true );
@@ -370,14 +376,6 @@ define( require => {
         this.timerElapsedTimeProperty.reset(); // Timer units change when the scene changes, so we re-start the timer.
       } );
 
-      // @public - the amplitude the user has selected
-      this.desiredAmplitudeProperty = new NumberProperty( this.amplitudeProperty.value );
-      this.desiredAmplitudeProperty.link( desiredAmplitude => {
-        if ( this.sceneProperty.value !== this.waterScene ) {
-          this.amplitudeProperty.value = desiredAmplitude;
-        }
-      } );
-
       // @public (read-only) - the value of the wave at the oscillation point
       this.oscillator1Property = new NumberProperty( 0 );
 
@@ -491,6 +489,7 @@ define( require => {
       const lattice = this.lattice;
       const continuous1 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
       const continuous2 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
+      const scene = this.sceneProperty.get();
 
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
@@ -500,10 +499,10 @@ define( require => {
 
         // For 50% longer than one pulse, keep the oscillator fixed at 0 to prevent "ringing"
         let waveValue = ( this.pulseFiringProperty.get() && timeSincePulseStarted > period ) ? 0 :
-                        -Math.sin( this.timeProperty.value * angularFrequency + this.phase ) * this.amplitudeProperty.get();
+                        -Math.sin( this.timeProperty.value * angularFrequency + this.phase ) * scene.amplitudeProperty.get();
 
         // assumes a square lattice
-        const separationInLatticeUnits = this.sceneProperty.get().sourceSeparationProperty.get() / this.sceneProperty.get().waveAreaWidth * this.lattice.visibleBounds.width;
+        const separationInLatticeUnits = scene.sourceSeparationProperty.get() / scene.waveAreaWidth * this.lattice.visibleBounds.width;
         const distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
@@ -545,7 +544,6 @@ define( require => {
       this.lattice.clear();
       this.sceneProperty.reset();
       this.viewTypeProperty.reset();
-      this.amplitudeProperty.reset();
       this.showGraphProperty.reset();
       this.inputTypeProperty.reset();
       this.playSpeedProperty.reset();

@@ -78,7 +78,7 @@ define( require => {
       const modelProperty = isPrimarySource ? model.oscillator1Property : model.oscillator2Property;
       modelProperty.link( oscillator1 => {
 
-        const max = model.amplitudeProperty.range.max;
+        const max = model.soundScene.amplitudeProperty.range.max;
 
         // Sign is chosen so that the membrane forward corresponds to a high pressure outside the speaker,
         // see https://github.com/phetsims/wave-interference/issues/178
