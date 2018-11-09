@@ -259,7 +259,7 @@ define( require => {
       this.resetEmitter = new Emitter();
 
       // Reset the stopwatch time when changing scenes.  TODO: make sure this is as desired after https://github.com/phetsims/wave-interference/issues/179
-      this.sceneProperty.link( () => this.timerElapsedTimeProperty.reset() )
+      this.sceneProperty.link( () => this.timerElapsedTimeProperty.reset() );
     }
 
     /**
