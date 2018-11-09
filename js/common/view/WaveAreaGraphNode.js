@@ -2,6 +2,7 @@
 
 /**
  * Shows the semi-transparent graph over the lattice area (when selected).
+ * TODO: This is not updating when changing scenes
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
