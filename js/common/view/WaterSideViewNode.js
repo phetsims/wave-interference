@@ -41,14 +41,14 @@ define( require => {
       // @private - reduce garbage by reusing the same array to get model values
       this.array = [];
 
-      model.lattice.changedEmitter.addListener( this.update.bind( this ) );
+      model.waterScene.lattice.changedEmitter.addListener( this.update.bind( this ) ); // TODO: pass directly
     }
 
     /**
      * @private - update the shape when the rotationAmount or lattice has changed
      */
     update() {
-      this.shape = WaveInterferenceUtils.getWaterSideShape( this.array, this.model.lattice, this.waveAreaBounds, 0, 0 )
+      this.shape = WaveInterferenceUtils.getWaterSideShape( this.array, this.model.waterScene.lattice, this.waveAreaBounds, 0, 0 ) // TODO: pass directly
         .lineTo( this.waveAreaBounds.right, this.waveAreaBounds.maxY )
         .lineTo( this.waveAreaBounds.left, this.waveAreaBounds.maxY )
         .close();

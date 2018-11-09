@@ -75,7 +75,7 @@ define( require => {
         scale: 0.75
       } );
       super( model, model.soundScene, waveAreaNode, 42, isPrimarySource, image );
-      const modelProperty = isPrimarySource ? model.oscillator1Property : model.oscillator2Property;
+      const modelProperty = isPrimarySource ? model.soundScene.oscillator1Property : model.soundScene.oscillator2Property;
       modelProperty.link( oscillator1 => {
 
         const max = model.soundScene.amplitudeProperty.range.max;

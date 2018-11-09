@@ -39,7 +39,7 @@ define( require => {
         radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
       };
 
-      const button = new RoundStickyToggleButton( false, true, isPrimarySource ? model.button1PressedProperty : model.button2PressedProperty, buttonOptions );
+      const button = new RoundStickyToggleButton( false, true, isPrimarySource ? scene.button1PressedProperty : scene.button2PressedProperty, buttonOptions );
       const children = [ sourceNode ];
       if ( showButtonBackground ) {
         const diameter = button.width * 1.3;
@@ -56,15 +56,15 @@ define( require => {
       const nodeWithButton = new Node( { children } );
 
       const updateEnabled = () => {
-        if ( model.incomingWaveTypeProperty.value === IncomingWaveType.PULSE ) {
-          button.enabled = !model.pulseFiringProperty.value;
+        if ( scene.incomingWaveTypeProperty.value === IncomingWaveType.PULSE ) {
+          button.enabled = !scene.pulseFiringProperty.value;
         }
-        else if ( model.incomingWaveTypeProperty.value === IncomingWaveType.CONTINUOUS ) {
+        else if ( scene.incomingWaveTypeProperty.value === IncomingWaveType.CONTINUOUS ) {
           button.enabled = true;
         }
       };
-      model.incomingWaveTypeProperty.link( updateEnabled );
-      model.pulseFiringProperty.link( updateEnabled );
+      scene.incomingWaveTypeProperty.link( updateEnabled );
+      scene.pulseFiringProperty.link( updateEnabled );
       super( {
         children: [ nodeWithButton ]
       } );

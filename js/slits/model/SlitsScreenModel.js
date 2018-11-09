@@ -42,24 +42,25 @@ define( require => {
 
       // @protected {number} - record the time the button was pressed, so the SlitsScreenModel can propagate the right distance
       this.button1PressTime = 0;
-      this.button1PressedProperty.link( pressed => {
-        if ( pressed ) {
-          this.button1PressTime = this.timeProperty.value;
+      this.scenes.forEach( scene => {
+        scene.button1PressedProperty.link( pressed => {
+          if ( pressed ) {
+            this.button1PressTime = this.timeProperty.value;
 
-          // See setSourceValues
-          const scene = this.sceneProperty.value;
-          const frequency = scene.frequencyProperty.get();
-          const wavelength = scene.wavelength;
-          const k = Math.PI * 2 / wavelength;
-          const angularFrequency = frequency * Math.PI * 2;
-          const x = scene.modelToLatticeTransform.viewToModelX( this.lattice.dampX );
+            // See setSourceValues
+            const frequency = scene.frequencyProperty.get();
+            const wavelength = scene.wavelength;
+            const k = Math.PI * 2 / wavelength;
+            const angularFrequency = frequency * Math.PI * 2;
+            const x = scene.modelToLatticeTransform.viewToModelX( scene.lattice.dampX );
 
-          // Solve for k * x - angularFrequency * this.timeProperty.value + phase = 0
-          this.planeWavePhase = angularFrequency * this.timeProperty.value - k * x;
-        }
-        else {
-          this.clear();
-        }
+            // Solve for k * x - angularFrequency * this.timeProperty.value + phase = 0
+            this.planeWavePhase = angularFrequency * this.timeProperty.value - k * x;
+          }
+          else {
+            this.clear();
+          }
+        } );
       } );
 
       // When a barrier is added, clear the waves to the right instead of letting them dissipate,
@@ -87,9 +88,9 @@ define( require => {
      * @protected
      */
     setSourceValues() {
-      const lattice = this.lattice;
-
       const scene = this.sceneProperty.get();
+      const lattice = scene.lattice;
+
 
       // Round this to make sure it appears at an integer cell column
       let barrierLatticeX = Math.round( scene.modelToLatticeTransform.modelToViewX( scene.getBarrierLocation() ) );
@@ -100,7 +101,7 @@ define( require => {
 
       const slitWidthModel = scene.slitWidthProperty.get();
       const slitWidth = Math.round( scene.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
-      const latticeCenterY = this.lattice.height / 2;
+      const latticeCenterY = scene.lattice.height / 2;
 
       // Take the desired frequency for the water scene, or the specified frequency of any other scene
       // const frequency = scene.desiredFrequencyProperty ? scene.desiredFrequencyProperty.get() : scene.frequencyProperty.get();
@@ -151,7 +152,7 @@ define( require => {
               isCellInBarrier = inTop || inBottom || inCenter;
             }
           }
-          if ( this.button1PressedProperty.get() && !isCellInBarrier ) {
+          if ( scene.button1PressedProperty.get() && !isCellInBarrier ) {
 
             // If the coordinate is past where the front of the wave would be, then zero it out.
             if ( i >= frontPosition ) {

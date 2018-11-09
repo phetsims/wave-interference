@@ -85,6 +85,9 @@ define( require => {
       }, options );
       super();
 
+      // @private
+      this.model = model;
+
       // @private - shows the background of the wave area for sound view and used for layout
       this.waveAreaNode = new WaveAreaNode( model, {
         top: MARGIN + WAVE_MARGIN + 15,
@@ -138,7 +141,14 @@ define( require => {
       } );
       this.addChild( resetAllButton );
 
-      this.latticeNode = new LatticeCanvasNode( model.lattice );
+      // TODO: one latticeNode per scene?
+      this.waterCanvasNode = new LatticeCanvasNode( model.waterScene );
+      this.soundCanvasNode = new LatticeCanvasNode( model.soundScene );
+      this.lightCanvasNode = new LatticeCanvasNode( model.lightScene );
+      this.sceneToNode = scene => scene === model.waterScene ? this.waterCanvasNode :
+                                  scene === model.soundScene ? this.soundCanvasNode :
+                                  this.lightCanvasNode;
+      this.latticeNode = new SceneToggleNode( model, this.sceneToNode );
       model.showWavesProperty.linkAttribute( this.latticeNode, 'visible' );
 
       const scale = this.waveAreaNode.width / this.latticeNode.width;
@@ -147,7 +157,7 @@ define( require => {
         center: this.waveAreaNode.center
       } );
 
-      const lightScreenNode = new LightScreenNode( model.lattice, model.intensitySample, {
+      const lightScreenNode = new LightScreenNode( model.lightScene.lattice, model.intensitySample, {
         scale: scale,
         left: this.waveAreaNode.right + 5,
         y: this.waveAreaNode.top
@@ -158,24 +168,19 @@ define( require => {
         lightScreenNode.visible = showScreen && scene === model.lightScene;
       } );
 
+      // TODO: move to LatticeCanvasNode?
+      this.soundCanvasNode.setBaseColor( Color.white );
+      this.soundCanvasNode.vacuumColor = null;
+
+      this.waterCanvasNode.setBaseColor( WATER_BLUE );
+      this.waterCanvasNode.vacuumColor = null;
+
       // Set the color of highlight on the screen and lattice
-      Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], ( scene, lightFrequency ) => {
-        if ( scene === model.lightScene ) {
-          const baseColor = VisibleColor.frequencyToColor( fromFemto( lightFrequency ) );
-          this.latticeNode.setBaseColor( baseColor );
-          this.latticeNode.vacuumColor = Color.black;
-          lightScreenNode.setBaseColor( baseColor );
-        }
-        else if ( scene === model.soundScene ) {
-          this.latticeNode.setBaseColor( Color.white );
-          this.latticeNode.vacuumColor = null;
-          lightScreenNode.setBaseColor( Color.white );
-        }
-        else if ( scene === model.waterScene ) {
-          this.latticeNode.setBaseColor( WATER_BLUE );
-          this.latticeNode.vacuumColor = null;
-          lightScreenNode.setBaseColor( WATER_BLUE );
-        }
+      model.lightScene.frequencyProperty.link( lightFrequency => {
+        const baseColor = VisibleColor.frequencyToColor( fromFemto( lightFrequency ) );
+        this.lightCanvasNode.setBaseColor( baseColor );
+        this.lightCanvasNode.vacuumColor = Color.black;
+        lightScreenNode.setBaseColor( baseColor );
       } );
       model.showScreenProperty.linkAttribute( lightScreenNode, 'visible' );
 
@@ -311,12 +316,10 @@ define( require => {
       this.addChild( this.controlPanel );
 
       if ( options.showPulseContinuousRadioButtons ) {
-
-        const continuousPulseGroup = new PulseContinuousRadioButtonGroup( model.incomingWaveTypeProperty, {
+        this.addChild( new SceneToggleNode( model, scene => new PulseContinuousRadioButtonGroup( scene.incomingWaveTypeProperty ), {
           bottom: this.layoutBounds.bottom - MARGIN,
           left: this.layoutBounds.left + MARGIN
-        } );
-        this.addChild( continuousPulseGroup );
+        } ) );
       }
 
       if ( options.showViewRadioButtonGroup ) {
@@ -446,8 +449,10 @@ define( require => {
      * @public
      */
     globalToLatticeCoordinate( point ) {
-      const localPoint = this.latticeNode.globalToLocalPoint( point );
-      return this.latticeNode.localPointToLatticePoint( localPoint );
+      const latticeNode = this.sceneToNode( this.model.sceneProperty.value );
+
+      const localPoint = latticeNode.globalToLocalPoint( point );
+      return latticeNode.localPointToLatticePoint( localPoint );
     }
 
     /**

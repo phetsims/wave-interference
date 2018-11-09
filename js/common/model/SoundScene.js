@@ -63,12 +63,12 @@ define( require => {
      * @param {WavesScreenModel} model
      * @param {number} dt - amount of time to move forward, in the units of the scene
      */
-    step( model, dt ) {
+    step( dt ) {
 
-      super.step( model, dt );
+      super.step( dt );
 
       if ( this.showSoundParticles ) {
-        const lattice = model.lattice;
+        const lattice = this.lattice;
 
         // Increase the gradient force at low frequencies so we can still see the waves clearly.
         const k = Util.linear( this.minimumFrequency, this.maximumFrequency, 130, 76, this.frequencyProperty.value ) * WaveInterferenceConstants.SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY.get();
@@ -98,7 +98,7 @@ define( require => {
           const fx = gradientX * k;
           const fy = gradientY * k;
           if ( !isNaN( fx ) && !isNaN( fy ) ) {
-            soundParticle.applyForce( fx, fy, dt, model.soundScene );
+            soundParticle.applyForce( fx, fy, dt, this );
           }
         }
       }

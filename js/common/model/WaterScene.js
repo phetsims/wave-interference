@@ -19,11 +19,9 @@ define( require => {
   class WaterScene extends Scene {
 
     /**
-     * @param {BooleanProperty} button1PressedProperty
-     * @param {BooleanProperty} button2PressedProperty
      * @param {Object} config - see Scene for required properties
      */
-    constructor( button1PressedProperty, button2PressedProperty, config ) {
+    constructor( config ) {
       super( config );
 
       // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
@@ -41,15 +39,15 @@ define( require => {
       this.lastDropTime = null;
 
       // prep to fire a new drop in the next frame, but only if the other source wasn't already setting the phase
-      button1PressedProperty.link( pressed => {
-        if ( pressed && !button2PressedProperty.value ) {
+      this.button1PressedProperty.link( pressed => {
+        if ( pressed && !this.button2PressedProperty.value ) {
           this.lastDropTime = null; // prep to fire a new drop in the next frame
         }
       } );
 
       // prep to fire a new drop in the next frame, but only if the other source wasn't already setting the phase
-      button2PressedProperty.link( pressed => {
-        if ( pressed && !button1PressedProperty.value ) {
+      this.button2PressedProperty.link( pressed => {
+        if ( pressed && !this.button1PressedProperty.value ) {
           this.lastDropTime = null;
         }
       } );
@@ -59,27 +57,26 @@ define( require => {
      * Fire another water drop if one is warranted for the specified faucet.  We already determined that the timing
      * is right (for the period), now we need to know if a drop should fire.
      * @param {Property.<Boolean>} buttonProperty - indicates whether the corresponding button is pressed
-     * @param {WavesScreenModel} model
      * @param {Property.<Boolean>} oscillatingProperty - indicates whether the wave source is oscillating
      * @param {number} sign - -1 for top faucet, +1 for bottom faucet
      * @private
      */
-    launchWaterDrop( buttonProperty, model, oscillatingProperty, sign ) {
+    launchWaterDrop( buttonProperty, oscillatingProperty, sign ) { // TODO: eliminate model parameter
 
-      const time = model.timeProperty.value;
+      const time = this.timeProperty.value;
 
       // Send a water drop if the button is pressed but not if the button is still pressed from the last pulse.
       // model.button1PressedProperty.value not consulted because we send a shutoff water drop. so that the previous
       // drop gets a full cycle
-      const isPulseMode = model.incomingWaveTypeProperty.value === IncomingWaveType.PULSE;
-      const firePulseDrop = isPulseMode && !model.pulseFiringProperty.value && model.button1PressedProperty.value;
+      const isPulseMode = this.incomingWaveTypeProperty.value === IncomingWaveType.PULSE;
+      const firePulseDrop = isPulseMode && !this.pulseFiringProperty.value && this.button1PressedProperty.value;
       if ( !isPulseMode || firePulseDrop ) {
 
         // capture closure vars for when the water drop is absorbed.
         const buttonPressed = buttonProperty.value;
         const frequency = this.desiredFrequencyProperty.value;
         const amplitude = this.desiredAmplitudeProperty.value;
-        const isPulse = model.incomingWaveTypeProperty.value === IncomingWaveType.PULSE;
+        const isPulse = this.incomingWaveTypeProperty.value === IncomingWaveType.PULSE;
         const sourceSeparation = this.desiredSourceSeparationProperty.value;
         this.waterDrops.push( new WaterDrop(
           amplitude,
@@ -89,16 +86,16 @@ define( require => {
           sign,
           () => {
 
-            if ( isPulse && model.pulseFiringProperty.value ) {
+            if ( isPulse && this.pulseFiringProperty.value ) {
               return;
             }
             this.amplitudeProperty.set( amplitude );
             this.frequencyProperty.set( frequency );
             this.sourceSeparationProperty.value = sourceSeparation;
 
-            model.resetPhase();
+            this.resetPhase();
             if ( isPulse ) {
-              model.startPulse();
+              this.startPulse();
             }
             else {
               oscillatingProperty.value = buttonPressed;
@@ -111,14 +108,13 @@ define( require => {
 
     /**
      * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
-     * @param {WavesScreenModel} model
      * @param {number} dt - amount of time to move forward, in the units of the scene
      */
-    step( model, dt ) {
+    step( dt ) {
 
-      super.step( model, dt );
+      super.step( dt );
 
-      const time = model.timeProperty.value;
+      const time = this.timeProperty.value;
 
       // Use the lattice frequency (rather than the desired frequency) to determine the time of the next drop
       // so the next drop will not take too long, see https://github.com/phetsims/wave-interference/issues/154
@@ -127,10 +123,10 @@ define( require => {
       const timeSinceLastDrop = time - this.lastDropTime;
 
       // Emit water drops if the phase matches up, but not for the plane waves screen
-      if ( !model.barrierTypeProperty && ( this.lastDropTime === null || timeSinceLastDrop > period ) ) {
+      if ( !this.barrierTypeProperty && ( this.lastDropTime === null || timeSinceLastDrop > period ) ) {
 
-        this.launchWaterDrop( model.button1PressedProperty, model, model.continuousWave1OscillatingProperty, +1 );
-        this.launchWaterDrop( model.button2PressedProperty, model, model.continuousWave2OscillatingProperty, -1 );
+        this.launchWaterDrop( this.button1PressedProperty, this.continuousWave1OscillatingProperty, +1 );
+        this.launchWaterDrop( this.button2PressedProperty, this.continuousWave2OscillatingProperty, -1 );
       }
 
       const toRemove = [];

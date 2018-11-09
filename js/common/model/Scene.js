@@ -10,6 +10,9 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
+  const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
@@ -18,6 +21,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // strings
   const distanceUnitsString = require( 'string!WAVE_INTERFERENCE/distanceUnits' );
@@ -29,6 +33,27 @@ define( require => {
      * @param {Object} config - see below for required properties
      */
     constructor( config ) {
+
+      // @public {Lattice} the grid that contains the wave values
+      this.lattice = new Lattice(
+        WaveInterferenceConstants.LATTICE_DIMENSION,
+        WaveInterferenceConstants.LATTICE_DIMENSION,
+        WaveInterferenceConstants.LATTICE_PADDING,
+        WaveInterferenceConstants.LATTICE_PADDING
+      );
+
+      // @public {number} - elapsed time in seconds
+      this.timeProperty = new NumberProperty( 0 );
+
+      // @public {number} phase of the emitter
+      this.phase = 0;
+
+      // @public {Property.<Boolean>} - whether the button for the first source is pressed.  This is also used for the
+      // slits screen plane wave source.
+      this.button1PressedProperty = new BooleanProperty( false );
+
+      // @public {Property.<Boolean>} - whether the button for the second source is pressed
+      this.button2PressedProperty = new BooleanProperty( false );
 
       // @public (read-only) {string} - units for this scene
       this.translatedPositionUnits = config.translatedPositionUnits;
@@ -97,7 +122,7 @@ define( require => {
 
         // I do not understand why, but shifting indices by 1 is necessary to align particle model coordinates with
         // lattice coordinates, see https://github.com/phetsims/wave-interference/issues/174
-        config.lattice.visibleBounds.shifted( -1, -1 )
+        this.lattice.visibleBounds.shifted( -1, -1 )
       );
 
       // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)
@@ -128,12 +153,192 @@ define( require => {
       this.amplitudeProperty = new NumberProperty( config.initialAmplitude, { range: new Range( 0, 10 ) } );
 
       // @public - the amplitude the user has selected
+      // TODO: move this to WaterScene?
       this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude );
       this.desiredAmplitudeProperty.link( desiredAmplitude => {
         if ( config.linkDesiredAmplitudeToAmplitude ) {
           this.amplitudeProperty.value = desiredAmplitude;
         }
       } );
+
+      // @public {Property.<IncomingWaveType>} - pulse or continuous
+      this.incomingWaveTypeProperty = new Property( IncomingWaveType.CONTINUOUS, {
+        validValues: IncomingWaveType.VALUES
+      } );
+
+
+      // The first button can trigger a pulse, or continuous wave, depending on the incomingWaveTypeProperty
+      this.button1PressedProperty.lazyLink( isPressed => {
+        if ( config.name !== 'water' ) {
+          if ( isPressed ) {
+            this.resetPhase();
+          }
+          if ( isPressed && this.incomingWaveTypeProperty.value === IncomingWaveType.PULSE ) {
+            this.startPulse();
+          }
+          else {
+
+            // Water propagates via the water drop
+            this.continuousWave1OscillatingProperty.value = isPressed;
+          }
+        }
+      } );
+
+      // The 2nd button starts the second continuous wave
+      this.button2PressedProperty.lazyLink( isPressed => {
+        if ( this.sceneProperty.value === this.soundScene || this.sceneProperty.value === this.lightScene ) {
+          if ( isPressed ) {
+            this.resetPhase();
+          }
+          this.continuousWave2OscillatingProperty.value = isPressed;
+        }
+      } );
+
+      // @public {BooleanProperty} - true while a single pulse is being generated
+      this.pulseFiringProperty = new BooleanProperty( false );
+
+      // When the pulse ends, the button pops out
+      this.pulseFiringProperty.lazyLink( pulseFiring => {
+        if ( !pulseFiring ) {
+          this.button1PressedProperty.value = false;
+        }
+      } );
+
+      // When the user selects "PULSE", the button pops out.
+      this.incomingWaveTypeProperty.link( inputType => {
+        if ( inputType === IncomingWaveType.PULSE ) {
+          this.button1PressedProperty.value = false;
+        }
+      } );
+
+      // @public (read-only) - the value of the wave at the oscillation point
+      this.oscillator1Property = new NumberProperty( 0 );
+
+      // @public (read-only) - the value of the wave at the oscillation point
+      this.oscillator2Property = new NumberProperty( 0 );
+
+      // @public {BooleanProperty} - true when the first source is continuously oscillating
+      this.continuousWave1OscillatingProperty = new BooleanProperty( false );
+
+      // @public {BooleanProperty} - true when the second source is continuously oscillating
+      this.continuousWave2OscillatingProperty = new BooleanProperty( false );
+
+      this.timeProperty.reset();
+      this.phase = 0;
+
+      // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
+      // for continuity
+      const phaseUpdate = ( newFrequency, oldFrequency ) => {
+
+        // For the main model, Math.sin is performed on angular frequency, so to match the phase, that computation
+        // should also be based on angular frequencies
+        const oldAngularFrequency = oldFrequency * Math.PI * 2;
+        const newAngularFrequency = newFrequency * Math.PI * 2;
+        const time = this.timeProperty.value;
+
+        const oldValue = Math.sin( time * oldAngularFrequency + this.phase );
+        let proposedPhase = Math.asin( oldValue ) - time * newAngularFrequency;
+        const oldDerivative = Math.cos( time * oldAngularFrequency + this.phase );
+        const newDerivative = Math.cos( time * newAngularFrequency + proposedPhase );
+
+        // If wrong phase, take the sin value from the opposite side and move forward by half a cycle
+        if ( oldDerivative * newDerivative < 0 ) {
+          proposedPhase = Math.asin( -oldValue ) - time * newAngularFrequency + Math.PI;
+        }
+
+        this.phase = proposedPhase;
+
+        // The wave area resets when the wavelength changes in the light scene
+        if ( config.name === 'light' ) {
+          this.clear();
+        }
+      };
+      this.frequencyProperty.lazyLink( phaseUpdate );
+
+    }
+
+    /**
+     * Set the incoming source values, in this case it is a point source near the left side of the lattice (outside of the damping region).
+     * @override
+     * @protected
+     */
+    setSourceValues() {
+      const frequency = this.frequencyProperty.get();
+      const period = 1 / frequency;
+      const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
+      const lattice = this.lattice;
+      const continuous1 = ( this.incomingWaveTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
+      const continuous2 = ( this.incomingWaveTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
+
+      if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
+
+        // The simulation is designed to start with a downward wave, corresponding to water splashing in
+        const frequency = this.frequencyProperty.value;
+        const angularFrequency = Math.PI * 2 * frequency;
+
+        // For 50% longer than one pulse, keep the oscillator fixed at 0 to prevent "ringing"
+        let waveValue = ( this.pulseFiringProperty.get() && timeSincePulseStarted > period ) ? 0 :
+                        -Math.sin( this.timeProperty.value * angularFrequency + this.phase ) * this.amplitudeProperty.get();
+
+        // assumes a square lattice
+        const separationInLatticeUnits = this.sourceSeparationProperty.get() / this.waveAreaWidth * this.lattice.visibleBounds.width;
+        const distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
+
+        // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
+        // To understand why we subtract 1 here, imagine for the sake of conversation that the lattice is 5 units wide,
+        // so the cells are indexed 0,1,2,3,4.  5/2 === 2.5, rounded up that is 3, so we must subtract 1 to find the
+        // center of the lattice.
+        const latticeCenterJ = Math.round( this.lattice.height / 2 ) - 1;
+
+        // Point source
+        if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
+          const j1 = latticeCenterJ + distanceAboveAxis;
+          lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j1, waveValue );
+          this.oscillator1Property.value = waveValue;
+        }
+
+        // Secondary source (note if there is only one source, this sets the same value as above)
+        if ( this.continuousWave2OscillatingProperty.get() ) {
+          const j2 = latticeCenterJ - distanceAboveAxis;
+          lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j2, waveValue );
+          this.oscillator2Property.value = waveValue;
+        }
+      }
+    }
+
+    /**
+     * Additionally called from the "step" button
+     * @param {number} wallDT - amount of wall time that passed, will be scaled by time scaling value
+     * @param {boolean} manualStep - true if the step button is being pressed
+     * @public
+     */
+    advanceTime( wallDT, manualStep ) {
+
+      const frequency = this.frequencyProperty.get();
+      const period = 1 / frequency;
+
+      const dt = wallDT * this.timeScaleFactor;
+      this.timeProperty.value += dt;
+
+      // If the pulse is running, end the pulse after one period
+      if ( this.pulseFiringProperty.get() ) {
+        const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
+
+        // For 50% longer than one pulse, keep the oscillator fixed at 0 to prevent "ringing"
+        if ( timeSincePulseStarted > period * 1.5 ) {
+          this.pulseFiringProperty.set( false );
+          this.pulseStartTime = 0;
+        }
+      }
+
+      // Update the lattice
+      this.lattice.step( () => this.setSourceValues() );
+
+      // Scene-specific physics updates
+      this.step( dt );
+
+      // Notify listeners about changes
+      this.lattice.changedEmitter.emit();
     }
 
     /**
@@ -142,6 +347,22 @@ define( require => {
      */
     getBarrierLocation() {
       return this.barrierLocationProperty.get().x;
+    }
+
+    clear() {
+      this.lattice.clear();
+    }
+
+    /**
+     * Start the sine argument at 0 so it will smoothly form the first wave.
+     * @private
+     */
+    resetPhase() {
+      const frequency = this.frequencyProperty.get();
+      const angularFrequency = Math.PI * 2 * frequency;
+
+      // Solve for the sin arg = 0 in Math.sin( this.time * angularFrequency + this.phase )
+      this.phase = -this.timeProperty.value * angularFrequency;
     }
 
     /**
@@ -162,11 +383,19 @@ define( require => {
       return new Rectangle( 0, 0, this.waveAreaWidth, this.waveAreaWidth );
     }
 
+    startPulse() {
+      assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
+      this.resetPhase();
+      this.pulseFiringProperty.value = true;
+      this.pulseStartTime = this.timeProperty.value;
+    }
+
     /**
      * Restores the initial conditions of this scene.
      * @public
      */
     reset() {
+      this.lattice.clear();
       this.frequencyProperty.reset();
       this.slitWidthProperty.reset();
       this.barrierLocationProperty.reset();
@@ -174,14 +403,20 @@ define( require => {
       this.sourceSeparationProperty.reset();
       this.amplitudeProperty.reset();
       this.desiredAmplitudeProperty.reset();
+      this.incomingWaveTypeProperty.reset();
+      this.button1PressedProperty.reset();
+      this.button2PressedProperty.reset();
+      this.oscillator1Property.reset();
+      this.oscillator2Property.reset();
+      this.continuousWave1OscillatingProperty.reset();
+      this.continuousWave2OscillatingProperty.reset();
     }
 
     /**
      * Move forward in time by the specified amount
-     * @param {WavesScreenModel} model
      * @param {number} dt - amount of time to move forward, in the units of the scene
      */
-    step( model, dt ) {
+    step( dt ) {
 
       // No-op here, subclasses can override to provide behavior.
     }

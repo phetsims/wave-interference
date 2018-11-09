@@ -35,11 +35,12 @@ define( require => {
         rightCenter: waveAreaBounds.leftCenter.plusXY( 2, 0 )
       } );
 
-      const button = new RoundStickyToggleButton( false, true, model.button1PressedProperty, {
+      const button = new SceneToggleNode( model, scene => new RoundStickyToggleButton( false, true, scene.button1PressedProperty, {
         scale: 1.2,
-        center: verticalCylinderImageNode.center,
         baseColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
         radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
+      } ), {
+        center: verticalCylinderImageNode.center
       } );
 
       options = _.extend( { children: [ verticalCylinderImageNode, button ] }, options );

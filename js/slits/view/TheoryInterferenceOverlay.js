@@ -43,7 +43,7 @@ define( require => {
           this.modelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), viewBounds );
 
           const barrierY = viewBounds.centerY;
-          const cellWidth = ModelViewTransform2.createRectangleMapping( model.lattice.visibleBounds, viewBounds ).modelToViewDeltaX( 1 );
+          const cellWidth = ModelViewTransform2.createRectangleMapping( scene.lattice.visibleBounds, viewBounds ).modelToViewDeltaX( 1 );
           const barrierX = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() ) + cellWidth / 2;
 
           // Render all the minima and maxima on both sides of the origin

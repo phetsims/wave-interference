@@ -11,6 +11,7 @@ define( require => {
   // modules
   const Color = require( 'SCENERY/util/Color' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const DynamicProperty = require( 'AXON/DynamicProperty' );
   const DynamicSeries = require( 'GRIDDLE/DynamicSeries' );
   const Emitter = require( 'AXON/Emitter' );
   const LabeledScrollingChartNode = require( 'GRIDDLE/LabeledScrollingChartNode' );
@@ -140,15 +141,15 @@ define( require => {
             // itself as the sensor hot spot.  This doesn't include the damping regions
             const latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
 
-            const sampleI = latticeCoordinates.x + model.lattice.dampX;
-            const sampleJ = latticeCoordinates.y + model.lattice.dampY;
+            const sampleI = latticeCoordinates.x + model.waterScene.lattice.dampX; // TODO: don't use waterScene for this
+            const sampleJ = latticeCoordinates.y + model.waterScene.lattice.dampY; // TODO: don't use waterScene for this
 
-            if ( model.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
-              const value = model.lattice.getCurrentValue( sampleI, sampleJ );
-              dynamicSeries.data.push( new Vector2( model.timeProperty.value, value ) );
+            if ( model.sceneProperty.value.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
+              const value = model.sceneProperty.value.lattice.getCurrentValue( sampleI, sampleJ );
+              dynamicSeries.data.push( new Vector2( model.sceneProperty.value.timeProperty.value, value ) );
             }
           }
-          while ( dynamicSeries.data.length > 0 && dynamicSeries.data[ 0 ].x < model.timeProperty.value - maxSeconds ) {
+          while ( dynamicSeries.data.length > 0 && dynamicSeries.data[ 0 ].x < model.sceneProperty.value.timeProperty.value - maxSeconds ) {
             dynamicSeries.data.shift();
           }
           dynamicSeries.emitter.emit();
@@ -167,7 +168,11 @@ define( require => {
           // When the wave is paused and the user is dragging the entire MeterBodyNode with the probes aligned, they
           // need to sample their new locations.
           probeNode.on( 'transform', updateSamples );
-          model.lattice.changedEmitter.addListener( updateSamples );
+
+          // TODO: is the replication necessary?
+          model.waterScene.lattice.changedEmitter.addListener( updateSamples );
+          model.soundScene.lattice.changedEmitter.addListener( updateSamples );
+          model.lightScene.lattice.changedEmitter.addListener( updateSamples );
         }
         return dynamicSeries;
       };
@@ -190,8 +195,12 @@ define( require => {
 
       // Create the scrolling chart content and add it to the background.  There is an order-of-creation cycle which
       // prevents the scrolling node from being added to the background before the super() call, so this will have to suffice.
+      // Select the time for the selected scene.
+      const timeProperty = new DynamicProperty( model.sceneProperty, {
+        derive: 'timeProperty'
+      } );
       const scrollingChartNode = new LabeledScrollingChartNode(
-        new ScrollingChartNode( model.timeProperty, [ series1, series2 ], {
+        new ScrollingChartNode( timeProperty, [ series1, series2 ], {
           width: 150,
           height: 110
         } ),
@@ -200,9 +209,9 @@ define( require => {
         timeString,
         _.omit( options, 'scale' ) // Don't apply the scale to both parent and children
       );
-      const sr = new ShadedRectangle( scrollingChartNode.bounds.dilated( 7 ) );
-      sr.addChild( scrollingChartNode );
-      backgroundNode.addChild( sr );
+      const shadedRectangle = new ShadedRectangle( scrollingChartNode.bounds.dilated( 7 ) );
+      shadedRectangle.addChild( scrollingChartNode );
+      backgroundNode.addChild( shadedRectangle );
 
       this.alignProbesEmitter.emit();
     }

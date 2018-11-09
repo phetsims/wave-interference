@@ -186,8 +186,8 @@ define( require => {
       const array = [];
       const dx = -options.x;
       const dy = -options.centerY / 2 + 7.5; // Manually tuned to center the line in the graph, must be synchronized with graphHeight
-      model.lattice.changedEmitter.addListener( () => {
-        path.shape = WaveInterferenceUtils.getWaterSideShape( array, model.lattice, waveAreaBounds, dx, dy );
+      model.waterScene.lattice.changedEmitter.addListener( () => { // TODO: undo model.waterScene
+        path.shape = WaveInterferenceUtils.getWaterSideShape( array, model.waterScene.lattice, waveAreaBounds, dx, dy );
       } );
 
       this.mutate( options );

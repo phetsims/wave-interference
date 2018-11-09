@@ -63,7 +63,7 @@ define( require => {
       this.rectangleC = rectangleC;
 
       // @private - View width for one cell
-      this.cellWidth = ModelViewTransform2.createRectangleMapping( this.model.lattice.visibleBounds, viewBounds ).modelToViewDeltaX( 1 );
+      this.cellWidth = ModelViewTransform2.createRectangleMapping( scene.lattice.visibleBounds, viewBounds ).modelToViewDeltaX( 1 );
 
       // @private - Convert from model coordinates to view coordinates
       this.modelViewTransform = ModelViewTransform2.createRectangleMapping( this.scene.getWaveAreaBounds(), viewBounds );
