@@ -56,14 +56,14 @@ define( require => {
       const nodeWithButton = new Node( { children } );
 
       const updateEnabled = () => {
-        if ( model.inputTypeProperty.value === IncomingWaveType.PULSE ) {
+        if ( model.incomingWaveTypeProperty.value === IncomingWaveType.PULSE ) {
           button.enabled = !model.pulseFiringProperty.value;
         }
-        else if ( model.inputTypeProperty.value === IncomingWaveType.CONTINUOUS ) {
+        else if ( model.incomingWaveTypeProperty.value === IncomingWaveType.CONTINUOUS ) {
           button.enabled = true;
         }
       };
-      model.inputTypeProperty.link( updateEnabled );
+      model.incomingWaveTypeProperty.link( updateEnabled );
       model.pulseFiringProperty.link( updateEnabled );
       super( {
         children: [ nodeWithButton ]

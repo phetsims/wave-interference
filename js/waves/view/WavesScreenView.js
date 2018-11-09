@@ -312,7 +312,7 @@ define( require => {
 
       if ( options.showPulseContinuousRadioButtons ) {
 
-        const continuousPulseGroup = new PulseContinuousRadioButtonGroup( model.inputTypeProperty, {
+        const continuousPulseGroup = new PulseContinuousRadioButtonGroup( model.incomingWaveTypeProperty, {
           bottom: this.layoutBounds.bottom - MARGIN,
           left: this.layoutBounds.left + MARGIN
         } );

@@ -17,11 +17,11 @@ define( require => {
   class PulseContinuousRadioButtonGroup extends RadioButtonGroup {
 
     /**
-     * @param {Property.<IncomingWaveType>} inputTypeProperty
+     * @param {Property.<IncomingWaveType>} incomingWaveTypeProperty
      * @param {Object} [options]
      */
-    constructor( inputTypeProperty, options ) {
-      super( inputTypeProperty, [ {
+    constructor( incomingWaveTypeProperty, options ) {
+      super( incomingWaveTypeProperty, [ {
         value: IncomingWaveType.PULSE,
         node: new InputTypeIconNode( IncomingWaveType.PULSE )
       }, {

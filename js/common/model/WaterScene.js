@@ -71,7 +71,7 @@ define( require => {
       // Send a water drop if the button is pressed but not if the button is still pressed from the last pulse.
       // model.button1PressedProperty.value not consulted because we send a shutoff water drop. so that the previous
       // drop gets a full cycle
-      const isPulseMode = model.inputTypeProperty.value === IncomingWaveType.PULSE;
+      const isPulseMode = model.incomingWaveTypeProperty.value === IncomingWaveType.PULSE;
       const firePulseDrop = isPulseMode && !model.pulseFiringProperty.value && model.button1PressedProperty.value;
       if ( !isPulseMode || firePulseDrop ) {
 
@@ -79,7 +79,7 @@ define( require => {
         const buttonPressed = buttonProperty.value;
         const frequency = this.desiredFrequencyProperty.value;
         const amplitude = this.desiredAmplitudeProperty.value;
-        const isPulse = model.inputTypeProperty.value === IncomingWaveType.PULSE;
+        const isPulse = model.incomingWaveTypeProperty.value === IncomingWaveType.PULSE;
         const sourceSeparation = this.desiredSourceSeparationProperty.value;
         this.waterDrops.push( new WaterDrop(
           amplitude,

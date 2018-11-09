@@ -227,7 +227,7 @@ define( require => {
       this.showIntensityGraphProperty = new BooleanProperty( false );
 
       // @public {Property.<IncomingWaveType>} - pulse or continuous
-      this.inputTypeProperty = new Property( IncomingWaveType.CONTINUOUS, {
+      this.incomingWaveTypeProperty = new Property( IncomingWaveType.CONTINUOUS, {
         validValues: IncomingWaveType.VALUES
       } );
 
@@ -324,13 +324,13 @@ define( require => {
       this.soundScene.frequencyProperty.lazyLink( phaseUpdate );
       this.lightScene.frequencyProperty.lazyLink( phaseUpdate );
 
-      // The first button can trigger a pulse, or continuous wave, depending on the inputTypeProperty
+      // The first button can trigger a pulse, or continuous wave, depending on the incomingWaveTypeProperty
       this.button1PressedProperty.lazyLink( isPressed => {
         if ( this.sceneProperty.value === this.soundScene || this.sceneProperty.value === this.lightScene ) {
           if ( isPressed ) {
             this.resetPhase();
           }
-          if ( isPressed && this.inputTypeProperty.value === IncomingWaveType.PULSE ) {
+          if ( isPressed && this.incomingWaveTypeProperty.value === IncomingWaveType.PULSE ) {
             this.startPulse();
           }
           else {
@@ -359,7 +359,7 @@ define( require => {
       } );
 
       // When the user selects "PULSE", the button pops out.
-      this.inputTypeProperty.link( inputType => {
+      this.incomingWaveTypeProperty.link( inputType => {
         if ( inputType === IncomingWaveType.PULSE ) {
           this.button1PressedProperty.value = false;
         }
@@ -487,8 +487,8 @@ define( require => {
       const period = 1 / frequency;
       const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
       const lattice = this.lattice;
-      const continuous1 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
-      const continuous2 = ( this.inputTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
+      const continuous1 = ( this.incomingWaveTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
+      const continuous2 = ( this.incomingWaveTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
       const scene = this.sceneProperty.get();
 
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
@@ -545,7 +545,7 @@ define( require => {
       this.sceneProperty.reset();
       this.viewTypeProperty.reset();
       this.showGraphProperty.reset();
-      this.inputTypeProperty.reset();
+      this.incomingWaveTypeProperty.reset();
       this.playSpeedProperty.reset();
       this.isRunningProperty.reset();
       this.showScreenProperty.reset();
