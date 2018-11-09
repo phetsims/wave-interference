@@ -59,7 +59,11 @@ define( require => {
       fy += ( phet.joist.random.nextDouble() - 0.5 ) * 2 * RANDOMNESS;
 
       // use the airK as the magnitude and the forceCenter for direction only.
-      const restorationSpringConstant = Util.linear( soundScene.minimumFrequency, soundScene.maximumFrequency, 2, 6.5, soundScene.frequencyProperty.value ) * WaveInterferenceConstants.SOUND_PARTICLE_RESTORATION_SCALE.get();
+      const restorationSpringConstant = Util.linear(
+        soundScene.minimumFrequency, soundScene.maximumFrequency,
+        ( 2 * 1.05 ), ( 6.5 * 0.8 ),
+        soundScene.frequencyProperty.value
+      ) * WaveInterferenceConstants.SOUND_PARTICLE_RESTORATION_SCALE.get();
       const fSpringX = -restorationSpringConstant * ( this.x - this.initialX );
       const fSpringY = -restorationSpringConstant * ( this.y - this.initialY );
       this.vx += fx + fSpringX;
