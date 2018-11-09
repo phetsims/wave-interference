@@ -193,7 +193,7 @@ define( require => {
 
       // The 2nd button starts the second continuous wave
       this.button2PressedProperty.lazyLink( isPressed => {
-        if ( this.sceneProperty.value === this.soundScene || this.sceneProperty.value === this.lightScene ) {
+        if ( this.name === 'sound' || this.name === 'light' ) {
           if ( isPressed ) {
             this.resetPhase();
           }

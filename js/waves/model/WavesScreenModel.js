@@ -140,7 +140,8 @@ define( require => {
         initialSlitSeparation: 150, // cm
 
         initialAmplitude: options.initialAmplitude,
-        linkDesiredAmplitudeToAmplitude: true
+        linkDesiredAmplitudeToAmplitude: true,
+        name: 'sound'
       } );
 
       // Light scene.  TODO: Why is there no subclass for LightScene?
