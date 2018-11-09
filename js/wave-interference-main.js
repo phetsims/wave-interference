@@ -39,7 +39,12 @@ define( require => {
       // Elements should have the same widths but not constrained to have the same heights
       matchVertical: false
     } );
-    const sim = new Sim( waveInterferenceTitleString, [ new WavesScreen( alignGroup ), new InterferenceScreen( alignGroup ), new SlitsScreen( alignGroup ), new DiffractionScreen() ], simOptions );
+    const sim = new Sim( waveInterferenceTitleString, [
+      new WavesScreen( alignGroup ),
+      new InterferenceScreen( alignGroup ),
+      new SlitsScreen( alignGroup )
+      // ,new DiffractionScreen()
+    ], simOptions );
     sim.start();
   } );
 } );
