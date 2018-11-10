@@ -262,55 +262,57 @@ define( require => {
       };
       this.frequencyProperty.lazyLink( phaseUpdate );
 
-      // TODO: Everything below here is just for plane wave screen.  Guard it with an if(config.???)
+      // Everything below here is just for plane wave screen.
+      if ( this.oscillatorType === 'plane' ) {
 
-      // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
-      this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
+        // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
+        this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
 
-      // When the barrier moves, it creates a lot of artifacts, so clear the wave to the right of the barrier
-      // when it moves
-      this.barrierLocationProperty.link( this.clear.bind( this ) );
+        // When the barrier moves, it creates a lot of artifacts, so clear the wave to the right of the barrier
+        // when it moves
+        this.barrierLocationProperty.link( this.clear.bind( this ) );
 
-      // @private {number} - phase of the wave so it doesn't start halfway through a cycle
-      this.planeWavePhase = 0;
+        // @private {number} - phase of the wave so it doesn't start halfway through a cycle
+        this.planeWavePhase = 0;
 
-      // @protected {number} - record the time the button was pressed, so the SlitsScreenModel can propagate the right distance
-      this.button1PressTime = 0;
-      this.button1PressedProperty.link( pressed => {
-        if ( pressed ) {
-          this.button1PressTime = this.timeProperty.value;
+        // @protected {number} - record the time the button was pressed, so the SlitsScreenModel can propagate the right distance
+        this.button1PressTime = 0;
+        this.button1PressedProperty.link( pressed => {
+          if ( pressed ) {
+            this.button1PressTime = this.timeProperty.value;
 
-          // See setSourceValues
-          const frequency = this.frequencyProperty.get();
-          const wavelength = this.wavelength;
-          const k = Math.PI * 2 / wavelength;
-          const angularFrequency = frequency * Math.PI * 2;
-          const x = this.modelToLatticeTransform.viewToModelX( this.lattice.dampX );
+            // See setSourceValues
+            const frequency = this.frequencyProperty.get();
+            const wavelength = this.wavelength;
+            const k = Math.PI * 2 / wavelength;
+            const angularFrequency = frequency * Math.PI * 2;
+            const x = this.modelToLatticeTransform.viewToModelX( this.lattice.dampX );
 
-          // Solve for k * x - angularFrequency * this.timeProperty.value + phase = 0
-          this.planeWavePhase = angularFrequency * this.timeProperty.value - k * x;
-        }
-        else {
+            // Solve for k * x - angularFrequency * this.timeProperty.value + phase = 0
+            this.planeWavePhase = angularFrequency * this.timeProperty.value - k * x;
+          }
+          else {
+            this.clear();
+          }
+        } );
+
+        // When a barrier is added, clear the waves to the right instead of letting them dissipate,
+        // see https://github.com/phetsims/wave-interference/issues/176
+        this.barrierTypeProperty.link( barrierType => {
           this.clear();
-        }
-      } );
 
-      // When a barrier is added, clear the waves to the right instead of letting them dissipate,
-      // see https://github.com/phetsims/wave-interference/issues/176
-      this.barrierTypeProperty.link( barrierType => {
-        this.clear();
+          const frontTime = this.timeProperty.value - this.button1PressTime;
+          const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime );
+          const barrierLatticeX = Math.round( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) );
 
-        const frontTime = this.timeProperty.value - this.button1PressTime;
-        const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime );
-        const barrierLatticeX = Math.round( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) );
-
-        // if the wave had passed by the barrier, then repropagate from the barrier.  This requires back-computing the
-        // time the button would have been pressed to propagate the wave to the barrier.  Hence this is the inverse of the
-        // logic in setSourceValues
-        if ( frontPosition > barrierLatticeX ) {
-          this.button1PressTime = this.timeProperty.value - this.getBarrierLocation() / this.waveSpeed;
-        }
-      } );
+          // if the wave had passed by the barrier, then repropagate from the barrier.  This requires back-computing the
+          // time the button would have been pressed to propagate the wave to the barrier.  Hence this is the inverse of the
+          // logic in setSourceValues
+          if ( frontPosition > barrierLatticeX ) {
+            this.button1PressTime = this.timeProperty.value - this.getBarrierLocation() / this.waveSpeed;
+          }
+        } );
+      }
     }
 
     /**
