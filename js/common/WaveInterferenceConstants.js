@@ -17,20 +17,22 @@ define( require => {
 
   // constants
   const THUMB_SIZE = new Dimension2( 13, 22 );
+  const DEFAULT_FONT = new PhetFont( 15 );
 
   const WaveInterferenceConstants = {
     WAVE_AREA_WIDTH: 500,
 
     // These constants are used for the NumberControls to give them a consistent looks
     NUMBER_CONTROL_OPTIONS: {
-      trackSize: new Dimension2( 100, 1 ), // TODO: factor out TrackSize with WaveInterferenceSlider
+      trackSize: new Dimension2( 100, 1 ),
       majorTickLength: 12,
-      thumbSize: new Dimension2( 13, 22 ), // TODO: share these with
+      thumbSize: THUMB_SIZE,
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 1 } ),
       arrowButtonScale: 0.65,
-      titleFont: new PhetFont( 15 ) // TODO: match with WaveInterferenceText
+      titleFont: DEFAULT_FONT
     },
     THUMB_SIZE: THUMB_SIZE,
+    DEFAULT_FONT: DEFAULT_FONT,
     WATER_SIDE_COLOR: new Color( '#58c0fa' ),
 
     // The IntensityGraphPanel and LightScreenNode have a shared maximum, this value indicates the wave amplitude that
