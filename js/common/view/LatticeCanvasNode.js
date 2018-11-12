@@ -61,7 +61,7 @@ define( require => {
       lattice.changedEmitter.addListener( invalidateSelfListener );
 
       // In development mode, make it easy to see changes in cutoff
-      // TODO: delete or keep?
+      // TODO: delete or keep?  Fine tuning and discussion in https://github.com/phetsims/wave-interference/issues/142
       phet.chipper.queryParameters.dev && setInterval( invalidateSelfListener, 0 );
     }
 
