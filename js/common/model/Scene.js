@@ -19,6 +19,7 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
   const Rectangle = require( 'DOT/Rectangle' );
+  const SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -161,7 +162,7 @@ define( require => {
 
       // The first button can trigger a pulse, or continuous wave, depending on the waveTemporalTypeProperty
       this.button1PressedProperty.lazyLink( isPressed => {
-        if ( config.name !== 'water' ) {
+        if ( config.sceneType !== SceneType.WATER ) {
           if ( isPressed ) {
             this.resetPhase();
           }
@@ -178,7 +179,7 @@ define( require => {
 
       // The 2nd button starts the second continuous wave
       this.button2PressedProperty.lazyLink( isPressed => {
-        if ( this.name === 'sound' || this.name === 'light' ) {
+        if ( this.sceneType === SceneType.SOUND || this.sceneType === SceneType.LIGHT ) {
           if ( isPressed ) {
             this.resetPhase();
           }
@@ -241,7 +242,7 @@ define( require => {
         this.phase = proposedPhase;
 
         // The wave area resets when the wavelength changes in the light scene
-        if ( config.name === 'light' ) {
+        if ( config.sceneType === SceneType.LIGHT ) {
           this.clear();
         }
       };

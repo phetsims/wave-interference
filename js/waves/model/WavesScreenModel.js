@@ -22,6 +22,7 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
+  const SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -87,7 +88,6 @@ define( require => {
       this.waterScene = new WaterScene( {
         waveSpatialType: options.waveSpatialType,
 
-        // TODO: Should these values be in WaterScene, or here?
         positionUnits: 'cm',
         translatedPositionUnits: cmUnitsString,
         timeUnits: secondsUnitsString,
@@ -110,7 +110,7 @@ define( require => {
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: false,
-        name: 'water' // TODO: eliminate
+        sceneType: SceneType.WATER
       } );
 
       // Sound scene
@@ -142,10 +142,10 @@ define( require => {
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
-        name: 'sound'
+        sceneType: SceneType.SOUND
       } );
 
-      // Light scene.  TODO: Why is there no subclass for LightScene?
+      // Light scene.
       this.lightScene = new Scene( {
         waveSpatialType: options.waveSpatialType,
         positionUnits: 'nm',
@@ -175,7 +175,7 @@ define( require => {
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
-        name: 'light' // TODO: eliminate this
+        sceneType: SceneType.LIGHT
       } );
 
       // @public (read-only) {Scene[]} - the Scene instances as an array
