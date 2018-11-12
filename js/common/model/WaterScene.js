@@ -65,7 +65,7 @@ define( require => {
      * @param {number} sign - -1 for top faucet, +1 for bottom faucet
      * @private
      */
-    launchWaterDrop( buttonProperty, oscillatingProperty, sign ) { // TODO: eliminate model parameter
+    launchWaterDrop( buttonProperty, oscillatingProperty, sign ) {
 
       const time = this.timeProperty.value;
 
