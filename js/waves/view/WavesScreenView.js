@@ -141,7 +141,7 @@ define( require => {
       } );
       this.addChild( resetAllButton );
 
-      // TODO: one latticeNode per scene?
+      // Create the canvases to render the lattices
       this.waterCanvasNode = new LatticeCanvasNode( model.waterScene );
       this.soundCanvasNode = new LatticeCanvasNode( model.soundScene );
       this.lightCanvasNode = new LatticeCanvasNode( model.lightScene );
