@@ -2,7 +2,6 @@
 
 /**
  * Shows the semi-transparent graph over the lattice area (when selected).
- * TODO: This is not updating when changing scenes
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -191,6 +190,8 @@ define( require => {
       const getWaterSideShape = WaveInterferenceUtils.getWaterSideShape;
       const updateShape = () => path.setShape( getWaterSideShape( array, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy ) );
       model.scenes.forEach( scene => scene.lattice.changedEmitter.addListener( updateShape ) );
+
+      // Update the curve when the scene is changed
       model.sceneProperty.link( updateShape );
 
       this.mutate( options );
