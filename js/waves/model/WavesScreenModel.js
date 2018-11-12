@@ -16,12 +16,11 @@ define( require => {
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Emitter = require( 'AXON/Emitter' );
   const EventTimer = require( 'PHET_CORE/EventTimer' );
-  const IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
+  const LightScene = require( 'WAVE_INTERFERENCE/common/model/LightScene' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
-  const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Util = require( 'DOT/Util' );
@@ -146,7 +145,7 @@ define( require => {
       } );
 
       // Light scene.
-      this.lightScene = new Scene( {
+      this.lightScene = new LightScene( {
         waveSpatialType: options.waveSpatialType,
         positionUnits: 'nm',
         translatedPositionUnits: nanometersUnitsString,
@@ -248,10 +247,6 @@ define( require => {
       // @public {Emitter} - emits once per step
       this.stepEmitter = new Emitter();
 
-      // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
-      // TODO: only have this for light scene?
-      this.intensitySample = new IntensitySample( this.lightScene.lattice );
-
       // @public {Property.<Vector2>} - model for the view coordinates of the base of the measuring tape
       // We use view coordinates so that nothing needs to be done when switching scenes and coordinate frames.
       this.measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ) );
@@ -272,7 +267,6 @@ define( require => {
      */
     clear() {
       this.sceneProperty.value.clear();
-      this.intensitySample.clear();
     }
 
     /**
@@ -307,7 +301,6 @@ define( require => {
 
         // Notify listeners that a frame has advanced
         this.stepEmitter.emit();
-        this.intensitySample.step();
         this.sceneProperty.value.lattice.interpolationRatio = this.eventTimer.getRatio();
         this.sceneProperty.value.advanceTime( wallDT, manualStep );
       }

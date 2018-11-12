@@ -157,7 +157,7 @@ define( require => {
         center: this.waveAreaNode.center
       } );
 
-      const lightScreenNode = new LightScreenNode( model.lightScene.lattice, model.intensitySample, {
+      const lightScreenNode = new LightScreenNode( model.lightScene.lattice, model.lightScene.intensitySample, {
         scale: scale,
         left: this.waveAreaNode.right + 5,
         y: this.waveAreaNode.top
@@ -190,7 +190,7 @@ define( require => {
 
       // Match the size of the scale indicator
       const numberGridLines = model.lightScene.waveAreaWidth / model.lightScene.scaleIndicatorLength;
-      const intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.intensitySample, numberGridLines,
+      const intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.lightScene.intensitySample, numberGridLines,
         model.resetEmitter, {
           left: lightScreenNode.right + 5
         } );

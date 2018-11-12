@@ -60,7 +60,6 @@ define( require => {
 
     /**
      * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
-     * @param {WavesScreenModel} model
      * @param {number} dt - amount of time to move forward, in the units of the scene
      */
     step( dt ) {
