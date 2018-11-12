@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveSpatialType = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialType' );
   const WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
 
   class SlitsScreenModel extends WavesScreenModel {
@@ -17,12 +18,10 @@ define( require => {
     constructor() {
       super( {
         initialAmplitude: 10,
+        waveSpatialType: WaveSpatialType.PLANE,
 
         // SoundParticles are not displayed on the Slits screen, see https://github.com/phetsims/wave-interference/issues/109
         showSoundParticles: false,
-
-        // TODO: docs
-        oscillatorType: 'plane'
       } );
     }
 

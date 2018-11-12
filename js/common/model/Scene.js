@@ -23,6 +23,7 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveSpatialType = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialType' );
 
   // strings
   const distanceUnitsString = require( 'string!WAVE_INTERFERENCE/distanceUnits' );
@@ -38,8 +39,8 @@ define( require => {
      */
     constructor( config ) {
 
-      // TODO: docs
-      this.oscillatorType = config.oscillatorType;
+      // @public {WaveSpatialType}
+      this.waveSpatialType = config.waveSpatialType;
 
       // @public {Lattice} the grid that contains the wave values
       this.lattice = new Lattice(
@@ -263,7 +264,7 @@ define( require => {
       this.frequencyProperty.lazyLink( phaseUpdate );
 
       // Everything below here is just for plane wave screen.
-      if ( this.oscillatorType === 'plane' ) {
+      if ( this.waveSpatialType === WaveSpatialType.PLANE ) {
 
         // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
         this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
@@ -321,7 +322,7 @@ define( require => {
      * @protected
      */
     setSourceValues() {
-      if ( this.oscillatorType === 'point' ) {
+      if ( this.waveSpatialType === WaveSpatialType.POINT ) {
         const frequency = this.frequencyProperty.get();
         const period = 1 / frequency;
         const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
