@@ -135,21 +135,22 @@ define( require => {
           // Set the range by incorporating the model's time units, so it will match with the timer.
           const maxSeconds = NUMBER_OF_TIME_DIVISIONS;
 
+          let scene = model.sceneProperty.value;
           if ( model.isWaveMeterInPlayAreaProperty.get() ) {
 
             // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
             // itself as the sensor hot spot.  This doesn't include the damping regions
             const latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
 
-            const sampleI = latticeCoordinates.x + model.waterScene.lattice.dampX; // TODO: don't use waterScene for this
-            const sampleJ = latticeCoordinates.y + model.waterScene.lattice.dampY; // TODO: don't use waterScene for this
+            const sampleI = latticeCoordinates.x + scene.lattice.dampX;
+            const sampleJ = latticeCoordinates.y + scene.lattice.dampY;
 
-            if ( model.sceneProperty.value.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
-              const value = model.sceneProperty.value.lattice.getCurrentValue( sampleI, sampleJ );
-              dynamicSeries.data.push( new Vector2( model.sceneProperty.value.timeProperty.value, value ) );
+            if ( scene.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
+              const value = scene.lattice.getCurrentValue( sampleI, sampleJ );
+              dynamicSeries.data.push( new Vector2( scene.timeProperty.value, value ) );
             }
           }
-          while ( dynamicSeries.data.length > 0 && dynamicSeries.data[ 0 ].x < model.sceneProperty.value.timeProperty.value - maxSeconds ) {
+          while ( dynamicSeries.data.length > 0 && dynamicSeries.data[ 0 ].x < scene.timeProperty.value - maxSeconds ) {
             dynamicSeries.data.shift();
           }
           dynamicSeries.emitter.emit();
