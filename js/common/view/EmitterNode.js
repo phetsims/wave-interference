@@ -9,7 +9,7 @@ define( require => {
   'use strict';
 
   // modules
-  const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
+  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
@@ -56,14 +56,14 @@ define( require => {
       const nodeWithButton = new Node( { children } );
 
       const updateEnabled = () => {
-        if ( scene.incomingWaveTypeProperty.value === IncomingWaveType.PULSE ) {
+        if ( scene.waveTemporalTypeProperty.value === WaveTemporalType.PULSE ) {
           button.enabled = !scene.pulseFiringProperty.value;
         }
-        else if ( scene.incomingWaveTypeProperty.value === IncomingWaveType.CONTINUOUS ) {
+        else if ( scene.waveTemporalTypeProperty.value === WaveTemporalType.CONTINUOUS ) {
           button.enabled = true;
         }
       };
-      scene.incomingWaveTypeProperty.link( updateEnabled );
+      scene.waveTemporalTypeProperty.link( updateEnabled );
       scene.pulseFiringProperty.link( updateEnabled );
       super( {
         children: [ nodeWithButton ]

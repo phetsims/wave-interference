@@ -10,15 +10,15 @@ define( require => {
 
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  const IncomingWaveType = {
+  const WaveTemporalType = {
     PULSE: 'PULSE',
     CONTINUOUS: 'CONTINUOUS'
   };
 
-  IncomingWaveType.VALUES = _.values( IncomingWaveType );
+  WaveTemporalType.VALUES = _.values( WaveTemporalType );
 
   // in development mode, catch any attempted changes to the enum
-  if ( assert ) { Object.freeze( IncomingWaveType ); }
+  if ( assert ) { Object.freeze( WaveTemporalType ); }
 
-  return waveInterference.register( 'IncomingWaveType', IncomingWaveType );
+  return waveInterference.register( 'WaveTemporalType', WaveTemporalType );
 } );

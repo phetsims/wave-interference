@@ -316,7 +316,7 @@ define( require => {
       this.addChild( this.controlPanel );
 
       if ( options.showPulseContinuousRadioButtons ) {
-        this.addChild( new SceneToggleNode( model, scene => new PulseContinuousRadioButtonGroup( scene.incomingWaveTypeProperty ), {
+        this.addChild( new SceneToggleNode( model, scene => new PulseContinuousRadioButtonGroup( scene.waveTemporalTypeProperty ), {
           bottom: this.layoutBounds.bottom - MARGIN,
           left: this.layoutBounds.left + MARGIN
         } ) );

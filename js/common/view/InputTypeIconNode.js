@@ -9,7 +9,7 @@ define( require => {
   'use strict';
 
   // modules
-  const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
+  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Shape = require( 'KITE/Shape' );
@@ -26,13 +26,13 @@ define( require => {
   class InputTypeIconNode extends Node {
 
     /**
-     * @param {IncomingWaveType} incidentWaveType
+     * @param {WaveTemporalType} incidentWaveType
      */
     constructor( incidentWaveType ) {
       super();
-      const minAngle = incidentWaveType === IncomingWaveType.PULSE ? Math.PI : 0;
-      const minX = incidentWaveType === IncomingWaveType.PULSE ? MARGIN : 0;
-      const maxX = incidentWaveType === IncomingWaveType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
+      const minAngle = incidentWaveType === WaveTemporalType.PULSE ? Math.PI : 0;
+      const minX = incidentWaveType === WaveTemporalType.PULSE ? MARGIN : 0;
+      const maxX = incidentWaveType === WaveTemporalType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
 
       const shape = new Shape();
       for ( let i = 0; i < NUM_SAMPLES; i++ ) {
@@ -40,7 +40,7 @@ define( require => {
         const y = -Math.cos( angle ) * WAVE_HEIGHT;
         const x = Util.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
         if ( i === 0 ) {
-          if ( incidentWaveType === IncomingWaveType.PULSE ) {
+          if ( incidentWaveType === WaveTemporalType.PULSE ) {
             shape.moveTo( x - MARGIN, y );
             shape.lineTo( x, y );
           }
@@ -52,7 +52,7 @@ define( require => {
           shape.lineTo( x, y );
         }
       }
-      if ( incidentWaveType === IncomingWaveType.PULSE ) {
+      if ( incidentWaveType === WaveTemporalType.PULSE ) {
         shape.lineToRelative( MARGIN, 0 );
       }
       this.addChild( new Path( shape, {

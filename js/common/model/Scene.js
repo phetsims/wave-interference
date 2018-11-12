@@ -12,7 +12,7 @@ define( require => {
   // modules
   const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
-  const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
+  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
   const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const NumberProperty = require( 'AXON/NumberProperty' );
@@ -169,19 +169,19 @@ define( require => {
         }
       } );
 
-      // @public {Property.<IncomingWaveType>} - pulse or continuous
-      this.incomingWaveTypeProperty = new Property( IncomingWaveType.CONTINUOUS, {
-        validValues: IncomingWaveType.VALUES
+      // @public {Property.<WaveTemporalType>} - pulse or continuous
+      this.waveTemporalTypeProperty = new Property( WaveTemporalType.CONTINUOUS, {
+        validValues: WaveTemporalType.VALUES
       } );
 
 
-      // The first button can trigger a pulse, or continuous wave, depending on the incomingWaveTypeProperty
+      // The first button can trigger a pulse, or continuous wave, depending on the waveTemporalTypeProperty
       this.button1PressedProperty.lazyLink( isPressed => {
         if ( config.name !== 'water' ) {
           if ( isPressed ) {
             this.resetPhase();
           }
-          if ( isPressed && this.incomingWaveTypeProperty.value === IncomingWaveType.PULSE ) {
+          if ( isPressed && this.waveTemporalTypeProperty.value === WaveTemporalType.PULSE ) {
             this.startPulse();
           }
           else {
@@ -213,8 +213,8 @@ define( require => {
       } );
 
       // When the user selects "PULSE", the button pops out.
-      this.incomingWaveTypeProperty.link( inputType => {
-        if ( inputType === IncomingWaveType.PULSE ) {
+      this.waveTemporalTypeProperty.link( inputType => {
+        if ( inputType === WaveTemporalType.PULSE ) {
           this.button1PressedProperty.value = false;
         }
       } );
@@ -327,8 +327,8 @@ define( require => {
         const period = 1 / frequency;
         const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
         const lattice = this.lattice;
-        const continuous1 = ( this.incomingWaveTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
-        const continuous2 = ( this.incomingWaveTypeProperty.get() === IncomingWaveType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
+        const continuous1 = ( this.waveTemporalTypeProperty.get() === WaveTemporalType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
+        const continuous2 = ( this.waveTemporalTypeProperty.get() === WaveTemporalType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
 
         if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
@@ -549,7 +549,7 @@ define( require => {
       this.sourceSeparationProperty.reset();
       this.amplitudeProperty.reset();
       this.desiredAmplitudeProperty.reset();
-      this.incomingWaveTypeProperty.reset();
+      this.waveTemporalTypeProperty.reset();
       this.button1PressedProperty.reset();
       this.button2PressedProperty.reset();
       this.oscillator1Property.reset();

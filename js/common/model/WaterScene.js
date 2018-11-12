@@ -10,7 +10,7 @@ define( require => {
 
   // modules
   const arrayRemove = require( 'PHET_CORE/arrayRemove' );
-  const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
+  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
   const Property = require( 'AXON/Property' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
@@ -69,7 +69,7 @@ define( require => {
       // Send a water drop if the button is pressed but not if the button is still pressed from the last pulse.
       // model.button1PressedProperty.value not consulted because we send a shutoff water drop. so that the previous
       // drop gets a full cycle
-      const isPulseMode = this.incomingWaveTypeProperty.value === IncomingWaveType.PULSE;
+      const isPulseMode = this.waveTemporalTypeProperty.value === WaveTemporalType.PULSE;
       const firePulseDrop = isPulseMode && !this.pulseFiringProperty.value && this.button1PressedProperty.value;
       if ( !isPulseMode || firePulseDrop ) {
 
@@ -77,7 +77,7 @@ define( require => {
         const buttonPressed = buttonProperty.value;
         const frequency = this.desiredFrequencyProperty.value;
         const amplitude = this.desiredAmplitudeProperty.value;
-        const isPulse = this.incomingWaveTypeProperty.value === IncomingWaveType.PULSE;
+        const isPulse = this.waveTemporalTypeProperty.value === WaveTemporalType.PULSE;
         const sourceSeparation = this.desiredSourceSeparationProperty.value;
         this.waterDrops.push( new WaterDrop(
           amplitude,

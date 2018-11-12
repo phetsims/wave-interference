@@ -9,7 +9,7 @@ define( require => {
   'use strict';
 
   // modules
-  const IncomingWaveType = require( 'WAVE_INTERFERENCE/common/model/IncomingWaveType' );
+  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
   const InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -17,16 +17,16 @@ define( require => {
   class PulseContinuousRadioButtonGroup extends RadioButtonGroup {
 
     /**
-     * @param {Property.<IncomingWaveType>} incomingWaveTypeProperty
+     * @param {Property.<WaveTemporalType>} waveTemporalTypeProperty
      * @param {Object} [options]
      */
-    constructor( incomingWaveTypeProperty, options ) {
-      super( incomingWaveTypeProperty, [ {
-        value: IncomingWaveType.PULSE,
-        node: new InputTypeIconNode( IncomingWaveType.PULSE )
+    constructor( waveTemporalTypeProperty, options ) {
+      super( waveTemporalTypeProperty, [ {
+        value: WaveTemporalType.PULSE,
+        node: new InputTypeIconNode( WaveTemporalType.PULSE )
       }, {
-        value: IncomingWaveType.CONTINUOUS,
-        node: new InputTypeIconNode( IncomingWaveType.CONTINUOUS )
+        value: WaveTemporalType.CONTINUOUS,
+        node: new InputTypeIconNode( WaveTemporalType.CONTINUOUS )
       } ], _.extend( {
         orientation: 'horizontal',
         buttonContentXMargin: 0,
