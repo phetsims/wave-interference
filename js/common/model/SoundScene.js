@@ -71,7 +71,7 @@ define( require => {
         const lattice = this.lattice;
 
         // Increase the gradient force at low frequencies so we can still see the waves clearly.
-        const k = Util.linear( this.minimumFrequency, this.maximumFrequency, 130, 76, this.frequencyProperty.value ) * WaveInterferenceConstants.SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY.get();
+        const k = Util.linear( this.frequencyProperty.range.min, this.frequencyProperty.range.max, 130, 76, this.frequencyProperty.value ) * WaveInterferenceConstants.SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY.get();
 
         for ( let soundParticle of this.soundParticles ) {
 

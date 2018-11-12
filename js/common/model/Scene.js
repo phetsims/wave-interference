@@ -72,14 +72,8 @@ define( require => {
       // @public (read-only) {string} - text that describes the horizontal spatial axis
       this.graphHorizontalAxisLabel = config.graphHorizontalAxisLabel;
 
-      // @public (read-only) {number} - minimum allowed frequency in Hz
-      this.minimumFrequency = config.minimumFrequency;
-
-      // @public (read-only) {number} - maximum allowed frequency in Hz
-      this.maximumFrequency = config.maximumFrequency;
-
       // @public (read-only) {number} [initialFrequency] - initial frequency in Hz, defaults to the average of min and max
-      this.initialFrequency = config.initialFrequency || ( config.minimumFrequency + config.maximumFrequency ) / 2;
+      this.initialFrequency = config.initialFrequency || ( config.minimumFrequency + config.maximumFrequency ) / 2; // TODO: use Property initial value
 
       // @public (read-only) {number} - length in meters to depict to indicate relative scale, see LengthScaleIndicatorNode
       this.scaleIndicatorLength = config.scaleIndicatorLength;
@@ -97,7 +91,9 @@ define( require => {
       this.timeScaleFactor = config.timeScaleFactor;
 
       // @public {Property.<number>} - the linear frequency in the appropriate units for the scene
-      this.frequencyProperty = new Property( this.initialFrequency ); // TODO: move min/max into Property range?
+      this.frequencyProperty = new NumberProperty( this.initialFrequency, {
+        range: new Range( config.minimumFrequency, config.maximumFrequency )
+      } );
 
       // wavelength*frequency=wave speed
       phet.log && this.frequencyProperty.link( frequency => phet.log( 'wavelength = ' + config.waveSpeed / frequency ) );

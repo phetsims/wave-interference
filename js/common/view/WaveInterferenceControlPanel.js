@@ -60,8 +60,16 @@ define( require => {
 
       // Controls are in the metric coordinate frame
       // TODO: should we move the frequency ranges into the Property?
-      const waterFrequencySlider = new WaveInterferenceSlider( model.getWaterFrequencySliderProperty(), model.waterScene.minimumFrequency, model.waterScene.maximumFrequency );
-      const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty, model.soundScene.minimumFrequency, model.soundScene.maximumFrequency );
+      const waterFrequencySlider = new WaveInterferenceSlider(
+        model.getWaterFrequencySliderProperty(),
+        model.waterScene.frequencyProperty.range.min,
+        model.waterScene.frequencyProperty.range.max
+      );
+      const soundFrequencySlider = new WaveInterferenceSlider(
+        model.soundScene.frequencyProperty,
+        model.soundScene.frequencyProperty.range.min,
+        model.soundScene.frequencyProperty.range.max
+      );
 
       // For the light scene, create a Property in Hz as required by the FrequencySlider.
       const frequencyInHzProperty = new DynamicProperty( new Property( model.lightScene.frequencyProperty ), {
@@ -76,8 +84,8 @@ define( require => {
       } );
 
       const lightFrequencySlider = new FrequencySlider( frequencyInHzProperty, {
-        minFrequency: fromFemto( model.lightScene.minimumFrequency ),
-        maxFrequency: fromFemto( model.lightScene.maximumFrequency ),
+        minFrequency: fromFemto( model.lightScene.frequencyProperty.range.min ),
+        maxFrequency: fromFemto( model.lightScene.frequencyProperty.range.max ),
         trackWidth: 150,
         trackHeight: 20,
         valueVisible: false,

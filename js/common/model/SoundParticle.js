@@ -60,7 +60,7 @@ define( require => {
 
       // use the airK as the magnitude and the forceCenter for direction only.
       const restorationSpringConstant = Util.linear(
-        soundScene.minimumFrequency, soundScene.maximumFrequency,
+        soundScene.frequencyProperty.range.min, soundScene.frequencyProperty.range.max,
         ( 2 * 1.05 ), ( 6.5 * 0.8 ),
         soundScene.frequencyProperty.value
       ) * WaveInterferenceConstants.SOUND_PARTICLE_RESTORATION_SCALE.get();
