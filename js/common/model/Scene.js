@@ -57,6 +57,9 @@ define( require => {
       // @public {number} phase of the emitter
       this.phase = 0;
 
+      // @private {number} - indicates the time when the pulse began, or 0 if there is no pulse.
+      this.pulseStartTime = 0;
+
       // @public {Property.<Boolean>} - whether the button for the first source is pressed.  This is also used for the
       // slits screen plane wave source.
       this.button1PressedProperty = new BooleanProperty( false );

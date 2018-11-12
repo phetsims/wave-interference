@@ -248,9 +248,6 @@ define( require => {
       // @public {Emitter} - emits once per step
       this.stepEmitter = new Emitter();
 
-      // @private {number} - indicates the time when the pulse began, or 0 if there is no pulse.
-      this.pulseStartTime = 0;
-
       // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
       // TODO: only have this for light scene?
       this.intensitySample = new IntensitySample( this.lightScene.lattice );
