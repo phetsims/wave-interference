@@ -170,10 +170,8 @@ define( require => {
           // need to sample their new locations.
           probeNode.on( 'transform', updateSamples );
 
-          // TODO: is the replication necessary?
-          model.waterScene.lattice.changedEmitter.addListener( updateSamples );
-          model.soundScene.lattice.changedEmitter.addListener( updateSamples );
-          model.lightScene.lattice.changedEmitter.addListener( updateSamples );
+          // When a Scene's lattice changes, update the samples
+          model.scenes.forEach( scene => scene.lattice.changedEmitter.addListener( updateSamples ) );
         }
         return dynamicSeries;
       };
