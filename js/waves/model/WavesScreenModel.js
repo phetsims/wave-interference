@@ -83,6 +83,9 @@ define( require => {
         validValues: ViewType.VALUES
       } );
 
+      // Instantiate the Scenes.  Parameters are declared here to make it easier to compare options
+      // and see them in the same file.
+
       // Water scene
       this.waterScene = new WaterScene( {
         waveSpatialType: options.waveSpatialType,
