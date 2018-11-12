@@ -52,7 +52,7 @@ define( require => {
 
         // ticks
         tickLabelSpacing: 2,
-        majorTickLength: 12, // TODO: share this with WaveInterferenceConstants
+        majorTickLength: WaveInterferenceConstants.MAJOR_TICK_LENGTH,
         minorTickLength: 8
       } );
 
