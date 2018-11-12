@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Determines whether the incoming wave is continuous or pulse.  TODO: rename WaveTemporalType.js
+ * Determines whether the incoming wave is continuous or pulse.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
