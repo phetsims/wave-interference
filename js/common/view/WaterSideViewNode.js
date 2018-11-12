@@ -48,14 +48,15 @@ define( require => {
      * @private - update the shape when the rotationAmount or lattice has changed
      */
     update() {
-      this.shape = WaveInterferenceUtils.getWaterSideShape( this.array, this.model.waterScene.lattice, this.waveAreaBounds, 0, 0 ) // TODO: pass directly
-        .lineTo( this.waveAreaBounds.right, this.waveAreaBounds.maxY )
-        .lineTo( this.waveAreaBounds.left, this.waveAreaBounds.maxY )
+      var bounds = this.waveAreaBounds;
+      this.shape = WaveInterferenceUtils.getWaterSideShape( this.array, this.model.waterScene.lattice, bounds, 0, 0 )
+        .lineTo( bounds.right, bounds.maxY )
+        .lineTo( bounds.left, bounds.maxY )
         .close();
 
       // Look up the height of the topmost curve.  Do this after getWaterSideShape since we read a value
       // from the array.  Used to determine if a water drop has fallen into the water.
-      this.waterSideViewNodeTopY = WaveInterferenceUtils.getWaterSideY( this.waveAreaBounds, this.array[ SOURCE_INDEX ] );
+      this.waterSideViewNodeTopY = WaveInterferenceUtils.getWaterSideY( bounds, this.array[ SOURCE_INDEX ] );
     }
   }
 
