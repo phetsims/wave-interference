@@ -13,7 +13,7 @@ define( require => {
   const SceneType = {
     WATER: 'WATER',
     SOUND: 'SOUND',
-    LIGHT: 'LIGHT',
+    LIGHT: 'LIGHT'
   };
 
   SceneType.VALUES = _.values( SceneType );

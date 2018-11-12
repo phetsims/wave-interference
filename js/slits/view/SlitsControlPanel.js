@@ -54,11 +54,10 @@ define( require => {
 
       const createLabel = text => new WaveInterferenceText( text, { fontSize: 10 } );
 
-      const createTicks = function( range ) {
-        return [
-          { value: range.min, label: createLabel( '' + range.min ) },
-          { value: range.max, label: createLabel( '' + range.max ) } ]
-      };
+      const createTicks = range => [
+        { value: range.min, label: createLabel( '' + range.min ) },
+        { value: range.max, label: createLabel( '' + range.max ) }
+      ];
 
       const waterRange = new Range( 0, 5 );
       const waterSlitWidthControl = new NumberControl( slitWidthString, model.waterScene.slitWidthProperty, waterRange, _.extend( {
