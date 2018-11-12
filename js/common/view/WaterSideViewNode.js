@@ -41,7 +41,7 @@ define( require => {
       // @private - reduce garbage by reusing the same array to get model values
       this.array = [];
 
-      model.waterScene.lattice.changedEmitter.addListener( this.update.bind( this ) ); // TODO: pass directly
+      model.waterScene.lattice.changedEmitter.addListener( () => this.update() );
     }
 
     /**
