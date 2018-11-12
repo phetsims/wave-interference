@@ -21,7 +21,7 @@ define( require => {
         waveSpatialType: WaveSpatialType.PLANE,
 
         // SoundParticles are not displayed on the Slits screen, see https://github.com/phetsims/wave-interference/issues/109
-        showSoundParticles: false,
+        showSoundParticles: false
       } );
     }
 

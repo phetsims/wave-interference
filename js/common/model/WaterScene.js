@@ -10,12 +10,12 @@ define( require => {
 
   // modules
   const arrayRemove = require( 'PHET_CORE/arrayRemove' );
-  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
-  const Property = require( 'AXON/Property' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveSpatialType = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialType' );
+  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
 
   class WaterScene extends Scene {
 
@@ -27,11 +27,14 @@ define( require => {
 
       // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
       // gets propagated to the lattice via the water drops
-      this.desiredFrequencyProperty = new Property( this.frequencyProperty.initialValue );
+      this.desiredFrequencyProperty = new NumberProperty( this.frequencyProperty.initialValue );
 
       // @public - In the water Scene, the user specifies the desired source separation.  This is the position of
       // the faucets.  The sourceSeparationProperty indicates the sources of oscillation once the water has struck.
-      this.desiredSourceSeparationProperty = new Property( this.sourceSeparationProperty.value );
+      this.desiredSourceSeparationProperty = new NumberProperty( this.sourceSeparationProperty.value );
+
+      // @public - the amplitude the user has selected
+      this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude );
 
       // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
       this.waterDrops = [];
@@ -155,6 +158,7 @@ define( require => {
       super.reset();
       this.desiredFrequencyProperty.reset();
       this.desiredSourceSeparationProperty.reset();
+      this.desiredAmplitudeProperty.reset();
     }
   }
 

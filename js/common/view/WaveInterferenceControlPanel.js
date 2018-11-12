@@ -97,7 +97,10 @@ define( require => {
       lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( 0, 10 );
       const frequencySliderContainer = new Node( { children: [ waterFrequencySlider, soundFrequencySlider, lightFrequencySlider ] } );
       const amplitudeSliderContainer = new SceneToggleNode( model, scene => {
-        return new WaveInterferenceSlider( scene.desiredAmplitudeProperty, scene.amplitudeProperty.range.min, scene.amplitudeProperty.range.max );
+
+        // For water scene, control the desiredAmplitude (which determines the size of the water drops)
+        // For other scenes, control the amplitude directly.
+        return new WaveInterferenceSlider( scene.desiredAmplitudeProperty || scene.amplitudeProperty, scene.amplitudeProperty.range.min, scene.amplitudeProperty.range.max );
       } );
 
       const viewSelectionRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {

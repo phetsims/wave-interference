@@ -153,15 +153,6 @@ define( require => {
       // @public {NumberProperty} - controls the amplitude of the wave.
       this.amplitudeProperty = new NumberProperty( config.initialAmplitude, { range: new Range( 0, 10 ) } );
 
-      // @public - the amplitude the user has selected
-      // TODO: move this to WaterScene?
-      this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude );
-      this.desiredAmplitudeProperty.link( desiredAmplitude => {
-        if ( config.linkDesiredAmplitudeToAmplitude ) {
-          this.amplitudeProperty.value = desiredAmplitude;
-        }
-      } );
-
       // @public {Property.<WaveTemporalType>} - pulse or continuous
       this.waveTemporalTypeProperty = new Property( WaveTemporalType.CONTINUOUS, {
         validValues: WaveTemporalType.VALUES
@@ -541,7 +532,6 @@ define( require => {
       this.slitSeparationProperty.reset();
       this.sourceSeparationProperty.reset();
       this.amplitudeProperty.reset();
-      this.desiredAmplitudeProperty.reset();
       this.waveTemporalTypeProperty.reset();
       this.button1PressedProperty.reset();
       this.button2PressedProperty.reset();
