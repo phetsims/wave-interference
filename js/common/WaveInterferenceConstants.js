@@ -79,7 +79,7 @@ define( require => {
     // Additional scaling for the gradient force
     SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY: new Property( 0.67 ),
 
-    // TODO: delete or keep?
+    // TODO: delete or keep?  Fine tuning and discussion in https://github.com/phetsims/wave-interference/issues/142
     CUTOFF: new Property( 0.4 )
   };
 
