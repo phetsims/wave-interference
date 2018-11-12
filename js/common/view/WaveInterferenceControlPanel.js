@@ -59,7 +59,6 @@ define( require => {
       }, options );
 
       // Controls are in the metric coordinate frame
-      // TODO: should we move the frequency ranges into the Property?
       const waterFrequencySlider = new WaveInterferenceSlider(
         model.getWaterFrequencySliderProperty(),
         model.waterScene.frequencyProperty.range.min,
