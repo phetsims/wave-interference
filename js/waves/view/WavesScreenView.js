@@ -142,8 +142,8 @@ define( require => {
       this.addChild( resetAllButton );
 
       // Create the canvases to render the lattices
-      this.waterCanvasNode = new LatticeCanvasNode( model.waterScene );
-      this.soundCanvasNode = new LatticeCanvasNode( model.soundScene );
+      this.waterCanvasNode = new LatticeCanvasNode( model.waterScene, { baseColor: WATER_BLUE } );
+      this.soundCanvasNode = new LatticeCanvasNode( model.soundScene, { baseColor: Color.white } );
       this.lightCanvasNode = new LatticeCanvasNode( model.lightScene );
       this.sceneToNode = scene => scene === model.waterScene ? this.waterCanvasNode :
                                   scene === model.soundScene ? this.soundCanvasNode :
@@ -167,13 +167,6 @@ define( require => {
       Property.multilink( [ model.showScreenProperty, model.sceneProperty ], ( showScreen, scene ) => {
         lightScreenNode.visible = showScreen && scene === model.lightScene;
       } );
-
-      // TODO: move to LatticeCanvasNode?
-      this.soundCanvasNode.setBaseColor( Color.white );
-      this.soundCanvasNode.vacuumColor = null;
-
-      this.waterCanvasNode.setBaseColor( WATER_BLUE );
-      this.waterCanvasNode.vacuumColor = null;
 
       // Set the color of highlight on the screen and lattice
       model.lightScene.frequencyProperty.link( lightFrequency => {

@@ -33,7 +33,8 @@ define( require => {
 
         // only use the visible part for the bounds (not the damping regions)
         canvasBounds: WaveInterferenceUtils.getCanvasBounds( lattice ),
-        layerSplit: true // ensure we're on our own layer
+        layerSplit: true, // ensure we're on our own layer
+        baseColor: Color.blue
       }, options );
 
       super( options );
@@ -42,7 +43,7 @@ define( require => {
       this.lattice = lattice;
 
       // @private
-      this.baseColor = new Color( 'blue' );
+      this.baseColor = options.baseColor;
 
       // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light source
       this.vacuumColor = null;
