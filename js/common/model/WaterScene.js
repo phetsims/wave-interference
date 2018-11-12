@@ -27,7 +27,7 @@ define( require => {
 
       // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
       // gets propagated to the lattice via the water drops
-      this.desiredFrequencyProperty = new Property( this.initialFrequency );
+      this.desiredFrequencyProperty = new Property( this.frequencyProperty.initialValue );
 
       // @public - In the water Scene, the user specifies the desired source separation.  This is the position of
       // the faucets.  The sourceSeparationProperty indicates the sources of oscillation once the water has struck.
@@ -145,7 +145,19 @@ define( require => {
         arrayRemove( this.waterDrops, element );
       }
     }
+
+    /**
+     * Reset additional features.
+     * @public
+     * @override
+     */
+    reset() {
+      super.reset();
+      this.desiredFrequencyProperty.reset();
+      this.desiredSourceSeparationProperty.reset();
+    }
   }
+
 
   return waveInterference.register( 'WaterScene', WaterScene );
 } );

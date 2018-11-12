@@ -72,9 +72,6 @@ define( require => {
       // @public (read-only) {string} - text that describes the horizontal spatial axis
       this.graphHorizontalAxisLabel = config.graphHorizontalAxisLabel;
 
-      // @public (read-only) {number} [initialFrequency] - initial frequency in Hz, defaults to the average of min and max
-      this.initialFrequency = config.initialFrequency || ( config.minimumFrequency + config.maximumFrequency ) / 2; // TODO: use Property initial value
-
       // @public (read-only) {number} - length in meters to depict to indicate relative scale, see LengthScaleIndicatorNode
       this.scaleIndicatorLength = config.scaleIndicatorLength;
 
@@ -90,8 +87,8 @@ define( require => {
       // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
       this.timeScaleFactor = config.timeScaleFactor;
 
-      // @public {Property.<number>} - the linear frequency in the appropriate units for the scene
-      this.frequencyProperty = new NumberProperty( this.initialFrequency, {
+      // @public {Property.<number>} - the frequency in the appropriate units for the scene
+      this.frequencyProperty = new NumberProperty( config.initialFrequency || ( config.minimumFrequency + config.maximumFrequency ) / 2, {
         range: new Range( config.minimumFrequency, config.maximumFrequency )
       } );
 
