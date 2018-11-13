@@ -26,7 +26,8 @@ define( require => {
       team: 'Diana López, Ariel Paul, Kathy Perkins',
       qualityAssurance: 'Steele Dalton',
       graphicArts: ''
-    }
+    },
+    showSmallHomeScreenIconFrame: true
   };
 
   SimLauncher.launch( () => {
