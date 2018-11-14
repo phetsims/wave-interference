@@ -9,17 +9,7 @@ define( require => {
   'use strict';
 
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const Enumeration = require( 'PHET_CORE/Enumeration' );
 
-  const SceneType = {
-    WATER: 'WATER',
-    SOUND: 'SOUND',
-    LIGHT: 'LIGHT'
-  };
-
-  SceneType.VALUES = _.values( SceneType );
-
-  // in development mode, catch any attempted changes to the enum
-  if ( assert ) { Object.freeze( SceneType ); }
-
-  return waveInterference.register( 'SceneType', SceneType );
+  return waveInterference.register( 'SceneType', new Enumeration( [ 'WATER', 'SOUND', 'LIGHT' ] ) );
 } );

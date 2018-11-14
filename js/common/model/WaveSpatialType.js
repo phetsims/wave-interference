@@ -8,17 +8,8 @@
 define( require => {
   'use strict';
 
+  const Enumeration = require( 'PHET_CORE/Enumeration' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  const WaveSpatialType = {
-    POINT: 'POINT',
-    PLANE: 'PLANE'
-  };
-
-  WaveSpatialType.VALUES = _.values( WaveSpatialType );
-
-  // in development mode, catch any attempted changes to the enum
-  if ( assert ) { Object.freeze( WaveSpatialType ); }
-
-  return waveInterference.register( 'WaveSpatialType', WaveSpatialType );
+  return waveInterference.register( 'WaveSpatialType', new Enumeration( [ 'POINT', 'PLANE' ] ) );
 } );

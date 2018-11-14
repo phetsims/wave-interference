@@ -9,17 +9,8 @@
 define( require => {
   'use strict';
 
+  const Enumeration = require( 'PHET_CORE/Enumeration' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  const ViewType = {
-    TOP: 'TOP',
-    SIDE: 'SIDE'
-  };
-
-  ViewType.VALUES = _.values( ViewType );
-
-  // in development mode, catch any attempted changes to the enum
-  if ( assert ) { Object.freeze( ViewType ); }
-
-  return waveInterference.register( 'ViewType', ViewType );
+  return waveInterference.register( 'ViewType', new Enumeration( [ 'TOP', 'SIDE' ] ) );
 } );

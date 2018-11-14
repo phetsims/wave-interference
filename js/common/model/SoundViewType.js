@@ -8,18 +8,8 @@
 define( require => {
   'use strict';
 
+  const Enumeration = require( 'PHET_CORE/Enumeration' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  const SoundViewType = {
-    WAVES: 'WAVES',
-    PARTICLES: 'PARTICLES',
-    BOTH: 'BOTH'
-  };
-
-  SoundViewType.VALUES = _.values( SoundViewType );
-
-  // in development mode, catch any attempted changes to the enum
-  if ( assert ) { Object.freeze( SoundViewType ); }
-
-  return waveInterference.register( 'SoundViewType', SoundViewType );
+  return waveInterference.register( 'SoundViewType', new Enumeration( [ 'WAVES', 'PARTICLES', 'BOTH' ] ) );
 } );

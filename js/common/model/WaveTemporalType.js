@@ -8,17 +8,8 @@
 define( require => {
   'use strict';
 
+  const Enumeration = require( 'PHET_CORE/Enumeration' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  const WaveTemporalType = {
-    PULSE: 'PULSE',
-    CONTINUOUS: 'CONTINUOUS'
-  };
-
-  WaveTemporalType.VALUES = _.values( WaveTemporalType );
-
-  // in development mode, catch any attempted changes to the enum
-  if ( assert ) { Object.freeze( WaveTemporalType ); }
-
-  return waveInterference.register( 'WaveTemporalType', WaveTemporalType );
+  return waveInterference.register( 'WaveTemporalType', new Enumeration( [ 'PULSE', 'CONTINUOUS' ] ) );
 } );
