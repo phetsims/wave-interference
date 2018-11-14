@@ -9,19 +9,7 @@ define( require => {
   'use strict';
 
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const Enumeration = require( 'PHET_CORE/Enumeration' );
 
-  const PlaySpeedEnum = {
-
-    // At the time of writing, this is a new strategy for enum patterns, partway between our normal enum
-    // string pattern and the richer enum pattern exemplified in Orientation.js
-    NORMAL: { scaleFactor: 1.0 },
-    SLOW: { scaleFactor: 0.5 }
-  };
-
-  PlaySpeedEnum.VALUES = _.values( PlaySpeedEnum );
-
-  // in development mode, catch any attempted changes to the enum
-  if ( assert ) { Object.freeze( PlaySpeedEnum ); }
-
-  return waveInterference.register( 'PlaySpeedEnum', PlaySpeedEnum );
+  return waveInterference.register( 'PlaySpeedEnum', new Enumeration( [ 'NORMAL', 'SLOW' ] ) );
 } );

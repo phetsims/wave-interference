@@ -191,7 +191,10 @@ define( require => {
       const eventTimerModel = {
 
         // @public
-        getPeriodBeforeNextEvent: () => 1 / EVENT_RATE / this.playSpeedProperty.get().scaleFactor
+        getPeriodBeforeNextEvent: () => {
+          var scaleFactor = this.playSpeedProperty.value === PlaySpeedEnum.NORMAL ? 1.0 : 0.5;
+          return 1 / EVENT_RATE / scaleFactor;
+        }
       };
 
       // @private
