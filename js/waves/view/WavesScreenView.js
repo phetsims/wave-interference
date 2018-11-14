@@ -402,11 +402,11 @@ define( require => {
        * Creates a ToggleNode that shows the primary or secondary source
        * @param {boolean} isPrimarySource - true if it should show the primary source
        */
-      const createEmitterToggleNode = isPrimarySource => new ToggleNode( [
+      const createEmitterToggleNode = isPrimarySource => new ToggleNode( model.sceneProperty, [
         { value: model.waterScene, node: new WaterEmitterNode( model, this.waveAreaNode, isPrimarySource ) },
         { value: model.soundScene, node: new SoundEmitterNode( model, this.waveAreaNode, isPrimarySource ) },
         { value: model.lightScene, node: new LightEmitterNode( model, this.waveAreaNode, isPrimarySource ) }
-      ], model.sceneProperty, {
+      ], {
         alignChildren: ToggleNode.NONE
       } );
 

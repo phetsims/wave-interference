@@ -76,11 +76,11 @@ define( require => {
         valuePattern: nmValueString,
         majorTicks: createTicks( lightRange )
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-      const slitWidthControl = new ToggleNode( [
+      const slitWidthControl = new ToggleNode( model.sceneProperty, [
         { value: model.waterScene, node: waterSlitWidthControl },
         { value: model.soundScene, node: soundSlitWidthControl },
         { value: model.lightScene, node: lightSlitWidthControl }
-      ], model.sceneProperty );
+      ] );
       barrierTypeDynamicProperty.link( barrierType => {
         const enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
         waterSlitWidthControl.enabled = enabled;
@@ -106,11 +106,11 @@ define( require => {
         majorTicks: createTicks( lightSeparationRange )
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
-      const slitSeparationControl = new ToggleNode( [
+      const slitSeparationControl = new ToggleNode( model.sceneProperty, [
         { value: model.waterScene, node: waterSeparationControl },
         { value: model.soundScene, node: soundSeparationControl },
         { value: model.lightScene, node: lightSeparationControl }
-      ], model.sceneProperty );
+      ] );
 
       barrierTypeDynamicProperty.link( barrierType => {
         const enabled = barrierType === BarrierTypeEnum.TWO_SLITS;

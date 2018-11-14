@@ -33,7 +33,7 @@ define( require => {
 
       const createLabelText = string => new WaveInterferenceText( string, { fontSize: 10 } );
 
-      const toggleNode = new ToggleNode( [ {
+      const toggleNode = new ToggleNode( model.sceneProperty, [ {
         value: model.waterScene,
         node: new NumberControl( separationString, model.waterScene.desiredSourceSeparationProperty, new Range( 1, 5 ), _.extend( {
           delta: 1,
@@ -61,7 +61,7 @@ define( require => {
             { value: 500, label: createLabelText( StringUtils.format( nmValueString, 500 ) ) },
             { value: 2500, label: createLabelText( StringUtils.format( nmValueString, 2500 ) ) } ]
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
-      } ], model.sceneProperty );
+      } ] );
       super( model, alignGroup, {
 
         // The pulse option does not appear in the Interference screen, because it is distracting and does not meet a
