@@ -9,12 +9,12 @@ define( require => {
   'use strict';
 
   // modules
-  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Shape = require( 'KITE/Shape' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
 
   // constants
   const NUM_SAMPLES = 100;                 // Number of samples to take along the curve

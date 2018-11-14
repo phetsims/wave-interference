@@ -9,10 +9,10 @@ define( require => {
   'use strict';
 
   // modules
-  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
   const InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
 
   class PulseContinuousRadioButtonGroup extends RadioButtonGroup {
 

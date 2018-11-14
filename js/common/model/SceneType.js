@@ -8,8 +8,8 @@
 define( require => {
   'use strict';
 
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const Enumeration = require( 'PHET_CORE/Enumeration' );
+  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   return waveInterference.register( 'SceneType', new Enumeration( [ 'WATER', 'SOUND', 'LIGHT' ] ) );
 } );
