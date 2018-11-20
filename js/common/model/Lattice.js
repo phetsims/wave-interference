@@ -31,7 +31,7 @@ define( require => {
   const LIGHT_VISIT_THRESHOLD = 0.06;
 
   // Damp more aggressively further from the edge of the visible lattice
-  window.damps = [ 0.999, 0.99, 0.98, 0.97, 0.95, 0.925, 0.9, 0.85, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3 ];
+  window.damps = [ 0.999, 0.99, 0.98, 0.97, 0.95, 0.925, 0.9, 0.85, 0.8, 0.73, 0.66, 0.6, 0.55, 0.5, 0.45, 0.42, 0.4, 0.38, 0.36 ];
 
   class Lattice {
 
