@@ -30,6 +30,9 @@ define( require => {
   // light is faster than it should be measured (based on the propagation of wavefronts).
   const LIGHT_VISIT_THRESHOLD = 0.06;
 
+  // Damp more aggressively further from the edge of the visible lattice
+  window.damps = [ 0.999, 0.99, 0.98, 0.97, 0.95, 0.925, 0.9, 0.85, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3 ];
+
   class Lattice {
 
     /**
@@ -183,36 +186,6 @@ define( require => {
     }
 
     /**
-     * Across a horizontal line, dampen the waveform based on past adjacent values.  Developed in the Java version as
-     * one step in preventing artifacts near the edge of the visible part of the lattice.
-     * @param {number} j - y coordinate for the lattice
-     * @param {number} dj - distance above or below to look
-     * @param {Matrix} matrix0 - current matrix
-     * @param {Matrix} matrix2 - two time steps ago
-     * @private
-     */
-    dampHorizontalTemporal( j, dj, matrix0, matrix2 ) {
-      for ( let i = 0; i < this.width; i++ ) {
-        matrix0.set( i, j, matrix2.get( i, j + dj ) );
-      }
-    }
-
-    /**
-     * Across a vertical line, dampen the waveform based on past adjacent values.  Developed in the Java version as
-     * one step in preventing artifacts near the edge of the visible part of the lattice.
-     * @param {number} i - x coordinate for the lattice
-     * @param {number} di - distance left or right to look
-     * @param {Matrix} matrix0 - current matrix
-     * @param {Matrix} matrix2 - two time steps ago
-     * @private
-     */
-    dampVerticalTemporal( i, di, matrix0, matrix2 ) {
-      for ( let j = 0; j < this.height; j++ ) {
-        matrix0.set( i, j, matrix2.get( i + di, j ) );
-      }
-    }
-
-    /**
      * Exponential decay in a vertical band to prevent reflections or artifacts from the sides of the lattice.
      * @param {number} i0 - x coordinate of the damping region
      * @param {number} sign - +1 or -1 depending on which way the damping moves
@@ -220,11 +193,11 @@ define( require => {
      * @private
      */
     decayVertical( i0, sign, width ) {
+
       for ( let j = 0; j < this.height; j++ ) {
         for ( let step = 0; step < width; step++ ) {
-          const distFromDampBoundary = width - step;
-          const damp = this.getDamp( distFromDampBoundary );
-          const i = i0 + step * sign;
+          const damp = window.damps[ step ] || window.damps[ window.damps.length - 1 ];
+          const i = i0 + sign * step;
           this.setCurrentValue( i, j, this.getCurrentValue( i, j ) * damp );
           this.setLastValue( i, j, this.getLastValue( i, j ) * damp );
         }
@@ -239,11 +212,11 @@ define( require => {
      * @private
      */
     decayHorizontal( j0, sign, height ) {
+
       for ( let i = 0; i < this.width; i++ ) {
         for ( let step = 0; step < height; step++ ) {
-          const distFromDampBoundary = height - step;
-          const damp = this.getDamp( distFromDampBoundary );
-          const j = j0 + step * sign;
+          const damp = window.damps[ step ] || window.damps[ window.damps.length - 1 ];
+          const j = j0 + sign * step;
           this.setCurrentValue( i, j, this.getCurrentValue( i, j ) * damp );
           this.setLastValue( i, j, this.getLastValue( i, j ) * damp );
         }
@@ -258,16 +231,6 @@ define( require => {
      */
     hasCellBeenVisited( i, j ) {
       return this.visitedMatrix.get( i, j ) === 1;
-    }
-
-    /**
-     * Damp more aggressively further from the edge of the visible lattice
-     * @param {number} depthInDampRegion - number of cells into the damping region
-     * @returns {number} scale factor for dampening the wave
-     * @private
-     */
-    getDamp( depthInDampRegion ) {
-      return ( 1 - depthInDampRegion * 0.0001 );
     }
 
     /**
@@ -329,17 +292,11 @@ define( require => {
         }
       }
 
-      // temporal dampen on the visible region
-      this.dampHorizontalTemporal( 0, 1, matrix0, matrix2 );
-      this.dampHorizontalTemporal( this.height - 1, -1, matrix0, matrix2 );
-      this.dampVerticalTemporal( 0, +1, matrix0, matrix2 );
-      this.dampVerticalTemporal( this.width - 1, -1, matrix0, matrix2 );
-
       // decay the wave outside of the visible part
-      this.decayVertical( 0, +1, this.dampY / 2 );
-      this.decayVertical( this.width - 1, -1, this.dampY / 2 );
-      this.decayHorizontal( 0, +1, this.dampX / 2 );
-      this.decayHorizontal( this.height - 1, -1, this.dampX / 2 );
+      this.decayVertical( this.dampX, -1, this.dampX );
+      this.decayVertical( this.width - this.dampX - 1, +1, this.dampX );
+      this.decayHorizontal( this.dampY, -1, this.dampY );
+      this.decayHorizontal( this.height - this.dampY - 1, +1, this.dampY );
 
       // Apply values on top of the computed lattice values so there is no noise at the point sources
       forcingFunction();
