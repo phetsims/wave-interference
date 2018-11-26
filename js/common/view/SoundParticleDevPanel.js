@@ -1,7 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * When ?dev is provided, shows developer controls for exploring and fine-tuning the sound particle model.
+ * When ?dev is provided, shows developer controls for exploring and fine-tuning the sound particle model and other
+ * parameters.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
