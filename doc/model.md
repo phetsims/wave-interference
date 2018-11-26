@@ -13,10 +13,20 @@ at d*sin(theta) = m*lambda.
 
 # Slits Screen
 
-This screen provides an incoming plane wave, and the user can control the location of the barrier and the number of
+This screen provides an incoming plane wave, and the user can control the location of the barrier, the number of
 slits and the location and width of the slits.  According to the Huygens-Fresnel principle, each part of the wave
 produces spherical waves, and hence the part that passes through the slit produces spherical waves.
 
-# Diffraction Screen
+For double-slit (where d is the separation between centers of the slits):
+d sin(θ) = mλ for maxima,
+d sin(θ) = (m + 1/2)λ for minima
+see http://electron9.phys.utk.edu/optics421/modules/m1/diffraction_and_interference.htm
+
+For single slit (where a is the width of the aperture):
+a sin(θ) = mλ for minima
+a sin(θ) = (m+1/2)λ for maxima
+see http://hyperphysics.phy-astr.gsu.edu/hbase/phyopt/sinslit.html
+
+# Diffraction Screen (under development)
 
 The diffraction pattern is computed as the discrete Fast Fourier Transform of the input pattern.

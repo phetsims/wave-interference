@@ -36,7 +36,7 @@ define( require => {
 
       const updateLines = () => {
         this.removeAllChildren();
-        const barrierType = model.barrierTypeProperty.get();
+        const barrierType = model.sceneProperty.value.barrierTypeProperty.get();
         if ( barrierType !== BarrierTypeEnum.NO_BARRIER ) {
 
           const scene = model.sceneProperty.value;
@@ -113,10 +113,11 @@ define( require => {
         }
       };
 
-      // When any of the relevant physical Properties change, update the lines. 
-      model.barrierTypeProperty.link( updateLines );
       model.sceneProperty.link( updateLines );
       model.scenes.forEach( scene => {
+
+        // When any of the relevant physical Properties change, update the lines.
+        scene.barrierTypeProperty.link( updateLines );
         scene.frequencyProperty.link( updateLines );
         scene.slitSeparationProperty.link( updateLines );
         scene.barrierLocationProperty.link( updateLines );
