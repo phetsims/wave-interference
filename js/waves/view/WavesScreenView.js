@@ -447,7 +447,7 @@ define( require => {
       const latticeNode = this.sceneToNode( this.model.sceneProperty.value );
 
       const localPoint = latticeNode.globalToLocalPoint( point );
-      return latticeNode.localPointToLatticePoint( localPoint );
+      return LatticeCanvasNode.localPointToLatticePoint( localPoint );
     }
 
     /**

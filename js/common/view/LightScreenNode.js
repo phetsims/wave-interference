@@ -75,15 +75,6 @@ define( require => {
     }
 
     /**
-     * Convert the given point (in the local coordinate frame) to the corresponding i,j (integral) coordinates on the lattice.
-     * @param {Vector2} point - point in the local coordinate frame
-     * @returns {Vector2}
-     */
-    localPointToLatticePoint( point ) {
-      return new Vector2( Math.floor( point.x / CELL_WIDTH ), Math.floor( point.y / CELL_WIDTH ) );
-    }
-
-    /**
      * Sets the color of the peaks of the wave.
      * @param {Color} color
      * @public
