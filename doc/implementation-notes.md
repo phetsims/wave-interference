@@ -2,6 +2,9 @@ The Wave Interference simulation was ported from Java in 2018.  The first 3 scre
 wave propagation, while the final screen shows the interference pattern from a slit with a given 2d shape, which
 is instantly updated.  The query string ?dev will output debugging information to the console.
 
+There are no dynamically created/destroyed user interface components or model elements in the simulation, so the
+simulation doesn't require dispose calls.
+
 # Waves, Interference, Slits Screens
 
 The first three screens are mainly coded in js/common.
