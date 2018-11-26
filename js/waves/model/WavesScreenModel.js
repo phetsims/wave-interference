@@ -33,7 +33,7 @@ define( require => {
   const WaveSpatialType = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialType' );
 
   // strings
-  const cmUnitsString = require( 'string!WAVE_INTERFERENCE/cmUnits' );
+  const centimetersUnitsString = require( 'string!WAVE_INTERFERENCE/centimetersUnits' );
   const electricFieldAtCenterString = require( 'string!WAVE_INTERFERENCE/electricFieldAtCenter' );
   const electricFieldString = require( 'string!WAVE_INTERFERENCE/electricField' );
   const femtosecondConversionString = require( 'string!WAVE_INTERFERENCE/femtosecondConversion' );
@@ -91,7 +91,7 @@ define( require => {
         waveSpatialType: options.waveSpatialType,
 
         positionUnits: 'cm',
-        translatedPositionUnits: cmUnitsString,
+        translatedPositionUnits: centimetersUnitsString,
         timeUnits: secondsUnitsString,
         timeScaleString: '',
 
@@ -119,7 +119,7 @@ define( require => {
       this.soundScene = new SoundScene( options.showSoundParticles, {
         waveSpatialType: options.waveSpatialType,
         positionUnits: 'cm',
-        translatedPositionUnits: cmUnitsString,
+        translatedPositionUnits: centimetersUnitsString,
         timeUnits: millisecondsUnitsString,
         timeScaleString: millisecondConversionString,
 

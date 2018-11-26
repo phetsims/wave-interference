@@ -2,6 +2,18 @@
   "wave-interference.title": {
     "value": "Wave Interference"
   },
+  "screen.waves": {
+    "value": "Waves"
+  },
+  "screen.interference": {
+    "value": "Interference"
+  },
+  "screen.slits": {
+    "value": "Slits"
+  },
+  "screen.diffraction": {
+    "value": "Diffraction"
+  },
   "frequency": {
     "value": "Frequency"
   },
@@ -41,14 +53,14 @@
   "nmValue": {
     "value": "{0} nm"
   },
-  "cmUnits": {
-    "value": "cm"
-  },
   "min": {
     "value": "min"
   },
   "max": {
     "value": "max"
+  },
+  "centimetersUnits": {
+    "value": "cm"
   },
   "nanometersUnits": {
     "value": "nm"
@@ -94,18 +106,6 @@
   },
   "top": {
     "value": "Top"
-  },
-  "screen.waves": {
-    "value": "Waves"
-  },
-  "screen.interference": {
-    "value": "Interference"
-  },
-  "screen.slits": {
-    "value": "Slits"
-  },
-  "screen.diffraction": {
-    "value": "Diffraction"
   },
   "separation": {
     "value": "Separation"
