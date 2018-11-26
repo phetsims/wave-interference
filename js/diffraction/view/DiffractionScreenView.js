@@ -51,7 +51,6 @@ define( require => {
       // @private
       this.model = model;
 
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const laserPointerNode = new LaserPointerNode( model.onProperty, {
         left: 10,
         centerY: 50,
@@ -75,7 +74,6 @@ define( require => {
         node: new Circle( 10, { fill: 'black' } )
       } ];
 
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const radioButtonGroup = new RadioButtonGroup( model.sceneProperty, toggleButtonsContent, {
         left: 10,
         bottom: this.layoutBounds.bottom - 10
@@ -133,13 +131,9 @@ define( require => {
       this.squareControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-
-          // This exists for the lifetime of the sim and doesn't require disposal.
           new NumberControl( 'width', model.squareWidthProperty, new Range( 2, 30 ), _.extend( {
             delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ),
-
-          // This exists for the lifetime of the sim and doesn't require disposal.
           new NumberControl( 'height', model.squareHeightProperty, new Range( 2, 30 ), _.extend( {
             delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ) ]
@@ -151,11 +145,7 @@ define( require => {
       this.gaussianControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-
-          // This exists for the lifetime of the sim and doesn't require disposal.
           new NumberControl( 'sigmaX', model.sigmaXProperty, new Range( 2, 10 ), NUMBER_CONTROL_OPTIONS ),
-
-          // This exists for the lifetime of the sim and doesn't require disposal.
           new NumberControl( 'sigmaY', model.sigmaYProperty, new Range( 2, 10 ), NUMBER_CONTROL_OPTIONS )
         ]
       } ), _.extend( {
@@ -166,11 +156,7 @@ define( require => {
       this.slitsControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-
-          // This exists for the lifetime of the sim and doesn't require disposal.
           new NumberControl( 'number of lines', model.numberOfLinesProperty, new Range( 2, 200 ), NUMBER_CONTROL_OPTIONS ),
-
-          // This exists for the lifetime of the sim and doesn't require disposal.
           new NumberControl( 'angle', model.angleProperty, new Range( 0, Math.PI * 2 ), _.extend( {
             delta: 0.01
           }, NUMBER_CONTROL_OPTIONS ) )

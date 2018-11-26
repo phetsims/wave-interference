@@ -99,11 +99,10 @@ define( require => {
       const amplitudeSliderContainer = new SceneToggleNode( model, scene => {
 
         // For water scene, control the desiredAmplitude (which determines the size of the water drops)
-        // For other scenes, control the amplitude directly. This exists for the lifetime of the sim and doesn't require disposal.
+        // For other scenes, control the amplitude directly.
         return new WaveInterferenceSlider( scene.desiredAmplitudeProperty || scene.amplitudeProperty, scene.amplitudeProperty.range.min, scene.amplitudeProperty.range.max );
       } );
 
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const viewSelectionRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
         node: new WaveInterferenceText( wavesString ),
         value: SoundViewType.WAVES,
@@ -124,13 +123,10 @@ define( require => {
         }
       } );
 
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const graphCheckbox = new Checkbox( new WaveInterferenceText( graphString ), model.showGraphProperty, CHECKBOX_OPTIONS );
 
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const screenCheckbox = new Checkbox( new WaveInterferenceText( screenString ), model.showScreenProperty, CHECKBOX_OPTIONS );
 
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const intensityCheckbox = new Checkbox( new WaveInterferenceText( intensityString ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
 
       // Only enable the intensity checkbox when the screen is selected
@@ -149,7 +145,6 @@ define( require => {
       // Create faucet icon, and rasterize to clip out invisible parts (like the ShooterNode)
       const sceneIcons = new WaveInterferenceSceneIcons();
 
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [
         { value: model.waterScene, node: sceneIcons.faucetIcon },
         { value: model.soundScene, node: sceneIcons.speakerIcon },

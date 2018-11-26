@@ -31,8 +31,6 @@ define( require => {
      */
     constructor( model, waveAreaNode, isPrimarySource ) {
       let scene = model.lightScene;
-
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const laserPointerNode = new LaserPointerNode( scene.button1PressedProperty, _.extend( {
         rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 )
       }, DEFAULTS ) );

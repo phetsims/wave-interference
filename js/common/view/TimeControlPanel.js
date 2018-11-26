@@ -33,12 +33,10 @@ define( require => {
      */
     constructor( model, options ) {
 
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const playPauseButton = new PlayPauseButton( model.isRunningProperty, {
         scale: BUTTON_SCALE
       } );
 
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
         node: new WaveInterferenceText( normalString ),
         value: PlaySpeedEnum.NORMAL,

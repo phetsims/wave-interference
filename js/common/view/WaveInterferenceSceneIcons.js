@@ -22,7 +22,6 @@ define( require => {
     constructor() {
 
       // @public - Faucet icon, and rasterize to clip out invisible parts (like the ShooterNode)
-      // This exists for the lifetime of the sim and doesn't require disposal.
       this.faucetIcon = new FaucetNode( 1, new Property( 0 ), new Property( true ), {
         interactiveProperty: new Property( false )
       } ).rasterized();
@@ -31,7 +30,6 @@ define( require => {
       this.speakerIcon = new Image( speakerImage );
 
       // @public - Laser Pointer icon
-      // This exists for the lifetime of the sim and doesn't require disposal.
       this.laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), LightEmitterNode.DEFAULT_OPTIONS );
 
       // Uniform sizing.

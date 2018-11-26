@@ -44,8 +44,6 @@ define( require => {
         derive: 'barrierTypeProperty',
         bidirectional: true
       } );
-
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const comboBox = new ComboBox( [
         ComboBox.createItem( new WaveInterferenceText( noBarrierString ), BarrierTypeEnum.NO_BARRIER ),
         ComboBox.createItem( new WaveInterferenceText( oneSlitString ), BarrierTypeEnum.ONE_SLIT ),
@@ -62,30 +60,22 @@ define( require => {
       ];
 
       const waterRange = new Range( 0, 5 );
-
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const waterSlitWidthControl = new NumberControl( slitWidthString, model.waterScene.slitWidthProperty, waterRange, _.extend( {
         valuePattern: cmValueString,
         majorTicks: createTicks( waterRange )
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const soundRange = new Range( 0, 100 );
-
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const soundSlitWidthControl = new NumberControl( slitWidthString, model.soundScene.slitWidthProperty, soundRange, _.extend( {
         valuePattern: cmValueString,
         majorTicks: createTicks( soundRange )
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const lightRange = new Range( 0, 2000 );
-
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const lightSlitWidthControl = new NumberControl( slitWidthString, model.lightScene.slitWidthProperty, lightRange, _.extend( {
         valuePattern: nmValueString,
         majorTicks: createTicks( lightRange )
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const slitWidthControl = new ToggleNode( model.sceneProperty, [
         { value: model.waterScene, node: waterSlitWidthControl },
         { value: model.soundScene, node: soundSlitWidthControl },
@@ -99,30 +89,22 @@ define( require => {
       } );
 
       const waterSeparationRange = new Range( 0, 5 );
-
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const waterSeparationControl = new NumberControl( slitSeparationString, model.waterScene.slitSeparationProperty, waterSeparationRange, _.extend( {
         valuePattern: cmValueString,
         majorTicks: createTicks( waterSeparationRange )
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const soundSeparationRange = new Range( 0, 200 );
-
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const soundSeparationControl = new NumberControl( slitSeparationString, model.soundScene.slitSeparationProperty, soundSeparationRange, _.extend( {
         valuePattern: cmValueString,
         majorTicks: createTicks( soundSeparationRange )
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const lightSeparationRange = new Range( 0, 2000 );
-
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const lightSeparationControl = new NumberControl( slitSeparationString, model.lightScene.slitSeparationProperty, lightSeparationRange, _.extend( {
         valuePattern: nmValueString,
         majorTicks: createTicks( lightSeparationRange )
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const slitSeparationControl = new ToggleNode( model.sceneProperty, [
         { value: model.waterScene, node: waterSeparationControl },
         { value: model.soundScene, node: soundSeparationControl },

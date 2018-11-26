@@ -216,7 +216,6 @@ define( require => {
        */
       const toolboxContains = point => toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).containsPoint( point );
 
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
 
         // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
@@ -234,7 +233,6 @@ define( require => {
       } );
       model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const timerNode = new WaveInterferenceTimerNode( model, {
 
         // Drop in toolbox
@@ -319,8 +317,6 @@ define( require => {
       }
 
       if ( options.showViewRadioButtonGroup ) {
-
-        // This exists for the lifetime of the sim and doesn't require disposal.
         this.addChild( new ViewRadioButtonGroup( model.viewTypeProperty, {
           bottom: this.layoutBounds.bottom - MARGIN,
           left: this.waveAreaNode.left + SPACING + 10
@@ -405,7 +401,6 @@ define( require => {
 
       /**
        * Creates a ToggleNode that shows the primary or secondary source
-       * This exists for the lifetime of the sim and doesn't require disposal.
        * TODO: use SceneToggleNode?
        * @param {boolean} isPrimarySource - true if it should show the primary source
        */

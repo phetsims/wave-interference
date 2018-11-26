@@ -113,8 +113,7 @@ define( require => {
         }
       };
 
-      // When any of the relevant physical Properties change, update the lines.  This node exists for the life of the
-      // sim and does not need to be unlinked.
+      // When any of the relevant physical Properties change, update the lines. 
       model.barrierTypeProperty.link( updateLines );
       model.sceneProperty.link( updateLines );
       model.scenes.forEach( scene => {

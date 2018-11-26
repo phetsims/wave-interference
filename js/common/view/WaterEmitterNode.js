@@ -29,7 +29,6 @@ define( require => {
      */
     constructor( model, waveAreaNode, isPrimarySource ) {
 
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const faucetNode = new FaucetNode(
         // This value is irrelevant because we use our own faucet water emitting model, but must be nonzero
         // to prevent a divide by zero problem

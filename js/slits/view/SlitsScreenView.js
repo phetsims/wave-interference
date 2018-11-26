@@ -36,7 +36,6 @@ define( require => {
       } );
 
       // The Slits screen has an additional control panel below the main control panel, which controls the barrier/slits
-      // This exists for the lifetime of the sim and doesn't require disposal.
       const slitControlPanel = new SlitsControlPanel( alignGroup, model, this );
 
       // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.  Should only happen
@@ -70,8 +69,6 @@ define( require => {
 
       // When enabled by a query parameter, show the theoretical interference pattern.
       if ( WaveInterferenceQueryParameters.theory ) {
-
-        // This exists for the lifetime of the sim and doesn't require disposal.
         this.addChild( new TheoryInterferenceOverlay( model, this.waveAreaNode.bounds, {
           clipArea: Shape.bounds( this.waveAreaNode.bounds )
         } ) );
