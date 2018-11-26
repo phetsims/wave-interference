@@ -69,6 +69,7 @@ define( require => {
       // @private - Convert from model coordinates to view coordinates
       this.modelViewTransform = ModelViewTransform2.createRectangleMapping( this.scene.getWaveAreaBounds(), viewBounds );
 
+      // This exists for the lifetime of the sim and doesn't require disposal.
       this.addInputListener( new DragListener( {
         locationProperty: scene.barrierLocationProperty,
         transform: this.modelViewTransform,

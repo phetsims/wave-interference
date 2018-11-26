@@ -114,6 +114,7 @@ define( require => {
         model.rotationAmountProperty.link( snapToCenter );
 
         // Add the wire behind the probe.
+        // This exists for the lifetime of the sim and doesn't require disposal.
         this.addChild( new WireNode( connectionProperty, new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
           new NodeProperty( probeNode, 'bounds', 'centerBottom' ), new Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
             lineWidth: WIRE_LINE_WIDTH,
@@ -127,7 +128,7 @@ define( require => {
         this.on( 'visibility', alignProbes );
         this.alignProbesEmitter.addListener( alignProbes );
 
-        const dynamicSeries = new DynamicSeries( { color } );
+        const dynamicSeries = new DynamicSeries( { color: color } );
         dynamicSeries.probeNode = probeNode;
 
         const updateSamples = function() {
@@ -176,7 +177,10 @@ define( require => {
         return dynamicSeries;
       };
 
+      // This exists for the lifetime of the sim and doesn't require disposal.
       const aboveBottomLeft1 = new DerivedProperty( [ leftBottomProperty ], position => position.isFinite() ? position.plusXY( 0, -20 ) : Vector2.ZERO );
+
+      // This exists for the lifetime of the sim and doesn't require disposal.
       const aboveBottomLeft2 = new DerivedProperty( [ leftBottomProperty ], position => position.isFinite() ? position.plusXY( 0, -10 ) : Vector2.ZERO );
       const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1 );
       const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2 );
@@ -198,7 +202,9 @@ define( require => {
       const timeProperty = new DynamicProperty( model.sceneProperty, {
         derive: 'timeProperty'
       } );
+
       const scrollingChartNode = new LabeledScrollingChartNode(
+        // This exists for the lifetime of the sim and doesn't require disposal.
         new ScrollingChartNode( timeProperty, [ series1, series2 ], {
           width: 150,
           height: 110

@@ -33,8 +33,12 @@ define( require => {
 
       const createLabelText = string => new WaveInterferenceText( string, { fontSize: 10 } );
 
+      // This exists for the lifetime of the sim and doesn't require disposal.
+      // TODO: use SceneToggleNode?
       const toggleNode = new ToggleNode( model.sceneProperty, [ {
         value: model.waterScene,
+
+        // This exists for the lifetime of the sim and doesn't require disposal.
         node: new NumberControl( separationString, model.waterScene.desiredSourceSeparationProperty, new Range( 1, 5 ), _.extend( {
           delta: 1,
           valuePattern: cmValueString,
@@ -45,6 +49,8 @@ define( require => {
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.soundScene,
+
+        // This exists for the lifetime of the sim and doesn't require disposal.
         node: new NumberControl( separationString, model.soundScene.sourceSeparationProperty, new Range( 100, 200 ), _.extend( {
           delta: 5,
           valuePattern: cmValueString,
@@ -54,6 +60,8 @@ define( require => {
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.lightScene,
+
+        // This exists for the lifetime of the sim and doesn't require disposal.
         node: new NumberControl( separationString, model.lightScene.sourceSeparationProperty, new Range( 500, 2500 ), _.extend( {
           delta: 500,
           valuePattern: nmValueString,

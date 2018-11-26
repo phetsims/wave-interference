@@ -33,10 +33,12 @@ define( require => {
      */
     constructor( model, options ) {
 
+      // This exists for the lifetime of the sim and doesn't require disposal.
       const playPauseButton = new PlayPauseButton( model.isRunningProperty, {
         scale: BUTTON_SCALE
       } );
 
+      // This exists for the lifetime of the sim and doesn't require disposal.
       const radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
         node: new WaveInterferenceText( normalString ),
         value: PlaySpeedEnum.NORMAL,
@@ -48,7 +50,7 @@ define( require => {
       } ] );
 
       const stepButton = new StepButton( {
-        scale: BUTTON_SCALE
+        scale: BUTTON_SCALE // TODO: can listener be inlined?
       } );
 
       // If we need to move forward further than one frame, call advanceTime several times rather than increasing the

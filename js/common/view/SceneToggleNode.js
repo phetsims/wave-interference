@@ -1,7 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * A ToggleNode that shows something different for each scene.
+ * A ToggleNode that shows something different for each scene.  All SceneToggleNodes in this sim exist for the lifetime
+ * of the sim and doesn't require disposal.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

@@ -50,7 +50,7 @@ define( require => {
       // the bottom tab will fit the largest label.
       const horizontalAxisLabel = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.graphHorizontalAxisLabel ) );
 
-      // Scene-specific title of the chart
+      // Scene-specific title of the chart.
       const title = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.graphTitle ) );
 
       const HORIZONTAL_LABEL_VERTICAL_MARGIN = 2;
@@ -85,6 +85,7 @@ define( require => {
       );
       const lastTickLabel = horizontalAxisTickLabels[ horizontalAxisTickLabels.length - 1 ];
       const tickBubbleXMargin = 2;
+
       const verticalAxisLabel = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.verticalAxisTitle ), {
         rotation: 3 * Math.PI / 2,
         right: -TEXT_MARGIN_Y,
