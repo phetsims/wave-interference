@@ -10,10 +10,12 @@ define( require => {
 
   // modules
   const AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
+  const DiffractionScreen = require( 'WAVE_INTERFERENCE/diffraction/DiffractionScreen' );
   const InterferenceScreen = require( 'WAVE_INTERFERENCE/interference/InterferenceScreen' );
   const Sim = require( 'JOIST/Sim' );
   const SimLauncher = require( 'JOIST/SimLauncher' );
   const SlitsScreen = require( 'WAVE_INTERFERENCE/slits/SlitsScreen' );
+  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
   const WavesScreen = require( 'WAVE_INTERFERENCE/waves/WavesScreen' );
 
   // strings
@@ -42,7 +44,10 @@ define( require => {
     const sim = new Sim( waveInterferenceTitleString, [
       new WavesScreen( alignGroup ),
       new InterferenceScreen( alignGroup ),
-      new SlitsScreen( alignGroup )
+      new SlitsScreen( alignGroup ),
+
+      // the Diffraction screen is under development, and will not be included in 1.0, see https://github.com/phetsims/wave-interference/issues/98
+      ...( WaveInterferenceQueryParameters.includeDiffractionScreen ? [ new DiffractionScreen() ] : [] )
     ], simOptions );
     sim.start();
   } );
