@@ -45,7 +45,7 @@ define( require => {
   class DiffractionScreenView extends ScreenView {
 
     /**
-     * @param {WaveInterferenceModel} model
+     * @param {DiffractionModel} model
      */
     constructor( model ) {
       super();

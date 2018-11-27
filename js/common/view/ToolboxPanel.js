@@ -19,12 +19,12 @@ define( require => {
     /**
      * @param {MeasuringTapeNode} measuringTapeNode
      * @param {WaveInterferenceTimerNode} timerNode
-     * @param {MeterBodyNode} meterNode
+     * @param {WaveMeterNode} waveMeterNode
      * @param {AlignGroup} alignGroup - to align with neighbors
      * @param {WavesScreenModel} model
      * @param {Object} [options]
      */
-    constructor( measuringTapeNode, timerNode, meterNode, alignGroup, model, options ) {
+    constructor( measuringTapeNode, timerNode, waveMeterNode, alignGroup, model, options ) {
 
       // Capture image for icon
       model.isMeasuringTapeInPlayAreaProperty.value = true;
@@ -62,15 +62,15 @@ define( require => {
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
       // Temporarily show the node so it can be rasterized for an icon
       model.isWaveMeterInPlayAreaProperty.value = true;
-      const waveMeterIcon = meterNode.rasterized().mutate( { scale: 0.25 } );
+      const waveMeterIcon = waveMeterNode.rasterized().mutate( { scale: 0.25 } );
       model.isWaveMeterInPlayAreaProperty.value = false;
 
       initializeIcon( waveMeterIcon, model.isWaveMeterInPlayAreaProperty, event => {
-        meterNode.center = this.globalToParentPoint( event.pointer.point );
+        waveMeterNode.center = this.globalToParentPoint( event.pointer.point );
 
         // Set the internal flag that indicates the probes should remain in alignment during the drag
-        meterNode.synchronizeProbeLocations = true;
-        meterNode.startDrag( event );
+        waveMeterNode.synchronizeProbeLocations = true;
+        waveMeterNode.startDrag( event );
         model.isWaveMeterInPlayAreaProperty.value = true;
       } );
 
