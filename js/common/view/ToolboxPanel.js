@@ -25,6 +25,8 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( measuringTapeNode, timerNode, meterNode, alignGroup, model, options ) {
+
+      // Capture image for icon
       model.isMeasuringTapeInPlayAreaProperty.value = true;
       measuringTapeNode.setTextVisible( false );
       const measuringTapeIcon = measuringTapeNode.rasterized( { wrap: true } ).mutate( { scale: 0.65 } );

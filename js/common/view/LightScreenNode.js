@@ -53,13 +53,13 @@ define( require => {
 
       // Render into a sub-canvas which will be drawn into the rendering context at the right scale.
       // Use a single column of pixels, then stretch them to the right (since that is a constant)
-      const w = 1;
-      const h = this.lattice.height - this.lattice.dampY * 2;
+      const width = 1;
+      const height = this.lattice.height - this.lattice.dampY * 2;
       this.directCanvas = document.createElement( 'canvas' );
-      this.directCanvas.width = w;
-      this.directCanvas.height = h;
+      this.directCanvas.width = width;
+      this.directCanvas.height = height;
       this.directContext = this.directCanvas.getContext( '2d' );
-      this.imageData = this.directContext.createImageData( w, h );
+      this.imageData = this.directContext.createImageData( width, height );
 
       // Invalidate paint when model indicates changes
       const invalidateSelfListener = this.invalidatePaint.bind( this );
@@ -107,7 +107,7 @@ define( require => {
         const b = this.baseColor.blue * brightness;
 
         const offset = 4 * m;
-        data[ offset + 0 ] = r;
+        data[ offset ] = r;
         data[ offset + 1 ] = g;
         data[ offset + 2 ] = b;
         data[ offset + 3 ] = 255; // Fully opaque

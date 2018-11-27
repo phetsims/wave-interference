@@ -17,7 +17,7 @@ define( require => {
   const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
 
   // constants
-  const NUM_SAMPLES = 100;                 // Number of samples to take along the curve
+  const NUMBER_OF_SAMPLES = 100;           // Number of samples to take along the curve
   const WAVE_HEIGHT = 10;                  // Amplitude of the wave for the icon
   const MAX_ANGLE = Math.PI * 2 + Math.PI; // Angle at which the wave ends, in radians
   const MARGIN = 10;                       // Width of the pulse side segments, in pixels
@@ -35,8 +35,8 @@ define( require => {
       const maxX = incidentWaveType === WaveTemporalType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
 
       const shape = new Shape();
-      for ( let i = 0; i < NUM_SAMPLES; i++ ) {
-        const angle = Util.linear( 0, NUM_SAMPLES - 1, minAngle, MAX_ANGLE, i );
+      for ( let i = 0; i < NUMBER_OF_SAMPLES; i++ ) {
+        const angle = Util.linear( 0, NUMBER_OF_SAMPLES - 1, minAngle, MAX_ANGLE, i );
         const y = -Math.cos( angle ) * WAVE_HEIGHT;
         const x = Util.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
         if ( i === 0 ) {

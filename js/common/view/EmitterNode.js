@@ -53,7 +53,7 @@ define( require => {
         } ) );
       }
       children.push( button );
-      const nodeWithButton = new Node( { children } );
+      const nodeWithButton = new Node( { children: children } );
 
       const updateEnabled = () => {
         if ( scene.waveTemporalTypeProperty.value === WaveTemporalType.PULSE ) {

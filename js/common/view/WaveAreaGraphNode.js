@@ -51,11 +51,12 @@ define( require => {
       const horizontalAxisLabel = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.graphHorizontalAxisLabel ) );
 
       // Scene-specific title of the chart.
-      const title = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.graphTitle ) );
+      const titleNode = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.graphTitle ) );
 
       const HORIZONTAL_LABEL_VERTICAL_MARGIN = 2;
       const horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height - HORIZONTAL_LABEL_VERTICAL_MARGIN * 2;
 
+      // Create tick labels and grid lines
       const horizontalAxisTickLabels = [];
       const verticalGridLines = [];
       for ( let i = 0; i <= 10; i++ ) {
@@ -72,9 +73,9 @@ define( require => {
       }
 
       const topTabBounds = new Bounds2(
-        graphWidth / 2 - title.width / 2 - TEXT_MARGIN_X,
-        -TEXT_MARGIN_Y - title.height,
-        graphWidth / 2 + title.width / 2 + TEXT_MARGIN_X,
+        graphWidth / 2 - titleNode.width / 2 - TEXT_MARGIN_X,
+        -TEXT_MARGIN_Y - titleNode.height,
+        graphWidth / 2 + titleNode.width / 2 + TEXT_MARGIN_X,
         0
       );
       const bottomTabBounds = new Bounds2(
@@ -102,8 +103,7 @@ define( require => {
 
       const outline = new Shape()
 
-      // start at the top left
-        .moveTo( RADIUS, 0 )
+        .moveTo( RADIUS, 0 )  // start at the top left
 
         // Top tab with title
         .lineTo( topTabBounds.minX - RADIUS, topTabBounds.maxY )
@@ -143,9 +143,9 @@ define( require => {
       horizontalAxisTickLabels.forEach( label => this.addChild( label ) );
       verticalGridLines.forEach( label => this.addChild( label ) );
 
-      title.centerX = graphWidth / 2;
-      title.bottom = 0;
-      this.addChild( title );
+      titleNode.centerX = graphWidth / 2;
+      titleNode.bottom = 0;
+      this.addChild( titleNode );
 
       horizontalAxisLabel.centerX = graphWidth / 2;
       horizontalAxisLabel.bottom = outlinePath.bottom - TEXT_MARGIN_Y;
@@ -184,12 +184,17 @@ define( require => {
       } );
       this.addChild( path );
 
-      const array = [];
+      // Created once and reused to avoid allocations
+      const sampleArray = [];
+
+      // Manually tuned to center the line in the graph, must be synchronized with graphHeight
       const dx = -options.x;
-      const dy = -options.centerY / 2 + 7.5; // Manually tuned to center the line in the graph, must be synchronized with graphHeight
+      const dy = -options.centerY / 2 + 7.5;
 
       const getWaterSideShape = WaveInterferenceUtils.getWaterSideShape;
-      const updateShape = () => path.setShape( getWaterSideShape( array, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy ) );
+      const updateShape = () => {
+        return path.setShape( getWaterSideShape( sampleArray, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy ) )
+      };
       model.scenes.forEach( scene => scene.lattice.changedEmitter.addListener( updateShape ) );
 
       // Update the curve when the scene is changed

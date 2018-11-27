@@ -79,6 +79,7 @@ define( require => {
         // This Property can exhibit re-entry when the user drags the frequency slider.  This is caused by an epsilon
         // problem, such as: value=526809876917351.56, oldValue=526809876917351.5
         // Hence it must be marked as reentrant
+        // TODO: Did recent changes to DynamicProperty address this?
         reentrant: true
       } );
 
@@ -124,9 +125,7 @@ define( require => {
       } );
 
       const graphCheckbox = new Checkbox( new WaveInterferenceText( graphString ), model.showGraphProperty, CHECKBOX_OPTIONS );
-
       const screenCheckbox = new Checkbox( new WaveInterferenceText( screenString ), model.showScreenProperty, CHECKBOX_OPTIONS );
-
       const intensityCheckbox = new Checkbox( new WaveInterferenceText( intensityString ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
 
       // Only enable the intensity checkbox when the screen is selected
@@ -188,7 +187,7 @@ define( require => {
                 amplitudeSliderContainer.bottom + TITLE_SPACING :
                 frequencySliderContainer.bottom + 2;
 
-      // The Sepration NumberControl is an additionalControl
+      // The Separation NumberControl is an additionalControl
       if ( options.additionalControl ) {
         options.additionalControl.top = y + 8;
         sceneRadioButtons.top = options.additionalControl.bottom + 8 + 8;

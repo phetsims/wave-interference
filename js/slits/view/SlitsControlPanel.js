@@ -40,7 +40,7 @@ define( require => {
      */
     constructor( alignGroup, model, comboBoxParent, options ) {
 
-      let barrierTypeDynamicProperty = new DynamicProperty( model.sceneProperty, {
+      const barrierTypeDynamicProperty = new DynamicProperty( model.sceneProperty, {
         derive: 'barrierTypeProperty',
         bidirectional: true
       } );

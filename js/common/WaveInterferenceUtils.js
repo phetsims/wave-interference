@@ -99,11 +99,12 @@ define( require => {
     static getWaterDropX( model, waveAreaViewBounds ) {
 
       // Compute the x-coordinate where the drop should be shown.
-      const m = ModelViewTransform2.createRectangleMapping( model.waterScene.lattice.visibleBounds, waveAreaViewBounds );
+      const sceneBounds = model.waterScene.lattice.visibleBounds;
+      const transform = ModelViewTransform2.createRectangleMapping( sceneBounds, waveAreaViewBounds );
 
       // Note this is nudged over 1/2 a cell so it will appear in the center of the cell rather than
       // at the left edge of the cell.  See also WaveInterferenceUtils.getWaterSideShape.
-      return m.modelToViewX( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE + 0.5 );
+      return transform.modelToViewX( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE + 0.5 );
     }
   }
 

@@ -17,9 +17,6 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
-  // constants
-  const CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
-
   class LatticeCanvasNode extends CanvasNode {
 
     /**
@@ -49,13 +46,19 @@ define( require => {
       this.vacuumColor = null;
 
       // Render into a sub-canvas which will be drawn into the rendering context at the right scale.
-      const w = this.lattice.width - this.lattice.dampX * 2;
-      const h = this.lattice.height - this.lattice.dampY * 2;
+      const width = this.lattice.width - this.lattice.dampX * 2;
+      const height = this.lattice.height - this.lattice.dampY * 2;
+
+      // @private
       this.directCanvas = document.createElement( 'canvas' );
-      this.directCanvas.width = w;
-      this.directCanvas.height = h;
+      this.directCanvas.width = width;
+      this.directCanvas.height = height;
+
+      // @private
       this.directContext = this.directCanvas.getContext( '2d' );
-      this.imageData = this.directContext.createImageData( w, h );
+
+      // @private
+      this.imageData = this.directContext.createImageData( width, height );
 
       // Invalidate paint when model indicates changes
       const invalidateSelfListener = this.invalidatePaint.bind( this );
@@ -72,7 +75,10 @@ define( require => {
      * @returns {Vector2}
      */
     static localPointToLatticePoint( point ) {
-      return new Vector2( Math.floor( point.x / CELL_WIDTH ), Math.floor( point.y / CELL_WIDTH ) );
+      return new Vector2(
+        Math.floor( point.x / WaveInterferenceConstants.CELL_WIDTH ),
+        Math.floor( point.y / WaveInterferenceConstants.CELL_WIDTH )
+      );
     }
 
     /**
@@ -102,12 +108,8 @@ define( require => {
       for ( let i = dampX; i < width - dampX; i++ ) {
         for ( let k = dampY; k < height - dampY; k++ ) {
 
-          // Color mapping:
-          // wave value => color value
-          //          1 => 1.0
-          //          0 => 0.3
-          //         -1 => 0.0
-          const waveValue = this.lattice.getInterpolatedValue( k, i );  // Note this is transposed because of the ordering of putImageData
+          // Note this is transposed because of the ordering of putImageData
+          const waveValue = this.lattice.getInterpolatedValue( k, i );
 
           if ( waveValue > 0 ) {
             intensity = Util.linear( 0, 2, CUTOFF, 1, waveValue );
@@ -131,7 +133,7 @@ define( require => {
           }
 
           const offset = 4 * m;
-          data[ offset + 0 ] = r;
+          data[ offset ] = r;
           data[ offset + 1 ] = g;
           data[ offset + 2 ] = b;
           data[ offset + 3 ] = 255; // Fully opaque
@@ -142,7 +144,7 @@ define( require => {
 
       // draw the sub-canvas to the rendering context at the appropriate scale
       context.save();
-      context.transform( CELL_WIDTH, 0, 0, CELL_WIDTH, 0, 0 );
+      context.transform( WaveInterferenceConstants.CELL_WIDTH, 0, 0, WaveInterferenceConstants.CELL_WIDTH, 0, 0 );
       context.drawImage( this.directCanvas, 0, 0 );
       context.restore();
     }

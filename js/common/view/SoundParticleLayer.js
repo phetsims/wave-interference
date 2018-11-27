@@ -34,7 +34,11 @@ define( require => {
       }, options );
 
       super( options );
+
+      // @private
       this.model = model;
+
+      // @private
       this.modelViewTransform = ModelViewTransform2.createRectangleMapping( model.soundScene.getWaveAreaBounds(), waveAreaNodeBounds );
 
       const toImage = color => new ShadedSphereNode( 10, {
@@ -44,17 +48,21 @@ define( require => {
         resolution: RESOLUTION,
         useCanvas: true
       } ).children[ 0 ].image;
+
+      // @private
       this.whiteSphereImage = toImage( 'rgb(210,210,210)' );
+
+      // @private
       this.redSphereImage = toImage( 'red' );
 
       // At the end of each model step, update all of the particles as a batch.
-      const updateIfSoundScene = () => {
+      const update = () => {
         if ( model.sceneProperty.value === model.soundScene ) {
           this.invalidatePaint();
         }
       };
-      model.stepEmitter.addListener( updateIfSoundScene );
-      model.sceneProperty.link( updateIfSoundScene );
+      model.stepEmitter.addListener( update );
+      model.sceneProperty.link( update );
     }
 
     /**
@@ -64,12 +72,15 @@ define( require => {
     paintCanvas( context ) {
       context.transform( 1 / RESOLUTION, 0, 0, 1 / RESOLUTION, 0, 0 );
       this.model.soundScene.soundParticles.forEach( soundParticle => {
+
+        // Red particles are shown on a grid
         const isRed = ( soundParticle.i % 4 === 2 && soundParticle.j % 4 === 2 );
-        const image = isRed ? this.redSphereImage : this.whiteSphereImage;
+        const sphereimage = isRed ? this.redSphereImage : this.whiteSphereImage;
+
         context.drawImage(
-          image,
-          RESOLUTION * ( this.modelViewTransform.modelToViewX( soundParticle.x ) - image.width / 2 ),
-          RESOLUTION * ( this.modelViewTransform.modelToViewY( soundParticle.y ) - image.height / 2 )
+          sphereimage,
+          RESOLUTION * ( this.modelViewTransform.modelToViewX( soundParticle.x ) - sphereimage.width / 2 ),
+          RESOLUTION * ( this.modelViewTransform.modelToViewY( soundParticle.y ) - sphereimage.height / 2 )
         );
       } );
     }

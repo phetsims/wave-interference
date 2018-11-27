@@ -1,6 +1,8 @@
 // Copyright 2017-2018, University of Colorado Boulder
 
 /**
+ * Shows the Diffraction Screen
+ *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( require => {

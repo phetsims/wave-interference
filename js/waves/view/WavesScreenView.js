@@ -56,7 +56,7 @@ define( require => {
   // constants
   const MARGIN = 8;
   const SPACING = 6;
-  const WAVE_MARGIN = 8;
+  const WAVE_MARGIN = 8; // Additional margin shown around the wave lattice
   const WATER_BLUE = WaveInterferenceConstants.WATER_SIDE_COLOR;
   const fromFemto = WaveInterferenceUtils.fromFemto;
 
@@ -151,14 +151,14 @@ define( require => {
       this.latticeNode = new SceneToggleNode( model, this.sceneToNode );
       model.showWavesProperty.linkAttribute( this.latticeNode, 'visible' );
 
-      const scale = this.waveAreaNode.width / this.latticeNode.width;
+      const latticeScale = this.waveAreaNode.width / this.latticeNode.width;
       this.latticeNode.mutate( {
-        scale: scale,
+        scale: latticeScale,
         center: this.waveAreaNode.center
       } );
 
       const lightScreenNode = new LightScreenNode( model.lightScene.lattice, model.lightScene.intensitySample, {
-        scale: scale,
+        scale: latticeScale,
         left: this.waveAreaNode.right + 5,
         y: this.waveAreaNode.top
       } );
@@ -435,8 +435,10 @@ define( require => {
       this.addChild( timerNode );
       this.addChild( waveDetectorToolNode );
 
-      this.steppedEmitter = new Emitter();
-      this.steppedEmitter.addListener( () => waterDropLayer.step( waterSideViewNode ) );
+      // @public
+      this.steppedEmitter = new Emitter( {
+        listener: () => waterDropLayer.step( waterSideViewNode )
+      } );
     }
 
     /**

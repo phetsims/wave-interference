@@ -91,7 +91,7 @@ define( require => {
        * @param {number} dx - initial relative x coordinate for the probe
        * @param {number} dy - initial relative y coordinate for the probe
        * @param {Property.<Vector2>} connectionProperty
-       * @returns { color, probeNode, series, emitter }
+       * @returns {DynamicSeries}
        */
       const initializeSeries = ( color, wireColor, dx, dy, connectionProperty ) => {
         const snapToCenter = () => {
@@ -103,7 +103,7 @@ define( require => {
           }
         };
         const probeNode = new WaveMeterProbeNode( {
-          color,
+          color: color,
           drag: snapToCenter
         } );
 

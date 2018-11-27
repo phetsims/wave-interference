@@ -32,43 +32,45 @@ define( require => {
 
       // Preallocate Images that will be associated with different water drop instances.
       const MAX_DROPS = 4;
-      const waterDropImages = _.times( MAX_DROPS, () => new WaterDropImage() );
+      const waterDropNodes = _.times( MAX_DROPS, () => new WaterDropImage() );
 
-      this.children = waterDropImages;
+      this.children = waterDropNodes;
       this.mutate( options );
 
       const updateWaterDropNodes = () => {
-        waterDropImages.forEach( dropNode => dropNode.setVisible( false ) );
+        waterDropNodes.forEach( waterDropNode => waterDropNode.setVisible( false ) );
         model.waterScene.waterDrops.forEach( ( waterDrop, i ) => {
 
-          if ( i < waterDropImages.length ) {
+          if ( i < waterDropNodes.length ) {
 
             // Indicate which WaterDrop corresponds to this image so when the view goes underwater, the model can
             // be marked as absorbed
-            waterDropImages[ i ].waterDrop = waterDrop;
+            waterDropNodes[ i ].waterDrop = waterDrop;
 
-            waterDropImages[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && waterDrop.startsOscillation;
-            waterDropImages[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
+            waterDropNodes[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && waterDrop.startsOscillation;
+            waterDropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
             const dy = waterDrop.sign * modelViewTransform.modelToViewDeltaY( waterDrop.sourceSeparation / 2 );
-            waterDropImages[ i ].center = new Vector2( waterDropX, waveAreaNodeBounds.centerY - waterDrop.y + dy );
+            waterDropNodes[ i ].center = new Vector2( waterDropX, waveAreaNodeBounds.centerY - waterDrop.y + dy );
           }
         } );
       };
 
       // At the end of each model step, update all of the particles as a batch.
-      const updateIfWaterScene = () => {
+      const update = () => {
         if ( model.sceneProperty.value === model.waterScene ) {
           updateWaterDropNodes();
         }
       };
-      model.stepEmitter.addListener( updateIfWaterScene );
-      model.sceneProperty.link( updateIfWaterScene );
+      model.stepEmitter.addListener( update );
+      model.sceneProperty.link( update );
 
       // @private - for closure.  If any water drop went underwater, mark it as absorbed so it will no longer be shown.
       this.stepWaterDropLayer = waterSideViewNode => {
-        for ( let dropNode of waterDropImages ) {
+        for ( let dropNode of waterDropNodes ) {
           if ( dropNode.visible ) {
-            if ( model.rotationAmountProperty.value === 1.0 && dropNode.waterDrop && ( dropNode.top - 50 > waterSideViewNode.waterSideViewNodeTopY ) ) {
+            const fullyRotated = model.rotationAmountProperty.value === 1.0;
+            const beneathSurface = dropNode.top - 50 > waterSideViewNode.waterSideViewNodeTopY;
+            if ( fullyRotated && dropNode.waterDrop && beneathSurface ) {
               dropNode.waterDrop.absorbed = true;
             }
           }

@@ -56,7 +56,7 @@ define( require => {
        */
       const createLine = ( index, y ) => new Line( chartRectangle.left, y, chartRectangle.right, y, {
         stroke: index % 2 === 0 ? DARK_GRAY : 'lightGray',
-        lineDash: [ 9.1, 9.1 ] // Solid part touches each edge
+        lineDash: LINE_DASH // Solid part touches each edge
       } );
 
       for ( let i = 0; i < numberGridLines; i++ ) {
@@ -73,7 +73,7 @@ define( require => {
         lineDash: LINE_DASH
       } ) );
 
-      const title = new WaveInterferenceText( 'Intensity', {
+      const titleNode = new WaveInterferenceText( 'Intensity', {
         centerX: chartRectangle.centerX,
         top: chartRectangle.bottom + TITLE_Y_MARGIN
       } );
@@ -83,7 +83,7 @@ define( require => {
         lineWidth: 2,
 
         // Prevent rendering outside the charting area
-        clipArea,
+        clipArea: clipArea,
 
         // prevent bounds computations during main loop
         boundsMethod: 'none',
@@ -102,7 +102,7 @@ define( require => {
       const zoomButtonOptions = {
         radius: 6,
         baseColor: ColorConstants.LIGHT_BLUE,
-        top: title.bottom + 13
+        top: titleNode.bottom + 13
       };
 
       // Zoom out button on the left
@@ -126,7 +126,7 @@ define( require => {
       } );
 
       const chartNode = new Node( {
-        children: [ chartRectangle, curve, title, zoomOutButton, zoomInButton ]
+        children: [ chartRectangle, curve, titleNode, zoomOutButton, zoomInButton ]
       } );
 
       super( chartNode, options );

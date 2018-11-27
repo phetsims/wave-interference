@@ -2,7 +2,7 @@
 
 /**
  * Reusable Image nodes that show WaterDrops.  Each WaterDropImage can be repurposed for different waterDrops (like
- * pooling) so they aren't created and garbage collected at all.
+ * pooling) so they aren't dynamically created or garbage collected at all.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

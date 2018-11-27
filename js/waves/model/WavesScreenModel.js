@@ -65,10 +65,9 @@ define( require => {
         // This model supports one or two sources.  If the sources are initially separated, there are two sources
         numberOfSources: 1,
 
-        // Initial amplitude, between 0-10.  We optimize the view for the max, but starting
-        // the value at the extreme may prevent the user from exploring the range, so we start closer to the max but not
-        // at the max.  I chose 8 so it would match up directly with a tickmark (when it was at 7.5, it covered 2 tickmarks
-        // and looked odd)
+        // Initial amplitude of the oscillator. We optimize the view for the max, but starting the value at the extreme
+        // may prevent the user from exploring the range, so we start closer to the max but not at the max.  I chose 8
+        // so it would match up directly with a tickmark (when it was at 7.5, it covered 2 tickmarks and looked odd)
         initialAmplitude: 8,
 
         // True if SoundParticles should be created and displayed, and if the user can select to view them
@@ -86,7 +85,7 @@ define( require => {
       // Instantiate the Scenes.  Parameters are declared here to make it easier to compare options
       // and see them in the same file.
 
-      // Water scene
+      // @public - Water scene
       this.waterScene = new WaterScene( {
         waveSpatialType: options.waveSpatialType,
 
@@ -115,7 +114,7 @@ define( require => {
         sceneType: SceneType.WATER
       } );
 
-      // Sound scene
+      // @public - Sound scene
       this.soundScene = new SoundScene( options.showSoundParticles, {
         waveSpatialType: options.waveSpatialType,
         positionUnits: 'cm',
@@ -147,7 +146,7 @@ define( require => {
         sceneType: SceneType.SOUND
       } );
 
-      // Light scene.
+      // @public - Light scene.
       this.lightScene = new LightScene( {
         waveSpatialType: options.waveSpatialType,
         positionUnits: 'nm',
@@ -352,6 +351,10 @@ define( require => {
       return this.waterScene.desiredFrequencyProperty;
     }
 
+    /**
+     * @returns {number}
+     * @public
+     */
     static get EVENT_RATE() {
       return EVENT_RATE;
     }

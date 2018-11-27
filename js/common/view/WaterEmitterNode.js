@@ -1,7 +1,9 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * For the water scene, shows one hose for each emitter, each with its own on/off button.
+ * For the water scene, shows one hose for each emitter, each with its own on/off button. This implementation is trivial
+ * and doesn't add state or methods, it simplifies readability at the call site, so we keep it as a convenience
+ * constructor.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -48,8 +50,6 @@ define( require => {
           horizontalPipeLength: 1600 // Long enough that it still shows even for extreme aspect ratios
         } );
 
-      // Even though this implementation is trivial and doesn't add state or methods, it simplifies readability at the
-      // call site, so we keep it as a convenience constructor.
       super( model, model.waterScene, waveAreaNode, 62, isPrimarySource, faucetNode, FAUCET_VERTICAL_OFFSET, -7, true );
     }
   }

@@ -31,35 +31,36 @@ define( require => {
      */
     constructor( model, alignGroup ) {
 
-      const createLabelText = string => new WaveInterferenceText( string, { fontSize: 10 } );
+      const toLabel = string => new WaveInterferenceText( string, { fontSize: 10 } );
       // TODO: use SceneToggleNode?
+      const waterSceneRange = new Range( 1, 5 );
+      const soundSceneRange = new Range( 100, 200 );
+      const lightSceneRange = new Range( 500, 2500 );
+      const createTicks = ( range, unitsString ) => [
+        { value: range.min, label: toLabel( StringUtils.format( unitsString, range.min ) ) },
+        { value: range.max, label: toLabel( StringUtils.format( unitsString, range.max ) ) }
+      ];
       const toggleNode = new ToggleNode( model.sceneProperty, [ {
         value: model.waterScene,
-        node: new NumberControl( separationString, model.waterScene.desiredSourceSeparationProperty, new Range( 1, 5 ), _.extend( {
+        node: new NumberControl( separationString, model.waterScene.desiredSourceSeparationProperty, waterSceneRange, _.extend( {
           delta: 1,
           valuePattern: cmValueString,
           decimalPlaces: 0,
-          majorTicks: [
-            { value: 1, label: createLabelText( StringUtils.format( cmValueString, 1 ) ) },
-            { value: 5, label: createLabelText( StringUtils.format( cmValueString, 5 ) ) } ]
+          majorTicks: createTicks( waterSceneRange, cmValueString )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.soundScene,
-        node: new NumberControl( separationString, model.soundScene.sourceSeparationProperty, new Range( 100, 200 ), _.extend( {
+        node: new NumberControl( separationString, model.soundScene.sourceSeparationProperty, soundSceneRange, _.extend( {
           delta: 5,
           valuePattern: cmValueString,
-          majorTicks: [
-            { value: 100, label: createLabelText( StringUtils.format( cmValueString, 100 ) ) },
-            { value: 200, label: createLabelText( StringUtils.format( cmValueString, 200 ) ) } ]
+          majorTicks: createTicks( soundSceneRange, cmValueString )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.lightScene,
-        node: new NumberControl( separationString, model.lightScene.sourceSeparationProperty, new Range( 500, 2500 ), _.extend( {
+        node: new NumberControl( separationString, model.lightScene.sourceSeparationProperty, lightSceneRange, _.extend( {
           delta: 500,
           valuePattern: nmValueString,
-          majorTicks: [
-            { value: 500, label: createLabelText( StringUtils.format( nmValueString, 500 ) ) },
-            { value: 2500, label: createLabelText( StringUtils.format( nmValueString, 2500 ) ) } ]
+          majorTicks: createTicks( lightSceneRange, nmValueString )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       } ] );
       super( model, alignGroup, {
