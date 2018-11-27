@@ -26,7 +26,10 @@ define( require => {
      */
     constructor( model, waveAreaNodeBounds, options ) {
       super();
-      const modelViewTransform = ModelViewTransform2.createRectangleMapping( model.waterScene.getWaveAreaBounds(), waveAreaNodeBounds );
+      const modelViewTransform = ModelViewTransform2.createRectangleMapping(
+        model.waterScene.getWaveAreaBounds(),
+        waveAreaNodeBounds
+      );
 
       const waterDropX = WaveInterferenceUtils.getWaterDropX( model, waveAreaNodeBounds );
 

@@ -21,7 +21,7 @@ define( require => {
   // rather than a circle, and WAVE_SPEED=0.1 is too slow and throws off the frequency of light.
   const WAVE_SPEED = 0.5;
   const WAVE_SPEED_SQUARED = WAVE_SPEED * WAVE_SPEED; // precompute to avoid work in the inner loop
-  const NUMBER_OF_MATRICES = 3; // The algorithm we use for the discretized wave equation requires current value + 2 history points
+  const NUMBER_OF_MATRICES = 3; // The discretized wave equation algorithm requires current value + 2 history points
 
   // This is the threshold for the wave value that determines if the light has visited.  If the value is higher,
   // it will track the wavefront of the light more accurately (and hence could be used for more accurate computation of
@@ -153,7 +153,9 @@ define( require => {
      * @public
      */
     getInterpolatedValue( i, j ) {
-      return this.getCurrentValue( i, j ) * this.interpolationRatio + this.getLastValue( i, j ) * ( 1 - this.interpolationRatio );
+      const currentValue = this.getCurrentValue( i, j );
+      const lastValue = this.getLastValue( i, j );
+      return currentValue * this.interpolationRatio + lastValue * ( 1 - this.interpolationRatio );
     }
 
     /**

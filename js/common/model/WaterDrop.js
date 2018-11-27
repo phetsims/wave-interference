@@ -21,7 +21,7 @@ define( require => {
 
     /**
      * @param {number} amplitude - strength of the wave
-     * @param {boolean} startsOscillation - false if this is a "fake" water drop to shut off the oscillation at one cycle
+     * @param {boolean} startsOscillation - false if this is a fake water drop to shut off the oscillation at one cycle
      * @param {number} sourceSeparation - the vertical coordinate of the cell that the water drop is falling to
      * @param {number} y - distance to fall before the particles meets the plane of the lattice
      * @param {number} sign - -1 for top faucet, +1 for bottom faucet

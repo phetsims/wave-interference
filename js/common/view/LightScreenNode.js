@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Renders the screen at right hand side of the wave area, showing the time-averaged intensity (for the light scene only).
+ * Renders the screen at right hand side of the wave area, showing the time-averaged intensity (for the light scene).
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

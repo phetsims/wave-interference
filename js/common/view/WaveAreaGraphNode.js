@@ -48,13 +48,17 @@ define( require => {
 
       // Horizontal Axis Label, which updates when the scene changes.  Uses visibility instead of setChildren so that
       // the bottom tab will fit the largest label.
-      const horizontalAxisLabel = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.graphHorizontalAxisLabel ) );
+      const horizontalAxisLabel = new SceneToggleNode(
+        model,
+        scene => new WaveInterferenceText( scene.graphHorizontalAxisLabel )
+      );
 
       // Scene-specific title of the chart.
       const titleNode = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.graphTitle ) );
 
       const HORIZONTAL_LABEL_VERTICAL_MARGIN = 2;
-      const horizontalLineY = graphHeight - new WaveInterferenceText( '1' ).height - HORIZONTAL_LABEL_VERTICAL_MARGIN * 2;
+      const sampleText = new WaveInterferenceText( '1' );
+      const horizontalLineY = graphHeight - sampleText.height - HORIZONTAL_LABEL_VERTICAL_MARGIN * 2;
 
       // Create tick labels and grid lines
       const horizontalAxisTickLabels = [];
@@ -63,7 +67,9 @@ define( require => {
         const x = Util.linear( 0, 10, 0, graphWidth, i );
 
         // Find the position of the tick mark in the units of the scene
-        const horizontalAxisTickLabel = new SceneToggleNode( model, scene => new WaveInterferenceText( ( scene.waveAreaWidth * x / graphWidth ).toFixed( 0 ), {
+        const horizontalAxisTickLabel = new SceneToggleNode(
+          model,
+          scene => new WaveInterferenceText( ( scene.waveAreaWidth * x / graphWidth ).toFixed( 0 ), {
             centerX: x,
             top: horizontalLineY + HORIZONTAL_LABEL_VERTICAL_MARGIN
           } )
@@ -87,11 +93,14 @@ define( require => {
       const lastTickLabel = horizontalAxisTickLabels[ horizontalAxisTickLabels.length - 1 ];
       const tickBubbleXMargin = 2;
 
-      const verticalAxisLabel = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.verticalAxisTitle ), {
-        rotation: 3 * Math.PI / 2,
-        right: -TEXT_MARGIN_Y,
-        centerY: graphHeight / 2
-      } );
+      const verticalAxisLabel = new SceneToggleNode(
+        model,
+        scene => new WaveInterferenceText( scene.verticalAxisTitle ), {
+          rotation: 3 * Math.PI / 2,
+          right: -TEXT_MARGIN_Y,
+          centerY: graphHeight / 2
+        }
+      );
 
       // Nicknames to simplify the rounded corners in the chart
       const UP = 3 * Math.PI / 2;
@@ -163,7 +172,11 @@ define( require => {
       } ) );
 
       [ 1 / 4, 3 / 4 ].forEach( horizontalGridLineFraction => {
-        this.addChild( new Line( 0, horizontalGridLineFraction * plotHeight, graphWidth, horizontalGridLineFraction * plotHeight, GRID_LINE_OPTIONS ) );
+        this.addChild( new Line(
+          0, horizontalGridLineFraction * plotHeight,
+          graphWidth, horizontalGridLineFraction * plotHeight,
+          GRID_LINE_OPTIONS
+        ) );
       } );
 
       this.addChild( verticalAxisLabel );
@@ -193,7 +206,8 @@ define( require => {
 
       const getWaterSideShape = WaveInterferenceUtils.getWaterSideShape;
       const updateShape = () => {
-        return path.setShape( getWaterSideShape( sampleArray, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy ) );
+        const shape = getWaterSideShape( sampleArray, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy );
+        return path.setShape( shape );
       };
       model.scenes.forEach( scene => scene.lattice.changedEmitter.addListener( updateShape ) );
 

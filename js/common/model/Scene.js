@@ -1,8 +1,9 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * The scene determines the medium and emitter types, coordinate frames, relative scale, etc.  For a description of which
- * features are independent or shared across scenes, please see https://github.com/phetsims/wave-interference/issues/179#issuecomment-437176489
+ * The scene determines the medium and emitter types, coordinate frames, relative scale, etc.  For a description of
+ * which features are independent or shared across scenes, please see
+ * https://github.com/phetsims/wave-interference/issues/179#issuecomment-437176489
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -76,7 +77,8 @@ define( require => {
       // @public (read-only) {string} - text that describes the horizontal spatial axis
       this.graphHorizontalAxisLabel = config.graphHorizontalAxisLabel;
 
-      // @public (read-only) {number} - length in meters to depict to indicate relative scale, see LengthScaleIndicatorNode
+      // @public (read-only) {number} - length in meters to depict to indicate relative scale,
+      // see LengthScaleIndicatorNode
       this.scaleIndicatorLength = config.scaleIndicatorLength;
 
       // @public (read-only) {string} - the units (in English and for the PhET-iO data stream)
@@ -91,16 +93,20 @@ define( require => {
       // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
       this.timeScaleFactor = config.timeScaleFactor;
 
-      // @public (read-only) {string} - units for time, shown in the timer and optionally at the top right of the lattice
+      // @public (read-only) {string} - units for time, shown in the timer and optionally top right of the lattice
       this.timeUnits = config.timeUnits;
 
+      const centerFrequency = ( config.minimumFrequency + config.maximumFrequency ) / 2;
+
       // @public {Property.<number>} - the frequency in the appropriate units for the scene
-      this.frequencyProperty = new NumberProperty( config.initialFrequency || ( config.minimumFrequency + config.maximumFrequency ) / 2, {
+      this.frequencyProperty = new NumberProperty( config.initialFrequency || centerFrequency, {
         range: new Range( config.minimumFrequency, config.maximumFrequency )
       } );
 
       // wavelength*frequency=wave speed
-      phet.log && this.frequencyProperty.link( frequency => phet.log( `frequency = ${frequency}/${this.timeUnits}, wavelength = ${config.waveSpeed / frequency} ${this.positionUnits}` ) );
+      phet.log && this.frequencyProperty.link( frequency =>
+        phet.log( `f = ${frequency}/${this.timeUnits}, w = ${config.waveSpeed / frequency} ${this.positionUnits}` )
+      );
 
       // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
       this.verticalAxisTitle = config.verticalAxisTitle;
@@ -114,8 +120,9 @@ define( require => {
         units: this.timeUnits
       } );
 
-      // @public {Property.<Number>} - distance between the sources in the units of the scene, or 0 if there is only one source
-      // initialized to match the initial slit separation, see https://github.com/phetsims/wave-interference/issues/87
+      // @public {Property.<Number>} - distance between the sources in the units of the scene, or 0 if there is only one
+      // source initialized to match the initial slit separation,
+      // see https://github.com/phetsims/wave-interference/issues/87
       this.sourceSeparationProperty = new NumberProperty( config.numberOfSources === 1 ? 0 : config.initialSlitSeparation, {
         units: this.positionUnits
       } );
@@ -131,7 +138,7 @@ define( require => {
       );
 
       // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)
-      //                   - note: this is a floating point 2D representation so it can work seamlessly with DragListener
+      //                   - note: this is a floating point 2D representation to work seamlessly with DragListener
       //                   - see getBarrierLocation() for how to get the integral x-coordinate.
       //                   - Can be dragged by the node or handle below it.
       this.barrierLocationProperty = new Property( new Vector2( config.waveAreaWidth / 2, 0 ), {
@@ -260,7 +267,8 @@ define( require => {
         // @private {number} - phase of the wave so it doesn't start halfway through a cycle
         this.planeWavePhase = 0;
 
-        // @protected {number} - record the time the button was pressed, so the SlitsScreenModel can propagate the right distance
+        // @protected {number} - record the time the button was pressed, so the SlitsScreenModel can propagate the right
+        // distance
         this.button1PressTime = 0;
         this.button1PressedProperty.link( pressed => {
           if ( pressed ) {
@@ -291,8 +299,8 @@ define( require => {
           const barrierLatticeX = Math.round( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) );
 
           // if the wave had passed by the barrier, then repropagate from the barrier.  This requires back-computing the
-          // time the button would have been pressed to propagate the wave to the barrier.  Hence this is the inverse of the
-          // logic in setSourceValues
+          // time the button would have been pressed to propagate the wave to the barrier.  Hence this is the inverse of
+          // the logic in setSourceValues
           if ( frontPosition > barrierLatticeX ) {
             this.button1PressTime = this.timeProperty.value - this.getBarrierLocation() / this.waveSpeed;
           }
@@ -301,18 +309,22 @@ define( require => {
     }
 
     /**
-     * Set the incoming source values, in this case it is a point source near the left side of the lattice (outside of the damping region).
+     * Set the incoming source values, in this case it is a point source near the left side of the lattice (outside of
+     * the damping region).
      * @override
      * @protected
      */
     setSourceValues() {
+      const amplitude = this.amplitudeProperty.get();
+      const time = this.timeProperty.value;
       if ( this.waveSpatialType === WaveSpatialType.POINT ) {
         const frequency = this.frequencyProperty.get();
         const period = 1 / frequency;
-        const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
+        const timeSincePulseStarted = time - this.pulseStartTime;
         const lattice = this.lattice;
-        const continuous1 = ( this.waveTemporalTypeProperty.get() === WaveTemporalType.CONTINUOUS ) && this.continuousWave1OscillatingProperty.get();
-        const continuous2 = ( this.waveTemporalTypeProperty.get() === WaveTemporalType.CONTINUOUS ) && this.continuousWave2OscillatingProperty.get();
+        const isContinuous = ( this.waveTemporalTypeProperty.get() === WaveTemporalType.CONTINUOUS );
+        const continuous1 = isContinuous && this.continuousWave1OscillatingProperty.get();
+        const continuous2 = isContinuous && this.continuousWave2OscillatingProperty.get();
 
         if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
@@ -322,14 +334,15 @@ define( require => {
 
           // For 50% longer than one pulse, keep the oscillator fixed at 0 to prevent "ringing"
           let waveValue = ( this.pulseFiringProperty.get() && timeSincePulseStarted > period ) ? 0 :
-                          -Math.sin( this.timeProperty.value * angularFrequency + this.phase ) * this.amplitudeProperty.get();
+                          -Math.sin( time * angularFrequency + this.phase ) * amplitude;
 
           // assumes a square lattice
-          const separationInLatticeUnits = this.sourceSeparationProperty.get() / this.waveAreaWidth * this.lattice.visibleBounds.width;
+          const sourceSeparation = this.sourceSeparationProperty.get();
+          const separationInLatticeUnits = sourceSeparation / this.waveAreaWidth * this.lattice.visibleBounds.width;
           const distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
 
           // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
-          // To understand why we subtract 1 here, imagine for the sake of conversation that the lattice is 5 units wide,
+          // To understand why we subtract 1 here, imagine for the sake of conversation that the lattice is 5 units wide
           // so the cells are indexed 0,1,2,3,4.  5/2 === 2.5, rounded up that is 3, so we must subtract 1 to find the
           // center of the lattice.
           const latticeCenterJ = Math.round( this.lattice.height / 2 ) - 1;
@@ -358,7 +371,7 @@ define( require => {
         let barrierLatticeX = Math.round( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) );
         const slitSeparationModel = this.slitSeparationProperty.get();
 
-        const frontTime = this.timeProperty.value - this.button1PressTime;
+        const frontTime = time - this.button1PressTime;
         const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime );
 
         const slitWidthModel = this.slitWidthProperty.get();
@@ -366,7 +379,6 @@ define( require => {
         const latticeCenterY = this.lattice.height / 2;
 
         // Take the desired frequency for the water scene, or the specified frequency of any other scene
-        // const frequency = scene.desiredFrequencyProperty ? scene.desiredFrequencyProperty.get() : scene.frequencyProperty.get();
         const frequency = this.frequencyProperty.get();
         const wavelength = this.wavelength;
 
@@ -411,7 +423,8 @@ define( require => {
                 const centralBarrierWidth = this.waveAreaWidth - 2 * topBarrierWidth - 2 * slitWidthModel;
                 const inTop = y <= topBarrierWidth;
                 const inBottom = y >= this.waveAreaWidth - topBarrierWidth;
-                const inCenter = ( y >= topBarrierWidth + slitWidthModel ) && ( y <= topBarrierWidth + slitWidthModel + centralBarrierWidth );
+                const inCenter = ( y >= topBarrierWidth + slitWidthModel ) &&
+                                 ( y <= topBarrierWidth + slitWidthModel + centralBarrierWidth );
                 isCellInBarrier = inTop || inBottom || inCenter;
               }
             }
@@ -422,8 +435,8 @@ define( require => {
                 lattice.setCurrentValue( i, j, 0 );
               }
               else {
-                const amplitude = this.amplitudeProperty.get() * PLANE_WAVE_MAGNITUDE;
-                const value = amplitude * Math.sin( k * x - angularFrequency * this.timeProperty.value + this.planeWavePhase );
+                const amplitude = amplitude * PLANE_WAVE_MAGNITUDE;
+                const value = amplitude * Math.sin( k * x - angularFrequency * time + this.planeWavePhase );
                 lattice.setCurrentValue( i, j, value );
               }
             }
@@ -473,7 +486,8 @@ define( require => {
     }
 
     /**
-     * Returns the horizontal barrier location.  Note, this is the floating point value, and some clients may need to round it.
+     * Returns the horizontal barrier location.  Note, this is the floating point value, and some clients may need to
+     * round it.
      * @returns {number}
      * @public
      */

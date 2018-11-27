@@ -39,7 +39,10 @@ define( require => {
       this.model = model;
 
       // @private
-      this.modelViewTransform = ModelViewTransform2.createRectangleMapping( model.soundScene.getWaveAreaBounds(), waveAreaNodeBounds );
+      this.modelViewTransform = ModelViewTransform2.createRectangleMapping(
+        model.soundScene.getWaveAreaBounds(),
+        waveAreaNodeBounds
+      );
 
       const toImage = color => new ShadedSphereNode( 10, {
         mainColor: color,

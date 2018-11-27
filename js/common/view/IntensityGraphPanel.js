@@ -68,10 +68,14 @@ define( require => {
         }
       }
 
-      chartRectangle.addChild( new Line( chartRectangle.centerX, chartRectangle.bottom, chartRectangle.centerX, chartRectangle.top, {
-        stroke: DARK_GRAY,
-        lineDash: LINE_DASH
-      } ) );
+      chartRectangle.addChild( new Line(
+        chartRectangle.centerX,
+        chartRectangle.bottom,
+        chartRectangle.centerX,
+        chartRectangle.top, {
+          stroke: DARK_GRAY,
+          lineDash: LINE_DASH
+        } ) );
 
       const titleNode = new WaveInterferenceText( 'Intensity', {
         centerX: chartRectangle.centerX,
@@ -141,8 +145,16 @@ define( require => {
 
           // default scaling is 2
           const SCALING = Util.linear( zoomRange.min, zoomRange.max, 0.5, 3.5, zoomLevelProperty.value );
-          const intensityPlotValue = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, CHART_WIDTH * SCALING, intensityValues[ i ] );
-          const positionPlotValue = Util.linear( 0, intensityValues.length - 1, chartRectangle.top, chartRectangle.bottom, i );
+          const intensityPlotValue = Util.linear(
+            0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT,
+            0, CHART_WIDTH * SCALING,
+            intensityValues[ i ]
+          );
+          const positionPlotValue = Util.linear(
+            0, intensityValues.length - 1,
+            chartRectangle.top, chartRectangle.bottom,
+            i
+          );
           shape.lineTo( intensityPlotValue, positionPlotValue );
         }
         curve.shape = shape;

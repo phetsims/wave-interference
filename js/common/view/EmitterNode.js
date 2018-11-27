@@ -31,7 +31,10 @@ define( require => {
      * @param {number} [buttonOffset] - offset for the button, so it can be positioned on the pipe
      * @param {boolean} [showButtonBackground] - true if a new background for the button should be added
      */
-    constructor( model, scene, waveAreaNode, buttonPosition, isPrimarySource, sourceNode, verticalOffset = 0, buttonOffset = 0, showButtonBackground = false ) {
+    constructor( model, scene, waveAreaNode, buttonPosition, isPrimarySource, sourceNode,
+                 verticalOffset = 0,
+                 buttonOffset = 0,
+                 showButtonBackground = false ) {
       const buttonOptions = {
         centerY: sourceNode.centerY + buttonOffset,
         left: buttonPosition,
@@ -39,7 +42,12 @@ define( require => {
         radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
       };
 
-      const button = new RoundStickyToggleButton( false, true, isPrimarySource ? scene.button1PressedProperty : scene.button2PressedProperty, buttonOptions );
+      const button = new RoundStickyToggleButton(
+        false,
+        true,
+        isPrimarySource ? scene.button1PressedProperty : scene.button2PressedProperty,
+        buttonOptions
+      );
       const children = [ sourceNode ];
       if ( showButtonBackground ) {
         const diameter = button.width * 1.3;

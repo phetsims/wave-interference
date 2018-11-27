@@ -42,7 +42,7 @@ define( require => {
       // @private
       this.baseColor = options.baseColor;
 
-      // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light source
+      // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light
       this.vacuumColor = null;
 
       // Render into a sub-canvas which will be drawn into the rendering context at the right scale.
@@ -70,7 +70,7 @@ define( require => {
     }
 
     /**
-     * Convert the given point (in the local coordinate frame) to the corresponding i,j (integral) coordinates on the lattice.
+     * Convert the given point in the local coordinate frame to the corresponding i,j (integral) lattice coordinates.
      * @param {Vector2} point - point in the local coordinate frame
      * @returns {Vector2}
      * @public
@@ -128,7 +128,8 @@ define( require => {
           let g = this.baseColor.green * intensity;
           let b = this.baseColor.blue * intensity;
 
-          if ( this.vacuumColor && !this.lattice.hasCellBeenVisited( k, i ) ) { // Note this is transposed because of the ordering of putImageData
+          // Note this is transposed because of the ordering of putImageData
+          if ( this.vacuumColor && !this.lattice.hasCellBeenVisited( k, i ) ) {
             r = this.vacuumColor.r;
             g = this.vacuumColor.g;
             b = this.vacuumColor.b;

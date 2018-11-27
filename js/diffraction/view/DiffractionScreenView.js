@@ -175,15 +175,18 @@ define( require => {
       } );
 
       const beamWidth = 40;
-      const incidentBeam = new Rectangle( laserPointerNode.right, laserPointerNode.centerY - beamWidth / 2, this.apertureIcon.centerX - laserPointerNode.right, beamWidth, {
-        fill: 'gray',
-        opacity: 0.7
-      } );
+      const incidentBeam = new Rectangle(
+        laserPointerNode.right, laserPointerNode.centerY - beamWidth / 2,
+        this.apertureIcon.centerX - laserPointerNode.right, beamWidth, {
+          fill: 'gray',
+          opacity: 0.7
+        } );
 
+      // support for larger canvas for generating rasters
       const transmittedBeam = new Rectangle(
         this.apertureIcon.centerX,
         laserPointerNode.centerY - beamWidth / 2,
-        Math.max( this.diffractionIcon.centerX - this.apertureIcon.centerX, 0 ), // support for larger canvas for generating rasters
+        Math.max( this.diffractionIcon.centerX - this.apertureIcon.centerX, 0 ),
         beamWidth, {
           fill: 'gray',
           opacity: 0.7
@@ -210,11 +213,15 @@ define( require => {
       this.addChild( container );
       container.addChild( squareImageNode );
       const updateScale = () => {
-        // squareImageNode.setScaleMagnitude( 30 / model.squareWidthProperty.value * 256 / squareImage.width, 30 / model.squareHeightProperty.value * 256 / squareImage.height );
+        // squareImageNode.setScaleMagnitude( 30 / model.squareWidthProperty.value * 256 / squareImage.width,
+        // 30 / model.squareHeightProperty.value * 256 / squareImage.height );
         // squareImageNode.centerX = container.width / 2;
         // squareImageNode.centerY = container.height / 2;
 
-        squareImageNode.setScaleMagnitude( 10 / model.sigmaXProperty.value * width / airyDiskImage.width, 10 / model.sigmaYProperty.value * height / airyDiskImage.height );
+        squareImageNode.setScaleMagnitude(
+          10 / model.sigmaXProperty.value * width / airyDiskImage.width,
+          10 / model.sigmaYProperty.value * height / airyDiskImage.height
+        );
         squareImageNode.centerX = container.width / 2;
         squareImageNode.centerY = container.height / 2;
       };
@@ -262,13 +269,19 @@ define( require => {
       if ( this.model.sceneProperty.value === 'rectangle' ) {
         const rectWidth = this.model.squareWidthProperty.value;
         const rectHeight = this.model.squareHeightProperty.value;
-        syntheticApertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2, rectWidth, rectHeight );
-        displayedApertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2, rectWidth, rectHeight );
+        syntheticApertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2,
+          rectWidth, rectHeight );
+        displayedApertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2,
+          rectWidth, rectHeight );
       }
       else if ( this.model.sceneProperty.value === 'circle' ) {
         for ( i = 0; i < width; i++ ) {
           for ( let k = 0; k < height; k++ ) {
-            const v = Util.clamp( Math.floor( gaussian( width / 2, height / 2, this.model.sigmaXProperty.value, this.model.sigmaYProperty.value, i, k ) * this.model.gaussianMagnitudeProperty.value ), 0, 255 );
+            const v = Util.clamp( Math.floor( gaussian(
+              width / 2,
+              height / 2,
+              this.model.sigmaXProperty.value,
+              this.model.sigmaYProperty.value, i, k ) * this.model.gaussianMagnitudeProperty.value ), 0, 255 );
             const v2 = v > 128 ? 255 : 0;
             syntheticApertureContext.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
             displayedApertureContext.fillStyle = 'rgb(' + v2 + ',' + v2 + ',' + v2 + ')';

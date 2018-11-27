@@ -27,7 +27,8 @@ define( require => {
         spacing: 20,
         children: [
 
-          // TODO: delete or keep?  Fine tuning and discussion in https://github.com/phetsims/wave-interference/issues/142
+          // TODO: delete or keep?  Fine tuning and discussion in
+          //  https://github.com/phetsims/wave-interference/issues/142
           new NumberControl( 'cutoff',
             WaveInterferenceConstants.CUTOFF,
             new Range( 0, 1 ),

@@ -18,7 +18,8 @@ define( require => {
 
   // constants
   const CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
-  const POINT_SOURCE = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE - WaveInterferenceConstants.LATTICE_PADDING;
+  const POINT_SOURCE = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE -
+                       WaveInterferenceConstants.LATTICE_PADDING;
 
   class WaveInterferenceUtils {
 
@@ -41,7 +42,8 @@ define( require => {
         const value = ( i === POINT_SOURCE ) ? ( array[ i ] + 3 * array[ i - 1 ] + 3 * array[ i + 1 ] ) / 7 :
                       array[ i ];
 
-        // Map the center of the cell to the same point on the graph, see https://github.com/phetsims/wave-interference/issues/143
+        // Map the center of the cell to the same point on the graph,
+        // see https://github.com/phetsims/wave-interference/issues/143
         const x = Util.linear( -0.5, array.length - 1 + 0.5, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
         const y = WaveInterferenceUtils.getWaterSideY( waveAreaBounds, value ) + dy;
         shape.lineTo( x, y );
@@ -69,7 +71,10 @@ define( require => {
      * @static
      */
     static getCanvasBounds( lattice ) {
-      return new Bounds2( 0, 0, ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH );
+      return new Bounds2(
+        0, 0,
+        ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH
+      );
     }
 
     /**

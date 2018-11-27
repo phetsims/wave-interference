@@ -16,7 +16,8 @@ define( require => {
 
   // constants
   // the location in the un-padded lattice array where the source appears
-  const SOURCE_INDEX = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE - WaveInterferenceConstants.LATTICE_PADDING;
+  const SOURCE_INDEX = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE -
+                       WaveInterferenceConstants.LATTICE_PADDING;
 
   class WaterSideViewNode extends Path {
 

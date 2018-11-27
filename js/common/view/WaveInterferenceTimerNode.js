@@ -34,7 +34,8 @@ define( require => {
       assert && assert( !!config.end, 'end is a required argument' );
       super( model.timerElapsedTimeProperty, model.isTimerRunningProperty, config );
 
-      // After the TimerNode is initialized with the maximal layout, use the correct initial value for the current timeUnits
+      // After the TimerNode is initialized with the maximal layout, use the correct initial value for the current
+      // timeUnits
       model.sceneProperty.link( scene => unitsNode.setText( scene.timeUnits ) );
 
       if ( !config.isIcon ) {

@@ -55,8 +55,8 @@ define( require => {
 
     FEMTO: 1E-15,
 
-    // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).  This value
-    // must be coordinated with WaterEmitterNode's waterDrops[ index ].centerX
+    // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).  This
+    // value must be coordinated with WaterEmitterNode's waterDrops[ index ].centerX
     POINT_SOURCE_HORIZONTAL_COORDINATE: 23,
 
     // The lattice must have an odd dimension, so that there can be a cell exactly in the middle, and symmetry for the

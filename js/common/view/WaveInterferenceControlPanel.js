@@ -51,7 +51,8 @@ define( require => {
 
       options = _.extend( {
 
-        // This additional control (if present) will be shown beneath the Amplitude slider in the WaveInterferenceControlPanel
+        // This additional control (if present) will be shown beneath the Amplitude slider in the
+        // WaveInterferenceControlPanel
         additionalControl: null,
 
         showIntensityCheckbox: true,
@@ -95,13 +96,23 @@ define( require => {
       } );
 
       lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( 0, 10 );
-      const frequencySliderContainer = new Node( { children: [ waterFrequencySlider, soundFrequencySlider, lightFrequencySlider ] } );
+      const frequencySliderContainer = new Node( {
+        children: [
+          waterFrequencySlider,
+          soundFrequencySlider,
+          lightFrequencySlider
+        ]
+      } );
 
       const amplitudeSliderContainer = new SceneToggleNode( model, scene => {
 
         // For water scene, control the desiredAmplitude (which determines the size of the water drops)
         // For other scenes, control the amplitude directly.
-        return new WaveInterferenceSlider( scene.desiredAmplitudeProperty || scene.amplitudeProperty, scene.amplitudeProperty.range.min, scene.amplitudeProperty.range.max );
+        return new WaveInterferenceSlider(
+          scene.desiredAmplitudeProperty || scene.amplitudeProperty,
+          scene.amplitudeProperty.range.min,
+          scene.amplitudeProperty.range.max
+        );
       } );
 
       const viewSelectionRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
@@ -124,9 +135,21 @@ define( require => {
         }
       } );
 
-      const graphCheckbox = new Checkbox( new WaveInterferenceText( graphString ), model.showGraphProperty, CHECKBOX_OPTIONS );
-      const screenCheckbox = new Checkbox( new WaveInterferenceText( screenString ), model.showScreenProperty, CHECKBOX_OPTIONS );
-      const intensityCheckbox = new Checkbox( new WaveInterferenceText( intensityString ), model.showIntensityGraphProperty, CHECKBOX_OPTIONS );
+      const graphCheckbox = new Checkbox(
+        new WaveInterferenceText( graphString ),
+        model.showGraphProperty,
+        CHECKBOX_OPTIONS
+      );
+      const screenCheckbox = new Checkbox(
+        new WaveInterferenceText( screenString ),
+        model.showScreenProperty,
+        CHECKBOX_OPTIONS
+      );
+      const intensityCheckbox = new Checkbox(
+        new WaveInterferenceText( intensityString ),
+        model.showIntensityGraphProperty,
+        CHECKBOX_OPTIONS
+      );
 
       // Only enable the intensity checkbox when the screen is selected
       model.showScreenProperty.link( showScreen => intensityCheckbox.setEnabled( showScreen ) );
@@ -167,7 +190,13 @@ define( require => {
       if ( options.additionalControl ) {options.additionalControl.centerX = centerX;}
       sceneRadioButtons.centerX = centerX;
       separator.centerX = centerX;
-      let minX = _.min( [ frequencySliderContainer.left, amplitudeSliderContainer.left, frequencyTitle.left, amplitudeTitle.left, sceneRadioButtons.left ] );
+      let minX = _.min( [
+        frequencySliderContainer.left,
+        amplitudeSliderContainer.left,
+        frequencyTitle.left,
+        amplitudeTitle.left,
+        sceneRadioButtons.left
+      ] );
       minX = minX + 11; // Account for half the slider knob width, so it lines up with the slider left tick
 
       // Align controls to the left

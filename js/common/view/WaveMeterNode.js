@@ -138,9 +138,11 @@ define( require => {
           let scene = model.sceneProperty.value;
           if ( model.isWaveMeterInPlayAreaProperty.get() ) {
 
-            // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the translation
-            // itself as the sensor hot spot.  This doesn't include the damping regions
-            const latticeCoordinates = view.globalToLatticeCoordinate( probeNode.parentToGlobalPoint( probeNode.getTranslation() ) );
+            // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the
+            // translation itself as the sensor hot spot.  This doesn't include the damping regions
+            const latticeCoordinates = view.globalToLatticeCoordinate(
+              probeNode.parentToGlobalPoint( probeNode.getTranslation() )
+            );
 
             const sampleI = latticeCoordinates.x + scene.lattice.dampX;
             const sampleJ = latticeCoordinates.y + scene.lattice.dampY;
@@ -176,24 +178,37 @@ define( require => {
         return dynamicSeries;
       };
 
-      const aboveBottomLeft1 = new DerivedProperty( [ leftBottomProperty ], position => position.isFinite() ? position.plusXY( 0, -20 ) : Vector2.ZERO );
-      const aboveBottomLeft2 = new DerivedProperty( [ leftBottomProperty ], position => position.isFinite() ? position.plusXY( 0, -10 ) : Vector2.ZERO );
+      const aboveBottomLeft1 = new DerivedProperty(
+        [ leftBottomProperty ],
+        position => position.isFinite() ? position.plusXY( 0, -20 ) : Vector2.ZERO
+      );
+      const aboveBottomLeft2 = new DerivedProperty(
+        [ leftBottomProperty ],
+        position => position.isFinite() ? position.plusXY( 0, -10 ) : Vector2.ZERO
+      );
       const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1 );
       const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2 );
 
-      const verticalAxisTitleNode = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.verticalAxisTitle, {
+      const verticalAxisTitleNode = new SceneToggleNode(
+        model,
+        scene => new WaveInterferenceText( scene.verticalAxisTitle, {
           fontSize: LABEL_FONT_SIZE,
           rotation: -Math.PI / 2,
           fill: AXIS_LABEL_FILL
         } )
       );
-      const scaleIndicatorText = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.oneTimerUnit, {
-        fontSize: 11,
-        fill: 'white'
-      } ) );
+      const scaleIndicatorText = new SceneToggleNode(
+        model,
+        scene => new WaveInterferenceText( scene.oneTimerUnit, {
+          fontSize: 11,
+          fill: 'white'
+        } )
+      );
 
       // Create the scrolling chart content and add it to the background.  There is an order-of-creation cycle which
-      // prevents the scrolling node from being added to the background before the super() call, so this will have to suffice.
+      // prevents the scrolling node from being added to the background before the super() call, so this will have to
+      // suffice.
+      //
       // Select the time for the selected scene.
       const timeProperty = new DynamicProperty( model.sceneProperty, {
         derive: 'timeProperty'
@@ -217,8 +232,8 @@ define( require => {
     }
 
     /**
-     * Gets the region of the background in global coordinates.  This can be used to determine if the MeterBodyNode should
-     * be dropped back in a toolbox.
+     * Gets the region of the background in global coordinates.  This can be used to determine if the MeterBodyNode
+     * should be dropped back in a toolbox.
      * @returns {Bounds2}
      * @public
      */
