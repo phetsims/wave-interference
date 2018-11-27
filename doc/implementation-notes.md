@@ -1,6 +1,6 @@
-The Wave Interference simulation was ported from Java in 2018.  The first 3 screens show a 2D lattice and time-based
-wave propagation, while the final screen shows the interference pattern from a slit with a given 2d shape, which
-is instantly updated.  The query string ?dev will output debugging information to the console.
+The Wave Interference simulation was ported from a prior Java implementation.  The first 3 screens show a 2D lattice and
+time-based wave propagation, while the final screen shows the interference pattern from a slit with a given 2d shape,
+which is instantly updated.  The query string ?dev will output debugging information to the console.
 
 There are no dynamically created/destroyed user interface components or model elements in the simulation, so the
 simulation doesn't require dispose calls.
@@ -14,16 +14,13 @@ There are 3 coordinate frames:
 * lattice coordinates (integer), with damping regions
 * model metric coordinates (such as cm), corresponding to physical measures
 
-There is only a single lattice, so all waves are combined and cannot be deconvoluted.  The light panel cannot show multiple
-colors at the same time.
-
-The wave is represented on a 2D discrete lattice, and we use use the discretization of the wave equation described in
+The wave is represented on a single 2D discrete scalar lattice, and we use use the discretization of the wave equation described in
 http://www.mtnmath.com/whatth/node47.html and known as a finite difference method:
 
 ```
 f(x,y,t+1) = c*c(f(x+1,y,t) + f(x-1,y,t) + f(x,y-1,t) + f(x,y+1,t) - 4*f(x,y,t)) - f(x,y,t-1) + 2*f(x,y,t)
 ```
-The description for the wave speed c is given in Lattice.js
+The description for the wave speed c is given in Lattice.js.
 
 The lattice extends beyond the visible region, and damping is applied near the boundaries to minimize the effects of
 reflection and artifacts around the edges.
@@ -35,37 +32,33 @@ measure the wave speed, let the light propagate to the edge of the boundary, the
 and divide by the elapsed time on the stopwatch.
 
 The time constants have been tuned in WavesScreenModel.js so that the observed Wavelength and Oscillation Time are correct.
-These tables can be used to verify those values if they need fine tuning (say if we need to adjust the wavelength scaling
-of light on the lattice).
+The following values can also be reported by running with`?log`.
 
-## Water (values recorded April 30, 2018)
+## Water
 | Value | Frequency (Hz) | Wavelength (cm) |
 | :--- | ---: | ---: |
-| min | 4 | 9.2 |
-| mid | 12 | 2.7 |
-| max | 20 | 1.7 |
+| min | 0.25 | 7.4 |
+| max | 1 | 1.85 |
 
 Wave speed measured at 7.1E-2/1.43 = 5cm/sec.  In https://github.com/phetsims/wave-interference/issues/43 we decided this
 is a reasonable wave speed for a wave pool, even though it doesn't match wave speeds for, say, oceanic waves.
 
-## Sound (values recorded April 30, 2018)
+## Sound
 | Value | Frequency (Hz) | Wavelength (cm) |
 | :--- | ---: | ---: |
-| min |  |  |
-| mid |  |  |
-| max |  |  |
+| min | 220 | 156 |
+| max | 440 | 78 |
 
 ## Light
-| Color | Frequency (THz) | Wavelength (nm) | Oscillation Time (fs) |
-| :--- | ---: | ---: | ---: |
-| Red (VisibleColor min) | 384.35 | 780.00 | 2.60 |
-| Green (VisibleColor mid) | 586.64 | 511.03 | 1.70 |
-| Violet (VisibleColor max) | 788.93 | 380.00 | 1.27 |
+| Color | Frequency (THz) | Wavelength (nm) | 
+| :--- | ---: | ---: | 
+| Red (VisibleColor min) | 384.35 | 780.00 | 
+| Violet (VisibleColor max) | 788.93 | 380.00 | 
 
 For green light, measuring the distance traveled by a wavefront and dividing by time gives 2807.3E-9/9.75E-15 = 287928205 m/s,
 which is about 4% off of the true speed of light.  Measuring the colored wavefront for green, I see a deviation of < 1%.
 Since the distance and wave propagation speeds are independent of frequency, measurements for different colors will
-give the same speed of light.
+give the same speed of light.  See also WavesScreenModel usage of `timeScaleFactor` for how the model is calibrated.
 
 Here is a schematic for the two-slit dimensions:
 ![schematic for the two-slit dimensions](images/slitDimensions.jpg?raw=true "Two-Slit Dimensions")

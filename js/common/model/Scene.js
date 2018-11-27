@@ -91,16 +91,16 @@ define( require => {
       // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
       this.timeScaleFactor = config.timeScaleFactor;
 
+      // @public (read-only) {string} - units for time, shown in the timer and optionally at the top right of the lattice
+      this.timeUnits = config.timeUnits;
+
       // @public {Property.<number>} - the frequency in the appropriate units for the scene
       this.frequencyProperty = new NumberProperty( config.initialFrequency || ( config.minimumFrequency + config.maximumFrequency ) / 2, {
         range: new Range( config.minimumFrequency, config.maximumFrequency )
       } );
 
       // wavelength*frequency=wave speed
-      phet.log && this.frequencyProperty.link( frequency => phet.log( 'wavelength = ' + config.waveSpeed / frequency ) );
-
-      // @public (read-only) {string} - units for time, shown in the timer and optionally at the top right of the lattice
-      this.timeUnits = config.timeUnits;
+      phet.log && this.frequencyProperty.link( frequency => phet.log( `frequency = ${frequency}/${this.timeUnits}, wavelength = ${config.waveSpeed / frequency} ${this.positionUnits}` ) );
 
       // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
       this.verticalAxisTitle = config.verticalAxisTitle;
