@@ -9,6 +9,7 @@
 define( require => {
   'use strict';
 
+  // modules
   const Enumeration = require( 'PHET_CORE/Enumeration' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
