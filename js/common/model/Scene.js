@@ -162,7 +162,6 @@ define( require => {
         validValues: WaveTemporalType.VALUES
       } );
 
-
       // The first button can trigger a pulse, or continuous wave, depending on the waveTemporalTypeProperty
       this.button1PressedProperty.lazyLink( isPressed => {
         if ( config.sceneType !== SceneType.WATER ) {
@@ -219,9 +218,6 @@ define( require => {
       // @public {BooleanProperty} - true when the second source is continuously oscillating
       this.continuousWave2OscillatingProperty = new BooleanProperty( false );
 
-      this.timeProperty.reset();
-      this.phase = 0;
-
       // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
       // for continuity
       const phaseUpdate = ( newFrequency, oldFrequency ) => {
@@ -273,7 +269,7 @@ define( require => {
             // See setSourceValues
             const frequency = this.frequencyProperty.get();
             const wavelength = this.wavelength;
-            const k = Math.PI * 2 / wavelength;
+            const k = Math.PI * 2 / wavelength; // k is the wave number in sin(k*x-wt)
             const angularFrequency = frequency * Math.PI * 2;
             const x = this.modelToLatticeTransform.viewToModelX( this.lattice.dampX );
 
@@ -340,22 +336,22 @@ define( require => {
 
           // Point source
           if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
-            const j1 = latticeCenterJ + distanceAboveAxis;
-            lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j1, waveValue );
+            const j = latticeCenterJ + distanceAboveAxis;
+            lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
             this.oscillator1Property.value = waveValue;
           }
 
           // Secondary source (note if there is only one source, this sets the same value as above)
           if ( this.continuousWave2OscillatingProperty.get() ) {
-            const j2 = latticeCenterJ - distanceAboveAxis;
-            lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j2, waveValue );
+            const j = latticeCenterJ - distanceAboveAxis;
+            lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
             this.oscillator2Property.value = waveValue;
           }
         }
       }
       else {
-        // plane waves
 
+        // plane waves
         const lattice = this.lattice;
 
         // Round this to make sure it appears at an integer cell column
@@ -374,6 +370,7 @@ define( require => {
         const frequency = this.frequencyProperty.get();
         const wavelength = this.wavelength;
 
+        // Solve for the wave number
         // lambda * k = 2 * pi
         // k = 2pi/lambda
         const k = Math.PI * 2 / wavelength;

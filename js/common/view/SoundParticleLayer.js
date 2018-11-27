@@ -64,7 +64,7 @@ define( require => {
     paintCanvas( context ) {
       context.transform( 1 / RESOLUTION, 0, 0, 1 / RESOLUTION, 0, 0 );
       this.model.soundScene.soundParticles.forEach( soundParticle => {
-        const isRed = ( soundParticle.i % 4 === 2 && soundParticle.k % 4 === 2 );
+        const isRed = ( soundParticle.i % 4 === 2 && soundParticle.j % 4 === 2 );
         const image = isRed ? this.redSphereImage : this.whiteSphereImage;
         context.drawImage(
           image,

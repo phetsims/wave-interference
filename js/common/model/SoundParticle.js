@@ -17,11 +17,17 @@ define( require => {
 
     /**
      * @param {number} i - horizontal lattice coordinate of the particle
-     * @param {number} k - vertical lattice coordinate of the particle
+     * @param {number} j - vertical lattice coordinate of the particle
      * @param {number} x - initial x coordinate of the particle, in model coordinates
      * @param {number} y - initial y coordinate of the particle, in model coordinates
      */
-    constructor( i, k, x, y ) {
+    constructor( i, j, x, y ) {
+
+      // @public {number} - horizontal lattice coordinate of the particle
+      this.i = i;
+
+      // @public {number} - vertical lattice coordinate of the particle
+      this.j = j;
 
       // @public - x coordinate
       this.x = x;
@@ -34,17 +40,11 @@ define( require => {
       this.initialY = y;
       this.vx = 0;
       this.vy = 0;
-
-      // @public {number} - horizontal lattice coordinate of the particle
-      this.i = i;
-
-      // @public {number} - vertical lattice coordinate of the particle
-      this.k = k;
     }
 
     /**
      * Applies a force toward the given point with the given strength;
-     * @param {number } fx - sum of applied forces in the x direction
+     * @param {number} fx - sum of applied forces in the x direction
      * @param {number} fy - sum of applied forces in the y direction
      * @param {number} dt - time to integrate
      * @param {SoundScene} soundScene - to get the frequency range and value

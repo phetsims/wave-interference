@@ -31,7 +31,9 @@ define( require => {
   const LIGHT_VISIT_THRESHOLD = 0.06;
 
   // Damp more aggressively further from the edge of the visible lattice
-  window.damps = [ 0.999, 0.99, 0.98, 0.97, 0.95, 0.925, 0.9, 0.85, 0.8, 0.73, 0.66, 0.6, 0.55, 0.5, 0.45, 0.42, 0.4, 0.38, 0.36 ];
+  const DAMPING_PROFILE = [
+    0.999, 0.99, 0.98, 0.97, 0.95, 0.925, 0.9, 0.85, 0.8, 0.73, 0.66, 0.6, 0.55, 0.5, 0.45, 0.42, 0.4, 0.38, 0.36
+  ];
 
   class Lattice {
 
@@ -193,10 +195,9 @@ define( require => {
      * @private
      */
     decayVertical( i0, sign, width ) {
-
       for ( let j = 0; j < this.height; j++ ) {
         for ( let step = 0; step < width; step++ ) {
-          const damp = window.damps[ step ] || window.damps[ window.damps.length - 1 ];
+          const damp = DAMPING_PROFILE[ step ] || DAMPING_PROFILE[ DAMPING_PROFILE.length - 1 ];
           const i = i0 + sign * step;
           this.setCurrentValue( i, j, this.getCurrentValue( i, j ) * damp );
           this.setLastValue( i, j, this.getLastValue( i, j ) * damp );
@@ -212,10 +213,9 @@ define( require => {
      * @private
      */
     decayHorizontal( j0, sign, height ) {
-
       for ( let i = 0; i < this.width; i++ ) {
         for ( let step = 0; step < height; step++ ) {
-          const damp = window.damps[ step ] || window.damps[ window.damps.length - 1 ];
+          const damp = DAMPING_PROFILE[ step ] || DAMPING_PROFILE[ DAMPING_PROFILE.length - 1 ];
           const j = j0 + sign * step;
           this.setCurrentValue( i, j, this.getCurrentValue( i, j ) * damp );
           this.setLastValue( i, j, this.getLastValue( i, j ) * damp );

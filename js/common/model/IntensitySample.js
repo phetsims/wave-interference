@@ -37,7 +37,6 @@ define( require => {
       this.clear();
     }
 
-
     /**
      * Gets the intensity values of the rightmost column in the visible wave area.
      * @returns {number[]}
@@ -48,19 +47,21 @@ define( require => {
       for ( let i = 0; i < this.history[ 0 ].length; i++ ) {
         let sum = 0;
         for ( let k = 0; k < this.history.length; k++ ) {
-          sum = sum + this.history[ k ][ i ] * this.history[ k ][ i ]; // squared for intensity, see https://physics.info/intensity/
+
+          // squared for intensity, see https://physics.info/intensity/
+          sum = sum + this.history[ k ][ i ] * this.history[ k ][ i ];
         }
         intensities.push( sum / this.history.length );
       }
 
-      const result = [];
-      result.length = intensities.length;
-      result[ 0 ] = intensities[ 0 ];
-      result[ result.length - 1 ] = intensities[ result.length - 1 ];
+      const averagedIntensities = [];
+      averagedIntensities.length = intensities.length;
+      averagedIntensities[ 0 ] = intensities[ 0 ];
+      averagedIntensities[ averagedIntensities.length - 1 ] = intensities[ averagedIntensities.length - 1 ];
       for ( let i = 1; i < intensities.length - 1; i++ ) {
-        result[ i ] = ( intensities[ i - 1 ] + intensities[ i ] + intensities[ i + 1 ] ) / 3;
+        averagedIntensities[ i ] = ( intensities[ i - 1 ] + intensities[ i ] + intensities[ i + 1 ] ) / 3;
       }
-      return result;
+      return averagedIntensities;
     }
 
     /**
