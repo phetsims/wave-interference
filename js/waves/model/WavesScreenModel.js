@@ -345,6 +345,7 @@ define( require => {
     /**
      * When using water drops, the slider controls the desired frequency.  The actual frequency on the lattice is not
      * set until the water drop hits.
+     * @returns {number}
      * @public
      */
     getWaterFrequencySliderProperty() {

@@ -96,6 +96,7 @@ define( require => {
      * Creates a shape for the top or side Face, at the correct perspective angle.
      * @param {number} reduction - amount to reduce the width at the furthest point from the center
      * @param {number} y - vertical coordinate of the Face
+     * @returns {Shape}
      * @private
      */
     createFaceShape( reduction, y ) {

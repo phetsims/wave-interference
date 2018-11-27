@@ -25,6 +25,10 @@ define( require => {
       this.intensitySample = new IntensitySample( this.lattice );
     }
 
+    /**
+     * @public
+     * @override
+     */
     clear() {
       super.clear();
 
@@ -32,6 +36,12 @@ define( require => {
       this.intensitySample && this.intensitySample.clear();
     }
 
+    /**
+     * @param wallDT
+     * @param manualStep
+     * @public
+     * @override
+     */
     advanceTime( wallDT, manualStep ) {
       super.advanceTime( wallDT, manualStep );
       this.intensitySample.step();

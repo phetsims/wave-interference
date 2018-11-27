@@ -474,6 +474,7 @@ define( require => {
 
     /**
      * Returns the horizontal barrier location.  Note, this is the floating point value, and some clients may need to round it.
+     * @returns {number}
      * @public
      */
     getBarrierLocation() {

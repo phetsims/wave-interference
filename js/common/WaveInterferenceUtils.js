@@ -55,6 +55,7 @@ define( require => {
      * @param {Bounds2} waveAreaBounds
      * @param {number} waveValue
      * @returns {number}
+     * @public
      */
     static getWaterSideY( waveAreaBounds, waveValue ) {
       return Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 80, waveValue );
@@ -63,6 +64,7 @@ define( require => {
     /**
      * Gets the bounds to use for a canvas, in view coordinates
      * @param {Lattice} lattice
+     * @returns {Bounds2}
      * @public
      * @static
      */

@@ -117,6 +117,7 @@ define( require => {
      * Read the values on the center line of the lattice (omits the out-of-bounds damping regions), for display in the
      * WaveAreaGraphNode
      * @param {number[]} array - array to fill with the values for performance/memory, will be resized if necessary
+     * @returns {number[]} - returns the input reference.  TODO: is this desirable?
      * @public
      */
     getCenterLineValues( array ) {
@@ -170,6 +171,7 @@ define( require => {
      * Returns the previous value in the given cell
      * @param {number} i - horizontal integer coordinate
      * @param {number} j - vertical integer coordinate
+     * @returns {number}
      * @private
      */
     getLastValue( i, j ) {
@@ -228,6 +230,7 @@ define( require => {
      * @param {number} i - horizontal coordinate to check
      * @param {number} j - vertical coordinate to check
      * @returns {boolean}
+     * @public
      */
     hasCellBeenVisited( i, j ) {
       return this.visitedMatrix.get( i, j ) === 1;

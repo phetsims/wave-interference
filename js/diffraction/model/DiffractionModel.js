@@ -35,6 +35,9 @@ define( require => {
       this.sceneProperty = new Property( 'circle' ); // TODO: enum
     }
 
+    /**
+     * @public
+     */
     reset() {
       this.onProperty.reset();
       this.squareWidthProperty.reset();

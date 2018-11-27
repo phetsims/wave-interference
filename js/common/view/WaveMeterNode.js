@@ -220,6 +220,7 @@ define( require => {
      * Gets the region of the background in global coordinates.  This can be used to determine if the MeterBodyNode should
      * be dropped back in a toolbox.
      * @returns {Bounds2}
+     * @public
      */
     getBackgroundNodeGlobalBounds() {
       return this.localToGlobalBounds( this.backgroundNode.bounds );
@@ -229,6 +230,7 @@ define( require => {
      * Forward an event from the toolbox to start dragging the node in the play area.  This triggers the probes (if any)
      * to drag together with the MeterBodyNode.  This is accomplished by calling this.alignProbes() at each drag event.
      * @param {Object} event
+     * @public
      */
     startDrag( event ) {
 

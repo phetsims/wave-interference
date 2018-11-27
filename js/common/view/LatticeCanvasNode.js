@@ -73,6 +73,7 @@ define( require => {
      * Convert the given point (in the local coordinate frame) to the corresponding i,j (integral) coordinates on the lattice.
      * @param {Vector2} point - point in the local coordinate frame
      * @returns {Vector2}
+     * @public
      */
     static localPointToLatticePoint( point ) {
       return new Vector2(
@@ -94,6 +95,7 @@ define( require => {
     /**
      * Draws into the canvas.
      * @param {CanvasRenderingContext2D} context
+     * @public
      */
     paintCanvas( context ) {
 

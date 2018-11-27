@@ -443,6 +443,7 @@ define( require => {
 
     /**
      * @param {Vector2} point
+     * @returns {Vector2}
      * @public
      */
     globalToLatticeCoordinate( point ) {
@@ -455,12 +456,19 @@ define( require => {
     /**
      * Notify listeners of the step phase.
      * @param {number} dt - in seconds
+     * @public
      */
     step( dt ) {
       this.steppedEmitter.emit();
     }
 
-    static get SPACING() {return SPACING;}
+    /**
+     * @returns {number}
+     * @public // TODO: is this used?
+     */
+    static get SPACING() {
+      return SPACING;
+    }
   }
 
   return waveInterference.register( 'WavesScreenView', WavesScreenView );
