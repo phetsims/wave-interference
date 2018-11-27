@@ -193,7 +193,7 @@ define( require => {
 
       const getWaterSideShape = WaveInterferenceUtils.getWaterSideShape;
       const updateShape = () => {
-        return path.setShape( getWaterSideShape( sampleArray, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy ) )
+        return path.setShape( getWaterSideShape( sampleArray, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy ) );
       };
       model.scenes.forEach( scene => scene.lattice.changedEmitter.addListener( updateShape ) );
 
