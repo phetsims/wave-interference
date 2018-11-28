@@ -428,7 +428,6 @@ define( require => {
 
       /**
        * Creates a ToggleNode that shows the primary or secondary source
-       * TODO: use SceneToggleNode?
        * @param {boolean} isPrimarySource - true if it should show the primary source
        */
       const createEmitterToggleNode = isPrimarySource => new ToggleNode( model.sceneProperty, [

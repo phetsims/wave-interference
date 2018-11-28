@@ -37,7 +37,6 @@ define( require => {
     constructor( model, alignGroup ) {
 
       const toLabel = string => new WaveInterferenceText( string, { fontSize: 10 } );
-      // TODO: use SceneToggleNode?
       const waterSceneRange = new Range( 1, 5 );
       const soundSceneRange = new Range( 100, 200 );
       const lightSceneRange = new Range( 500, 2500 );
