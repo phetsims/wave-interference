@@ -48,6 +48,9 @@ define( require => {
       const waterSeparationProperty = model.waterScene.desiredSourceSeparationProperty;
       const soundSeparationProperty = model.soundScene.sourceSeparationProperty;
       const lightSeparationProperty = model.lightScene.sourceSeparationProperty;
+
+      // Switch between controls for each scene.  No advantage in using SceneToggleNode in this case
+      // because the control constructor calls are substantially different.
       const toggleNode = new ToggleNode( model.sceneProperty, [ {
         value: model.waterScene,
         node: new NumberControl( separationString, waterSeparationProperty, waterSceneRange, _.extend( {
