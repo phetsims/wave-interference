@@ -25,8 +25,8 @@ define( require => {
     credits: {
       leadDesign: 'Amy Rouinfar, Noah Podolefsky',
       softwareDevelopment: 'Sam Reid',
-      team: 'Diana López, Ariel Paul, Kathy Perkins, Katie Woessner, Wendy Adams',
-      qualityAssurance: 'Katie Woessner, Laura Rea, Steele Dalton, Liam Mulhall',
+      team: 'Wendy Adams, Diana López, Ariel Paul, Kathy Perkins, Katie Woessner',
+      qualityAssurance: 'Steele Dalton, Liam Mulhall, Laura Rea, Katie Woessner',
       graphicArts: 'Cheryl McCutchan'
     },
     showSmallHomeScreenIconFrame: true
