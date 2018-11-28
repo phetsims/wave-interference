@@ -13,6 +13,7 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
 
   class ToolboxPanel extends WaveInterferencePanel {
