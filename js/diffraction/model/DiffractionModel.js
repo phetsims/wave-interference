@@ -35,7 +35,7 @@ define( require => {
       this.angleProperty = new NumberProperty( 0 );
 
       // @public {Property.<string>} selected scene
-      this.sceneProperty = new Property( ApertureType.CIRCLE ); // TODO: enum
+      this.sceneProperty = new Property( ApertureType.CIRCLE );
     }
 
     /**
