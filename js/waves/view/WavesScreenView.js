@@ -491,7 +491,7 @@ define( require => {
 
     /**
      * @returns {number}
-     * @public // TODO: is this used?
+     * @public
      */
     static get SPACING() {
       return SPACING;
