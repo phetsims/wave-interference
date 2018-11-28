@@ -23,11 +23,11 @@ define( require => {
 
   const simOptions = {
     credits: {
-      leadDesign: 'Amy Rouinfar',
+      leadDesign: 'Amy Rouinfar, Noah Podolefsky',
       softwareDevelopment: 'Sam Reid',
-      team: 'Diana López, Ariel Paul, Kathy Perkins, Katie Woessner',
+      team: 'Diana López, Ariel Paul, Kathy Perkins, Katie Woessner, Wendy Adams',
       qualityAssurance: 'Katie Woessner, Laura Rea, Steele Dalton, Liam Mulhall',
-      graphicArts: 'Cheryl McCutchan, Amy Rouinfar'
+      graphicArts: 'Cheryl McCutchan'
     },
     showSmallHomeScreenIconFrame: true
   };
