@@ -260,7 +260,8 @@ define( require => {
       this.measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ) );
 
       // @public {Property.<Vector2>} - model for the view coordinates of the tip of the measuring tape
-      this.measuringTapeTipPositionProperty = new Property( new Vector2( 220, 200 ) );
+      // This position sets reasonable model defaults for each scene: 1.0cm, 50cm, 500nm
+      this.measuringTapeTipPositionProperty = new Property( new Vector2( 250, 200 ) );
 
       // @public - Notifies listeners when the model reset is complete
       this.resetEmitter = new Emitter();

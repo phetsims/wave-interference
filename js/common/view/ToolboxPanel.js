@@ -11,6 +11,7 @@ define( require => {
   // modules
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const HBox = require( 'SCENERY/nodes/HBox' );
+  const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
 
@@ -29,7 +30,9 @@ define( require => {
       // Capture image for icon
       model.isMeasuringTapeInPlayAreaProperty.value = true;
       measuringTapeNode.setTextVisible( false );
+      model.measuringTapeTipPositionProperty.value = new Vector2( 220, 200 ); // Shorter tape for icon
       const measuringTapeIcon = measuringTapeNode.rasterized( { wrap: true } ).mutate( { scale: 0.65 } );
+      model.measuringTapeTipPositionProperty.reset();
       model.isMeasuringTapeInPlayAreaProperty.value = false;
       measuringTapeNode.setTextVisible( true );
 
