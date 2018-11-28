@@ -48,12 +48,12 @@ define( require => {
       } ] );
 
       const stepButton = new StepButton( {
-        scale: BUTTON_SCALE // TODO: can listener be inlined?
-      } );
+        scale: BUTTON_SCALE,
 
-      // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
-      // dt, so the model will behave the same
-      stepButton.addListener( () => model.advanceTime( 1 / WavesScreenModel.EVENT_RATE, true ) );
+        // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
+        // dt, so the model will behave the same
+        listener: () => model.advanceTime( 1 / WavesScreenModel.EVENT_RATE, true )
+      } );
 
       // Only enable the step button when the model is paused.
       model.isRunningProperty.link( isRunning => {stepButton.enabled = !isRunning;} );
