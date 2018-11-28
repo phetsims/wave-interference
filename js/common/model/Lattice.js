@@ -118,7 +118,6 @@ define( require => {
      * Read the values on the center line of the lattice (omits the out-of-bounds damping regions), for display in the
      * WaveAreaGraphNode
      * @param {number[]} array - array to fill with the values for performance/memory, will be resized if necessary
-     * @returns {number[]} - returns the input reference.  TODO: is this desirable?
      * @public
      */
     getCenterLineValues( array ) {
@@ -132,7 +131,6 @@ define( require => {
       for ( let i = 0; i < this.width - this.dampX * 2; i++ ) {
         array[ i ] = this.getCurrentValue( i + this.dampX, samplingVerticalLocation );
       }
-      return array;
     }
 
     /**
