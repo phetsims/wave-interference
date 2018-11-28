@@ -13,8 +13,9 @@ define( require => {
 
   const WaveInterferenceQueryParameters = QueryStringMachine.getAll( {
 
-    // Shows the overlays for the theoretical/ideal (far-field) interference patterns on the "Slits" screen. This will
-    // be shared with teachers and should not be changed lightly.
+    // Shows the overlays for the theoretical/ideal (far-field) interference patterns on the "Slits" screen. Starting in
+    // 1.1+, this will be shared with teachers and should not be changed lightly.
+    // See https://github.com/phetsims/wave-interference/issues/196
     theory: { type: 'flag' },
 
     // This is a temporary query parameter that adds the in-development "Diffraction" screen. Once the Diffraction
