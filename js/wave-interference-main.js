@@ -26,8 +26,8 @@ define( require => {
       leadDesign: 'Amy Rouinfar',
       softwareDevelopment: 'Sam Reid',
       team: 'Diana López, Ariel Paul, Kathy Perkins',
-      qualityAssurance: 'Steele Dalton',
-      graphicArts: ''
+      qualityAssurance: 'Katie Woessner, Laura Rea, Steele Dalton, Liam Mulhall',
+      graphicArts: 'Cheryl McCutchan, Amy Rouinfar'
     },
     showSmallHomeScreenIconFrame: true
   };
