@@ -206,7 +206,7 @@ define( require => {
 
       // @public {Property.<Scene>} - selected scene
       this.sceneProperty = new Property( this.waterScene, {
-        validValues: [ this.waterScene, this.soundScene, this.lightScene ]
+        validValues: this.scenes
       } );
 
       // @public {BooleanProperty} - whether the wave area should be displayed

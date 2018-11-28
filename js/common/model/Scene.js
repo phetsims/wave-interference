@@ -259,7 +259,9 @@ define( require => {
       if ( this.waveSpatialType === WaveSpatialType.PLANE ) {
 
         // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
-        this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT );
+        this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT, {
+          validValues: BarrierTypeEnum.VALUES
+        } );
 
         // When the barrier moves, it creates a lot of artifacts, so clear the wave to the right of the barrier
         // when it moves

@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
   const FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   const Image = require( 'SCENERY/nodes/Image' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
@@ -22,8 +23,8 @@ define( require => {
     constructor() {
 
       // @public {FaucetNode} - Faucet icon, rasterized to clip out invisible parts (like the ShooterNode)
-      this.faucetIcon = new FaucetNode( 1, new Property( 0 ), new Property( true ), {
-        interactiveProperty: new Property( false )
+      this.faucetIcon = new FaucetNode( 1, new NumberProperty( 0 ), new BooleanProperty( true ), {
+        interactiveProperty: new BooleanProperty( false )
       } ).rasterized();
 
       // @public - Speaker icon
