@@ -194,7 +194,7 @@ define( require => {
 
         // @public
         getPeriodBeforeNextEvent: () => {
-          var scaleFactor = this.playSpeedProperty.value === PlaySpeedEnum.NORMAL ? 1.0 : 0.5;
+          const scaleFactor = this.playSpeedProperty.value === PlaySpeedEnum.NORMAL ? 1.0 : 0.5;
           return 1 / EVENT_RATE / scaleFactor;
         }
       };

@@ -49,7 +49,7 @@ define( require => {
      * @private - update the shape when the rotationAmount or lattice has changed
      */
     update() {
-      var bounds = this.waveAreaBounds;
+      const bounds = this.waveAreaBounds;
       this.shape = WaveInterferenceUtils.getWaterSideShape( this.array, this.model.waterScene.lattice, bounds, 0, 0 )
         .lineTo( bounds.right, bounds.maxY )
         .lineTo( bounds.left, bounds.maxY )

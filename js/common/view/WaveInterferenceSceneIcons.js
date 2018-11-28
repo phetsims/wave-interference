@@ -10,11 +10,11 @@ define( require => {
 
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
-  const NumberProperty = require( 'AXON/NumberProperty' );
   const FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   const Image = require( 'SCENERY/nodes/Image' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
   const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker/speaker_MID.png' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
