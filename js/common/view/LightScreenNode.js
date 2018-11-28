@@ -105,9 +105,26 @@ define( require => {
       const data = this.imageData.data;
       const dampY = this.lattice.dampY;
       const height = this.lattice.height;
+
+      // Smoothing for the screen node
+      const windowRadius = 3;
       for ( let k = dampY; k < height - dampY; k++ ) {
 
-        const intensity = intensityValues[ k - this.lattice.dampY ];
+        let sum = intensityValues[ k - this.lattice.dampY ];
+        let count = 1;
+
+        // Average within the window, but don't go out of range
+        for ( let i = 1; i < windowRadius; i++ ) {
+          if ( k - this.lattice.dampY + i < intensityValues.length ) {
+            sum = sum + intensityValues[ k - this.lattice.dampY + i ];
+            count++;
+          }
+          if ( k - this.lattice.dampY - i >= 0 ) {
+            sum = sum + intensityValues[ k - this.lattice.dampY - i ];
+            count++;
+          }
+        }
+        const intensity = sum / count;
         let brightness = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
         brightness = Util.clamp( brightness * BRIGHTNESS_SCALE_FACTOR * this.lightScreenNodeBrightness, 0, 1 );
 
