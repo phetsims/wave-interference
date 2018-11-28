@@ -24,7 +24,9 @@ define( require => {
 
       // Construct the timer with the unitsNode reserving the max amount of space it will need
       const widestScene = _.maxBy( model.scenes, scene => new WaveInterferenceText( scene.timeUnits ).width );
-      const unitsNode = new WaveInterferenceText( widestScene.timeUnits );
+      const unitsNode = new WaveInterferenceText( widestScene.timeUnits, {
+        maxWidth: 40
+      } );
 
       config = _.extend( {
         unitsNode,

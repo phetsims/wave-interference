@@ -68,6 +68,9 @@ define( require => {
     // Number of cells around the boundary of the lattice to avoid reflections at the edge
     LATTICE_PADDING: 20,
 
+    // maxWidth for the right hand side panels
+    PANEL_MAX_WIDTH: 200,
+
     // Parameters for sound.  These are constants in the simulation, but wrapped in Properties for fine
     // tuning with developer controls.
 

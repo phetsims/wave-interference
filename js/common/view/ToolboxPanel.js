@@ -23,9 +23,8 @@ define( require => {
      * @param {WaveMeterNode} waveMeterNode
      * @param {AlignGroup} alignGroup - to align with neighbors
      * @param {WavesScreenModel} model
-     * @param {Object} [options]
      */
-    constructor( measuringTapeNode, timerNode, waveMeterNode, alignGroup, model, options ) {
+    constructor( measuringTapeNode, timerNode, waveMeterNode, alignGroup, model ) {
 
       // Capture image for icon
       model.isMeasuringTapeInPlayAreaProperty.value = true;
@@ -85,8 +84,9 @@ define( require => {
             timerNodeIcon,
             waveMeterIcon
           ]
-        } ) ),
-        options
+        } ) ), {
+          maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH
+        }
       );
     }
   }

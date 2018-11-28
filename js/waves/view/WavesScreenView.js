@@ -131,7 +131,7 @@ define( require => {
           alignChildren: ToggleNode.RIGHT,
           bottom: this.waveAreaNode.top - 2,
           right: this.waveAreaNode.right,
-          maxWidth: 400
+          maxWidth: 300
         } );
       this.addChild( timeScaleIndicatorNode );
 

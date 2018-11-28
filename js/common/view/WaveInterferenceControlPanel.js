@@ -56,7 +56,8 @@ define( require => {
         additionalControl: null,
 
         showIntensityCheckbox: true,
-        showAmplitudeSlider: true
+        showAmplitudeSlider: true,
+        maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH
       }, options );
 
       // Controls are in the metric coordinate frame
