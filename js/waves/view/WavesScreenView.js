@@ -80,6 +80,10 @@ define( require => {
         // If true, Nodes will be added that show each Emitter, otherwise no EmitterNodes are shown.
         showSceneSpecificEmitterNodes: true,
 
+        // Scale factor for the brightness on the LightScreenNode,
+        // see https://github.com/phetsims/wave-interference/issues/161
+        lightScreenNodeBrightness: 1,
+
         // Nested options as discussed in https://github.com/phetsims/tasks/issues/730,
         // see WaveInterferenceControlPanel for keys/values
         controlPanelOptions: {}
@@ -164,6 +168,7 @@ define( require => {
       } );
 
       const lightScreenNode = new LightScreenNode( model.lightScene.lattice, model.lightScene.intensitySample, {
+        lightScreenNodeBrightness: options.lightScreenNodeBrightness,
         scale: latticeScale,
         left: this.waveAreaNode.right + 5,
         y: this.waveAreaNode.top

@@ -38,12 +38,16 @@ define( require => {
 
         // only use the visible part for the bounds (not the damping regions)
         canvasBounds: new Bounds2( 0, 0, CANVAS_WIDTH, latticeCanvasBounds.height ),
-        layerSplit: true // ensure we're on our own layer
+        layerSplit: true, // ensure we're on our own layer
+        lightScreenNodeBrightness: 1
       }, options );
       super( options );
 
       // @private
       this.lattice = lattice;
+
+      // @private
+      this.lightScreenNodeBrightness = options.lightScreenNodeBrightness;
 
       // @private
       this.intensitySample = intensitySample;
@@ -105,7 +109,7 @@ define( require => {
 
         const intensity = intensityValues[ k - this.lattice.dampY ];
         let brightness = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
-        brightness = Util.clamp( brightness * BRIGHTNESS_SCALE_FACTOR, 0, 1 );
+        brightness = Util.clamp( brightness * BRIGHTNESS_SCALE_FACTOR * this.lightScreenNodeBrightness, 0, 1 );
 
         // Note this interpolation doesn't include the gamma factor that Color.blend does
         const r = this.baseColor.red * brightness;

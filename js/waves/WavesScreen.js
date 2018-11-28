@@ -38,6 +38,8 @@ define( require => {
         model => new WavesScreenView( model, alignGroup, {
           showViewRadioButtonGroup: true,
 
+          lightScreenNodeBrightness: 1.85,
+
           // The intensity checkbox is not available in the waves screen because it distracts from the learing goals of the screen
           controlPanelOptions: {
             showIntensityCheckbox: false
