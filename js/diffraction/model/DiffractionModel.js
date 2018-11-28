@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const ApertureType = require( 'WAVE_INTERFERENCE/diffraction/model/ApertureType' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
@@ -34,7 +35,7 @@ define( require => {
       this.angleProperty = new NumberProperty( 0 );
 
       // @public {Property.<string>} selected scene
-      this.sceneProperty = new Property( 'circle' ); // TODO: enum
+      this.sceneProperty = new Property( ApertureType.CIRCLE ); // TODO: enum
     }
 
     /**
