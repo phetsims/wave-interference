@@ -25,6 +25,9 @@ define( require => {
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
 
+  // strings
+  const intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
+
   // constants
   const TITLE_Y_MARGIN = 4;
   const DARK_GRAY = new Color( 90, 90, 90 );
@@ -77,7 +80,7 @@ define( require => {
           lineDash: LINE_DASH
         } ) );
 
-      const titleNode = new WaveInterferenceText( 'Intensity', {
+      const titleNode = new WaveInterferenceText( intensityString, {
         centerX: chartRectangle.centerX,
         top: chartRectangle.bottom + TITLE_Y_MARGIN
       } );
