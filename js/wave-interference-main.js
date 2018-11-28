@@ -25,7 +25,7 @@ define( require => {
     credits: {
       leadDesign: 'Amy Rouinfar',
       softwareDevelopment: 'Sam Reid',
-      team: 'Diana López, Ariel Paul, Kathy Perkins',
+      team: 'Diana López, Ariel Paul, Kathy Perkins, Katie Woessner',
       qualityAssurance: 'Katie Woessner, Laura Rea, Steele Dalton, Liam Mulhall',
       graphicArts: 'Cheryl McCutchan, Amy Rouinfar'
     },
