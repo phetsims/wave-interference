@@ -13,6 +13,7 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
   const TimerNode = require( 'SCENERY_PHET/TimerNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   class WaveInterferenceTimerNode extends TimerNode {
 
@@ -23,8 +24,8 @@ define( require => {
     constructor( model, config ) {
 
       // Construct the timer with the unitsNode reserving the max amount of space it will need
-      const widestScene = _.maxBy( model.scenes, scene => new Text( scene.timeUnits ).width );
-      const unitsNode = new Text( widestScene.timeUnits );
+      const widestScene = _.maxBy( model.scenes, scene => new WaveInterferenceText( scene.timeUnits ).width );
+      const unitsNode = new WaveInterferenceText( widestScene.timeUnits );
 
       config = _.extend( {
         unitsNode,

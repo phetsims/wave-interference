@@ -130,7 +130,8 @@ define( require => {
         scene => new RichText( scene.timeScaleString, { font: font } ), {
           alignChildren: ToggleNode.RIGHT,
           bottom: this.waveAreaNode.top - 2,
-          right: this.waveAreaNode.right
+          right: this.waveAreaNode.right,
+          maxWidth: 400
         } );
       this.addChild( timeScaleIndicatorNode );
 

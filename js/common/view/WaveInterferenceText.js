@@ -21,7 +21,8 @@ define( require => {
      */
     constructor( string, options ) {
       super( string, _.extend( {
-        font: WaveInterferenceConstants.DEFAULT_FONT
+        font: WaveInterferenceConstants.DEFAULT_FONT,
+        maxWidth: 120
       }, options ) );
     }
   }
