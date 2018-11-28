@@ -299,11 +299,46 @@ define( require => {
         }
       }
 
-      // decay the wave outside of the visible part
-      this.decayVertical( this.dampX, -1, this.dampX );
-      this.decayVertical( this.width - this.dampX - 1, +1, this.dampX );
-      this.decayHorizontal( this.dampY, -1, this.dampY );
-      this.decayHorizontal( this.height - this.dampY - 1, +1, this.dampY );
+      // From https://www.phy.ornl.gov/csep/sw/node22.html
+      // Note there is a fortran error on the top boundary
+      // u2 => matrix1.get
+      // u1 => matrix2.get
+      // cb => 1
+
+
+      var k = WAVE_SPEED;
+
+      // Left edge
+      let i = 0;
+      for ( let j = 1; j < height - 1; j++ ) {
+        const sum = matrix1.get( i, j ) + matrix1.get( i + 1, j ) - matrix2.get( i + 1, j ) + k *
+                    ( matrix1.get( i + 1, j ) - matrix1.get( i, j ) - matrix2.get( i + 2, j ) + matrix2.get( i + 1, j ) );
+        matrix0.set( i, j, sum );
+      }
+
+      // Right edge
+      i = width - 1;
+      for ( let j = 1; j < height - 1; j++ ) {
+        const sum = matrix1.get( i, j ) + matrix1.get( i - 1, j ) - matrix2.get( i - 1, j ) - k *
+                    ( matrix1.get( i, j ) - matrix1.get( i - 1, j ) - matrix2.get( i - 1, j ) + matrix2.get( i - 2, j ) );
+        matrix0.set( i, j, sum );
+      }
+
+      // Bottom edge
+      let j = height - 1;
+      for ( let i = 1; i < width - 1; i++ ) {
+        const sum = matrix1.get( i, j ) + matrix1.get( i, j - 1 ) - matrix2.get( i, j - 1 ) - k *
+                    ( matrix1.get( i, j ) - matrix1.get( i, j - 1 ) - matrix2.get( i, j - 1 ) + matrix2.get( i, j - 2 ) );
+        matrix0.set( i, j, sum );
+      }
+
+      // Top edge
+      j = 0;
+      for ( let i = 1; i < width - 1; i++ ) {
+        const sum = matrix1.get( i, j ) + matrix1.get( i, j + 1 ) - matrix2.get( i, j + 1 ) - k *
+                    ( matrix1.get( i, j ) - matrix1.get( i, j + 1 ) - matrix2.get( i, j + 1 ) + matrix2.get( i, j + 2 ) );
+        matrix0.set( i, j, sum );
+      }
 
       // Apply values on top of the computed lattice values so there is no noise at the point sources
       forcingFunction();
