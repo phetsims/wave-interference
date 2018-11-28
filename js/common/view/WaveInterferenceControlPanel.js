@@ -258,9 +258,16 @@ define( require => {
           ...( scene === model.lightScene && options.showIntensityCheckbox ? [ intensityCheckbox ] : [] )
         ];
 
-        graphCheckbox.mouseArea = graphCheckbox.localBounds.dilated( 2 ).withX( separator.width );
-        graphCheckbox.touchArea = graphCheckbox.mouseArea;
       } );
+
+      graphCheckbox.mouseArea = graphCheckbox.localBounds.dilated( 2 ).withX( separator.right );
+      graphCheckbox.touchArea = graphCheckbox.mouseArea;
+
+      screenCheckbox.mouseArea = screenCheckbox.localBounds.dilated( 2 ).withX( separator.right );
+      screenCheckbox.touchArea = screenCheckbox.mouseArea;
+
+      intensityCheckbox.mouseArea = intensityCheckbox.localBounds.dilated( 2 ).withX( separator.right );
+      intensityCheckbox.touchArea = intensityCheckbox.mouseArea;
 
       const content = alignGroup.createBox( container );
 
