@@ -55,10 +55,16 @@ define( require => {
       // Use a single column of pixels, then stretch them to the right (since that is a constant)
       const width = 1;
       const height = this.lattice.height - this.lattice.dampY * 2;
+
+      // @private
       this.directCanvas = document.createElement( 'canvas' );
       this.directCanvas.width = width;
       this.directCanvas.height = height;
+
+      // @private
       this.directContext = this.directCanvas.getContext( '2d' );
+
+      // @private
       this.imageData = this.directContext.createImageData( width, height );
 
       // Invalidate paint when model indicates changes

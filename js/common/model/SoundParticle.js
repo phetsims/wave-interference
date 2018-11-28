@@ -29,10 +29,10 @@ define( require => {
       // @public {number} - vertical lattice coordinate of the particle
       this.j = j;
 
-      // @public - x coordinate
+      // @public {number} - x coordinate
       this.x = x;
 
-      // @public - y coordinate
+      // @public {number} - y coordinate
       this.y = y;
 
       // @private

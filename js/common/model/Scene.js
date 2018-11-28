@@ -22,6 +22,7 @@ define( require => {
   const SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Vector2 = require( 'DOT/Vector2' );
+  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveSpatialType = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialType' );
@@ -299,7 +300,7 @@ define( require => {
 
           const frontTime = this.timeProperty.value - this.button1PressTime;
           const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime );
-          const barrierLatticeX = Math.round( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) );
+          const barrierLatticeX = Util.roundSymmetric( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) );
 
           // if the wave had passed by the barrier, then repropagate from the barrier.  This requires back-computing the
           // time the button would have been pressed to propagate the wave to the barrier.  Hence this is the inverse of
@@ -342,13 +343,13 @@ define( require => {
           // assumes a square lattice
           const sourceSeparation = this.sourceSeparationProperty.get();
           const separationInLatticeUnits = sourceSeparation / this.waveAreaWidth * this.lattice.visibleBounds.width;
-          const distanceAboveAxis = Math.round( separationInLatticeUnits / 2 );
+          const distanceAboveAxis = Util.roundSymmetric( separationInLatticeUnits / 2 );
 
           // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
           // To understand why we subtract 1 here, imagine for the sake of conversation that the lattice is 5 units wide
           // so the cells are indexed 0,1,2,3,4.  5/2 === 2.5, rounded up that is 3, so we must subtract 1 to find the
           // center of the lattice.
-          const latticeCenterJ = Math.round( this.lattice.height / 2 ) - 1;
+          const latticeCenterJ = Util.roundSymmetric( this.lattice.height / 2 ) - 1;
 
           // Point source
           if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
@@ -371,14 +372,14 @@ define( require => {
         const lattice = this.lattice;
 
         // Round this to make sure it appears at an integer cell column
-        let barrierLatticeX = Math.round( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) );
+        let barrierLatticeX = Util.roundSymmetric( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) );
         const slitSeparationModel = this.slitSeparationProperty.get();
 
         const frontTime = time - this.button1PressTime;
         const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime );
 
         const slitWidthModel = this.slitWidthProperty.get();
-        const slitWidth = Math.round( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
+        const slitWidth = Util.roundSymmetric( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
         const latticeCenterY = this.lattice.height / 2;
 
         // Take the desired frequency for the water scene, or the specified frequency of any other scene

@@ -380,7 +380,7 @@ define( require => {
           const idxInPixels = 4 * ( dims[ 0 ] * k + l );
           currImageData.data[ idxInPixels + 3 ] = 255; // full alpha
           let color = Math.log( cc * $h( l, k ).magnitude() + 1 );
-          color = Math.round( 255 * ( color / logOfMaxMag ) );
+          color = Util.roundSymmetric( 255 * ( color / logOfMaxMag ) );
           // RGB are the same -> gray
           for ( let c = 0; c < 3; c++ ) { // lol c++
             currImageData.data[ idxInPixels + c ] = color;
