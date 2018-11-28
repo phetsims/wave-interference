@@ -439,8 +439,8 @@ define( require => {
                 lattice.setCurrentValue( i, j, 0 );
               }
               else {
-                const amplitude = amplitude * PLANE_WAVE_MAGNITUDE;
-                const value = amplitude * Math.sin( k * x - angularFrequency * time + this.planeWavePhase );
+                const value = amplitude * PLANE_WAVE_MAGNITUDE
+                              * Math.sin( k * x - angularFrequency * time + this.planeWavePhase );
                 lattice.setCurrentValue( i, j, value );
               }
             }
