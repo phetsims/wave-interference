@@ -31,11 +31,6 @@ define( require => {
   // light is faster than it should be measured (based on the propagation of wavefronts).
   const LIGHT_VISIT_THRESHOLD = 0.06;
 
-  // Damp more aggressively further from the edge of the visible lattice
-  const DAMPING_PROFILE = [
-    0.999, 0.99, 0.98, 0.97, 0.95, 0.925, 0.9, 0.85, 0.8, 0.73, 0.66, 0.6, 0.55, 0.5, 0.45, 0.42, 0.4, 0.38, 0.36
-  ];
-
   class Lattice {
 
     /**
@@ -191,42 +186,6 @@ define( require => {
     }
 
     /**
-     * Exponential decay in a vertical band to prevent reflections or artifacts from the sides of the lattice.
-     * @param {number} i0 - x coordinate of the damping region
-     * @param {number} sign - +1 or -1 depending on which way the damping moves
-     * @param {number} width - width of the damping region
-     * @private
-     */
-    decayVertical( i0, sign, width ) {
-      for ( let j = 0; j < this.height; j++ ) {
-        for ( let step = 0; step < width; step++ ) {
-          const damp = DAMPING_PROFILE[ step ] || DAMPING_PROFILE[ DAMPING_PROFILE.length - 1 ];
-          const i = i0 + sign * step;
-          this.setCurrentValue( i, j, this.getCurrentValue( i, j ) * damp );
-          this.setLastValue( i, j, this.getLastValue( i, j ) * damp );
-        }
-      }
-    }
-
-    /**
-     * Exponential decay in a horizontal band to prevent reflections or artifacts from the sides of the lattice.
-     * @param {number} j0 - y coordinate of the damping region
-     * @param {number} sign - +1 or -1 depending on which way the damping moves
-     * @param {number} height - height of the damping region
-     * @private
-     */
-    decayHorizontal( j0, sign, height ) {
-      for ( let i = 0; i < this.width; i++ ) {
-        for ( let step = 0; step < height; step++ ) {
-          const damp = DAMPING_PROFILE[ step ] || DAMPING_PROFILE[ DAMPING_PROFILE.length - 1 ];
-          const j = j0 + sign * step;
-          this.setCurrentValue( i, j, this.getCurrentValue( i, j ) * damp );
-          this.setLastValue( i, j, this.getLastValue( i, j ) * damp );
-        }
-      }
-    }
-
-    /**
      * Determines whether the incoming wave has reached the cell.
      * @param {number} i - horizontal coordinate to check
      * @param {number} j - vertical coordinate to check
@@ -303,8 +262,7 @@ define( require => {
       // Note there is a fortran error on the top boundary
       // u2 => matrix1.get
       // u1 => matrix2.get
-      // cb => 1
-
+      // cb => k
 
       var k = WAVE_SPEED;
 
@@ -312,31 +270,31 @@ define( require => {
       let i = 0;
       for ( let j = 1; j < height - 1; j++ ) {
         const sum = matrix1.get( i, j ) + matrix1.get( i + 1, j ) - matrix2.get( i + 1, j ) + k *
-                    ( matrix1.get( i + 1, j ) - matrix1.get( i, j ) - matrix2.get( i + 2, j ) + matrix2.get( i + 1, j ) );
+                    ( matrix1.get( i + 1, j ) - matrix1.get( i, j ) + matrix2.get( i + 1, j ) - matrix2.get( i + 2, j ) );
         matrix0.set( i, j, sum );
       }
 
       // Right edge
       i = width - 1;
       for ( let j = 1; j < height - 1; j++ ) {
-        const sum = matrix1.get( i, j ) + matrix1.get( i - 1, j ) - matrix2.get( i - 1, j ) - k *
-                    ( matrix1.get( i, j ) - matrix1.get( i - 1, j ) - matrix2.get( i - 1, j ) + matrix2.get( i - 2, j ) );
-        matrix0.set( i, j, sum );
-      }
-
-      // Bottom edge
-      let j = height - 1;
-      for ( let i = 1; i < width - 1; i++ ) {
-        const sum = matrix1.get( i, j ) + matrix1.get( i, j - 1 ) - matrix2.get( i, j - 1 ) - k *
-                    ( matrix1.get( i, j ) - matrix1.get( i, j - 1 ) - matrix2.get( i, j - 1 ) + matrix2.get( i, j - 2 ) );
+        const sum = matrix1.get( i, j ) + matrix1.get( i - 1, j ) - matrix2.get( i - 1, j ) + k *
+                    ( matrix1.get( i - 1, j ) - matrix1.get( i, j ) + matrix2.get( i - 1, j ) - matrix2.get( i - 2, j ) );
         matrix0.set( i, j, sum );
       }
 
       // Top edge
-      j = 0;
+      let j = 0;
       for ( let i = 1; i < width - 1; i++ ) {
-        const sum = matrix1.get( i, j ) + matrix1.get( i, j + 1 ) - matrix2.get( i, j + 1 ) - k *
-                    ( matrix1.get( i, j ) - matrix1.get( i, j + 1 ) - matrix2.get( i, j + 1 ) + matrix2.get( i, j + 2 ) );
+        const sum = matrix1.get( i, j ) + matrix1.get( i, j + 1 ) - matrix2.get( i, j + 1 ) + k *
+                    ( matrix1.get( i, j + 1 ) - matrix1.get( i, j ) + matrix2.get( i, j + 1 ) - matrix2.get( i, j + 2 ) );
+        matrix0.set( i, j, sum );
+      }
+
+      // Bottom edge
+      j = height - 1;
+      for ( let i = 1; i < width - 1; i++ ) {
+        const sum = matrix1.get( i, j ) + matrix1.get( i, j - 1 ) - matrix2.get( i, j - 1 ) + k *
+                    ( matrix1.get( i, j - 1 ) - matrix1.get( i, j ) + matrix2.get( i, j - 1 ) - matrix2.get( i, j - 2 ) );
         matrix0.set( i, j, sum );
       }
 
