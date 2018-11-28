@@ -258,42 +258,41 @@ define( require => {
         }
       }
 
-      // From https://www.phy.ornl.gov/csep/sw/node22.html
-      // Note there is a fortran error on the top boundary
+      // Numerical computation of absorbing boundary conditions, (incorrectly) assuming that the wave is perpendicular
+      // to the edge, see https://www.phy.ornl.gov/csep/sw/node22.html
+      // Note there is a fortran error on the top boundary and in the equations, replace:
       // u2 => matrix1.get
       // u1 => matrix2.get
-      // cb => k
-
-      var k = WAVE_SPEED;
+      // cb => WAVE_SPEED
 
       // Left edge
       let i = 0;
-      for ( let j = 1; j < height - 1; j++ ) {
-        const sum = matrix1.get( i, j ) + matrix1.get( i + 1, j ) - matrix2.get( i + 1, j ) + k *
+      for ( let j = 0; j < height; j++ ) {
+        const sum = matrix1.get( i, j ) + matrix1.get( i + 1, j ) - matrix2.get( i + 1, j ) + WAVE_SPEED *
                     ( matrix1.get( i + 1, j ) - matrix1.get( i, j ) + matrix2.get( i + 1, j ) - matrix2.get( i + 2, j ) );
         matrix0.set( i, j, sum );
       }
 
       // Right edge
       i = width - 1;
-      for ( let j = 1; j < height - 1; j++ ) {
-        const sum = matrix1.get( i, j ) + matrix1.get( i - 1, j ) - matrix2.get( i - 1, j ) + k *
+      for ( let j = 0; j < height; j++ ) {
+        const sum = matrix1.get( i, j ) + matrix1.get( i - 1, j ) - matrix2.get( i - 1, j ) + WAVE_SPEED *
                     ( matrix1.get( i - 1, j ) - matrix1.get( i, j ) + matrix2.get( i - 1, j ) - matrix2.get( i - 2, j ) );
         matrix0.set( i, j, sum );
       }
 
       // Top edge
       let j = 0;
-      for ( let i = 1; i < width - 1; i++ ) {
-        const sum = matrix1.get( i, j ) + matrix1.get( i, j + 1 ) - matrix2.get( i, j + 1 ) + k *
+      for ( let i = 0; i < width; i++ ) {
+        const sum = matrix1.get( i, j ) + matrix1.get( i, j + 1 ) - matrix2.get( i, j + 1 ) + WAVE_SPEED *
                     ( matrix1.get( i, j + 1 ) - matrix1.get( i, j ) + matrix2.get( i, j + 1 ) - matrix2.get( i, j + 2 ) );
         matrix0.set( i, j, sum );
       }
 
       // Bottom edge
       j = height - 1;
-      for ( let i = 1; i < width - 1; i++ ) {
-        const sum = matrix1.get( i, j ) + matrix1.get( i, j - 1 ) - matrix2.get( i, j - 1 ) + k *
+      for ( let i = 0; i < width; i++ ) {
+        const sum = matrix1.get( i, j ) + matrix1.get( i, j - 1 ) - matrix2.get( i, j - 1 ) + WAVE_SPEED *
                     ( matrix1.get( i, j - 1 ) - matrix1.get( i, j ) + matrix2.get( i, j - 1 ) - matrix2.get( i, j - 2 ) );
         matrix0.set( i, j, sum );
       }
