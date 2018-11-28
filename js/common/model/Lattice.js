@@ -258,8 +258,9 @@ define( require => {
         }
       }
 
-      // Numerical computation of absorbing boundary conditions, (incorrectly) assuming that the wave is perpendicular
-      // to the edge, see https://www.phy.ornl.gov/csep/sw/node22.html
+      // Numerical computation of absorbing boundary conditions, under the assumption that the wave is perpendicular
+      // to the edge, see https://www.phy.ornl.gov/csep/sw/node22.html.  This assumption does not hold everywhere, but
+      // it is a helpful approximation.
       // Note there is a fortran error on the top boundary and in the equations, replace:
       // u2 => matrix1.get
       // u1 => matrix2.get
