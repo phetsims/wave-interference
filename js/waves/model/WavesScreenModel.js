@@ -75,7 +75,10 @@ define( require => {
 
         waveSpatialType: WaveSpatialType.POINT
       }, options );
-      assert && assert( options.numberOfSources === 1 || options.numberOfSources === 2, 'Model only supports 1 or 2 sources' );
+      assert && assert(
+        options.numberOfSources === 1 || options.numberOfSources === 2,
+        'Model only supports 1 or 2 sources'
+      );
 
       // @public {Property.<ViewType>}
       this.viewTypeProperty = new Property( ViewType.TOP, {
@@ -102,7 +105,7 @@ define( require => {
         maximumFrequency: 1, // cycles per second
         scaleIndicatorLength: 1, // 1 centimeter
         numberOfSources: options.numberOfSources,
-        waveSpeed: 1.85, // in position units / time units, measured empirically as 5.4 seconds to cross the 10cm lattice
+        waveSpeed: 1.85, // in position units/time units, measured empirically as 5.4 seconds to cross the 10cm lattice
 
         timeScaleFactor: 1, // 1 second in real time = 1 second on the simulation timer
 
@@ -159,7 +162,7 @@ define( require => {
         waveAreaWidth: 5000, // nm
         minimumFrequency: toFemto( VisibleColor.MIN_FREQUENCY ), // in cycles per femtosecond
         maximumFrequency: toFemto( VisibleColor.MAX_FREQUENCY ), // in cycles per femtosecond
-        initialFrequency: toFemto( VisibleColor.SPEED_OF_LIGHT / 660E-9 ), // Start with red light because it is a familiar LED color
+        initialFrequency: toFemto( VisibleColor.SPEED_OF_LIGHT / 660E-9 ), // Start with red light--a familiar LED color
         scaleIndicatorLength: 500, // nm
 
         numberOfSources: options.numberOfSources,

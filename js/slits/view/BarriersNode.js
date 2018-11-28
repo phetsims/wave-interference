@@ -64,10 +64,14 @@ define( require => {
       this.rectangleC = rectangleC;
 
       // @private - View width for one cell
-      this.cellWidth = ModelViewTransform2.createRectangleMapping( scene.lattice.visibleBounds, viewBounds ).modelToViewDeltaX( 1 );
+      this.cellWidth = ModelViewTransform2.createRectangleMapping( scene.lattice.visibleBounds, viewBounds )
+        .modelToViewDeltaX( 1 );
 
       // @private - Convert from model coordinates to view coordinates
-      this.modelViewTransform = ModelViewTransform2.createRectangleMapping( this.scene.getWaveAreaBounds(), viewBounds );
+      this.modelViewTransform = ModelViewTransform2.createRectangleMapping(
+        this.scene.getWaveAreaBounds(),
+        viewBounds
+      );
       this.addInputListener( new DragListener( {
         locationProperty: scene.barrierLocationProperty,
         transform: this.modelViewTransform,
@@ -121,37 +125,56 @@ define( require => {
         this.rectangleC.visible = false;
         this.arrowNode.visible = false;
       }
-      else if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
+      else {
+        const waveAreaTop = this.waveAreaViewBounds.top;
+        if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
 
-        this.rectangleA.visible = true;
-        this.rectangleB.visible = true;
-        this.rectangleC.visible = false;
-        this.arrowNode.visible = true;
+          this.rectangleA.visible = true;
+          this.rectangleB.visible = true;
+          this.rectangleC.visible = false;
+          this.arrowNode.visible = true;
 
-        const slitWidthView = this.modelViewTransform.modelToViewDeltaY( slitWidth );
-        const y1 = this.waveAreaViewBounds.centerY - slitWidthView / 2;
-        const y2 = this.waveAreaViewBounds.centerY + slitWidthView / 2;
-        this.rectangleA.setRect( 0, this.waveAreaViewBounds.top, this.cellWidth, y1 - this.waveAreaViewBounds.top, 2, 2 );
-        this.rectangleB.setRect( 0, y2, this.cellWidth, this.waveAreaViewBounds.bottom - y2, 2, 2 );
-        this.arrowNode.centerX = this.cellWidth / 2;
-        this.arrowNode.top = this.rectangleB.bottom + 2;
-      }
-      else if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
-        this.rectangleA.visible = true;
-        this.rectangleB.visible = true;
-        this.rectangleC.visible = true;
-        this.arrowNode.visible = true;
+          const slitWidthView = this.modelViewTransform.modelToViewDeltaY( slitWidth );
+          const y1 = this.waveAreaViewBounds.centerY - slitWidthView / 2;
+          const y2 = this.waveAreaViewBounds.centerY + slitWidthView / 2;
+          this.rectangleA.setRect( 0, waveAreaTop, this.cellWidth, y1 - waveAreaTop, 2, 2 );
+          this.rectangleB.setRect( 0, y2, this.cellWidth, this.waveAreaViewBounds.bottom - y2, 2, 2 );
+          this.arrowNode.centerX = this.cellWidth / 2;
+          this.arrowNode.top = this.rectangleB.bottom + 2;
+        }
+        else if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
+          this.rectangleA.visible = true;
+          this.rectangleB.visible = true;
+          this.rectangleC.visible = true;
+          this.arrowNode.visible = true;
 
-        const waveAreaWidth = scene.waveAreaWidth;
-        const bottomOfTopBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 - slitWidth / 2 );
-        const topOfCentralBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 + slitWidth / 2 );
-        const bottomOfCentralBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 - slitWidth / 2 );
-        const topOfBottomBarrier = this.modelViewTransform.modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 + slitWidth / 2 );
-        this.rectangleA.setRect( 0, this.waveAreaViewBounds.top, this.cellWidth, Math.max( 0, bottomOfTopBarrier - this.waveAreaViewBounds.top ), 2, 2 );
-        this.rectangleB.setRect( 0, topOfCentralBarrier, this.cellWidth, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ), 2, 2 );
-        this.rectangleC.setRect( 0, topOfBottomBarrier, this.cellWidth, Math.max( this.waveAreaViewBounds.bottom - topOfBottomBarrier ), 2, 2 );
-        this.arrowNode.centerX = this.cellWidth / 2;
-        this.arrowNode.top = this.rectangleC.bottom + 2;
+          const waveAreaWidth = scene.waveAreaWidth;
+          const bottomOfTopBarrier = this.modelViewTransform
+            .modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 - slitWidth / 2 );
+          const topOfCentralBarrier = this.modelViewTransform
+            .modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 + slitWidth / 2 );
+          const bottomOfCentralBarrier = this.modelViewTransform
+            .modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 - slitWidth / 2 );
+          const topOfBottomBarrier = this.modelViewTransform
+            .modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 + slitWidth / 2 );
+          this.rectangleA.setRect(
+            0, waveAreaTop,
+            this.cellWidth, Math.max( 0, bottomOfTopBarrier - waveAreaTop ),
+            2, 2
+          );
+          this.rectangleB.setRect(
+            0, topOfCentralBarrier,
+            this.cellWidth, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ),
+            2, 2
+          );
+          this.rectangleC.setRect(
+            0, topOfBottomBarrier,
+            this.cellWidth, Math.max( this.waveAreaViewBounds.bottom - topOfBottomBarrier ),
+            2, 2
+          );
+          this.arrowNode.centerX = this.cellWidth / 2;
+          this.arrowNode.top = this.rectangleC.bottom + 2;
+        }
       }
     }
   }

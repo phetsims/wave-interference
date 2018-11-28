@@ -158,7 +158,7 @@ define( require => {
       this.slitsControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'number of lines', model.numberOfLinesProperty, new Range( 2, 200 ), NUMBER_CONTROL_OPTIONS ),
+          new NumberControl( 'number lines', model.numberOfLinesProperty, new Range( 2, 200 ), NUMBER_CONTROL_OPTIONS ),
           new NumberControl( 'angle', model.angleProperty, new Range( 0, Math.PI * 2 ), _.extend( {
             delta: 0.01
           }, NUMBER_CONTROL_OPTIONS ) )

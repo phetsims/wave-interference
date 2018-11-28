@@ -35,13 +35,15 @@ define( require => {
         rightCenter: waveAreaBounds.leftCenter.plusXY( 2, 0 )
       } );
 
-      const button = new SceneToggleNode( model, scene => new RoundStickyToggleButton( false, true, scene.button1PressedProperty, {
-        scale: 1.2,
-        baseColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
-        radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
-      } ), {
-        center: verticalCylinderImageNode.center
-      } );
+      const button = new SceneToggleNode(
+        model,
+        scene => new RoundStickyToggleButton( false, true, scene.button1PressedProperty, {
+          scale: 1.2,
+          baseColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
+          radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
+        } ), {
+          center: verticalCylinderImageNode.center
+        } );
 
       options = _.extend( { children: [ verticalCylinderImageNode, button ] }, options );
 
@@ -49,9 +51,11 @@ define( require => {
 
       // Show an icon above the red button
       const sceneIcons = new WaveInterferenceSceneIcons();
-      this.addChild( new Panel( new SceneToggleNode( model, scene => scene === model.waterScene ? sceneIcons.faucetIcon :
-                                                                     scene === model.soundScene ? sceneIcons.speakerIcon :
-                                                                     sceneIcons.laserPointerIcon ), {
+      this.addChild( new Panel( new SceneToggleNode(
+        model,
+        scene => scene === model.waterScene ? sceneIcons.faucetIcon :
+                 scene === model.soundScene ? sceneIcons.speakerIcon :
+                 sceneIcons.laserPointerIcon ), {
         stroke: null,
         fill: '#d8d8d8',
         xMargin: 2,

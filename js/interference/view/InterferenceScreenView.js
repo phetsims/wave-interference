@@ -40,9 +40,12 @@ define( require => {
         { value: range.min, label: toLabel( StringUtils.format( unitsString, range.min ) ) },
         { value: range.max, label: toLabel( StringUtils.format( unitsString, range.max ) ) }
       ];
+      const waterSeparationProperty = model.waterScene.desiredSourceSeparationProperty;
+      const soundSeparationProperty = model.soundScene.sourceSeparationProperty;
+      const lightSeparationProperty = model.lightScene.sourceSeparationProperty;
       const toggleNode = new ToggleNode( model.sceneProperty, [ {
         value: model.waterScene,
-        node: new NumberControl( separationString, model.waterScene.desiredSourceSeparationProperty, waterSceneRange, _.extend( {
+        node: new NumberControl( separationString, waterSeparationProperty, waterSceneRange, _.extend( {
           delta: 1,
           valuePattern: cmValueString,
           decimalPlaces: 0,
@@ -50,14 +53,14 @@ define( require => {
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.soundScene,
-        node: new NumberControl( separationString, model.soundScene.sourceSeparationProperty, soundSceneRange, _.extend( {
+        node: new NumberControl( separationString, soundSeparationProperty, soundSceneRange, _.extend( {
           delta: 5,
           valuePattern: cmValueString,
           majorTicks: createTicks( soundSceneRange, cmValueString )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.lightScene,
-        node: new NumberControl( separationString, model.lightScene.sourceSeparationProperty, lightSceneRange, _.extend( {
+        node: new NumberControl( separationString, lightSeparationProperty, lightSceneRange, _.extend( {
           delta: 500,
           valuePattern: nmValueString,
           majorTicks: createTicks( lightSceneRange, nmValueString )

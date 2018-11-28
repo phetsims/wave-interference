@@ -80,7 +80,8 @@ define( require => {
         // If true, Nodes will be added that show each Emitter, otherwise no EmitterNodes are shown.
         showSceneSpecificEmitterNodes: true,
 
-        // Nested options as discussed in https://github.com/phetsims/tasks/issues/730, see WaveInterferenceControlPanel for keys/values
+        // Nested options as discussed in https://github.com/phetsims/tasks/issues/730,
+        // see WaveInterferenceControlPanel for keys/values
         controlPanelOptions: {}
       }, options );
       super();
@@ -97,31 +98,36 @@ define( require => {
 
       // Thin border to distinguish between the lattice node and the light screen.  This is not part of the
       // waveAreaNode because that would extend its bounds
-      const borderNode = new Rectangle( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, {
-        stroke: 'white',
-        lineWidth: 1,
-        top: this.waveAreaNode.top - 0.5,
-        centerX: this.waveAreaNode.centerX
-      } );
+      const borderNode = new Rectangle(
+        0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, {
+          stroke: 'white',
+          lineWidth: 1,
+          top: this.waveAreaNode.top - 0.5,
+          centerX: this.waveAreaNode.centerX
+        } );
 
       // @protected {Node} placeholder for z-ordering for subclasses
       this.afterWaveAreaNode = new Node();
 
       // show the length scale at the top left of the wave area
-      const lengthScaleIndicatorNode = new SceneToggleNode( model, scene => new LengthScaleIndicatorNode( scene, this.waveAreaNode.width ), {
-        alignChildren: ToggleNode.LEFT,
-        bottom: this.waveAreaNode.top - 2,
-        left: this.waveAreaNode.left
-      } );
+      const lengthScaleIndicatorNode = new SceneToggleNode(
+        model,
+        scene => new LengthScaleIndicatorNode( scene, this.waveAreaNode.width ), {
+          alignChildren: ToggleNode.LEFT,
+          bottom: this.waveAreaNode.top - 2,
+          left: this.waveAreaNode.left
+        } );
       this.addChild( lengthScaleIndicatorNode );
 
       // show the time scale at the top right of the wave area
       const font = new PhetFont( { size: 12 } );
-      const timeScaleIndicatorNode = new SceneToggleNode( model, scene => new RichText( scene.timeScaleString, { font: font } ), {
-        alignChildren: ToggleNode.RIGHT,
-        bottom: this.waveAreaNode.top - 2,
-        right: this.waveAreaNode.right
-      } );
+      const timeScaleIndicatorNode = new SceneToggleNode(
+        model,
+        scene => new RichText( scene.timeScaleString, { font: font } ), {
+          alignChildren: ToggleNode.RIGHT,
+          bottom: this.waveAreaNode.top - 2,
+          right: this.waveAreaNode.right
+        } );
       this.addChild( timeScaleIndicatorNode );
 
       const waveAreaGraphNode = new WaveAreaGraphNode( model, this.waveAreaNode.bounds, {
@@ -183,7 +189,10 @@ define( require => {
 
       // Match the size of the scale indicator
       const numberGridLines = model.lightScene.waveAreaWidth / model.lightScene.scaleIndicatorLength;
-      const intensityGraphPanel = new IntensityGraphPanel( this.latticeNode.height, model.lightScene.intensitySample, numberGridLines,
+      const intensityGraphPanel = new IntensityGraphPanel(
+        this.latticeNode.height,
+        model.lightScene.intensitySample,
+        numberGridLines,
         model.resetEmitter, {
           left: lightScreenNode.right + 5
         } );
@@ -196,7 +205,9 @@ define( require => {
       this.addChild( intensityGraphPanel );
 
       // Make sure the charting area is perfectly aligned with the wave area
-      intensityGraphPanel.translate( 0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top );
+      intensityGraphPanel.translate(
+        0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top
+      );
 
       const measuringTapeProperty = new Property();
       model.sceneProperty.link( scene => {
@@ -310,10 +321,12 @@ define( require => {
 
       if ( options.showPulseContinuousRadioButtons ) {
 
-        this.addChild( new SceneToggleNode( model, scene => new PulseContinuousRadioButtonGroup( scene.waveTemporalTypeProperty ), {
-          bottom: this.layoutBounds.bottom - MARGIN,
-          left: this.layoutBounds.left + MARGIN
-        } ) );
+        this.addChild( new SceneToggleNode(
+          model,
+          scene => new PulseContinuousRadioButtonGroup( scene.waveTemporalTypeProperty ), {
+            bottom: this.layoutBounds.bottom - MARGIN,
+            left: this.layoutBounds.left + MARGIN
+          } ) );
       }
 
       if ( options.showViewRadioButtonGroup ) {
@@ -342,10 +355,12 @@ define( require => {
         waterGrayBackground.visible = rotationAmount !== 0 && scene === model.waterScene;
       } );
 
-      // Show the sound particles for the sound Scene, or a placeholder for the Slits screen, which does not show SoundParticles
-      const soundParticleLayer = model.soundScene.showSoundParticles ? new SoundParticleLayer( model, this.waveAreaNode.bounds, {
-        center: this.waveAreaNode.center
-      } ) : new Node();
+      // Show the sound particles for the sound Scene, or a placeholder for the Slits screen, which does not show
+      // SoundParticles
+      const soundParticleLayer = model.soundScene.showSoundParticles ?
+                                 new SoundParticleLayer( model, this.waveAreaNode.bounds, {
+                                   center: this.waveAreaNode.center
+                                 } ) : new Node();
 
       if ( phet.chipper.queryParameters.dev && model.soundScene.showSoundParticles ) {
         const soundParticleDevPanel = new SoundParticleDevPanel( {
@@ -364,7 +379,8 @@ define( require => {
 
       // Update the visibility of the waveAreaNode, latticeNode and soundParticleLayer
       Property.multilink(
-        [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty, model.showWavesProperty, model.soundScene.viewSelectionProperty ],
+        [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty, model.showWavesProperty,
+          model.soundScene.viewSelectionProperty ],
         ( rotationAmount, isRotating, scene, showWaves, soundViewSelection ) => {
           const isSideWater = rotationAmount === 1 && scene === model.waterScene;
           const okToShow = !isRotating && !isSideWater;
@@ -376,18 +392,22 @@ define( require => {
           }
           this.latticeNode.visible = showLattice && soundViewSelection !== SoundViewType.PARTICLES;
 
-          soundParticleLayer.visible = ( soundViewSelection === SoundViewType.PARTICLES || soundViewSelection === SoundViewType.BOTH ) &&
+          soundParticleLayer.visible = ( soundViewSelection === SoundViewType.PARTICLES ||
+                                         soundViewSelection === SoundViewType.BOTH ) &&
                                        scene === model.soundScene && okToShow;
 
           waterDropLayer.visible = scene === model.waterScene;
         } );
 
-      Property.multilink( [ model.rotationAmountProperty, model.isRotatingProperty, model.showGraphProperty ], ( rotationAmount, isRotating, showGraph ) => {
-        waveAreaGraphNode.visible = !isRotating && showGraph;
-        dashedLineNode.visible = !isRotating && showGraph;
-      } );
+      Property.multilink(
+        [ model.rotationAmountProperty, model.isRotatingProperty, model.showGraphProperty ],
+        ( rotationAmount, isRotating, showGraph ) => {
+          waveAreaGraphNode.visible = !isRotating && showGraph;
+          dashedLineNode.visible = !isRotating && showGraph;
+        } );
 
-      const perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty, model.isRotatingProperty );
+      const perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty,
+        model.isRotatingProperty );
 
       // Initialize and update the colors based on the scene
       Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], ( scene, frequency ) => {
@@ -396,7 +416,8 @@ define( require => {
                                            VisibleColor.frequencyToColor( fromFemto( frequency ) ) );
         perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR :
                                             scene === model.soundScene ? 'darkGray' :
-                                            VisibleColor.frequencyToColor( fromFemto( frequency ) ).colorUtilsDarker( 0.15 ) );
+                                            VisibleColor.frequencyToColor( fromFemto( frequency ) )
+                                              .colorUtilsDarker( 0.15 ) );
       } );
 
       /**

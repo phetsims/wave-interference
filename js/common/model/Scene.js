@@ -123,9 +123,10 @@ define( require => {
       // @public {Property.<Number>} - distance between the sources in the units of the scene, or 0 if there is only one
       // source initialized to match the initial slit separation,
       // see https://github.com/phetsims/wave-interference/issues/87
-      this.sourceSeparationProperty = new NumberProperty( config.numberOfSources === 1 ? 0 : config.initialSlitSeparation, {
-        units: this.positionUnits
-      } );
+      this.sourceSeparationProperty = new NumberProperty(
+        config.numberOfSources === 1 ? 0 : config.initialSlitSeparation, {
+          units: this.positionUnits
+        } );
 
       // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice
       // coordinates, does not include damping regions

@@ -32,7 +32,9 @@ define( require => {
         controlPanelOptions: {
           showAmplitudeSlider: false
         },
-        showSceneSpecificEmitterNodes: false // Show the plane wave emitter instead of the individual scene-specific emitters
+
+        // Show the plane wave emitter instead of the individual scene-specific emitters
+        showSceneSpecificEmitterNodes: false
       } );
 
       // The Slits screen has an additional control panel below the main control panel, which controls the barrier/slits
@@ -55,14 +57,16 @@ define( require => {
       const waterBarriersNode = new BarriersNode( model, model.waterScene, this.waveAreaNode.bounds );
       const soundBarriersNode = new BarriersNode( model, model.soundScene, this.waveAreaNode.bounds );
       const lightBarriersNode = new BarriersNode( model, model.lightScene, this.waveAreaNode.bounds );
-      Property.multilink( [ model.sceneProperty, model.rotationAmountProperty, model.isRotatingProperty, model.viewTypeProperty ], ( scene, rotationAmount, isRotating, viewType ) => {
+      Property.multilink(
+        [ model.sceneProperty, model.rotationAmountProperty, model.isRotatingProperty, model.viewTypeProperty ],
+        ( scene, rotationAmount, isRotating, viewType ) => {
 
-        // Hide the barriers for water side view and while rotating
-        const hide = scene === model.waterScene && viewType === ViewType.SIDE || isRotating;
-        waterBarriersNode.visible = !hide && scene === model.waterScene;
-        soundBarriersNode.visible = !hide && scene === model.soundScene;
-        lightBarriersNode.visible = !hide && scene === model.lightScene;
-      } );
+          // Hide the barriers for water side view and while rotating
+          const hide = scene === model.waterScene && viewType === ViewType.SIDE || isRotating;
+          waterBarriersNode.visible = !hide && scene === model.waterScene;
+          soundBarriersNode.visible = !hide && scene === model.soundScene;
+          lightBarriersNode.visible = !hide && scene === model.lightScene;
+        } );
       this.afterWaveAreaNode.addChild( waterBarriersNode );
       this.afterWaveAreaNode.addChild( soundBarriersNode );
       this.afterWaveAreaNode.addChild( lightBarriersNode );

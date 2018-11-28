@@ -46,7 +46,8 @@ define( require => {
       new InterferenceScreen( alignGroup ),
       new SlitsScreen( alignGroup ),
 
-      // the Diffraction screen is under development, and will not be included in 1.0, see https://github.com/phetsims/wave-interference/issues/98
+      // the Diffraction screen is under development, and will not be included in 1.0,
+      // see https://github.com/phetsims/wave-interference/issues/98
       ...( WaveInterferenceQueryParameters.includeDiffractionScreen ? [ new DiffractionScreen() ] : [] )
     ], simOptions );
     sim.start();

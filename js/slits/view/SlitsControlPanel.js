@@ -60,22 +60,25 @@ define( require => {
       ];
 
       const waterRange = new Range( 0, 5 );
-      const waterSlitWidthControl = new NumberControl( slitWidthString, model.waterScene.slitWidthProperty, waterRange, _.extend( {
-        valuePattern: cmValueString,
-        majorTicks: createTicks( waterRange )
-      }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+      const waterSlitWidthControl = new NumberControl(
+        slitWidthString, model.waterScene.slitWidthProperty, waterRange, _.extend( {
+          valuePattern: cmValueString,
+          majorTicks: createTicks( waterRange )
+        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const soundRange = new Range( 0, 100 );
-      const soundSlitWidthControl = new NumberControl( slitWidthString, model.soundScene.slitWidthProperty, soundRange, _.extend( {
-        valuePattern: cmValueString,
-        majorTicks: createTicks( soundRange )
-      }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+      const soundSlitWidthControl = new NumberControl(
+        slitWidthString, model.soundScene.slitWidthProperty, soundRange, _.extend( {
+          valuePattern: cmValueString,
+          majorTicks: createTicks( soundRange )
+        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const lightRange = new Range( 0, 2000 );
-      const lightSlitWidthControl = new NumberControl( slitWidthString, model.lightScene.slitWidthProperty, lightRange, _.extend( {
-        valuePattern: nmValueString,
-        majorTicks: createTicks( lightRange )
-      }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+      const lightSlitWidthControl = new NumberControl(
+        slitWidthString, model.lightScene.slitWidthProperty, lightRange, _.extend( {
+          valuePattern: nmValueString,
+          majorTicks: createTicks( lightRange )
+        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const slitWidthControl = new ToggleNode( model.sceneProperty, [
         { value: model.waterScene, node: waterSlitWidthControl },
         { value: model.soundScene, node: soundSlitWidthControl },
@@ -89,22 +92,34 @@ define( require => {
       } );
 
       const waterSeparationRange = new Range( 0, 5 );
-      const waterSeparationControl = new NumberControl( slitSeparationString, model.waterScene.slitSeparationProperty, waterSeparationRange, _.extend( {
-        valuePattern: cmValueString,
-        majorTicks: createTicks( waterSeparationRange )
-      }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+      const waterSeparationControl = new NumberControl(
+        slitSeparationString,
+        model.waterScene.slitSeparationProperty,
+        waterSeparationRange,
+        _.extend( {
+          valuePattern: cmValueString,
+          majorTicks: createTicks( waterSeparationRange )
+        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const soundSeparationRange = new Range( 0, 200 );
-      const soundSeparationControl = new NumberControl( slitSeparationString, model.soundScene.slitSeparationProperty, soundSeparationRange, _.extend( {
-        valuePattern: cmValueString,
-        majorTicks: createTicks( soundSeparationRange )
-      }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+      const soundSeparationControl = new NumberControl(
+        slitSeparationString,
+        model.soundScene.slitSeparationProperty,
+        soundSeparationRange,
+        _.extend( {
+          valuePattern: cmValueString,
+          majorTicks: createTicks( soundSeparationRange )
+        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const lightSeparationRange = new Range( 0, 2000 );
-      const lightSeparationControl = new NumberControl( slitSeparationString, model.lightScene.slitSeparationProperty, lightSeparationRange, _.extend( {
-        valuePattern: nmValueString,
-        majorTicks: createTicks( lightSeparationRange )
-      }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+      const lightSeparationControl = new NumberControl(
+        slitSeparationString,
+        model.lightScene.slitSeparationProperty,
+        lightSeparationRange,
+        _.extend( {
+          valuePattern: nmValueString,
+          majorTicks: createTicks( lightSeparationRange )
+        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const slitSeparationControl = new ToggleNode( model.sceneProperty, [
         { value: model.waterScene, node: waterSeparationControl },
         { value: model.soundScene, node: soundSeparationControl },

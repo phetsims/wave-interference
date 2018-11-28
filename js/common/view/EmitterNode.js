@@ -77,7 +77,10 @@ define( require => {
         children: [ nodeWithButton ]
       } );
 
-      const modelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), waveAreaNode.bounds );
+      const modelViewTransform = ModelViewTransform2.createRectangleMapping(
+        scene.getWaveAreaBounds(),
+        waveAreaNode.bounds
+      );
 
       // @protected {Property.<number>} vertical offset, used by WaterEmitterNode
       this.centerYProperty = new Property();

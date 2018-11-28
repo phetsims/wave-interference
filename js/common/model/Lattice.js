@@ -286,7 +286,10 @@ define( require => {
       // Main loop, doesn't update cells on the edges
       for ( let i = 1; i < width - 1; i++ ) {
         for ( let j = 1; j < height - 1; j++ ) {
-          const neighborSum = matrix1.get( i + 1, j ) + matrix1.get( i - 1, j ) + matrix1.get( i, j + 1 ) + matrix1.get( i, j - 1 );
+          const neighborSum = matrix1.get( i + 1, j ) +
+                              matrix1.get( i - 1, j ) +
+                              matrix1.get( i, j + 1 ) +
+                              matrix1.get( i, j - 1 );
           const m1ij = matrix1.get( i, j );
           const value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
           matrix0.set( i, j, value );
