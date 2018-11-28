@@ -11,7 +11,6 @@ define( require => {
   // modules
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const Property = require( 'AXON/Property' );
   const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -82,9 +81,6 @@ define( require => {
         waveAreaNode.bounds
       );
 
-      // @protected {Property.<number>} vertical offset, used by WaterEmitterNode
-      this.centerYProperty = new Property();
-
       const sourceSeparationProperty = scene.desiredSourceSeparationProperty || scene.sourceSeparationProperty;
       sourceSeparationProperty.link( sourceSeparation => {
         if ( !isPrimarySource ) {
@@ -93,8 +89,7 @@ define( require => {
         const sign = isPrimarySource ? 1 : -1;
         const viewSeparation = modelViewTransform.modelToViewDeltaY( sourceSeparation );
 
-        this.centerYProperty.value = waveAreaNode.centerY + sign * viewSeparation / 2;
-        nodeWithButton.centerY = this.centerYProperty.value + verticalOffset;
+        nodeWithButton.centerY = waveAreaNode.centerY + sign * viewSeparation / 2 + verticalOffset;
       } );
     }
   }

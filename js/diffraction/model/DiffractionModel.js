@@ -9,6 +9,8 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -16,20 +18,20 @@ define( require => {
     constructor() {
 
       // @public {Property.<boolean>} whether the laser is emitting light
-      this.onProperty = new Property( true );
+      this.onProperty = new BooleanProperty( true );
 
       // @public {Property.<number>} dimensions of the square aperture
-      this.squareWidthProperty = new Property( 16 );
-      this.squareHeightProperty = new Property( 16 );
+      this.squareWidthProperty = new NumberProperty( 16 );
+      this.squareHeightProperty = new NumberProperty( 16 );
 
       // @public {Property.<number>} dimensions of the elliptical aperture
-      this.sigmaXProperty = new Property( 10 );
-      this.sigmaYProperty = new Property( 10 );
-      this.gaussianMagnitudeProperty = new Property( 400 );
+      this.sigmaXProperty = new NumberProperty( 10 );
+      this.sigmaYProperty = new NumberProperty( 10 );
+      this.gaussianMagnitudeProperty = new NumberProperty( 400 );
 
       // @public {Property.<number>} characteristics of the grating
-      this.numberOfLinesProperty = new Property( 10 );
-      this.angleProperty = new Property( 0 );
+      this.numberOfLinesProperty = new NumberProperty( 10 );
+      this.angleProperty = new NumberProperty( 0 );
 
       // @public {Property.<string>} selected scene
       this.sceneProperty = new Property( 'circle' ); // TODO: enum
