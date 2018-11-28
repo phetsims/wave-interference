@@ -10,7 +10,6 @@ define( require => {
 
   // modules
   const DragListener = require( 'SCENERY/listeners/DragListener' );
-  const Text = require( 'SCENERY/nodes/Text' );
   const TimerNode = require( 'SCENERY_PHET/TimerNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
