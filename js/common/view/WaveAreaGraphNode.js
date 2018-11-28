@@ -69,7 +69,7 @@ define( require => {
         // Find the position of the tick mark in the units of the scene
         const horizontalAxisTickLabel = new SceneToggleNode(
           model,
-          scene => new WaveInterferenceText( ( scene.waveAreaWidth * x / graphWidth ).toFixed( 0 ), {
+          scene => new WaveInterferenceText( Util.toFixed( scene.waveAreaWidth * x / graphWidth, 0 ), {
             centerX: x,
             top: horizontalLineY + HORIZONTAL_LABEL_VERTICAL_MARGIN
           } )

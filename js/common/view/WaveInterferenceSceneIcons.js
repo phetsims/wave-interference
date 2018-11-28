@@ -15,7 +15,6 @@ define( require => {
   const Image = require( 'SCENERY/nodes/Image' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
-  const Property = require( 'AXON/Property' );
   const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker/speaker_MID.png' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 

@@ -14,7 +14,6 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const EmitterNode = require( 'WAVE_INTERFERENCE/common/view/EmitterNode' );
   const FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
-  const Property = require( 'AXON/Property' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
