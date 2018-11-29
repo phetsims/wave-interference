@@ -51,7 +51,10 @@ define( require => {
         buttonYMargin: 0
       } );
 
-      const createLabel = text => new WaveInterferenceText( text, { fontSize: 10 } );
+      const createLabel = text => new WaveInterferenceText( text, {
+        fontSize: 10,
+        maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH
+      } );
 
       const createTicks = range => [
         { value: range.min, label: createLabel( '' + range.min ) },

@@ -35,7 +35,10 @@ define( require => {
      */
     constructor( model, alignGroup ) {
 
-      const toLabel = string => new WaveInterferenceText( string, { fontSize: 10 } );
+      const toLabel = string => new WaveInterferenceText( string, {
+        fontSize: 10,
+        maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH
+      } );
       const waterSceneRange = new Range( 1, 5 );
       const soundSceneRange = new Range( 100, 200 );
       const lightSceneRange = new Range( 500, 2500 );

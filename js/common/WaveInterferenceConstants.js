@@ -71,6 +71,9 @@ define( require => {
     // maxWidth for the right hand side panels
     PANEL_MAX_WIDTH: 200,
 
+    // maxWidth for slider ticks
+    TICK_MAX_WIDTH: 30,
+
     // Parameters for sound.  These are constants in the simulation, but wrapped in Properties for fine
     // tuning with developer controls.
 
