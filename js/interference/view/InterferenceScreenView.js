@@ -11,7 +11,6 @@ define( require => {
   // modules
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Range = require( 'DOT/Range' );
-  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -41,8 +40,8 @@ define( require => {
       const soundSceneRange = new Range( 100, 200 );
       const lightSceneRange = new Range( 500, 2500 );
       const createTicks = ( range, unitsString ) => [
-        { value: range.min, label: toLabel( StringUtils.format( unitsString, range.min ) ) },
-        { value: range.max, label: toLabel( StringUtils.format( unitsString, range.max ) ) }
+        { value: range.min, label: toLabel( range.min ) },
+        { value: range.max, label: toLabel( range.max ) }
       ];
       const waterSeparationProperty = model.waterScene.desiredSourceSeparationProperty;
       const soundSeparationProperty = model.soundScene.sourceSeparationProperty;
