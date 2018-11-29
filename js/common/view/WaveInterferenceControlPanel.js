@@ -18,6 +18,7 @@ define( require => {
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
+  const Util = require( 'DOT/Util' );
   const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -205,9 +206,17 @@ define( require => {
 
       // Vertical layout
       const TITLE_SPACING = 5;
-      frequencySliderContainer.top = frequencyTitle.bottom - TITLE_SPACING;
+
+      // At the default size, the text should "nestle" into the slider.  But when the text is too small,
+      // it must be spaced further away.  See https://github.com/phetsims/wave-interference/issues/194
+      var frequencyTitleSpacing = Util.linear( 17, 4, -TITLE_SPACING, +TITLE_SPACING, frequencyTitle.height );
+      frequencySliderContainer.top = frequencyTitle.bottom + frequencyTitleSpacing;
       amplitudeTitle.top = frequencySliderContainer.bottom + 2;
-      amplitudeSliderContainer.top = amplitudeTitle.bottom - TITLE_SPACING;
+
+      // At the default size, the text should "nestle" into the slider.  But when the text is too small,
+      // it must be spaced further away.  See https://github.com/phetsims/wave-interference/issues/194
+      var amplitudeTitleSpacing = Util.linear( 17, 4, -TITLE_SPACING, +TITLE_SPACING, amplitudeTitle.height );
+      amplitudeSliderContainer.top = amplitudeTitle.bottom + amplitudeTitleSpacing;
       const y = options.showAmplitudeSlider ?
                 amplitudeSliderContainer.bottom + TITLE_SPACING :
                 frequencySliderContainer.bottom + 2;
