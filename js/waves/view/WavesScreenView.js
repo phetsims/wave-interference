@@ -331,7 +331,7 @@ define( require => {
           model,
           scene => new PulseContinuousRadioButtonGroup( scene.waveTemporalTypeProperty ), {
             bottom: this.waveAreaNode.bottom,
-            right: this.waveAreaNode.left - MARGIN
+            centerX: ( this.waveAreaNode.left + this.layoutBounds.left ) / 2
           } ) );
       }
 
