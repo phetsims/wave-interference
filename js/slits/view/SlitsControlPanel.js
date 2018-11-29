@@ -36,9 +36,8 @@ define( require => {
      * @param {AlignGroup} alignGroup
      * @param {SlitsScreenModel} model
      * @param {Node} comboBoxParent
-     * @param {Object} [options]
      */
-    constructor( alignGroup, model, comboBoxParent, options ) {
+    constructor( alignGroup, model, comboBoxParent ) {
 
       const barrierTypeDynamicProperty = new DynamicProperty( model.sceneProperty, {
         derive: 'barrierTypeProperty',
@@ -149,7 +148,9 @@ define( require => {
         ]
       } ) );
 
-      super( content, options );
+      super( content, {
+        maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH
+      } );
     }
   }
 
