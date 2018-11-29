@@ -48,7 +48,7 @@ define( require => {
           // The vertical offset is adjusted with FAUCET_VERTICAL_OFFSET
           x: WaveInterferenceUtils.getWaterDropX( model, waveAreaNode.bounds ),
           scale: 0.25,
-          horizontalPipeLength: 1600 // Long enough that it still shows even for extreme aspect ratios
+          horizontalPipeLength: 2400 // Long enough that it still shows even for extreme aspect ratios
         } );
 
       super( model, model.waterScene, waveAreaNode, 62, isPrimarySource, faucetNode, FAUCET_VERTICAL_OFFSET, -7, true );
