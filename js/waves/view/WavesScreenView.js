@@ -330,15 +330,15 @@ define( require => {
         this.addChild( new SceneToggleNode(
           model,
           scene => new PulseContinuousRadioButtonGroup( scene.waveTemporalTypeProperty ), {
-            bottom: this.layoutBounds.bottom - MARGIN,
-            left: this.layoutBounds.left + MARGIN
+            bottom: this.waveAreaNode.bottom,
+            right: this.waveAreaNode.left - MARGIN
           } ) );
       }
 
       if ( options.showViewRadioButtonGroup ) {
         this.addChild( new ViewRadioButtonGroup( model.viewTypeProperty, {
           bottom: this.layoutBounds.bottom - MARGIN,
-          left: this.waveAreaNode.left + SPACING + 10
+          left: this.waveAreaNode.left
         } ) );
       }
 

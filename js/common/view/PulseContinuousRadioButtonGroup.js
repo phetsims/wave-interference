@@ -22,13 +22,13 @@ define( require => {
      */
     constructor( waveTemporalTypeProperty, options ) {
       super( waveTemporalTypeProperty, [ {
-        value: WaveTemporalType.PULSE,
-        node: new InputTypeIconNode( WaveTemporalType.PULSE )
-      }, {
         value: WaveTemporalType.CONTINUOUS,
         node: new InputTypeIconNode( WaveTemporalType.CONTINUOUS )
+      }, {
+        value: WaveTemporalType.PULSE,
+        node: new InputTypeIconNode( WaveTemporalType.PULSE )
       } ], _.extend( {
-        orientation: 'horizontal',
+        orientation: 'vertical',
         buttonContentXMargin: 0,
         buttonContentYMargin: 8,
         selectedLineWidth: 2,
