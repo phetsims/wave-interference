@@ -22,11 +22,6 @@ define( require => {
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
   const separationString = require( 'string!WAVE_INTERFERENCE/separation' );
 
-  // constants
-  const MAX_WIDTH_OPTIONS = {
-    titleMaxWidth: 120
-  };
-
   class InterferenceScreenView extends WavesScreenView {
 
     /**
@@ -59,21 +54,21 @@ define( require => {
           valuePattern: cmValueString,
           decimalPlaces: 0,
           majorTicks: createTicks( waterSceneRange, cmValueString )
-        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS, MAX_WIDTH_OPTIONS ) )
+        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.soundScene,
         node: new NumberControl( separationString, soundSeparationProperty, soundSceneRange, _.extend( {
           delta: 5,
           valuePattern: cmValueString,
           majorTicks: createTicks( soundSceneRange, cmValueString )
-        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS, MAX_WIDTH_OPTIONS ) )
+        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.lightScene,
         node: new NumberControl( separationString, lightSeparationProperty, lightSceneRange, _.extend( {
           delta: 500,
           valuePattern: nmValueString,
           majorTicks: createTicks( lightSceneRange, nmValueString )
-        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS, MAX_WIDTH_OPTIONS ) )
+        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       } ] );
       super( model, alignGroup, {
 
