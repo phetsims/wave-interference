@@ -142,7 +142,7 @@ define( require => {
         timeScaleFactor: 90 / 39.2,
 
         initialSlitWidth: 50, // cm
-        initialSlitSeparation: 150, // cm
+        initialSlitSeparation: 200, // cm
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
