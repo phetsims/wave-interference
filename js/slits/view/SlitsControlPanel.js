@@ -16,6 +16,7 @@ define( require => {
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Range = require( 'DOT/Range' );
   const ToggleNode = require( 'SUN/ToggleNode' );
+  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
@@ -61,23 +62,30 @@ define( require => {
         { value: range.max, label: createLabel( '' + range.max ) }
       ];
 
-      const waterRange = new Range( 0, 5 );
+      // Ranges, values and deltas specified in https://github.com/phetsims/wave-interference/issues/177
+      const waterRange = new Range( 0.5, 2.5 ); // cm
       const waterSlitWidthControl = new NumberControl(
         slitWidthString, model.waterScene.slitWidthProperty, waterRange, _.extend( {
+          delta: 0.1, // cm
+          decimalPlaces: 1,
           valuePattern: cmValueString,
           majorTicks: createTicks( waterRange )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
-      const soundRange = new Range( 0, 100 );
+      const soundRange = new Range( 20, 160 );
       const soundSlitWidthControl = new NumberControl(
         slitWidthString, model.soundScene.slitWidthProperty, soundRange, _.extend( {
+          delta: 1, // cm
+          constrainValue: function( value ) { return Util.roundToInterval( value, 10 ); },
           valuePattern: cmValueString,
           majorTicks: createTicks( soundRange )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
-      const lightRange = new Range( 0, 2000 );
+      const lightRange = new Range( 200, 1600 );
       const lightSlitWidthControl = new NumberControl(
         slitWidthString, model.lightScene.slitWidthProperty, lightRange, _.extend( {
+          delta: 10, // nm
+          constrainValue: function( value ) { return Util.roundToInterval( value, 50 ); },
           valuePattern: nmValueString,
           majorTicks: createTicks( lightRange )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );

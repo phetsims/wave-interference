@@ -35,6 +35,8 @@ define( require => {
         fontSize: 10,
         maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH
       } );
+
+      // Ranges, deltas, etc specified in https://github.com/phetsims/wave-interference/issues/177
       const waterSceneRange = new Range( 1, 5 ); // cm
       const soundSceneRange = new Range( 100, 400 ); // cm
       const lightSceneRange = new Range( 500, 4000 ); // nm

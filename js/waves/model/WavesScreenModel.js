@@ -109,7 +109,7 @@ define( require => {
 
         timeScaleFactor: 1, // 1 second in real time = 1 second on the simulation timer
 
-        initialSlitWidth: 2, // cm
+        initialSlitWidth: 1.5, // cm
         initialSlitSeparation: 3, // cm
 
         initialAmplitude: options.initialAmplitude,
@@ -141,7 +141,7 @@ define( require => {
         // frequency sound on the lattice and dividing by the desired wavelength
         timeScaleFactor: 90 / 39.2,
 
-        initialSlitWidth: 50, // cm
+        initialSlitWidth: 90, // cm
         initialSlitSeparation: 200, // cm
 
         initialAmplitude: options.initialAmplitude,
@@ -174,7 +174,7 @@ define( require => {
         // frequency wave on the lattice and dividing by the desired wavelength
         timeScaleFactor: 1853 / 660,
 
-        initialSlitWidth: 500, // nm
+        initialSlitWidth: 900, // nm
         initialSlitSeparation: 1500, // nm
 
         initialAmplitude: options.initialAmplitude,
