@@ -209,13 +209,13 @@ define( require => {
 
       // At the default size, the text should "nestle" into the slider.  But when the text is too small,
       // it must be spaced further away.  See https://github.com/phetsims/wave-interference/issues/194
-      var frequencyTitleSpacing = Util.linear( 17, 4, -TITLE_SPACING, +TITLE_SPACING, frequencyTitle.height );
+      const frequencyTitleSpacing = Util.linear( 17, 4, -TITLE_SPACING, +TITLE_SPACING, frequencyTitle.height );
       frequencySliderContainer.top = frequencyTitle.bottom + frequencyTitleSpacing;
       amplitudeTitle.top = frequencySliderContainer.bottom + 2;
 
       // At the default size, the text should "nestle" into the slider.  But when the text is too small,
       // it must be spaced further away.  See https://github.com/phetsims/wave-interference/issues/194
-      var amplitudeTitleSpacing = Util.linear( 17, 4, -TITLE_SPACING, +TITLE_SPACING, amplitudeTitle.height );
+      const amplitudeTitleSpacing = Util.linear( 17, 4, -TITLE_SPACING, +TITLE_SPACING, amplitudeTitle.height );
       amplitudeSliderContainer.top = amplitudeTitle.bottom + amplitudeTitleSpacing;
       const y = options.showAmplitudeSlider ?
                 amplitudeSliderContainer.bottom + TITLE_SPACING :
