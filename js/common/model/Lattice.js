@@ -29,7 +29,7 @@ define( require => {
   // the speed of light), but will generate more artifacts in the initial wave.  If the value is lower, it will generate
   // fewer artifacts in the initial propagation, but will lead the initial wavefront by too far and make it seem like
   // light is faster than it should be measured (based on the propagation of wavefronts).
-  const LIGHT_VISIT_THRESHOLD = 0.06;
+  const LIGHT_VISIT_THRESHOLD = 1E-6;
 
   class Lattice {
 
