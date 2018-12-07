@@ -14,6 +14,7 @@ define( require => {
   const Line = require( 'SCENERY/nodes/Line' );
   const Node = require( 'SCENERY/nodes/Node' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   class LengthScaleIndicatorNode extends Node {
@@ -26,7 +27,9 @@ define( require => {
     constructor( scene, latticeViewWidth, options ) {
 
       const width = scene.scaleIndicatorLength * latticeViewWidth / scene.waveAreaWidth;
-      const text = new WaveInterferenceText( scene.scaleIndicatorText );
+      const text = new WaveInterferenceText( scene.scaleIndicatorText, {
+        font: WaveInterferenceConstants.TIME_AND_LENGTH_SCALE_INDICATOR_FONT
+      } );
 
       const createBar = centerX => new Line( 0, 0, 0, text.height, { stroke: 'black', centerX } );
       const leftBar = createBar( -width / 2 );

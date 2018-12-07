@@ -23,7 +23,6 @@ define( require => {
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Property = require( 'AXON/Property' );
   const PulseContinuousRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/PulseContinuousRadioButtonGroup' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -124,10 +123,9 @@ define( require => {
       this.addChild( lengthScaleIndicatorNode );
 
       // show the time scale at the top right of the wave area
-      const font = new PhetFont( { size: 12 } );
       const timeScaleIndicatorNode = new SceneToggleNode(
         model,
-        scene => new RichText( scene.timeScaleString, { font: font } ), {
+        scene => new RichText( scene.timeScaleString, { font: WaveInterferenceConstants.TIME_AND_LENGTH_SCALE_INDICATOR_FONT } ), {
           alignChildren: ToggleNode.RIGHT,
           bottom: this.waveAreaNode.top - 2,
           right: this.waveAreaNode.right,
