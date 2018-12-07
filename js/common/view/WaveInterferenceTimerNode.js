@@ -9,6 +9,8 @@ define( require => {
   'use strict';
 
   // modules
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const TimerNode = require( 'SCENERY_PHET/TimerNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -40,11 +42,22 @@ define( require => {
       // timeUnits
       model.sceneProperty.link( scene => unitsNode.setText( scene.timeUnits ) );
 
+      // Subtract the dimensions from the visible bounds so that it will abut the edge of the screen
+      const boundsProperty = new DerivedProperty( [ config.visibleBoundsProperty ], visibleBounds => new Bounds2(
+        visibleBounds.minX,
+        visibleBounds.minY,
+        visibleBounds.maxX - this.width,
+        visibleBounds.maxY - this.height
+      ) );
+
+      // Keep in bounds when the view bounds are reshaped
+      boundsProperty.link( bounds => this.setTranslation( bounds.closestPointTo( this.translation ) ) );
+
       // @public - for forwarding drag events
       this.timerNodeDragListener = new DragListener( {
         targetNode: this,
         translateNode: true,
-        dragBoundsProperty: config.visibleBoundsProperty,
+        dragBoundsProperty: boundsProperty,
 
         // Drop in toolbox
         end: config.end
