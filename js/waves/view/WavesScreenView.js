@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * View for the "Waves" screen
+ * View for the "Waves" screen.  Extended for the Interference and Slits screens.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -341,16 +341,14 @@ define( require => {
       }
 
       const timeControlPanel = new TimeControlPanel( model, {
-        bottom: this.layoutBounds.bottom - MARGIN
+        bottom: this.layoutBounds.bottom - MARGIN,
+        centerX: this.waveAreaNode.centerX
       } );
 
       // Show a gray background for the water to make it easier to see the dotted line in the middle of the screen,
       // and visually partition the play area
       const waterGrayBackground = Rectangle.bounds( this.waveAreaNode.bounds, { fill: '#e2e3e5' } );
       this.addChild( waterGrayBackground );
-
-      // Play/Pause button centered under the wave area
-      timeControlPanel.left = this.waveAreaNode.centerX - timeControlPanel.playPauseButton.width / 2;
 
       // Show the side of the water, when fully rotated and in WATER scene
       const waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
