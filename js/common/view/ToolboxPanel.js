@@ -69,7 +69,9 @@ define( require => {
       model.isWaveMeterInPlayAreaProperty.value = false;
 
       initializeIcon( waveMeterIcon, model.isWaveMeterInPlayAreaProperty, event => {
-        waveMeterNode.center = this.globalToParentPoint( event.pointer.point );
+
+        // Fine-tuned empirically to set the drag point to be the center of the chart.
+        waveMeterNode.backgroundNode.setTranslation( this.globalToParentPoint( event.pointer.point ).plusXY( -60, -66 ) );
 
         // Set the internal flag that indicates the probes should remain in alignment during the drag
         waveMeterNode.synchronizeProbeLocations = true;

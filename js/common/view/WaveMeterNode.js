@@ -48,10 +48,9 @@ define( require => {
     /**
      * @param {WavesScreenModel} model - model for reading values
      * @param {WavesScreenView} view - for getting coordinates for model
-     * @param {DragListener} dragListener
      * @param {Object} [options]
      */
-    constructor( model, view, dragListener, options ) {
+    constructor( model, view, options ) {
       options = _.extend( {
         timeDivisions: NUMBER_OF_TIME_DIVISIONS
       }, options );
@@ -59,13 +58,13 @@ define( require => {
 
       super();
 
-      // @private {Node} - shows the background for the MeterBodyNode.  Any attached probes or other supplemental nodes
-      // should not be children if the backgroundNode if they need to translate independently
+      // @public (read-only) {Node} - shows the background for the MeterBodyNode.  Any attached probes or other
+      // supplemental nodes should not be children if the backgroundNode if they need to translate independently.
       this.backgroundNode = backgroundNode;
 
-      // @private
-      this.backgroundDragListener = dragListener;
-      this.backgroundNode.addInputListener( this.backgroundDragListener );
+      // @private {DragListener} - set by setDragListener
+      this.backgroundDragListener = null;
+
       this.addChild( this.backgroundNode );
 
       // Mutate after backgroundNode is added as a child
@@ -251,6 +250,17 @@ define( require => {
 
       // Forward the event to the drag listener
       this.backgroundDragListener.press( event, this.backgroundNode );
+    }
+
+    /**
+     * Set the drag listener, wires it up and uses it for forwarding events from the toolbox icon.
+     * @param {DragListener} dragListener
+     * @public
+     */
+    setDragListener( dragListener ) {
+      assert && assert( this.backgroundDragListener === null, 'setDragListener must be called no more than once' );
+      this.backgroundDragListener = dragListener;
+      this.backgroundNode.addInputListener( dragListener );
     }
   }
 

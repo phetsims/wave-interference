@@ -10,8 +10,10 @@ define( require => {
 
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const Bounds2 = require( 'DOT/Bounds2' );
   const Color = require( 'SCENERY/util/Color' );
   const DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const Emitter = require( 'AXON/Emitter' );
   const IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
@@ -263,7 +265,22 @@ define( require => {
         }
       } );
 
-      const waveDetectorToolNode = new WaveMeterNode( model, this, new DragListener( {
+      const waveDetectorToolNode = new WaveMeterNode( model, this );
+      model.resetEmitter.addListener( () => waveDetectorToolNode.alignProbesEmitter.emit() );
+      model.isWaveMeterInPlayAreaProperty.link( inPlayArea => waveDetectorToolNode.setVisible( inPlayArea ) );
+
+      // Original bounds of the waveDetectorToolNode
+      const bounds = waveDetectorToolNode.backgroundNode.bounds.copy();
+
+      // Subtract the dimensions from the visible bounds so that it will abut the edge of the screen
+      const boundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
+        return new Bounds2(
+          visibleBounds.minX - bounds.minX, visibleBounds.minY - bounds.minY,
+          visibleBounds.maxX - bounds.maxX, visibleBounds.maxY - bounds.maxY
+        );
+      } );
+      waveDetectorToolNode.setDragListener( new DragListener( {
+        dragBoundsProperty: boundsProperty,
         translateNode: true,
         start: () => {
           if ( waveDetectorToolNode.synchronizeProbeLocations ) {
@@ -293,8 +310,6 @@ define( require => {
           waveDetectorToolNode.synchronizeProbeLocations = false;
         }
       } ) );
-      model.resetEmitter.addListener( () => waveDetectorToolNode.alignProbesEmitter.emit() );
-      model.isWaveMeterInPlayAreaProperty.link( inPlayArea => waveDetectorToolNode.setVisible( inPlayArea ) );
 
       const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );
       const updateToolboxPosition = () => {
