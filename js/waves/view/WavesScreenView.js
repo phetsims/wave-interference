@@ -238,6 +238,7 @@ define( require => {
         textColor: 'black',
         basePositionProperty: model.measuringTapeBasePositionProperty,
         tipPositionProperty: model.measuringTapeTipPositionProperty,
+        dragBounds: this.visibleBoundsProperty.value,
 
         // Drop in toolbox
         baseDragEnded: () => {
@@ -246,6 +247,7 @@ define( require => {
           }
         }
       } );
+      this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds ) );
       model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
       const timerNode = new WaveInterferenceTimerNode( model, {
