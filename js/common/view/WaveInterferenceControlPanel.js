@@ -194,7 +194,6 @@ define( require => {
         amplitudeTitle.left,
         sceneRadioButtons.left
       ] );
-      minX = minX + 11; // Account for half the slider knob width, so it lines up with the slider left tick
 
       // Align controls to the left
       viewSelectionRadioButtonGroup.left = minX;
