@@ -179,7 +179,9 @@ define( require => {
         // frequency wave on the lattice and dividing by the desired wavelength
         timeScaleFactor: 1853 / 660,
 
-        initialSlitWidth: 900, // nm
+        // nm - if this value is too high, the light screen will oversaturate,
+        // see https://github.com/phetsims/wave-interference/issues/209
+        initialSlitWidth: 500,
         initialSlitSeparation: 1500, // nm
 
         initialAmplitude: options.initialAmplitude,
