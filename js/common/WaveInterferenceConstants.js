@@ -24,9 +24,13 @@ define( require => {
     WAVE_AREA_WIDTH: 500,
     MAJOR_TICK_LENGTH: MAJOR_TICK_LENGTH,
 
+    // For NumberControls and WaveInterferenceSliders
+    TICK_FONT_SIZE: 11.5,
+
     // These constants are used for the NumberControls to give them a consistent looks
     NUMBER_CONTROL_OPTIONS: {
       trackSize: new Dimension2( 100, 1 ),
+      valueFont: new PhetFont( 13 ),
       majorTickLength: MAJOR_TICK_LENGTH,
       thumbSize: THUMB_SIZE,
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 3 } ),

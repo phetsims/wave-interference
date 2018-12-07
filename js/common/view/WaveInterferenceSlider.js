@@ -23,7 +23,10 @@ define( require => {
   const minString = require( 'string!WAVE_INTERFERENCE/min' );
 
   // constants
-  const LABEL_OPTIONS = { fontSize: 10, maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH };
+  const LABEL_OPTIONS = {
+    fontSize: WaveInterferenceConstants.TICK_FONT_SIZE,
+    maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH
+  };
   const MAX_TICK_INDEX = 10;
   const MAJOR_TICK_MODULUS = 5;
 

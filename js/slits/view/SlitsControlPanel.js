@@ -53,7 +53,7 @@ define( require => {
       } );
 
       const createLabel = text => new WaveInterferenceText( text, {
-        fontSize: 10,
+        fontSize: WaveInterferenceConstants.TICK_FONT_SIZE,
         maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH
       } );
 

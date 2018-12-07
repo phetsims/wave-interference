@@ -32,7 +32,7 @@ define( require => {
     constructor( model, alignGroup ) {
 
       const toLabel = string => new WaveInterferenceText( string, {
-        fontSize: 10,
+        fontSize: WaveInterferenceConstants.TICK_FONT_SIZE,
         maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH
       } );
 
