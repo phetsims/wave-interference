@@ -16,9 +16,10 @@ define( require => {
   class WaveMeterProbeNode extends ProbeNode {
 
     /**
+     * @param {Property.<Bounds2>} visibleBoundsProperty - visible bounds of the ScreenView
      * @param {Object} [options]
      */
-    constructor( options ) {
+    constructor( visibleBoundsProperty, options ) {
 
       options = _.extend( {
         cursor: 'pointer',
@@ -27,8 +28,10 @@ define( require => {
         drag: () => {}
       }, options );
       super( options );
+      visibleBoundsProperty.link( visibleBounds => this.setCenter( visibleBounds.closestPointTo( this.center ) ) );
       this.addInputListener( new DragListener( {
         translateNode: true,
+        dragBoundsProperty: visibleBoundsProperty,
         drag: () => options.drag()
       } ) );
     }

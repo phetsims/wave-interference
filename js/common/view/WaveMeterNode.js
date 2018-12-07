@@ -101,7 +101,7 @@ define( require => {
             probeNode.setY( local.y );
           }
         };
-        const probeNode = new WaveMeterProbeNode( {
+        const probeNode = new WaveMeterProbeNode( view.visibleBoundsProperty, {
           color: color,
           drag: snapToCenter
         } );

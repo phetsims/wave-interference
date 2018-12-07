@@ -227,11 +227,11 @@ define( require => {
       } );
 
       /**
-       * Checks if the toolbox contains the given point, to see if a tool can be dropped back into the toolbox.
-       * @param {Vector2} point
+       * Checks if the toolbox intersects the given bounds, to see if a tool can be dropped back into the toolbox.
+       * @param {Bounds2} b
        * @returns {boolean}
        */
-      const toolboxContains = point => toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).containsPoint( point );
+      const toolboxIntersects = b => toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).intersectsBounds( b );
 
       const measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
 
@@ -244,7 +244,7 @@ define( require => {
 
         // Drop in toolbox
         baseDragEnded: () => {
-          if ( toolboxContains( measuringTapeNode.localToGlobalPoint( measuringTapeNode.baseImage.center ) ) ) {
+          if ( toolboxIntersects( measuringTapeNode.localToGlobalBounds( measuringTapeNode.baseImage.bounds ) ) ) {
             model.isMeasuringTapeInPlayAreaProperty.value = false;
           }
         }
@@ -257,7 +257,7 @@ define( require => {
 
         // Drop in toolbox
         end: () => {
-          if ( toolboxContains( timerNode.parentToGlobalPoint( timerNode.center ) ) ) {
+          if ( toolboxIntersects( timerNode.parentToGlobalBounds( timerNode.bounds ) ) ) {
             model.isTimerInPlayAreaProperty.value = false;
             model.timerElapsedTimeProperty.value = 0;
             model.isTimerRunningProperty.value = false;
@@ -265,6 +265,7 @@ define( require => {
         }
       } );
 
+      // TODO: Rename to waveMeterNode
       const waveDetectorToolNode = new WaveMeterNode( model, this );
       model.resetEmitter.addListener( () => waveDetectorToolNode.alignProbesEmitter.emit() );
       model.isWaveMeterInPlayAreaProperty.link( inPlayArea => waveDetectorToolNode.setVisible( inPlayArea ) );
@@ -305,8 +306,9 @@ define( require => {
         },
         end: () => {
 
-          // Drop in toolbox
-          if ( toolboxContains( waveDetectorToolNode.getBackgroundNodeGlobalBounds().center ) ) {
+          // Drop in toolbox, using the bounds of the entire waveMeterNode since it cannot be centered over the toolbox
+          // (too close to the edge of the screen)
+          if ( toolboxIntersects( waveDetectorToolNode.getBackgroundNodeGlobalBounds() ) ) {
             waveDetectorToolNode.alignProbesEmitter.emit();
             model.isWaveMeterInPlayAreaProperty.value = false;
           }
