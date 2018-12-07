@@ -154,7 +154,7 @@ define( require => {
 
       // Vertical layout
       slitWidthControl.top = comboBox.bottom + 10;
-      slitSeparationControl.top = slitWidthControl.bottom + 8;
+      slitSeparationControl.top = slitWidthControl.bottom + 14;
 
       // Horizontal layout
       slitWidthControl.centerX = comboBox.centerX;
