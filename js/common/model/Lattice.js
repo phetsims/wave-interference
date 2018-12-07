@@ -227,7 +227,7 @@ define( require => {
 
     /**
      * Propagates the wave by one step.  This is a discrete algorithm and cannot use dt.
-     * @param {function} forcingFunction - sets values before and after the wave equation
+     * @param {function} forcingFunction - sets values after the wave equation update
      * @public
      */
     step( forcingFunction ) {

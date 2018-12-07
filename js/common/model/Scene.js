@@ -283,13 +283,11 @@ define( require => {
 
             // See setSourceValues
             const frequency = this.frequencyProperty.get();
-            const wavelength = this.wavelength;
-            const k = Math.PI * 2 / wavelength; // k is the wave number in sin(k*x-wt)
             const angularFrequency = frequency * Math.PI * 2;
-            const x = this.modelToLatticeTransform.viewToModelX( this.lattice.dampX );
 
-            // Solve for k * x - angularFrequency * this.timeProperty.value + phase = 0
-            this.planeWavePhase = angularFrequency * this.timeProperty.value - k * x;
+            // Solve for - angularFrequency * this.timeProperty.value + phase = 0, making sure the phase matches 0 at
+            // the edge, see https://github.com/phetsims/wave-interference/issues/207
+            this.planeWavePhase = angularFrequency * this.timeProperty.value + Math.PI;
           }
           else {
             this.clear();
@@ -379,7 +377,7 @@ define( require => {
         const slitSeparationModel = this.slitSeparationProperty.get();
 
         const frontTime = time - this.button1PressTime;
-        const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime );
+        const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime ); // in lattice coordinates
 
         const slitWidthModel = this.slitWidthProperty.get();
         const slitWidth = Util.roundSymmetric( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
@@ -440,17 +438,20 @@ define( require => {
               // If the coordinate is past where the front of the wave would be, then zero it out.
               if ( i >= frontPosition ) {
                 lattice.setCurrentValue( i, j, 0 );
+                lattice.setLastValue( i, j, 0 );
               }
               else {
                 const value = amplitude * PLANE_WAVE_MAGNITUDE
                               * Math.sin( k * x - angularFrequency * time + this.planeWavePhase );
                 lattice.setCurrentValue( i, j, value );
+                lattice.setLastValue( i, j, value );
               }
             }
             else {
 
               // Instantly clear the incoming wave, otherwise there are too many reflections
               lattice.setCurrentValue( i, j, 0 );
+              lattice.setLastValue( i, j, 0 );
             }
           }
         }
@@ -487,6 +488,11 @@ define( require => {
 
       // Scene-specific physics updates
       this.step( dt );
+
+      this.setSourceValues();
+      this.setSourceValues();
+      this.setSourceValues();
+      this.setSourceValues();
 
       // Notify listeners about changes
       this.lattice.changedEmitter.emit();
