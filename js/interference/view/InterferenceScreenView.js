@@ -82,7 +82,6 @@ define( require => {
         // specific learning goal in this context.
         showPulseContinuousRadioButtons: false,
         controlPanelOptions: {
-          showAmplitudeSlider: false,
           additionalControl: toggleNode
         }
       } );

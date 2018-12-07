@@ -58,7 +58,6 @@ define( require => {
         additionalControl: null,
 
         showIntensityCheckbox: true,
-        showAmplitudeSlider: true,
         maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH
       }, options );
 
@@ -218,9 +217,7 @@ define( require => {
       const amplitudeTitleSpacing = Util.linear( 17, 4, TALL_TEXT_SPACING, SHORT_TEXT_SPACING, amplitudeTitle.height );
       amplitudeSliderContainer.top = amplitudeTitle.bottom + amplitudeTitleSpacing;
 
-      const y = options.showAmplitudeSlider ?
-                amplitudeSliderContainer.bottom + 5 :
-                frequencySliderContainer.bottom + 2;
+      const y = amplitudeSliderContainer.bottom + 5;
 
       // The Separation NumberControl is an additionalControl
       if ( options.additionalControl ) {
@@ -248,9 +245,13 @@ define( require => {
 
         // z-ordering
         container.children = [
+
           frequencyTitle,
           frequencySliderContainer,
-          ...( options.showAmplitudeSlider ? [ amplitudeTitle, amplitudeSliderContainer ] : [] ),
+
+          amplitudeTitle,
+          amplitudeSliderContainer,
+
           ...( options.additionalControl ? [ options.additionalControl ] : [] ),
           sceneRadioButtons,
           separator,
@@ -263,7 +264,6 @@ define( require => {
           ...( scene === model.lightScene ? [ screenCheckbox ] : [] ),
           ...( scene === model.lightScene && options.showIntensityCheckbox ? [ intensityCheckbox ] : [] )
         ];
-
       } );
 
       graphCheckbox.mouseArea = graphCheckbox.localBounds.dilated( 2 ).withX( separator.right );

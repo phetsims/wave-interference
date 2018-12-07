@@ -29,9 +29,6 @@ define( require => {
     constructor( model, alignGroup ) {
       super( model, alignGroup, {
         showPulseContinuousRadioButtons: false,
-        controlPanelOptions: {
-          showAmplitudeSlider: false
-        },
 
         // Show the plane wave emitter instead of the individual scene-specific emitters
         showSceneSpecificEmitterNodes: false
