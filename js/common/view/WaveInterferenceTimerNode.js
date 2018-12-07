@@ -29,31 +29,29 @@ define( require => {
       } );
 
       config = _.extend( {
-        unitsNode,
-        maxValue: 999.99,
-        isIcon: false
+        unitsNode: unitsNode,
+        maxValue: 999.99
       }, config );
       assert && assert( !!config.end, 'end is a required argument' );
+      assert && assert( !!config.visibleBoundsProperty, 'visibleBoundsProperty is a required argument' );
       super( model.timerElapsedTimeProperty, model.isTimerRunningProperty, config );
 
       // After the TimerNode is initialized with the maximal layout, use the correct initial value for the current
       // timeUnits
       model.sceneProperty.link( scene => unitsNode.setText( scene.timeUnits ) );
 
-      if ( !config.isIcon ) {
+      // @public - for forwarding drag events
+      this.timerNodeDragListener = new DragListener( {
+        targetNode: this,
+        translateNode: true,
+        dragBoundsProperty: config.visibleBoundsProperty,
 
-        // @public - for forwarding drag events
-        this.timerNodeDragListener = new DragListener( {
-          targetNode: this,
-          translateNode: true,
+        // Drop in toolbox
+        end: config.end
+      } );
 
-          // Drop in toolbox
-          end: config.end
-        } );
-
-        this.dragTarget.addInputListener( this.timerNodeDragListener );
-        model.isTimerInPlayAreaProperty.linkAttribute( this, 'visible' );
-      }
+      this.dragTarget.addInputListener( this.timerNodeDragListener );
+      model.isTimerInPlayAreaProperty.linkAttribute( this, 'visible' );
     }
   }
 

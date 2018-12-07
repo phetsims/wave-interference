@@ -251,6 +251,7 @@ define( require => {
       model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
       const timerNode = new WaveInterferenceTimerNode( model, {
+        visibleBoundsProperty: this.visibleBoundsProperty,
 
         // Drop in toolbox
         end: () => {
