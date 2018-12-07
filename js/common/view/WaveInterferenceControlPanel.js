@@ -204,20 +204,22 @@ define( require => {
       intensityCheckbox.left = minX + 20;
 
       // Vertical layout
-      const TITLE_SPACING = 5;
+      const TALL_TEXT_SPACING = -2;
+      const SHORT_TEXT_SPACING = 5;
 
       // At the default size, the text should "nestle" into the slider.  But when the text is too small,
       // it must be spaced further away.  See https://github.com/phetsims/wave-interference/issues/194
-      const frequencyTitleSpacing = Util.linear( 17, 4, -TITLE_SPACING, +TITLE_SPACING, frequencyTitle.height );
+      const frequencyTitleSpacing = Util.linear( 17, 4, TALL_TEXT_SPACING, SHORT_TEXT_SPACING, frequencyTitle.height );
       frequencySliderContainer.top = frequencyTitle.bottom + frequencyTitleSpacing;
       amplitudeTitle.top = frequencySliderContainer.bottom + 2;
 
       // At the default size, the text should "nestle" into the slider.  But when the text is too small,
       // it must be spaced further away.  See https://github.com/phetsims/wave-interference/issues/194
-      const amplitudeTitleSpacing = Util.linear( 17, 4, -TITLE_SPACING, +TITLE_SPACING, amplitudeTitle.height );
+      const amplitudeTitleSpacing = Util.linear( 17, 4, TALL_TEXT_SPACING, SHORT_TEXT_SPACING, amplitudeTitle.height );
       amplitudeSliderContainer.top = amplitudeTitle.bottom + amplitudeTitleSpacing;
+
       const y = options.showAmplitudeSlider ?
-                amplitudeSliderContainer.bottom + TITLE_SPACING :
+                amplitudeSliderContainer.bottom + 5 :
                 frequencySliderContainer.bottom + 2;
 
       // The Separation NumberControl is an additionalControl
