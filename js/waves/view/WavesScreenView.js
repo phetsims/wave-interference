@@ -265,13 +265,13 @@ define( require => {
         }
       } );
 
-      // TODO: Rename to waveMeterNode
-      const waveDetectorToolNode = new WaveMeterNode( model, this );
-      model.resetEmitter.addListener( () => waveDetectorToolNode.alignProbesEmitter.emit() );
-      model.isWaveMeterInPlayAreaProperty.link( inPlayArea => waveDetectorToolNode.setVisible( inPlayArea ) );
+      const waveMeterNode = new WaveMeterNode( model, this );
+      model.resetEmitter.addListener( () => waveMeterNode.alignProbesEmitter.emit() );
+      model.isWaveMeterInPlayAreaProperty.link( inPlayArea => waveMeterNode.setVisible( inPlayArea ) );
 
-      // Original bounds of the waveDetectorToolNode
-      const bounds = waveDetectorToolNode.backgroundNode.bounds.copy();
+      // Original bounds of the waveMeterNode so we can set the draggable bounds accordingly, so it can go edge to edge
+      // in every dimension.
+      const bounds = waveMeterNode.backgroundNode.bounds.copy();
 
       // Subtract the dimensions from the visible bounds so that it will abut the edge of the screen
       const waveMeterBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
@@ -283,43 +283,43 @@ define( require => {
 
       // Keep the WaveMeterNode in bounds when the window is reshaped.
       waveMeterBoundsProperty.link( bounds => {
-        const closestPointInBounds = bounds.closestPointTo( waveDetectorToolNode.backgroundNode.translation );
-        return waveDetectorToolNode.backgroundNode.setTranslation( closestPointInBounds );
+        const closestPointInBounds = bounds.closestPointTo( waveMeterNode.backgroundNode.translation );
+        return waveMeterNode.backgroundNode.setTranslation( closestPointInBounds );
       } );
-      waveDetectorToolNode.setDragListener( new DragListener( {
+      waveMeterNode.setDragListener( new DragListener( {
         dragBoundsProperty: waveMeterBoundsProperty,
         translateNode: true,
         start: () => {
-          if ( waveDetectorToolNode.synchronizeProbeLocations ) {
+          if ( waveMeterNode.synchronizeProbeLocations ) {
 
             // Align the probes each time the MeterBodyNode translates, so they will stay in sync
-            waveDetectorToolNode.alignProbesEmitter.emit();
+            waveMeterNode.alignProbesEmitter.emit();
           }
         },
         drag: () => {
 
-          if ( waveDetectorToolNode.synchronizeProbeLocations ) {
+          if ( waveMeterNode.synchronizeProbeLocations ) {
 
             // Align the probes each time the MeterBodyNode translates, so they will stay in sync
-            waveDetectorToolNode.alignProbesEmitter.emit();
+            waveMeterNode.alignProbesEmitter.emit();
           }
         },
         end: () => {
 
           // Drop in toolbox, using the bounds of the entire waveMeterNode since it cannot be centered over the toolbox
           // (too close to the edge of the screen)
-          if ( toolboxIntersects( waveDetectorToolNode.getBackgroundNodeGlobalBounds() ) ) {
-            waveDetectorToolNode.alignProbesEmitter.emit();
+          if ( toolboxIntersects( waveMeterNode.getBackgroundNodeGlobalBounds() ) ) {
+            waveMeterNode.alignProbesEmitter.emit();
             model.isWaveMeterInPlayAreaProperty.value = false;
           }
 
           // Move probes to center line (if water side view model)
-          waveDetectorToolNode.droppedEmitter.emit();
-          waveDetectorToolNode.synchronizeProbeLocations = false;
+          waveMeterNode.droppedEmitter.emit();
+          waveMeterNode.synchronizeProbeLocations = false;
         }
       } ) );
 
-      const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );
+      const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveMeterNode, alignGroup, model );
       const updateToolboxPosition = () => {
         toolboxPanel.mutate( {
           right: this.layoutBounds.right - MARGIN,
@@ -479,7 +479,7 @@ define( require => {
       this.addChild( waveAreaGraphNode );
       this.addChild( measuringTapeNode );
       this.addChild( timerNode );
-      this.addChild( waveDetectorToolNode );
+      this.addChild( waveMeterNode );
 
       // @public
       this.steppedEmitter = new Emitter( {
