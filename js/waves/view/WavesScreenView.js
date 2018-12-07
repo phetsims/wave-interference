@@ -294,9 +294,7 @@ define( require => {
         }
       } ) );
       model.resetEmitter.addListener( () => waveDetectorToolNode.alignProbesEmitter.emit() );
-      model.isWaveMeterInPlayAreaProperty.link( isWaveDetectorToolNodeInPlayArea => {
-        waveDetectorToolNode.visible = isWaveDetectorToolNodeInPlayArea;
-      } );
+      model.isWaveMeterInPlayAreaProperty.link( inPlayArea => waveDetectorToolNode.setVisible( inPlayArea ) );
 
       const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveDetectorToolNode, alignGroup, model );
       const updateToolboxPosition = () => {
