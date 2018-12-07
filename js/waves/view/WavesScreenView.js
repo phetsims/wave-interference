@@ -273,14 +273,20 @@ define( require => {
       const bounds = waveDetectorToolNode.backgroundNode.bounds.copy();
 
       // Subtract the dimensions from the visible bounds so that it will abut the edge of the screen
-      const boundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
+      const waveMeterBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
         return new Bounds2(
           visibleBounds.minX - bounds.minX, visibleBounds.minY - bounds.minY,
           visibleBounds.maxX - bounds.maxX, visibleBounds.maxY - bounds.maxY
         );
       } );
+
+      // Keep the WaveMeterNode in bounds when the window is reshaped.
+      waveMeterBoundsProperty.link( bounds => {
+        const closestPointInBounds = bounds.closestPointTo( waveDetectorToolNode.backgroundNode.translation );
+        return waveDetectorToolNode.backgroundNode.setTranslation( closestPointInBounds );
+      } );
       waveDetectorToolNode.setDragListener( new DragListener( {
-        dragBoundsProperty: boundsProperty,
+        dragBoundsProperty: waveMeterBoundsProperty,
         translateNode: true,
         start: () => {
           if ( waveDetectorToolNode.synchronizeProbeLocations ) {
