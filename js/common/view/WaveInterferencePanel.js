@@ -23,7 +23,8 @@ define( require => {
         yMargin: 7,
         xMargin: 10,
         stroke: 'gray',
-        fill: 'rgb(230,231,232)'
+        fill: 'rgb(230,231,232)',
+        cornerRadius: 6
       }, options );
       super( content, options );
     }
