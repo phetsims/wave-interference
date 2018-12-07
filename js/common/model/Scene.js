@@ -198,6 +198,9 @@ define( require => {
         }
       } );
 
+      // @public (read-only) {string} - shown on the PlaneWaveEmitterNode
+      this.planeWaveEmitterNodeText = config.planeWaveEmitterNodeText;
+
       // @public {BooleanProperty} - true while a single pulse is being generated
       this.pulseFiringProperty = new BooleanProperty( false );
 

@@ -38,6 +38,7 @@ define( require => {
   const electricFieldString = require( 'string!WAVE_INTERFERENCE/electricField' );
   const femtosecondConversionString = require( 'string!WAVE_INTERFERENCE/femtosecondConversion' );
   const femtosecondsUnitsString = require( 'string!WAVE_INTERFERENCE/femtosecondsUnits' );
+  const lightGeneratorString = require( 'string!WAVE_INTERFERENCE/lightGenerator' );
   const millisecondConversionString = require( 'string!WAVE_INTERFERENCE/millisecondConversion' );
   const millisecondsUnitsString = require( 'string!WAVE_INTERFERENCE/millisecondsUnits' );
   const nanometersUnitsString = require( 'string!WAVE_INTERFERENCE/nanometersUnits' );
@@ -46,8 +47,10 @@ define( require => {
   const pressureAtCenterString = require( 'string!WAVE_INTERFERENCE/pressureAtCenter' );
   const pressureString = require( 'string!WAVE_INTERFERENCE/pressure' );
   const secondsUnitsString = require( 'string!WAVE_INTERFERENCE/secondsUnits' );
+  const soundGeneratorString = require( 'string!WAVE_INTERFERENCE/soundGenerator' );
   const waterLevelAtCenterString = require( 'string!WAVE_INTERFERENCE/waterLevelAtCenter' );
   const waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
+  const waterWaveGeneratorString = require( 'string!WAVE_INTERFERENCE/waterWaveGenerator' );
 
   // Tuned so that iPad2 has enough time to run model computations
   const EVENT_RATE = 20;
@@ -114,7 +117,8 @@ define( require => {
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: false,
-        sceneType: SceneType.WATER
+        sceneType: SceneType.WATER,
+        planeWaveEmitterNodeText: waterWaveGeneratorString
       } );
 
       // @public - Sound scene
@@ -146,7 +150,8 @@ define( require => {
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
-        sceneType: SceneType.SOUND
+        sceneType: SceneType.SOUND,
+        planeWaveEmitterNodeText: soundGeneratorString
       } );
 
       // @public - Light scene.
@@ -179,7 +184,8 @@ define( require => {
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
-        sceneType: SceneType.LIGHT
+        sceneType: SceneType.LIGHT,
+        planeWaveEmitterNodeText: lightGeneratorString
       } );
 
       // @public (read-only) {Scene[]} - the Scene instances as an array

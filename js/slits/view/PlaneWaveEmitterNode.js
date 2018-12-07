@@ -11,12 +11,13 @@ define( require => {
   // modules
   const Image = require( 'SCENERY/nodes/Image' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const Panel = require( 'SUN/Panel' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
+  const ToggleNode = require( 'SUN/ToggleNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  const WaveInterferenceSceneIcons = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSceneIcons' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // images
   const planeWaveSourceImage = require( 'image!WAVE_INTERFERENCE/plane_wave_source.png' );
@@ -49,21 +50,23 @@ define( require => {
 
       this.mutate( options );
 
-      // Show an icon above the red button
-      const sceneIcons = new WaveInterferenceSceneIcons();
-      this.addChild( new Panel( new SceneToggleNode(
-        model,
-        scene => scene === model.waterScene ? sceneIcons.faucetIcon :
-                 scene === model.soundScene ? sceneIcons.speakerIcon :
-                 sceneIcons.laserPointerIcon ), {
-        stroke: null,
-        fill: '#d8d8d8',
-        xMargin: 2,
-        yMargin: 2,
-        cornerRadius: 5,
-        resize: false,
+      // Show descriptive text label at the bottom of the cylinder
+      this.addChild( new SceneToggleNode( model, scene => {
+        const textNode = new WaveInterferenceText( scene.planeWaveEmitterNodeText, {
+          rotation: -Math.PI / 2,
+          maxWidth: 200
+        } );
+        const backgroundNode = Rectangle.bounds( textNode.bounds.dilated( 4 ), {
+          fill: 'white',
+          opacity: 0.2
+        } );
+        return new Node( {
+          children: [ backgroundNode, textNode ]
+        } );
+      }, {
         centerX: this.centerX,
-        bottom: button.top - 15
+        bottom: verticalCylinderImageNode.bottom - 30,
+        alignChildren: ToggleNode.BOTTOM
       } ) );
     }
   }

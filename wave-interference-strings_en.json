@@ -136,5 +136,14 @@
   },
   "both": {
     "value": "Both"
+  },
+  "waterWaveGenerator": {
+    "value": "Water Wave Generator"
+  },
+  "soundGenerator": {
+    "value": "Sound Generator"
+  },
+  "lightGenerator": {
+    "value": "Light Generator"
   }
 }
