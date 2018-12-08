@@ -10,7 +10,7 @@ define( require => {
 
   // modules
   const BarriersNode = require( 'WAVE_INTERFERENCE/slits/view/BarriersNode' );
-  const PlaneWaveEmitterNode = require( 'WAVE_INTERFERENCE/slits/view/PlaneWaveEmitterNode' );
+  const PlaneWaveGeneratorNode = require( 'WAVE_INTERFERENCE/slits/view/PlaneWaveGeneratorNode' );
   const Property = require( 'AXON/Property' );
   const Shape = require( 'KITE/Shape' );
   const SlitsControlPanel = require( 'WAVE_INTERFERENCE/slits/view/SlitsControlPanel' );
@@ -76,8 +76,8 @@ define( require => {
       }
 
       // Show the plane wave emitter instead of the individual scene-specific emitters
-      const planeWaveEmitterNode = new PlaneWaveEmitterNode( model, this.waveAreaNode.bounds );
-      this.emitterLayer.addChild( planeWaveEmitterNode );
+      const planeWaveGeneratorNode = new PlaneWaveGeneratorNode( model, this.waveAreaNode.bounds );
+      this.emitterLayer.addChild( planeWaveGeneratorNode );
     }
   }
 

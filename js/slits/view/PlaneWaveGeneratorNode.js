@@ -22,7 +22,7 @@ define( require => {
   // images
   const planeWaveSourceImage = require( 'image!WAVE_INTERFERENCE/plane_wave_source.png' );
 
-  class PlaneWaveEmitterNode extends Node {
+  class PlaneWaveGeneratorNode extends Node {
 
     /**
      * @param {WavesScreenModel} model
@@ -52,7 +52,7 @@ define( require => {
 
       // Show descriptive text label at the bottom of the cylinder
       this.addChild( new SceneToggleNode( model, scene => {
-        const textNode = new WaveInterferenceText( scene.planeWaveEmitterNodeText, {
+        const textNode = new WaveInterferenceText( scene.planeWaveGeneratorNodeText, {
           rotation: -Math.PI / 2,
           maxWidth: 200
         } );
@@ -71,5 +71,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'PlaneWaveEmitterNode', PlaneWaveEmitterNode );
+  return waveInterference.register( 'PlaneWaveGeneratorNode', PlaneWaveGeneratorNode );
 } );

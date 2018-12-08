@@ -118,7 +118,7 @@ define( require => {
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: false,
         sceneType: SceneType.WATER,
-        planeWaveEmitterNodeText: waterWaveGeneratorString
+        planeWaveGeneratorNodeText: waterWaveGeneratorString
       } );
 
       // @public - Sound scene
@@ -151,7 +151,7 @@ define( require => {
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
         sceneType: SceneType.SOUND,
-        planeWaveEmitterNodeText: soundGeneratorString
+        planeWaveGeneratorNodeText: soundGeneratorString
       } );
 
       // @public - Light scene.
@@ -186,7 +186,7 @@ define( require => {
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
         sceneType: SceneType.LIGHT,
-        planeWaveEmitterNodeText: lightGeneratorString
+        planeWaveGeneratorNodeText: lightGeneratorString
       } );
 
       // @public (read-only) {Scene[]} - the Scene instances as an array
