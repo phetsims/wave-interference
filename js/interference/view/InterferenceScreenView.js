@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const Node = require( 'SCENERY/nodes/Node' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Range = require( 'DOT/Range' );
   const ToggleNode = require( 'SUN/ToggleNode' );
@@ -31,19 +32,10 @@ define( require => {
      */
     constructor( model, alignGroup ) {
 
-      const toLabel = string => new WaveInterferenceText( string, {
-        fontSize: WaveInterferenceConstants.TICK_FONT_SIZE,
-        maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH
-      } );
-
       // Ranges, deltas, etc specified in https://github.com/phetsims/wave-interference/issues/177
       const waterSceneRange = new Range( 1, 5 ); // cm
       const soundSceneRange = new Range( 100, 400 ); // cm
       const lightSceneRange = new Range( 500, 4000 ); // nm
-      const createTicks = ( range, unitsString ) => [
-        { value: range.min, label: toLabel( range.min ) },
-        { value: range.max, label: toLabel( range.max ) }
-      ];
       const waterSeparationProperty = model.waterScene.desiredSourceSeparationProperty;
       const soundSeparationProperty = model.soundScene.sourceSeparationProperty;
       const lightSeparationProperty = model.lightScene.sourceSeparationProperty;
@@ -57,7 +49,7 @@ define( require => {
           valuePattern: cmValueString,
           decimalPlaces: 1,
           constrainValue: function( value ) { return Util.roundToInterval( value, 0.5 ); },
-          majorTicks: createTicks( waterSceneRange, cmValueString )
+          majorTicks: createTicks( waterSceneRange, [ waterSceneRange, soundSceneRange, lightSceneRange ] )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.soundScene,
@@ -65,7 +57,7 @@ define( require => {
           delta: 1,
           valuePattern: cmValueString,
           constrainValue: function( value ) { return Util.roundToInterval( value, 10 ); },
-          majorTicks: createTicks( soundSceneRange, cmValueString )
+          majorTicks: createTicks( soundSceneRange, [ waterSceneRange, soundSceneRange, lightSceneRange ] )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.lightScene,
@@ -73,7 +65,7 @@ define( require => {
           delta: 10,
           valuePattern: nmValueString,
           constrainValue: function( value ) { return Util.roundToInterval( value, 100 ); },
-          majorTicks: createTicks( lightSceneRange, nmValueString )
+          majorTicks: createTicks( lightSceneRange, [ waterSceneRange, soundSceneRange, lightSceneRange ] )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       } ] );
       super( model, alignGroup, {
@@ -87,6 +79,34 @@ define( require => {
       } );
     }
   }
+
+  /**
+   * Create a label for a NumberControl tick.  The labels have the same bounds for each slider so
+   * they don't jitter when changing scenes, see https://github.com/phetsims/wave-interference/issues/214
+   * @param {string} string - the string to display
+   * @param {string[]} allStrings - the strings for each scene, for layout
+   */
+  const createTickMarkLabel = ( string, allStrings ) => {
+    const textNodes = allStrings.map( s => new WaveInterferenceText( s, {
+        fontSize: WaveInterferenceConstants.TICK_FONT_SIZE,
+        maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH,
+        visible: s === string,
+        centerX: 0
+      } )
+    );
+    return new Node( { children: textNodes } );
+  };
+
+  /**
+   * Create the min and max ticks for a NumberControl
+   * @param {Range} range
+   * @param {Range[]} allRanges - to ensure consistent layout across scenes
+   * @returns {Object} to be used with numberTicks option of NumberControl
+   */
+  const createTicks = ( range, allRanges ) => [
+    { value: range.min, label: createTickMarkLabel( range.min, allRanges.map( r => r.min ) ) },
+    { value: range.max, label: createTickMarkLabel( range.max, allRanges.map( r => r.max ) ) }
+  ];
 
   return waveInterference.register( 'InterferenceScreenView', InterferenceScreenView );
 } );

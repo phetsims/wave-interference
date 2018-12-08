@@ -36,8 +36,8 @@ define( require => {
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 3 } ),
       arrowButtonScale: 0.65,
       titleFont: DEFAULT_FONT,
-      titleMaxWidth: 100,
-      valueMaxWidth: 60
+      titleMaxWidth: 95,
+      valueMaxWidth: 65
     },
     THUMB_SIZE: THUMB_SIZE,
     DEFAULT_FONT: DEFAULT_FONT,
