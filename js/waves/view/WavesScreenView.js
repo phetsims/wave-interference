@@ -267,6 +267,7 @@ define( require => {
 
       const waveMeterNode = new WaveMeterNode( model, this );
       model.resetEmitter.addListener( () => waveMeterNode.alignProbesEmitter.emit() );
+      model.resetEmitter.addListener( () => measuringTapeNode.reset() );
       model.isWaveMeterInPlayAreaProperty.link( inPlayArea => waveMeterNode.setVisible( inPlayArea ) );
 
       // Original bounds of the waveMeterNode so we can set the draggable bounds accordingly, so it can go edge to edge
