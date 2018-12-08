@@ -54,7 +54,9 @@ define( require => {
       this.addChild( new SceneToggleNode( model, scene => {
         const textNode = new WaveInterferenceText( scene.planeWaveGeneratorNodeText, {
           rotation: -Math.PI / 2,
-          maxWidth: 200
+
+          // About the same amount of space between the button and the text as between the text and the bottom
+          maxWidth: 180
         } );
         const backgroundNode = Rectangle.bounds( textNode.bounds.dilated( 4 ), {
           fill: 'white',
