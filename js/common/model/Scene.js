@@ -186,6 +186,12 @@ define( require => {
             this.continuousWave1OscillatingProperty.value = isPressed;
           }
         }
+
+        // Clear plane waves if the red button is deselected when paused.
+        if ( this.waveSpatialType === WaveSpatialType.PLANE && !isPressed ) {
+          this.setSourceValues();
+          this.lattice.changedEmitter.emit();
+        }
       } );
 
       // The 2nd button starts the second continuous wave
@@ -491,11 +497,6 @@ define( require => {
 
       // Scene-specific physics updates
       this.step( dt );
-
-      this.setSourceValues();
-      this.setSourceValues();
-      this.setSourceValues();
-      this.setSourceValues();
 
       // Notify listeners about changes
       this.lattice.changedEmitter.emit();
