@@ -122,7 +122,15 @@ define( require => {
         this.addChild( probeNode );
 
         // Standard location in toolbox and when dragging out of toolbox.
-        const alignProbes = () => probeNode.mutate( { right: backgroundNode.left - dx, top: backgroundNode.top + dy } );
+        const alignProbes = () => {
+          probeNode.mutate( {
+            right: backgroundNode.left - dx,
+            top: backgroundNode.top + dy
+          } );
+
+          // Prevent the probes from going out of the visible bounds when tagging along with the dragged WaveMeterNode
+          probeNode.translation = view.visibleBoundsProperty.value.closestPointTo( probeNode.translation );
+        };
         this.on( 'visibility', alignProbes );
         this.alignProbesEmitter.addListener( alignProbes );
 
@@ -157,23 +165,20 @@ define( require => {
           dynamicSeries.emitter.emit();
         };
 
-        if ( !options.isIcon ) {
+        // Redraw the probe data when the scene changes
+        const clear = () => {
+          dynamicSeries.data.length = 0;
+          updateSamples();
+        };
+        model.sceneProperty.link( clear );
+        model.resetEmitter.addListener( clear );
 
-          // Redraw the probe data when the scene changes
-          const clear = () => {
-            dynamicSeries.data.length = 0;
-            updateSamples();
-          };
-          model.sceneProperty.link( clear );
-          model.resetEmitter.addListener( clear );
+        // When the wave is paused and the user is dragging the entire MeterBodyNode with the probes aligned, they
+        // need to sample their new locations.
+        probeNode.on( 'transform', updateSamples );
 
-          // When the wave is paused and the user is dragging the entire MeterBodyNode with the probes aligned, they
-          // need to sample their new locations.
-          probeNode.on( 'transform', updateSamples );
-
-          // When a Scene's lattice changes, update the samples
-          model.scenes.forEach( scene => scene.lattice.changedEmitter.addListener( updateSamples ) );
-        }
+        // When a Scene's lattice changes, update the samples
+        model.scenes.forEach( scene => scene.lattice.changedEmitter.addListener( updateSamples ) );
         return dynamicSeries;
       };
 

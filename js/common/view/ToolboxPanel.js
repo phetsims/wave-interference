@@ -62,6 +62,10 @@ define( require => {
         model.isTimerInPlayAreaProperty.value = true;
       } );
 
+      // Make sure the probes have enough breathing room so they don't get shoved into the WaveMeterNode icon
+      // The true value is set when dragging
+      waveMeterNode.backgroundNode.translate( 100, 0 );
+
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
       // Temporarily show the node so it can be rasterized for an icon
       model.isWaveMeterInPlayAreaProperty.value = true;
