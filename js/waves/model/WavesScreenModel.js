@@ -167,7 +167,6 @@ define( require => {
         waveAreaWidth: 5000, // nm
         minimumFrequency: toFemto( VisibleColor.MIN_FREQUENCY ), // in cycles per femtosecond
         maximumFrequency: toFemto( VisibleColor.MAX_FREQUENCY ), // in cycles per femtosecond
-        initialFrequency: toFemto( VisibleColor.SPEED_OF_LIGHT / 660E-9 ), // Start with red light--a familiar LED color
         scaleIndicatorLength: 500, // nm
 
         numberOfSources: options.numberOfSources,
