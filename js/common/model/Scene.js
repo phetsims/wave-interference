@@ -320,7 +320,10 @@ define( require => {
      * @protected
      */
     setSourceValues() {
-      const amplitude = this.amplitudeProperty.get();
+
+      // Get the desired amplitude.  For water, this is set through the desiredAmplitudeProperty.  For other
+      // scenes, this is set through the amplitudeProperty.
+      const amplitude = this.desiredAmplitudeProperty ? this.desiredAmplitudeProperty.get() : this.amplitudeProperty.get();
       const time = this.timeProperty.value;
       if ( this.waveSpatialType === WaveSpatialType.POINT ) {
         const frequency = this.frequencyProperty.get();
