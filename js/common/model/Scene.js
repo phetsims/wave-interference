@@ -100,7 +100,7 @@ define( require => {
       const centerFrequency = ( config.minimumFrequency + config.maximumFrequency ) / 2;
 
       // @public {Property.<number>} - the frequency in the appropriate units for the scene
-      this.frequencyProperty = new NumberProperty( config.initialFrequency || centerFrequency, {
+      this.frequencyProperty = new NumberProperty( centerFrequency, {
         range: new Range( config.minimumFrequency, config.maximumFrequency )
       } );
 
