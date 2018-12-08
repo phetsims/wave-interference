@@ -16,7 +16,7 @@ define( require => {
   // constants
   // Number of samples to use for a temporal average.  Higher number means more latency. Lower number means more
   // responsive, but we need to make the time longer than one period so it doesn't just show part of the wave cycle
-  const HISTORY_LENGTH = 40;
+  const HISTORY_LENGTH = 90;
 
   class IntensitySample {
 
