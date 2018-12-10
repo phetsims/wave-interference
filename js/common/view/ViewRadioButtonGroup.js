@@ -18,6 +18,9 @@ define( require => {
   const sideViewString = require( 'string!WAVE_INTERFERENCE/sideView' );
   const topViewString = require( 'string!WAVE_INTERFERENCE/topView' );
 
+  // constants
+  const TEXT_OPTIONS = { maxWidth: 90 }; // Prevent from overlapping the play/pause button
+
   class ViewRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonGroup {
 
     /**
@@ -25,12 +28,13 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( viewTypeProperty, options ) {
+
       super( [ {
-        node: new WaveInterferenceText( topViewString ),
+        node: new WaveInterferenceText( topViewString, TEXT_OPTIONS ),
         value: ViewType.TOP,
         property: viewTypeProperty
       }, {
-        node: new WaveInterferenceText( sideViewString ),
+        node: new WaveInterferenceText( sideViewString, TEXT_OPTIONS ),
         value: ViewType.SIDE,
         property: viewTypeProperty
       } ], options );
