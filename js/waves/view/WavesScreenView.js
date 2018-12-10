@@ -246,6 +246,9 @@ define( require => {
         baseDragEnded: () => {
           if ( toolboxIntersects( measuringTapeNode.localToGlobalBounds( measuringTapeNode.baseImage.bounds ) ) ) {
             model.isMeasuringTapeInPlayAreaProperty.value = false;
+
+            // Reset the rotation and length of the Measuring Tape when it is returned to the toolbox.
+            measuringTapeNode.reset();
           }
         }
       } );
