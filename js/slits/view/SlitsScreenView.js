@@ -50,6 +50,9 @@ define( require => {
       this.controlPanel.on( 'bounds', updateSlitControlPanel );
       this.addChild( slitControlPanel );
 
+      // Make sure tools go in front of this control panel, see https://github.com/phetsims/wave-interference/issues/218
+      slitControlPanel.moveToBack();
+
       // Show the barriers when appropriate. Cannot use ToggleNode because of asymmetry, see the multilink
       const waterBarriersNode = new BarriersNode( model, model.waterScene, this.waveAreaNode.bounds );
       const soundBarriersNode = new BarriersNode( model, model.soundScene, this.waveAreaNode.bounds );
