@@ -1,11 +1,15 @@
-The Wave Interference simulation was ported from a prior Java implementation.  The first 3 screens show a 2D lattice and
-time-based wave propagation, while the fourth screen shows the interference pattern from a slit with a given 2d shape,
-which is instantly updated.  The query string ?dev will output debugging information to the console.
+The Wave Interference simulation depicts waves on a 2 dimensional surface and the interference patterns they create.  
+The first 3 screens show a 2D lattice and time-based wave propagation, while the fourth screen shows the interference 
+pattern from a slit with a given 2d shape, which is instantly updated.  
+
+The query string ?dev can be used to show additional developer controls.
+The query string ?log can be used to output additional debugging information.
+Other sim-specific query parameters are described in wave-interference/js/common/WaveInterferenceQueryParameters.js
 
 There are no dynamically created/destroyed user interface components or model elements in the simulation, so the
-simulation doesn't require dispose calls.
+simulation doesn't require dispose calls. 
 
-# Waves, Interference, Slits Screens
+# The first three Screens: Waves, Interference, Slits
 
 The first three screens are mainly implemented in js/common.  
 
@@ -17,7 +21,7 @@ across Scenes.
 There are 3 coordinate frames:
 * view coordinates
 * lattice coordinates (integer), with damping regions
-* model metric coordinates (such as cm or nm), corresponding to physical measures
+* Scene-specific physical coordinates (such as cm or nm)
 
 The wave is represented on a single 2D discrete scalar lattice, and we use use the discretization of the wave equation described in
 http://www.mtnmath.com/whatth/node47.html and known as a finite difference method:
@@ -67,13 +71,13 @@ which is about 4% off of the true speed of light.  Measuring the colored wavefro
 Since the distance and wave propagation speeds are independent of frequency, measurements for different colors will
 give the same speed of light.  See also WavesScreenModel usage of `timeScaleFactor` for how the model is calibrated.
 
-# Slits Screen
+## Slits Screen
 Here is a schematic for the two-slit dimensions:
 ![schematic for the two-slit dimensions](images/slitDimensions.jpg?raw=true "Two-Slit Dimensions")
 
 By using ?dev, you can show the IdealInterferenceOverlay, which depicts d sin(θ) = mλ (theoretical maxima) and d sin(θ) = (m+1/2)λ (theoretical minima).
 See https://github.com/phetsims/wave-interference/issues/74
 
-# Diffraction Screen
+# The Final Screen: Diffraction
 In the fourth screen, we use a Fast Fourier Transform (FFT) in order to compute the diffraction pattern, see
 https://en.wikipedia.org/wiki/Diffraction
