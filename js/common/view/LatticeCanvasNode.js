@@ -45,7 +45,7 @@ define( require => {
       // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light
       this.vacuumColor = null;
 
-      // Render into a sub-canvas which will be drawn into the rendering context at the right scale.
+      // For performance, render into a sub-canvas which will be drawn into the rendering context at the right scale.
       const width = this.lattice.width - this.lattice.dampX * 2;
       const height = this.lattice.height - this.lattice.dampY * 2;
 
