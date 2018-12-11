@@ -50,9 +50,10 @@ define( require => {
      */
     update() {
       const bounds = this.waveAreaBounds;
-      this.shape = WaveInterferenceUtils.getWaterSideShape( this.array, this.model.waterScene.lattice, bounds, 0, 0 )
-        .lineTo( bounds.right, bounds.maxY )
-        .lineTo( bounds.left, bounds.maxY )
+      const waterSideShape = WaveInterferenceUtils.getWaterSideShape( this.array, this.model.waterScene.lattice, bounds, 0, 0 );
+      this.shape = waterSideShape
+        .lineTo( waterSideShape.bounds.right, bounds.maxY )
+        .lineTo( waterSideShape.bounds.left, bounds.maxY )
         .close();
 
       // Look up the height of the topmost curve.  Do this after getWaterSideShape since we read a value
