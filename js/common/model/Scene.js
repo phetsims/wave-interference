@@ -217,11 +217,9 @@ define( require => {
         }
       } );
 
-      // When the user selects "PULSE", the button pops out.
+      // When the user changes wave type, the button pops out
       this.waveTemporalTypeProperty.link( inputType => {
-        if ( inputType === WaveTemporalType.PULSE ) {
-          this.button1PressedProperty.value = false;
-        }
+        this.button1PressedProperty.value = false;
       } );
 
       // @public (read-only) - the value of the wave at the oscillation point
