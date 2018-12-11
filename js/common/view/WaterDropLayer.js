@@ -69,7 +69,8 @@ define( require => {
 
       // @private - for closure.  If any water drop went underwater, mark it as absorbed so it will no longer be shown.
       this.stepWaterDropLayer = waterSideViewNode => {
-        for ( let dropNode of waterDropNodes ) {
+        for ( let i = 0; i < waterDropNodes.length; i++ ) {
+          const dropNode = waterDropNodes[ i ];
           if ( dropNode.visible ) {
             const fullyRotated = model.rotationAmountProperty.value === 1.0;
             const beneathSurface = dropNode.top - 50 > waterSideViewNode.waterSideViewNodeTopY;

@@ -135,7 +135,8 @@ define( require => {
       }
 
       const toRemove = [];
-      for ( let waterDrop of this.waterDrops ) {
+      for ( let i = 0; i < this.waterDrops.length; i++ ) {
+        const waterDrop = this.waterDrops[ i ];
 
         // Tuned so that the wave goes underwater when the drop hits
         waterDrop.step( dt );

@@ -60,14 +60,14 @@ define( require => {
         minorTickLength: 8
       } );
 
-      for ( let tick of ticks ) {
+      ticks.forEach( tick => {
         if ( tick.type === 'major' ) {
           this.addMajorTick( tick.value, tick.label );
         }
         else {
           this.addMinorTick( tick.value, tick.label );
         }
-      }
+      } );
     }
   }
 

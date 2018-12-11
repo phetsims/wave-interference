@@ -48,9 +48,8 @@ define( require => {
           const barrierX = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() ) + cellWidth / 2;
 
           // Render all the minima and maxima on both sides of the origin
-          for ( let type of [ 'maxima', 'minima' ] ) {
-            for ( let sign of [ -1, 1 ] ) {
-
+          [ 'maxima', 'minima' ].forEach( type => {
+            [ -1, 1 ].forEach( sign => {
               // Limit the maximum number of lines that can be shown on each side.
               for ( let m = 0; m < 20; m++ ) {
 
@@ -101,8 +100,8 @@ define( require => {
                   }
                 }
               }
-            }
-          }
+            } );
+          } );
 
           // Strong central maximum for one slit, not covered by the math above
           if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {

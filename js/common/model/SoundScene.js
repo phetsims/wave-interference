@@ -78,7 +78,8 @@ define( require => {
           this.frequencyProperty.value
         ) * WaveInterferenceConstants.SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY.get();
 
-        for ( let soundParticle of this.soundParticles ) {
+        for ( let i = 0; i < this.soundParticles.length; i++ ) {
+          const soundParticle = this.soundParticles[ i ];
 
           // Find the lattice coordinate of the current location of the particle
           const latticeCoordinate = this.modelToLatticeTransform.modelToViewXY( soundParticle.x, soundParticle.y );
