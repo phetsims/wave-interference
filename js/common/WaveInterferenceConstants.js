@@ -95,10 +95,7 @@ define( require => {
 
     // Use for the time and length scale texts above the wave area, looks best to be a smidge smaller than the
     // rest of the texts
-    TIME_AND_LENGTH_SCALE_INDICATOR_FONT: new PhetFont( 14 ),
-
-    // TODO: delete or keep?  Fine tuning and discussion in https://github.com/phetsims/wave-interference/issues/142
-    CUTOFF: new Property( 0.4 )
+    TIME_AND_LENGTH_SCALE_INDICATOR_FONT: new PhetFont( 14 )
   };
 
   waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );

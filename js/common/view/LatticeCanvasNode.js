@@ -17,6 +17,9 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
+  // constants
+  const CUTOFF = 0.4;
+
   class LatticeCanvasNode extends CanvasNode {
 
     /**
@@ -63,10 +66,6 @@ define( require => {
       // Invalidate paint when model indicates changes
       const invalidateSelfListener = this.invalidatePaint.bind( this );
       lattice.changedEmitter.addListener( invalidateSelfListener );
-
-      // In development mode, make it easy to see changes in cutoff
-      // TODO: delete or keep?  Fine tuning and discussion in https://github.com/phetsims/wave-interference/issues/142
-      phet.chipper.queryParameters.dev && setInterval( invalidateSelfListener, 0 );
     }
 
     /**
@@ -105,7 +104,6 @@ define( require => {
       const dampY = this.lattice.dampY;
       const width = this.lattice.width;
       const height = this.lattice.height;
-      const CUTOFF = WaveInterferenceConstants.CUTOFF.value;
       let intensity;
       for ( let i = dampX; i < width - dampX; i++ ) {
         for ( let k = dampY; k < height - dampY; k++ ) {
