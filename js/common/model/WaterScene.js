@@ -106,6 +106,7 @@ define( require => {
             }
           }
         ) );
+        this.isAboutToFireProperty.value = true;
         this.lastDropTime = time;
       }
     }
@@ -149,6 +150,7 @@ define( require => {
       for ( let i = 0; i < toRemove.length; i++ ) {
         arrayRemove( this.waterDrops, toRemove[ i ] );
       }
+      this.isAboutToFireProperty.value = this.waterDrops.length > 0;
     }
 
     /**

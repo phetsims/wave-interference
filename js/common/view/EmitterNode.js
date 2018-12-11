@@ -64,7 +64,7 @@ define( require => {
 
       const updateEnabled = () => {
         if ( scene.waveTemporalTypeProperty.value === WaveTemporalType.PULSE ) {
-          button.enabled = !scene.pulseFiringProperty.value;
+          button.enabled = !scene.pulseFiringProperty.value && !scene.isAboutToFireProperty.value;
         }
         else if ( scene.waveTemporalTypeProperty.value === WaveTemporalType.CONTINUOUS ) {
           button.enabled = true;
@@ -72,6 +72,7 @@ define( require => {
       };
       scene.waveTemporalTypeProperty.link( updateEnabled );
       scene.pulseFiringProperty.link( updateEnabled );
+      scene.isAboutToFireProperty.link( updateEnabled );
       super( {
         children: [ nodeWithButton ]
       } );

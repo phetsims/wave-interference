@@ -210,6 +210,9 @@ define( require => {
       // @public {BooleanProperty} - true while a single pulse is being generated
       this.pulseFiringProperty = new BooleanProperty( false );
 
+      // @public (read-only) {BooleanProperty} - signify if a wave is about to start oscillating, see WaterScene
+      this.isAboutToFireProperty = new BooleanProperty( false );
+
       // When the pulse ends, the button pops out
       this.pulseFiringProperty.lazyLink( pulseFiring => {
         if ( !pulseFiring ) {
@@ -570,6 +573,7 @@ define( require => {
       this.oscillator2Property.reset();
       this.continuousWave1OscillatingProperty.reset();
       this.continuousWave2OscillatingProperty.reset();
+      this.isAboutToFireProperty.reset();
     }
 
     /**
