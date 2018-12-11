@@ -52,7 +52,11 @@ define( require => {
      */
     constructor( model, view, options ) {
       options = _.extend( {
-        timeDivisions: NUMBER_OF_TIME_DIVISIONS
+        timeDivisions: NUMBER_OF_TIME_DIVISIONS,
+
+        // Prevent adjustment of the control panel rendering while dragging,
+        // see https://github.com/phetsims/wave-interference/issues/212
+        preventFit: true
       }, options );
       const backgroundNode = new Node( { cursor: 'pointer' } );
 
