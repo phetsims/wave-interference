@@ -135,10 +135,12 @@ define( require => {
             b = this.vacuumColor.b;
           }
 
+          // ImageData.data is Uint8ClampedArray.  Use Math.round instead of Util.roundSymmetric
+          // because performance is critical and all numbers are non-negative.
           const offset = 4 * m;
-          data[ offset ] = r;
-          data[ offset + 1 ] = g;
-          data[ offset + 2 ] = b;
+          data[ offset ] = Math.round( r );
+          data[ offset + 1 ] = Math.round( g );
+          data[ offset + 2 ] = Math.round( b );
           data[ offset + 3 ] = 255; // Fully opaque
           m++;
         }
