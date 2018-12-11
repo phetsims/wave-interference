@@ -67,10 +67,10 @@ which is about 4% off of the true speed of light.  Measuring the colored wavefro
 Since the distance and wave propagation speeds are independent of frequency, measurements for different colors will
 give the same speed of light.  See also WavesScreenModel usage of `timeScaleFactor` for how the model is calibrated.
 
+# Slits Screen
 Here is a schematic for the two-slit dimensions:
 ![schematic for the two-slit dimensions](images/slitDimensions.jpg?raw=true "Two-Slit Dimensions")
 
-# Slits Screen
 By using ?dev, you can show the IdealInterferenceOverlay, which depicts d sin(θ) = mλ (theoretical maxima) and d sin(θ) = (m+1/2)λ (theoretical minima).
 See https://github.com/phetsims/wave-interference/issues/74
 
