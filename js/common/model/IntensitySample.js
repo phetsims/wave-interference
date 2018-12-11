@@ -14,8 +14,8 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  // Number of samples to use for a temporal average.  Higher number means more latency. Lower number means more
-  // responsive, but we need to make the time longer than one period so it doesn't just show part of the wave cycle
+  // Number of samples to use for a temporal average.  Higher number means more latency and smoother. Lower number means
+  // lower latency, but more bouncy.
   const HISTORY_LENGTH = 90;
 
   class IntensitySample {
@@ -58,6 +58,8 @@ define( require => {
       averagedIntensities.length = intensities.length;
       averagedIntensities[ 0 ] = intensities[ 0 ];
       averagedIntensities[ averagedIntensities.length - 1 ] = intensities[ averagedIntensities.length - 1 ];
+
+      // Average over a window of nearest neighbors
       for ( let i = 1; i < intensities.length - 1; i++ ) {
         averagedIntensities[ i ] = ( intensities[ i - 1 ] + intensities[ i ] + intensities[ i + 1 ] ) / 3;
       }
