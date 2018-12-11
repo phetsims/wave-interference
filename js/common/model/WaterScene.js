@@ -160,6 +160,9 @@ define( require => {
       this.desiredFrequencyProperty.reset();
       this.desiredSourceSeparationProperty.reset();
       this.desiredAmplitudeProperty.reset();
+      while ( this.waterDrops.length > 0 ) {
+        arrayRemove( this.waterDrops, this.waterDrops[ 0 ] );
+      }
     }
   }
 
