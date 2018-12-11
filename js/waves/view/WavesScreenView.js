@@ -412,19 +412,18 @@ define( require => {
         [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty, model.showWavesProperty,
           model.soundScene.viewSelectionProperty ],
         ( rotationAmount, isRotating, scene, showWaves, soundViewSelection ) => {
-          const isSideWater = rotationAmount === 1 && scene === model.waterScene;
-          const okToShow = !isRotating && !isSideWater;
-          this.waveAreaNode.visible = okToShow;
+          const isWaterSideView = rotationAmount === 1 && scene === model.waterScene;
+          const isVisiblePerspective = !isRotating && !isWaterSideView;
+          this.waveAreaNode.visible = isVisiblePerspective;
 
-          let showLattice = okToShow;
-          if ( scene === model.soundScene ) {
-            showLattice = showWaves && okToShow;
-          }
-          this.latticeNode.visible = showLattice && soundViewSelection !== SoundViewType.PARTICLES;
+          const showLattice = scene === model.soundScene ?
+                              ( isVisiblePerspective && showWaves && soundViewSelection !== SoundViewType.PARTICLES ) :
+                              isVisiblePerspective;
+          this.latticeNode.visible = showLattice;
 
           soundParticleLayer.visible = ( soundViewSelection === SoundViewType.PARTICLES ||
                                          soundViewSelection === SoundViewType.BOTH ) &&
-                                       scene === model.soundScene && okToShow;
+                                       scene === model.soundScene && isVisiblePerspective;
 
           waterDropLayer.visible = scene === model.waterScene;
         } );
