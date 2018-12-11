@@ -51,8 +51,9 @@ define( require => {
         scale: BUTTON_SCALE,
 
         // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
-        // dt, so the model will behave the same
-        listener: () => model.advanceTime( 1 / WavesScreenModel.EVENT_RATE, true )
+        // dt, so the model will behave the same, but choose a time value of 0.05 units (scene specific)
+        // see https://github.com/phetsims/wave-interference/issues/226
+        listener: () => model.advanceTime( 0.05 / model.sceneProperty.value.timeScaleFactor, true )
       } );
 
       // Only enable the step button when the model is paused.
