@@ -146,8 +146,8 @@ define( require => {
           toRemove.push( waterDrop );
         }
       }
-      for ( let element of toRemove ) {
-        arrayRemove( this.waterDrops, element );
+      for ( let i = 0; i < toRemove.length; i++ ) {
+        arrayRemove( this.waterDrops, toRemove[ i ] );
       }
     }
 
