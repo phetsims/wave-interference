@@ -1,5 +1,5 @@
 The Wave Interference simulation was ported from a prior Java implementation.  The first 3 screens show a 2D lattice and
-time-based wave propagation, while the final screen shows the interference pattern from a slit with a given 2d shape,
+time-based wave propagation, while the fourth screen shows the interference pattern from a slit with a given 2d shape,
 which is instantly updated.  The query string ?dev will output debugging information to the console.
 
 There are no dynamically created/destroyed user interface components or model elements in the simulation, so the
@@ -7,12 +7,17 @@ simulation doesn't require dispose calls.
 
 # Waves, Interference, Slits Screens
 
-The first three screens are mainly coded in js/common.
+The first three screens are mainly implemented in js/common.  
+
+WavesScreenModel is the main model for these screens.  Each `WavesScreenModel` contains 3 `Scene` instances, one for 
+each of water, sound and light.  Most settings (such as whether the waves are turned on or off) are independent for each
+`Scene`, and each `Scene` has its own physical model and `Lattice`.  The tools which appear in the toolbox are shared
+across Scenes. 
 
 There are 3 coordinate frames:
 * view coordinates
 * lattice coordinates (integer), with damping regions
-* model metric coordinates (such as cm), corresponding to physical measures
+* model metric coordinates (such as cm or nm), corresponding to physical measures
 
 The wave is represented on a single 2D discrete scalar lattice, and we use use the discretization of the wave equation described in
 http://www.mtnmath.com/whatth/node47.html and known as a finite difference method:
@@ -28,10 +33,12 @@ reflection and artifacts around the edges.
 We run the physics on a finite discrete lattice, but must match up with the correct values (frequency, wavelength and
 wave speed) for all frequencies of light.  This table describes the desired values for light.  Run the simulation with
 ?dev to get corresponding output in the console.  Use the stopwatch and sim play/pause feature to record one cycle.  To
-measure the wave speed, let the light propagate to the edge of the boundary, then use the measuring tape to measure distance
-and divide by the elapsed time on the stopwatch.
+measure the wave speed, let the light propagate to the edge of the boundary, then use the measuring tape to measure 
+distance and divide by the elapsed time on the stopwatch.
 
-The time constants have been tuned in WavesScreenModel.js so that the observed Wavelength and Oscillation Time are correct.
+The time constants have been tuned in WavesScreenModel.js so that the observed Wavelength and Oscillation Time are 
+correct.
+
 The following values can also be reported by running with`?log`.
 
 ## Water
