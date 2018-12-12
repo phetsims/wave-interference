@@ -146,7 +146,7 @@ define( require => {
           // Set the range by incorporating the model's time units, so it will match with the timer.
           const maxSeconds = NUMBER_OF_TIME_DIVISIONS;
 
-          let scene = model.sceneProperty.value;
+          const scene = model.sceneProperty.value;
           if ( model.isWaveMeterInPlayAreaProperty.get() ) {
 
             // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the

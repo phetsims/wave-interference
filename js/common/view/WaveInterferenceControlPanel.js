@@ -186,7 +186,7 @@ define( require => {
       if ( options.additionalControl ) {options.additionalControl.centerX = centerX;}
       sceneRadioButtons.centerX = centerX;
       separator.centerX = centerX;
-      let minX = _.min( [
+      const minX = _.min( [
         frequencySliderContainer.left,
         amplitudeSliderContainer.left,
         frequencyTitle.left,

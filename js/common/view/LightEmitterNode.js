@@ -30,7 +30,7 @@ define( require => {
      * @param {boolean} isPrimarySource
      */
     constructor( model, waveAreaNode, isPrimarySource ) {
-      let scene = model.lightScene;
+      const scene = model.lightScene;
       const laserPointerNode = new LaserPointerNode( scene.button1PressedProperty, _.extend( {
         rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 )
       }, DEFAULT_OPTIONS ) );
