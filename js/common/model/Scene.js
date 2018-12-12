@@ -559,7 +559,7 @@ define( require => {
      * @public
      */
     reset() {
-      this.lattice.clear();
+      this.clear();
       this.frequencyProperty.reset();
       this.slitWidthProperty.reset();
       this.barrierLocationProperty.reset();

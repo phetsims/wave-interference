@@ -203,6 +203,7 @@ define( require => {
     clear() {
       this.matrices.forEach( matrix => matrix.timesEquals( 0 ) );
       this.visitedMatrix.timesEquals( 0 );
+      this.changedEmitter.emit();
     }
 
     /**
