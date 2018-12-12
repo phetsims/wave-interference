@@ -273,8 +273,11 @@ define( require => {
       // @public - Notifies listeners when the model reset is complete
       this.resetEmitter = new Emitter();
 
-      // Reset the stopwatch time when changing scenes.
-      this.sceneProperty.link( () => this.timerElapsedTimeProperty.reset() );
+      // Reset the stopwatch time when changing scenes, and pause it.
+      this.sceneProperty.link( () => {
+        this.isTimerRunningProperty.reset();
+        this.timerElapsedTimeProperty.reset();
+      } );
     }
 
     /**
