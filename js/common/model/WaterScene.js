@@ -106,7 +106,7 @@ define( require => {
             }
           }
         ) );
-        this.isAboutToFireProperty.value = true;
+        this.updateIsAboutToFire();
         this.lastDropTime = time;
       }
     }
@@ -150,7 +150,29 @@ define( require => {
       for ( let i = 0; i < toRemove.length; i++ ) {
         arrayRemove( this.waterDrops, toRemove[ i ] );
       }
-      this.isAboutToFireProperty.value = this.waterDrops.length > 0;
+
+      this.updateIsAboutToFire();
+    }
+
+    /**
+     * When any water drop with a nonzero amplitude that is a trigger to start oscillation exists,
+     * we mark the isAboutToFireProperty as true.
+     * @private
+     */
+    updateIsAboutToFire() {
+      let isAboutToFire = false;
+
+      // Called every frame, do not allocate closures.
+      for ( let i = 0; i < this.waterDrops.length; i++ ) {
+        const waterDrop = this.waterDrops[ i ];
+        if ( waterDrop.amplitude > 0 && waterDrop.startsOscillation ) {
+
+          // Called every frame, break when any match is found for performance
+          isAboutToFire = true;
+          break;
+        }
+      }
+      this.isAboutToFireProperty.value = isAboutToFire;
     }
 
     /**

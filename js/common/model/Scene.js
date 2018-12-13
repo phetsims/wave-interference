@@ -349,7 +349,7 @@ define( require => {
 
           // For 50% longer than one pulse, keep the oscillator fixed at 0 to prevent "ringing"
           const waveValue = ( this.pulseFiringProperty.get() && timeSincePulseStarted > period ) ? 0 :
-                          -Math.sin( time * angularFrequency + this.phase ) * amplitude;
+                            -Math.sin( time * angularFrequency + this.phase ) * amplitude;
 
           // assumes a square lattice
           const sourceSeparation = this.sourceSeparationProperty.get();
