@@ -55,6 +55,9 @@ define( require => {
           this.lastDropTime = null;
         }
       } );
+
+      // For the water scene, remove water drops so one mode doesn't create waves in the other mode
+      this.waveTemporalTypeProperty.link( inputType => this.removeAllDrops() );
     }
 
     /**
@@ -175,6 +178,10 @@ define( require => {
       this.isAboutToFireProperty.value = isAboutToFire;
     }
 
+    /**
+     * Clear all of the water drops.
+     * @public
+     */
     removeAllDrops() {
       while ( this.waterDrops.length > 0 ) {
         arrayRemove( this.waterDrops, this.waterDrops[ 0 ] );
