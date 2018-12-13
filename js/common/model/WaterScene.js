@@ -175,6 +175,12 @@ define( require => {
       this.isAboutToFireProperty.value = isAboutToFire;
     }
 
+    removeAllDrops() {
+      while ( this.waterDrops.length > 0 ) {
+        arrayRemove( this.waterDrops, this.waterDrops[ 0 ] );
+      }
+    }
+
     /**
      * Reset additional features.
      * @public

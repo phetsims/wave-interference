@@ -220,11 +220,6 @@ define( require => {
         }
       } );
 
-      // When the user changes wave type, the button pops out
-      this.waveTemporalTypeProperty.link( inputType => {
-        this.button1PressedProperty.value = false;
-      } );
-
       // @public (read-only) - the value of the wave at the oscillation point
       this.oscillator1Property = new NumberProperty( 0 );
 
@@ -236,6 +231,13 @@ define( require => {
 
       // @public {BooleanProperty} - true when the second source is continuously oscillating
       this.continuousWave2OscillatingProperty = new BooleanProperty( false );
+
+      // When the user changes temporal wave type, the button pops out and waves stop
+      this.waveTemporalTypeProperty.link( inputType => {
+        this.button1PressedProperty.value = false;
+        this.continuousWave1OscillatingProperty.value = false;
+        this.continuousWave2OscillatingProperty.value = false;
+      } );
 
       // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
       // for continuity
@@ -340,7 +342,6 @@ define( require => {
         const isContinuous = ( this.waveTemporalTypeProperty.get() === WaveTemporalType.CONTINUOUS );
         const continuous1 = isContinuous && this.continuousWave1OscillatingProperty.get();
         const continuous2 = isContinuous && this.continuousWave2OscillatingProperty.get();
-
         if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
           // The simulation is designed to start with a downward wave, corresponding to water splashing in
