@@ -93,6 +93,9 @@ define( require => {
         clipArea: clipArea
       } );
 
+      // Prevent recomputing the bounds of the curve at each time step to improve performance
+      curve.computeShapeBounds = () => chartRectangle.bounds;
+
       // Support for zoom in/out
       const zoomRange = new RangeWithValue( 1, 5, 3 );
       const zoomLevelProperty = new NumberProperty( zoomRange.defaultValue, {
@@ -156,10 +159,11 @@ define( require => {
           );
           shape.lineTo( intensityPlotValue, positionPlotValue );
         }
-        
-        // Add an extension (that will be invisible due to clipping) that will hopefully trick Firefox into increasing
-        // its "dirty bounds" area for the shape changes, to prevent
-        // https://github.com/phetsims/wave-interference/issues/235.
+
+        // Add an extension (that will be invisible due to clipping) that has been observed to trick Firefox into
+        // increasing its "dirty bounds" area for the shape changes, to prevent duplicate lines from appearing, see
+        // https://github.com/phetsims/wave-interference/issues/235.  Perhaps one day when Firefox clipping/svg gets
+        // the bounds computation correct, this workaround could be removed.
         shape.lineToRelative( 50, 50 ).lineToRelative( -100, 0 );
 
         curve.shape = shape;
