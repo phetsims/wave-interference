@@ -1,11 +1,11 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.51 Tue Dec 11 2018 20:47:50 GMT-0700 (MST)",
+  "comment": "# wave-interference 1.0.0-dev.52 Wed Dec 12 2018 21:01:46 GMT-0700 (MST)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
   },
   "axon": {
-    "sha": "73e761ec58a4890a17a5b7fd3d02be0ed32e217c",
+    "sha": "18a9e66b264126d2d79281a868395a91a747c5f8",
     "branch": "master"
   },
   "brand": {
@@ -13,7 +13,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "61bc739bf804da3d095e509636f6e60d47ae8b5c",
+    "sha": "ee57799d7f636864259eb45d80032eb6258d2941",
     "branch": "master"
   },
   "dot": {
@@ -29,7 +29,7 @@
     "branch": "master"
   },
   "kite": {
-    "sha": "f3e96e5be87a05857884be53454161de1600d65d",
+    "sha": "02b52a3fb7a92aaf193b8300044f8a86d514b9be",
     "branch": "master"
   },
   "phet-core": {
@@ -37,7 +37,7 @@
     "branch": "master"
   },
   "phet-io": {
-    "sha": "a267fdb1d385979e37ebd8e6b3d843a00e8e7d6a",
+    "sha": "ae027e0cdd8d7b48d74f1fc2e96fedd7f2af8486",
     "branch": "master"
   },
   "phet-io-wrapper-classroom-activity": {
@@ -53,7 +53,7 @@
     "branch": "master"
   },
   "phet-io-wrappers": {
-    "sha": "d5b428482d69e2d68fdec16bb3313b00c269c7c5",
+    "sha": "68f0c1acbe96f272a4462b4f1b9729f328909695",
     "branch": "master"
   },
   "phetcommon": {
@@ -65,11 +65,11 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "a18ce7f10a92f534945ed9abb6ba96dafa258382",
+    "sha": "78fe680521378219178aa415d51ab5340ebc9dc7",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "56df5b6df31d744b4f901842ae07397cd257a40e",
+    "sha": "001b40257a79c283dcd6c83e24432b1817f2fd5b",
     "branch": "master"
   },
   "sherpa": {
@@ -77,11 +77,11 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "38ed71afc217a143b00ce8300f20505efa5c6ff2",
+    "sha": "27050d71cca9fb3748eea7740b66114dcf3e558a",
     "branch": "master"
   },
   "tambo": {
-    "sha": "746fbd32d09ce268813015af60c947bc941b0353",
+    "sha": "3648b915780e8844bf92e6fc89b45d071a0b0a4b",
     "branch": "master"
   },
   "tandem": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "bfce593d82a5535e345a6004bd24145927fd0bf0",
+    "sha": "23cc97f6ed2a401b3e30f7fb352a60e13e1c447b",
     "branch": "master"
   }
 }
