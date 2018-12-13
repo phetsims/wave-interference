@@ -1,11 +1,11 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.54 Wed Dec 12 2018 22:15:30 GMT-0700 (MST)",
+  "comment": "# wave-interference 1.0.0-dev.55 Thu Dec 13 2018 14:25:53 GMT-0700 (MST)",
   "assert": {
     "sha": "928741cfc8fe804334d5b35292140314511f8678",
     "branch": "master"
   },
   "axon": {
-    "sha": "18a9e66b264126d2d79281a868395a91a747c5f8",
+    "sha": "c795c4e839559081a3f162924ed825ff5cea13e0",
     "branch": "master"
   },
   "brand": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "5a013a4623d6006cbf83d58aeb2ce1a89982fc65",
+    "sha": "e6820bc4adc3d1321118392fe41f72829f6451e3",
     "branch": "master"
   },
   "kite": {
@@ -37,7 +37,7 @@
     "branch": "master"
   },
   "phet-io": {
-    "sha": "ae027e0cdd8d7b48d74f1fc2e96fedd7f2af8486",
+    "sha": "67aad7c4ecf40b74b6142edf569d3d326c0d9f47",
     "branch": "master"
   },
   "phet-io-wrapper-classroom-activity": {
@@ -85,7 +85,7 @@
     "branch": "master"
   },
   "tandem": {
-    "sha": "c7a56e2e760ab2e8cba1f515916b08fdb69e35e8",
+    "sha": "cc047b26d70b4dc8c143c14547efe06801f63799",
     "branch": "master"
   },
   "twixt": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "aedb3fea02b0f68b5dcd0aaf8e4e9c19b245953e",
+    "sha": "d9a857b69d4596d9b13c56db3927d217182d350e",
     "branch": "master"
   }
 }
