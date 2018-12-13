@@ -91,9 +91,6 @@ define( require => {
 
         // Prevent rendering outside the charting area
         clipArea: clipArea,
-
-        // prevent bounds computations during main loop
-        boundsMethod: 'none',
         localBounds: clipArea.bounds
       } );
 
