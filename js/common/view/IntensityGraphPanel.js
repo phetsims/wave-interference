@@ -90,8 +90,7 @@ define( require => {
         lineWidth: 2,
 
         // Prevent rendering outside the charting area
-        clipArea: clipArea,
-        localBounds: clipArea.bounds
+        clipArea: clipArea
       } );
 
       // Support for zoom in/out
