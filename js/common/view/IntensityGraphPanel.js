@@ -156,6 +156,12 @@ define( require => {
           );
           shape.lineTo( intensityPlotValue, positionPlotValue );
         }
+        
+        // Add an extension (that will be invisible due to clipping) that will hopefully trick Firefox into increasing
+        // its "dirty bounds" area for the shape changes, to prevent
+        // https://github.com/phetsims/wave-interference/issues/235.
+        shape.lineToRelative( 50, 50 ).lineToRelative( -100, 0 );
+
         curve.shape = shape;
       };
       intensitySample.changedEmitter.addListener( updateChart );
