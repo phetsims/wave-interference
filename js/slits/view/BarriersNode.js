@@ -107,7 +107,6 @@ define( require => {
      * @private - update the shapes and text when the rotationAmount has changed
      */
     update() {
-
       const barrierType = this.scene.barrierTypeProperty.get();
       const scene = this.scene;
       const slitWidth = scene.slitWidthProperty.get();

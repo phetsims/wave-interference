@@ -575,6 +575,7 @@ define( require => {
       this.continuousWave1OscillatingProperty.reset();
       this.continuousWave2OscillatingProperty.reset();
       this.isAboutToFireProperty.reset();
+      this.barrierTypeProperty && this.barrierTypeProperty.reset();
     }
 
     /**
