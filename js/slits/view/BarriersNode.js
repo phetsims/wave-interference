@@ -15,9 +15,9 @@ define( require => {
   const DynamicProperty = require( 'AXON/DynamicProperty' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
+  const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   class BarriersNode extends Node {
@@ -73,11 +73,17 @@ define( require => {
         viewBounds
       );
       this.addInputListener( new DragListener( {
-        locationProperty: scene.barrierLocationProperty,
-        transform: this.modelViewTransform,
+        mapLocation: modelPosition => {
 
-        // Constrain to lie within 80% of the main area
-        dragBoundsProperty: new Property( scene.getWaveAreaBounds().erodedX( scene.getWaveAreaBounds().width / 10 ) )
+          // Quantize the drag locations to lie exactly on the cell boundaries of the lattice
+          const roundedModelX = scene.getQuantizedBarrierLocation( modelPosition.x );
+
+          // Constrain to lie within 80% of the wave area
+          const erodedBounds = scene.getWaveAreaBounds().erodedX( scene.getWaveAreaBounds().width / 10 );
+          return erodedBounds.closestPointTo( new Vector2( roundedModelX, modelPosition.y ) );
+        },
+        locationProperty: scene.barrierLocationProperty,
+        transform: this.modelViewTransform
       } ) );
 
       // @private - draggable double-headed arrow beneath the barrier
@@ -112,9 +118,9 @@ define( require => {
       const slitWidth = scene.slitWidthProperty.get();
       const slitSeparation = scene.slitSeparationProperty.get();
 
-      // Barrier origin in view coordinates, sets the parent node location for compatibility with
-      // DragListener, see https://github.com/phetsims/wave-interference/issues/75
-      this.x = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() ) - this.cellWidth / 2;
+      // Barrier origin in view coordinates, sets the parent node location for compatibility with DragListener,
+      // see https://github.com/phetsims/wave-interference/issues/75
+      this.x = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() );
 
       if ( barrierType === BarrierTypeEnum.NO_BARRIER ) {
 

@@ -139,11 +139,14 @@ define( require => {
         this.lattice.visibleBounds.shifted( -1, -1 )
       );
 
+      // Quantize initial barrier location to lie on the lattice cell closest to the center.
+      const initialBarrierLocation = new Vector2( this.getQuantizedBarrierLocation( config.waveAreaWidth / 2 ), -1 );
+
       // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)
       //                   - note: this is a floating point 2D representation to work seamlessly with DragListener
       //                   - see getBarrierLocation() for how to get the integral x-coordinate.
       //                   - Can be dragged by the node or handle below it.
-      this.barrierLocationProperty = new Property( new Vector2( config.waveAreaWidth / 2, 0 ), {
+      this.barrierLocationProperty = new Property( initialBarrierLocation, {
         units: this.positionUnits
       } );
 
@@ -323,6 +326,19 @@ define( require => {
     }
 
     /**
+     * Find the closest model coordinate that lines up exactly with a lattice cell.
+     * @param {number} modelX - the model coordinate to quantize
+     * @param {number} [latticeOffset] - offset in lattice coordinates
+     * @returns {number}
+     * @public
+     */
+    getQuantizedBarrierLocation( modelX, latticeOffset = 0 ) {
+      const latticeX = this.modelToLatticeTransform.modelToViewX( modelX );
+      const roundedLatticeX = Util.roundSymmetric( latticeX ) + latticeOffset;
+      return this.modelToLatticeTransform.viewToModelX( roundedLatticeX );
+    }
+
+    /**
      * Set the incoming source values, in this case it is a point source near the left side of the lattice (outside of
      * the damping region).
      * @override
@@ -384,7 +400,7 @@ define( require => {
         const lattice = this.lattice;
 
         // Round this to make sure it appears at an integer cell column
-        let barrierLatticeX = Util.roundSymmetric( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) );
+        let barrierLatticeX = Util.roundSymmetric( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) ) + 1;
         const slitSeparationModel = this.slitSeparationProperty.get();
 
         const frontTime = time - this.button1PressTime;
