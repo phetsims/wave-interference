@@ -41,8 +41,8 @@ define( require => {
         centerY: sourceNode.centerY + buttonOffset,
         left: buttonPosition,
         radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS,
-        // TODO: pass a paint color property?
         content: pulseIcon
+        // baseColor is set in the link function below
       };
 
       const button = new RoundStickyToggleButton(

@@ -50,7 +50,7 @@ define( require => {
 
       this.mutate( options );
 
-      // Show descriptive text label at the bottom of the cylinder
+      // Show descriptive text label
       this.addChild( new SceneToggleNode( model, scene => {
         const textNode = new WaveInterferenceText( scene.planeWaveGeneratorNodeText, {
           rotation: -Math.PI / 2,
