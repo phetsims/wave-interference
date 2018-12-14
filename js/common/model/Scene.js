@@ -133,14 +133,11 @@ define( require => {
       // coordinates, does not include damping regions
       this.modelToLatticeTransform = ModelViewTransform2.createRectangleMapping(
         new Rectangle( 0, 0, config.waveAreaWidth, config.waveAreaWidth ),
-
-        // I do not understand why, but shifting indices by 1 is necessary to align particle model coordinates with
-        // lattice coordinates, see https://github.com/phetsims/wave-interference/issues/174
-        this.lattice.visibleBounds.shifted( -1, -1 )
+        this.lattice.visibleBounds
       );
 
       // Quantize initial barrier location to lie on the lattice cell closest to the center.
-      const initialBarrierLocation = new Vector2( this.getQuantizedBarrierLocation( config.waveAreaWidth / 2 ), -1 );
+      const initialBarrierLocation = new Vector2( this.getQuantizedModelX( config.waveAreaWidth / 2 ) );
 
       // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)
       //                   - note: this is a floating point 2D representation to work seamlessly with DragListener
@@ -313,7 +310,8 @@ define( require => {
 
           const frontTime = this.timeProperty.value - this.button1PressTime;
           const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime );
-          const barrierLatticeX = Util.roundSymmetric( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) );
+
+          const barrierLatticeX = this.getBarrierLatticeX();
 
           // if the wave had passed by the barrier, then repropagate from the barrier.  This requires back-computing the
           // time the button would have been pressed to propagate the wave to the barrier.  Hence this is the inverse of
@@ -326,16 +324,36 @@ define( require => {
     }
 
     /**
-     * Find the closest model coordinate that lines up exactly with a lattice cell.
-     * @param {number} modelX - the model coordinate to quantize
-     * @param {number} [latticeOffset] - offset in lattice coordinates
+     * Gets the location of the barrier on the (quantized) lattice cooordinate frame
      * @returns {number}
      * @public
      */
-    getQuantizedBarrierLocation( modelX, latticeOffset = 0 ) {
+    getBarrierLatticeX() {
+      return this.getLatticeX( this.getBarrierLocation() );
+    }
+
+    /**
+     * Converts the given model coordinate to a (quantized) lattice coordinate
+     * @param {number} modelX
+     * @returns {number}
+     * @public
+     */
+    getLatticeX( modelX ) {
       const latticeX = this.modelToLatticeTransform.modelToViewX( modelX );
-      const roundedLatticeX = Util.roundSymmetric( latticeX ) + latticeOffset;
-      return this.modelToLatticeTransform.viewToModelX( roundedLatticeX );
+
+      // Use floor so that default value of 50.5 rounds down to 50.0 which is in the center visually
+      // TODO: search other usages of Util.roundSymmetric
+      return Math.floor( latticeX );
+    }
+
+    /**
+     * Find the closest model coordinate that lines up exactly with a lattice cell.
+     * @param {number} modelX - the model coordinate to quantize
+     * @returns {number}
+     * @public
+     */
+    getQuantizedModelX( modelX ) {
+      return this.modelToLatticeTransform.viewToModelX( this.getLatticeX( modelX ) );
     }
 
     /**
@@ -399,9 +417,7 @@ define( require => {
         // plane waves
         const lattice = this.lattice;
 
-        // Round this to make sure it appears at an integer cell column
-        // TODO: Why is there a +1 here?  Maybe factor out the calls that get the barrier location in lattice coordinates?
-        let barrierLatticeX = Util.roundSymmetric( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) ) + 1;
+        let barrierLatticeX = this.getBarrierLatticeX();
         const slitSeparationModel = this.slitSeparationProperty.get();
 
         const frontTime = time - this.button1PressTime;
@@ -531,6 +547,10 @@ define( require => {
       return this.barrierLocationProperty.get().x;
     }
 
+    /**
+     * Clears the wave values
+     * @public
+     */
     clear() {
       this.lattice.clear();
     }

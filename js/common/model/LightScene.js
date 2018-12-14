@@ -26,6 +26,7 @@ define( require => {
     }
 
     /**
+     * Clears the scene.
      * @public
      * @override
      */

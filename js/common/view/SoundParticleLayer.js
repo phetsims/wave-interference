@@ -15,7 +15,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  const RESOLUTION = 2;
+  const RESOLUTION = 2; // Render at increased resolution so particles don't appear pixellated on a large screen.
 
   class SoundParticleLayer extends CanvasNode {
 
@@ -28,8 +28,9 @@ define( require => {
 
       options = _.extend( {
 
-        // only use the visible part for the bounds (not the damping regions)
-        canvasBounds: waveAreaNodeBounds,
+        // only use the visible part for the bounds (not the damping regions).  Additionally erode so the particles
+        // don't leak over the edge of the wave area
+        canvasBounds: waveAreaNodeBounds.eroded( 5 ),
         layerSplit: true // ensure we're on our own layer
       }, options );
 
@@ -78,12 +79,12 @@ define( require => {
 
         // Red particles are shown on a grid
         const isRed = ( soundParticle.i % 4 === 2 && soundParticle.j % 4 === 2 );
-        const sphereimage = isRed ? this.redSphereImage : this.whiteSphereImage;
+        const sphereImage = isRed ? this.redSphereImage : this.whiteSphereImage;
 
         context.drawImage(
-          sphereimage,
-          RESOLUTION * ( this.modelViewTransform.modelToViewX( soundParticle.x ) - sphereimage.width / 2 ),
-          RESOLUTION * ( this.modelViewTransform.modelToViewY( soundParticle.y ) - sphereimage.height / 2 )
+          sphereImage,
+          RESOLUTION * ( this.modelViewTransform.modelToViewX( soundParticle.x ) ) - sphereImage.width / 2,
+          RESOLUTION * ( this.modelViewTransform.modelToViewY( soundParticle.y ) ) - sphereImage.height / 2
         );
       } );
     }

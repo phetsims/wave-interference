@@ -76,7 +76,7 @@ define( require => {
         mapLocation: modelPosition => {
 
           // Quantize the drag locations to lie exactly on the cell boundaries of the lattice
-          const roundedModelX = scene.getQuantizedBarrierLocation( modelPosition.x );
+          const roundedModelX = scene.getQuantizedModelX( modelPosition.x );
 
           // Constrain to lie within 80% of the wave area
           const erodedBounds = scene.getWaveAreaBounds().erodedX( scene.getWaveAreaBounds().width / 10 );
