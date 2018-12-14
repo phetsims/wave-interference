@@ -92,7 +92,7 @@ define( require => {
             waveMeterIcon
           ]
         } ) ), {
-        yMargin: 9.55,
+          yMargin: 9.55,
           maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH
         }
       );
