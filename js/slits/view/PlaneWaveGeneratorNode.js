@@ -67,7 +67,7 @@ define( require => {
         } );
       }, {
         centerX: this.centerX,
-        bottom: verticalCylinderImageNode.bottom - 30,
+        top: verticalCylinderImageNode.top + 42,
         alignChildren: ToggleNode.BOTTOM
       } ) );
     }
