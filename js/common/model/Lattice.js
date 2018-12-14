@@ -12,7 +12,6 @@ define( require => {
   const Bounds2 = require( 'DOT/Bounds2' );
   const Emitter = require( 'AXON/Emitter' );
   const Matrix = require( 'DOT/Matrix' );
-  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -122,7 +121,7 @@ define( require => {
       if ( array.length !== samplingWidth ) {
         array.length = 0;
       }
-      const samplingVerticalLocation = Util.roundSymmetric( this.height / 2 );
+      const samplingVerticalLocation = Math.floor( this.height / 2 ); // 50.5 is the center, but we want 50.0
       for ( let i = 0; i < this.width - this.dampX * 2; i++ ) {
         array[ i ] = this.getCurrentValue( i + this.dampX, samplingVerticalLocation );
       }

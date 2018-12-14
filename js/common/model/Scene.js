@@ -21,7 +21,6 @@ define( require => {
   const Rectangle = require( 'DOT/Rectangle' );
   const SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -342,7 +341,6 @@ define( require => {
       const latticeX = this.modelToLatticeTransform.modelToViewX( modelX );
 
       // Use floor so that default value of 50.5 rounds down to 50.0 which is in the center visually
-      // TODO: search other usages of Util.roundSymmetric
       return Math.floor( latticeX );
     }
 
@@ -388,25 +386,23 @@ define( require => {
 
           // assumes a square lattice
           const sourceSeparation = this.sourceSeparationProperty.get();
-          const separationInLatticeUnits = sourceSeparation / this.waveAreaWidth * this.lattice.visibleBounds.width;
-          const distanceAboveAxis = Util.roundSymmetric( separationInLatticeUnits / 2 );
+
+          const separationInLatticeUnits = this.modelToLatticeTransform.modelToViewDeltaY( sourceSeparation / 2 );
+          const distanceFromCenter = Math.floor( separationInLatticeUnits );
 
           // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
-          // To understand why we subtract 1 here, imagine for the sake of conversation that the lattice is 5 units wide
-          // so the cells are indexed 0,1,2,3,4.  5/2 === 2.5, rounded up that is 3, so we must subtract 1 to find the
-          // center of the lattice.
-          const latticeCenterJ = Util.roundSymmetric( this.lattice.height / 2 ) - 1;
+          const latticeCenterJ = Math.floor( this.lattice.height / 2 );
 
           // Point source
           if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
-            const j = latticeCenterJ + distanceAboveAxis;
+            const j = latticeCenterJ + distanceFromCenter;
             lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
             this.oscillator1Property.value = waveValue;
           }
 
           // Secondary source (note if there is only one source, this sets the same value as above)
           if ( this.continuousWave2OscillatingProperty.get() ) {
-            const j = latticeCenterJ - distanceAboveAxis;
+            const j = latticeCenterJ - distanceFromCenter;
             lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
             this.oscillator2Property.value = waveValue;
           }
@@ -424,7 +420,7 @@ define( require => {
         const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime ); // in lattice coordinates
 
         const slitWidthModel = this.slitWidthProperty.get();
-        const slitWidth = Util.roundSymmetric( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
+        const slitWidth = Math.floor( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
         const latticeCenterY = this.lattice.height / 2;
 
         // Take the desired frequency for the water scene, or the specified frequency of any other scene
