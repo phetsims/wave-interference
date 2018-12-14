@@ -27,8 +27,9 @@ define( require => {
 
     /**
      * @param {WaveTemporalType} incidentWaveType
+     * @param {Object} [options]
      */
-    constructor( incidentWaveType ) {
+    constructor( incidentWaveType, options ) {
       super();
       const minAngle = incidentWaveType === WaveTemporalType.PULSE ? Math.PI : 0;
       const minX = incidentWaveType === WaveTemporalType.PULSE ? MARGIN : 0;
@@ -59,6 +60,8 @@ define( require => {
         stroke: 'black',
         lineWidth: 2
       } ) );
+
+      this.mutate( options );
     }
   }
 

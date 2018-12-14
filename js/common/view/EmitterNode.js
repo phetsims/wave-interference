@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
@@ -34,11 +35,14 @@ define( require => {
                  verticalOffset = 0,
                  buttonOffset = 0,
                  showButtonBackground = false ) {
+      const pulseIcon = new InputTypeIconNode( WaveTemporalType.PULSE, { scale: 0.48 } );
+
       const buttonOptions = {
         centerY: sourceNode.centerY + buttonOffset,
         left: buttonPosition,
-        baseColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
-        radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS
+        radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS,
+        // TODO: pass a paint color property?
+        content: pulseIcon
       };
 
       const button = new RoundStickyToggleButton(
@@ -70,7 +74,16 @@ define( require => {
           button.enabled = true;
         }
       };
-      scene.waveTemporalTypeProperty.link( updateEnabled );
+
+      // When changing between PULSE and CONTINUOUS, update the buttons.
+      scene.waveTemporalTypeProperty.link( waveTemporalType => {
+          button.setBaseColor( waveTemporalType === WaveTemporalType.CONTINUOUS ?
+                               WaveInterferenceConstants.EMITTER_BUTTON_COLOR :
+                               '#33dd33' );
+          pulseIcon.visible = waveTemporalType === WaveTemporalType.PULSE;
+          updateEnabled();
+        }
+      );
       scene.pulseFiringProperty.link( updateEnabled );
       scene.isAboutToFireProperty.link( updateEnabled );
       super( {
