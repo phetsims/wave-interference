@@ -400,7 +400,7 @@ define( require => {
         const lattice = this.lattice;
 
         // Round this to make sure it appears at an integer cell column
-        // TODO: Why is there a +1 here?
+        // TODO: Why is there a +1 here?  Maybe factor out the calls that get the barrier location in lattice coordinates?
         let barrierLatticeX = Util.roundSymmetric( this.modelToLatticeTransform.modelToViewX( this.getBarrierLocation() ) ) + 1;
         const slitSeparationModel = this.slitSeparationProperty.get();
 
