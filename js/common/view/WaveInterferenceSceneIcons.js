@@ -33,7 +33,7 @@ define( require => {
       this.laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), LightEmitterNode.DEFAULT_OPTIONS );
 
       // Uniform sizing.
-      const iconWidth = 26;
+      const iconWidth = 29;
       this.faucetIcon.scale( iconWidth / this.faucetIcon.width * 0.7 );
       this.speakerIcon.scale( iconWidth / this.speakerIcon.height );
       this.laserPointerIcon.scale( iconWidth / this.laserPointerIcon.width );
