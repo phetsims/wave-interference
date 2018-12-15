@@ -41,7 +41,8 @@ define( require => {
         centerY: sourceNode.centerY + buttonOffset,
         left: buttonPosition,
         radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS,
-        content: pulseIcon
+        content: pulseIcon,
+        touchAreaDilation: 8
         // baseColor is set in the link function below
       };
 
