@@ -16,6 +16,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
+  const WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
 
   // strings
   const normalString = require( 'string!WAVE_INTERFERENCE/normal' );
@@ -50,9 +51,10 @@ define( require => {
         scale: BUTTON_SCALE,
 
         // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
-        // dt, so the model will behave the same, but choose a time value of 0.05 units (scene specific)
-        // see https://github.com/phetsims/wave-interference/issues/226
-        listener: () => model.advanceTime( 0.05 / model.sceneProperty.value.timeScaleFactor, true )
+        // dt, so the model will behave the same,
+        // see https://github.com/phetsims/wave-interference/issues/254
+        // and https://github.com/phetsims/wave-interference/issues/226
+        listener: () => model.advanceTime( 1 / WavesScreenModel.EVENT_RATE, true )
       } );
 
       // Only enable the step button when the model is paused.
