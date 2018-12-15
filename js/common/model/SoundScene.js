@@ -18,7 +18,9 @@ define( require => {
   const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+
+  // constants
+  const SOUND_PARTICLE_GRADIENT_FORCE_SCALE = 0.67; // Additional scaling for the gradient force
 
   class SoundScene extends Scene {
 
@@ -76,7 +78,7 @@ define( require => {
           130,
           76,
           this.frequencyProperty.value
-        ) * WaveInterferenceConstants.SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY.get();
+        ) * SOUND_PARTICLE_GRADIENT_FORCE_SCALE;
 
         for ( let i = 0; i < this.soundParticles.length; i++ ) {
           const soundParticle = this.soundParticles[ i ];

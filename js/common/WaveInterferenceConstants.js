@@ -12,7 +12,6 @@ define( require => {
   const Dimension2 = require( 'DOT/Dimension2' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const Property = require( 'AXON/Property' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -78,21 +77,6 @@ define( require => {
 
     // maxWidth for slider ticks
     TICK_MAX_WIDTH: 30,
-
-    // Parameters for sound.  These are constants in the simulation, but wrapped in Properties for fine
-    // tuning with developer controls.
-
-    // The random motion of the particles
-    SOUND_PARTICLE_RANDOMNESS_PROPERTY: new Property( 14.75 ),
-
-    // Additional scaling for the home force
-    SOUND_PARTICLE_RESTORATION_SCALE: new Property( 0.5 ),
-
-    // Scaling factor for friction (1.0 = no friction)
-    SOUND_PARTICLE_FRICTION_SCALE_PROPERTY: new Property( 0.732 ),
-
-    // Additional scaling for the gradient force
-    SOUND_PARTICLE_GRADIENT_FORCE_SCALE_PROPERTY: new Property( 0.67 ),
 
     // Use for the time and length scale texts above the wave area, looks best to be a smidge smaller than the
     // rest of the texts
