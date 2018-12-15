@@ -323,7 +323,7 @@ define( require => {
     }
 
     /**
-     * Gets the location of the barrier on the (quantized) lattice cooordinate frame
+     * Gets the location of the barrier on the (quantized) lattice coordinate frame
      * @returns {number}
      * @public
      */

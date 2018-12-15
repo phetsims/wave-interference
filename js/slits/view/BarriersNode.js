@@ -120,7 +120,7 @@ define( require => {
 
       // Barrier origin in view coordinates, sets the parent node location for compatibility with DragListener,
       // see https://github.com/phetsims/wave-interference/issues/75
-      this.x = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() );
+      this.x = this.modelViewTransform.modelToViewX( scene.getQuantizedModelX( scene.getBarrierLocation() ) );
 
       if ( barrierType === BarrierTypeEnum.NO_BARRIER ) {
 
