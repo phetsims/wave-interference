@@ -45,7 +45,7 @@ define( require => {
           const barrierY = viewBounds.centerY;
           const cellWidth = ModelViewTransform2.createRectangleMapping( scene.lattice.visibleBounds, viewBounds )
             .modelToViewDeltaX( 1 );
-          const barrierX = this.modelViewTransform.modelToViewX( scene.getBarrierLocation() ) + cellWidth / 2;
+          const barrierX = this.modelViewTransform.modelToViewX( scene.barrierLocationFloorProperty.value ) + cellWidth / 2;
 
           // Render all the minima and maxima on both sides of the origin
           [ 'maxima', 'minima' ].forEach( type => {
@@ -120,7 +120,7 @@ define( require => {
         scene.barrierTypeProperty.link( updateLines );
         scene.frequencyProperty.link( updateLines );
         scene.slitSeparationProperty.link( updateLines );
-        scene.barrierLocationProperty.link( updateLines );
+        scene.barrierLocationFloorProperty.link( updateLines );
         scene.slitWidthProperty.link( updateLines );
       } );
     }

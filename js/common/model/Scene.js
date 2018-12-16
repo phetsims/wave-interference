@@ -13,6 +13,7 @@ define( require => {
   // modules
   const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const NumberProperty = require( 'AXON/NumberProperty' );
@@ -135,16 +136,16 @@ define( require => {
         this.lattice.visibleBounds
       );
 
-      // Quantize initial barrier location to lie on the lattice cell closest to the center.
-      const initialBarrierLocation = new Vector2( this.getQuantizedModelX( config.waveAreaWidth / 2 ) );
+      // @public {Property.<Vector2>} horizontal location of the barrier in lattice coordinates (includes damping region)
+      // note: this is a floating point representation in 2D to work seamlessly with DragListener
+      // lattice computations using this floating point value should use Math.floor()
+      this.barrierLocationProperty = new Property( new Vector2( this.lattice.width / 2, 0 ) );
 
-      // @public {Vector2} - horizontal location of the barrier in lattice coordinates (includes damping region)
-      //                   - note: this is a floating point 2D representation to work seamlessly with DragListener
-      //                   - see getBarrierLocation() for how to get the integral x-coordinate.
-      //                   - Can be dragged by the node or handle below it.
-      this.barrierLocationProperty = new Property( initialBarrierLocation, {
-        units: this.positionUnits
-      } );
+      // @public {Property.<number>} - the floor of the continuous barrier location (x coordinate only)
+      this.barrierLocationFloorProperty = new DerivedProperty(
+        [ this.barrierLocationProperty ],
+        barrierLocation => Math.floor( barrierLocation.x )
+      );
 
       // @public {NumberProperty} - width of the slit(s) opening in the units for this scene
       this.slitWidthProperty = new NumberProperty( config.initialSlitWidth, {
@@ -275,9 +276,8 @@ define( require => {
           validValues: BarrierTypeEnum.VALUES
         } );
 
-        // When the barrier moves, it creates a lot of artifacts, so clear the wave to the right of the barrier
-        // when it moves
-        this.barrierLocationProperty.link( this.clear.bind( this ) );
+        // When the barrier moves it creates a lot of artifacts, so clear the wave right of the barrier when it moves
+        this.barrierLocationFloorProperty.link( this.clear.bind( this ) );
 
         // @private {number} - phase of the wave so it doesn't start halfway through a cycle
         this.planeWavePhase = 0;
@@ -310,48 +310,16 @@ define( require => {
           const frontTime = this.timeProperty.value - this.button1PressTime;
           const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime );
 
-          const barrierLatticeX = this.getBarrierLatticeX();
-
           // if the wave had passed by the barrier, then repropagate from the barrier.  This requires back-computing the
           // time the button would have been pressed to propagate the wave to the barrier.  Hence this is the inverse of
           // the logic in setSourceValues
+          const barrierLatticeX = this.barrierLocationFloorProperty.value;
           if ( frontPosition > barrierLatticeX ) {
-            this.button1PressTime = this.timeProperty.value - this.getBarrierLocation() / this.waveSpeed;
+            const barrierModelX = this.modelToLatticeTransform.viewToModelX( barrierLatticeX );
+            this.button1PressTime = this.timeProperty.value - barrierModelX / this.waveSpeed;
           }
         } );
       }
-    }
-
-    /**
-     * Gets the location of the barrier on the (quantized) lattice coordinate frame
-     * @returns {number}
-     * @public
-     */
-    getBarrierLatticeX() {
-      return this.getLatticeX( this.getBarrierLocation() );
-    }
-
-    /**
-     * Converts the given model coordinate to a (quantized) lattice coordinate
-     * @param {number} modelX
-     * @returns {number}
-     * @public
-     */
-    getLatticeX( modelX ) {
-      const latticeX = this.modelToLatticeTransform.modelToViewX( modelX );
-
-      // Use floor so that default value of 50.5 rounds down to 50.0 which is in the center visually
-      return Math.floor( latticeX );
-    }
-
-    /**
-     * Find the closest model coordinate that lines up exactly with a lattice cell.
-     * @param {number} modelX - the model coordinate to quantize
-     * @returns {number}
-     * @public
-     */
-    getQuantizedModelX( modelX ) {
-      return this.modelToLatticeTransform.viewToModelX( this.getLatticeX( modelX ) );
     }
 
     /**
@@ -413,7 +381,9 @@ define( require => {
         // plane waves
         const lattice = this.lattice;
 
-        let barrierLatticeX = this.getBarrierLatticeX();
+        const barrierLatticeX = this.barrierTypeProperty.value === BarrierTypeEnum.NO_BARRIER ?
+                                lattice.width - lattice.dampX :
+                                this.barrierLocationFloorProperty.value;
         const slitSeparationModel = this.slitSeparationProperty.get();
 
         const frontTime = time - this.button1PressTime;
@@ -441,9 +411,6 @@ define( require => {
 
         // In the incoming region, set all lattice values to be an incoming plane wave.  This prevents any reflections
         // and unwanted artifacts, see https://github.com/phetsims/wave-interference/issues/47
-        if ( this.barrierTypeProperty.value === BarrierTypeEnum.NO_BARRIER ) {
-          barrierLatticeX = lattice.width - lattice.dampX;
-        }
         for ( let i = lattice.dampX; i <= barrierLatticeX; i++ ) {
 
           // Find the physical model coordinate corresponding to the lattice coordinate
@@ -531,16 +498,6 @@ define( require => {
 
       // Notify listeners about changes
       this.lattice.changedEmitter.emit();
-    }
-
-    /**
-     * Returns the horizontal barrier location.  Note, this is the floating point value, and some clients may need to
-     * round it.
-     * @returns {number}
-     * @public
-     */
-    getBarrierLocation() {
-      return this.barrierLocationProperty.get().x;
     }
 
     /**

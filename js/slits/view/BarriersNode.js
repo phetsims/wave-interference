@@ -11,13 +11,13 @@ define( require => {
   // modules
   const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
+  const Bounds2 = require( 'DOT/Bounds2' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const DynamicProperty = require( 'AXON/DynamicProperty' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
-  const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   class BarriersNode extends Node {
@@ -72,18 +72,24 @@ define( require => {
         this.scene.getWaveAreaBounds(),
         viewBounds
       );
+
+      var latticeBounds = new Bounds2( 0, 0, 1, 1 );
+      var modelBounds = scene.modelToLatticeTransform.viewToModelBounds( latticeBounds );
+      var tempViewBounds = this.modelViewTransform.modelToViewBounds( modelBounds );
+
+      this.latticeToViewTransform = ModelViewTransform2.createRectangleMapping( latticeBounds, tempViewBounds );
+
       this.addInputListener( new DragListener( {
         mapLocation: modelPosition => {
 
-          // Quantize the drag locations to lie exactly on the cell boundaries of the lattice
-          const roundedModelX = scene.getQuantizedModelX( modelPosition.x );
-
           // Constrain to lie within 80% of the wave area
-          const erodedBounds = scene.getWaveAreaBounds().erodedX( scene.getWaveAreaBounds().width / 10 );
-          return erodedBounds.closestPointTo( new Vector2( roundedModelX, modelPosition.y ) );
+          const erodedBounds = scene.lattice.visibleBounds.erodedX( scene.lattice.visibleBounds.width / 10 );
+          return erodedBounds.closestPointTo( modelPosition );
         },
+
+        // Use continuous value for drag handler
         locationProperty: scene.barrierLocationProperty,
-        transform: this.modelViewTransform
+        transform: this.latticeToViewTransform
       } ) );
 
       // @private - draggable double-headed arrow beneath the barrier
@@ -104,7 +110,7 @@ define( require => {
       // Update shapes when the model parameters change
       const update = this.update.bind( this );
       barrierTypeDynamicProperty.link( update );
-      scene.barrierLocationProperty.link( update );
+      scene.barrierLocationFloorProperty.link( update );
       scene.slitWidthProperty.link( update );
       scene.slitSeparationProperty.link( update );
     }
@@ -120,7 +126,7 @@ define( require => {
 
       // Barrier origin in view coordinates, sets the parent node location for compatibility with DragListener,
       // see https://github.com/phetsims/wave-interference/issues/75
-      this.x = this.modelViewTransform.modelToViewX( scene.getQuantizedModelX( scene.getBarrierLocation() ) );
+      this.x = this.latticeToViewTransform.modelToViewX( scene.barrierLocationFloorProperty.value );
 
       if ( barrierType === BarrierTypeEnum.NO_BARRIER ) {
 
