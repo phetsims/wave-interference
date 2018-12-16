@@ -76,8 +76,8 @@ define( require => {
      */
     static localPointToLatticePoint( point ) {
       return new Vector2(
-        Math.floor( point.x / WaveInterferenceConstants.CELL_WIDTH ),
-        Math.floor( point.y / WaveInterferenceConstants.CELL_WIDTH )
+        Math.round( point.x / WaveInterferenceConstants.CELL_WIDTH ),
+        Math.round( point.y / WaveInterferenceConstants.CELL_WIDTH )
       );
     }
 

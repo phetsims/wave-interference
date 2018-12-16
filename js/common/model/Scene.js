@@ -138,13 +138,14 @@ define( require => {
 
       // @public {Property.<Vector2>} horizontal location of the barrier in lattice coordinates (includes damping region)
       // note: this is a floating point representation in 2D to work seamlessly with DragListener
-      // lattice computations using this floating point value should use Math.floor()
-      this.barrierLocationProperty = new Property( new Vector2( this.lattice.width / 2, 0 ) );
+      // lattice computations using this floating point value should use Math.round()
+      // start slightly left of 50.5 so it will round to 50 instead of 51
+      this.barrierLocationProperty = new Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ) );
 
       // @public {Property.<number>} - the floor of the continuous barrier location (x coordinate only)
-      this.barrierLocationFloorProperty = new DerivedProperty(
+      this.barrierLatticeCoordinateProperty = new DerivedProperty(
         [ this.barrierLocationProperty ],
-        barrierLocation => Math.floor( barrierLocation.x )
+        barrierLocation => Math.round( barrierLocation.x )
       );
 
       // @public {NumberProperty} - width of the slit(s) opening in the units for this scene
@@ -277,7 +278,7 @@ define( require => {
         } );
 
         // When the barrier moves it creates a lot of artifacts, so clear the wave right of the barrier when it moves
-        this.barrierLocationFloorProperty.link( this.clear.bind( this ) );
+        this.barrierLatticeCoordinateProperty.link( this.clear.bind( this ) );
 
         // @private {number} - phase of the wave so it doesn't start halfway through a cycle
         this.planeWavePhase = 0;
@@ -313,7 +314,7 @@ define( require => {
           // if the wave had passed by the barrier, then repropagate from the barrier.  This requires back-computing the
           // time the button would have been pressed to propagate the wave to the barrier.  Hence this is the inverse of
           // the logic in setSourceValues
-          const barrierLatticeX = this.barrierLocationFloorProperty.value;
+          const barrierLatticeX = this.barrierLatticeCoordinateProperty.value;
           if ( frontPosition > barrierLatticeX ) {
             const barrierModelX = this.modelToLatticeTransform.viewToModelX( barrierLatticeX );
             this.button1PressTime = this.timeProperty.value - barrierModelX / this.waveSpeed;
@@ -356,9 +357,10 @@ define( require => {
           const sourceSeparation = this.sourceSeparationProperty.get();
 
           const separationInLatticeUnits = this.modelToLatticeTransform.modelToViewDeltaY( sourceSeparation / 2 );
-          const distanceFromCenter = Math.floor( separationInLatticeUnits );
+          const distanceFromCenter = Math.round( separationInLatticeUnits );
 
           // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
+          // Use floor to get 50.5 => 50 instead of 51
           const latticeCenterJ = Math.floor( this.lattice.height / 2 );
 
           // Point source
@@ -383,14 +385,14 @@ define( require => {
 
         const barrierLatticeX = this.barrierTypeProperty.value === BarrierTypeEnum.NO_BARRIER ?
                                 lattice.width - lattice.dampX :
-                                this.barrierLocationFloorProperty.value;
+                                this.barrierLatticeCoordinateProperty.value;
         const slitSeparationModel = this.slitSeparationProperty.get();
 
         const frontTime = time - this.button1PressTime;
         const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime ); // in lattice coordinates
 
         const slitWidthModel = this.slitWidthProperty.get();
-        const slitWidth = Math.floor( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
+        const slitWidth = Math.round( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
         const latticeCenterY = this.lattice.height / 2;
 
         // Take the desired frequency for the water scene, or the specified frequency of any other scene

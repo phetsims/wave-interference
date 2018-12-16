@@ -110,7 +110,7 @@ define( require => {
       // Update shapes when the model parameters change
       const update = this.update.bind( this );
       barrierTypeDynamicProperty.link( update );
-      scene.barrierLocationFloorProperty.link( update );
+      scene.barrierLatticeCoordinateProperty.link( update );
       scene.slitWidthProperty.link( update );
       scene.slitSeparationProperty.link( update );
     }
@@ -126,7 +126,7 @@ define( require => {
 
       // Barrier origin in view coordinates, sets the parent node location for compatibility with DragListener,
       // see https://github.com/phetsims/wave-interference/issues/75
-      this.x = this.latticeToViewTransform.modelToViewX( scene.barrierLocationFloorProperty.value );
+      this.x = this.latticeToViewTransform.modelToViewX( scene.barrierLatticeCoordinateProperty.value );
 
       if ( barrierType === BarrierTypeEnum.NO_BARRIER ) {
 
