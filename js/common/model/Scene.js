@@ -278,7 +278,9 @@ define( require => {
         } );
 
         // When the barrier moves it creates a lot of artifacts, so clear the wave right of the barrier when it moves
-        this.barrierLatticeCoordinateProperty.link( this.clear.bind( this ) );
+        this.barrierLatticeCoordinateProperty.link( barrierLatticeCoordinate => {
+          this.lattice.clearRight( barrierLatticeCoordinate );
+        } );
 
         // @private {number} - phase of the wave so it doesn't start halfway through a cycle
         this.planeWavePhase = 0;

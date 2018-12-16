@@ -196,12 +196,26 @@ define( require => {
     }
 
     /**
-     * Resets all of the wave values to 0
+     * Resets all of the wave values to 0.
      * @public
      */
     clear() {
-      this.matrices.forEach( matrix => matrix.timesEquals( 0 ) );
-      this.visitedMatrix.timesEquals( 0 );
+      this.clearRight( 0 );
+    }
+
+    /**
+     * Clear everything at and to the right of the specified column.
+     * @param {number} column - integer index of the column to start clearing at.
+     * @public
+     */
+    clearRight( column ) {
+      for ( let i = column; i < this.width; i++ ) {
+        for ( let j = 0; j < this.height; j++ ) {
+          this.setCurrentValue( i, j, 0 );
+          this.setLastValue( i, j, 0 );
+          this.visitedMatrix.set( i, j, 0 );
+        }
+      }
       this.changedEmitter.emit();
     }
 
