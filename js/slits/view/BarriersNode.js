@@ -113,6 +113,7 @@ define( require => {
       scene.barrierLatticeCoordinateProperty.link( update );
       scene.slitWidthProperty.link( update );
       scene.slitSeparationProperty.link( update );
+      model.resetEmitter.addListener( update );
     }
 
     /**
