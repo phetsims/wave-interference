@@ -42,7 +42,7 @@ define( require => {
         left: buttonPosition,
         radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS,
         content: pulseIcon,
-        touchAreaDilation: 8
+        touchAreaDilation: WaveInterferenceConstants.EMITTER_BUTTON_TOUCH_AREA_DILATION
         // baseColor is set in the link function below
       };
 

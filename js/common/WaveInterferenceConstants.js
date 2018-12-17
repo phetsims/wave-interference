@@ -57,6 +57,7 @@ define( require => {
     // Look of the emitter button across all 3 scenes
     EMITTER_BUTTON_COLOR: 'red',
     EMITTER_BUTTON_RADIUS: 14,
+    EMITTER_BUTTON_TOUCH_AREA_DILATION: 8,
 
     FEMTO: 1E-15,
 
