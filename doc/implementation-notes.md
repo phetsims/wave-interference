@@ -11,7 +11,7 @@ The first 3 screens show a 2D lattice and time-based wave propagation, while the
 pattern from a slit with a given 2d shape, which is instantly updated.  
 
 The query string `?log` can be used to output the selected frequency and wavelenth, for debugging.
-Other sim-specific query parameters are described in wave-interference/js/common/WaveInterferenceQueryParameters.js
+Other sim-specific query parameters are described in [WaveInterferenceQueryParameters](https://github.com/phetsims/wave-interference/blob/master/js/common/WaveInterferenceQueryParameters.js).
 
 There are no dynamically created/destroyed user interface components or model elements in the simulation, so the
 simulation doesn't require dispose calls.
@@ -20,7 +20,7 @@ simulation doesn't require dispose calls.
 
 The first three screens are mainly implemented in js/common.  
 
-WavesScreenModel is the main model for these screens.  Each `WavesScreenModel` contains 3 `Scene` instances, one for 
+`WavesScreenModel` is the main model for these screens.  Each `WavesScreenModel` contains 3 `Scene` instances, one for 
 each of water, sound and light.  Most settings (such as whether the waves are turned on or off) are independent for each
 `Scene`, and each `Scene` has its own physical model and `Lattice`.  The tools which appear in the toolbox are shared
 across Scenes. 
@@ -72,10 +72,8 @@ is a reasonable wave speed for a wave pool, even though it doesn't match wave sp
 | Red (VisibleColor min) | 384.35 | 780.00 | 
 | Violet (VisibleColor max) | 788.93 | 380.00 | 
 
-For green light, measuring the distance traveled by a wavefront and dividing by time gives 2807.3E-9/9.75E-15 = 287928205 m/s,
-which is about 4% off of the true speed of light.  Measuring the colored wavefront for green, I see a deviation of < 1%.
-Since the distance and wave propagation speeds are independent of frequency, measurements for different colors will
-give the same speed of light.  See also WavesScreenModel usage of `timeScaleFactor` for how the model is calibrated.
+For green light, measuring the distance traveled by a wavefront and dividing by time gives 2807.3E-9/9.75E-15 = 287928205 m/s, which is about 4% off of the true speed of light.  Measuring the colored wavefront for green, I see a deviation of < 1%. Since the distance and wave propagation speeds are independent of frequency, measurements for different colors will
+give the same speed of light.  See also `WavesScreenModel` usage of `timeScaleFactor` for how the model is calibrated.
 
 ### Slits Screen
 Here is a schematic for the two-slit dimensions:
