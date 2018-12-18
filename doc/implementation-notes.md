@@ -27,11 +27,11 @@ The first three screens are mainly implemented in js/common.
 [WavesScreenModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesScreenModel.js) is the
 main model for these screens.  
 Each [WavesScreenModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesScreenModel.js)
-contains 3 [Scene](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/Scene.js) instances, one for 
+contains 3 [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js) instances, one for 
 each of water, sound and light.  Most settings (such as whether the waves are turned on or off) are independent for each
-[Scene](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/Scene.js), and each [Scene](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/Scene.js) has its own physical model and [Lattice.js](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Lattice.js).
+[Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js), and each [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js) has its own physical model and [Lattice.js](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Lattice.js).
 The tools which appear in the toolbox are shared
-across each [Scene](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/Scene.js). 
+across each [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js). 
 
 There are 3 coordinate frames:
 * view coordinates
