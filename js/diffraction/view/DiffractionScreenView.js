@@ -365,6 +365,7 @@ define( require => {
       Fourier.filter( h_hats, dims, NaN, NaN );
 
       //REVIEW use arrow function?
+      //REVIEW while $h may have been in the copied code, consider using a more 'conventional' function name.
       // store them in a nice function to match the math
       const $h = function( k, l ) {
         if ( arguments.length === 0 ) {
