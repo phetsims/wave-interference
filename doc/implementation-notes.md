@@ -46,7 +46,7 @@ wave speed) for each scene.  Run the simulation with `?dev` to get corresponding
 and sim play/pause feature to record one cycle.  To measure the wave speed, let the light propagate to the edge of the 
 boundary, then use the measuring tape to measure distance and divide by the elapsed time on the stopwatch.
 
-The time constants have been tuned in `WavesScreenModel` so that the observed Wavelength and Oscillation Time are 
+The time constants have been tuned in `WavesScreenModel` so that the observed wavelength and oscillation time are 
 correct.
 
 The following values can also be reported by running with`?log`.
