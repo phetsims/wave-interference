@@ -1,3 +1,8 @@
+# Wave Interference - model description
+
+This is a high-level description of the model used in Wave Interference. It's intended for audiences
+that are not necessarily technical.
+
 # Waves Screen
 
 This screen depicts a 2D wave on the surface of water, or the cross-section of a spherical wave for sound or light. The
