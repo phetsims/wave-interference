@@ -56,6 +56,8 @@ define( require => {
 
       const averagedIntensities = [];
       averagedIntensities.length = intensities.length;
+
+      //REVIEW explain why it's OK that the first and last values in averagedIntensities are not averages
       averagedIntensities[ 0 ] = intensities[ 0 ];
       averagedIntensities[ averagedIntensities.length - 1 ] = intensities[ averagedIntensities.length - 1 ];
 

@@ -214,6 +214,7 @@ define( require => {
         0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top
       );
 
+      //REVIEW Property's value parameter is not optional, use Property(null) here?
       const measuringTapeProperty = new Property();
       model.sceneProperty.link( scene => {
         measuringTapeProperty.set( {

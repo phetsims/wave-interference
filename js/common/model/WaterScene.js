@@ -25,20 +25,24 @@ define( require => {
     constructor( config ) {
       super( config );
 
+      //REVIEW add value validation? range: this.frequencyProperty.range ?
       // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
       // gets propagated to the lattice via the water drops
       this.desiredFrequencyProperty = new NumberProperty( this.frequencyProperty.initialValue );
 
+      //REVIEW add value valdation?
       // @public - In the water Scene, the user specifies the desired source separation.  This is the position of
       // the faucets.  The sourceSeparationProperty indicates the sources of oscillation once the water has struck.
       this.desiredSourceSeparationProperty = new NumberProperty( this.sourceSeparationProperty.value );
 
+      //REVIEW add value validation?
       // @public - the amplitude the user has selected
       this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude );
 
       // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
       this.waterDrops = [];
 
+      //REVIEW what is "the phase"? units, range and semantics of values,...
       // @private {number|null} - sets the phase for both drops.  Null means no drops have been emitted.
       this.lastDropTime = null;
 
@@ -89,7 +93,7 @@ define( require => {
           amplitude,
           buttonPressed,
           sourceSeparation,
-          100,
+          100, //REVIEW magic number? param is y - distance to fall before the particles meets the plane of the lattice
           sign,
           () => {
 
@@ -114,9 +118,11 @@ define( require => {
       }
     }
 
+    //REVIEW missing visibility annotation
     /**
      * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
      * @param {number} dt - amount of time to move forward, in the units of the scene
+     * @override
      */
     step( dt ) {
 
@@ -203,7 +209,6 @@ define( require => {
       }
     }
   }
-
 
   return waveInterference.register( 'WaterScene', WaterScene );
 } );

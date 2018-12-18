@@ -1,5 +1,6 @@
 // Copyright 2018, University of Colorado Boulder
 
+//REVIEW I don't understand the "When selected" bit.
 /**
  * When selected, shows discrete, moving particles for the sound scene.
  *
@@ -13,7 +14,9 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
+  //REVIEW RANDOMNESS value needs more explanation - range, effect of increase/decrease,...
   const RANDOMNESS = 14.75; // The random motion of the particles
+  //REVIEW FRICTION_SCALE needs more explanation, since 1 = no friction is not what I would have expected
   const FRICTION_SCALE = 0.732; // Scaling factor for friction (1.0 = no friction)
   const RESTORATION_FORCE_SCALE = 0.5; // Additional scaling for the home force
 
@@ -27,6 +30,7 @@ define( require => {
      */
     constructor( i, j, x, y ) {
 
+      //REVIEW I don't see assignments to i,j,x,y anywhere.  Should these be read-only?
       // @public {number} - horizontal lattice coordinate of the particle
       this.i = i;
 
@@ -46,6 +50,7 @@ define( require => {
       this.vy = 0;
     }
 
+    //REVIEW missing visibility annotation
     /**
      * Applies a force toward the given point with the given strength;
      * @param {number} fx - sum of applied forces in the x direction

@@ -1,7 +1,7 @@
 // Copyright 2017-2018, University of Colorado Boulder
 
 /**
- * The Diffraction model is implemented in DiffractionScreenView
+ * Model for the Diffraction screen.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -21,19 +21,23 @@ define( require => {
       // @public {Property.<boolean>} whether the laser is emitting light
       this.onProperty = new BooleanProperty( true );
 
+      //REVIEW add value validation. These presumably have ranges and must be > 0.
       // @public {Property.<number>} dimensions of the square aperture
       this.squareWidthProperty = new NumberProperty( 16 );
       this.squareHeightProperty = new NumberProperty( 16 );
 
+      //REVIEW add value validation
       // @public {Property.<number>} dimensions of the elliptical aperture
       this.sigmaXProperty = new NumberProperty( 10 );
       this.sigmaYProperty = new NumberProperty( 10 );
       this.gaussianMagnitudeProperty = new NumberProperty( 400 );
 
+      //REVIEW add value validation
       // @public {Property.<number>} characteristics of the grating
       this.numberOfLinesProperty = new NumberProperty( 10 );
       this.angleProperty = new NumberProperty( 0 );
 
+      //REVIEW {Property.<ApertureType>}
       // @public {Property.<string>} selected scene
       this.sceneProperty = new Property( ApertureType.CIRCLE );
     }

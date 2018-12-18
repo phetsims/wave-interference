@@ -21,6 +21,7 @@ define( require => {
     constructor( config ) {
       super( config );
 
+      //REVIEW (read-only) ?
       // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
       this.intensitySample = new IntensitySample( this.lattice );
     }

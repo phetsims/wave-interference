@@ -53,7 +53,7 @@ define( require => {
   const waterWaveGeneratorString = require( 'string!WAVE_INTERFERENCE/waterWaveGenerator' );
 
   // Tuned so that iPad2 has enough time to run model computations
-  const EVENT_RATE = 20;
+  const EVENT_RATE = 20; //REVIEW say more about this value, effect of increasing/decreasing
   const toFemto = WaveInterferenceUtils.toFemto;
 
   class WavesScreenModel {
@@ -68,6 +68,7 @@ define( require => {
         // This model supports one or two sources.  If the sources are initially separated, there are two sources
         numberOfSources: 1,
 
+        //REVIEW you mention 'optimize the view for the max', but what is the range? units?
         // Initial amplitude of the oscillator. We optimize the view for the max, but starting the value at the extreme
         // may prevent the user from exploring the range, so we start closer to the max but not at the max.  I chose 8
         // so it would match up directly with a tickmark (when it was at 7.5, it covered 2 tickmarks and looked odd)
@@ -78,6 +79,7 @@ define( require => {
 
         waveSpatialType: WaveSpatialType.POINT
       }, options );
+
       assert && assert(
         options.numberOfSources === 1 || options.numberOfSources === 2,
         'Model only supports 1 or 2 sources'
@@ -206,6 +208,7 @@ define( require => {
         }
       };
 
+      //REVIEW might be nice to say a few words about this
       // @private
       this.eventTimer = new EventTimer( eventTimerModel, timeElapsed =>
         this.advanceTime( 1 / EVENT_RATE, false )
@@ -366,6 +369,7 @@ define( require => {
       return this.waterScene.desiredFrequencyProperty;
     }
 
+    //REVIEW I don't recall this alternative to static constants coming up in our recent dev discussion. Just sayin'...
     /**
      * @returns {number}
      * @public

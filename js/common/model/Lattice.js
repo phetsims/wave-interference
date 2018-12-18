@@ -68,7 +68,8 @@ define( require => {
       this.height = height;
 
       // @public {number} - Determines how far we have animated between the "last" and "current" matrices, so that we
-      // can use getInterpolatedValue to update the view at 60fps even though the model is running at a slower rate
+      // can use getInterpolatedValue to update the view at 60fps even though the model is running at a slower rate.
+      // See EventTimer.getRatio for more about this value.
       this.interpolationRatio = 0;
 
       // @public (read-only) {Bounds2} - a Bounds2 representing the visible (non-damping) region of the lattice.
@@ -83,6 +84,7 @@ define( require => {
       return new Bounds2( 0, 0, this.width, this.height );
     }
 
+    //REVIEW missing visibility annotation
     /**
      * Returns true if the visible bounds contains the lattice coordinate
      * @param {number} i - integer for the horizontal coordinate
@@ -275,7 +277,7 @@ define( require => {
       // Numerical computation of absorbing boundary conditions, under the assumption that the wave is perpendicular
       // to the edge, see https://www.phy.ornl.gov/csep/sw/node22.html.  This assumption does not hold everywhere, but
       // it is a helpful approximation.
-      // Note there is a fortran error on the top boundary and in the equations, replace:
+      // Note there is a Fortran error on the top boundary and in the equations, replace:
       // u2 => matrix1.get
       // u1 => matrix2.get
       // cb => WAVE_SPEED

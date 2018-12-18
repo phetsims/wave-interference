@@ -16,6 +16,8 @@ define( require => {
     constructor() {
       super( {
         numberOfSources: 2,
+
+        //REVIEW There's an extended comment about the default value for initialAmplitude over in WaveScreenModel, and it's not 10. Why did you choose this value here?
         initialAmplitude: 10
       } );
     }

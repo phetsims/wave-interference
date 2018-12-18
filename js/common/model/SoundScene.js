@@ -35,6 +35,7 @@ define( require => {
       // on the Slits screen, see https://github.com/phetsims/wave-interference/issues/109
       this.showSoundParticles = showSoundParticles;
 
+      //REVIEW {Property.<SoundViewType>}?
       // @public {Property.<string>} - indicates the selected view for sound
       this.viewSelectionProperty = new Property( SoundViewType.WAVES, {
         validValues: SoundViewType.VALUES
@@ -60,9 +61,11 @@ define( require => {
       }
     }
 
+    //REVIEW missing visibility annotation
     /**
      * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
      * @param {number} dt - amount of time to move forward, in the units of the scene
+     * @override
      */
     step( dt ) {
 

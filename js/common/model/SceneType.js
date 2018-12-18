@@ -1,5 +1,6 @@
 // Copyright 2018, University of Colorado Boulder
 
+//REVIEW this enum is redundant, use WaterScene, SoundScene, and LightScene constructors
 /**
  * Enum that identifies the type of Scene
  *

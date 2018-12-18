@@ -121,6 +121,7 @@ define( require => {
         units: this.timeUnits
       } );
 
+      //REVIEW add value validation?
       // @public {Property.<Number>} - distance between the sources in the units of the scene, or 0 if there is only one
       // source initialized to match the initial slit separation,
       // see https://github.com/phetsims/wave-interference/issues/87
@@ -325,6 +326,7 @@ define( require => {
       }
     }
 
+    //REVIEW @override seems incorrect, this class has no super
     /**
      * Set the incoming source values, in this case it is a point source near the left side of the lattice (outside of
      * the damping region).
@@ -524,6 +526,7 @@ define( require => {
       this.phase = -this.timeProperty.value * angularFrequency;
     }
 
+    //REVIEW should the PhET convention for ES5 getters be used here? That is, define and call getWavelength.
     /**
      * Returns the wavelength in the units of the scene
      * @returns {number}
@@ -533,6 +536,7 @@ define( require => {
       return this.waveSpeed / this.frequencyProperty.get();
     }
 
+    //REVIEW Why are you returning a Rectangle instead of a Bounds2 here? Is something depending on Rectangle features?
     /**
      * Returns a Bounds2 for the visible part of the wave area, in the coordinates of the scene.
      * @returns {Bounds2} the lattice model bounds, in the coordinates of this scene.
@@ -542,6 +546,7 @@ define( require => {
       return new Rectangle( 0, 0, this.waveAreaWidth, this.waveAreaWidth );
     }
 
+    //REVIEW missing doc and visibility annotation
     startPulse() {
       assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
       this.resetPhase();
@@ -572,6 +577,7 @@ define( require => {
       this.barrierTypeProperty && this.barrierTypeProperty.reset();
     }
 
+    //REVIEW missing visibility annotation
     /**
      * Move forward in time by the specified amount
      * @param {number} dt - amount of time to move forward, in the units of the scene
