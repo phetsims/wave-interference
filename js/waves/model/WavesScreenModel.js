@@ -187,7 +187,7 @@ define( require => {
       // @public (read-only) {Scene[]} - the Scene instances as an array
       this.scenes = [ this.waterScene, this.soundScene, this.lightScene ];
 
-      // @public {Property.<ViewType>} -
+      // @public {Property.<ViewType>} - indicates the user selection for side view or top view
       this.viewTypeProperty = new Property( ViewType.TOP, {
         validValues: ViewType.VALUES
       } );
