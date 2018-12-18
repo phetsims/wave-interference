@@ -20,11 +20,13 @@ produces spherical waves, and hence the part that passes through the slit produc
 For double-slit (where `d` is the separation between centers of the slits):
 * `d sin(θ) = mλ` for maxima,
 * `d sin(θ) = (m + 1/2)λ` for minima
+
 see http://electron9.phys.utk.edu/optics421/modules/m1/diffraction_and_interference.htm
 
 For single slit (where `a` is the width of the aperture):
 * `a sin(θ) = mλ` for minima
 * `a sin(θ) = (m+1/2)λ` for maxima
+
 see http://hyperphysics.phy-astr.gsu.edu/hbase/phyopt/sinslit.html
 
 # Diffraction Screen (under development)
