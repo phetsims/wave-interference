@@ -2,7 +2,7 @@
 
 This document contains notes related to the implementation of Wave Interference. The audience for this document is software developers who are familiar with JavaScript and PhET simulation development, as described in [PhET Development Overview](http://bit.ly/phet-html5-development-overview).
 
-Before reading this document, see [model.md](https://github.com/phetsims/equality-explorer/blob/master/doc/model.md), which provides a high-level description of the simulation model.
+Before reading this document, see [model.md](https://github.com/phetsims/wave-interference/blob/master/doc/model.md), which provides a high-level description of the simulation model.
 
 ## Overview
 
