@@ -2,7 +2,7 @@ The Wave Interference simulation depicts waves on a 2 dimensional surface and th
 The first 3 screens show a 2D lattice and time-based wave propagation, while the fourth screen shows the interference 
 pattern from a slit with a given 2d shape, which is instantly updated.  
 
-The query string ?log can be used to output the selected frequency and wavelenth, for debugging.
+The query string `?log` can be used to output the selected frequency and wavelenth, for debugging.
 Other sim-specific query parameters are described in wave-interference/js/common/WaveInterferenceQueryParameters.js
 
 There are no dynamically created/destroyed user interface components or model elements in the simulation, so the
@@ -34,7 +34,7 @@ The lattice extends beyond the visible region, and damping is applied near the b
 reflection and artifacts around the edges.
 
 We run the physics on a finite discrete lattice, but must match up with the correct values (frequency, wavelength and
-wave speed) for each scene.  Run the simulation with ?dev to get corresponding output in the console.  Use the stopwatch 
+wave speed) for each scene.  Run the simulation with `?dev` to get corresponding output in the console.  Use the stopwatch 
 and sim play/pause feature to record one cycle.  To measure the wave speed, let the light propagate to the edge of the 
 boundary, then use the measuring tape to measure distance and divide by the elapsed time on the stopwatch.
 
@@ -73,7 +73,7 @@ give the same speed of light.  See also WavesScreenModel usage of `timeScaleFact
 Here is a schematic for the two-slit dimensions:
 ![schematic for the two-slit dimensions](images/slitDimensions.jpg?raw=true "Two-Slit Dimensions")
 
-By using ?dev, you can show the IdealInterferenceOverlay, which depicts d sin(θ) = mλ (theoretical maxima) and d sin(θ) = (m+1/2)λ (theoretical minima).
+By using `?dev`, you can show the IdealInterferenceOverlay, which depicts d sin(θ) = mλ (theoretical maxima) and d sin(θ) = (m+1/2)λ (theoretical minima).
 See https://github.com/phetsims/wave-interference/issues/74
 
 # The Final Screen: Diffraction
