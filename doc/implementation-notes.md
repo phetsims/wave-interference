@@ -36,7 +36,7 @@ described in http://www.mtnmath.com/whatth/node47.html and known as a finite dif
 ```
 f(x,y,t+1) = c*c(f(x+1,y,t) + f(x-1,y,t) + f(x,y-1,t) + f(x,y+1,t) - 4*f(x,y,t)) - f(x,y,t-1) + 2*f(x,y,t)
 ```
-The description for the wave speed c is given in Lattice.js.
+The description for the wave speed `c` is given in Lattice.js.
 
 The lattice extends beyond the visible region, and damping is applied near the boundaries to minimize the effects of
 reflection and artifacts around the edges.
@@ -46,7 +46,7 @@ wave speed) for each scene.  Run the simulation with `?dev` to get corresponding
 and sim play/pause feature to record one cycle.  To measure the wave speed, let the light propagate to the edge of the 
 boundary, then use the measuring tape to measure distance and divide by the elapsed time on the stopwatch.
 
-The time constants have been tuned in WavesScreenModel.js so that the observed Wavelength and Oscillation Time are 
+The time constants have been tuned in `WavesScreenModel` so that the observed Wavelength and Oscillation Time are 
 correct.
 
 The following values can also be reported by running with`?log`.
@@ -79,8 +79,7 @@ give the same speed of light.  See also `WavesScreenModel` usage of `timeScaleFa
 Here is a schematic for the two-slit dimensions:
 ![schematic for the two-slit dimensions](images/slitDimensions.jpg?raw=true "Two-Slit Dimensions")
 
-By using `?dev`, you can show the IdealInterferenceOverlay, which depicts d sin(θ) = mλ (theoretical maxima) and d sin(θ) = (m+1/2)λ (theoretical minima).
-See https://github.com/phetsims/wave-interference/issues/74
+By using `?dev`, you can show the IdealInterferenceOverlay, which depicts `d sin(θ) = mλ` (theoretical maxima) and `d sin(θ) = (m+1/2)λ` (theoretical minima). See https://github.com/phetsims/wave-interference/issues/74
 
 ## The Final Screen: Diffraction
 In the fourth screen, we use a Fast Fourier Transform (FFT) in order to compute the diffraction pattern, see
