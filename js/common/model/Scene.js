@@ -141,6 +141,7 @@ define( require => {
       // note: this is a floating point representation in 2D to work seamlessly with DragListener
       // lattice computations using this floating point value should use Math.round()
       // start slightly left of 50.5 so it will round to 50 instead of 51
+      //REVIEW add valueType: Vector2
       this.barrierLocationProperty = new Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ) );
 
       // @public {DerivedProperty.<number>} - the floor of the continuous barrier location (x coordinate only)
@@ -149,11 +150,13 @@ define( require => {
         barrierLocation => Math.round( barrierLocation.x )
       );
 
+      //REVIEW add value validation? range?
       // @public {NumberProperty} - width of the slit(s) opening in the units for this scene
       this.slitWidthProperty = new NumberProperty( config.initialSlitWidth, {
         units: this.positionUnits
       } );
 
+      //REVIEW add value validation?
       // @public distance between the center of the slits, in the units for this scene
       this.slitSeparationProperty = new NumberProperty( config.initialSlitSeparation, {
         units: this.positionUnits

@@ -30,7 +30,7 @@ define( require => {
       // gets propagated to the lattice via the water drops
       this.desiredFrequencyProperty = new NumberProperty( this.frequencyProperty.initialValue );
 
-      //REVIEW add value valdation?
+      //REVIEW add value validation?
       // @public - In the water Scene, the user specifies the desired source separation.  This is the position of
       // the faucets.  The sourceSeparationProperty indicates the sources of oscillation once the water has struck.
       this.desiredSourceSeparationProperty = new NumberProperty( this.sourceSeparationProperty.value );

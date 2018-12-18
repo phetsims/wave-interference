@@ -37,6 +37,7 @@ define( require => {
       this.numberOfLinesProperty = new NumberProperty( 10 );
       this.angleProperty = new NumberProperty( 0 );
 
+      //REVIEW: add validValues: ApertureType.VALUES
       // @public {Property.<ApertureType>} selected scene
       this.sceneProperty = new Property( ApertureType.CIRCLE );
     }

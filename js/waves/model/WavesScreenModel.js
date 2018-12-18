@@ -253,6 +253,7 @@ define( require => {
 
       const rotationRange = new Range( 0, 1 );
 
+      //REVIEW this is really odd. Especially since over in Perspective3DNode, const rotationAmount = Easing.CUBIC_IN_OUT.value( this.rotationAmountProperty.get() );
       // @public - amount the 3d view is rotated. 0 means top view, 1 means side view.
       this.rotationAmountProperty = new NumberProperty( 0, {
         range: rotationRange
@@ -268,10 +269,12 @@ define( require => {
 
       // @public {Property.<Vector2>} - model for the view coordinates of the base of the measuring tape
       // We use view coordinates so that nothing needs to be done when switching scenes and coordinate frames.
+      //REVIEW add valueType: Vector2
       this.measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ) );
 
       // @public {Property.<Vector2>} - model for the view coordinates of the tip of the measuring tape
       // This position sets reasonable model defaults for each scene: 1.0cm, 50cm, 500nm
+      //REVIEW add valueType: Vector2
       this.measuringTapeTipPositionProperty = new Property( new Vector2( 250, 200 ) );
 
       // @public - Notifies listeners when the model reset is complete
