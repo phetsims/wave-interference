@@ -1,14 +1,22 @@
+# Wave Interference - implementation notes
+
+This document contains notes related to the implementation of Wave Interference. The audience for this document is software developers who are familiar with JavaScript and PhET simulation development, as described in [PhET Development Overview](http://bit.ly/phet-html5-development-overview).
+
+Before reading this document, see [model.md](https://github.com/phetsims/wave-interference/blob/master/doc/model.md), which provides a high-level description of the simulation model.
+
+## Overview
+
 The Wave Interference simulation depicts waves on a 2 dimensional surface and the interference patterns they create.  
 The first 3 screens show a 2D lattice and time-based wave propagation, while the fourth screen shows the interference 
 pattern from a slit with a given 2d shape, which is instantly updated.  
 
-The query string ?log can be used to output the selected frequency and wavelenth, for debugging.
+The query string `?log` can be used to output the selected frequency and wavelenth, for debugging.
 Other sim-specific query parameters are described in wave-interference/js/common/WaveInterferenceQueryParameters.js
 
 There are no dynamically created/destroyed user interface components or model elements in the simulation, so the
 simulation doesn't require dispose calls.
 
-# The first three Screens: Waves, Interference, Slits
+## The first three Screens: Waves, Interference, Slits
 
 The first three screens are mainly implemented in js/common.  
 
@@ -34,7 +42,7 @@ The lattice extends beyond the visible region, and damping is applied near the b
 reflection and artifacts around the edges.
 
 We run the physics on a finite discrete lattice, but must match up with the correct values (frequency, wavelength and
-wave speed) for each scene.  Run the simulation with ?dev to get corresponding output in the console.  Use the stopwatch 
+wave speed) for each scene.  Run the simulation with `?dev` to get corresponding output in the console.  Use the stopwatch 
 and sim play/pause feature to record one cycle.  To measure the wave speed, let the light propagate to the edge of the 
 boundary, then use the measuring tape to measure distance and divide by the elapsed time on the stopwatch.
 
@@ -43,7 +51,7 @@ correct.
 
 The following values can also be reported by running with`?log`.
 
-## Water
+### Water
 | Value | Frequency (Hz) | Wavelength (cm) |
 | :--- | ---: | ---: |
 | min | 0.25 | 7.4 |
@@ -52,13 +60,13 @@ The following values can also be reported by running with`?log`.
 Wave speed measured at 7.1E-2/1.43 = 5cm/sec.  In https://github.com/phetsims/wave-interference/issues/43 we decided this
 is a reasonable wave speed for a wave pool, even though it doesn't match wave speeds for, say, oceanic waves.
 
-## Sound
+### Sound
 | Value | Frequency (Hz) | Wavelength (cm) |
 | :--- | ---: | ---: |
 | min | 220 | 156 |
 | max | 440 | 78 |
 
-## Light
+### Light
 | Color | Frequency (THz) | Wavelength (nm) | 
 | :--- | ---: | ---: | 
 | Red (VisibleColor min) | 384.35 | 780.00 | 
@@ -69,13 +77,13 @@ which is about 4% off of the true speed of light.  Measuring the colored wavefro
 Since the distance and wave propagation speeds are independent of frequency, measurements for different colors will
 give the same speed of light.  See also WavesScreenModel usage of `timeScaleFactor` for how the model is calibrated.
 
-## Slits Screen
+### Slits Screen
 Here is a schematic for the two-slit dimensions:
 ![schematic for the two-slit dimensions](images/slitDimensions.jpg?raw=true "Two-Slit Dimensions")
 
-By using ?dev, you can show the IdealInterferenceOverlay, which depicts d sin(θ) = mλ (theoretical maxima) and d sin(θ) = (m+1/2)λ (theoretical minima).
+By using `?dev`, you can show the IdealInterferenceOverlay, which depicts d sin(θ) = mλ (theoretical maxima) and d sin(θ) = (m+1/2)λ (theoretical minima).
 See https://github.com/phetsims/wave-interference/issues/74
 
-# The Final Screen: Diffraction
+## The Final Screen: Diffraction
 In the fourth screen, we use a Fast Fourier Transform (FFT) in order to compute the diffraction pattern, see
 https://en.wikipedia.org/wiki/Diffraction
