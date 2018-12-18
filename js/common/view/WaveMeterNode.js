@@ -141,6 +141,7 @@ define( require => {
         const dynamicSeries = new DynamicSeries( { color: color } );
         dynamicSeries.probeNode = probeNode;
 
+        //REVIEW use arrow function?
         const updateSamples = function() {
 
           // Set the range by incorporating the model's time units, so it will match with the timer.

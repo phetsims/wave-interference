@@ -74,6 +74,7 @@ define( require => {
         viewBounds
       );
 
+      //REVIEW var -> const
       var latticeBounds = new Bounds2( 0, 0, 1, 1 );
       var modelBounds = scene.modelToLatticeTransform.viewToModelBounds( latticeBounds );
       var tempViewBounds = this.modelViewTransform.modelToViewBounds( modelBounds );

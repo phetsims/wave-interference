@@ -332,6 +332,7 @@ define( require => {
         h_es.push( imageData.data[ ai ] );
       }
 
+      //REVIEW use arrow function?
       // initialize the h values
       const h = function( n, m ) {
         if ( arguments.length === 0 ) {
@@ -363,6 +364,7 @@ define( require => {
 
       Fourier.filter( h_hats, dims, NaN, NaN );
 
+      //REVIEW use arrow function?
       // store them in a nice function to match the math
       const $h = function( k, l ) {
         if ( arguments.length === 0 ) {

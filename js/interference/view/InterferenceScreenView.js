@@ -49,6 +49,7 @@ define( require => {
           delta: 0.1,
           valuePattern: cmValueString,
           decimalPlaces: 1,
+          //REVIEW use arrow function?
           constrainValue: function( value ) { return Util.roundToInterval( value, 0.5 ); },
           majorTicks: createTicks( waterSceneRange, [ waterSceneRange, soundSceneRange, lightSceneRange ] )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
@@ -57,6 +58,7 @@ define( require => {
         node: new NumberControl( separationString, soundSeparationProperty, soundSceneRange, _.extend( {
           delta: 1,
           valuePattern: cmValueString,
+          //REVIEW use arrow function?
           constrainValue: function( value ) { return Util.roundToInterval( value, 10 ); },
           majorTicks: createTicks( soundSceneRange, [ waterSceneRange, soundSceneRange, lightSceneRange ] )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
@@ -65,6 +67,7 @@ define( require => {
         node: new NumberControl( separationString, lightSeparationProperty, lightSceneRange, _.extend( {
           delta: 10,
           valuePattern: nmValueString,
+          //REVIEW use arrow function?
           constrainValue: function( value ) { return Util.roundToInterval( value, 100 ); },
           majorTicks: createTicks( lightSceneRange, [ waterSceneRange, soundSceneRange, lightSceneRange ] )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
