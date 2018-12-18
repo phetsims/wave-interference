@@ -2,12 +2,11 @@ The Wave Interference simulation depicts waves on a 2 dimensional surface and th
 The first 3 screens show a 2D lattice and time-based wave propagation, while the fourth screen shows the interference 
 pattern from a slit with a given 2d shape, which is instantly updated.  
 
-The query string ?dev can be used to show additional developer controls.
-The query string ?log can be used to output additional debugging information.
+The query string ?log can be used to output the selected frequency and wavelenth, for debugging.
 Other sim-specific query parameters are described in wave-interference/js/common/WaveInterferenceQueryParameters.js
 
 There are no dynamically created/destroyed user interface components or model elements in the simulation, so the
-simulation doesn't require dispose calls. 
+simulation doesn't require dispose calls.
 
 # The first three Screens: Waves, Interference, Slits
 
@@ -23,8 +22,8 @@ There are 3 coordinate frames:
 * lattice coordinates (integer), with damping regions
 * Scene-specific physical coordinates (such as cm or nm)
 
-The wave is represented on a single 2D discrete scalar lattice, and we use use the discretization of the wave equation described in
-http://www.mtnmath.com/whatth/node47.html and known as a finite difference method:
+The wave is represented on a single 2D discrete scalar lattice, and we use use the discretization of the wave equation 
+described in http://www.mtnmath.com/whatth/node47.html and known as a finite difference method:
 
 ```
 f(x,y,t+1) = c*c(f(x+1,y,t) + f(x-1,y,t) + f(x,y-1,t) + f(x,y+1,t) - 4*f(x,y,t)) - f(x,y,t-1) + 2*f(x,y,t)
@@ -35,10 +34,9 @@ The lattice extends beyond the visible region, and damping is applied near the b
 reflection and artifacts around the edges.
 
 We run the physics on a finite discrete lattice, but must match up with the correct values (frequency, wavelength and
-wave speed) for all frequencies of light.  This table describes the desired values for light.  Run the simulation with
-?dev to get corresponding output in the console.  Use the stopwatch and sim play/pause feature to record one cycle.  To
-measure the wave speed, let the light propagate to the edge of the boundary, then use the measuring tape to measure 
-distance and divide by the elapsed time on the stopwatch.
+wave speed) for each scene.  Run the simulation with ?dev to get corresponding output in the console.  Use the stopwatch 
+and sim play/pause feature to record one cycle.  To measure the wave speed, let the light propagate to the edge of the 
+boundary, then use the measuring tape to measure distance and divide by the elapsed time on the stopwatch.
 
 The time constants have been tuned in WavesScreenModel.js so that the observed Wavelength and Oscillation Time are 
 correct.
