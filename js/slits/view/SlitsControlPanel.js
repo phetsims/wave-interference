@@ -1,5 +1,6 @@
 // Copyright 2018, University of Colorado Boulder
 
+//REVIEW all of the ranges herein belong in the model, not in the view. They should be set on Scene.slitWidthProperty, where they will be needed for PhET-iO.
 /**
  * Controls for the barrier/slits.
  *
@@ -44,6 +45,7 @@ define( require => {
         derive: 'barrierTypeProperty',
         bidirectional: true
       } );
+      
       const comboBox = new ComboBox( [
         ComboBox.createItem( new WaveInterferenceText( noBarrierString ), BarrierTypeEnum.NO_BARRIER ),
         ComboBox.createItem( new WaveInterferenceText( oneSlitString ), BarrierTypeEnum.ONE_SLIT ),

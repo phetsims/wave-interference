@@ -43,6 +43,7 @@ define( require => {
 
       const graphWidth = WaveInterferenceConstants.WAVE_AREA_WIDTH;
 
+      //REVIEW nice to know that graphHeight and dy must be synchronized, but how?
       // Manually tuned so the graph is the appropriate height, must be synchronized with dy below.
       const graphHeight = WaveInterferenceConstants.WAVE_AREA_WIDTH * 0.3833333333333333;
 
@@ -171,6 +172,7 @@ define( require => {
         centerY: plotHeight / 2
       } ) );
 
+      //REVIEW describe what's going on here
       [ 1 / 4, 3 / 4 ].forEach( horizontalGridLineFraction => {
         this.addChild( new Line(
           0, horizontalGridLineFraction * plotHeight,

@@ -31,6 +31,7 @@ define( require => {
 
       assert && assert( model instanceof SlitsScreenModel );
 
+      //REVIEW move duplicated cornerRadius constructor args to options.cornerRadius
       /**
        * Creates one of the 3 recycled rectangles used for rendering the barriers.
        */
@@ -77,6 +78,7 @@ define( require => {
       var modelBounds = scene.modelToLatticeTransform.viewToModelBounds( latticeBounds );
       var tempViewBounds = this.modelViewTransform.modelToViewBounds( modelBounds );
 
+      //REVIEW missing visibility annotation
       this.latticeToViewTransform = ModelViewTransform2.createRectangleMapping( latticeBounds, tempViewBounds );
 
       this.addInputListener( new DragListener( {
@@ -117,7 +119,8 @@ define( require => {
     }
 
     /**
-     * @private - update the shapes and text when the rotationAmount has changed
+     * Update the shapes and text when the rotationAmount has changed
+     * @private
      */
     update() {
       const barrierType = this.scene.barrierTypeProperty.get();

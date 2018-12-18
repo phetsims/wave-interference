@@ -1,5 +1,6 @@
 // Copyright 2018, University of Colorado Boulder
 
+//REVIEW #272 clarify emitter in this context
 /**
  * For the sound scene, shows one speaker for each emitter, each with its own on/off button.
  *

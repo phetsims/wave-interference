@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Buttons for play/pause radio buttons for normal/slow
+ * Buttons for play/pause, and radio buttons for normal/slow
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

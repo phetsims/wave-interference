@@ -22,6 +22,8 @@ define( require => {
     constructor( string, options ) {
       super( string, _.extend( {
         font: WaveInterferenceConstants.DEFAULT_FONT,
+
+        //REVIEW This seems like a sketchy thing to set for all Text in the sim. Why this value? Why handle it this way?
         maxWidth: 120
       }, options ) );
     }

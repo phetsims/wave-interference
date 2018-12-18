@@ -62,11 +62,11 @@ define( require => {
       // @private {number} - indicates the time when the pulse began, or 0 if there is no pulse.
       this.pulseStartTime = 0;
 
-      // @public {Property.<Boolean>} - whether the button for the first source is pressed.  This is also used for the
+      // @public whether the button for the first source is pressed.  This is also used for the
       // slits screen plane wave source.
       this.button1PressedProperty = new BooleanProperty( false );
 
-      // @public {Property.<Boolean>} - whether the button for the second source is pressed
+      // @public whether the button for the second source is pressed
       this.button2PressedProperty = new BooleanProperty( false );
 
       // @public (read-only) {string} - units for this scene

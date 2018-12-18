@@ -67,8 +67,8 @@ define( require => {
     /**
      * Fire another water drop if one is warranted for the specified faucet.  We already determined that the timing
      * is right (for the period), now we need to know if a drop should fire.
-     * @param {Property.<Boolean>} buttonProperty - indicates whether the corresponding button is pressed
-     * @param {Property.<Boolean>} oscillatingProperty - indicates whether the wave source is oscillating
+     * @param {BooleanProperty} buttonProperty - indicates whether the corresponding button is pressed
+     * @param {BooleanProperty} oscillatingProperty - indicates whether the wave source is oscillating
      * @param {number} sign - -1 for top faucet, +1 for bottom faucet
      * @private
      */

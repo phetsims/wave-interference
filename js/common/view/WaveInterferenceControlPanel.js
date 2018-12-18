@@ -1,5 +1,6 @@
 // Copyright 2018, University of Colorado Boulder
 
+//REVIEW There are definitely similarities in this control panel for the 3 scenes. But the reuse of what's common in this implementation feels forced/complicated. I'd hate to have to maintain this.
 /**
  * Shows the main controls, including frequency/wavelength and amplitude.
  *
@@ -61,6 +62,7 @@ define( require => {
         maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH
       }, options );
 
+      //REVIEW 'metric coordinate frame' is not one of the 3 coordinate frames described in implmentation notes. What is this?
       // Controls are in the metric coordinate frame
       const waterFrequencySlider = new WaveInterferenceSlider(
         model.getWaterFrequencySliderProperty(),
@@ -111,6 +113,8 @@ define( require => {
         );
       } );
 
+      //REVIEW worthy of factoring out into its own class file, SoundViewTypeRadioButtonGroup?
+      //REVIEW PhET-iO: rename const to soundViewTypeRadioButtonGroup, since it's setting SoundViewType
       const viewSelectionRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
         node: new WaveInterferenceText( wavesString ),
         value: SoundViewType.WAVES,
@@ -163,6 +167,8 @@ define( require => {
       // Create faucet icon, and rasterize to clip out invisible parts (like the ShooterNode)
       const sceneIcons = new WaveInterferenceSceneIcons();
 
+      //REVIEW worthy of factoring out into its own class file, SceneRadioButtonGroup?
+      //REVIEW PhET-iO: rename const to sceneRadioButtonGroup
       const sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [
         { value: model.waterScene, node: sceneIcons.faucetIcon },
         { value: model.soundScene, node: sceneIcons.speakerIcon },
@@ -266,6 +272,7 @@ define( require => {
         ];
       } );
 
+      //REVIEW move assignments of point areas closer to definition of these checkboxes?
       graphCheckbox.mouseArea = graphCheckbox.localBounds.dilated( 2 ).withX( separator.right );
       graphCheckbox.touchArea = graphCheckbox.mouseArea;
 

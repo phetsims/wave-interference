@@ -1,5 +1,6 @@
 // Copyright 2018, University of Colorado Boulder
 
+//REVIEW This is a visual representation of WaveTemporalType, so why is this class name totally different? why not WaveTermTypeNode?
 /**
  * Shows the icons for the radio buttons that choose between pulse and continuous waves.
  *
@@ -26,11 +27,13 @@ define( require => {
   class InputTypeIconNode extends Node {
 
     /**
-     * @param {WaveTemporalType} incidentWaveType
+     * @param {WaveTemporalType} incidentWaveType //REVIEW rename to waveTemporalType
      * @param {Object} [options]
      */
     constructor( incidentWaveType, options ) {
       super();
+
+      //REVIEW Implementation is unnecessarily complicated because you're trying to do both icons in one class. Separate into 2 classes?
       const minAngle = incidentWaveType === WaveTemporalType.PULSE ? Math.PI : 0;
       const minX = incidentWaveType === WaveTemporalType.PULSE ? MARGIN : 0;
       const maxX = incidentWaveType === WaveTemporalType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
@@ -56,6 +59,7 @@ define( require => {
       if ( incidentWaveType === WaveTemporalType.PULSE ) {
         shape.lineToRelative( MARGIN, 0 );
       }
+
       this.addChild( new Path( shape, {
         stroke: 'black',
         lineWidth: 2

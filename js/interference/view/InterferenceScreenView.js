@@ -40,6 +40,7 @@ define( require => {
       const soundSeparationProperty = model.soundScene.sourceSeparationProperty;
       const lightSeparationProperty = model.lightScene.sourceSeparationProperty;
 
+      //REVIEW factor this ToggleNode out into its own class file?
       // Switch between controls for each scene.  No advantage in using SceneToggleNode in this case
       // because the control constructor calls are substantially different.
       const toggleNode = new ToggleNode( model.sceneProperty, [ {
@@ -68,6 +69,7 @@ define( require => {
           majorTicks: createTicks( lightSceneRange, [ waterSceneRange, soundSceneRange, lightSceneRange ] )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       } ] );
+
       super( model, alignGroup, {
 
         // The pulse option does not appear in the Interference screen, because it is distracting and does not meet a
@@ -85,6 +87,7 @@ define( require => {
    * they don't jitter when changing scenes, see https://github.com/phetsims/wave-interference/issues/214
    * @param {string} string - the string to display
    * @param {string[]} allStrings - the strings for each scene, for layout
+   * @returns {Node}
    */
   const createTickMarkLabel = ( string, allStrings ) => {
     const textNodes = allStrings.map( s => new WaveInterferenceText( s, {

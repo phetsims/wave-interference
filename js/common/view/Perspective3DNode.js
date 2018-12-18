@@ -28,7 +28,7 @@ define( require => {
     /**
      * @param {Bounds2} waveAreaBounds
      * @param {NumberProperty} rotationAmountProperty
-     * @param {DerivedProperty.<boolean>} isRotatingProperty
+     * @param {DerivedProperty.<boolean>} isRotatingProperty //REVIEW why does this need to be a DerivedProperty?
      */
     constructor( waveAreaBounds, rotationAmountProperty, isRotatingProperty ) {
 
@@ -108,7 +108,8 @@ define( require => {
     }
 
     /**
-     * @private - update the shapes and text when the rotationAmount has changed
+     * Update the shapes and text when the rotationAmount has changed
+     * @private
      */
     update() {
 

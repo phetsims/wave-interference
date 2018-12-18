@@ -52,7 +52,7 @@ define( require => {
       // @private
       this.intensitySample = intensitySample;
 
-      // @private
+      // @private {Color} required because we'll be operating on a Color
       this.baseColor = new Color( 'blue' );
 
       // Render into a sub-canvas which will be drawn into the rendering context at the right scale.
@@ -96,6 +96,8 @@ define( require => {
     /**
      * Draws into the canvas.
      * @param {CanvasRenderingContext2D} context
+     * @public
+     * @override
      */
     paintCanvas( context ) {
 

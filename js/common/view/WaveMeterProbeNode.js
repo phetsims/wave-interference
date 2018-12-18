@@ -27,8 +27,11 @@ define( require => {
         scale: 0.4,
         drag: () => {}
       }, options );
+
       super( options );
+
       visibleBoundsProperty.link( visibleBounds => this.setCenter( visibleBounds.closestPointTo( this.center ) ) );
+
       this.addInputListener( new DragListener( {
         translateNode: true,
         dragBoundsProperty: visibleBoundsProperty,

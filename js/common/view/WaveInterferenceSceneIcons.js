@@ -1,5 +1,6 @@
 // Copyright 2018, University of Colorado Boulder
 
+//REVIEW very odd to have a class for this, especially since the icons are not at all related. Factory pattern would be better.
 /**
  * Creates a set of uniformly-sized icons for each of the scenes.
  *

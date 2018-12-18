@@ -52,7 +52,7 @@ define( require => {
       } );
 
       /**
-       * Creates a line an the given y-coordinate.
+       * Creates a line on the given y-coordinate.
        * @param {number} index
        * @param {number} y
        * @returns {Line}

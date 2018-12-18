@@ -2,7 +2,7 @@
 
 /**
  * Appears above the lattice and shows the scale, like this:
- * |<------>| 500 nanometers
+ * |<------>| 500 nm
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

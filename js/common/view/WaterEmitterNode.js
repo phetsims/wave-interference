@@ -1,5 +1,6 @@
 // Copyright 2018, University of Colorado Boulder
 
+//REVIEW #272 clarify emitter in this context
 /**
  * For the water scene, shows one hose for each emitter, each with its own on/off button. This implementation is trivial
  * and doesn't add state or methods, it simplifies readability at the call site, so we keep it as a convenience
@@ -33,8 +34,8 @@ define( require => {
     constructor( model, waveAreaNode, isPrimarySource ) {
 
       const faucetNode = new FaucetNode(
-        // This value is irrelevant because we use our own faucet water emitting model, but must be nonzero
-        // to prevent a divide by zero problem
+        // This value for maxFlowRate is irrelevant because we use our own faucet water emitting model,
+        // but must be nonzero to prevent a divide by zero problem
         1,
 
         // Flow rate is managed by this simulation and not depicted by the FaucetNode

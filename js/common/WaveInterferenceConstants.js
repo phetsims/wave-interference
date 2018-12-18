@@ -55,12 +55,14 @@ define( require => {
     CHART_LINE_JOIN: 'round',
 
     // Look of the emitter button across all 3 scenes
+    //REVIEW where is the color for the green emitter button in pulse mode?
     EMITTER_BUTTON_COLOR: 'red',
     EMITTER_BUTTON_RADIUS: 14,
     EMITTER_BUTTON_TOUCH_AREA_DILATION: 8,
 
     FEMTO: 1E-15,
 
+    //REVIEW no idea how I'd coordinate this, and WaterEmitterNode waterDrops does not exist
     // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).  This
     // value must be coordinated with WaterEmitterNode's waterDrops[ index ].centerX
     POINT_SOURCE_HORIZONTAL_COORDINATE: 23,
@@ -79,10 +81,13 @@ define( require => {
     // maxWidth for slider ticks
     TICK_MAX_WIDTH: 30,
 
+    //REVIEW 'a smidge smaller than the reset of the texts' means a smidge smaller than DEFAULT_FONT, yes?  Then factor out DEFAULT_FONT_SIZE and make it so.
     // Use for the time and length scale texts above the wave area, looks best to be a smidge smaller than the
     // rest of the texts
     TIME_AND_LENGTH_SCALE_INDICATOR_FONT: new PhetFont( 14 )
   };
+
+  //REVIEW assert that WaveInterferenceConstants.LATTICE_DIMENSION is an odd integer
 
   waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );
 

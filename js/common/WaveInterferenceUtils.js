@@ -23,7 +23,6 @@ define( require => {
 
   class WaveInterferenceUtils {
 
-
     /**
      * Gets a Shape representing the top of the water in water side view from left to right, also used for the chart.
      * @param {number[]} array - reused to avoid allocations
@@ -60,6 +59,8 @@ define( require => {
      * @public
      */
     static getWaterSideY( waveAreaBounds, waveValue ) {
+
+      //REVIEW explain the magic numbers here
       return Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 80, waveValue );
     }
 
@@ -97,6 +98,7 @@ define( require => {
       return value / WaveInterferenceConstants.FEMTO;
     }
 
+    //REVIEW unnecessary coupling, passing in the entire model when only model.waterScene.lattice.visibleBounds is needed
     /**
      * Gets the horizontal coordinate where water drops come out--aligned with the oscillation cell.
      * @param {WavesScreenModel} model

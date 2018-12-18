@@ -463,6 +463,7 @@ define( require => {
       }
       else {
 
+        //REVIEW #272 clarify emitter in this context
         // @protected - placeholder for alternative emitter nodes
         this.emitterLayer = new Node();
         this.addChild( this.emitterLayer );

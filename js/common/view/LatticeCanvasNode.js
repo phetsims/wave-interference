@@ -95,6 +95,7 @@ define( require => {
      * Draws into the canvas.
      * @param {CanvasRenderingContext2D} context
      * @public
+     * @override
      */
     paintCanvas( context ) {
 
