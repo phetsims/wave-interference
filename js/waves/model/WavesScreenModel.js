@@ -85,11 +85,6 @@ define( require => {
         'Model only supports 1 or 2 sources'
       );
 
-      // @public {Property.<ViewType>}
-      this.viewTypeProperty = new Property( ViewType.TOP, {
-        validValues: ViewType.VALUES
-      } );
-
       // Instantiate the Scenes.  Parameters are declared here to make it easier to compare options
       // and see them in the same file.
 
@@ -194,6 +189,11 @@ define( require => {
       // @public (read-only) {Scene[]} - the Scene instances as an array
       this.scenes = [ this.waterScene, this.soundScene, this.lightScene ];
 
+      // @public {Property.<ViewType>} - indicates the user selection for side view or top view
+      this.viewTypeProperty = new Property( ViewType.TOP, {
+        validValues: ViewType.VALUES
+      } );
+
       // @public {Property.<PlaySpeedEnum>} - the speed at which the simulation is playing
       this.playSpeedProperty = new Property( PlaySpeedEnum.NORMAL, {
         validValues: PlaySpeedEnum.VALUES
@@ -251,8 +251,9 @@ define( require => {
       // @public
       this.isWaveMeterInPlayAreaProperty = new BooleanProperty( false );
 
-      // @public {Property.<number>} - amount the 3d view is rotated. 0 means top view, 1 means side view.
       const rotationRange = new Range( 0, 1 );
+
+      // @public - amount the 3d view is rotated. 0 means top view, 1 means side view.
       this.rotationAmountProperty = new NumberProperty( 0, {
         range: rotationRange
       } );

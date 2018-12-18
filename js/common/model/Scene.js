@@ -99,7 +99,7 @@ define( require => {
 
       const centerFrequency = ( config.minimumFrequency + config.maximumFrequency ) / 2;
 
-      // @public {Property.<number>} - the frequency in the appropriate units for the scene
+      // @public the frequency in the appropriate units for the scene
       this.frequencyProperty = new NumberProperty( centerFrequency, {
         range: new Range( config.minimumFrequency, config.maximumFrequency )
       } );
@@ -122,7 +122,7 @@ define( require => {
       } );
 
       //REVIEW add value validation?
-      // @public {Property.<Number>} - distance between the sources in the units of the scene, or 0 if there is only one
+      // @public distance between the sources in the units of the scene, or 0 if there is only one
       // source initialized to match the initial slit separation,
       // see https://github.com/phetsims/wave-interference/issues/87
       this.sourceSeparationProperty = new NumberProperty(
@@ -143,7 +143,7 @@ define( require => {
       // start slightly left of 50.5 so it will round to 50 instead of 51
       this.barrierLocationProperty = new Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ) );
 
-      // @public {Property.<number>} - the floor of the continuous barrier location (x coordinate only)
+      // @public {DerivedProperty.<number>} - the floor of the continuous barrier location (x coordinate only)
       this.barrierLatticeCoordinateProperty = new DerivedProperty(
         [ this.barrierLocationProperty ],
         barrierLocation => Math.round( barrierLocation.x )
@@ -154,7 +154,7 @@ define( require => {
         units: this.positionUnits
       } );
 
-      // @public {Property.<Number>} - distance between the center of the slits, in the units for this scene
+      // @public distance between the center of the slits, in the units for this scene
       this.slitSeparationProperty = new NumberProperty( config.initialSlitSeparation, {
         units: this.positionUnits
       } );

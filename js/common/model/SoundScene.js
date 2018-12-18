@@ -35,8 +35,7 @@ define( require => {
       // on the Slits screen, see https://github.com/phetsims/wave-interference/issues/109
       this.showSoundParticles = showSoundParticles;
 
-      //REVIEW {Property.<SoundViewType>}?
-      // @public {Property.<string>} - indicates the selected view for sound
+      // @public {Property.<SoundViewType>} - indicates the selected view for sound
       this.viewSelectionProperty = new Property( SoundViewType.WAVES, {
         validValues: SoundViewType.VALUES
       } );
