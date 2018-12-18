@@ -36,7 +36,7 @@ define( require => {
   const SoundEmitterNode = require( 'WAVE_INTERFERENCE/common/view/SoundEmitterNode' );
   const SoundParticleLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleLayer' );
   const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
-  const TimeControlPanel = require( 'WAVE_INTERFERENCE/common/view/TimeControlPanel' );
+  const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
   const ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
@@ -367,7 +367,7 @@ define( require => {
         } ) );
       }
 
-      const timeControlPanel = new TimeControlPanel( model, {
+      const timeControls = new TimeControls( model, {
         bottom: this.layoutBounds.bottom - MARGIN,
         centerX: this.waveAreaNode.centerX
       } );
@@ -466,7 +466,7 @@ define( require => {
         this.emitterLayer = new Node();
         this.addChild( this.emitterLayer );
       }
-      this.addChild( timeControlPanel );
+      this.addChild( timeControls );
       this.addChild( soundParticleLayer );
       this.addChild( dashedLineNode );
       this.addChild( this.afterWaveAreaNode );

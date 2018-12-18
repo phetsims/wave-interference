@@ -25,7 +25,7 @@ define( require => {
   // constants
   const BUTTON_SCALE = 0.75;
 
-  class TimeControlPanel extends HBox {
+  class TimeControls extends HBox {
 
     /**
      * @param {WavesScreenModel} model
@@ -73,5 +73,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'TimeControlPanel', TimeControlPanel );
+  return waveInterference.register( 'TimeControls', TimeControls );
 } );
