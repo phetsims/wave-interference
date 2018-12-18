@@ -248,8 +248,9 @@ define( require => {
       // @public
       this.isWaveMeterInPlayAreaProperty = new BooleanProperty( false );
 
-      // @public {Property.<number>} - amount the 3d view is rotated. 0 means top view, 1 means side view.
       const rotationRange = new Range( 0, 1 );
+
+      // @public - amount the 3d view is rotated. 0 means top view, 1 means side view.
       this.rotationAmountProperty = new NumberProperty( 0, {
         range: rotationRange
       } );

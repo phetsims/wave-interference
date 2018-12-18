@@ -18,19 +18,19 @@ define( require => {
   class DiffractionModel {
     constructor() {
 
-      // @public {Property.<boolean>} whether the laser is emitting light
+      // @public - whether the laser is emitting light
       this.onProperty = new BooleanProperty( true );
 
-      // @public {Property.<number>} dimensions of the square aperture
+      // @public - dimensions of the square aperture
       this.squareWidthProperty = new NumberProperty( 16 );
       this.squareHeightProperty = new NumberProperty( 16 );
 
-      // @public {Property.<number>} dimensions of the elliptical aperture
+      // @public - dimensions of the elliptical aperture
       this.sigmaXProperty = new NumberProperty( 10 );
       this.sigmaYProperty = new NumberProperty( 10 );
       this.gaussianMagnitudeProperty = new NumberProperty( 400 );
 
-      // @public {Property.<number>} characteristics of the grating
+      // @public - characteristics of the grating
       this.numberOfLinesProperty = new NumberProperty( 10 );
       this.angleProperty = new NumberProperty( 0 );
 
