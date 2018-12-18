@@ -83,11 +83,6 @@ define( require => {
         'Model only supports 1 or 2 sources'
       );
 
-      // @public {Property.<ViewType>}
-      this.viewTypeProperty = new Property( ViewType.TOP, {
-        validValues: ViewType.VALUES
-      } );
-
       // Instantiate the Scenes.  Parameters are declared here to make it easier to compare options
       // and see them in the same file.
 
@@ -191,6 +186,11 @@ define( require => {
 
       // @public (read-only) {Scene[]} - the Scene instances as an array
       this.scenes = [ this.waterScene, this.soundScene, this.lightScene ];
+
+      // @public {Property.<ViewType>} -
+      this.viewTypeProperty = new Property( ViewType.TOP, {
+        validValues: ViewType.VALUES
+      } );
 
       // @public {Property.<PlaySpeedEnum>} - the speed at which the simulation is playing
       this.playSpeedProperty = new Property( PlaySpeedEnum.NORMAL, {
