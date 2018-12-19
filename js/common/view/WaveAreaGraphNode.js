@@ -43,10 +43,8 @@ define( require => {
 
       const graphWidth = WaveInterferenceConstants.WAVE_AREA_WIDTH;
 
-      //REVIEW nice to know that graphHeight and dy must be synchronized, but how?
-      //REVIEW* I added notes about this, can you please review and let me know if you recommend further changes?
-      // Manually tuned so the graph is the appropriate height.  Note if you adjust the height of the graph, you will
-      // need to adjust the value `dy` used in getWaterSideShape below accordingly.
+      // Manually tuned so the graph is the appropriate height.  Note if you adjust graphHeight, you will
+      // need to adjust the value of dy (argument to getWaterSideShape) accordingly.
       const graphHeight = WaveInterferenceConstants.WAVE_AREA_WIDTH * 0.3833333333333333;
 
       // Horizontal Axis Label, which updates when the scene changes.  Uses visibility instead of setChildren so that
@@ -204,7 +202,7 @@ define( require => {
       // Created once and reused to avoid allocations
       const sampleArray = [];
 
-      // Manually tuned to center the line in the graph, must be synchronized with graphHeight
+      // Manually tuned to center the line in the graph, dy must be synchronized with graphHeight
       const dx = -options.x;
       const dy = -options.centerY / 2 + 7.5;
 
