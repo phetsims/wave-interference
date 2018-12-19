@@ -173,6 +173,8 @@ define( require => {
       } ) );
 
       //REVIEW describe what's going on here
+      //REVIEW* Done, please review.
+      // Display a minor grid line in the center of the lower and upper halves of the chart.
       [ 1 / 4, 3 / 4 ].forEach( horizontalGridLineFraction => {
         this.addChild( new Line(
           0, horizontalGridLineFraction * plotHeight,

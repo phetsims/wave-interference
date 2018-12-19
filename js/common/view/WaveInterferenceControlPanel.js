@@ -1,6 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW There are definitely similarities in this control panel for the 3 scenes. But the reuse of what's common in this implementation feels forced/complicated. I'd hate to have to maintain this.
+//REVIEW There are definitely similarities in this control panel for the 3 scenes. But the reuse of what's common in
+// this implementation feels forced/complicated. I'd hate to have to maintain this.
+//REVIEW* Isn't the alternative a significant amount of duplicated code?
 /**
  * Shows the main controls, including frequency/wavelength and amplitude.
  *
@@ -63,7 +65,8 @@ define( require => {
       }, options );
 
       //REVIEW 'metric coordinate frame' is not one of the 3 coordinate frames described in implmentation notes. What is this?
-      // Controls are in the metric coordinate frame
+      //REVIEW* I renamed it to physical coordinate frame.
+      // Controls are in the physical coordinate frame
       const waterFrequencySlider = new WaveInterferenceSlider(
         model.getWaterFrequencySliderProperty(),
         model.waterScene.frequencyProperty.range.min,
@@ -114,8 +117,11 @@ define( require => {
       } );
 
       //REVIEW worthy of factoring out into its own class file, SoundViewTypeRadioButtonGroup?
+
+
       //REVIEW PhET-iO: rename const to soundViewTypeRadioButtonGroup, since it's setting SoundViewType
-      const viewSelectionRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
+      //REVIEW* Updated const name
+      const soundViewTypeRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
         node: new WaveInterferenceText( wavesString ),
         value: SoundViewType.WAVES,
         property: model.soundScene.viewSelectionProperty
@@ -155,7 +161,7 @@ define( require => {
       model.showScreenProperty.link( showScreen => intensityCheckbox.setEnabled( showScreen ) );
 
       const maxComponentWidth = _.max( [
-        viewSelectionRadioButtonGroup.width,
+        soundViewTypeRadioButtonGroup.width,
         screenCheckbox.width,
         graphCheckbox.width,
         frequencySliderContainer.width,
@@ -201,7 +207,7 @@ define( require => {
       ] );
 
       // Align controls to the left
-      viewSelectionRadioButtonGroup.left = minX;
+      soundViewTypeRadioButtonGroup.left = minX;
       graphCheckbox.left = minX;
       screenCheckbox.left = minX;
 
@@ -237,7 +243,7 @@ define( require => {
       const CHECKBOX_SPACING = 5;
       separator.top = sceneRadioButtons.bottom + 12;
       graphCheckbox.top = separator.bottom + HORIZONTAL_SEPARATOR_MARGIN;
-      viewSelectionRadioButtonGroup.top = graphCheckbox.bottom + CHECKBOX_SPACING;
+      soundViewTypeRadioButtonGroup.top = graphCheckbox.bottom + CHECKBOX_SPACING;
       screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
       intensityCheckbox.top = screenCheckbox.bottom + CHECKBOX_SPACING;
 
@@ -264,7 +270,7 @@ define( require => {
           graphCheckbox,
 
           // Wave/Particle selection only for Sound scene
-          ...( scene === model.soundScene && model.soundScene.showSoundParticles ? [ viewSelectionRadioButtonGroup ] : [] ),
+          ...( scene === model.soundScene && model.soundScene.showSoundParticles ? [ soundViewTypeRadioButtonGroup ] : [] ),
 
           // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
           ...( scene === model.lightScene ? [ screenCheckbox ] : [] ),
