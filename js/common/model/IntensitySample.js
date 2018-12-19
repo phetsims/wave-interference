@@ -57,8 +57,6 @@ define( require => {
       const averagedIntensities = [];
       averagedIntensities.length = intensities.length;
 
-      //REVIEW explain why it's OK that the first and last values in averagedIntensities are not averages
-      //REVIEW* I average them now, please review
       // End points only have one neighbor, so they get a 2-point average
       averagedIntensities[ 0 ] = ( intensities[ 0 ] + intensities[ 1 ] ) / 2;
       averagedIntensities[ averagedIntensities.length - 1 ] =
