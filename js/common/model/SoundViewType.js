@@ -1,8 +1,9 @@
 // Copyright 2018, University of Colorado Boulder
 
 //REVIEW I see no "SourceScene".  Do you mean "SoundScene"?
+//REVIEW: Updated, thanks!
 /**
- * For the SourceScene, selects whether to display waves, particles or both.
+ * For the SoundScene, selects whether to display waves, particles or both.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
