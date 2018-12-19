@@ -22,7 +22,8 @@ define( require => {
       super( config );
 
       //REVIEW (read-only) ?
-      // @public {IntensitySample} reads out the intensity on the right hand side of the lattice
+      //REVIEW* The reference is read only, but clients can call mutators on it.  So how should it be marked?
+      // @public (read-only) {IntensitySample} reads out the intensity on the right hand side of the lattice
       this.intensitySample = new IntensitySample( this.lattice );
     }
 

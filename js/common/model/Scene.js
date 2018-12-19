@@ -122,6 +122,8 @@ define( require => {
       } );
 
       //REVIEW add value validation?
+      //REVIEW* the model supports any value, though going outside the bounds of the lattice would probably be a logic
+      //REVIEW* error.  The view slider has its own constraint.  Which value should I use here?
       // @public distance between the sources in the units of the scene, or 0 if there is only one
       // source initialized to match the initial slit separation,
       // see https://github.com/phetsims/wave-interference/issues/87
@@ -142,7 +144,10 @@ define( require => {
       // lattice computations using this floating point value should use Math.round()
       // start slightly left of 50.5 so it will round to 50 instead of 51
       //REVIEW add valueType: Vector2
-      this.barrierLocationProperty = new Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ) );
+      //REVIEW* Done, please review
+      this.barrierLocationProperty = new Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ), {
+        valueType: Vector2
+      } );
 
       // @public {DerivedProperty.<number>} - the floor of the continuous barrier location (x coordinate only)
       this.barrierLatticeCoordinateProperty = new DerivedProperty(
@@ -151,12 +156,14 @@ define( require => {
       );
 
       //REVIEW add value validation? range?
+      //REVIEW* See comments regarding this.sourceSeparationProperty.  How should I proceed?
       // @public {NumberProperty} - width of the slit(s) opening in the units for this scene
       this.slitWidthProperty = new NumberProperty( config.initialSlitWidth, {
         units: this.positionUnits
       } );
 
       //REVIEW add value validation?
+      //REVIEW* See comments regarding this.sourceSeparationProperty.  How should I proceed?
       // @public distance between the center of the slits, in the units for this scene
       this.slitSeparationProperty = new NumberProperty( config.initialSlitSeparation, {
         units: this.positionUnits
@@ -330,10 +337,10 @@ define( require => {
     }
 
     //REVIEW @override seems incorrect, this class has no super
+    //REVIEW*: removed
     /**
      * Set the incoming source values, in this case it is a point source near the left side of the lattice (outside of
      * the damping region).
-     * @override
      * @protected
      */
     setSourceValues() {
@@ -530,6 +537,7 @@ define( require => {
     }
 
     //REVIEW should the PhET convention for ES5 getters be used here? That is, define and call getWavelength.
+    //REVIEW* I don't see the value in having both.  OK if I just go with getWavelength?
     /**
      * Returns the wavelength in the units of the scene
      * @returns {number}
@@ -540,16 +548,22 @@ define( require => {
     }
 
     //REVIEW Why are you returning a Rectangle instead of a Bounds2 here? Is something depending on Rectangle features?
+    //REVIEW* Changed to Bounds2, please review
     /**
      * Returns a Bounds2 for the visible part of the wave area, in the coordinates of the scene.
      * @returns {Bounds2} the lattice model bounds, in the coordinates of this scene.
      * @public
      */
     getWaveAreaBounds() {
-      return new Rectangle( 0, 0, this.waveAreaWidth, this.waveAreaWidth );
+      return new Bounds2( 0, 0, this.waveAreaWidth, this.waveAreaWidth );
     }
 
     //REVIEW missing doc and visibility annotation
+    //REVIEW* Updated, please review
+    /**
+     * The user has initiated a single pulse.
+     * @public
+     */
     startPulse() {
       assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
       this.resetPhase();
@@ -581,9 +595,11 @@ define( require => {
     }
 
     //REVIEW missing visibility annotation
+    //REVIEW* Updated, please review
     /**
      * Move forward in time by the specified amount
      * @param {number} dt - amount of time to move forward, in the units of the scene
+     * @public
      */
     step( dt ) {
 
