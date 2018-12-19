@@ -3,8 +3,7 @@
 //REVIEW ViewType is a pretty weak name. ViewpointEnum?
 //REVIEW* I renamed it to ViewpointEnum, please review.
 /**
- * Selects whether the wave is shown from the top (default) or side view.  This value represents the user selection--
- * the view animates between the selections.
+ * The wave area can be viewed from the TOP or from the SIDE. The view animates between the selections.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

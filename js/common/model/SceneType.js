@@ -4,7 +4,7 @@
 //REVIEW* At the moment, this Enumeration simplifies some logic in `Scene.js` and loading subtype
 //REVIEW* constructors would result in a requirejs loop.  Please advise.
 /**
- * Enum that identifies the type of Scene
+ * Scenes can be WATER, SOUND or LIGHT.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

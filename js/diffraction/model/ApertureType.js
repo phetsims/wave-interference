@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Determines the selected aperture shape.
+ * An aperture can be circular (CIRCLE), rectangular (RECTANGLE), or an array of slits (SLITS).
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

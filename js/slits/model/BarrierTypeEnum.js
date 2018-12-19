@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Determines the barrier type (if any).
+ * The wave area can contain a barrier with ONE_SLIT, TWO_SLITS or NO_BARRIER at all.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

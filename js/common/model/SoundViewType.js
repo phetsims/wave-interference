@@ -3,7 +3,7 @@
 //REVIEW I see no "SourceScene".  Do you mean "SoundScene"?
 //REVIEW*: Updated, thanks!
 /**
- * For the SoundScene, selects whether to display waves, particles or both.
+ * For the SoundScene, WAVES, PARTICLES, or BOTH can be displayed.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

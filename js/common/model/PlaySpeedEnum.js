@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Determines whether the simulation is playing at normal speed or slow motion.
+ * The simulation can run at normal speed (NORMAL) or slow motion (SLOW).
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
