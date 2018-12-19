@@ -1,8 +1,9 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW^ This doc was confusing. It's not a 'dotted line', it's a dashed line with stroked dashes.
+//REVIEW This doc was confusing. It's not a 'dotted line', it's a dashed line with stroked dashes.
+//REVIEW* I reworded it, does that help?
 /**
- * When the graph is selected, the dotted line is shown in the center of the WaveAreaNode and in the graph's center.
+ * When the graph is selected, the dashed line is shown in the center of the WaveAreaNode and in the graph's center.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
