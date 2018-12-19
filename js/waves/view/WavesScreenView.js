@@ -39,7 +39,7 @@ define( require => {
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
-  const ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
+  const ViewpointRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewpointRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterDropLayer = require( 'WAVE_INTERFERENCE/common/view/WaterDropLayer' );
   const WaterWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaterWaveGeneratorNode' );
@@ -72,7 +72,7 @@ define( require => {
       options = _.extend( {
 
         // Only allow side view in single source/no slits context
-        showViewRadioButtonGroup: false,
+        showViewpointRadioButtonGroup: false,
 
         // Allow the user to choose between pulse and continuous.
         showPulseContinuousRadioButtons: true,
@@ -368,8 +368,8 @@ define( require => {
           } ) );
       }
 
-      if ( options.showViewRadioButtonGroup ) {
-        this.addChild( new ViewRadioButtonGroup( model.viewpointProperty, {
+      if ( options.showViewpointRadioButtonGroup ) {
+        this.addChild( new ViewpointRadioButtonGroup( model.viewpointProperty, {
           bottom: this.layoutBounds.bottom - MARGIN,
           left: this.waveAreaNode.left
         } ) );

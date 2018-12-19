@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW^ since this is related to ViewType, rename to ViewTypeRadioButtonGroup ?
-//REVIEW: Note to self, I renamed the enum
+//REVIEW since this is related to ViewType, rename to ViewTypeRadioButtonGroup ?
+//REVIEW*: Renamed to ViewpointRadioButtonGroup to match ViewpointEnum
 /**
  * Selects between Top View and Side View.
  *
@@ -23,7 +23,7 @@ define( require => {
   // constants
   const TEXT_OPTIONS = { maxWidth: 90 }; // Prevent from overlapping the play/pause button
 
-  class ViewRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonGroup {
+  class ViewpointRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonGroup {
 
     /**
      * @param {Property.<ViewpointEnum>} viewpointProperty
@@ -43,5 +43,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'ViewRadioButtonGroup', ViewRadioButtonGroup );
+  return waveInterference.register( 'ViewpointRadioButtonGroup', ViewpointRadioButtonGroup );
 } );

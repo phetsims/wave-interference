@@ -36,7 +36,7 @@ define( require => {
       super(
         () => new WavesScreenModel(),
         model => new WavesScreenView( model, alignGroup, {
-          showViewRadioButtonGroup: true,
+          showViewpointRadioButtonGroup: true,
 
           lightScreenNodeBrightness: 1.85,
 
