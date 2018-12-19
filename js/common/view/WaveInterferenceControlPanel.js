@@ -53,7 +53,7 @@ define( require => {
 
       options = _.extend( {
 
-        // This additional control (if present) will be shown beneath the Amplitude slider in the
+        // {Node|null} This additional control (if present) will be shown beneath the Amplitude slider in the
         // WaveInterferenceControlPanel
         additionalControl: null,
 
