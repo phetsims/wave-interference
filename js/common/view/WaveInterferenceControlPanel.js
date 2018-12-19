@@ -1,8 +1,5 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW There are definitely similarities in this control panel for the 3 scenes. But the reuse of what's common in
-// this implementation feels forced/complicated. I'd hate to have to maintain this.
-//REVIEW* Isn't the alternative a significant amount of duplicated code?
 /**
  * Shows the main controls, including frequency/wavelength and amplitude.
  *
