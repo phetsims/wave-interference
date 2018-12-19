@@ -355,7 +355,7 @@ define( require => {
 
         this.addChild( new SceneToggleNode(
           model,
-          scene => new PulseContinuousRadioButtonGroup( scene.waveTemporalTypeProperty ), {
+          scene => new PulseContinuousRadioButtonGroup( scene.disturbanceTypeProperty ), {
             bottom: this.waveAreaNode.bottom,
             centerX: ( this.waveAreaNode.left + this.layoutBounds.left ) / 2
           } ) );

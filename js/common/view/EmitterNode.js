@@ -17,7 +17,7 @@ define( require => {
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
+  const DisturbanceType = require( 'WAVE_INTERFERENCE/common/model/DisturbanceType' );
 
   class EmitterNode extends Node {
 
@@ -36,7 +36,7 @@ define( require => {
                  verticalOffset = 0,
                  buttonOffset = 0,
                  showButtonBackground = false ) {
-      const pulseIcon = new InputTypeIconNode( WaveTemporalType.PULSE, { scale: 0.48 } );
+      const pulseIcon = new InputTypeIconNode( DisturbanceType.PULSE, { scale: 0.48 } );
 
       const buttonOptions = {
         centerY: sourceNode.centerY + buttonOffset,
@@ -69,20 +69,20 @@ define( require => {
       const nodeWithButton = new Node( { children: children } );
 
       const updateEnabled = () => {
-        if ( scene.waveTemporalTypeProperty.value === WaveTemporalType.PULSE ) {
+        if ( scene.disturbanceTypeProperty.value === DisturbanceType.PULSE ) {
           button.enabled = !scene.pulseFiringProperty.value && !scene.isAboutToFireProperty.value;
         }
-        else if ( scene.waveTemporalTypeProperty.value === WaveTemporalType.CONTINUOUS ) {
+        else if ( scene.disturbanceTypeProperty.value === DisturbanceType.CONTINUOUS ) {
           button.enabled = true;
         }
       };
 
       // When changing between PULSE and CONTINUOUS, update the buttons.
-      scene.waveTemporalTypeProperty.link( waveTemporalType => {
-          button.setBaseColor( waveTemporalType === WaveTemporalType.CONTINUOUS ?
+      scene.disturbanceTypeProperty.link( disturbanceType => {
+        button.setBaseColor( disturbanceType === DisturbanceType.CONTINUOUS ?
                                WaveInterferenceConstants.CONTINUOUS_EMITTER_BUTTON_COLOR :
                                WaveInterferenceConstants.PULSE_EMITTER_BUTTON_COLOR );
-          pulseIcon.visible = waveTemporalType === WaveTemporalType.PULSE;
+        pulseIcon.visible = disturbanceType === DisturbanceType.PULSE;
           updateEnabled();
         }
       );

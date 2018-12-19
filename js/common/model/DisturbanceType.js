@@ -14,5 +14,5 @@ define( require => {
   const Enumeration = require( 'PHET_CORE/Enumeration' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  return waveInterference.register( 'WaveTemporalType', new Enumeration( [ 'PULSE', 'CONTINUOUS' ] ) );
+  return waveInterference.register( 'DisturbanceType', new Enumeration( [ 'PULSE', 'CONTINUOUS' ] ) );
 } );

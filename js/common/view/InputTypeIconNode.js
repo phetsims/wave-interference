@@ -1,6 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 //REVIEW^ This is a visual representation of WaveTemporalType, so why is this class name totally different? why not WaveTermTypeNode?
+//REVIEW: Note to self, WaveTemporalType became DisturbanceType
 /**
  * Shows the icons for the radio buttons that choose between pulse and continuous waves.
  *
@@ -15,7 +16,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
+  const DisturbanceType = require( 'WAVE_INTERFERENCE/common/model/DisturbanceType' );
 
   // constants
   const NUMBER_OF_SAMPLES = 100;           // Number of samples to take along the curve
@@ -27,19 +28,19 @@ define( require => {
   class InputTypeIconNode extends Node {
 
     //REVIEW rename to waveTemporalType
-    //REVIEW* done, please review
+    //REVIEW* done, please review. UPDATE: also renamed to disturbanceType
     /**
-     * @param {WaveTemporalType} waveTemporalType
+     * @param {DisturbanceType} disturbanceType
      * @param {Object} [options]
      */
-    constructor( waveTemporalType, options ) {
+    constructor( disturbanceType, options ) {
       super();
 
       //REVIEW Implementation is unnecessarily complicated because you're trying to do both icons in one class. Separate into 2 classes?
       //REVIEW* That would lead to a significant amount of duplicated code.  What do you recommend?
-      const minAngle = waveTemporalType === WaveTemporalType.PULSE ? Math.PI : 0;
-      const minX = waveTemporalType === WaveTemporalType.PULSE ? MARGIN : 0;
-      const maxX = waveTemporalType === WaveTemporalType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
+      const minAngle = disturbanceType === DisturbanceType.PULSE ? Math.PI : 0;
+      const minX = disturbanceType === DisturbanceType.PULSE ? MARGIN : 0;
+      const maxX = disturbanceType === DisturbanceType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
 
       const shape = new Shape();
       for ( let i = 0; i < NUMBER_OF_SAMPLES; i++ ) {
@@ -47,7 +48,7 @@ define( require => {
         const y = -Math.cos( angle ) * WAVE_HEIGHT;
         const x = Util.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
         if ( i === 0 ) {
-          if ( waveTemporalType === WaveTemporalType.PULSE ) {
+          if ( disturbanceType === DisturbanceType.PULSE ) {
             shape.moveTo( x - MARGIN, y );
             shape.lineTo( x, y );
           }
@@ -59,7 +60,7 @@ define( require => {
           shape.lineTo( x, y );
         }
       }
-      if ( waveTemporalType === WaveTemporalType.PULSE ) {
+      if ( disturbanceType === DisturbanceType.PULSE ) {
         shape.lineToRelative( MARGIN, 0 );
       }
 

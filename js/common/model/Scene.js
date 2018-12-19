@@ -27,7 +27,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveSpatialType = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialType' );
-  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
+  const DisturbanceType = require( 'WAVE_INTERFERENCE/common/model/DisturbanceType' );
 
   // strings
   const distanceUnitsString = require( 'string!WAVE_INTERFERENCE/distanceUnits' );
@@ -179,18 +179,18 @@ define( require => {
       // @public {NumberProperty} - controls the amplitude of the wave.
       this.amplitudeProperty = new NumberProperty( config.initialAmplitude, { range: new Range( 0, 10 ) } );
 
-      // @public {Property.<WaveTemporalType>} - pulse or continuous
-      this.waveTemporalTypeProperty = new Property( WaveTemporalType.CONTINUOUS, {
-        validValues: WaveTemporalType.VALUES
+      // @public {Property.<DisturbanceType>} - pulse or continuous
+      this.disturbanceTypeProperty = new Property( DisturbanceType.CONTINUOUS, {
+        validValues: DisturbanceType.VALUES
       } );
 
-      // The first button can trigger a pulse, or continuous wave, depending on the waveTemporalTypeProperty
+      // The first button can trigger a pulse, or continuous wave, depending on the disturbanceTypeProperty
       this.button1PressedProperty.lazyLink( isPressed => {
         if ( config.sceneType !== SceneType.WATER ) {
           if ( isPressed ) {
             this.resetPhase();
           }
-          if ( isPressed && this.waveTemporalTypeProperty.value === WaveTemporalType.PULSE ) {
+          if ( isPressed && this.disturbanceTypeProperty.value === DisturbanceType.PULSE ) {
             this.startPulse();
           }
           else {
@@ -245,8 +245,8 @@ define( require => {
       // @public {BooleanProperty} - true when the second source is continuously oscillating
       this.continuousWave2OscillatingProperty = new BooleanProperty( false );
 
-      // When the user changes temporal wave type, the button pops out and waves stop
-      this.waveTemporalTypeProperty.link( inputType => {
+      // When the user changes disturbance type, the button pops out and waves stop
+      this.disturbanceTypeProperty.link( inputType => {
         this.button1PressedProperty.value = false;
         this.continuousWave1OscillatingProperty.value = false;
         this.continuousWave2OscillatingProperty.value = false;
@@ -355,7 +355,7 @@ define( require => {
         const period = 1 / frequency;
         const timeSincePulseStarted = time - this.pulseStartTime;
         const lattice = this.lattice;
-        const isContinuous = ( this.waveTemporalTypeProperty.get() === WaveTemporalType.CONTINUOUS );
+        const isContinuous = ( this.disturbanceTypeProperty.get() === DisturbanceType.CONTINUOUS );
         const continuous1 = isContinuous && this.continuousWave1OscillatingProperty.get();
         const continuous2 = isContinuous && this.continuousWave2OscillatingProperty.get();
         if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
@@ -584,7 +584,7 @@ define( require => {
       this.slitSeparationProperty.reset();
       this.sourceSeparationProperty.reset();
       this.amplitudeProperty.reset();
-      this.waveTemporalTypeProperty.reset();
+      this.disturbanceTypeProperty.reset();
       this.button1PressedProperty.reset();
       this.button2PressedProperty.reset();
       this.oscillator1Property.reset();

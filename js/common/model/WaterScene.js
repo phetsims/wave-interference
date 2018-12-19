@@ -15,7 +15,7 @@ define( require => {
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveSpatialType = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialType' );
-  const WaveTemporalType = require( 'WAVE_INTERFERENCE/common/model/WaveTemporalType' );
+  const DisturbanceType = require( 'WAVE_INTERFERENCE/common/model/DisturbanceType' );
 
   class WaterScene extends Scene {
 
@@ -67,7 +67,7 @@ define( require => {
       } );
 
       // For the water scene, remove water drops so one mode doesn't create waves in the other mode
-      this.waveTemporalTypeProperty.link( inputType => this.removeAllDrops() );
+      this.disturbanceTypeProperty.link( inputType => this.removeAllDrops() );
     }
 
     /**
@@ -85,7 +85,7 @@ define( require => {
       // Send a water drop if the button is pressed but not if the button is still pressed from the last pulse.
       // model.button1PressedProperty.value not consulted because we send a shutoff water drop. so that the previous
       // drop gets a full cycle
-      const isPulseMode = this.waveTemporalTypeProperty.value === WaveTemporalType.PULSE;
+      const isPulseMode = this.disturbanceTypeProperty.value === DisturbanceType.PULSE;
       const firePulseDrop = isPulseMode && !this.pulseFiringProperty.value && this.button1PressedProperty.value;
       if ( !isPulseMode || firePulseDrop ) {
 
@@ -93,7 +93,7 @@ define( require => {
         const buttonPressed = buttonProperty.value;
         const frequency = this.desiredFrequencyProperty.value;
         const amplitude = this.desiredAmplitudeProperty.value;
-        const isPulse = this.waveTemporalTypeProperty.value === WaveTemporalType.PULSE;
+        const isPulse = this.disturbanceTypeProperty.value === DisturbanceType.PULSE;
         const sourceSeparation = this.desiredSourceSeparationProperty.value;
         this.waterDrops.push( new WaterDrop(
           amplitude,
