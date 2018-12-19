@@ -24,9 +24,11 @@ define( require => {
     constructor( options ) {
       super( waterDropImage, options );
 
-      //REVIEW^ {WaterDrop|null} and presumably null means no associated WaterDrop instance?
-      // @public {WaterDrop} - Link each Image to its corresponding WaterDrop, so that when the view goes underwater,
-      // we can mark the corresponding model as absorbed.
+      //REVIEW {WaterDrop|null} and presumably null means no associated WaterDrop instance?
+      //REVIEW* I added docs and fixed the type docs, please review.
+      // @public {WaterDrop|null} - Link to the corresponding WaterDrop (if any), so that when the view goes underwater,
+      // we can mark the corresponding model as absorbed.  These nodes are recycled--created with null instead of a
+      // specific WaterDrop and assigned to null when the associated WaterDrop has been absorbed.
       this.waterDrop = null;
     }
   }
