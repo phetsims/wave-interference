@@ -27,8 +27,8 @@ define( require => {
      */
     constructor( waveAreaBounds, model ) {
 
-      //REVIEW^ vestigial comment and annotation?
-      // @private - depicts the side face (when the user selects "side view")
+      //REVIEW vestigial comment and annotation?
+      //REVIEW* removed, thanks!
       super( null, {
         lineJoin: WaveInterferenceConstants.CHART_LINE_JOIN,
         fill: WaveInterferenceConstants.WATER_SIDE_COLOR
