@@ -368,9 +368,11 @@ define( require => {
       //REVIEW use arrow function?
       //REVIEW* Done, please review
 
-      //REVIEW^ while $h may have been in the copied code, consider using a more 'conventional' function name.
+      //REVIEW while $h may have been in the copied code, consider using a more 'conventional' function name.
       // store them in a nice function to match the math
-      const $h = ( k, l ) => {
+      //REVIEW* I'm not too familiar with this code.  If it survives to dev testing, I would like to factor out
+      //REVIEW* as much of this code to sherpa as I can.  For now, I renamed the function.
+      const lookupHHat = ( k, l ) => {
         if ( arguments.length === 0 ) {
           return h_hats;
         }
@@ -386,7 +388,7 @@ define( require => {
         for ( let l = 0; l < dims[ 0 ]; l++ ) {
           const idxInPixels = 4 * ( dims[ 0 ] * k + l );
           currImageData.data[ idxInPixels + 3 ] = 255; // full alpha
-          let color = Math.log( cc * $h( l, k ).magnitude() + 1 );
+          let color = Math.log( cc * lookupHHat( l, k ).magnitude() + 1 );
           color = Util.roundSymmetric( 255 * ( color / logOfMaxMag ) );
           // RGB are the same -> gray
           for ( let c = 0; c < 3; c++ ) { // lol c++
