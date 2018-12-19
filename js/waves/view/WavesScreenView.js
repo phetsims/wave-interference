@@ -228,8 +228,6 @@ define( require => {
         };
       };
 
-      //REVIEW Property's value parameter is not optional, use Property(null) here? validate value?
-      //REVIEW* I set the correct initial value, please review.
       const measuringTapeProperty = new Property( getMeasuringTapeValue( model.sceneProperty.value ) );
       model.sceneProperty.link( scene => measuringTapeProperty.set( getMeasuringTapeValue( scene ) ) );
 
@@ -470,8 +468,6 @@ define( require => {
       }
       else {
 
-        //REVIEW #272 clarify emitter in this context
-        //REVIEW* I renamed emitter to wave generator
         // @protected - placeholder for alternative wave generator nodes
         this.waveGeneratorLayer = new Node();
         this.addChild( this.waveGeneratorLayer );

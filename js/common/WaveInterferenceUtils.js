@@ -102,8 +102,6 @@ define( require => {
       return value / WaveInterferenceConstants.FEMTO;
     }
 
-    //REVIEW unnecessary coupling, passing in the entire model when only model.waterScene.lattice.visibleBounds is needed
-    //REVIEW* I changed this to use waterSceneLatticeBounds
     /**
      * Gets the horizontal coordinate where water drops come out--aligned with the oscillation cell.
      * @param {Bounds2} waterSceneLatticeBounds - visible bounds for water scene lattice

@@ -19,9 +19,6 @@ define( require => {
     constructor() {
       super( {
 
-        //REVIEW There's an extended comment about the default value for initialAmplitude over in WaveScreenModel, and it's not 10. Why did you choose this value here?
-        //REVIEW*: By design, the Slits screen is supposed to start at the max amplitude value.  I've refactored
-        //REVIEW* to indicate that.  Please review.
         initialAmplitude: WaveInterferenceConstants.AMPLITUDE_RANGE.max,
         waveSpatialType: WaveSpatialType.PLANE,
 

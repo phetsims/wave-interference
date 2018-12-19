@@ -1,7 +1,5 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW since this is related to ViewType, rename to ViewTypeRadioButtonGroup ?
-//REVIEW*: Renamed to ViewpointRadioButtonGroup to match ViewpointEnum
 /**
  * Selects between Top View and Side View.
  *

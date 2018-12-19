@@ -34,8 +34,6 @@ define( require => {
 
       assert && assert( model instanceof SlitsScreenModel );
 
-      //REVIEW move duplicated cornerRadius constructor args to options.cornerRadius
-      //REVIEW* I added a new constant for this and supply it through the options. Is that what you meant?
       /**
        * Creates one of the 3 recycled rectangles used for rendering the barriers.
        */
@@ -79,14 +77,10 @@ define( require => {
         viewBounds
       );
 
-      //REVIEW var -> const
-      //REVIEW* Done, thanks!
       const latticeBounds = new Bounds2( 0, 0, 1, 1 );
       const modelBounds = scene.modelToLatticeTransform.viewToModelBounds( latticeBounds );
       const tempViewBounds = this.modelViewTransform.modelToViewBounds( modelBounds );
 
-      //REVIEW missing visibility annotation
-      //REVIEW* Added, thanks!
       //@private
       this.latticeToViewTransform = ModelViewTransform2.createRectangleMapping( latticeBounds, tempViewBounds );
 

@@ -45,8 +45,6 @@ define( require => {
       // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
       this.waterDrops = [];
 
-      //REVIEW what is "the phase"? units, range and semantics of values,...
-      //REVIEW* I added docs, please review.
       // @private {number|null} - record the time (in seconds) that the previous water drop was emitted, so the next
       // drop (or drops, in the case of two wave generators) can be emitted at the appropriate time.  Null means no
       // drops have fallen.
@@ -99,8 +97,6 @@ define( require => {
           amplitude,
           buttonPressed,
           sourceSeparation,
-          //REVIEW magic number? param is y - distance to fall before the particles meets the plane of the lattice
-          //REVIEW* I moved this to WaterDrop and documented better
           sign,
           () => {
 
@@ -125,8 +121,6 @@ define( require => {
       }
     }
 
-    //REVIEW missing visibility annotation
-    //REVIEW* Added, please review
     /**
      * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
      * @param {number} dt - amount of time to move forward, in the units of the scene

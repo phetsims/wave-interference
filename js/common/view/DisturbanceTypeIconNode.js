@@ -1,7 +1,5 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW This is a visual representation of WaveTemporalType, so why is this class name totally different? why not WaveTermTypeNode?
-//REVIEW* Renamed to DisturbanceTypeIconNode, please review.
 /**
  * Shows the icons for the radio buttons that choose between pulse and continuous waves.
  *
@@ -27,8 +25,6 @@ define( require => {
 
   class DisturbanceTypeIconNode extends Node {
 
-    //REVIEW rename to waveTemporalType
-    //REVIEW* done, please review. UPDATE: also renamed to disturbanceType
     /**
      * @param {DisturbanceType} disturbanceType
      * @param {Object} [options]

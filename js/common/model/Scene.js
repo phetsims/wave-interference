@@ -144,8 +144,6 @@ define( require => {
       // note: this is a floating point representation in 2D to work seamlessly with DragListener
       // lattice computations using this floating point value should use Math.round()
       // start slightly left of 50.5 so it will round to 50 instead of 51
-      //REVIEW add valueType: Vector2
-      //REVIEW* Done, please review
       this.barrierLocationProperty = new Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ), {
         valueType: Vector2
       } );
@@ -339,8 +337,6 @@ define( require => {
       }
     }
 
-    //REVIEW @override seems incorrect, this class has no super
-    //REVIEW*: removed
     /**
      * Set the incoming source values, in this case it is a point source near the left side of the lattice (outside of
      * the damping region).
@@ -550,8 +546,6 @@ define( require => {
       return this.waveSpeed / this.frequencyProperty.get();
     }
 
-    //REVIEW Why are you returning a Rectangle instead of a Bounds2 here? Is something depending on Rectangle features?
-    //REVIEW* Changed to Bounds2, please review
     /**
      * Returns a Bounds2 for the visible part of the wave area, in the coordinates of the scene.
      * @returns {Bounds2} the lattice model bounds, in the coordinates of this scene.
@@ -561,8 +555,6 @@ define( require => {
       return new Bounds2( 0, 0, this.waveAreaWidth, this.waveAreaWidth );
     }
 
-    //REVIEW missing doc and visibility annotation
-    //REVIEW* Updated, please review
     /**
      * The user has initiated a single pulse.
      * @public
@@ -597,8 +589,6 @@ define( require => {
       this.barrierTypeProperty && this.barrierTypeProperty.reset();
     }
 
-    //REVIEW missing visibility annotation
-    //REVIEW* Updated, please review
     /**
      * Move forward in time by the specified amount
      * @param {number} dt - amount of time to move forward, in the units of the scene

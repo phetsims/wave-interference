@@ -64,8 +64,6 @@ define( require => {
         maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH
       }, options );
 
-      //REVIEW 'metric coordinate frame' is not one of the 3 coordinate frames described in implmentation notes. What is this?
-      //REVIEW* I renamed it to physical coordinate frame.
       // Controls are in the physical coordinate frame
       const waterFrequencySlider = new WaveInterferenceSlider(
         model.getWaterFrequencySliderProperty(),
@@ -118,8 +116,6 @@ define( require => {
 
       //REVIEW^ worthy of factoring out into its own class file, SoundViewTypeRadioButtonGroup?
 
-      //REVIEW PhET-iO: rename const to soundViewTypeRadioButtonGroup, since it's setting SoundViewType
-      //REVIEW* Updated const name
       const soundViewTypeRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
         node: new WaveInterferenceText( wavesString ),
         value: SoundViewType.WAVES,
@@ -184,8 +180,6 @@ define( require => {
 
       //REVIEW^ worthy of factoring out into its own class file, SceneRadioButtonGroup?
 
-      //REVIEW PhET-iO: rename const to sceneRadioButtonGroup
-      //REVIEW*: Updated, please review.
       const sceneRadioButtonGroup = new RadioButtonGroup( model.sceneProperty, [
         { value: model.waterScene, node: sceneIcons.faucetIcon },
         { value: model.soundScene, node: sceneIcons.speakerIcon },
@@ -288,10 +282,6 @@ define( require => {
           ...( scene === model.lightScene && options.showIntensityCheckbox ? [ intensityCheckbox ] : [] )
         ];
       } );
-
-      //REVIEW move assignments of point areas closer to definition of these checkboxes?
-      //REVIEW* Moved closer, but still needed separator dimension, so it's a bit below the checkbox declarations.
-      //REVIEW* Please review
 
       const content = alignGroup.createBox( container );
 

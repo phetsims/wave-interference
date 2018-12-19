@@ -80,8 +80,6 @@ define( require => {
       const soundSlitWidthControl = new NumberControl(
         slitWidthString, model.soundScene.slitWidthProperty, soundRange, _.extend( {
           delta: 1, // cm
-          //REVIEW use arrow function?
-          //REVIEW*: done, please review
           constrainValue: value => Util.roundToInterval( value, 10 ),
           valuePattern: cmValueString,
           majorTicks: createTicks( soundRange )
@@ -91,8 +89,6 @@ define( require => {
       const lightSlitWidthControl = new NumberControl(
         slitWidthString, model.lightScene.slitWidthProperty, lightRange, _.extend( {
           delta: 10, // nm
-          //REVIEW use arrow function?
-          //REVIEW* Done, please review
           constrainValue: value => Util.roundToInterval( value, 50 ),
           valuePattern: nmValueString,
           majorTicks: createTicks( lightRange )
@@ -130,8 +126,6 @@ define( require => {
         soundSeparationRange,
         _.extend( {
           delta: 1, // cm
-          //REVIEW use arrow function?
-          //REVIEW* Done, please review
           constrainValue: value => Util.roundToInterval( value, 10 ),
           valuePattern: cmValueString,
           majorTicks: createTicks( soundSeparationRange )
@@ -144,8 +138,6 @@ define( require => {
         lightSeparationRange,
         _.extend( {
           delta: 10, // nm
-          //REVIEW use arrow function?
-          //REVIEW* Done, please review
           constrainValue: value => Util.roundToInterval( value, 50 ),
           valuePattern: nmValueString,
           majorTicks: createTicks( lightSeparationRange )

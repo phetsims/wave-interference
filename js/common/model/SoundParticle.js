@@ -1,11 +1,12 @@
 // Copyright 2018, University of Colorado Boulder
 
 //REVIEW I don't understand the "When selected" bit.
-//REVIEW*: I meant to indicate that the sound particles are only updated and displayed when the user
-//REVIEW*: has selected the "sound" scene and one of the two options that display particles.
-//REVIEW*: Can you recommend the best way to indicate this?
+//REVIEW I meant to indicate that the sound particles are only updated and displayed when the user
+//REVIEW has selected the "sound" scene and one of the two options that display particles.
+//REVIEW Can you recommend the best way to indicate this?
+//REVIEW^: I modified the doc, please review.
 /**
- * When selected, shows discrete, moving particles for the sound scene.
+ * When the sound generator is selected, shows discrete, moving particles for the sound scene.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -17,16 +18,12 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  //REVIEW RANDOMNESS value needs more explanation - range, effect of increase/decrease,...
-  //REVIEW* Updated, please review.
   // At each time step, a random force is applied in both the x and y directions.  The magnitude of the force
   // in each direction is is a random value between -RANDOMNESS and +RANDOMNESS.  This is to show
   // motion even in the absence of waves, since we are not at absolute zero.
   const RANDOMNESS = 14.75;
 
-  //REVIEW FRICTION_SCALE needs more explanation, since 1 = no friction is not what I would have expected
-  //REVIEW* I added docs, is this clearer?  Let me know if there's a better way to do this, or clearer variable names.
-  // At each time step, the velocity is multiplied FRICTION_SCALE.  If FRICTION_SCALE is 1, that means the velocity is
+  // At each time step, the velocity is multiplied by FRICTION_SCALE.  If FRICTION_SCALE is 1, that means the velocity is
   // not damped out at all.  For a value < 1, this amounts to exponential decay in the speed.
   const FRICTION_SCALE = 0.732;
   const RESTORATION_FORCE_SCALE = 0.5; // Additional scaling for the home force
@@ -41,8 +38,6 @@ define( require => {
      */
     constructor( i, j, x, y ) {
 
-      //REVIEW I don't see assignments to i,j,x,y anywhere.  Should these be read-only?
-      //REVIEW* Addressed below, please review.
       // @public (read-only) {number} - horizontal lattice coordinate of the particle
       this.i = i;
 
@@ -68,8 +63,6 @@ define( require => {
       this.vy = 0;
     }
 
-    //REVIEW missing visibility annotation
-    //REVIEW* Added, thanks!
     /**
      * Applies a force toward the given point with the given strength;
      * @param {number} fx - sum of applied forces in the x direction

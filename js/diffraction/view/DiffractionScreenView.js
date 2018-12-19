@@ -332,8 +332,6 @@ define( require => {
         h_es.push( imageData.data[ ai ] );
       }
 
-      //REVIEW use arrow function?
-      //REVIEW* Done, please review
       // initialize the h values
       const h = ( n, m ) => {
         if ( arguments.length === 0 ) {
@@ -365,13 +363,7 @@ define( require => {
 
       Fourier.filter( h_hats, dims, NaN, NaN );
 
-      //REVIEW use arrow function?
-      //REVIEW* Done, please review
-
-      //REVIEW while $h may have been in the copied code, consider using a more 'conventional' function name.
       // store them in a nice function to match the math
-      //REVIEW* I'm not too familiar with this code.  If it survives to dev testing, I would like to factor out
-      //REVIEW* as much of this code to sherpa as I can.  For now, I renamed the function.
       const lookupHHat = ( k, l ) => {
         if ( arguments.length === 0 ) {
           return h_hats;

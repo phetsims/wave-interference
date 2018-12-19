@@ -68,8 +68,6 @@ define( require => {
         // This model supports one or two sources.  If the sources are initially separated, there are two sources
         numberOfSources: 1,
 
-        //REVIEW you mention 'optimize the view for the max', but what is the range? units?
-        //REVIEW* I added some docs about this, please review.
         // Initial amplitude of the oscillator, which is unitless and reflects the amount of disturbance at a specified
         // point in the medium. See WaveInterferenceConstants.AMPLITUDE_RANGE.  We optimize the view for the max, but
         // starting the value at the extreme may prevent the user from exploring the range, so we start closer to the
@@ -82,6 +80,9 @@ define( require => {
 
         waveSpatialType: WaveSpatialType.POINT
       }, options );
+
+      //REVIEW^ assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
+      //REVIEW^   'initialAmplitude is out of range: ' + options.initialAmplitude );
 
       assert && assert(
         options.numberOfSources === 1 || options.numberOfSources === 2,
@@ -254,10 +255,9 @@ define( require => {
       // @public
       this.isWaveMeterInPlayAreaProperty = new BooleanProperty( false );
 
+      //REVIEW^ since this applies to rotationAmountProperty, recommended to rename to rotationAmountRange
       const rotationRange = new Range( 0, 1 );
 
-      //REVIEW this is really odd. Especially since over in Perspective3DNode, const rotationAmount = Easing.CUBIC_IN_OUT.value( this.rotationAmountProperty.get() );
-      //REVIEW* I revised the docs, please let me know if that is sufficient.
       // @public - Linear interpolation between ViewpointEnum.TOP (0) and ViewpointEnum.SIDE (1).  This linear
       // interpolate in the model is mapped through a CUBIC_IN_OUT in the view to obtain the desired look.
       this.rotationAmountProperty = new NumberProperty( 0, {
@@ -274,16 +274,12 @@ define( require => {
 
       // @public {Property.<Vector2>} - model for the view coordinates of the base of the measuring tape
       // We use view coordinates so that nothing needs to be done when switching scenes and coordinate frames.
-      //REVIEW add valueType: Vector2
-      //REVIEW* Done, please review
       this.measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ), {
         valueType: Vector2
       } );
 
       // @public {Property.<Vector2>} - model for the view coordinates of the tip of the measuring tape
       // This position sets reasonable model defaults for each scene: 1.0cm, 50cm, 500nm
-      //REVIEW add valueType: Vector2
-      //REVIEW* Done, please review
       this.measuringTapeTipPositionProperty = new Property( new Vector2( 250, 200 ), {
         valueType: Vector2
       } );

@@ -84,8 +84,6 @@ define( require => {
       return new Bounds2( 0, 0, this.width, this.height );
     }
 
-    //REVIEW missing visibility annotation
-    //REVIEW* added @public
     /**
      * Returns true if the visible bounds contains the lattice coordinate
      * @param {number} i - integer for the horizontal coordinate

@@ -1,8 +1,5 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW a better name for this might be DisturbanceType.  A wave is a continuous disturbance. A pulse is a one-time
-//REVIEW disturbance.
-//REVIEW* Renamed, please review.
 /**
  * A wave can be ongoing (CONTINUOUS) or a single wavelength (PULSE)
  *

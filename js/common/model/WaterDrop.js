@@ -42,8 +42,6 @@ define( require => {
       // should no longer be visible.  But the modeled time that it affects the lattice is the same.
       this.absorbed = false;
 
-      //REVIEW read-only?
-      //REVIEW*: Addressed, please review.
       // @public (read-only) {function} - called when absorbed
       this.onAbsorption = onAbsorption;
 
@@ -55,8 +53,6 @@ define( require => {
       this.sign = sign;
     }
 
-    //REVIEW missing doc and visibility annotation
-    //REVIEW* done, please review
     /**
      * Animate the water drop at a constant velocity toward the point at which it hits the water surface.
      * @param {number} dt - time in seconds
