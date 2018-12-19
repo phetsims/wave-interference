@@ -10,7 +10,7 @@ define( require => {
   'use strict';
 
   // modules
-  const InputTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/InputTypeIconNode' );
+  const DisturbanceTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/DisturbanceTypeIconNode' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
@@ -36,7 +36,7 @@ define( require => {
                  verticalOffset = 0,
                  buttonOffset = 0,
                  showButtonBackground = false ) {
-      const pulseIcon = new InputTypeIconNode( DisturbanceType.PULSE, { scale: 0.48 } );
+      const pulseIcon = new DisturbanceTypeIconNode( DisturbanceType.PULSE, { scale: 0.48 } );
 
       const buttonOptions = {
         centerY: sourceNode.centerY + buttonOffset,

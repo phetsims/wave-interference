@@ -67,7 +67,7 @@ define( require => {
       } );
 
       // For the water scene, remove water drops so one mode doesn't create waves in the other mode
-      this.disturbanceTypeProperty.link( inputType => this.removeAllDrops() );
+      this.disturbanceTypeProperty.link( () => this.removeAllDrops() );
     }
 
     /**

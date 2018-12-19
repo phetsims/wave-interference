@@ -246,7 +246,7 @@ define( require => {
       this.continuousWave2OscillatingProperty = new BooleanProperty( false );
 
       // When the user changes disturbance type, the button pops out and waves stop
-      this.disturbanceTypeProperty.link( inputType => {
+      this.disturbanceTypeProperty.link( () => {
         this.button1PressedProperty.value = false;
         this.continuousWave1OscillatingProperty.value = false;
         this.continuousWave2OscillatingProperty.value = false;

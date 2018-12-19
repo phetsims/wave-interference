@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW^ This is a visual representation of WaveTemporalType, so why is this class name totally different? why not WaveTermTypeNode?
-//REVIEW: Note to self, WaveTemporalType became DisturbanceType
+//REVIEW This is a visual representation of WaveTemporalType, so why is this class name totally different? why not WaveTermTypeNode?
+//REVIEW* Renamed to DisturbanceTypeIconNode, please review.
 /**
  * Shows the icons for the radio buttons that choose between pulse and continuous waves.
  *
@@ -25,7 +25,7 @@ define( require => {
   const MARGIN = 10;                       // Width of the pulse side segments, in pixels
   const WIDTH = 50;                        // Size of wave, in pixels
 
-  class InputTypeIconNode extends Node {
+  class DisturbanceTypeIconNode extends Node {
 
     //REVIEW rename to waveTemporalType
     //REVIEW* done, please review. UPDATE: also renamed to disturbanceType
@@ -73,5 +73,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'InputTypeIconNode', InputTypeIconNode );
+  return waveInterference.register( 'DisturbanceTypeIconNode', DisturbanceTypeIconNode );
 } );
