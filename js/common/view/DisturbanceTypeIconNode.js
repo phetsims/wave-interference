@@ -33,7 +33,8 @@ define( require => {
       super();
 
       //REVIEW Implementation is unnecessarily complicated because you're trying to do both icons in one class. Separate into 2 classes?
-      //REVIEW* That would lead to a significant amount of duplicated code.  What do you recommend?
+      //REVIEW That would lead to a significant amount of duplicated code.  What do you recommend?
+      //REVIEW I took a stab at separate classes and I'm convinced about the 'duplicated code'. So leave as is.
       const minAngle = disturbanceType === DisturbanceType.PULSE ? Math.PI : 0;
       const minX = disturbanceType === DisturbanceType.PULSE ? MARGIN : 0;
       const maxX = disturbanceType === DisturbanceType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
