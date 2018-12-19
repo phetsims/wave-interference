@@ -33,7 +33,7 @@ define( require => {
   class WaveInterferenceSlider extends HSlider {
 
     /**
-     * @param {Property} property //REVIEW {NumberProperty} ?
+     * @param {NumberProperty} property //REVIEW {NumberProperty} ? //REVIEW* updated, please review
      * @param {number} min
      * @param {number} max
      */

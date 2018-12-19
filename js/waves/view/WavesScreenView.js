@@ -214,7 +214,7 @@ define( require => {
         0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top
       );
 
-      //REVIEW Property's value parameter is not optional, use Property(null) here? validate value?
+      //REVIEW^ Property's value parameter is not optional, use Property(null) here? validate value?
       const measuringTapeProperty = new Property();
       model.sceneProperty.link( scene => {
         measuringTapeProperty.set( {
@@ -463,7 +463,7 @@ define( require => {
       }
       else {
 
-        //REVIEW #272 clarify emitter in this context
+        //REVIEW^ #272 clarify emitter in this context
         // @protected - placeholder for alternative emitter nodes
         this.emitterLayer = new Node();
         this.addChild( this.emitterLayer );

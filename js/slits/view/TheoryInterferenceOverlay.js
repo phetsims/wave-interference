@@ -19,7 +19,7 @@ define( require => {
   // constants
   const LENGTH = 500;
   const MAXIMUM_COLOR = 'yellow';
-  const MINIMUM_COLOR = 'red'; //REVIEW should this be PhetColorScheme.RED_COLOR_BLIND?
+  const MINIMUM_COLOR = 'red'; //REVIEW^ should this be PhetColorScheme.RED_COLOR_BLIND?
   const LINE_WIDTH = 1;
 
   class TheoryInterferenceOverlay extends Node {

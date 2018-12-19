@@ -43,7 +43,7 @@ define( require => {
 
       const graphWidth = WaveInterferenceConstants.WAVE_AREA_WIDTH;
 
-      //REVIEW nice to know that graphHeight and dy must be synchronized, but how?
+      //REVIEW^ nice to know that graphHeight and dy must be synchronized, but how?
       // Manually tuned so the graph is the appropriate height, must be synchronized with dy below.
       const graphHeight = WaveInterferenceConstants.WAVE_AREA_WIDTH * 0.3833333333333333;
 

@@ -367,7 +367,8 @@ define( require => {
 
       //REVIEW use arrow function?
       //REVIEW* Done, please review
-      //REVIEW while $h may have been in the copied code, consider using a more 'conventional' function name.
+
+      //REVIEW^ while $h may have been in the copied code, consider using a more 'conventional' function name.
       // store them in a nice function to match the math
       const $h = ( k, l ) => {
         if ( arguments.length === 0 ) {

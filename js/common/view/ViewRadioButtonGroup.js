@@ -1,6 +1,6 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW since this is related to ViewType, rename to ViewTypeRadioButtonGroup ?
+//REVIEW^ since this is related to ViewType, rename to ViewTypeRadioButtonGroup ?
 /**
  * Selects between Top View and Side View.
  *

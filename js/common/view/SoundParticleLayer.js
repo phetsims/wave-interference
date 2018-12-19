@@ -15,7 +15,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  //REVIEW say more about RESOLUTION. Looks like same semantics as resolution option to Node.rasterized, but I had to work for it.
+  //REVIEW^ say more about RESOLUTION. Looks like same semantics as resolution option to Node.rasterized, but I had to work for it.
   const RESOLUTION = 2; // Render at increased resolution so particles don't appear pixellated on a large screen.
 
   class SoundParticleLayer extends CanvasNode {
@@ -46,7 +46,7 @@ define( require => {
         waveAreaNodeBounds
       );
 
-      //REVIEW looks like this could be factored out of constructor
+      //REVIEW^ looks like this could be factored out of constructor
       const toImage = color => new ShadedSphereNode( 10, {
         mainColor: color,
         stroke: 'black'

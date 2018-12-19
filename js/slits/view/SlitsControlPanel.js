@@ -1,6 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW all of the ranges herein belong in the model, not in the view. They should be set on Scene.slitWidthProperty, where they will be needed for PhET-iO.
+//REVIEW^ all of the ranges herein belong in the model, not in the view. They should be set on Scene.slitWidthProperty,
+//REVIEW where they will be needed for PhET-iO.
 /**
  * Controls for the barrier/slits.
  *

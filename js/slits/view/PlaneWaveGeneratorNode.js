@@ -47,7 +47,7 @@ define( require => {
           center: verticalCylinderImageNode.center
         } );
 
-      //REVIEW assert( !options.child ) or your children may be blown away by the constructor caller
+      //REVIEW^ assert( !options.child ) or your children may be blown away by the constructor caller
       options = _.extend( { children: [ verticalCylinderImageNode, button ] }, options );
 
       this.mutate( options );

@@ -24,6 +24,7 @@ define( require => {
         font: WaveInterferenceConstants.DEFAULT_FONT,
 
         //REVIEW This seems like a sketchy thing to set for all Text in the sim. Why this value? Why handle it this way?
+        //REVIEW* This addresses numerous cases where `maxWidth: 120` would have to otherwise be set in client code.
         maxWidth: 120
       }, options ) );
     }

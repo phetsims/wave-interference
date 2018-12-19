@@ -116,8 +116,7 @@ define( require => {
         );
       } );
 
-      //REVIEW worthy of factoring out into its own class file, SoundViewTypeRadioButtonGroup?
-
+      //REVIEW^ worthy of factoring out into its own class file, SoundViewTypeRadioButtonGroup?
 
       //REVIEW PhET-iO: rename const to soundViewTypeRadioButtonGroup, since it's setting SoundViewType
       //REVIEW* Updated const name
@@ -280,7 +279,7 @@ define( require => {
         ];
       } );
 
-      //REVIEW move assignments of point areas closer to definition of these checkboxes?
+      //REVIEW^ move assignments of point areas closer to definition of these checkboxes?
       graphCheckbox.mouseArea = graphCheckbox.localBounds.dilated( 2 ).withX( separator.right );
       graphCheckbox.touchArea = graphCheckbox.mouseArea;
 

@@ -1,6 +1,9 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW very odd to have a class for this, especially since the icons are not at all related. Factory pattern would be better.
+//REVIEW very odd to have a class for this, especially since the icons are not at all related. Factory pattern would be
+// better.
+//REVIEW* They are all related in that they have commensurate dimensions, please see the last few lines
+//REVIEW* of the constructor.  What do you recommend?
 /**
  * Creates a set of uniformly-sized icons for each of the scenes.
  *
