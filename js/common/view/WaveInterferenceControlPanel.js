@@ -173,9 +173,11 @@ define( require => {
       // Create faucet icon, and rasterize to clip out invisible parts (like the ShooterNode)
       const sceneIcons = new WaveInterferenceSceneIcons();
 
-      //REVIEW worthy of factoring out into its own class file, SceneRadioButtonGroup?
+      //REVIEW^ worthy of factoring out into its own class file, SceneRadioButtonGroup?
+
       //REVIEW PhET-iO: rename const to sceneRadioButtonGroup
-      const sceneRadioButtons = new RadioButtonGroup( model.sceneProperty, [
+      //REVIEW*: Updated, please review.
+      const sceneRadioButtonGroup = new RadioButtonGroup( model.sceneProperty, [
         { value: model.waterScene, node: sceneIcons.faucetIcon },
         { value: model.soundScene, node: sceneIcons.speakerIcon },
         { value: model.lightScene, node: sceneIcons.laserPointerIcon }
@@ -196,14 +198,14 @@ define( require => {
       amplitudeTitle.centerX = centerX;
       amplitudeSliderContainer.centerX = centerX;
       if ( options.additionalControl ) {options.additionalControl.centerX = centerX;}
-      sceneRadioButtons.centerX = centerX;
+      sceneRadioButtonGroup.centerX = centerX;
       separator.centerX = centerX;
       const minX = _.min( [
         frequencySliderContainer.left,
         amplitudeSliderContainer.left,
         frequencyTitle.left,
         amplitudeTitle.left,
-        sceneRadioButtons.left
+        sceneRadioButtonGroup.left
       ] );
 
       // Align controls to the left
@@ -234,14 +236,14 @@ define( require => {
       // The Separation NumberControl is an additionalControl
       if ( options.additionalControl ) {
         options.additionalControl.top = y + 8;
-        sceneRadioButtons.top = options.additionalControl.bottom + 8 + 8;
+        sceneRadioButtonGroup.top = options.additionalControl.bottom + 8 + 8;
       }
       else {
-        sceneRadioButtons.top = y + 8;
+        sceneRadioButtonGroup.top = y + 8;
       }
       const HORIZONTAL_SEPARATOR_MARGIN = 7;
       const CHECKBOX_SPACING = 5;
-      separator.top = sceneRadioButtons.bottom + 12;
+      separator.top = sceneRadioButtonGroup.bottom + 12;
       graphCheckbox.top = separator.bottom + HORIZONTAL_SEPARATOR_MARGIN;
       soundViewTypeRadioButtonGroup.top = graphCheckbox.bottom + CHECKBOX_SPACING;
       screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
@@ -265,7 +267,7 @@ define( require => {
           amplitudeSliderContainer,
 
           ...( options.additionalControl ? [ options.additionalControl ] : [] ),
-          sceneRadioButtons,
+          sceneRadioButtonGroup,
           separator,
           graphCheckbox,
 
