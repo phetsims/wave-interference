@@ -58,10 +58,13 @@ define( require => {
       averagedIntensities.length = intensities.length;
 
       //REVIEW explain why it's OK that the first and last values in averagedIntensities are not averages
-      averagedIntensities[ 0 ] = intensities[ 0 ];
-      averagedIntensities[ averagedIntensities.length - 1 ] = intensities[ averagedIntensities.length - 1 ];
+      //REVIEW* I average them now, please review
+      // End points only have one neighbor, so they get a 2-point average
+      averagedIntensities[ 0 ] = ( intensities[ 0 ] + intensities[ 1 ] ) / 2;
+      averagedIntensities[ averagedIntensities.length - 1 ] =
+        ( intensities[ averagedIntensities.length - 1 ] + intensities[ averagedIntensities.length - 2 ] ) / 2;
 
-      // Average over a window of nearest neighbors
+      // Interior points average over self + both neighbors
       for ( let i = 1; i < intensities.length - 1; i++ ) {
         averagedIntensities[ i ] = ( intensities[ i - 1 ] + intensities[ i ] + intensities[ i + 1 ] ) / 3;
       }
