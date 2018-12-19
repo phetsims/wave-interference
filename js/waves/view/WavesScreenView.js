@@ -19,7 +19,7 @@ define( require => {
   const IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   const LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
-  const LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
+  const LightWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/LightWaveGeneratorNode' );
   const LightScreenNode = require( 'WAVE_INTERFERENCE/common/view/LightScreenNode' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
@@ -33,7 +33,7 @@ define( require => {
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
-  const SoundEmitterNode = require( 'WAVE_INTERFERENCE/common/view/SoundEmitterNode' );
+  const SoundWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/SoundWaveGeneratorNode' );
   const SoundParticleLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleLayer' );
   const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
@@ -42,7 +42,7 @@ define( require => {
   const ViewRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterDropLayer = require( 'WAVE_INTERFERENCE/common/view/WaterDropLayer' );
-  const WaterEmitterNode = require( 'WAVE_INTERFERENCE/common/view/WaterEmitterNode' );
+  const WaterWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaterWaveGeneratorNode' );
   const WaterSideViewNode = require( 'WAVE_INTERFERENCE/common/view/WaterSideViewNode' );
   const WaveAreaGraphNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaGraphNode' );
   const WaveAreaNode = require( 'WAVE_INTERFERENCE/common/view/WaveAreaNode' );
@@ -77,8 +77,8 @@ define( require => {
         // Allow the user to choose between pulse and continuous.
         showPulseContinuousRadioButtons: true,
 
-        // If true, Nodes will be added that show each Emitter, otherwise no EmitterNodes are shown.
-        showSceneSpecificEmitterNodes: true,
+        // If true, Nodes will be added that show each wave generator, otherwise none are shown.
+        showSceneSpecificWaveGeneratorNodes: true,
 
         // Scale factor for the brightness on the LightScreenNode,
         // see https://github.com/phetsims/wave-interference/issues/161
@@ -445,10 +445,10 @@ define( require => {
        * Creates a ToggleNode that shows the primary or secondary source
        * @param {boolean} isPrimarySource - true if it should show the primary source
        */
-      const createEmitterToggleNode = isPrimarySource => new ToggleNode( model.sceneProperty, [
-        { value: model.waterScene, node: new WaterEmitterNode( model, this.waveAreaNode, isPrimarySource ) },
-        { value: model.soundScene, node: new SoundEmitterNode( model, this.waveAreaNode, isPrimarySource ) },
-        { value: model.lightScene, node: new LightEmitterNode( model, this.waveAreaNode, isPrimarySource ) }
+      const createWaveGeneratorToggleNode = isPrimarySource => new ToggleNode( model.sceneProperty, [
+        { value: model.waterScene, node: new WaterWaveGeneratorNode( model, this.waveAreaNode, isPrimarySource ) },
+        { value: model.soundScene, node: new SoundWaveGeneratorNode( model, this.waveAreaNode, isPrimarySource ) },
+        { value: model.lightScene, node: new LightWaveGeneratorNode( model, this.waveAreaNode, isPrimarySource ) }
       ], {
         alignChildren: ToggleNode.NONE
       } );
@@ -457,16 +457,17 @@ define( require => {
 
       this.addChild( waterDropLayer );
       this.addChild( waterSideViewNode );
-      if ( options.showSceneSpecificEmitterNodes ) {
-        this.addChild( createEmitterToggleNode( true ) ); // Primary source
-        this.addChild( createEmitterToggleNode( false ) ); // Secondary source
+      if ( options.showSceneSpecificWaveGeneratorNodes ) {
+        this.addChild( createWaveGeneratorToggleNode( true ) ); // Primary source
+        this.addChild( createWaveGeneratorToggleNode( false ) ); // Secondary source
       }
       else {
 
-        //REVIEW^ #272 clarify emitter in this context
-        // @protected - placeholder for alternative emitter nodes
-        this.emitterLayer = new Node();
-        this.addChild( this.emitterLayer );
+        //REVIEW #272 clarify emitter in this context
+        //REVIEW* I renamed emitter to wave generator
+        // @protected - placeholder for alternative wave generator nodes
+        this.waveGeneratorLayer = new Node();
+        this.addChild( this.waveGeneratorLayer );
       }
       this.addChild( timeControls );
       this.addChild( soundParticleLayer );

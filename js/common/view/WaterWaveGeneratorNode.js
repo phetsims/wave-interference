@@ -1,9 +1,10 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW^ #272 clarify emitter in this context
+//REVIEW #272 clarify emitter in this context
+//REVIEW* Renamed emitter => wave generator
 /**
- * For the water scene, shows one hose for each emitter, each with its own on/off button. This implementation is trivial
- * and doesn't add state or methods, it simplifies readability at the call site, so we keep it as a convenience
+ * For the water scene, shows one hose for each wave generator, each with its own on/off button. This implementation is
+ * trivial and doesn't add state or methods, it simplifies readability at the call site, so we keep it as a convenience
  * constructor.
  *
  * @author Sam Reid (PhET Interactive Simulations)
@@ -13,7 +14,7 @@ define( require => {
 
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
-  const EmitterNode = require( 'WAVE_INTERFERENCE/common/view/EmitterNode' );
+  const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -24,7 +25,7 @@ define( require => {
   // than one frame)
   const FAUCET_VERTICAL_OFFSET = -110;
 
-  class WaterEmitterNode extends EmitterNode {
+  class WaterWaveGeneratorNode extends WaveGeneratorNode {
 
     /**
      * @param {WavesScreenModel} model
@@ -59,5 +60,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'WaterEmitterNode', WaterEmitterNode );
+  return waveInterference.register( 'WaterWaveGeneratorNode', WaterWaveGeneratorNode );
 } );

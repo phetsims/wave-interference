@@ -30,8 +30,8 @@ define( require => {
       super( model, alignGroup, {
         showPulseContinuousRadioButtons: false,
 
-        // Show the plane wave emitter instead of the individual scene-specific emitters
-        showSceneSpecificEmitterNodes: false
+        // Show the plane wave generator instead of the individual scene-specific emitters
+        showSceneSpecificWaveGeneratorNodes: false
       } );
 
       // The Slits screen has an additional control panel below the main control panel, which controls the barrier/slits
@@ -78,9 +78,9 @@ define( require => {
         } ) );
       }
 
-      // Show the plane wave emitter instead of the individual scene-specific emitters
+      // Show the plane wave generator instead of the individual scene-specific emitters
       const planeWaveGeneratorNode = new PlaneWaveGeneratorNode( model, this.waveAreaNode.bounds );
-      this.emitterLayer.addChild( planeWaveGeneratorNode );
+      this.waveGeneratorLayer.addChild( planeWaveGeneratorNode );
     }
   }
 

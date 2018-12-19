@@ -40,9 +40,9 @@ define( require => {
         model,
         scene => new RoundStickyToggleButton( false, true, scene.button1PressedProperty, {
           scale: 1.2,
-          baseColor: WaveInterferenceConstants.CONTINUOUS_EMITTER_BUTTON_COLOR,
-          radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS,
-          touchAreaDilation: WaveInterferenceConstants.EMITTER_BUTTON_TOUCH_AREA_DILATION
+          baseColor: WaveInterferenceConstants.CONTINUOUS_DISTURBANCE_BUTTON_COLOR,
+          radius: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_RADIUS,
+          touchAreaDilation: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_TOUCH_AREA_DILATION
         } ), {
           center: verticalCylinderImageNode.center
         } );

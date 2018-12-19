@@ -55,17 +55,18 @@ define( require => {
     // lineJoin for the graph and the surface of the water
     CHART_LINE_JOIN: 'round',
 
-    // Look of the emitter button across all 3 scenes
+    // Look of the wave generator button across all 3 scenes
     //REVIEW where is the color for the green emitter button in pulse mode?
-    //REVIEW* I factored out PULSE_EMITTER_BUTTON_COLOR and renamed EMITTER_BUTTON_COLOR to CONTINUOUS_EMITTER_BUTTON_COLOR
-    CONTINUOUS_EMITTER_BUTTON_COLOR: 'red',
-    PULSE_EMITTER_BUTTON_COLOR: '#33dd33',
-    EMITTER_BUTTON_RADIUS: 14,
-    EMITTER_BUTTON_TOUCH_AREA_DILATION: 8,
+    //REVIEW* I factored out PULSE_DISTURBANCE_BUTTON_COLOR and renamed EMITTER_BUTTON_COLOR to CONTINUOUS_DISTURBANCE_BUTTON_COLOR
+    //REVIEW* And renamed "emitter" to "wave generator"
+    CONTINUOUS_DISTURBANCE_BUTTON_COLOR: 'red',
+    PULSE_DISTURBANCE_BUTTON_COLOR: '#33dd33',
+    WAVE_GENERATOR_BUTTON_RADIUS: 14,
+    WAVE_GENERATOR_BUTTON_TOUCH_AREA_DILATION: 8,
 
     FEMTO: 1E-15,
 
-    //REVIEW no idea how I'd coordinate this, and WaterEmitterNode waterDrops does not exist
+    //REVIEW no idea how I'd coordinate this, and WaterWaveGeneratorNode waterDrops does not exist
     //REVIEW* WaveInterferenceUtils.getWaterDropX already leverages this value accordingly, so I revised the docs
     // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).
     POINT_SOURCE_HORIZONTAL_COORDINATE: 23,

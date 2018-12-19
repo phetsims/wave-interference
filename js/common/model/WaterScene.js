@@ -48,8 +48,8 @@ define( require => {
       //REVIEW what is "the phase"? units, range and semantics of values,...
       //REVIEW* I added docs, please review.
       // @private {number|null} - record the time (in seconds) that the previous water drop was emitted, so the next
-      // drop (or drops, in the case of two emitters) can be emitted at the appropriate time.  Null means no drops have
-      // been emitted.
+      // drop (or drops, in the case of two wave generators) can be emitted at the appropriate time.  Null means no
+      // drops have fallen.
       this.lastDropTime = null;
 
       // prep to fire a new drop in the next frame, but only if the other source wasn't already setting the phase

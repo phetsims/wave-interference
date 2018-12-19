@@ -17,7 +17,7 @@ define( require => {
   const FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   const Image = require( 'SCENERY/nodes/Image' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
-  const LightEmitterNode = require( 'WAVE_INTERFERENCE/common/view/LightEmitterNode' );
+  const LightWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/LightWaveGeneratorNode' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker/speaker_MID.png' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -34,7 +34,7 @@ define( require => {
       this.speakerIcon = new Image( speakerImage );
 
       // @public - Laser Pointer icon
-      this.laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), LightEmitterNode.DEFAULT_OPTIONS );
+      this.laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), LightWaveGeneratorNode.DEFAULT_OPTIONS );
 
       // Uniform sizing.
       const iconWidth = 29;

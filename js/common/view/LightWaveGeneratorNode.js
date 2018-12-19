@@ -1,8 +1,9 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW^ #272 clarify emitter in this context
+//REVIEW #272 clarify emitter in this context
+//REVIEW* Renamed emitter => wave generator
 /**
- * For the light scene, shows one laser pointer for each emitter, each with its own on/off button.
+ * For the light scene, shows one laser pointer for each wave generator, each with its own on/off button.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -11,7 +12,7 @@ define( require => {
 
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
-  const EmitterNode = require( 'WAVE_INTERFERENCE/common/view/EmitterNode' );
+  const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -23,7 +24,7 @@ define( require => {
     hasButton: false
   };
 
-  class LightEmitterNode extends EmitterNode {
+  class LightWaveGeneratorNode extends WaveGeneratorNode {
 
     /**
      * @param {WavesScreenModel} model
@@ -48,5 +49,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'LightEmitterNode', LightEmitterNode );
+  return waveInterference.register( 'LightWaveGeneratorNode', LightWaveGeneratorNode );
 } );

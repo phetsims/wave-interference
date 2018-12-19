@@ -1,8 +1,9 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW^ #272 Clarify 'emitter' in this context, or use a synonym, to prevent confusion with AXON/Emitter.
+//REVIEW #272 Clarify 'emitter' in this context, or use a synonym, to prevent confusion with AXON/Emitter.
+//REVIEW: I renamed emitter => wave generator
 /**
- * For each scene, shows one node for each emitter, each with its own on/off button.
+ * For each scene, shows one node for each wave generator, each with its own on/off button.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -19,7 +20,7 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const DisturbanceType = require( 'WAVE_INTERFERENCE/common/model/DisturbanceType' );
 
-  class EmitterNode extends Node {
+  class WaveGeneratorNode extends Node {
 
     /**
      * @param {WavesScreenModel} model
@@ -27,7 +28,7 @@ define( require => {
      * @param {Node} waveAreaNode - for bounds
      * @param {number} buttonPosition - x offset
      * @param {boolean} isPrimarySource
-     * @param {Node} sourceNode - for the emitters, shared with scenery DAG
+     * @param {Node} sourceNode - for the wave generators, shared with scenery DAG
      * @param {number} [verticalOffset] - offset for the hose, so the water has some distance to fall
      * @param {number} [buttonOffset] - offset for the button, so it can be positioned on the pipe
      * @param {boolean} [showButtonBackground] - true if a new background for the button should be added
@@ -41,9 +42,9 @@ define( require => {
       const buttonOptions = {
         centerY: sourceNode.centerY + buttonOffset,
         left: buttonPosition,
-        radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS,
+        radius: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_RADIUS,
         content: pulseIcon,
-        touchAreaDilation: WaveInterferenceConstants.EMITTER_BUTTON_TOUCH_AREA_DILATION
+        touchAreaDilation: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_TOUCH_AREA_DILATION
         // baseColor is set in the link function below
       };
 
@@ -80,8 +81,8 @@ define( require => {
       // When changing between PULSE and CONTINUOUS, update the buttons.
       scene.disturbanceTypeProperty.link( disturbanceType => {
         button.setBaseColor( disturbanceType === DisturbanceType.CONTINUOUS ?
-                               WaveInterferenceConstants.CONTINUOUS_EMITTER_BUTTON_COLOR :
-                               WaveInterferenceConstants.PULSE_EMITTER_BUTTON_COLOR );
+                             WaveInterferenceConstants.CONTINUOUS_DISTURBANCE_BUTTON_COLOR :
+                             WaveInterferenceConstants.PULSE_DISTURBANCE_BUTTON_COLOR );
         pulseIcon.visible = disturbanceType === DisturbanceType.PULSE;
           updateEnabled();
         }
@@ -110,5 +111,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'EmitterNode', EmitterNode );
+  return waveInterference.register( 'WaveGeneratorNode', WaveGeneratorNode );
 } );

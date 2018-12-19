@@ -1,8 +1,9 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW^ #272 clarify emitter in this context
+//REVIEW #272 clarify emitter in this context
+//REVIEW* Renamed emitter => wave generator
 /**
- * For the sound scene, shows one speaker for each emitter, each with its own on/off button.
+ * For the sound scene, shows one speaker for each wave generator, each with its own on/off button.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -10,7 +11,7 @@ define( require => {
   'use strict';
 
   // modules
-  const EmitterNode = require( 'WAVE_INTERFERENCE/common/view/EmitterNode' );
+  const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const Image = require( 'SCENERY/nodes/Image' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -63,7 +64,7 @@ define( require => {
     speakerR10Image
   ];
 
-  class SoundEmitterNode extends EmitterNode {
+  class SoundWaveGeneratorNode extends WaveGeneratorNode {
 
     /**
      * @param {WavesScreenModel} model
@@ -91,5 +92,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'SoundEmitterNode', SoundEmitterNode );
+  return waveInterference.register( 'SoundWaveGeneratorNode', SoundWaveGeneratorNode );
 } );

@@ -1,8 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * The scene determines the medium and emitter types, coordinate frames, relative scale, etc.  For a description of
- * which features are independent or shared across scenes, please see
+ * The scene determines the medium and wave generator types, coordinate frames, relative scale, etc.  For a description
+ * of which features are independent or shared across scenes, please see
  * https://github.com/phetsims/wave-interference/issues/179#issuecomment-437176489
  *
  * @author Sam Reid (PhET Interactive Simulations)
@@ -57,7 +57,7 @@ define( require => {
       // @public {number} - elapsed time in seconds
       this.timeProperty = new NumberProperty( 0 );
 
-      // @public {number} phase of the emitter
+      // @public {number} phase of the wave generator
       this.phase = 0;
 
       // @private {number} - indicates the time when the pulse began, or 0 if there is no pulse.
