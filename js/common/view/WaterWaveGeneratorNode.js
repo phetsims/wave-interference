@@ -1,7 +1,5 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW #272 clarify emitter in this context
-//REVIEW* Renamed emitter => wave generator
 /**
  * For the water scene, shows one hose for each wave generator, each with its own on/off button. This implementation is
  * trivial and doesn't add state or methods, it simplifies readability at the call site, so we keep it as a convenience

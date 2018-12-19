@@ -1,7 +1,5 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW #272 clarify emitter in this context
-//REVIEW* Renamed emitter => wave generator
 /**
  * For the light scene, shows one laser pointer for each wave generator, each with its own on/off button.
  *

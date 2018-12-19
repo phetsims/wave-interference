@@ -1,7 +1,5 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW #272 Clarify 'emitter' in this context, or use a synonym, to prevent confusion with AXON/Emitter.
-//REVIEW: I renamed emitter => wave generator
 /**
  * For each scene, shows one node for each wave generator, each with its own on/off button.
  *
