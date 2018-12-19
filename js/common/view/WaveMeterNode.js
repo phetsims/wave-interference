@@ -142,7 +142,8 @@ define( require => {
         dynamicSeries.probeNode = probeNode;
 
         //REVIEW use arrow function?
-        const updateSamples = function() {
+        //REVIEW* Done, please review
+        const updateSamples = () => {
 
           // Set the range by incorporating the model's time units, so it will match with the timer.
           const maxSeconds = NUMBER_OF_TIME_DIVISIONS;

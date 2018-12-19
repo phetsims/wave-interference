@@ -333,8 +333,9 @@ define( require => {
       }
 
       //REVIEW use arrow function?
+      //REVIEW* Done, please review
       // initialize the h values
-      const h = function( n, m ) {
+      const h = ( n, m ) => {
         if ( arguments.length === 0 ) {
           return h_es;
         }
@@ -365,9 +366,10 @@ define( require => {
       Fourier.filter( h_hats, dims, NaN, NaN );
 
       //REVIEW use arrow function?
+      //REVIEW* Done, please review
       //REVIEW while $h may have been in the copied code, consider using a more 'conventional' function name.
       // store them in a nice function to match the math
-      const $h = function( k, l ) {
+      const $h = ( k, l ) => {
         if ( arguments.length === 0 ) {
           return h_hats;
         }

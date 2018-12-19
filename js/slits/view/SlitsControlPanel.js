@@ -80,7 +80,8 @@ define( require => {
         slitWidthString, model.soundScene.slitWidthProperty, soundRange, _.extend( {
           delta: 1, // cm
           //REVIEW use arrow function?
-          constrainValue: function( value ) { return Util.roundToInterval( value, 10 ); },
+          //REVIEW*: done, please review
+          constrainValue: value => Util.roundToInterval( value, 10 ),
           valuePattern: cmValueString,
           majorTicks: createTicks( soundRange )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
@@ -90,7 +91,8 @@ define( require => {
         slitWidthString, model.lightScene.slitWidthProperty, lightRange, _.extend( {
           delta: 10, // nm
           //REVIEW use arrow function?
-          constrainValue: function( value ) { return Util.roundToInterval( value, 50 ); },
+          //REVIEW* Done, please review
+          constrainValue: value => Util.roundToInterval( value, 50 ),
           valuePattern: nmValueString,
           majorTicks: createTicks( lightRange )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
@@ -128,7 +130,8 @@ define( require => {
         _.extend( {
           delta: 1, // cm
           //REVIEW use arrow function?
-          constrainValue: function( value ) { return Util.roundToInterval( value, 10 ); },
+          //REVIEW* Done, please review
+          constrainValue: value => Util.roundToInterval( value, 10 ),
           valuePattern: cmValueString,
           majorTicks: createTicks( soundSeparationRange )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
@@ -141,7 +144,8 @@ define( require => {
         _.extend( {
           delta: 10, // nm
           //REVIEW use arrow function?
-          constrainValue: function( value ) { return Util.roundToInterval( value, 50 ); },
+          //REVIEW* Done, please review
+          constrainValue: value => Util.roundToInterval( value, 50 ),
           valuePattern: nmValueString,
           majorTicks: createTicks( lightSeparationRange )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
