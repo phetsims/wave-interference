@@ -47,7 +47,7 @@ define( require => {
 
           // Adjusted based on the dimension of the faucet image to align with the horizontal water drop location.
           // The vertical offset is adjusted with FAUCET_VERTICAL_OFFSET
-          x: WaveInterferenceUtils.getWaterDropX( model, waveAreaNode.bounds ),
+          x: WaveInterferenceUtils.getWaterDropX( model.waterScene.lattice.visibleBounds, waveAreaNode.bounds ),
           scale: 0.25,
           horizontalPipeLength: 1600, // Long enough that it still shows even for extreme aspect ratios
 

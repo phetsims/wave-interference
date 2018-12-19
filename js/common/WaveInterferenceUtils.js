@@ -99,17 +99,17 @@ define( require => {
     }
 
     //REVIEW unnecessary coupling, passing in the entire model when only model.waterScene.lattice.visibleBounds is needed
+    //REVIEW* I changed this to use waterSceneLatticeBounds
     /**
      * Gets the horizontal coordinate where water drops come out--aligned with the oscillation cell.
-     * @param {WavesScreenModel} model
+     * @param {Bounds2} waterSceneLatticeBounds - visible bounds for water scene lattice
      * @param {Bounds2} waveAreaViewBounds
      * @returns {number}
      */
-    static getWaterDropX( model, waveAreaViewBounds ) {
+    static getWaterDropX( waterSceneLatticeBounds, waveAreaViewBounds ) {
 
       // Compute the x-coordinate where the drop should be shown.
-      const sceneBounds = model.waterScene.lattice.visibleBounds;
-      const transform = ModelViewTransform2.createRectangleMapping( sceneBounds, waveAreaViewBounds );
+      const transform = ModelViewTransform2.createRectangleMapping( waterSceneLatticeBounds, waveAreaViewBounds );
 
       // Note this is nudged over 1/2 a cell so it will appear in the center of the cell rather than
       // at the left edge of the cell.  See also WaveInterferenceUtils.getWaterSideShape.

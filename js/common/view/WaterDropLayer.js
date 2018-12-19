@@ -31,7 +31,10 @@ define( require => {
         waveAreaNodeBounds
       );
 
-      const waterDropX = WaveInterferenceUtils.getWaterDropX( model, waveAreaNodeBounds );
+      const waterDropX = WaveInterferenceUtils.getWaterDropX(
+        model.waterScene.lattice.visibleBounds,
+        waveAreaNodeBounds
+      );
 
       // Preallocate Images that will be associated with different water drop instances.
       const MAX_DROPS = 4;
