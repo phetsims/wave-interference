@@ -99,7 +99,8 @@ define( require => {
           amplitude,
           buttonPressed,
           sourceSeparation,
-          100, //REVIEW^ magic number? param is y - distance to fall before the particles meets the plane of the lattice
+          //REVIEW magic number? param is y - distance to fall before the particles meets the plane of the lattice
+          //REVIEW* I moved this to WaterDrop and documented better
           sign,
           () => {
 

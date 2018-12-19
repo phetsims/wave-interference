@@ -16,6 +16,7 @@ define( require => {
   // constants
   // Manually tuned so that the speed of the water drops visually approximates the speed of the wave in water side view
   const WATER_DROP_SPEED = 140;
+  const INITIAL_DISTANCE_ABOVE_LATTICE = 100; // in view coordinates
 
   class WaterDrop {
 
@@ -36,7 +37,7 @@ define( require => {
       this.startsOscillation = startsOscillation;
 
       // @public (read-only)
-      this.y = y;
+      this.y = INITIAL_DISTANCE_ABOVE_LATTICE;
 
       // @public - In side view, if the drop has gone beneath the water, it gets absorbed.  In this case, it means it
       // should no longer be visible.  But the modeled time that it affects the lattice is the same.
