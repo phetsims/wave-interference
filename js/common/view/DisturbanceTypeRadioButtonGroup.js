@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW^ since this is related to WaveTemporalType, rename to WaveTemporalTypeRadioButtonGroup ?
-//REVIEW: Note to self, WaveTemporalType became DisturbanceType
+//REVIEW since this is related to WaveTemporalType, rename to WaveTemporalTypeRadioButtonGroup ?
+//REVIEW*: Renamed to DisturbanceTypeRadioButtonGroup
 /**
  * Shows the "pulse" vs "continuous" radio buttons.
  *
@@ -16,7 +16,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const DisturbanceType = require( 'WAVE_INTERFERENCE/common/model/DisturbanceType' );
 
-  class PulseContinuousRadioButtonGroup extends RadioButtonGroup {
+  class DisturbanceTypeRadioButtonGroup extends RadioButtonGroup {
 
     /**
      * @param {Property.<DisturbanceType>} disturbanceTypeProperty
@@ -42,5 +42,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'PulseContinuousRadioButtonGroup', PulseContinuousRadioButtonGroup );
+  return waveInterference.register( 'DisturbanceTypeRadioButtonGroup', DisturbanceTypeRadioButtonGroup );
 } );

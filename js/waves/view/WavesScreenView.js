@@ -26,7 +26,7 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
   const Property = require( 'AXON/Property' );
-  const PulseContinuousRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/PulseContinuousRadioButtonGroup' );
+  const DisturbanceTypeRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/DisturbanceTypeRadioButtonGroup' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const RichText = require( 'SCENERY/nodes/RichText' );
@@ -362,7 +362,7 @@ define( require => {
 
         this.addChild( new SceneToggleNode(
           model,
-          scene => new PulseContinuousRadioButtonGroup( scene.disturbanceTypeProperty ), {
+          scene => new DisturbanceTypeRadioButtonGroup( scene.disturbanceTypeProperty ), {
             bottom: this.waveAreaNode.bottom,
             centerX: ( this.waveAreaNode.left + this.layoutBounds.left ) / 2
           } ) );
