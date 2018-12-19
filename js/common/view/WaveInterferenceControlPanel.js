@@ -111,8 +111,6 @@ define( require => {
         );
       } );
 
-      //REVIEW^ worthy of factoring out into its own class file, SoundViewTypeRadioButtonGroup?
-
       const soundViewTypeRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
         node: new WaveInterferenceText( wavesString ),
         value: SoundViewType.WAVES,
