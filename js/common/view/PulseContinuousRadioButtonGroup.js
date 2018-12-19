@@ -1,6 +1,6 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW since this is related to WaveTemporalType, rename to WaveTemporalTypeRadioButtonGroup ?
+//REVIEW^ since this is related to WaveTemporalType, rename to WaveTemporalTypeRadioButtonGroup ?
 /**
  * Shows the "pulse" vs "continuous" radio buttons.
  *

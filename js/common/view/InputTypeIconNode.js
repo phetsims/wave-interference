@@ -1,6 +1,6 @@
 // Copyright 2018, University of Colorado Boulder
 
-//REVIEW This is a visual representation of WaveTemporalType, so why is this class name totally different? why not WaveTermTypeNode?
+//REVIEW^ This is a visual representation of WaveTemporalType, so why is this class name totally different? why not WaveTermTypeNode?
 /**
  * Shows the icons for the radio buttons that choose between pulse and continuous waves.
  *
@@ -26,17 +26,20 @@ define( require => {
 
   class InputTypeIconNode extends Node {
 
+    //REVIEW rename to waveTemporalType
+    //REVIEW* done, please review
     /**
-     * @param {WaveTemporalType} incidentWaveType //REVIEW rename to waveTemporalType
+     * @param {WaveTemporalType} waveTemporalType
      * @param {Object} [options]
      */
-    constructor( incidentWaveType, options ) {
+    constructor( waveTemporalType, options ) {
       super();
 
       //REVIEW Implementation is unnecessarily complicated because you're trying to do both icons in one class. Separate into 2 classes?
-      const minAngle = incidentWaveType === WaveTemporalType.PULSE ? Math.PI : 0;
-      const minX = incidentWaveType === WaveTemporalType.PULSE ? MARGIN : 0;
-      const maxX = incidentWaveType === WaveTemporalType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
+      //REVIEW* That would lead to a significant amount of duplicated code.  What do you recommend?
+      const minAngle = waveTemporalType === WaveTemporalType.PULSE ? Math.PI : 0;
+      const minX = waveTemporalType === WaveTemporalType.PULSE ? MARGIN : 0;
+      const maxX = waveTemporalType === WaveTemporalType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
 
       const shape = new Shape();
       for ( let i = 0; i < NUMBER_OF_SAMPLES; i++ ) {
@@ -44,7 +47,7 @@ define( require => {
         const y = -Math.cos( angle ) * WAVE_HEIGHT;
         const x = Util.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
         if ( i === 0 ) {
-          if ( incidentWaveType === WaveTemporalType.PULSE ) {
+          if ( waveTemporalType === WaveTemporalType.PULSE ) {
             shape.moveTo( x - MARGIN, y );
             shape.lineTo( x, y );
           }
@@ -56,7 +59,7 @@ define( require => {
           shape.lineTo( x, y );
         }
       }
-      if ( incidentWaveType === WaveTemporalType.PULSE ) {
+      if ( waveTemporalType === WaveTemporalType.PULSE ) {
         shape.lineToRelative( MARGIN, 0 );
       }
 
