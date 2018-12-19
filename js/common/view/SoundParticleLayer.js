@@ -15,8 +15,11 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  //REVIEW^ say more about RESOLUTION. Looks like same semantics as resolution option to Node.rasterized, but I had to work for it.
-  const RESOLUTION = 2; // Render at increased resolution so particles don't appear pixellated on a large screen.
+  //REVIEW say more about RESOLUTION. Looks like same semantics as resolution option to Node.rasterized, but I had to work for it.
+  //REVIEW* I added a note about that--does that look good to you?  Should more be added here?
+  // Render at increased resolution so particles don't appear pixellated on a large screen.  See Node.rasterized's
+  // resolution option.
+  const RESOLUTION = 2;
 
   class SoundParticleLayer extends CanvasNode {
 
