@@ -49,20 +49,13 @@ define( require => {
         waveAreaNodeBounds
       );
 
-      //REVIEW^ looks like this could be factored out of constructor
-      const toImage = color => new ShadedSphereNode( 10, {
-        mainColor: color,
-        stroke: 'black'
-      } ).rasterized( {
-        resolution: RESOLUTION,
-        useCanvas: true
-      } ).children[ 0 ].image;
+      //REVIEW looks like this could be factored out of constructor
+      //REVIEW* I moved it down below the class
+      // @private
+      this.whiteSphereImage = createSphereImage( 'rgb(210,210,210)' );
 
       // @private
-      this.whiteSphereImage = toImage( 'rgb(210,210,210)' );
-
-      // @private
-      this.redSphereImage = toImage( 'red' );
+      this.redSphereImage = createSphereImage( 'red' );
 
       // At the end of each model step, update all of the particles as a batch.
       const update = () => {
@@ -96,6 +89,19 @@ define( require => {
       } );
     }
   }
+
+  /**
+   * Create an image of a ShadedSphereNode for the given color.
+   * @param {ColorDef} color
+   * @returns {HTMLImageElement|HTMLCanvasElement}
+   */
+  const createSphereImage = color => new ShadedSphereNode( 10, {
+    mainColor: color,
+    stroke: 'black'
+  } ).rasterized( {
+    resolution: RESOLUTION,
+    useCanvas: true
+  } ).children[ 0 ].image;
 
   return waveInterference.register( 'SoundParticleLayer', SoundParticleLayer );
 } );
