@@ -93,6 +93,8 @@ define( require => {
   };
 
   //REVIEW assert that WaveInterferenceConstants.LATTICE_DIMENSION is an odd integer
+  //REVIEW* done, please review
+  assert && assert( WaveInterferenceConstants.LATTICE_DIMENSION % 2 === 1, 'lattice dimension must be odd' );
 
   waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );
 
