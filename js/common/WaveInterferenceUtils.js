@@ -60,7 +60,7 @@ define( require => {
      */
     static getWaterSideY( waveAreaBounds, waveValue ) {
 
-      //REVIEW explain the magic numbers here
+      //REVIEW^ explain the magic numbers here
       return Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 80, waveValue );
     }
 

@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 //REVIEW I see no "SourceScene".  Do you mean "SoundScene"?
-//REVIEW: Updated, thanks!
+//REVIEW*: Updated, thanks!
 /**
  * For the SoundScene, selects whether to display waves, particles or both.
  *

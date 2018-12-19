@@ -43,7 +43,8 @@ define( require => {
       this.absorbed = false;
 
       //REVIEW read-only?
-      // @public {function} - called when absorbed
+      //REVIEW*: Addressed, please review.
+      // @public (read-only) {function} - called when absorbed
       this.onAbsorption = onAbsorption;
 
       // @public (read-only) - the distance between the sources when this drop was released, used to show the
@@ -55,6 +56,12 @@ define( require => {
     }
 
     //REVIEW missing doc and visibility annotation
+    //REVIEW* done, please review
+    /**
+     * Animate the water drop at a constant velocity toward the point at which it hits the water surface.
+     * @param {number} dt - time in seconds
+     * @public
+     */
     step( dt ) {
 
       this.y -= dt * WATER_DROP_SPEED;

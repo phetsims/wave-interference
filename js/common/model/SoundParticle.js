@@ -42,6 +42,7 @@ define( require => {
     constructor( i, j, x, y ) {
 
       //REVIEW I don't see assignments to i,j,x,y anywhere.  Should these be read-only?
+      //REVIEW* Addressed below, please review.
       // @public (read-only) {number} - horizontal lattice coordinate of the particle
       this.i = i;
 

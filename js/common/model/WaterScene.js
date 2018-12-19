@@ -26,23 +26,26 @@ define( require => {
       super( config );
 
       //REVIEW add value validation? range: this.frequencyProperty.range ?
+      //REVIEW* Please see question in Scene.sourceSeparationProperty REVIEW* comment
       // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
       // gets propagated to the lattice via the water drops
       this.desiredFrequencyProperty = new NumberProperty( this.frequencyProperty.initialValue );
 
       //REVIEW add value validation?
+      //REVIEW* Please see question in Scene.sourceSeparationProperty REVIEW* comment
       // @public - In the water Scene, the user specifies the desired source separation.  This is the position of
       // the faucets.  The sourceSeparationProperty indicates the sources of oscillation once the water has struck.
       this.desiredSourceSeparationProperty = new NumberProperty( this.sourceSeparationProperty.value );
 
       //REVIEW add value validation?
+      //REVIEW* Please see question in Scene.sourceSeparationProperty REVIEW* comment
       // @public - the amplitude the user has selected
       this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude );
 
       // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
       this.waterDrops = [];
 
-      //REVIEW what is "the phase"? units, range and semantics of values,...
+      //REVIEW^ what is "the phase"? units, range and semantics of values,...
       // @private {number|null} - sets the phase for both drops.  Null means no drops have been emitted.
       this.lastDropTime = null;
 
@@ -93,7 +96,7 @@ define( require => {
           amplitude,
           buttonPressed,
           sourceSeparation,
-          100, //REVIEW magic number? param is y - distance to fall before the particles meets the plane of the lattice
+          100, //REVIEW^ magic number? param is y - distance to fall before the particles meets the plane of the lattice
           sign,
           () => {
 
@@ -119,10 +122,12 @@ define( require => {
     }
 
     //REVIEW missing visibility annotation
+    //REVIEW* Added, please review
     /**
      * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
      * @param {number} dt - amount of time to move forward, in the units of the scene
      * @override
+     * @public
      */
     step( dt ) {
 
