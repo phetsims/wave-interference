@@ -15,7 +15,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const SlitsControlPanel = require( 'WAVE_INTERFERENCE/slits/view/SlitsControlPanel' );
   const TheoryInterferenceOverlay = require( 'WAVE_INTERFERENCE/slits/view/TheoryInterferenceOverlay' );
-  const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
+  const ViewpointEnum = require( 'WAVE_INTERFERENCE/common/model/ViewpointEnum' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
   const WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
@@ -58,11 +58,11 @@ define( require => {
       const soundBarriersNode = new BarriersNode( model, model.soundScene, this.waveAreaNode.bounds );
       const lightBarriersNode = new BarriersNode( model, model.lightScene, this.waveAreaNode.bounds );
       Property.multilink(
-        [ model.sceneProperty, model.rotationAmountProperty, model.isRotatingProperty, model.viewTypeProperty ],
-        ( scene, rotationAmount, isRotating, viewType ) => {
+        [ model.sceneProperty, model.rotationAmountProperty, model.isRotatingProperty, model.viewpointProperty ],
+        ( scene, rotationAmount, isRotating, viewpoint ) => {
 
           // Hide the barriers for water side view and while rotating
-          const hide = scene === model.waterScene && viewType === ViewType.SIDE || isRotating;
+          const hide = scene === model.waterScene && viewpoint === ViewpointEnum.SIDE || isRotating;
           waterBarriersNode.visible = !hide && scene === model.waterScene;
           soundBarriersNode.visible = !hide && scene === model.soundScene;
           lightBarriersNode.visible = !hide && scene === model.lightScene;

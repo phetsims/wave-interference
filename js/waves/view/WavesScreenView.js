@@ -362,7 +362,7 @@ define( require => {
       }
 
       if ( options.showViewRadioButtonGroup ) {
-        this.addChild( new ViewRadioButtonGroup( model.viewTypeProperty, {
+        this.addChild( new ViewRadioButtonGroup( model.viewpointProperty, {
           bottom: this.layoutBounds.bottom - MARGIN,
           left: this.waveAreaNode.left
         } ) );

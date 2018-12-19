@@ -1,6 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 //REVIEW^ since this is related to ViewType, rename to ViewTypeRadioButtonGroup ?
+//REVIEW: Note to self, I renamed the enum
 /**
  * Selects between Top View and Side View.
  *
@@ -10,7 +11,7 @@ define( require => {
   'use strict';
 
   // modules
-  const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
+  const ViewpointEnum = require( 'WAVE_INTERFERENCE/common/model/ViewpointEnum' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
@@ -25,19 +26,19 @@ define( require => {
   class ViewRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonGroup {
 
     /**
-     * @param {Property.<ViewType>} viewTypeProperty
+     * @param {Property.<ViewpointEnum>} viewpointProperty
      * @param {Object} [options]
      */
-    constructor( viewTypeProperty, options ) {
+    constructor( viewpointProperty, options ) {
 
       super( [ {
         node: new WaveInterferenceText( topViewString, TEXT_OPTIONS ),
-        value: ViewType.TOP,
-        property: viewTypeProperty
+        value: ViewpointEnum.TOP,
+        property: viewpointProperty
       }, {
         node: new WaveInterferenceText( sideViewString, TEXT_OPTIONS ),
-        value: ViewType.SIDE,
-        property: viewTypeProperty
+        value: ViewpointEnum.SIDE,
+        property: viewpointProperty
       } ], options );
     }
   }

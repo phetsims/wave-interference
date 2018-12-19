@@ -25,7 +25,7 @@ define( require => {
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
-  const ViewType = require( 'WAVE_INTERFERENCE/common/model/ViewType' );
+  const ViewpointEnum = require( 'WAVE_INTERFERENCE/common/model/ViewpointEnum' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterScene = require( 'WAVE_INTERFERENCE/common/model/WaterScene' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -189,9 +189,9 @@ define( require => {
       // @public (read-only) {Scene[]} - the Scene instances as an array
       this.scenes = [ this.waterScene, this.soundScene, this.lightScene ];
 
-      // @public {Property.<ViewType>} - indicates the user selection for side view or top view
-      this.viewTypeProperty = new Property( ViewType.TOP, {
-        validValues: ViewType.VALUES
+      // @public {Property.<ViewpointEnum>} - indicates the user selection for side view or top view
+      this.viewpointProperty = new Property( ViewpointEnum.TOP, {
+        validValues: ViewpointEnum.VALUES
       } );
 
       // @public {Property.<PlaySpeedEnum>} - the speed at which the simulation is playing
@@ -322,7 +322,7 @@ define( require => {
 
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
-      const sign = this.viewTypeProperty.get() === ViewType.TOP ? -1 : +1;
+      const sign = this.viewpointProperty.get() === ViewpointEnum.TOP ? -1 : +1;
       this.rotationAmountProperty.value = Util.clamp( this.rotationAmountProperty.value + wallDT * sign * 1.4, 0, 1 );
 
       if ( this.isRunningProperty.get() || manualStep ) {
@@ -351,7 +351,7 @@ define( require => {
       this.lightScene.reset();
 
       this.sceneProperty.reset();
-      this.viewTypeProperty.reset();
+      this.viewpointProperty.reset();
       this.showGraphProperty.reset();
       this.playSpeedProperty.reset();
       this.isRunningProperty.reset();
