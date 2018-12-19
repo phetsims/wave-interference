@@ -60,7 +60,11 @@ define( require => {
      */
     static getWaterSideY( waveAreaBounds, waveValue ) {
 
-      //REVIEW^ explain the magic numbers here
+      //REVIEW explain the magic numbers here
+      //REVIEW* Done, please review.
+      // Typical values for the propagating wave can be between -5 and 5 (though values can exceed this range very close to the
+      // oscillating cell.  We choose to map a value of 0 to the ceter of the wave area, and the max (5) to the desired
+      // distance amplitude.
       return Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 80, waveValue );
     }
 
