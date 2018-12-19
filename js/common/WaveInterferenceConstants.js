@@ -16,7 +16,8 @@ define( require => {
 
   // constants
   const THUMB_SIZE = new Dimension2( 13, 22 );
-  const DEFAULT_FONT = new PhetFont( 15 );
+  const DEFAULT_FONT_SIZE = 15;
+  const DEFAULT_FONT = new PhetFont( DEFAULT_FONT_SIZE );
   const MAJOR_TICK_LENGTH = 12;
 
   const WaveInterferenceConstants = {
@@ -83,10 +84,12 @@ define( require => {
     // maxWidth for slider ticks
     TICK_MAX_WIDTH: 30,
 
-    //REVIEW 'a smidge smaller than the reset of the texts' means a smidge smaller than DEFAULT_FONT, yes?  Then factor out DEFAULT_FONT_SIZE and make it so.
+    //REVIEW 'a smidge smaller than the reset of the texts' means a smidge smaller than DEFAULT_FONT, yes?  Then factor
+    //REVIEW out DEFAULT_FONT_SIZE and make it so.
+    //REVIEW*: I factored out DEFAULT_FONT_SIZE and made TIME_AND_LENGTH_SCALE_INDICATOR_FONT one step smaller
     // Use for the time and length scale texts above the wave area, looks best to be a smidge smaller than the
     // rest of the texts
-    TIME_AND_LENGTH_SCALE_INDICATOR_FONT: new PhetFont( 14 )
+    TIME_AND_LENGTH_SCALE_INDICATOR_FONT: new PhetFont( DEFAULT_FONT_SIZE - 1 )
   };
 
   //REVIEW assert that WaveInterferenceConstants.LATTICE_DIMENSION is an odd integer
