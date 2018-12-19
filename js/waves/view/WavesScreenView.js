@@ -214,17 +214,24 @@ define( require => {
         0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top
       );
 
-      //REVIEW^ Property's value parameter is not optional, use Property(null) here? validate value?
-      const measuringTapeProperty = new Property();
-      model.sceneProperty.link( scene => {
-        measuringTapeProperty.set( {
+      /**
+       * Return the measuring tape Property value for the specified scene.  See MeasuringTapeNode constructor docs.
+       * @param {Scene} scene
+       */
+      const getMeasuringTapeValue = scene => {
+        return {
           name: scene.translatedPositionUnits,
 
           // The measuring tape tip and tail are in the view coordinate frame, this scale factor converts to model
           // coordinates according to the scene
           multiplier: scene.waveAreaWidth / this.waveAreaNode.width
-        } );
-      } );
+        };
+      };
+
+      //REVIEW Property's value parameter is not optional, use Property(null) here? validate value?
+      //REVIEW* I set the correct initial value, please review.
+      const measuringTapeProperty = new Property( getMeasuringTapeValue( model.sceneProperty.value ) );
+      model.sceneProperty.link( scene => measuringTapeProperty.set( getMeasuringTapeValue( scene ) ) );
 
       /**
        * Checks if the toolbox intersects the given bounds, to see if a tool can be dropped back into the toolbox.
