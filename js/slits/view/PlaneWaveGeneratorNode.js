@@ -47,7 +47,9 @@ define( require => {
           center: verticalCylinderImageNode.center
         } );
 
-      //REVIEW^ assert( !options.child ) or your children may be blown away by the constructor caller
+      //REVIEW assert( !options.child ) or your children may be blown away by the constructor caller
+      //REVIEW* I added an assertion, please verify.
+      assert && assert( !options || !options.children, 'children would be overwritten in PlaneWaveGeneratorNode' );
       options = _.extend( { children: [ verticalCylinderImageNode, button ] }, options );
 
       this.mutate( options );

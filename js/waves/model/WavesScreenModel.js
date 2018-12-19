@@ -68,10 +68,13 @@ define( require => {
         // This model supports one or two sources.  If the sources are initially separated, there are two sources
         numberOfSources: 1,
 
-        //REVIEW^ you mention 'optimize the view for the max', but what is the range? units?
-        // Initial amplitude of the oscillator. We optimize the view for the max, but starting the value at the extreme
-        // may prevent the user from exploring the range, so we start closer to the max but not at the max.  I chose 8
-        // so it would match up directly with a tickmark (when it was at 7.5, it covered 2 tickmarks and looked odd)
+        //REVIEW you mention 'optimize the view for the max', but what is the range? units?
+        //REVIEW* I added some docs about this, please review.
+        // Initial amplitude of the oscillator, which is unitless and reflects the amount of disturbance at a specified
+        // point in the medium. See WaveInterferenceConstants.AMPLITUDE_RANGE.  We optimize the view for the max, but
+        // starting the value at the extreme may prevent the user from exploring the range, so we start closer to the
+        // max but not at the max.  I chose 8 so it would match up directly with a tickmark (when it was at 7.5, it
+        // covered 2 tickmarks and looked odd)
         initialAmplitude: 8,
 
         // True if SoundParticles should be created and displayed, and if the user can select to view them
@@ -253,8 +256,10 @@ define( require => {
 
       const rotationRange = new Range( 0, 1 );
 
-      //REVIEW^ this is really odd. Especially since over in Perspective3DNode, const rotationAmount = Easing.CUBIC_IN_OUT.value( this.rotationAmountProperty.get() );
-      // @public - amount the 3d view is rotated. 0 means top view, 1 means side view.
+      //REVIEW this is really odd. Especially since over in Perspective3DNode, const rotationAmount = Easing.CUBIC_IN_OUT.value( this.rotationAmountProperty.get() );
+      //REVIEW* I revised the docs, please let me know if that is sufficient.
+      // @public - Linear interpolation between ViewpointEnum.TOP (0) and ViewpointEnum.SIDE (1).  This linear
+      // interpolate in the model is mapped through a CUBIC_IN_OUT in the view to obtain the desired look.
       this.rotationAmountProperty = new NumberProperty( 0, {
         range: rotationRange
       } );

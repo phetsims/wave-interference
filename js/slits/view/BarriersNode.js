@@ -79,12 +79,15 @@ define( require => {
         viewBounds
       );
 
-      //REVIEW^ var -> const
-      var latticeBounds = new Bounds2( 0, 0, 1, 1 );
-      var modelBounds = scene.modelToLatticeTransform.viewToModelBounds( latticeBounds );
-      var tempViewBounds = this.modelViewTransform.modelToViewBounds( modelBounds );
+      //REVIEW var -> const
+      //REVIEW* Done, thanks!
+      const latticeBounds = new Bounds2( 0, 0, 1, 1 );
+      const modelBounds = scene.modelToLatticeTransform.viewToModelBounds( latticeBounds );
+      const tempViewBounds = this.modelViewTransform.modelToViewBounds( modelBounds );
 
-      //REVIEW^ missing visibility annotation
+      //REVIEW missing visibility annotation
+      //REVIEW* Added, thanks!
+      //@private
       this.latticeToViewTransform = ModelViewTransform2.createRectangleMapping( latticeBounds, tempViewBounds );
 
       this.addInputListener( new DragListener( {
