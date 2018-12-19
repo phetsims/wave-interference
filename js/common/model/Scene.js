@@ -122,9 +122,6 @@ define( require => {
         units: this.timeUnits
       } );
 
-      //REVIEW add value validation?
-      //REVIEW* the model supports any value, though going outside the bounds of the lattice would probably be a logic
-      //REVIEW* error.  The view slider has its own constraint.  Which value should I use here?
       // @public distance between the sources in the units of the scene, or 0 if there is only one
       // source initialized to match the initial slit separation,
       // see https://github.com/phetsims/wave-interference/issues/87
@@ -154,15 +151,11 @@ define( require => {
         barrierLocation => Math.round( barrierLocation.x )
       );
 
-      //REVIEW add value validation? range?
-      //REVIEW* See comments regarding this.sourceSeparationProperty.  How should I proceed?
       // @public {NumberProperty} - width of the slit(s) opening in the units for this scene
       this.slitWidthProperty = new NumberProperty( config.initialSlitWidth, {
         units: this.positionUnits
       } );
 
-      //REVIEW add value validation?
-      //REVIEW* See comments regarding this.sourceSeparationProperty.  How should I proceed?
       // @public distance between the center of the slits, in the units for this scene
       this.slitSeparationProperty = new NumberProperty( config.initialSlitSeparation, {
         units: this.positionUnits

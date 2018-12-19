@@ -25,20 +25,14 @@ define( require => {
     constructor( config ) {
       super( config );
 
-      //REVIEW add value validation? range: this.frequencyProperty.range ?
-      //REVIEW* Please see question in Scene.sourceSeparationProperty REVIEW* comment
       // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
       // gets propagated to the lattice via the water drops
       this.desiredFrequencyProperty = new NumberProperty( this.frequencyProperty.initialValue );
 
-      //REVIEW add value validation?
-      //REVIEW* Please see question in Scene.sourceSeparationProperty REVIEW* comment
       // @public - In the water Scene, the user specifies the desired source separation.  This is the position of
       // the faucets.  The sourceSeparationProperty indicates the sources of oscillation once the water has struck.
       this.desiredSourceSeparationProperty = new NumberProperty( this.sourceSeparationProperty.value );
 
-      //REVIEW add value validation?
-      //REVIEW* Please see question in Scene.sourceSeparationProperty REVIEW* comment
       // @public - the amplitude the user has selected
       this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude );
 
