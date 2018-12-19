@@ -56,7 +56,9 @@ define( require => {
 
     // Look of the emitter button across all 3 scenes
     //REVIEW where is the color for the green emitter button in pulse mode?
-    EMITTER_BUTTON_COLOR: 'red',
+    //REVIEW* I factored out PULSE_EMITTER_BUTTON_COLOR and renamed EMITTER_BUTTON_COLOR to CONTINUOUS_EMITTER_BUTTON_COLOR
+    CONTINUOUS_EMITTER_BUTTON_COLOR: 'red',
+    PULSE_EMITTER_BUTTON_COLOR: '#33dd33',
     EMITTER_BUTTON_RADIUS: 14,
     EMITTER_BUTTON_TOUCH_AREA_DILATION: 8,
 

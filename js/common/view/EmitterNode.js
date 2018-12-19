@@ -80,8 +80,8 @@ define( require => {
       // When changing between PULSE and CONTINUOUS, update the buttons.
       scene.waveTemporalTypeProperty.link( waveTemporalType => {
           button.setBaseColor( waveTemporalType === WaveTemporalType.CONTINUOUS ?
-                               WaveInterferenceConstants.EMITTER_BUTTON_COLOR :
-                               '#33dd33' );
+                               WaveInterferenceConstants.CONTINUOUS_EMITTER_BUTTON_COLOR :
+                               WaveInterferenceConstants.PULSE_EMITTER_BUTTON_COLOR );
           pulseIcon.visible = waveTemporalType === WaveTemporalType.PULSE;
           updateEnabled();
         }

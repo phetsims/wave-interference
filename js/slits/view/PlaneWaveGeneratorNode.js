@@ -40,7 +40,7 @@ define( require => {
         model,
         scene => new RoundStickyToggleButton( false, true, scene.button1PressedProperty, {
           scale: 1.2,
-          baseColor: WaveInterferenceConstants.EMITTER_BUTTON_COLOR,
+          baseColor: WaveInterferenceConstants.CONTINUOUS_EMITTER_BUTTON_COLOR,
           radius: WaveInterferenceConstants.EMITTER_BUTTON_RADIUS,
           touchAreaDilation: WaveInterferenceConstants.EMITTER_BUTTON_TOUCH_AREA_DILATION
         } ), {
