@@ -269,13 +269,19 @@ define( require => {
 
       // @public {Property.<Vector2>} - model for the view coordinates of the base of the measuring tape
       // We use view coordinates so that nothing needs to be done when switching scenes and coordinate frames.
-      //REVIEW^ add valueType: Vector2
-      this.measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ) );
+      //REVIEW add valueType: Vector2
+      //REVIEW* Done, please review
+      this.measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ), {
+        valueType: Vector2
+      } );
 
       // @public {Property.<Vector2>} - model for the view coordinates of the tip of the measuring tape
       // This position sets reasonable model defaults for each scene: 1.0cm, 50cm, 500nm
-      //REVIEW^ add valueType: Vector2
-      this.measuringTapeTipPositionProperty = new Property( new Vector2( 250, 200 ) );
+      //REVIEW add valueType: Vector2
+      //REVIEW* Done, please review
+      this.measuringTapeTipPositionProperty = new Property( new Vector2( 250, 200 ), {
+        valueType: Vector2
+      } );
 
       // @public - Notifies listeners when the model reset is complete
       this.resetEmitter = new Emitter();
