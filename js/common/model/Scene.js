@@ -13,6 +13,7 @@ define( require => {
   // modules
   const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const Bounds2 = require( 'DOT/Bounds2' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
