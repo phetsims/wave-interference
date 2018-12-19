@@ -169,6 +169,16 @@ define( require => {
       ] );
       const separator = new HSeparator( maxComponentWidth );
 
+      // Set pointer areas for the checkboxes, now that we have the separator dimensions.
+      graphCheckbox.mouseArea = graphCheckbox.localBounds.dilated( 2 ).withX( separator.right );
+      graphCheckbox.touchArea = graphCheckbox.mouseArea;
+
+      screenCheckbox.mouseArea = screenCheckbox.localBounds.dilated( 2 ).withX( separator.right );
+      screenCheckbox.touchArea = screenCheckbox.mouseArea;
+
+      intensityCheckbox.mouseArea = intensityCheckbox.localBounds.dilated( 2 ).withX( separator.right );
+      intensityCheckbox.touchArea = intensityCheckbox.mouseArea;
+
       // Create faucet icon, and rasterize to clip out invisible parts (like the ShooterNode)
       const sceneIcons = new WaveInterferenceSceneIcons();
 
@@ -279,15 +289,9 @@ define( require => {
         ];
       } );
 
-      //REVIEW^ move assignments of point areas closer to definition of these checkboxes?
-      graphCheckbox.mouseArea = graphCheckbox.localBounds.dilated( 2 ).withX( separator.right );
-      graphCheckbox.touchArea = graphCheckbox.mouseArea;
-
-      screenCheckbox.mouseArea = screenCheckbox.localBounds.dilated( 2 ).withX( separator.right );
-      screenCheckbox.touchArea = screenCheckbox.mouseArea;
-
-      intensityCheckbox.mouseArea = intensityCheckbox.localBounds.dilated( 2 ).withX( separator.right );
-      intensityCheckbox.touchArea = intensityCheckbox.mouseArea;
+      //REVIEW move assignments of point areas closer to definition of these checkboxes?
+      //REVIEW* Moved closer, but still needed separator dimension, so it's a bit below the checkbox declarations.
+      //REVIEW* Please review
 
       const content = alignGroup.createBox( container );
 

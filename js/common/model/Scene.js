@@ -177,7 +177,9 @@ define( require => {
       this.timeScaleString = config.timeScaleString;
 
       // @public {NumberProperty} - controls the amplitude of the wave.
-      this.amplitudeProperty = new NumberProperty( config.initialAmplitude, { range: new Range( 0, 10 ) } );
+      this.amplitudeProperty = new NumberProperty( config.initialAmplitude, {
+        range: WaveInterferenceConstants.AMPLITUDE_RANGE
+      } );
 
       // @public {Property.<DisturbanceType>} - pulse or continuous
       this.disturbanceTypeProperty = new Property( DisturbanceType.CONTINUOUS, {

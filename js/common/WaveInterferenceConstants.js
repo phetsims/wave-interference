@@ -12,6 +12,7 @@ define( require => {
   const Dimension2 = require( 'DOT/Dimension2' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Range = require( 'DOT/Range' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -26,6 +27,9 @@ define( require => {
 
     // For NumberControls and WaveInterferenceSliders
     TICK_FONT_SIZE: 11.5,
+
+    // Values the amplitude can take
+    AMPLITUDE_RANGE: new Range( 0, 10 ),
 
     // These constants are used for the NumberControls to give them a consistent looks
     NUMBER_CONTROL_OPTIONS: {
