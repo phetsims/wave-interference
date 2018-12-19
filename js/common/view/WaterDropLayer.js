@@ -40,7 +40,9 @@ define( require => {
       const MAX_DROPS = 4;
       const waterDropNodes = _.times( MAX_DROPS, () => new WaterDropImage() );
 
-      //REVIEW^ assert( !options || !options.children ) or your children may immediately be replaced by this.mutate
+      //REVIEW assert( !options || !options.children ) or your children may immediately be replaced by this.mutate
+      //REVIEW* I added an assertion, please review.
+      assert && assert( !options || !options.children, 'children overwritten in WaterDropLayer' );
       this.children = waterDropNodes;
       this.mutate( options );
 
