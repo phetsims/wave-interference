@@ -380,7 +380,6 @@ define( require => {
       return this.waterScene.desiredFrequencyProperty;
     }
 
-    //REVIEW^ I don't recall this alternative to static constants coming up in our recent dev discussion. Just sayin'...
     /**
      * @returns {number}
      * @public
