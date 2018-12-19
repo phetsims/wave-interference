@@ -20,6 +20,9 @@ define( require => {
   const SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
+  // constants
+  const CORNER_RADIUS = 2;
+
   class BarriersNode extends Node {
 
     /**
@@ -31,14 +34,16 @@ define( require => {
 
       assert && assert( model instanceof SlitsScreenModel );
 
-      //REVIEW^ move duplicated cornerRadius constructor args to options.cornerRadius
+      //REVIEW move duplicated cornerRadius constructor args to options.cornerRadius
+      //REVIEW* I added a new constant for this and supply it through the options. Is that what you meant?
       /**
        * Creates one of the 3 recycled rectangles used for rendering the barriers.
        */
-      const createRectangle = () => new Rectangle( 0, 0, 0, 0, 2, 2, {
+      const createRectangle = () => new Rectangle( 0, 0, 0, 0, {
         fill: '#f3d99b',
         stroke: 'black',
-        lineWidth: 1
+        lineWidth: 1,
+        cornerRadius: CORNER_RADIUS
       } );
 
       const rectangleA = createRectangle();
@@ -153,8 +158,8 @@ define( require => {
           const slitWidthView = this.modelViewTransform.modelToViewDeltaY( slitWidth );
           const y1 = this.waveAreaViewBounds.centerY - slitWidthView / 2;
           const y2 = this.waveAreaViewBounds.centerY + slitWidthView / 2;
-          this.rectangleA.setRect( 0, waveAreaTop, this.cellWidth, y1 - waveAreaTop, 2, 2 );
-          this.rectangleB.setRect( 0, y2, this.cellWidth, this.waveAreaViewBounds.bottom - y2, 2, 2 );
+          this.rectangleA.setRect( 0, waveAreaTop, this.cellWidth, y1 - waveAreaTop, CORNER_RADIUS, CORNER_RADIUS );
+          this.rectangleB.setRect( 0, y2, this.cellWidth, this.waveAreaViewBounds.bottom - y2, CORNER_RADIUS, CORNER_RADIUS );
           this.arrowNode.centerX = this.cellWidth / 2;
           this.arrowNode.top = this.rectangleB.bottom + 2;
         }
@@ -176,17 +181,17 @@ define( require => {
           this.rectangleA.setRect(
             0, waveAreaTop,
             this.cellWidth, Math.max( 0, bottomOfTopBarrier - waveAreaTop ),
-            2, 2
+            CORNER_RADIUS, CORNER_RADIUS
           );
           this.rectangleB.setRect(
             0, topOfCentralBarrier,
             this.cellWidth, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ),
-            2, 2
+            CORNER_RADIUS, CORNER_RADIUS
           );
           this.rectangleC.setRect(
             0, topOfBottomBarrier,
             this.cellWidth, Math.max( this.waveAreaViewBounds.bottom - topOfBottomBarrier ),
-            2, 2
+            CORNER_RADIUS, CORNER_RADIUS
           );
           this.arrowNode.centerX = this.cellWidth / 2;
           this.arrowNode.top = this.rectangleC.bottom + 2;
