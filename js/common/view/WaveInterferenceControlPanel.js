@@ -123,6 +123,7 @@ define( require => {
         value: SoundViewType.BOTH,
         property: model.soundScene.viewSelectionProperty
       } ], {
+        spacing: 4,
         radioButtonOptions: {
 
           // Manually tuned so the radio buttons have the same width as the "Graph" checkbox
@@ -231,10 +232,10 @@ define( require => {
         sceneRadioButtonGroup.top = y + 8;
       }
       const HORIZONTAL_SEPARATOR_MARGIN = 7;
-      const CHECKBOX_SPACING = 5;
+      const CHECKBOX_SPACING = 6;
       separator.top = sceneRadioButtonGroup.bottom + 12;
       graphCheckbox.top = separator.bottom + HORIZONTAL_SEPARATOR_MARGIN;
-      soundViewTypeRadioButtonGroup.top = graphCheckbox.bottom + CHECKBOX_SPACING;
+      soundViewTypeRadioButtonGroup.top = graphCheckbox.bottom + CHECKBOX_SPACING + 2;
       screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
       intensityCheckbox.top = screenCheckbox.bottom + CHECKBOX_SPACING;
 
