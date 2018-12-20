@@ -85,11 +85,11 @@ define( require => {
         for ( let i = 0; i < this.soundParticles.length; i++ ) {
           const soundParticle = this.soundParticles[ i ];
 
-          // Find the lattice coordinate of the current location of the particle.  Use floor for consistency with other
-          // quantization
+          // Find the lattice coordinate of the current location of the particle.  Use rounding for consistency with
+          // other quantization
           const latticeCoordinate = this.modelToLatticeTransform.modelToViewXY( soundParticle.x, soundParticle.y );
-          const latticeX = Math.round( latticeCoordinate.x );
-          const latticeY = Math.round( latticeCoordinate.y );
+          const latticeX = Util.roundSymmetric( latticeCoordinate.x );
+          const latticeY = Util.roundSymmetric( latticeCoordinate.y );
 
           // Estimate the numerical gradient in the neighborhood of the particle
           // https://en.wikipedia.org/wiki/Pressure-gradient_force

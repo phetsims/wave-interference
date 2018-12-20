@@ -15,6 +15,7 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const DisturbanceType = require( 'WAVE_INTERFERENCE/common/model/DisturbanceType' );
   const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const NumberProperty = require( 'AXON/NumberProperty' );
@@ -23,11 +24,11 @@ define( require => {
   const Rectangle = require( 'DOT/Rectangle' );
   const SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveSpatialType = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialType' );
-  const DisturbanceType = require( 'WAVE_INTERFERENCE/common/model/DisturbanceType' );
 
   // strings
   const distanceUnitsString = require( 'string!WAVE_INTERFERENCE/distanceUnits' );
@@ -139,16 +140,16 @@ define( require => {
 
       // @public {Property.<Vector2>} horizontal location of the barrier in lattice coordinates (includes damping region)
       // note: this is a floating point representation in 2D to work seamlessly with DragListener
-      // lattice computations using this floating point value should use Math.round()
+      // lattice computations using this floating point value should use Util.roundSymmetric()
       // start slightly left of 50.5 so it will round to 50 instead of 51
       this.barrierLocationProperty = new Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ), {
         valueType: Vector2
       } );
 
-      // @public {DerivedProperty.<number>} - the floor of the continuous barrier location (x coordinate only)
+      // @public {DerivedProperty.<number>} - lattice cell index of the continuous barrier location (x coordinate only)
       this.barrierLatticeCoordinateProperty = new DerivedProperty(
         [ this.barrierLocationProperty ],
-        barrierLocation => Math.round( barrierLocation.x )
+        barrierLocation => Util.roundSymmetric( barrierLocation.x )
       );
 
       // @public {NumberProperty} - width of the slit(s) opening in the units for this scene
@@ -363,7 +364,7 @@ define( require => {
           const sourceSeparation = this.sourceSeparationProperty.get();
 
           const separationInLatticeUnits = this.modelToLatticeTransform.modelToViewDeltaY( sourceSeparation / 2 );
-          const distanceFromCenter = Math.round( separationInLatticeUnits );
+          const distanceFromCenter = Util.roundSymmetric( separationInLatticeUnits );
 
           // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
           // Use floor to get 50.5 => 50 instead of 51
@@ -398,7 +399,7 @@ define( require => {
         const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime ); // in lattice coordinates
 
         const slitWidthModel = this.slitWidthProperty.get();
-        const slitWidth = Math.round( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
+        const slitWidth = Util.roundSymmetric( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
         const latticeCenterY = this.lattice.height / 2;
 
         // Take the desired frequency for the water scene, or the specified frequency of any other scene
