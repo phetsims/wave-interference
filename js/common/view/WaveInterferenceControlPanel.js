@@ -15,15 +15,14 @@ define( require => {
   const HSeparator = require( 'SUN/HSeparator' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
-  const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
+  const SceneRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SceneRadioButtonGroup' );
   const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
   const Util = require( 'DOT/Util' );
   const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
-  const WaveInterferenceSceneIcons = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSceneIcons' );
   const WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
@@ -170,22 +169,14 @@ define( require => {
       intensityCheckbox.mouseArea = intensityCheckbox.localBounds.dilated( 2 ).withX( separator.right );
       intensityCheckbox.touchArea = intensityCheckbox.mouseArea;
 
-      // Create faucet icon, and rasterize to clip out invisible parts (like the ShooterNode)
-      const sceneIcons = new WaveInterferenceSceneIcons();
-
       //REVIEW^ worthy of factoring out into its own class file, SceneRadioButtonGroup?
-
-      const sceneRadioButtonGroup = new RadioButtonGroup( model.sceneProperty, [
-        { value: model.waterScene, node: sceneIcons.faucetIcon },
-        { value: model.soundScene, node: sceneIcons.speakerIcon },
-        { value: model.lightScene, node: sceneIcons.laserPointerIcon }
-      ], {
-        orientation: 'horizontal',
-        spacing: 15,
-        selectedStroke: '#73bce1',
-        baseColor: 'white',
-        selectedLineWidth: 2
-      } );
+      //REVIEW* I added SceneRadioButtonGroup.js, please review
+      const sceneRadioButtonGroup = new SceneRadioButtonGroup(
+        model.waterScene,
+        model.soundScene,
+        model.lightScene,
+        model.sceneProperty
+      );
 
       const frequencyTitle = new WaveInterferenceText( frequencyString );
       const amplitudeTitle = new WaveInterferenceText( amplitudeString );
