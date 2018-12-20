@@ -52,8 +52,12 @@ define( require => {
   const waterLevelString = require( 'string!WAVE_INTERFERENCE/waterLevel' );
   const waterWaveGeneratorString = require( 'string!WAVE_INTERFERENCE/waterWaveGenerator' );
 
-  // Tuned so that iPad2 has enough time to run model computations
-  const EVENT_RATE = 20; //REVIEW^ say more about this value, effect of increasing/decreasing
+  // This simulation uses EventTimer, which provides exactly the same model behavior on very slow and very fast
+  // platforms.  Here we define the frequency of events in Hz, which has been tuned so that iPad2 has enough time to run
+  // model computations.
+  //REVIEW say more about this value, effect of increasing/decreasing
+  //REVIEW* I added comments, please review.
+  const EVENT_RATE = 20;
   const toFemto = WaveInterferenceUtils.toFemto;
 
   class WavesScreenModel {
@@ -81,8 +85,12 @@ define( require => {
         waveSpatialType: WaveSpatialType.POINT
       }, options );
 
-      //REVIEW^ assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
-      //REVIEW^   'initialAmplitude is out of range: ' + options.initialAmplitude );
+      //REVIEW assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
+      //REVIEW   'initialAmplitude is out of range: ' + options.initialAmplitude );
+      //REVIEW* Looks good, thanks!  Can this comment thread be removed?
+      assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
+        'initialAmplitude is out of range: ' + options.initialAmplitude
+      );
 
       assert && assert(
         options.numberOfSources === 1 || options.numberOfSources === 2,
@@ -212,8 +220,11 @@ define( require => {
         }
       };
 
-      //REVIEW^ might be nice to say a few words about this
-      // @private
+      //REVIEW might be nice to say a few words about this
+      //REVIEW* Done, please review.
+      // @private - In order to have exactly the same model behavior on very fast and very slow platforms, we use
+      // EventTimer, which updates the model at regular intervals, and we can interpolate between states for additional
+      // fidelity.
       this.eventTimer = new EventTimer( eventTimerModel, timeElapsed =>
         this.advanceTime( 1 / EVENT_RATE, false )
       );
@@ -255,18 +266,19 @@ define( require => {
       // @public
       this.isWaveMeterInPlayAreaProperty = new BooleanProperty( false );
 
-      //REVIEW^ since this applies to rotationAmountProperty, recommended to rename to rotationAmountRange
-      const rotationRange = new Range( 0, 1 );
+      //REVIEW since this applies to rotationAmountProperty, recommended to rename to rotationAmountRange
+      //REVIEW* Done, please review
+      const rotationAmountRange = new Range( 0, 1 );
 
       // @public - Linear interpolation between ViewpointEnum.TOP (0) and ViewpointEnum.SIDE (1).  This linear
       // interpolate in the model is mapped through a CUBIC_IN_OUT in the view to obtain the desired look.
       this.rotationAmountProperty = new NumberProperty( 0, {
-        range: rotationRange
+        range: rotationAmountRange
       } );
 
       // @public {DerivedProperty.<boolean>} - true if the system is rotating
       this.isRotatingProperty = new DerivedProperty( [ this.rotationAmountProperty ],
-        rotationAmount => rotationAmount !== rotationRange.min && rotationAmount !== rotationRange.max
+        rotationAmount => rotationAmount !== rotationAmountRange.min && rotationAmount !== rotationAmountRange.max
       );
 
       // @public {Emitter} - emits once per step

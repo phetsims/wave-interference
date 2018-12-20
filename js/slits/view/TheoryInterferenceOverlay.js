@@ -34,7 +34,7 @@ define( require => {
     constructor( model, viewBounds, options ) {
       super( options );
 
-      //REVIEW^ why not pass options to super in previous statement?
+      //REVIEW why not pass options to super in previous statement?
       //REVIEW* Done, please review
 
       const updateLines = () => {
