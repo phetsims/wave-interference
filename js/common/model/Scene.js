@@ -15,20 +15,20 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
-  const DisturbanceType = require( 'WAVE_INTERFERENCE/common/model/DisturbanceType' );
+  const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
   const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
   const Rectangle = require( 'DOT/Rectangle' );
-  const SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
+  const SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  const WaveSpatialType = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialType' );
+  const WaveSpatialTypeEnum = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialTypeEnum' );
 
   // strings
   const distanceUnitsString = require( 'string!WAVE_INTERFERENCE/distanceUnits' );
@@ -44,7 +44,7 @@ define( require => {
      */
     constructor( config ) {
 
-      // @public {WaveSpatialType}
+      // @public {WaveSpatialTypeEnum}
       this.waveSpatialType = config.waveSpatialType;
 
       // @public - the grid that contains the wave values
@@ -174,17 +174,17 @@ define( require => {
       } );
 
       // @public - pulse or continuous
-      this.disturbanceTypeProperty = new Property( DisturbanceType.CONTINUOUS, {
-        validValues: DisturbanceType.VALUES
+      this.disturbanceTypeProperty = new Property( DisturbanceTypeEnum.CONTINUOUS, {
+        validValues: DisturbanceTypeEnum.VALUES
       } );
 
       // The first button can trigger a pulse, or continuous wave, depending on the disturbanceTypeProperty
       this.button1PressedProperty.lazyLink( isPressed => {
-        if ( config.sceneType !== SceneType.WATER ) {
+        if ( config.sceneType !== SceneTypeEnum.WATER ) {
           if ( isPressed ) {
             this.resetPhase();
           }
-          if ( isPressed && this.disturbanceTypeProperty.value === DisturbanceType.PULSE ) {
+          if ( isPressed && this.disturbanceTypeProperty.value === DisturbanceTypeEnum.PULSE ) {
             this.startPulse();
           }
           else {
@@ -195,7 +195,7 @@ define( require => {
         }
 
         // Clear plane waves if the red button is deselected when paused.
-        if ( this.waveSpatialType === WaveSpatialType.PLANE && !isPressed ) {
+        if ( this.waveSpatialType === WaveSpatialTypeEnum.PLANE && !isPressed ) {
           this.setSourceValues();
           this.lattice.changedEmitter.emit();
         }
@@ -203,7 +203,7 @@ define( require => {
 
       // The 2nd button starts the second continuous wave
       this.button2PressedProperty.lazyLink( isPressed => {
-        if ( config.sceneType === SceneType.SOUND || config.sceneType === SceneType.LIGHT ) {
+        if ( config.sceneType === SceneTypeEnum.SOUND || config.sceneType === SceneTypeEnum.LIGHT ) {
           if ( isPressed ) {
             this.resetPhase();
           }
@@ -269,14 +269,14 @@ define( require => {
         this.phase = proposedPhase;
 
         // The wave area resets when the wavelength changes in the light scene
-        if ( config.sceneType === SceneType.LIGHT ) {
+        if ( config.sceneType === SceneTypeEnum.LIGHT ) {
           this.clear();
         }
       };
       this.frequencyProperty.lazyLink( phaseUpdate );
 
       // Everything below here is just for plane wave screen.
-      if ( this.waveSpatialType === WaveSpatialType.PLANE ) {
+      if ( this.waveSpatialType === WaveSpatialTypeEnum.PLANE ) {
 
         // @public - type of the barrier in the lattice
         this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT, {
@@ -342,12 +342,12 @@ define( require => {
       // scenes, this is set through the amplitudeProperty.
       const amplitude = this.desiredAmplitudeProperty ? this.desiredAmplitudeProperty.get() : this.amplitudeProperty.get();
       const time = this.timeProperty.value;
-      if ( this.waveSpatialType === WaveSpatialType.POINT ) {
+      if ( this.waveSpatialType === WaveSpatialTypeEnum.POINT ) {
         const frequency = this.frequencyProperty.get();
         const period = 1 / frequency;
         const timeSincePulseStarted = time - this.pulseStartTime;
         const lattice = this.lattice;
-        const isContinuous = ( this.disturbanceTypeProperty.get() === DisturbanceType.CONTINUOUS );
+        const isContinuous = ( this.disturbanceTypeProperty.get() === DisturbanceTypeEnum.CONTINUOUS );
         const continuous1 = isContinuous && this.continuousWave1OscillatingProperty.get();
         const continuous2 = isContinuous && this.continuousWave2OscillatingProperty.get();
         if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {

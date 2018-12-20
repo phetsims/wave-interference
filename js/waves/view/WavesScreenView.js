@@ -35,7 +35,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const SoundWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/SoundWaveGeneratorNode' );
   const SoundParticleLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleLayer' );
-  const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
+  const SoundViewTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SoundViewTypeEnum' );
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
@@ -414,12 +414,12 @@ define( require => {
           this.waveAreaNode.visible = isVisiblePerspective;
 
           const showLattice = scene === model.soundScene ?
-                              ( isVisiblePerspective && showWaves && soundViewSelection !== SoundViewType.PARTICLES ) :
+                              ( isVisiblePerspective && showWaves && soundViewSelection !== SoundViewTypeEnum.PARTICLES ) :
                               isVisiblePerspective;
           this.latticeNode.visible = showLattice;
 
-          soundParticleLayer.visible = ( soundViewSelection === SoundViewType.PARTICLES ||
-                                         soundViewSelection === SoundViewType.BOTH ) &&
+          soundParticleLayer.visible = ( soundViewSelection === SoundViewTypeEnum.PARTICLES ||
+                                         soundViewSelection === SoundViewTypeEnum.BOTH ) &&
                                        scene === model.soundScene && isVisiblePerspective;
 
           waterDropLayer.visible = scene === model.waterScene;

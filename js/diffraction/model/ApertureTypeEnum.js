@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * A wave can be ongoing (CONTINUOUS) or a single wavelength (PULSE)
+ * An aperture can be circular (CIRCLE), rectangular (RECTANGLE), or an array of slits (SLITS).
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -12,5 +12,5 @@ define( require => {
   const Enumeration = require( 'PHET_CORE/Enumeration' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  return waveInterference.register( 'DisturbanceType', new Enumeration( [ 'PULSE', 'CONTINUOUS' ] ) );
+  return waveInterference.register( 'ApertureTypeEnum', new Enumeration( [ 'CIRCLE', 'RECTANGLE', 'SLITS' ] ) );
 } );

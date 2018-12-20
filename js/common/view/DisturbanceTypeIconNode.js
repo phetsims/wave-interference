@@ -14,7 +14,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const DisturbanceType = require( 'WAVE_INTERFERENCE/common/model/DisturbanceType' );
+  const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
 
   // constants
   const NUMBER_OF_SAMPLES = 100;           // Number of samples to take along the curve
@@ -26,15 +26,15 @@ define( require => {
   class DisturbanceTypeIconNode extends Node {
 
     /**
-     * @param {DisturbanceType} disturbanceType
+     * @param {DisturbanceTypeEnum} disturbanceType
      * @param {Object} [options]
      */
     constructor( disturbanceType, options ) {
       super();
 
-      const minAngle = disturbanceType === DisturbanceType.PULSE ? Math.PI : 0;
-      const minX = disturbanceType === DisturbanceType.PULSE ? MARGIN : 0;
-      const maxX = disturbanceType === DisturbanceType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
+      const minAngle = disturbanceType === DisturbanceTypeEnum.PULSE ? Math.PI : 0;
+      const minX = disturbanceType === DisturbanceTypeEnum.PULSE ? MARGIN : 0;
+      const maxX = disturbanceType === DisturbanceTypeEnum.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
 
       const shape = new Shape();
       for ( let i = 0; i < NUMBER_OF_SAMPLES; i++ ) {
@@ -42,7 +42,7 @@ define( require => {
         const y = -Math.cos( angle ) * WAVE_HEIGHT;
         const x = Util.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
         if ( i === 0 ) {
-          if ( disturbanceType === DisturbanceType.PULSE ) {
+          if ( disturbanceType === DisturbanceTypeEnum.PULSE ) {
             shape.moveTo( x - MARGIN, y );
             shape.lineTo( x, y );
           }
@@ -54,7 +54,7 @@ define( require => {
           shape.lineTo( x, y );
         }
       }
-      if ( disturbanceType === DisturbanceType.PULSE ) {
+      if ( disturbanceType === DisturbanceTypeEnum.PULSE ) {
         shape.lineToRelative( MARGIN, 0 );
       }
 

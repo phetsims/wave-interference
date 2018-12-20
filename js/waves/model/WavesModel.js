@@ -21,7 +21,7 @@ define( require => {
   const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
-  const SceneType = require( 'WAVE_INTERFERENCE/common/model/SceneType' );
+  const SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -31,7 +31,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
-  const WaveSpatialType = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialType' );
+  const WaveSpatialTypeEnum = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialTypeEnum' );
 
   // strings
   const centimetersUnitsString = require( 'string!WAVE_INTERFERENCE/centimetersUnits' );
@@ -81,7 +81,7 @@ define( require => {
         // True if SoundParticles should be created and displayed, and if the user can select to view them
         showSoundParticles: true,
 
-        waveSpatialType: WaveSpatialType.POINT
+        waveSpatialType: WaveSpatialTypeEnum.POINT
       }, options );
 
       assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
@@ -121,7 +121,7 @@ define( require => {
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: false,
-        sceneType: SceneType.WATER,
+        sceneType: SceneTypeEnum.WATER,
         planeWaveGeneratorNodeText: waterWaveGeneratorString
       } );
 
@@ -154,7 +154,7 @@ define( require => {
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
-        sceneType: SceneType.SOUND,
+        sceneType: SceneTypeEnum.SOUND,
         planeWaveGeneratorNodeText: soundGeneratorString
       } );
 
@@ -189,7 +189,7 @@ define( require => {
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
-        sceneType: SceneType.LIGHT,
+        sceneType: SceneTypeEnum.LIGHT,
         planeWaveGeneratorNodeText: lightGeneratorString
       } );
 

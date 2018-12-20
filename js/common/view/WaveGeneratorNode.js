@@ -16,7 +16,7 @@ define( require => {
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  const DisturbanceType = require( 'WAVE_INTERFERENCE/common/model/DisturbanceType' );
+  const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
 
   class WaveGeneratorNode extends Node {
 
@@ -35,7 +35,7 @@ define( require => {
                  verticalOffset = 0,
                  buttonOffset = 0,
                  showButtonBackground = false ) {
-      const pulseIcon = new DisturbanceTypeIconNode( DisturbanceType.PULSE, { scale: 0.48 } );
+      const pulseIcon = new DisturbanceTypeIconNode( DisturbanceTypeEnum.PULSE, { scale: 0.48 } );
 
       const buttonOptions = {
         centerY: sourceNode.centerY + buttonOffset,
@@ -68,20 +68,20 @@ define( require => {
       const nodeWithButton = new Node( { children: children } );
 
       const updateEnabled = () => {
-        if ( scene.disturbanceTypeProperty.value === DisturbanceType.PULSE ) {
+        if ( scene.disturbanceTypeProperty.value === DisturbanceTypeEnum.PULSE ) {
           button.enabled = !scene.pulseFiringProperty.value && !scene.isAboutToFireProperty.value;
         }
-        else if ( scene.disturbanceTypeProperty.value === DisturbanceType.CONTINUOUS ) {
+        else if ( scene.disturbanceTypeProperty.value === DisturbanceTypeEnum.CONTINUOUS ) {
           button.enabled = true;
         }
       };
 
       // When changing between PULSE and CONTINUOUS, update the buttons.
       scene.disturbanceTypeProperty.link( disturbanceType => {
-        button.setBaseColor( disturbanceType === DisturbanceType.CONTINUOUS ?
+        button.setBaseColor( disturbanceType === DisturbanceTypeEnum.CONTINUOUS ?
                              WaveInterferenceConstants.CONTINUOUS_DISTURBANCE_BUTTON_COLOR :
                              WaveInterferenceConstants.PULSE_DISTURBANCE_BUTTON_COLOR );
-        pulseIcon.visible = disturbanceType === DisturbanceType.PULSE;
+        pulseIcon.visible = disturbanceType === DisturbanceTypeEnum.PULSE;
           updateEnabled();
         }
       );
