@@ -72,7 +72,7 @@ define( require => {
       // See EventTimer.getRatio for more about this value.
       this.interpolationRatio = 0;
 
-      // @public (read-only) {Bounds2} - a Bounds2 representing the visible (non-damping) region of the lattice.
+      // @public (read-only) - a Bounds2 representing the visible (non-damping) region of the lattice.
       this.visibleBounds = new Bounds2( this.dampX, this.dampY, this.width - this.dampX, this.height - this.dampY );
     }
 

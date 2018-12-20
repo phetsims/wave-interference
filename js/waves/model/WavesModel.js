@@ -202,12 +202,12 @@ define( require => {
       // @public (read-only) {Scene[]} - the Scene instances as an array
       this.scenes = [ this.waterScene, this.soundScene, this.lightScene ];
 
-      // @public {Property.<ViewpointEnum>} - indicates the user selection for side view or top view
+      // @public - indicates the user selection for side view or top view
       this.viewpointProperty = new Property( ViewpointEnum.TOP, {
         validValues: ViewpointEnum.VALUES
       } );
 
-      // @public {Property.<PlaySpeedEnum>} - the speed at which the simulation is playing
+      // @public - the speed at which the simulation is playing
       this.playSpeedProperty = new Property( PlaySpeedEnum.NORMAL, {
         validValues: PlaySpeedEnum.VALUES
       } );
@@ -285,13 +285,13 @@ define( require => {
       // @public - emits once per step
       this.stepEmitter = new Emitter();
 
-      // @public {Property.<Vector2>} - model for the view coordinates of the base of the measuring tape
+      // @public - model for the view coordinates of the base of the measuring tape
       // We use view coordinates so that nothing needs to be done when switching scenes and coordinate frames.
       this.measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ), {
         valueType: Vector2
       } );
 
-      // @public {Property.<Vector2>} - model for the view coordinates of the tip of the measuring tape
+      // @public - model for the view coordinates of the tip of the measuring tape
       // This position sets reasonable model defaults for each scene: 1.0cm, 50cm, 500nm
       this.measuringTapeTipPositionProperty = new Property( new Vector2( 250, 200 ), {
         valueType: Vector2

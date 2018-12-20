@@ -173,7 +173,7 @@ define( require => {
         range: WaveInterferenceConstants.AMPLITUDE_RANGE
       } );
 
-      // @public {Property.<DisturbanceType>} - pulse or continuous
+      // @public - pulse or continuous
       this.disturbanceTypeProperty = new Property( DisturbanceType.CONTINUOUS, {
         validValues: DisturbanceType.VALUES
       } );
@@ -217,7 +217,7 @@ define( require => {
       // @public - true while a single pulse is being generated
       this.pulseFiringProperty = new BooleanProperty( false );
 
-      // @public (read-only) {BooleanProperty} - signify if a wave is about to start oscillating, see WaterScene
+      // @public (read-only) - signify if a wave is about to start oscillating, see WaterScene
       this.isAboutToFireProperty = new BooleanProperty( false );
 
       // When the pulse ends, the button pops out
@@ -278,7 +278,7 @@ define( require => {
       // Everything below here is just for plane wave screen.
       if ( this.waveSpatialType === WaveSpatialType.PLANE ) {
 
-        // @public {Property.<BarrierTypeEnum>} - type of the barrier in the lattice
+        // @public - type of the barrier in the lattice
         this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT, {
           validValues: BarrierTypeEnum.VALUES
         } );
