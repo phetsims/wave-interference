@@ -12,5 +12,5 @@ define( require => {
   const Enumeration = require( 'PHET_CORE/Enumeration' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  return waveInterference.register( 'SoundViewType', new Enumeration( [ 'WAVES', 'PARTICLES', 'BOTH' ] ) );
+  return waveInterference.register( 'SoundViewTypeEnum', new Enumeration( [ 'WAVES', 'PARTICLES', 'BOTH' ] ) );
 } );

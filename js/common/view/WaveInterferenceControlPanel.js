@@ -17,7 +17,7 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const SceneRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SceneRadioButtonGroup' );
-  const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
+  const SoundViewTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SoundViewTypeEnum' );
   const Util = require( 'DOT/Util' );
   const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -112,15 +112,15 @@ define( require => {
 
       const soundViewTypeRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
         node: new WaveInterferenceText( wavesString ),
-        value: SoundViewType.WAVES,
+        value: SoundViewTypeEnum.WAVES,
         property: model.soundScene.viewSelectionProperty
       }, {
         node: new WaveInterferenceText( particlesString ),
-        value: SoundViewType.PARTICLES,
+        value: SoundViewTypeEnum.PARTICLES,
         property: model.soundScene.viewSelectionProperty
       }, {
         node: new WaveInterferenceText( bothString ),
-        value: SoundViewType.BOTH,
+        value: SoundViewTypeEnum.BOTH,
         property: model.soundScene.viewSelectionProperty
       } ], {
         spacing: 4,

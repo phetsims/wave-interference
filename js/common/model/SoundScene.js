@@ -15,7 +15,7 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SoundParticle = require( 'WAVE_INTERFERENCE/common/model/SoundParticle' );
-  const SoundViewType = require( 'WAVE_INTERFERENCE/common/model/SoundViewType' );
+  const SoundViewTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SoundViewTypeEnum' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -36,8 +36,8 @@ define( require => {
       this.showSoundParticles = showSoundParticles;
 
       // @public - indicates the selected view for sound
-      this.viewSelectionProperty = new Property( SoundViewType.WAVES, {
-        validValues: SoundViewType.VALUES
+      this.viewSelectionProperty = new Property( SoundViewTypeEnum.WAVES, {
+        validValues: SoundViewTypeEnum.VALUES
       } );
 
       // @public (read-only) {SoundParticle[]} particles for the sound scene.

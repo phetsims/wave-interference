@@ -14,8 +14,8 @@ define( require => {
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveSpatialType = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialType' );
-  const DisturbanceType = require( 'WAVE_INTERFERENCE/common/model/DisturbanceType' );
+  const WaveSpatialTypeEnum = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialTypeEnum' );
+  const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
 
   class WaterScene extends Scene {
 
@@ -77,7 +77,7 @@ define( require => {
       // Send a water drop if the button is pressed but not if the button is still pressed from the last pulse.
       // model.button1PressedProperty.value not consulted because we send a shutoff water drop. so that the previous
       // drop gets a full cycle
-      const isPulseMode = this.disturbanceTypeProperty.value === DisturbanceType.PULSE;
+      const isPulseMode = this.disturbanceTypeProperty.value === DisturbanceTypeEnum.PULSE;
       const firePulseDrop = isPulseMode && !this.pulseFiringProperty.value && this.button1PressedProperty.value;
       if ( !isPulseMode || firePulseDrop ) {
 
@@ -85,7 +85,7 @@ define( require => {
         const buttonPressed = buttonProperty.value;
         const frequency = this.desiredFrequencyProperty.value;
         const amplitude = this.desiredAmplitudeProperty.value;
-        const isPulse = this.disturbanceTypeProperty.value === DisturbanceType.PULSE;
+        const isPulse = this.disturbanceTypeProperty.value === DisturbanceTypeEnum.PULSE;
         const sourceSeparation = this.desiredSourceSeparationProperty.value;
         this.waterDrops.push( new WaterDrop(
           amplitude,
@@ -134,7 +134,7 @@ define( require => {
       const timeSinceLastDrop = time - this.lastDropTime;
 
       // Emit water drops if the phase matches up, but not for the plane waves screen
-      if ( this.waveSpatialType === WaveSpatialType.POINT &&
+      if ( this.waveSpatialType === WaveSpatialTypeEnum.POINT &&
            ( this.lastDropTime === null || timeSinceLastDrop > period ) ) {
 
         this.launchWaterDrop( this.button1PressedProperty, this.continuousWave1OscillatingProperty, +1 );
