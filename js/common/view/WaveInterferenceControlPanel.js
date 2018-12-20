@@ -169,7 +169,7 @@ define( require => {
       intensityCheckbox.mouseArea = intensityCheckbox.localBounds.dilated( 2 ).withX( separator.right );
       intensityCheckbox.touchArea = intensityCheckbox.mouseArea;
 
-      //REVIEW^ worthy of factoring out into its own class file, SceneRadioButtonGroup?
+      //REVIEW worthy of factoring out into its own class file, SceneRadioButtonGroup?
       //REVIEW* I added SceneRadioButtonGroup.js, please review
       const sceneRadioButtonGroup = new SceneRadioButtonGroup(
         model.waterScene,
