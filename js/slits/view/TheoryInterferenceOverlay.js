@@ -32,7 +32,7 @@ define( require => {
     constructor( model, viewBounds, options ) {
       super();
 
-      this.mutate( options );
+      this.mutate( options ); //REVIEW^ why not pass options to super in previous statement?
 
       const updateLines = () => {
         this.removeAllChildren();
