@@ -19,7 +19,9 @@ define( require => {
   // constants
   const LENGTH = 500;
   const MAXIMUM_COLOR = 'yellow';
-  const MINIMUM_COLOR = 'red'; //REVIEW^ should this be PhetColorScheme.RED_COLOR_BLIND?
+  const MINIMUM_COLOR = 'red'; //REVIEW should this be PhetColorScheme.RED_COLOR_BLIND?
+                               //REVIEW* Tracked in https://github.com/phetsims/wave-interference/issues/291
+                               //REVIEW* Can these comments be removed?
   const LINE_WIDTH = 1;
 
   class TheoryInterferenceOverlay extends Node {
@@ -30,9 +32,10 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( model, viewBounds, options ) {
-      super();
+      super( options );
 
-      this.mutate( options ); //REVIEW^ why not pass options to super in previous statement?
+      //REVIEW^ why not pass options to super in previous statement?
+      //REVIEW* Done, please review
 
       const updateLines = () => {
         this.removeAllChildren();

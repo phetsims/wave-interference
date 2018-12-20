@@ -25,7 +25,8 @@ define( require => {
 
         //REVIEW This seems like a sketchy thing to set for all Text in the sim. Why this value? Why handle it this way?
         //REVIEW This addresses numerous cases where `maxWidth: 120` would have to otherwise be set in client code.
-        //REVIEW^ I added your reply as a comment here.
+        //REVIEW I added your reply as a comment here.
+        //REVIEW* Looks great, can this be closed?
         // This addresses numerous cases where `maxWidth: 120` would have to otherwise be set in client code.
         maxWidth: 120
       }, options ) );
