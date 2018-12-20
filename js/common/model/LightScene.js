@@ -22,8 +22,9 @@ define( require => {
       super( config );
 
       //REVIEW (read-only) ?
-      //REVIEW The reference is read only, but clients can call mutators on it.  So how should it be marked?
-      //REVIEW^ With the exception of Property, I believe the PhET convention is that 'read-only' applies to assignment, not mutation. I added doc.
+      //REVIEW* The reference is read only, but clients can call mutators on it.  So how should it be marked?
+      //REVIEW With the exception of Property, I believe the PhET convention is that 'read-only' applies to assignment, not mutation. I added doc.
+      //REVIEW* Looks good, can this thread be removed?
       // @public (read-only) {IntensitySample} reads out the intensity on the right hand side of the lattice
       // While this is annotated as 'read-only' for assignment, it can be mutated by clients.
       this.intensitySample = new IntensitySample( this.lattice );

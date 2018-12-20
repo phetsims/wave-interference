@@ -403,7 +403,7 @@ define( require => {
 
         // Take the desired frequency for the water scene, or the specified frequency of any other scene
         const frequency = this.frequencyProperty.get();
-        const wavelength = this.wavelength;
+        const wavelength = this.getWavelength();
 
         // Solve for the wave number
         // lambda * k = 2 * pi
@@ -529,14 +529,15 @@ define( require => {
     }
 
     //REVIEW should the PhET convention for ES5 getters be used here? That is, define and call getWavelength.
-    //REVIEW I don't see the value in having both.  OK if I just go with getWavelength?
-    //REVIEW^ Sure. I'm also OK with ES5 getter only, just pointing out that this is contrary to recent dev discussion.
+    //REVIEW* I don't see the value in having both.  OK if I just go with getWavelength?
+    //REVIEW Sure. I'm also OK with ES5 getter only, just pointing out that this is contrary to recent dev discussion.
+    //REVIEW* I went with getWavelength, can this be closed?
     /**
      * Returns the wavelength in the units of the scene
      * @returns {number}
      * @public
      */
-    get wavelength() {
+    getWavelength() {
       return this.waveSpeed / this.frequencyProperty.get();
     }
 

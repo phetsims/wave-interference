@@ -1,12 +1,13 @@
 // Copyright 2018, University of Colorado Boulder
 
 //REVIEW I don't understand the "When selected" bit.
-//REVIEW I meant to indicate that the sound particles are only updated and displayed when the user
-//REVIEW has selected the "sound" scene and one of the two options that display particles.
-//REVIEW Can you recommend the best way to indicate this?
-//REVIEW^: I modified the doc, please review.
+//REVIEW* I meant to indicate that the sound particles are only updated and displayed when the user
+//REVIEW* has selected the "sound" scene and one of the two options that display particles.
+//REVIEW* Can you recommend the best way to indicate this?
+//REVIEW: I modified the doc, please review.
+//REVIEW* I also added the word "wave", can this be closed?
 /**
- * When the sound generator is selected, shows discrete, moving particles for the sound scene.
+ * When the sound wave generator is selected, shows discrete, moving particles for the sound scene.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

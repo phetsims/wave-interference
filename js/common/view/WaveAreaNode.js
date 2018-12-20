@@ -15,12 +15,12 @@ define( require => {
 
   class WaveAreaNode extends Rectangle {
 
-    //REVIEW^ model parameter is not used
+    //REVIEW model parameter is not used
+    //REVIEW* Removed
     /**
-     * @param {WavesScreenModel} model
      * @param {Object} [options]
      */
-    constructor( model, options ) {
+    constructor( options ) {
       super( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, _.extend( {
 
         // This node is used for layout, so don't include a stroke which could throw off the dimensions

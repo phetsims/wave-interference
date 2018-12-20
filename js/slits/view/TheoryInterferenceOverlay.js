@@ -61,7 +61,7 @@ define( require => {
                 if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
                   const addition = type === 'maxima' ? 0 : 0.5;
                   const separation = scene.slitSeparationProperty.value;
-                  const arg = ( m + addition ) * scene.wavelength / separation;
+                  const arg = ( m + addition ) * scene.getWavelength() / separation;
 
                   // make sure in bounds
                   if ( arg <= 1 ) {
@@ -84,7 +84,7 @@ define( require => {
                 if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
                   const addition = type === 'minima' ? 0 : 0.5;
                   const aperture = scene.slitWidthProperty.value;
-                  const arg = ( m + addition ) * scene.wavelength / aperture;
+                  const arg = ( m + addition ) * scene.getWavelength() / aperture;
 
                   // make sure in bounds.  Single slit begins at m=1
                   if ( arg <= 1 && m > 0 ) {

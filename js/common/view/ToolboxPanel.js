@@ -62,9 +62,12 @@ define( require => {
         model.isTimerInPlayAreaProperty.value = true;
       } );
 
-      // Make sure the probes have enough breathing room so they don't get shoved into the WaveMeterNode icon
-      // The true value is set when dragging
-      waveMeterNode.backgroundNode.translate( 100, 0 ); //REVIEW^ magic number?
+      // Make sure the probes have enough breathing room so they don't get shoved into the WaveMeterNode icon.  Anything
+      // above 60 seems to work equally well, closer than that causes the probes to overlap eachh other or the meter
+      // body. The true translation is set when dragged out of the toolbox.
+      //REVIEW magic number?
+      //REVIEW* Please review newly added docs
+      waveMeterNode.backgroundNode.translate( 60, 0 );
 
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
       // Temporarily show the node so it can be rasterized for an icon
