@@ -26,7 +26,7 @@ define( require => {
   class WaterWaveGeneratorNode extends WaveGeneratorNode {
 
     /**
-     * @param {WavesScreenModel} model
+     * @param {WavesModel} model
      * @param {Node} waveAreaNode - for bounds
      * @param {boolean} isPrimarySource
      */

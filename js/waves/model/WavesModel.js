@@ -61,7 +61,7 @@ define( require => {
   const EVENT_RATE = 20;
   const toFemto = WaveInterferenceUtils.toFemto;
 
-  class WavesScreenModel {
+  class WavesModel {
 
     /**
      * @param {Object} [options]
@@ -402,5 +402,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'WavesScreenModel', WavesScreenModel );
+  return waveInterference.register( 'WavesModel', WavesModel );
 } );

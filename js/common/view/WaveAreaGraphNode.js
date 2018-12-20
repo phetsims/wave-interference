@@ -34,7 +34,7 @@ define( require => {
   class WaveAreaGraphNode extends Node {
 
     /**
-     * @param {WavesScreenModel} model
+     * @param {WavesModel} model
      * @param {Bounds2} waveAreaBounds
      * @param {Object} [options]
      */

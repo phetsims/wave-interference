@@ -20,7 +20,7 @@ define( require => {
   class WaterDropLayer extends Node {
 
     /**
-     * @param {WavesScreenModel} model
+     * @param {WavesModel} model
      * @param {Bounds2} waveAreaNodeBounds
      * @param {Object} [options]
      */

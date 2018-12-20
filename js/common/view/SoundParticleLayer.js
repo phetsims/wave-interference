@@ -22,7 +22,7 @@ define( require => {
   class SoundParticleLayer extends CanvasNode {
 
     /**
-     * @param {WavesScreenModel} model
+     * @param {WavesModel} model
      * @param {Bounds2} waveAreaNodeBounds
      * @param {Object} [options]
      */

@@ -35,7 +35,7 @@ define( require => {
 
     /**
      * @param {AlignGroup} alignGroup
-     * @param {SlitsScreenModel} model
+     * @param {SlitsModel} model
      * @param {Node} comboBoxParent
      */
     constructor( alignGroup, model, comboBoxParent ) {

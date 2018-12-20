@@ -44,7 +44,7 @@ define( require => {
   class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
     /**
-     * @param {WavesScreenModel} model
+     * @param {WavesModel} model
      * @param {AlignGroup} alignGroup
      * @param {Object} [options]
      */

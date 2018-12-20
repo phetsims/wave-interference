@@ -291,7 +291,7 @@ define( require => {
         // @private {number} - phase of the wave so it doesn't start halfway through a cycle
         this.planeWavePhase = 0;
 
-        // @protected {number} - record the time the button was pressed, so the SlitsScreenModel can propagate the right
+        // @protected {number} - record the time the button was pressed, so the SlitsModel can propagate the right
         // distance
         this.button1PressTime = 0;
         this.button1PressedProperty.link( pressed => {

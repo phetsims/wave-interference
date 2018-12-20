@@ -23,7 +23,7 @@ define( require => {
   class SlitsScreenView extends WavesScreenView {
 
     /**
-     * @param {SlitsScreenModel} model
+     * @param {SlitsModel} model
      * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
      */
     constructor( model, alignGroup ) {

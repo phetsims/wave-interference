@@ -25,7 +25,7 @@ define( require => {
   class PlaneWaveGeneratorNode extends Node {
 
     /**
-     * @param {WavesScreenModel} model
+     * @param {WavesModel} model
      * @param {Bounds2} waveAreaBounds
      * @param {Object} [options]
      */

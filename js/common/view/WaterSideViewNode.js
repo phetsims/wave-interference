@@ -23,7 +23,7 @@ define( require => {
 
     /**
      * @param {Bounds2} waveAreaBounds
-     * @param {WavesScreenModel} model
+     * @param {WavesModel} model
      */
     constructor( waveAreaBounds, model ) {
 

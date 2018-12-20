@@ -17,7 +17,7 @@ define( require => {
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  const SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
+  const SlitsModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsModel' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -26,13 +26,13 @@ define( require => {
   class BarriersNode extends Node {
 
     /**
-     * @param {SlitsScreenModel} model
+     * @param {SlitsModel} model
      * @param {Scene} scene
      * @param {Bounds2} viewBounds
      */
     constructor( model, scene, viewBounds ) {
 
-      assert && assert( model instanceof SlitsScreenModel );
+      assert && assert( model instanceof SlitsModel );
 
       /**
        * Creates one of the 3 recycled rectangles used for rendering the barriers.

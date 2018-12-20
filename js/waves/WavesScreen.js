@@ -13,7 +13,7 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WavesScreenModel = require( 'WAVE_INTERFERENCE/waves/model/WavesScreenModel' );
+  const WavesModel = require( 'WAVE_INTERFERENCE/waves/model/WavesModel' );
   const WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
 
   // images
@@ -34,7 +34,7 @@ define( require => {
         homeScreenIcon: new Image( wavesScreenIcon )
       };
       super(
-        () => new WavesScreenModel(),
+        () => new WavesModel(),
         model => new WavesScreenView( model, alignGroup, {
           showViewpointRadioButtonGroup: true,
 

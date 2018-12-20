@@ -16,7 +16,7 @@ define( require => {
   class SceneToggleNode extends ToggleNode {
 
     /**
-     * @param {WavesScreenModel} model
+     * @param {WavesModel} model
      * @param {function} sceneToNode given a {Scene}, create a corresponding {Node}
      * @param {Object} [options]
      */

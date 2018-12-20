@@ -19,7 +19,7 @@ define( require => {
   class WaveInterferenceTimerNode extends TimerNode {
 
     /**
-     * @param {WavesScreenModel} model
+     * @param {WavesModel} model
      * @param {Object} config
      */
     constructor( model, config ) {

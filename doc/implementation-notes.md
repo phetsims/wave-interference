@@ -24,9 +24,9 @@ simulation doesn't require dispose calls.
 
 The first three screens are mainly implemented in js/common.  
 
-[WavesScreenModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesScreenModel.js) is the
+[WavesModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesModel.js) is the
 main model for these screens.  
-Each [WavesScreenModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesScreenModel.js)
+Each [WavesModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesModel.js)
 contains 3 [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js) instances, one for 
 each of water, sound and light.  Most settings (such as whether the waves are turned on or off) are independent for each
 [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js), and each [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js) has its own physical model and [Lattice.js](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Lattice.js).
@@ -54,7 +54,7 @@ wave speed) for each scene.  Run the simulation with `?dev` to get corresponding
 and sim play/pause feature to record one cycle.  To measure the wave speed, let the light propagate to the edge of the 
 boundary, then use the measuring tape to measure distance and divide by the elapsed time on the stopwatch.
 
-The time constants have been tuned in [WavesScreenModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesScreenModel.js) so that the observed wavelength and oscillation time are 
+The time constants have been tuned in [WavesModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesModel.js) so that the observed wavelength and oscillation time are 
 correct.
 
 The following values can also be reported by running with`?log`.
@@ -81,7 +81,7 @@ is a reasonable wave speed for a wave pool, even though it doesn't match wave sp
 | Violet (VisibleColor max) | 788.93 | 380.00 | 
 
 For green light, measuring the distance traveled by a wavefront and dividing by time gives 2807.3E-9/9.75E-15 = 287928205 m/s, which is about 4% off of the true speed of light.  Measuring the colored wavefront for green, I see a deviation of < 1%. Since the distance and wave propagation speeds are independent of frequency, measurements for different colors will
-give the same speed of light.  See also [WavesScreenModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesScreenModel.js) usage of `timeScaleFactor` for how the model is calibrated.
+give the same speed of light.  See also [WavesModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesModel.js) usage of `timeScaleFactor` for how the model is calibrated.
 
 ### Slits Screen
 Here is a schematic for the two-slit dimensions:

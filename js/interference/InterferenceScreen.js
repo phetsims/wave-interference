@@ -10,7 +10,7 @@ define( require => {
 
   // modules
   const Image = require( 'SCENERY/nodes/Image' );
-  const InterferenceScreenModel = require( 'WAVE_INTERFERENCE/interference/model/InterferenceScreenModel' );
+  const InterferenceModel = require( 'WAVE_INTERFERENCE/interference/model/InterferenceModel' );
   const InterferenceScreenView = require( 'WAVE_INTERFERENCE/interference/view/InterferenceScreenView' );
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
@@ -34,7 +34,7 @@ define( require => {
         homeScreenIcon: new Image( interferenceScreenIcon )
       };
       super(
-        () => new InterferenceScreenModel(),
+        () => new InterferenceModel(),
         model => new InterferenceScreenView( model, alignGroup ),
         options
       );

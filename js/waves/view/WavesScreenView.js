@@ -63,7 +63,7 @@ define( require => {
   class WavesScreenView extends ScreenView {
 
     /**
-     * @param {WavesScreenModel} model
+     * @param {WavesModel} model
      * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
      * @param {Object} [options]
      */

@@ -12,7 +12,7 @@ define( require => {
   const Image = require( 'SCENERY/nodes/Image' );
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
-  const SlitsScreenModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsScreenModel' );
+  const SlitsModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsModel' );
   const SlitsScreenView = require( 'WAVE_INTERFERENCE/slits/view/SlitsScreenView' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -34,7 +34,7 @@ define( require => {
         homeScreenIcon: new Image( slitsScreenIcon )
       };
       super(
-        () => new SlitsScreenModel(),
+        () => new SlitsModel(),
         model => new SlitsScreenView( model, alignGroup ),
         options
       );

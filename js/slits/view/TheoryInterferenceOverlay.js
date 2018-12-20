@@ -27,7 +27,7 @@ define( require => {
   class TheoryInterferenceOverlay extends Node {
 
     /**
-     * @param {SlitsScreenModel} model
+     * @param {SlitsModel} model
      * @param {Bounds2} viewBounds - the area where the lattice appears
      * @param {Object} [options]
      */

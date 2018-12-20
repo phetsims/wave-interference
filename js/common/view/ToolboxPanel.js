@@ -23,7 +23,7 @@ define( require => {
      * @param {WaveInterferenceTimerNode} timerNode
      * @param {WaveMeterNode} waveMeterNode
      * @param {AlignGroup} alignGroup - to align with neighbors
-     * @param {WavesScreenModel} model
+     * @param {WavesModel} model
      */
     constructor( measuringTapeNode, timerNode, waveMeterNode, alignGroup, model ) {
 

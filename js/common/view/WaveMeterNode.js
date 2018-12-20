@@ -46,7 +46,7 @@ define( require => {
   class WaveMeterNode extends Node {
 
     /**
-     * @param {WavesScreenModel} model - model for reading values
+     * @param {WavesModel} model - model for reading values
      * @param {WavesScreenView} view - for getting coordinates for model
      * @param {Object} [options]
      */

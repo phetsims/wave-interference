@@ -21,7 +21,7 @@ define( require => {
   class WaveGeneratorNode extends Node {
 
     /**
-     * @param {WavesScreenModel} model
+     * @param {WavesModel} model
      * @param {Scene} scene
      * @param {Node} waveAreaNode - for bounds
      * @param {number} buttonPosition - x offset
