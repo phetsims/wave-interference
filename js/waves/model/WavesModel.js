@@ -56,8 +56,6 @@ define( require => {
   // This simulation uses EventTimer, which provides exactly the same model behavior on very slow and very fast
   // platforms.  Here we define the frequency of events in Hz, which has been tuned so that iPad2 has enough time to run
   // model computations.
-  //REVIEW say more about this value, effect of increasing/decreasing
-  //REVIEW* I added comments, please review.
   const EVENT_RATE = 20;
   const toFemto = WaveInterferenceUtils.toFemto;
 
@@ -86,12 +84,8 @@ define( require => {
         waveSpatialType: WaveSpatialType.POINT
       }, options );
 
-      //REVIEW assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
-      //REVIEW   'initialAmplitude is out of range: ' + options.initialAmplitude );
-      //REVIEW* Looks good, thanks!  Can this comment thread be removed?
       assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
-        'initialAmplitude is out of range: ' + options.initialAmplitude
-      );
+        'initialAmplitude is out of range: ' + options.initialAmplitude );
 
       assert && assert(
         options.numberOfSources === 1 || options.numberOfSources === 2,
@@ -221,8 +215,6 @@ define( require => {
         }
       };
 
-      //REVIEW might be nice to say a few words about this
-      //REVIEW* Done, please review.
       // @private - In order to have exactly the same model behavior on very fast and very slow platforms, we use
       // EventTimer, which updates the model at regular intervals, and we can interpolate between states for additional
       // fidelity.
@@ -267,8 +259,6 @@ define( require => {
       // @public
       this.isWaveMeterInPlayAreaProperty = new BooleanProperty( false );
 
-      //REVIEW since this applies to rotationAmountProperty, recommended to rename to rotationAmountRange
-      //REVIEW* Done, please review
       const rotationAmountRange = new Range( 0, 1 );
 
       // @public - Linear interpolation between ViewpointEnum.TOP (0) and ViewpointEnum.SIDE (1).  This linear

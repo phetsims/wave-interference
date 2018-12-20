@@ -15,8 +15,6 @@ define( require => {
 
   class WaveAreaNode extends Rectangle {
 
-    //REVIEW model parameter is not used
-    //REVIEW* Removed
     /**
      * @param {Object} [options]
      */

@@ -529,10 +529,6 @@ define( require => {
       this.phase = -this.timeProperty.value * angularFrequency;
     }
 
-    //REVIEW should the PhET convention for ES5 getters be used here? That is, define and call getWavelength.
-    //REVIEW* I don't see the value in having both.  OK if I just go with getWavelength?
-    //REVIEW Sure. I'm also OK with ES5 getter only, just pointing out that this is contrary to recent dev discussion.
-    //REVIEW* I went with getWavelength, can this be closed?
     /**
      * Returns the wavelength in the units of the scene
      * @returns {number}
