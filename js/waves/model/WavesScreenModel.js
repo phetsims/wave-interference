@@ -235,33 +235,33 @@ define( require => {
         validValues: this.scenes
       } );
 
-      // @public {BooleanProperty} - whether the wave area should be displayed
+      // @public - whether the wave area should be displayed
       this.showWavesProperty = new BooleanProperty( true );
 
-      // @public {BooleanProperty} - whether the wave area graph should be displayed
+      // @public - whether the wave area graph should be displayed
       this.showGraphProperty = new BooleanProperty( false );
 
-      // @public {BooleanProperty} - whether the screen (on the right of the lattice) should be shown.
+      // @public - whether the screen (on the right of the lattice) should be shown.
       this.showScreenProperty = new BooleanProperty( false );
 
-      // @public {BooleanProperty} - whether the intensity graph (on the right of the lattice) should be shown.
+      // @public - whether the intensity graph (on the right of the lattice) should be shown.
       this.showIntensityGraphProperty = new BooleanProperty( false );
 
-      // @public {BooleanProperty} - whether the model is moving forward in time
+      // @public - whether the model is moving forward in time
       this.isRunningProperty = new BooleanProperty( true );
 
-      // @public {BooleanProperty} - whether the measuring tape has been dragged out of the toolbox into the play area
+      // @public - whether the measuring tape has been dragged out of the toolbox into the play area
       this.isMeasuringTapeInPlayAreaProperty = new BooleanProperty( false );
 
-      // @public {BooleanProperty} - true if the timer is running
+      // @public - true if the timer is running
       this.isTimerRunningProperty = new BooleanProperty( false );
 
-      // @public {NumberProperty} - time elapsed on the timer since it was last restarted
+      // @public - time elapsed on the timer since it was last restarted
       this.timerElapsedTimeProperty = new NumberProperty( 0, {
         units: 'seconds'
       } );
 
-      // @public {BooleanProperty} - true if the timer has been dragged out of the toolbox into the play area
+      // @public - true if the timer has been dragged out of the toolbox into the play area
       this.isTimerInPlayAreaProperty = new BooleanProperty( false );
 
       // @public
@@ -282,7 +282,7 @@ define( require => {
         rotationAmount => rotationAmount !== rotationAmountRange.min && rotationAmount !== rotationAmountRange.max
       );
 
-      // @public {Emitter} - emits once per step
+      // @public - emits once per step
       this.stepEmitter = new Emitter();
 
       // @public {Property.<Vector2>} - model for the view coordinates of the base of the measuring tape

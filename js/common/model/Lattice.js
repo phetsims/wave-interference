@@ -58,7 +58,7 @@ define( require => {
       // @private {number} - indicates the current matrix. Previous matrix is one higher (with correct modulus)
       this.currentMatrixIndex = 0;
 
-      // @public {Emitter} - sends a notification each time the lattice updates.
+      // @public - sends a notification each time the lattice updates.
       this.changedEmitter = new Emitter();
 
       // @public (read-only) {number} - width of the lattice (includes damping regions)

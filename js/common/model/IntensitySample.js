@@ -28,7 +28,7 @@ define( require => {
       // @private {Lattice}
       this.lattice = lattice;
 
-      // @public {Emitter} - signifies when the intensitySample has changed values.
+      // @public - signifies when the intensitySample has changed values.
       this.changedEmitter = new Emitter();
 
       // @private {Array.<Array.<number>>} - each element is one output column

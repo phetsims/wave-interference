@@ -47,7 +47,7 @@ define( require => {
       // @public {WaveSpatialType}
       this.waveSpatialType = config.waveSpatialType;
 
-      // @public {Lattice} the grid that contains the wave values
+      // @public - the grid that contains the wave values
       this.lattice = new Lattice(
         WaveInterferenceConstants.LATTICE_DIMENSION,
         WaveInterferenceConstants.LATTICE_DIMENSION,
@@ -55,7 +55,7 @@ define( require => {
         WaveInterferenceConstants.LATTICE_PADDING
       );
 
-      // @public {number} - elapsed time in seconds
+      // @public - elapsed time in seconds
       this.timeProperty = new NumberProperty( 0 );
 
       // @public {number} phase of the wave generator
@@ -138,7 +138,7 @@ define( require => {
         this.lattice.visibleBounds
       );
 
-      // @public {Property.<Vector2>} horizontal location of the barrier in lattice coordinates (includes damping region)
+      // @public - horizontal location of the barrier in lattice coordinates (includes damping region)
       // note: this is a floating point representation in 2D to work seamlessly with DragListener
       // lattice computations using this floating point value should use Util.roundSymmetric()
       // start slightly left of 50.5 so it will round to 50 instead of 51
@@ -152,7 +152,7 @@ define( require => {
         barrierLocation => Util.roundSymmetric( barrierLocation.x )
       );
 
-      // @public {NumberProperty} - width of the slit(s) opening in the units for this scene
+      // @public - width of the slit(s) opening in the units for this scene
       this.slitWidthProperty = new NumberProperty( config.initialSlitWidth, {
         units: this.positionUnits
       } );
@@ -168,7 +168,7 @@ define( require => {
       // @public (read-only) {string} - displayed at the top right of the wave area
       this.timeScaleString = config.timeScaleString;
 
-      // @public {NumberProperty} - controls the amplitude of the wave.
+      // @public - controls the amplitude of the wave.
       this.amplitudeProperty = new NumberProperty( config.initialAmplitude, {
         range: WaveInterferenceConstants.AMPLITUDE_RANGE
       } );
@@ -214,7 +214,7 @@ define( require => {
       // @public (read-only) {string} - shown on the PlaneWaveGeneratorNode
       this.planeWaveGeneratorNodeText = config.planeWaveGeneratorNodeText;
 
-      // @public {BooleanProperty} - true while a single pulse is being generated
+      // @public - true while a single pulse is being generated
       this.pulseFiringProperty = new BooleanProperty( false );
 
       // @public (read-only) {BooleanProperty} - signify if a wave is about to start oscillating, see WaterScene
@@ -233,10 +233,10 @@ define( require => {
       // @public (read-only) - the value of the wave at the oscillation point
       this.oscillator2Property = new NumberProperty( 0 );
 
-      // @public {BooleanProperty} - true when the first source is continuously oscillating
+      // @public - true when the first source is continuously oscillating
       this.continuousWave1OscillatingProperty = new BooleanProperty( false );
 
-      // @public {BooleanProperty} - true when the second source is continuously oscillating
+      // @public - true when the second source is continuously oscillating
       this.continuousWave2OscillatingProperty = new BooleanProperty( false );
 
       // When the user changes disturbance type, the button pops out and waves stop

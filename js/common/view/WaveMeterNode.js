@@ -78,13 +78,13 @@ define( require => {
       // This is accomplished by calling alignProbes() on drag start and each drag event.
       this.synchronizeProbeLocations = false;
 
-      // @public {Emitter} - emits when the probes should be put in standard relative location to the body
+      // @public - emits when the probes should be put in standard relative location to the body
       this.alignProbesEmitter = new Emitter();
 
       // These do not need to be disposed because there is no connection to the "outside world"
       const leftBottomProperty = new NodeProperty( backgroundNode, 'bounds', 'leftBottom' );
 
-      // @public {Emitter} emits when the WaveMeterNode has been dropped
+      // @public - emits when the WaveMeterNode has been dropped
       this.droppedEmitter = new Emitter();
       const droppedEmitter = this.droppedEmitter;
 

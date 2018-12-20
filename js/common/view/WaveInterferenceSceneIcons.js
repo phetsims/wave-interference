@@ -21,7 +21,7 @@ define( require => {
   class WaveInterferenceSceneIcons {
     constructor() {
 
-      // @public {FaucetNode} - Faucet icon, rasterized to clip out invisible parts (like the ShooterNode)
+      // @public - Faucet icon, rasterized to clip out invisible parts (like the ShooterNode)
       this.faucetIcon = new FaucetNode( 1, new NumberProperty( 0 ), new BooleanProperty( true ), {
         interactiveProperty: new BooleanProperty( false )
       } ).rasterized();

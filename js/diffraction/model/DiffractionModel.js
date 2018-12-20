@@ -18,7 +18,7 @@ define( require => {
   class DiffractionModel {
     constructor() {
 
-      // @public {Property.<boolean>} whether the laser is emitting light
+      // @public - whether the laser is emitting light
       this.onProperty = new BooleanProperty( true );
 
       // @public dimensions of the square aperture
@@ -35,7 +35,9 @@ define( require => {
       this.angleProperty = new NumberProperty( 0 );
 
       // @public {Property.<ApertureType>} selected scene
-      this.sceneProperty = new Property( ApertureType.CIRCLE );
+      this.sceneProperty = new Property( ApertureType.CIRCLE, {
+        validValues: ApertureType.VALUES
+      } );
     }
 
     /**
