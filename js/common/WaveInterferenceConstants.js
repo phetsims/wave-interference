@@ -38,7 +38,9 @@ define( require => {
       majorTickLength: MAJOR_TICK_LENGTH,
       thumbSize: THUMB_SIZE,
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 3 } ),
-      arrowButtonScale: 0.65,
+      arrowButtonOptions: {
+        scale: 0.65
+      },
       titleFont: DEFAULT_FONT,
       titleMaxWidth: 95,
       valueMaxWidth: 65
