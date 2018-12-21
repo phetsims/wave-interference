@@ -48,6 +48,23 @@ define( require => {
           // Render all the minima and maxima on both sides of the origin
           [ 'maxima', 'minima' ].forEach( type => {
             [ -1, 1 ].forEach( sign => {
+
+              /**
+               * Adds a line for the given maximum or minimum
+               * @param {number} arg - argument to the arcsin
+               */
+              const addLine = arg => {
+                const theta = sign * Math.asin( arg );
+
+                const x = LENGTH * Math.cos( theta );
+                const y = LENGTH * Math.sin( theta );
+                const line = new Line( barrierX, barrierY, barrierX + x, barrierY + y, {
+                  stroke: type === 'maxima' ? MAXIMUM_COLOR : MINIMUM_COLOR,
+                  lineWidth: LINE_WIDTH
+                } );
+                this.addChild( line );
+              };
+
               // Limit the maximum number of lines that can be shown on each side.
               for ( let m = 0; m < 20; m++ ) {
 
@@ -63,15 +80,7 @@ define( require => {
 
                   // make sure in bounds
                   if ( arg <= 1 ) {
-                    const theta = sign * Math.asin( arg );
-
-                    const x = LENGTH * Math.cos( theta );
-                    const y = LENGTH * Math.sin( theta );
-                    const line = new Line( barrierX, barrierY, barrierX + x, barrierY + y, {
-                      stroke: type === 'maxima' ? MAXIMUM_COLOR : MINIMUM_COLOR,
-                      lineWidth: LINE_WIDTH
-                    } );
-                    this.addChild( line );
+                    addLine( arg );
                   }
                 }
 
@@ -86,15 +95,7 @@ define( require => {
 
                   // make sure in bounds.  Single slit begins at m=1
                   if ( arg <= 1 && m > 0 ) {
-                    const theta = sign * Math.asin( arg );
-
-                    const x = LENGTH * Math.cos( theta );
-                    const y = LENGTH * Math.sin( theta );
-                    const line = new Line( barrierX, barrierY, barrierX + x, barrierY + y, {
-                      stroke: type === 'maxima' ? MAXIMUM_COLOR : MINIMUM_COLOR,
-                      lineWidth: LINE_WIDTH
-                    } );
-                    this.addChild( line );
+                    addLine( arg );
                   }
                 }
               }
