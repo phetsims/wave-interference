@@ -62,8 +62,7 @@ define( require => {
     CHART_LINE_JOIN: 'round',
 
     // Look of the wave generator button across all 3 scenes
-    CONTINUOUS_DISTURBANCE_BUTTON_COLOR: 'red',
-    PULSE_DISTURBANCE_BUTTON_COLOR: '#33dd33',
+    WAVE_GENERATOR_BUTTON_COLOR: '#33dd33', // a bright shade of green
     WAVE_GENERATOR_BUTTON_RADIUS: 14,
     WAVE_GENERATOR_BUTTON_TOUCH_AREA_DILATION: 8,
 

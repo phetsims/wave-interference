@@ -42,8 +42,8 @@ define( require => {
         left: buttonPosition,
         radius: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_RADIUS,
         content: pulseIcon,
-        touchAreaDilation: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_TOUCH_AREA_DILATION
-        // baseColor is set in the link function below
+        touchAreaDilation: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_TOUCH_AREA_DILATION,
+        baseColor: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_COLOR
       };
 
       const button = new RoundStickyToggleButton(
@@ -78,9 +78,6 @@ define( require => {
 
       // When changing between PULSE and CONTINUOUS, update the buttons.
       scene.disturbanceTypeProperty.link( disturbanceType => {
-        button.setBaseColor( disturbanceType === DisturbanceTypeEnum.CONTINUOUS ?
-                             WaveInterferenceConstants.CONTINUOUS_DISTURBANCE_BUTTON_COLOR :
-                             WaveInterferenceConstants.PULSE_DISTURBANCE_BUTTON_COLOR );
         pulseIcon.visible = disturbanceType === DisturbanceTypeEnum.PULSE;
           updateEnabled();
         }
