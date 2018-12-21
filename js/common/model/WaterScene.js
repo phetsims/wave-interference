@@ -194,6 +194,24 @@ define( require => {
     }
 
     /**
+     * @param {boolean} isPressed
+     * @override
+     * @protected
+     */
+    handleButton1Toggled( isPressed ) {
+      // Override as a no-op, since water controls the source via WaterDrops hitting the surface
+    }
+
+    /**
+     * @param {boolean} isPressed
+     * @override
+     * @protected
+     */
+    handleButton2Toggled( isPressed ) {
+      // Override as a no-op, since water controls the source via WaterDrops hitting the surface
+    }
+
+    /**
      * Clear all of the water drops.
      * @public
      */

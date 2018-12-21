@@ -27,6 +27,14 @@ define( require => {
     }
 
     /**
+     * The wave area resets when the wavelength changes in the light scene
+     * @protected
+     */
+    handlePhaseChanged() {
+      this.clear();
+    }
+
+    /**
      * Clears the scene.
      * @public
      * @override

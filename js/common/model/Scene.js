@@ -22,7 +22,6 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
   const Rectangle = require( 'DOT/Rectangle' );
-  const SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -190,19 +189,7 @@ define( require => {
 
       // The first button can trigger a pulse, or continuous wave, depending on the disturbanceTypeProperty
       this.button1PressedProperty.lazyLink( isPressed => {
-        if ( config.sceneType !== SceneTypeEnum.WATER ) {
-          if ( isPressed ) {
-            this.resetPhase();
-          }
-          if ( isPressed && this.disturbanceTypeProperty.value === DisturbanceTypeEnum.PULSE ) {
-            this.startPulse();
-          }
-          else {
-
-            // Water propagates via the water drop
-            this.continuousWave1OscillatingProperty.value = isPressed;
-          }
-        }
+        this.handleButton1Toggled( isPressed );
 
         // Clear plane waves if the red button is deselected when paused.
         if ( this.waveSpatialType === WaveSpatialTypeEnum.PLANE && !isPressed ) {
@@ -212,14 +199,7 @@ define( require => {
       } );
 
       // The 2nd button starts the second continuous wave
-      this.button2PressedProperty.lazyLink( isPressed => {
-        if ( config.sceneType === SceneTypeEnum.SOUND || config.sceneType === SceneTypeEnum.LIGHT ) {
-          if ( isPressed ) {
-            this.resetPhase();
-          }
-          this.continuousWave2OscillatingProperty.value = isPressed;
-        }
-      } );
+      this.button2PressedProperty.lazyLink( isPressed => this.handleButton2Toggled( isPressed ) );
 
       // @public (read-only) {string} - shown on the PlaneWaveGeneratorNode
       this.planeWaveGeneratorNodeText = config.planeWaveGeneratorNodeText;
@@ -278,10 +258,7 @@ define( require => {
 
         this.phase = proposedPhase;
 
-        // The wave area resets when the wavelength changes in the light scene
-        if ( config.sceneType === SceneTypeEnum.LIGHT ) {
-          this.clear();
-        }
+        this.handlePhaseChanged();
       };
       this.frequencyProperty.lazyLink( phaseUpdate );
 
@@ -567,6 +544,44 @@ define( require => {
       this.resetPhase();
       this.pulseFiringProperty.value = true;
       this.pulseStartTime = this.timeProperty.value;
+    }
+
+    /**
+     * Called when the primary button is toggled.  Can be overriden for scene-specific behavior.
+     * @param {boolean} isPressed
+     * @protected
+     */
+    handleButton1Toggled( isPressed ) {
+      if ( isPressed ) {
+        this.resetPhase();
+      }
+      if ( isPressed && this.disturbanceTypeProperty.value === DisturbanceTypeEnum.PULSE ) {
+        this.startPulse();
+      }
+      else {
+
+        // Water propagates via the water drop
+        this.continuousWave1OscillatingProperty.value = isPressed;
+      }
+    }
+
+    /**
+     * Called when the secondary button is toggled.  Can be overriden for scene-specific behavior.
+     * @param {boolean} isPressed
+     * @protected
+     */
+    handleButton2Toggled( isPressed ) {
+      if ( isPressed ) {
+        this.resetPhase();
+      }
+      this.continuousWave2OscillatingProperty.value = isPressed;
+    }
+
+    /**
+     * No-op which may be overriden for scene-specific behavior.  Called when the phase changes.
+     * @protected
+     */
+    handlePhaseChanged() {
     }
 
     /**

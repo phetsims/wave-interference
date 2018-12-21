@@ -21,7 +21,6 @@ define( require => {
   const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
-  const SceneTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SceneTypeEnum' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -125,7 +124,6 @@ define( require => {
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: false,
-        sceneType: SceneTypeEnum.WATER,
         planeWaveGeneratorNodeText: waterWaveGeneratorString
       } );
 
@@ -161,7 +159,6 @@ define( require => {
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
-        sceneType: SceneTypeEnum.SOUND,
         planeWaveGeneratorNodeText: soundGeneratorString
       } );
 
@@ -199,7 +196,6 @@ define( require => {
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
-        sceneType: SceneTypeEnum.LIGHT,
         planeWaveGeneratorNodeText: lightGeneratorString
       } );
 
