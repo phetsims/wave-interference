@@ -15,9 +15,8 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const SceneRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SceneRadioButtonGroup' );
-  const SoundViewTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SoundViewTypeEnum' );
+  const SoundViewTypeRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SoundViewTypeRadioButtonGroup' );
   const Util = require( 'DOT/Util' );
-  const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
@@ -26,13 +25,10 @@ define( require => {
 
   // strings
   const amplitudeString = require( 'string!WAVE_INTERFERENCE/amplitude' );
-  const bothString = require( 'string!WAVE_INTERFERENCE/both' );
   const frequencyString = require( 'string!WAVE_INTERFERENCE/frequency' );
   const graphString = require( 'string!WAVE_INTERFERENCE/graph' );
   const intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
-  const particlesString = require( 'string!WAVE_INTERFERENCE/particles' );
   const screenString = require( 'string!WAVE_INTERFERENCE/screen' );
-  const wavesString = require( 'string!WAVE_INTERFERENCE/waves' );
 
   // constants
   const CHECKBOX_OPTIONS = { boxWidth: 14 };
@@ -58,33 +54,14 @@ define( require => {
 
       const frequencyControl = new FrequencyControl( model );
 
-      const amplitudeSliderContainer = new SceneToggleNode( model, scene => {
+      const amplitudeControl = new SceneToggleNode( model, scene => {
 
         // For water scene, control the desiredAmplitude (which determines the size of the water drops)
         // For other scenes, control the amplitude directly.
         return new WaveInterferenceSlider( scene.desiredAmplitudeProperty || scene.amplitudeProperty );
       } );
 
-      const soundViewTypeRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {
-        node: new WaveInterferenceText( wavesString ),
-        value: SoundViewTypeEnum.WAVES,
-        property: model.soundScene.viewSelectionProperty
-      }, {
-        node: new WaveInterferenceText( particlesString ),
-        value: SoundViewTypeEnum.PARTICLES,
-        property: model.soundScene.viewSelectionProperty
-      }, {
-        node: new WaveInterferenceText( bothString ),
-        value: SoundViewTypeEnum.BOTH,
-        property: model.soundScene.viewSelectionProperty
-      } ], {
-        spacing: 4,
-        radioButtonOptions: {
-
-          // Manually tuned so the radio buttons have the same width as the "Graph" checkbox
-          radius: 6.5
-        }
-      } );
+      const soundViewTypeRadioButtonGroup = new SoundViewTypeRadioButtonGroup( model );
 
       const graphCheckbox = new Checkbox(
         new WaveInterferenceText( graphString ),
@@ -110,7 +87,7 @@ define( require => {
         screenCheckbox.width,
         graphCheckbox.width,
         frequencyControl.width,
-        amplitudeSliderContainer.width
+        amplitudeControl.width
       ] );
       const separator = new HSeparator( maxComponentWidth );
 
@@ -138,13 +115,13 @@ define( require => {
       const centerX = frequencyTitle.centerX;
       frequencyControl.centerX = centerX;
       amplitudeTitle.centerX = centerX;
-      amplitudeSliderContainer.centerX = centerX;
+      amplitudeControl.centerX = centerX;
       if ( options.additionalControl ) {options.additionalControl.centerX = centerX;}
       sceneRadioButtonGroup.centerX = centerX;
       separator.centerX = centerX;
       const minX = _.min( [
         frequencyControl.left,
-        amplitudeSliderContainer.left,
+        amplitudeControl.left,
         frequencyTitle.left,
         amplitudeTitle.left,
         sceneRadioButtonGroup.left
@@ -171,9 +148,9 @@ define( require => {
       // At the default size, the text should "nestle" into the slider.  But when the text is too small,
       // it must be spaced further away.  See https://github.com/phetsims/wave-interference/issues/194
       const amplitudeTitleSpacing = Util.linear( 17, 4, TALL_TEXT_SPACING, SHORT_TEXT_SPACING, amplitudeTitle.height );
-      amplitudeSliderContainer.top = amplitudeTitle.bottom + amplitudeTitleSpacing;
+      amplitudeControl.top = amplitudeTitle.bottom + amplitudeTitleSpacing;
 
-      const y = amplitudeSliderContainer.bottom + 5;
+      const y = amplitudeControl.bottom + 5;
 
       // The Separation NumberControl is an additionalControl
       if ( options.additionalControl ) {
@@ -203,7 +180,7 @@ define( require => {
           frequencyControl,
 
           amplitudeTitle,
-          amplitudeSliderContainer,
+          amplitudeControl,
 
           ...( options.additionalControl ? [ options.additionalControl ] : [] ),
           sceneRadioButtonGroup,
