@@ -10,11 +10,9 @@ define( require => {
 
   // modules
   const Checkbox = require( 'SUN/Checkbox' );
-  const DynamicProperty = require( 'AXON/DynamicProperty' );
-  const FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
+  const FrequencyControl = require( 'WAVE_INTERFERENCE/common/view/FrequencyControl' );
   const HSeparator = require( 'SUN/HSeparator' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const Property = require( 'AXON/Property' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const SceneRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SceneRadioButtonGroup' );
   const SoundViewTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SoundViewTypeEnum' );
@@ -25,7 +23,6 @@ define( require => {
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   const WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // strings
   const amplitudeString = require( 'string!WAVE_INTERFERENCE/amplitude' );
@@ -39,7 +36,6 @@ define( require => {
 
   // constants
   const CHECKBOX_OPTIONS = { boxWidth: 14 };
-  const fromFemto = WaveInterferenceUtils.fromFemto;
 
   class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
@@ -60,36 +56,7 @@ define( require => {
         maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH
       }, options );
 
-      // Controls are in the physical coordinate frame
-      const waterFrequencySlider = new WaveInterferenceSlider( model.getWaterFrequencySliderProperty() );
-      const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty );
-
-      // For the light scene, create a Property in Hz as required by the FrequencySlider.
-      const frequencyInHzProperty = new DynamicProperty( new Property( model.lightScene.frequencyProperty ), {
-        bidirectional: true,
-        map: frequency => WaveInterferenceUtils.fromFemto( frequency ),
-        inverseMap: frequency => WaveInterferenceUtils.toFemto( frequency )
-      } );
-
-      const lightFrequencySlider = new FrequencySlider( frequencyInHzProperty, {
-        minFrequency: fromFemto( model.lightScene.frequencyProperty.range.min ),
-        maxFrequency: fromFemto( model.lightScene.frequencyProperty.range.max ),
-        trackWidth: 150,
-        trackHeight: 20,
-        valueVisible: false,
-        tweakersVisible: false,
-        thumbWidth: 14,
-        thumbHeight: 18
-      } );
-
-      lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( 0, 10 );
-      const frequencySliderContainer = new Node( {
-        children: [
-          waterFrequencySlider,
-          soundFrequencySlider,
-          lightFrequencySlider
-        ]
-      } );
+      const frequencyControl = new FrequencyControl( model );
 
       const amplitudeSliderContainer = new SceneToggleNode( model, scene => {
 
@@ -142,9 +109,8 @@ define( require => {
         soundViewTypeRadioButtonGroup.width,
         screenCheckbox.width,
         graphCheckbox.width,
-        frequencySliderContainer.width,
-        amplitudeSliderContainer.width,
-        lightFrequencySlider.width
+        frequencyControl.width,
+        amplitudeSliderContainer.width
       ] );
       const separator = new HSeparator( maxComponentWidth );
 
@@ -170,14 +136,14 @@ define( require => {
 
       // Horizontal layout
       const centerX = frequencyTitle.centerX;
-      frequencySliderContainer.centerX = centerX;
+      frequencyControl.centerX = centerX;
       amplitudeTitle.centerX = centerX;
       amplitudeSliderContainer.centerX = centerX;
       if ( options.additionalControl ) {options.additionalControl.centerX = centerX;}
       sceneRadioButtonGroup.centerX = centerX;
       separator.centerX = centerX;
       const minX = _.min( [
-        frequencySliderContainer.left,
+        frequencyControl.left,
         amplitudeSliderContainer.left,
         frequencyTitle.left,
         amplitudeTitle.left,
@@ -199,8 +165,8 @@ define( require => {
       // At the default size, the text should "nestle" into the slider.  But when the text is too small,
       // it must be spaced further away.  See https://github.com/phetsims/wave-interference/issues/194
       const frequencyTitleSpacing = Util.linear( 17, 4, TALL_TEXT_SPACING, SHORT_TEXT_SPACING, frequencyTitle.height );
-      frequencySliderContainer.top = frequencyTitle.bottom + frequencyTitleSpacing;
-      amplitudeTitle.top = frequencySliderContainer.bottom + 7;
+      frequencyControl.top = frequencyTitle.bottom + frequencyTitleSpacing;
+      amplitudeTitle.top = frequencyControl.bottom + 7;
 
       // At the default size, the text should "nestle" into the slider.  But when the text is too small,
       // it must be spaced further away.  See https://github.com/phetsims/wave-interference/issues/194
@@ -229,15 +195,12 @@ define( require => {
 
       // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
       model.sceneProperty.link( scene => {
-        waterFrequencySlider.visible = scene === model.waterScene;
-        soundFrequencySlider.visible = scene === model.soundScene;
-        lightFrequencySlider.visible = scene === model.lightScene;
 
         // z-ordering
         container.children = [
 
           frequencyTitle,
-          frequencySliderContainer,
+          frequencyControl,
 
           amplitudeTitle,
           amplitudeSliderContainer,
