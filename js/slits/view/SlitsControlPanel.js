@@ -14,7 +14,6 @@ define( require => {
   const DynamicProperty = require( 'AXON/DynamicProperty' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
-  const Range = require( 'DOT/Range' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );

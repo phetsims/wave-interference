@@ -13,6 +13,7 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
+  const Range = require( 'DOT/Range' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   class DiffractionModel {
