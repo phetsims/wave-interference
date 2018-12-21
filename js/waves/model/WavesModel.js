@@ -392,15 +392,13 @@ define( require => {
     getWaterFrequencySliderProperty() {
       return this.waterScene.desiredFrequencyProperty;
     }
-
-    /**
-     * @returns {number}
-     * @public
-     */
-    static get EVENT_RATE() {
-      return EVENT_RATE;
-    }
   }
+
+  /**
+   * @static
+   * @public
+   */
+  WavesModel.EVENT_RATE = EVENT_RATE;
 
   return waveInterference.register( 'WavesModel', WavesModel );
 } );

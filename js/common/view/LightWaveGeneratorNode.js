@@ -36,16 +36,13 @@ define( require => {
       }, DEFAULT_OPTIONS ) );
       super( model, scene, waveAreaNode, 70, isPrimarySource, laserPointerNode );
     }
-
-    /**
-     * Returns the defaults
-     * @returns {Object}
-     * @public
-     */
-    static get DEFAULT_OPTIONS() {
-      return DEFAULT_OPTIONS;
-    }
   }
+
+  /**
+   * @static
+   * @public
+   */
+  LightWaveGeneratorNode.DEFAULT_OPTIONS = DEFAULT_OPTIONS;
 
   return waveInterference.register( 'LightWaveGeneratorNode', LightWaveGeneratorNode );
 } );

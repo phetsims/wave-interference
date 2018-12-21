@@ -507,15 +507,13 @@ define( require => {
     step( dt ) {
       this.steppedEmitter.emit();
     }
-
-    /**
-     * @returns {number}
-     * @public
-     */
-    static get SPACING() {
-      return SPACING;
-    }
   }
+
+  /**
+   * @static
+   * @public
+   */
+  WavesScreenView.SPACING = SPACING;
 
   return waveInterference.register( 'WavesScreenView', WavesScreenView );
 } );
