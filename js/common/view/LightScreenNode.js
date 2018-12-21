@@ -12,6 +12,7 @@ define( require => {
   const Bounds2 = require( 'DOT/Bounds2' );
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   const Color = require( 'SCENERY/util/Color' );
+  const ImageDataRenderer = require( 'WAVE_INTERFERENCE/common/view/ImageDataRenderer' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -58,22 +59,12 @@ define( require => {
       // Render into a sub-canvas which will be drawn into the rendering context at the right scale.
       // Use a single column of pixels, then stretch them to the right (since that is a constant)
       const width = 1;
-      const height = this.lattice.height - this.lattice.dampY * 2;
 
-      // @private
-      this.directCanvas = document.createElement( 'canvas' );
-      this.directCanvas.width = width;
-      this.directCanvas.height = height;
-
-      // @private
-      this.directContext = this.directCanvas.getContext( '2d' );
-
-      // @private
-      this.imageData = this.directContext.createImageData( width, height );
+      // @private - for rendering via image data
+      this.imageDataRenderer = new ImageDataRenderer( lattice, width );
 
       // Invalidate paint when model indicates changes
-      const invalidateSelfListener = this.invalidatePaint.bind( this );
-      lattice.changedEmitter.addListener( invalidateSelfListener );
+      lattice.changedEmitter.addListener( this.invalidatePaint.bind( this ) );
 
       // Show it at a 3d perspective, as if orthogonal to the wave view
       const shear = Matrix3.dirtyFromPool().setToAffine( 1, 0, 0, -0.3, 1, 0 );
@@ -104,7 +95,7 @@ define( require => {
       const intensityValues = this.intensitySample.getIntensityValues();
 
       let m = 0;
-      const data = this.imageData.data;
+      const data = this.imageDataRenderer.data;
       const dampY = this.lattice.dampY;
       const height = this.lattice.height;
 
@@ -142,12 +133,12 @@ define( require => {
         data[ offset + 3 ] = 255; // Fully opaque
         m++;
       }
-      this.directContext.putImageData( this.imageData, 0, 0 );
+      this.imageDataRenderer.putImageData();
 
       // draw the sub-canvas to the rendering context at the appropriate scale
       context.save();
       context.transform( CELL_WIDTH * 10, 0, 0, CELL_WIDTH, 0, 0 );
-      context.drawImage( this.directCanvas, 0, 0 );
+      context.drawImage( this.imageDataRenderer.canvas, 0, 0 );
       context.restore();
     }
   }

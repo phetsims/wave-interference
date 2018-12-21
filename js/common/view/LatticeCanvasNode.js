@@ -11,6 +11,7 @@ define( require => {
   // modules
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   const Color = require( 'SCENERY/util/Color' );
+  const ImageDataRenderer = require( 'WAVE_INTERFERENCE/common/view/ImageDataRenderer' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -50,22 +51,12 @@ define( require => {
 
       // For performance, render into a sub-canvas which will be drawn into the rendering context at the right scale.
       const width = this.lattice.width - this.lattice.dampX * 2;
-      const height = this.lattice.height - this.lattice.dampY * 2;
 
-      // @private
-      this.directCanvas = document.createElement( 'canvas' );
-      this.directCanvas.width = width;
-      this.directCanvas.height = height;
-
-      // @private
-      this.directContext = this.directCanvas.getContext( '2d' );
-
-      // @private
-      this.imageData = this.directContext.createImageData( width, height );
+      // @private - for rendering via image data
+      this.imageDataRenderer = new ImageDataRenderer( this.lattice, width );
 
       // Invalidate paint when model indicates changes
-      const invalidateSelfListener = this.invalidatePaint.bind( this );
-      lattice.changedEmitter.addListener( invalidateSelfListener );
+      lattice.changedEmitter.addListener( this.invalidatePaint.bind( this ) );
     }
 
     /**
@@ -100,7 +91,7 @@ define( require => {
     paintCanvas( context ) {
 
       let m = 0;
-      const data = this.imageData.data;
+      const data = this.imageDataRenderer.data;
       const dampX = this.lattice.dampX;
       const dampY = this.lattice.dampY;
       const width = this.lattice.width;
@@ -144,12 +135,12 @@ define( require => {
           m++;
         }
       }
-      this.directContext.putImageData( this.imageData, 0, 0 );
+      this.imageDataRenderer.putImageData();
 
       // draw the sub-canvas to the rendering context at the appropriate scale
       context.save();
       context.transform( WaveInterferenceConstants.CELL_WIDTH, 0, 0, WaveInterferenceConstants.CELL_WIDTH, 0, 0 );
-      context.drawImage( this.directCanvas, 0, 0 );
+      context.drawImage( this.imageDataRenderer.canvas, 0, 0 );
       context.restore();
     }
   }
