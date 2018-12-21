@@ -61,16 +61,8 @@ define( require => {
       }, options );
 
       // Controls are in the physical coordinate frame
-      const waterFrequencySlider = new WaveInterferenceSlider(
-        model.getWaterFrequencySliderProperty(),
-        model.waterScene.frequencyProperty.range.min,
-        model.waterScene.frequencyProperty.range.max
-      );
-      const soundFrequencySlider = new WaveInterferenceSlider(
-        model.soundScene.frequencyProperty,
-        model.soundScene.frequencyProperty.range.min,
-        model.soundScene.frequencyProperty.range.max
-      );
+      const waterFrequencySlider = new WaveInterferenceSlider( model.getWaterFrequencySliderProperty() );
+      const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty );
 
       // For the light scene, create a Property in Hz as required by the FrequencySlider.
       const frequencyInHzProperty = new DynamicProperty( new Property( model.lightScene.frequencyProperty ), {
@@ -103,11 +95,7 @@ define( require => {
 
         // For water scene, control the desiredAmplitude (which determines the size of the water drops)
         // For other scenes, control the amplitude directly.
-        return new WaveInterferenceSlider(
-          scene.desiredAmplitudeProperty || scene.amplitudeProperty,
-          scene.amplitudeProperty.range.min,
-          scene.amplitudeProperty.range.max
-        );
+        return new WaveInterferenceSlider( scene.desiredAmplitudeProperty || scene.amplitudeProperty );
       } );
 
       const soundViewTypeRadioButtonGroup = new VerticalAquaRadioButtonGroup( [ {

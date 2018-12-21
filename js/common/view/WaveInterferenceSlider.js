@@ -34,10 +34,11 @@ define( require => {
 
     /**
      * @param {NumberProperty} property
-     * @param {number} min
-     * @param {number} max
      */
-    constructor( property, min, max ) {
+    constructor( property ) {
+      assert && assert( property.range, 'WaveInterferenceSlider.property requires range' );
+      const min = property.range.min;
+      const max = property.range.max;
       const minLabel = new WaveInterferenceText( min === 0 ? '0' : minString, LABEL_OPTIONS );
       const maxLabel = new WaveInterferenceText( maxString, LABEL_OPTIONS );
       const ticks = _.range( 0, MAX_TICK_INDEX + 1 ).map( index => {
@@ -50,7 +51,7 @@ define( require => {
         };
       } );
 
-      super( property, new Range( min, max ), {
+      super( property, property.range, {
         thumbSize: WaveInterferenceConstants.THUMB_SIZE,
         trackSize: new Dimension2( 150, 1 ),
 

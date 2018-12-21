@@ -33,12 +33,13 @@ define( require => {
     constructor( model, alignGroup ) {
 
       // Ranges, deltas, etc specified in https://github.com/phetsims/wave-interference/issues/177
-      const waterSceneRange = new Range( 1, 5 ); // cm
-      const soundSceneRange = new Range( 100, 400 ); // cm
-      const lightSceneRange = new Range( 500, 4000 ); // nm
       const waterSeparationProperty = model.waterScene.desiredSourceSeparationProperty;
       const soundSeparationProperty = model.soundScene.sourceSeparationProperty;
       const lightSeparationProperty = model.lightScene.sourceSeparationProperty;
+
+      const waterSceneRange = waterSeparationProperty.range;
+      const soundSceneRange = soundSeparationProperty.range;
+      const lightSceneRange = lightSeparationProperty.range;
 
       // Switch between controls for each scene.  No advantage in using SceneToggleNode in this case
       // because the control constructor calls are substantially different.

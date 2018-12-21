@@ -95,11 +95,14 @@ define( require => {
 
       const sourceSeparationProperty = scene.desiredSourceSeparationProperty || scene.sourceSeparationProperty;
       sourceSeparationProperty.link( sourceSeparation => {
+
+        // Distance between the sources, or 0 if there is only 1 source
+        const separation = scene.numberOfSources === 2 ? sourceSeparation : 0;
         if ( !isPrimarySource ) {
-          nodeWithButton.visible = sourceSeparation > 0;
+          nodeWithButton.visible = separation > 0;
         }
         const sign = isPrimarySource ? 1 : -1;
-        const viewSeparation = modelViewTransform.modelToViewDeltaY( sourceSeparation );
+        const viewSeparation = modelViewTransform.modelToViewDeltaY( separation );
 
         nodeWithButton.centerY = waveAreaNode.centerY + sign * viewSeparation / 2 + verticalOffset;
       } );

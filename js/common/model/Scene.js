@@ -123,12 +123,18 @@ define( require => {
         units: this.timeUnits
       } );
 
+      assert && assert( config.numberOfSources === 1 || config.numberOfSources === 2, 'Must have 1 or 2 sources' );
+
+      // @public (read-only) {number}
+      this.numberOfSources = config.numberOfSources;
+
       // @public distance between the sources in the units of the scene, or 0 if there is only one
       // source initialized to match the initial slit separation,
       // see https://github.com/phetsims/wave-interference/issues/87
       this.sourceSeparationProperty = new NumberProperty(
-        config.numberOfSources === 1 ? 0 : config.initialSlitSeparation, {
-          units: this.positionUnits
+        config.initialSlitSeparation, {
+          units: this.positionUnits,
+          range: config.sourceSeparationRange
         } );
 
       // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice
@@ -154,12 +160,16 @@ define( require => {
 
       // @public - width of the slit(s) opening in the units for this scene
       this.slitWidthProperty = new NumberProperty( config.initialSlitWidth, {
-        units: this.positionUnits
+        units: this.positionUnits,
+        range: config.slitWidthRange
       } );
+
+      assert && assert( config.slitSeparationRange, 'config.slitSeparationRange is required' );
 
       // @public distance between the center of the slits, in the units for this scene
       this.slitSeparationProperty = new NumberProperty( config.initialSlitSeparation, {
-        units: this.positionUnits
+        units: this.positionUnits,
+        range: config.slitSeparationRange
       } );
 
       // @public (read-only) {number}
@@ -360,9 +370,10 @@ define( require => {
           const waveValue = ( this.pulseFiringProperty.get() && timeSincePulseStarted > period ) ? 0 :
                             -Math.sin( time * angularFrequency + this.phase ) * amplitude;
 
-          // assumes a square lattice
-          const sourceSeparation = this.sourceSeparationProperty.get();
+          // Distance between the sources, or 0 if there is only 1 source
+          const sourceSeparation = this.numberOfSources === 2 ? this.sourceSeparationProperty.get() : 0;
 
+          // assumes a square lattice
           const separationInLatticeUnits = this.modelToLatticeTransform.modelToViewDeltaY( sourceSeparation / 2 );
           const distanceFromCenter = Util.roundSymmetric( separationInLatticeUnits );
 

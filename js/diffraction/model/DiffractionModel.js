@@ -22,17 +22,29 @@ define( require => {
       this.onProperty = new BooleanProperty( true );
 
       // @public dimensions of the square aperture
-      this.squareWidthProperty = new NumberProperty( 16 );
-      this.squareHeightProperty = new NumberProperty( 16 );
+      this.squareWidthProperty = new NumberProperty( 16, {
+        range: new Range( 2, 30 )
+      } );
+      this.squareHeightProperty = new NumberProperty( 16, {
+        range: new Range( 2, 30 )
+      } );
 
       // @public dimensions of the elliptical aperture
-      this.sigmaXProperty = new NumberProperty( 10 );
-      this.sigmaYProperty = new NumberProperty( 10 );
+      this.sigmaXProperty = new NumberProperty( 10, {
+        range: new Range( 2, 10 )
+      } );
+      this.sigmaYProperty = new NumberProperty( 10, {
+        range: new Range( 2, 10 )
+      } );
       this.gaussianMagnitudeProperty = new NumberProperty( 400 );
 
       // @public characteristics of the grating
-      this.numberOfLinesProperty = new NumberProperty( 10 );
-      this.angleProperty = new NumberProperty( 0 );
+      this.numberOfLinesProperty = new NumberProperty( 10, {
+        range: new Range( 2, 200 )
+      } );
+      this.angleProperty = new NumberProperty( 0, {
+        range: new Range( 0, Math.PI * 2 )
+      } );
 
       // @public - selected scene
       this.sceneProperty = new Property( ApertureTypeEnum.CIRCLE, {

@@ -27,14 +27,20 @@ define( require => {
 
       // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
       // gets propagated to the lattice via the water drops
-      this.desiredFrequencyProperty = new NumberProperty( this.frequencyProperty.initialValue );
+      this.desiredFrequencyProperty = new NumberProperty( this.frequencyProperty.initialValue, {
+        range: this.frequencyProperty.range
+      } );
 
       // @public - In the water Scene, the user specifies the desired source separation.  This is the position of
       // the faucets.  The sourceSeparationProperty indicates the sources of oscillation once the water has struck.
-      this.desiredSourceSeparationProperty = new NumberProperty( this.sourceSeparationProperty.value );
+      this.desiredSourceSeparationProperty = new NumberProperty( this.sourceSeparationProperty.value, {
+        range: config.sourceSeparationRange
+      } );
 
       // @public - the amplitude the user has selected
-      this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude );
+      this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude, {
+        range: this.amplitudeProperty.range
+      } );
 
       // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
       this.waterDrops = [];
@@ -86,7 +92,9 @@ define( require => {
         const frequency = this.desiredFrequencyProperty.value;
         const amplitude = this.desiredAmplitudeProperty.value;
         const isPulse = this.disturbanceTypeProperty.value === DisturbanceTypeEnum.PULSE;
-        const sourceSeparation = this.desiredSourceSeparationProperty.value;
+
+        // Distance between the sources, or 0 if there is only 1 source
+        const sourceSeparation = this.numberOfSources === 2 ? this.desiredSourceSeparationProperty.value : 0;
         this.waterDrops.push( new WaterDrop(
           amplitude,
           buttonPressed,
@@ -99,7 +107,11 @@ define( require => {
             }
             this.amplitudeProperty.set( amplitude );
             this.frequencyProperty.set( frequency );
-            this.sourceSeparationProperty.value = sourceSeparation;
+
+            // Separate the sources (if there are two of them)
+            if ( this.numberOfSources === 2 ) {
+              this.sourceSeparationProperty.value = sourceSeparation;
+            }
 
             this.resetPhase();
             if ( isPulse ) {

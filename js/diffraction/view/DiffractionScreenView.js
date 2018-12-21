@@ -134,10 +134,10 @@ define( require => {
       this.squareControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'width', model.squareWidthProperty, new Range( 2, 30 ), _.extend( {
+          new NumberControl( 'width', model.squareWidthProperty, model.squareWidthProperty.range, _.extend( {
             delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ),
-          new NumberControl( 'height', model.squareHeightProperty, new Range( 2, 30 ), _.extend( {
+          new NumberControl( 'height', model.squareHeightProperty, model.squareHeightProperty.range, _.extend( {
             delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ) ]
       } ), _.extend( {
@@ -148,8 +148,8 @@ define( require => {
       this.gaussianControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'sigmaX', model.sigmaXProperty, new Range( 2, 10 ), NUMBER_CONTROL_OPTIONS ),
-          new NumberControl( 'sigmaY', model.sigmaYProperty, new Range( 2, 10 ), NUMBER_CONTROL_OPTIONS )
+          new NumberControl( 'sigmaX', model.sigmaXProperty, model.sigmaXProperty.range, NUMBER_CONTROL_OPTIONS ),
+          new NumberControl( 'sigmaY', model.sigmaYProperty, model.sigmaYProperty.range, NUMBER_CONTROL_OPTIONS )
         ]
       } ), _.extend( {
         leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
@@ -159,8 +159,8 @@ define( require => {
       this.slitsControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'number lines', model.numberOfLinesProperty, new Range( 2, 200 ), NUMBER_CONTROL_OPTIONS ),
-          new NumberControl( 'angle', model.angleProperty, new Range( 0, Math.PI * 2 ), _.extend( {
+          new NumberControl( 'number lines', model.numberOfLinesProperty, model.numberOfLinesProperty.range, NUMBER_CONTROL_OPTIONS ),
+          new NumberControl( 'angle', model.angleProperty, model.angleProperty.range, _.extend( {
             delta: 0.01
           }, NUMBER_CONTROL_OPTIONS ) )
         ]

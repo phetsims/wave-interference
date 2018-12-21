@@ -119,6 +119,10 @@ define( require => {
         initialSlitWidth: 1.5, // cm
         initialSlitSeparation: 3, // cm
 
+        sourceSeparationRange: new Range( 1, 5 ), // cm
+        slitSeparationRange: new Range( 1, 5 ), // cm
+        slitWidthRange: new Range( 0.5, 2.5 ), // cm
+
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: false,
         sceneType: SceneTypeEnum.WATER,
@@ -151,6 +155,9 @@ define( require => {
 
         initialSlitWidth: 90, // cm
         initialSlitSeparation: 200, // cm
+        sourceSeparationRange: new Range( 100, 400 ), // cm
+        slitWidthRange: new Range( 20, 160 ), // cm
+        slitSeparationRange: new Range( 40, 320 ), // cm
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
@@ -184,8 +191,11 @@ define( require => {
 
         // nm - if this value is too high, the light screen will oversaturate,
         // see https://github.com/phetsims/wave-interference/issues/209
-        initialSlitWidth: 500,
+        initialSlitWidth: 500, // nm
         initialSlitSeparation: 1500, // nm
+        sourceSeparationRange: new Range( 500, 4000 ), // nm
+        slitWidthRange: new Range( 200, 1600 ), // nm
+        slitSeparationRange: new Range( 400, 3200 ), // nm
 
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,

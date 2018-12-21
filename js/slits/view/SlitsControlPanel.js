@@ -58,38 +58,35 @@ define( require => {
         maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH
       } );
 
-      const createTicks = range => [
-        { value: range.min, label: createLabel( '' + range.min ) },
-        { value: range.max, label: createLabel( '' + range.max ) }
+      const createTicks = property => [
+        { value: property.range.min, label: createLabel( '' + property.range.min ) },
+        { value: property.range.max, label: createLabel( '' + property.range.max ) }
       ];
 
       // Slit width controls.  Ranges, values and deltas specified in
       // https://github.com/phetsims/wave-interference/issues/177
-      const waterRange = new Range( 0.5, 2.5 ); // cm
       const waterSlitWidthControl = new NumberControl(
-        slitWidthString, model.waterScene.slitWidthProperty, waterRange, _.extend( {
+        slitWidthString, model.waterScene.slitWidthProperty, model.waterScene.slitWidthProperty.range, _.extend( {
           delta: 0.1, // cm
           decimalPlaces: 1,
           valuePattern: cmValueString,
-          majorTicks: createTicks( waterRange )
+          majorTicks: createTicks( model.waterScene.slitWidthProperty )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
-      const soundRange = new Range( 20, 160 );
       const soundSlitWidthControl = new NumberControl(
-        slitWidthString, model.soundScene.slitWidthProperty, soundRange, _.extend( {
+        slitWidthString, model.soundScene.slitWidthProperty, model.soundScene.slitWidthProperty.range, _.extend( {
           delta: 1, // cm
           constrainValue: value => Util.roundToInterval( value, 10 ),
           valuePattern: cmValueString,
-          majorTicks: createTicks( soundRange )
+          majorTicks: createTicks( model.soundScene.slitWidthProperty )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
-      const lightRange = new Range( 200, 1600 );
       const lightSlitWidthControl = new NumberControl(
-        slitWidthString, model.lightScene.slitWidthProperty, lightRange, _.extend( {
+        slitWidthString, model.lightScene.slitWidthProperty, model.lightScene.slitWidthProperty.range, _.extend( {
           delta: 10, // nm
           constrainValue: value => Util.roundToInterval( value, 50 ),
           valuePattern: nmValueString,
-          majorTicks: createTicks( lightRange )
+          majorTicks: createTicks( model.lightScene.slitWidthProperty )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const slitWidthControl = new ToggleNode( model.sceneProperty, [
         { value: model.waterScene, node: waterSlitWidthControl },
@@ -105,40 +102,37 @@ define( require => {
 
       // Slit separation controls.  Ranges, values and deltas specified in
       // https://github.com/phetsims/wave-interference/issues/177
-      const waterSeparationRange = new Range( 1, 5 );
       const waterSeparationControl = new NumberControl(
         slitSeparationString,
         model.waterScene.slitSeparationProperty,
-        waterSeparationRange,
+        model.waterScene.slitSeparationProperty.range,
         _.extend( {
           decimalPlaces: 1,
           delta: 0.1, // cm
           valuePattern: cmValueString,
-          majorTicks: createTicks( waterSeparationRange )
+          majorTicks: createTicks( model.waterScene.slitSeparationProperty )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
-      const soundSeparationRange = new Range( 40, 320 ); // cm
       const soundSeparationControl = new NumberControl(
         slitSeparationString,
         model.soundScene.slitSeparationProperty,
-        soundSeparationRange,
+        model.soundScene.slitSeparationProperty.range,
         _.extend( {
           delta: 1, // cm
           constrainValue: value => Util.roundToInterval( value, 10 ),
           valuePattern: cmValueString,
-          majorTicks: createTicks( soundSeparationRange )
+          majorTicks: createTicks( model.soundScene.slitSeparationProperty )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
-      const lightSeparationRange = new Range( 400, 3200 );
       const lightSeparationControl = new NumberControl(
         slitSeparationString,
         model.lightScene.slitSeparationProperty,
-        lightSeparationRange,
+        model.lightScene.slitSeparationProperty.range,
         _.extend( {
           delta: 10, // nm
           constrainValue: value => Util.roundToInterval( value, 50 ),
           valuePattern: nmValueString,
-          majorTicks: createTicks( lightSeparationRange )
+          majorTicks: createTicks( model.lightScene.slitSeparationProperty )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const slitSeparationControl = new ToggleNode( model.sceneProperty, [
         { value: model.waterScene, node: waterSeparationControl },
