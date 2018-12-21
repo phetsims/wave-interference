@@ -18,27 +18,26 @@ define( require => {
   const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker/speaker_MID.png' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  class WaveInterferenceSceneIcons {
-    constructor() {
+  const WaveInterferenceSceneIcons = {
 
-      // @public - Faucet icon, rasterized to clip out invisible parts (like the ShooterNode)
-      this.faucetIcon = new FaucetNode( 1, new NumberProperty( 0 ), new BooleanProperty( true ), {
-        interactiveProperty: new BooleanProperty( false )
-      } ).rasterized();
+    // @public - Faucet icon, rasterized to clip out invisible parts (like the ShooterNode)
+    WATER_ICON: new FaucetNode( 1, new NumberProperty( 0 ), new BooleanProperty( true ), {
+      interactiveProperty: new BooleanProperty( false )
+    } ).rasterized(),
 
-      // @public - Speaker icon
-      this.speakerIcon = new Image( speakerImage );
+    // @public
+    SOUND_ICON: new Image( speakerImage ),
 
-      // @public - Laser Pointer icon
-      this.laserPointerIcon = new LaserPointerNode( new BooleanProperty( false ), LightWaveGeneratorNode.DEFAULT_OPTIONS );
+    // @public
+    LIGHT_ICON: new LaserPointerNode( new BooleanProperty( false ), LightWaveGeneratorNode.DEFAULT_OPTIONS )
+  };
 
-      // Uniform sizing.
-      const iconWidth = 29;
-      this.faucetIcon.scale( iconWidth / this.faucetIcon.width * 0.7 );
-      this.speakerIcon.scale( iconWidth / this.speakerIcon.height );
-      this.laserPointerIcon.scale( iconWidth / this.laserPointerIcon.width );
-    }
-  }
+  // Icon sizes
+  const waterIconWidth = 20.3;
+  const iconWidth = 29;
+  WaveInterferenceSceneIcons.WATER_ICON.scale( waterIconWidth / WaveInterferenceSceneIcons.WATER_ICON.width );
+  WaveInterferenceSceneIcons.SOUND_ICON.scale( iconWidth / WaveInterferenceSceneIcons.SOUND_ICON.height );
+  WaveInterferenceSceneIcons.LIGHT_ICON.scale( iconWidth / WaveInterferenceSceneIcons.LIGHT_ICON.width );
 
   return waveInterference.register( 'WaveInterferenceSceneIcons', WaveInterferenceSceneIcons );
 } );

@@ -23,13 +23,10 @@ define( require => {
      */
     constructor( waterScene, soundScene, lightScene, sceneProperty ) {
 
-      // Create faucet icon, and rasterize to clip out invisible parts (like the ShooterNode)
-      const sceneIcons = new WaveInterferenceSceneIcons();
-
       super( sceneProperty, [
-        { value: waterScene, node: sceneIcons.faucetIcon },
-        { value: soundScene, node: sceneIcons.speakerIcon },
-        { value: lightScene, node: sceneIcons.laserPointerIcon }
+        { value: waterScene, node: WaveInterferenceSceneIcons.WATER_ICON },
+        { value: soundScene, node: WaveInterferenceSceneIcons.SOUND_ICON },
+        { value: lightScene, node: WaveInterferenceSceneIcons.LIGHT_ICON }
       ], {
         orientation: 'horizontal',
         spacing: 15,
