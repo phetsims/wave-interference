@@ -14,8 +14,8 @@ define( require => {
   class ImageDataRenderer {
 
     /**
-     * @param {width} width
      * @param {number} width
+     * @param {number} height
      */
     constructor( width, height ) {
 
