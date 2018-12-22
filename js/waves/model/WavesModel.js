@@ -103,7 +103,7 @@ define( require => {
         timeUnits: secondsUnitsString,
         timeScaleString: '',
 
-        verticalAxisTitle: waterLevelString,
+        graphVerticalAxisLabel: waterLevelString,
         graphTitle: waterLevelAtCenterString,
         graphHorizontalAxisLabel: positionCMString,
         waveAreaWidth: 10, // 10 centimeters
@@ -134,7 +134,7 @@ define( require => {
         timeUnits: millisecondsUnitsString,
         timeScaleString: millisecondConversionString,
 
-        verticalAxisTitle: pressureString,
+        graphVerticalAxisLabel: pressureString,
         graphTitle: pressureAtCenterString,
         graphHorizontalAxisLabel: positionCMString,
         waveAreaWidth: 500, // in cm
@@ -173,7 +173,7 @@ define( require => {
         translatedPositionUnits: nanometersUnitsString,
         timeUnits: femtosecondsUnitsString,
         timeScaleString: femtosecondConversionString,
-        verticalAxisTitle: electricFieldString,
+        graphVerticalAxisLabel: electricFieldString,
         graphTitle: electricFieldAtCenterString,
         graphHorizontalAxisLabel: positionNMString,
         waveAreaWidth: 5000, // nm

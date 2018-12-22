@@ -96,7 +96,7 @@ define( require => {
 
       const verticalAxisLabel = new SceneToggleNode(
         model,
-        scene => new WaveInterferenceText( scene.verticalAxisTitle ), {
+        scene => new WaveInterferenceText( scene.graphVerticalAxisLabel ), {
           rotation: 3 * Math.PI / 2,
           right: -TEXT_MARGIN_Y,
           centerY: graphHeight / 2

@@ -65,7 +65,7 @@ define( require => {
         positionUnits: null, // {string} - the units (in English and for the PhET-iO data stream)
         timeScaleFactor: null, // {number} - scale factor to convert seconds of wall time to time for the given scene
         timeUnits: null, // {string} - units for time, shown in the timer and optionally top right of the lattice
-        verticalAxisTitle: null, // {string} text to show on the vertical axis on the wave-area graph
+        graphVerticalAxisLabel: null, // {string} text to show on the vertical axis on the wave-area graph
         graphTitle: null, // {string} - the title to the shown on the wave-area graph
         numberOfSources: null, // {number} - 1 or 2
         waveSpeed: null, // {number}
@@ -105,7 +105,7 @@ define( require => {
       this.timeUnits = Validator.validate( config.timeUnits, VALID_STRING );
 
       // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
-      this.verticalAxisTitle = Validator.validate( config.verticalAxisTitle, VALID_STRING );
+      this.graphVerticalAxisLabel = Validator.validate( config.graphVerticalAxisLabel, VALID_STRING );
 
       // @public (read-only) {string} - the title to the shown on the wave-area graph
       this.graphTitle = Validator.validate( config.graphTitle, VALID_STRING );
