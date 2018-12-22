@@ -28,6 +28,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveSpatialTypeEnum = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialTypeEnum' );
+  const Validator = require( 'AXON/Validator' );
 
   // strings
   const distanceUnitsString = require( 'string!WAVE_INTERFERENCE/distanceUnits' );
@@ -35,6 +36,18 @@ define( require => {
 
   // constants
   const PLANE_WAVE_MAGNITUDE = 0.21;
+  const POSITIVE_NUMBER = {
+    valueType: 'number',
+    isValidValue: v => v > 0
+  };
+  const VALID_STRING = {
+    valueType: 'string',
+    isValidValue: s => s.length > 0
+  };
+  const VALID_RANGE = {
+    valueType: Range,
+    isValidValue: range => range.min > 0 && range.max > 0
+  };
 
   class Scene {
 
@@ -44,7 +57,83 @@ define( require => {
     constructor( config ) {
 
       // @public {WaveSpatialTypeEnum}
-      this.waveSpatialType = config.waveSpatialType;
+      this.waveSpatialType = Validator.validate( config.waveSpatialType, { validValues: WaveSpatialTypeEnum.VALUES } );
+
+      // @public (read-only) {string} - units for this scene
+      this.translatedPositionUnits = Validator.validate( config.translatedPositionUnits, VALID_STRING );
+
+      // @public (read-only) {number} - width of the visible part of the lattice in the scene's units
+      this.waveAreaWidth = Validator.validate( config.waveAreaWidth, POSITIVE_NUMBER );
+
+      // @public (read-only) {string} - text that describes the horizontal spatial axis
+      this.graphHorizontalAxisLabel = Validator.validate( config.graphHorizontalAxisLabel, VALID_STRING );
+
+      // @public (read-only) {number} - length that depicts indicate relative scale, see LengthScaleIndicatorNode
+      this.scaleIndicatorLength = Validator.validate( config.scaleIndicatorLength, POSITIVE_NUMBER );
+
+      // @public (read-only) {string} - the units (in English and for the PhET-iO data stream)
+      this.positionUnits = Validator.validate( config.positionUnits, VALID_STRING );
+
+      // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
+      this.timeScaleFactor = Validator.validate( config.timeScaleFactor, POSITIVE_NUMBER );
+
+      // @public (read-only) {string} - units for time, shown in the timer and optionally top right of the lattice
+      this.timeUnits = Validator.validate( config.timeUnits, VALID_STRING );
+
+      // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
+      this.verticalAxisTitle = Validator.validate( config.verticalAxisTitle, VALID_STRING );
+
+      // @public (read-only) {string} - the title to the shown on the wave-area graph
+      this.graphTitle = Validator.validate( config.graphTitle, VALID_STRING );
+
+      // @public (read-only) {number}
+      this.numberOfSources = Validator.validate( config.numberOfSources, { validValues: [ 1, 2 ] } );
+
+      // @public (read-only) {number}
+      this.waveSpeed = Validator.validate( config.waveSpeed, POSITIVE_NUMBER );
+
+      // @public (read-only) {string} - displayed at the top right of the wave area
+      this.timeScaleString = Validator.validate( config.timeScaleString, { valueType: 'string' } );
+
+      // @public (read-only) {string} - shown on the PlaneWaveGeneratorNode
+      this.planeWaveGeneratorNodeText = Validator.validate( config.planeWaveGeneratorNodeText, VALID_STRING );
+
+      // These config values are used to create Property instances.
+      const frequencyRange = Validator.validate( config.frequencyRange, VALID_RANGE );
+      const initialSlitSeparation = Validator.validate( config.initialSlitSeparation, POSITIVE_NUMBER );
+      const sourceSeparationRange = Validator.validate( config.sourceSeparationRange, VALID_RANGE );
+      const initialSlitWidth = Validator.validate( config.initialSlitWidth, POSITIVE_NUMBER );
+      const slitWidthRange = Validator.validate( config.slitWidthRange, VALID_RANGE );
+      const slitSeparationRange = Validator.validate( config.slitSeparationRange, VALID_RANGE );
+      const initialAmplitude = Validator.validate( config.initialAmplitude, POSITIVE_NUMBER );
+
+      // @public the frequency in the appropriate units for the scene
+      this.frequencyProperty = new NumberProperty( frequencyRange.getCenter(), { range: frequencyRange } );
+
+      // @public distance between the sources in the units of the scene, or 0 if there is only one
+      // source initialized to match the initial slit separation,
+      // see https://github.com/phetsims/wave-interference/issues/87
+      this.sourceSeparationProperty = new NumberProperty( initialSlitSeparation, {
+        units: this.positionUnits,
+        range: sourceSeparationRange
+      } );
+
+      // @public - width of the slit(s) opening in the units for this scene
+      this.slitWidthProperty = new NumberProperty( initialSlitWidth, {
+        units: this.positionUnits,
+        range: slitWidthRange
+      } );
+
+      // @public distance between the center of the slits, in the units for this scene
+      this.slitSeparationProperty = new NumberProperty( initialSlitSeparation, {
+        units: this.positionUnits,
+        range: slitSeparationRange
+      } );
+
+      // @public - controls the amplitude of the wave.
+      this.amplitudeProperty = new NumberProperty( initialAmplitude, {
+        range: WaveInterferenceConstants.AMPLITUDE_RANGE
+      } );
 
       // @public - the grid that contains the wave values
       this.lattice = new Lattice(
@@ -70,51 +159,16 @@ define( require => {
       // @public whether the button for the second source is pressed
       this.button2PressedProperty = new BooleanProperty( false );
 
-      // @public (read-only) {string} - units for this scene
-      this.translatedPositionUnits = config.translatedPositionUnits;
-
-      // @public (read-only) {number} - width of the visible part of the lattice in the scene's units
-      this.waveAreaWidth = config.waveAreaWidth;
-
-      // @public (read-only) {string} - text that describes the horizontal spatial axis
-      this.graphHorizontalAxisLabel = config.graphHorizontalAxisLabel;
-
-      // @public (read-only) {number} - length in meters to depict to indicate relative scale,
-      // see LengthScaleIndicatorNode
-      this.scaleIndicatorLength = config.scaleIndicatorLength;
-
-      // @public (read-only) {string} - the units (in English and for the PhET-iO data stream)
-      this.positionUnits = config.positionUnits;
-
       // @public (read-only) {string} - text to show to indicate the relative scale, see LengthScaleIndicatorNode
       this.scaleIndicatorText = StringUtils.fillIn( distanceUnitsString, {
         distance: this.scaleIndicatorLength,
         units: this.positionUnits
       } );
 
-      // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
-      this.timeScaleFactor = config.timeScaleFactor;
-
-      // @public (read-only) {string} - units for time, shown in the timer and optionally top right of the lattice
-      this.timeUnits = config.timeUnits;
-
-      const centerFrequency = ( config.minimumFrequency + config.maximumFrequency ) / 2;
-
-      // @public the frequency in the appropriate units for the scene
-      this.frequencyProperty = new NumberProperty( centerFrequency, {
-        range: new Range( config.minimumFrequency, config.maximumFrequency )
-      } );
-
       // wavelength*frequency=wave speed
       phet.log && this.frequencyProperty.link( frequency =>
-        phet.log( `f = ${frequency}/${this.timeUnits}, w = ${config.waveSpeed / frequency} ${this.positionUnits}` )
+        phet.log( `f = ${frequency}/${this.timeUnits}, w = ${this.waveSpeed / frequency} ${this.positionUnits}` )
       );
-
-      // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
-      this.verticalAxisTitle = config.verticalAxisTitle;
-
-      // @public (read-only) {string} - the title to the shown on the wave-area graph
-      this.graphTitle = config.graphTitle;
 
       // @public (read-only) {string} - the unit to display on the WaveMeterNode, like "1 s"
       this.oneTimerUnit = StringUtils.fillIn( timeUnitsString, {
@@ -122,24 +176,10 @@ define( require => {
         units: this.timeUnits
       } );
 
-      assert && assert( config.numberOfSources === 1 || config.numberOfSources === 2, 'Must have 1 or 2 sources' );
-
-      // @public (read-only) {number}
-      this.numberOfSources = config.numberOfSources;
-
-      // @public distance between the sources in the units of the scene, or 0 if there is only one
-      // source initialized to match the initial slit separation,
-      // see https://github.com/phetsims/wave-interference/issues/87
-      this.sourceSeparationProperty = new NumberProperty(
-        config.initialSlitSeparation, {
-          units: this.positionUnits,
-          range: config.sourceSeparationRange
-        } );
-
       // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice
       // coordinates, does not include damping regions
       this.modelToLatticeTransform = ModelViewTransform2.createRectangleMapping(
-        new Rectangle( 0, 0, config.waveAreaWidth, config.waveAreaWidth ),
+        new Rectangle( 0, 0, this.waveAreaWidth, this.waveAreaWidth ),
         this.lattice.visibleBounds
       );
 
@@ -156,31 +196,6 @@ define( require => {
         [ this.barrierLocationProperty ],
         barrierLocation => Util.roundSymmetric( barrierLocation.x )
       );
-
-      // @public - width of the slit(s) opening in the units for this scene
-      this.slitWidthProperty = new NumberProperty( config.initialSlitWidth, {
-        units: this.positionUnits,
-        range: config.slitWidthRange
-      } );
-
-      assert && assert( config.slitSeparationRange, 'config.slitSeparationRange is required' );
-
-      // @public distance between the center of the slits, in the units for this scene
-      this.slitSeparationProperty = new NumberProperty( config.initialSlitSeparation, {
-        units: this.positionUnits,
-        range: config.slitSeparationRange
-      } );
-
-      // @public (read-only) {number}
-      this.waveSpeed = config.waveSpeed;
-
-      // @public (read-only) {string} - displayed at the top right of the wave area
-      this.timeScaleString = config.timeScaleString;
-
-      // @public - controls the amplitude of the wave.
-      this.amplitudeProperty = new NumberProperty( config.initialAmplitude, {
-        range: WaveInterferenceConstants.AMPLITUDE_RANGE
-      } );
 
       // @public - pulse or continuous
       this.disturbanceTypeProperty = new Property( DisturbanceTypeEnum.CONTINUOUS, {
@@ -200,9 +215,6 @@ define( require => {
 
       // The 2nd button starts the second continuous wave
       this.button2PressedProperty.lazyLink( isPressed => this.handleButton2Toggled( isPressed ) );
-
-      // @public (read-only) {string} - shown on the PlaneWaveGeneratorNode
-      this.planeWaveGeneratorNodeText = config.planeWaveGeneratorNodeText;
 
       // @public - true while a single pulse is being generated
       this.pulseFiringProperty = new BooleanProperty( false );

@@ -107,8 +107,7 @@ define( require => {
         graphTitle: waterLevelAtCenterString,
         graphHorizontalAxisLabel: positionCMString,
         waveAreaWidth: 10, // 10 centimeters
-        minimumFrequency: 0.25, // cycles per second
-        maximumFrequency: 1, // cycles per second
+        frequencyRange: new Range( 0.25, 1 ), // cycles per second
         scaleIndicatorLength: 1, // 1 centimeter
         numberOfSources: options.numberOfSources,
         waveSpeed: 1.85, // in position units/time units, measured empirically as 5.4 seconds to cross the 10cm lattice
@@ -141,8 +140,13 @@ define( require => {
         waveAreaWidth: 500, // in cm
 
         // See https://pages.mtu.edu/~suits/notefreqs.html
-        minimumFrequency: 220 / 1000, // A3 in cycles per ms, wavelength is 156.8cm
-        maximumFrequency: 440 / 1000, // A4 in cycles per ms, wavelength is  78.4cm
+        frequencyRange: new Range(
+          // A3 in cycles per ms, wavelength is 156.8cm
+          220 / 1000,
+
+          // A4 in cycles per ms, wavelength is  78.4cm
+          440 / 1000
+        ),
         scaleIndicatorLength: 50, // cm
         numberOfSources: options.numberOfSources,
         waveSpeed: 34.3, // in cm/ms
@@ -173,8 +177,9 @@ define( require => {
         graphTitle: electricFieldAtCenterString,
         graphHorizontalAxisLabel: positionNMString,
         waveAreaWidth: 5000, // nm
-        minimumFrequency: toFemto( VisibleColor.MIN_FREQUENCY ), // in cycles per femtosecond
-        maximumFrequency: toFemto( VisibleColor.MAX_FREQUENCY ), // in cycles per femtosecond
+
+        // in cycles per femtosecond
+        frequencyRange: new Range( toFemto( VisibleColor.MIN_FREQUENCY ), toFemto( VisibleColor.MAX_FREQUENCY ) ),
         scaleIndicatorLength: 500, // nm
 
         numberOfSources: options.numberOfSources,
