@@ -56,6 +56,30 @@ define( require => {
      */
     constructor( config ) {
 
+      config = _.extend( {
+        waveSpatialType: null, // {WaveSpatialTypeEnum}
+        translatedPositionUnits: null, // {string} - units for this scene
+        waveAreaWidth: null, // {number} - width of the visible part of the lattice in the scene's units
+        graphHorizontalAxisLabel: null, // {string} - text that describes the horizontal spatial axis
+        scaleIndicatorLength: null, // {number} - length that depicts indicate relative scale, see LengthScaleIndicatorNode
+        positionUnits: null, // {string} - the units (in English and for the PhET-iO data stream)
+        timeScaleFactor: null, // {number} - scale factor to convert seconds of wall time to time for the given scene
+        timeUnits: null, // {string} - units for time, shown in the timer and optionally top right of the lattice
+        verticalAxisTitle: null, // {string} text to show on the vertical axis on the wave-area graph
+        graphTitle: null, // {string} - the title to the shown on the wave-area graph
+        numberOfSources: null, // {number} - 1 or 2
+        waveSpeed: null, // {number}
+        timeScaleString: null, // {string} - displayed at the top right of the wave area
+        planeWaveGeneratorNodeText: null, // {string} - shown on the PlaneWaveGeneratorNode
+        frequencyRange: null, // {Range}
+        initialSlitSeparation: null, // {number}
+        sourceSeparationRange: null, // {Range}
+        initialSlitWidth: null, // {number}
+        slitWidthRange: null, // {number}
+        slitSeparationRange: null, // {Range}
+        initialAmplitude: null // {number}
+      }, config );
+
       // @public {WaveSpatialTypeEnum}
       this.waveSpatialType = Validator.validate( config.waveSpatialType, { validValues: WaveSpatialTypeEnum.VALUES } );
 
