@@ -14,11 +14,10 @@ define( require => {
   class ImageDataRenderer {
 
     /**
-     * @param {Lattice} lattice
+     * @param {width} width
      * @param {number} width
      */
-    constructor( lattice, width ) {
-      const height = lattice.height - lattice.dampY * 2;
+    constructor( width, height ) {
 
       // @public {HTMLCanvasElement}
       this.canvas = document.createElement( 'canvas' );

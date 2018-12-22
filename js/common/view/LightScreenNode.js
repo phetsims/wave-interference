@@ -61,7 +61,7 @@ define( require => {
       const width = 1;
 
       // @private - for rendering via image data
-      this.imageDataRenderer = new ImageDataRenderer( lattice, width );
+      this.imageDataRenderer = new ImageDataRenderer( width, lattice.visibleBounds.height );
 
       // Invalidate paint when model indicates changes
       lattice.changedEmitter.addListener( this.invalidatePaint.bind( this ) );
