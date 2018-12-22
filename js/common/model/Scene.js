@@ -57,27 +57,37 @@ define( require => {
     constructor( config ) {
 
       config = _.extend( {
-        waveSpatialType: null, // {WaveSpatialTypeEnum}
-        translatedPositionUnits: null, // {string} - units for this scene
-        waveAreaWidth: null, // {number} - width of the visible part of the lattice in the scene's units
-        graphHorizontalAxisLabel: null, // {string} - text that describes the horizontal spatial axis
-        scaleIndicatorLength: null, // {number} - length that depicts indicate relative scale, see LengthScaleIndicatorNode
-        positionUnits: null, // {string} - the units (in English and for the PhET-iO data stream)
-        timeScaleFactor: null, // {number} - scale factor to convert seconds of wall time to time for the given scene
-        timeUnits: null, // {string} - units for time, shown in the timer and optionally top right of the lattice
-        graphVerticalAxisLabel: null, // {string} text to show on the vertical axis on the wave-area graph
-        graphTitle: null, // {string} - the title to the shown on the wave-area graph
+
+        // Wave type
         numberOfSources: null, // {number} - 1 or 2
-        waveSpeed: null, // {number}
+        waveSpatialType: null, // {WaveSpatialTypeEnum}
+
+        // Values and units for indicators
+        scaleIndicatorLength: null, // {number} - length that depicts indicate relative scale, see LengthScaleIndicatorNode
         timeScaleString: null, // {string} - displayed at the top right of the wave area
+        translatedPositionUnits: null, // {string} - units for this scene
+        positionUnits: null, // {string} - the units (in English and for the PhET-iO data stream)
+        timeUnits: null, // {string} - units for time, shown in the timer and optionally top right of the lattice
+
+        // Dimensions, ranges and physical attributes
+        waveAreaWidth: null, // {number} - width of the visible part of the lattice in the scene's units
+        timeScaleFactor: null, // {number} - scale factor to convert seconds of wall time to time for the given scene
+        waveSpeed: null, // {number}
         planeWaveGeneratorNodeText: null, // {string} - shown on the PlaneWaveGeneratorNode
         frequencyRange: null, // {Range}
-        initialSlitSeparation: null, // {number}
+        initialAmplitude: null, // {number}
         sourceSeparationRange: null, // {Range}
+
+        // Slits configuration
+        initialSlitSeparation: null, // {number}
         initialSlitWidth: null, // {number}
         slitWidthRange: null, // {number}
         slitSeparationRange: null, // {Range}
-        initialAmplitude: null // {number}
+
+        // Graph properties
+        graphTitle: null, // {string} - the title to the shown on the wave-area graph
+        graphVerticalAxisLabel: null, // {string} text to show on the vertical axis on the wave-area graph
+        graphHorizontalAxisLabel: null // {string} - text that describes the horizontal spatial axis
       }, config );
 
       // @public {WaveSpatialTypeEnum}
