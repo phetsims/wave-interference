@@ -9,18 +9,17 @@ define( require => {
   'use strict';
 
   // modules
+  const AmplitudeControl = require( 'WAVE_INTERFERENCE/common/view/AmplitudeControl' );
   const Checkbox = require( 'SUN/Checkbox' );
   const FrequencyControl = require( 'WAVE_INTERFERENCE/common/view/FrequencyControl' );
   const HSeparator = require( 'SUN/HSeparator' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const SceneRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SceneRadioButtonGroup' );
   const SoundViewTypeRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SoundViewTypeRadioButtonGroup' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
-  const WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // strings
@@ -53,14 +52,7 @@ define( require => {
       }, options );
 
       const frequencyControl = new FrequencyControl( model );
-
-      const amplitudeControl = new SceneToggleNode( model, scene => {
-
-        // For water scene, control the desiredAmplitude (which determines the size of the water drops)
-        // For other scenes, control the amplitude directly.
-        return new WaveInterferenceSlider( scene.desiredAmplitudeProperty || scene.amplitudeProperty );
-      } );
-
+      const amplitudeControl = new AmplitudeControl( model );
       const soundViewTypeRadioButtonGroup = new SoundViewTypeRadioButtonGroup( model );
 
       const graphCheckbox = new Checkbox(
