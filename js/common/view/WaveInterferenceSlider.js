@@ -1,8 +1,8 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Slider abstraction for the frequency and amplitude sliders.  All instances exist for the lifetime of the sim
- * and do not require disposal.
+ * Slider abstraction for the frequency and amplitude sliders--but note that light frequency slider uses FrequencySlider
+ * instead.  All instances exist for the lifetime of the sim and do not require disposal.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

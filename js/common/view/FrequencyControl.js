@@ -15,7 +15,11 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
+
+  // strings
+  const frequencyString = require( 'string!WAVE_INTERFERENCE/frequency' );
 
   // constants
   const fromFemto = WaveInterferenceUtils.fromFemto;
@@ -26,6 +30,8 @@ define( require => {
      * @param {WavesModel} model
      */
     constructor( model ) {
+
+      const frequencyTitle = new WaveInterferenceText( frequencyString );
 
       // Controls are in the physical coordinate frame
       const waterFrequencySlider = new WaveInterferenceSlider( model.getWaterFrequencySliderProperty() );
@@ -58,11 +64,20 @@ define( require => {
         lightFrequencySlider.visible = scene === model.lightScene;
       } );
 
-      super( {
+      const sliderContainer = new Node( {
         children: [
           waterFrequencySlider,
           soundFrequencySlider,
-          lightFrequencySlider
+          lightFrequencySlider ]
+      } );
+
+      sliderContainer.top = frequencyTitle.bottom + WaveInterferenceUtils.getSliderTitleSpacing( frequencyTitle );
+      sliderContainer.centerX = frequencyTitle.centerX;
+
+      super( {
+        children: [
+          frequencyTitle,
+          sliderContainer
         ]
       } );
     }

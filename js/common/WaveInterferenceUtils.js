@@ -116,6 +116,23 @@ define( require => {
       // at the left edge of the cell.  See also WaveInterferenceUtils.getWaterSideShape.
       return transform.modelToViewX( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE + 0.5 );
     }
+
+    /**
+     * At the default size, the text should "nestle" into the slider.  But when the text is too small, it must be spaced
+     * further away.  See https://github.com/phetsims/wave-interference/issues/194
+     * @param {Node} titleNode
+     * @returns {number}
+     */
+    static getSliderTitleSpacing( titleNode ) {
+
+      const tallTextHeight = 17;
+      const shortTextHeight = 4;
+
+      const tallTextSpacing = -2;
+      const shortTextSpacing = 5;
+
+      return Util.linear( tallTextHeight, shortTextHeight, tallTextSpacing, shortTextSpacing, titleNode.height );
+    }
   }
 
   return waveInterference.register( 'WaveInterferenceUtils', WaveInterferenceUtils );

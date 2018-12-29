@@ -16,15 +16,12 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const SceneRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SceneRadioButtonGroup' );
   const SoundViewTypeRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SoundViewTypeRadioButtonGroup' );
-  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // strings
-  const amplitudeString = require( 'string!WAVE_INTERFERENCE/amplitude' );
-  const frequencyString = require( 'string!WAVE_INTERFERENCE/frequency' );
   const graphString = require( 'string!WAVE_INTERFERENCE/graph' );
   const intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
   const screenString = require( 'string!WAVE_INTERFERENCE/screen' );
@@ -100,13 +97,9 @@ define( require => {
         model.sceneProperty
       );
 
-      const frequencyTitle = new WaveInterferenceText( frequencyString );
-      const amplitudeTitle = new WaveInterferenceText( amplitudeString );
-
       // Horizontal layout
-      const centerX = frequencyTitle.centerX;
+      const centerX = frequencyControl.centerX;
       frequencyControl.centerX = centerX;
-      amplitudeTitle.centerX = centerX;
       amplitudeControl.centerX = centerX;
       if ( options.additionalControl ) {options.additionalControl.centerX = centerX;}
       sceneRadioButtonGroup.centerX = centerX;
@@ -114,8 +107,6 @@ define( require => {
       const minX = _.min( [
         frequencyControl.left,
         amplitudeControl.left,
-        frequencyTitle.left,
-        amplitudeTitle.left,
         sceneRadioButtonGroup.left
       ] );
 
@@ -128,20 +119,7 @@ define( require => {
       intensityCheckbox.left = minX + 20;
 
       // Vertical layout
-      const TALL_TEXT_SPACING = -2;
-      const SHORT_TEXT_SPACING = 5;
-
-      // At the default size, the text should "nestle" into the slider.  But when the text is too small,
-      // it must be spaced further away.  See https://github.com/phetsims/wave-interference/issues/194
-      const frequencyTitleSpacing = Util.linear( 17, 4, TALL_TEXT_SPACING, SHORT_TEXT_SPACING, frequencyTitle.height );
-      frequencyControl.top = frequencyTitle.bottom + frequencyTitleSpacing;
-      amplitudeTitle.top = frequencyControl.bottom + 7;
-
-      // At the default size, the text should "nestle" into the slider.  But when the text is too small,
-      // it must be spaced further away.  See https://github.com/phetsims/wave-interference/issues/194
-      const amplitudeTitleSpacing = Util.linear( 17, 4, TALL_TEXT_SPACING, SHORT_TEXT_SPACING, amplitudeTitle.height );
-      amplitudeControl.top = amplitudeTitle.bottom + amplitudeTitleSpacing;
-
+      amplitudeControl.top = frequencyControl.bottom + 7;
       const y = amplitudeControl.bottom + 5;
 
       // The Separation NumberControl is an additionalControl
@@ -168,10 +146,7 @@ define( require => {
         // z-ordering
         container.children = [
 
-          frequencyTitle,
           frequencyControl,
-
-          amplitudeTitle,
           amplitudeControl,
 
           ...( options.additionalControl ? [ options.additionalControl ] : [] ),
