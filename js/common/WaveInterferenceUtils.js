@@ -122,6 +122,7 @@ define( require => {
      * further away.  See https://github.com/phetsims/wave-interference/issues/194
      * @param {Node} titleNode
      * @returns {number}
+     * @public
      */
     static getSliderTitleSpacing( titleNode ) {
 
