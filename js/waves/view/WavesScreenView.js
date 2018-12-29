@@ -450,11 +450,16 @@ define( require => {
        * Creates a ToggleNode that shows the primary or secondary source
        * @param {boolean} isPrimarySource - true if it should show the primary source
        */
-      const createWaveGeneratorToggleNode = isPrimarySource => new ToggleNode( model.sceneProperty, [
-        { value: model.waterScene, node: new WaterWaveGeneratorNode( model, this.waveAreaNode, isPrimarySource ) },
-        { value: model.soundScene, node: new SoundWaveGeneratorNode( model, this.waveAreaNode, isPrimarySource ) },
-        { value: model.lightScene, node: new LightWaveGeneratorNode( model, this.waveAreaNode, isPrimarySource ) }
-      ], {
+      const createWaveGeneratorToggleNode = isPrimarySource => new ToggleNode( model.sceneProperty, [ {
+        value: model.waterScene,
+        node: new WaterWaveGeneratorNode( model.waterScene, this.waveAreaNode, isPrimarySource )
+      }, {
+        value: model.soundScene,
+        node: new SoundWaveGeneratorNode( model.soundScene, this.waveAreaNode, isPrimarySource )
+      }, {
+        value: model.lightScene,
+        node: new LightWaveGeneratorNode( model.lightScene, this.waveAreaNode, isPrimarySource )
+      } ], {
         alignChildren: ToggleNode.NONE
       } );
 

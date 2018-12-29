@@ -14,6 +14,7 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const FaucetNode = require( 'SCENERY_PHET/FaucetNode' );
   const NumberProperty = require( 'AXON/NumberProperty' );
+  const WaterScene = require( 'WAVE_INTERFERENCE/common/model/WaterScene' );
   const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
@@ -26,11 +27,12 @@ define( require => {
   class WaterWaveGeneratorNode extends WaveGeneratorNode {
 
     /**
-     * @param {WavesModel} model
+     * @param {WaterScene} waterScene
      * @param {Node} waveAreaNode - for bounds
      * @param {boolean} isPrimarySource
      */
-    constructor( model, waveAreaNode, isPrimarySource ) {
+    constructor( waterScene, waveAreaNode, isPrimarySource ) {
+      assert && assert( waterScene instanceof WaterScene, 'waterScene should be an instance of WaterScene' );
 
       const faucetNode = new FaucetNode(
         // This value for maxFlowRate is irrelevant because we use our own faucet water emitting model,
@@ -46,7 +48,7 @@ define( require => {
 
           // Adjusted based on the dimension of the faucet image to align with the horizontal water drop location.
           // The vertical offset is adjusted with FAUCET_VERTICAL_OFFSET
-          x: WaveInterferenceUtils.getWaterDropX( model.waterScene.lattice.visibleBounds, waveAreaNode.bounds ),
+          x: WaveInterferenceUtils.getWaterDropX( waterScene.lattice.visibleBounds, waveAreaNode.bounds ),
           scale: 0.25,
           horizontalPipeLength: 1600, // Long enough that it still shows even for extreme aspect ratios
 
@@ -54,7 +56,7 @@ define( require => {
           rasterizeHorizontalPipeNode: true
         } );
 
-      super( model, model.waterScene, waveAreaNode, 62, isPrimarySource, faucetNode, FAUCET_VERTICAL_OFFSET, -7, true );
+      super( waterScene, waveAreaNode, 62, isPrimarySource, faucetNode, FAUCET_VERTICAL_OFFSET, -7, true );
     }
   }
 

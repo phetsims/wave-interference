@@ -21,7 +21,6 @@ define( require => {
   class WaveGeneratorNode extends Node {
 
     /**
-     * @param {WavesModel} model
      * @param {Scene} scene
      * @param {Node} waveAreaNode - for bounds
      * @param {number} buttonPosition - x offset
@@ -31,7 +30,7 @@ define( require => {
      * @param {number} [buttonOffset] - offset for the button, so it can be positioned on the pipe
      * @param {boolean} [showButtonBackground] - true if a new background for the button should be added
      */
-    constructor( model, scene, waveAreaNode, buttonPosition, isPrimarySource, sourceNode,
+    constructor( scene, waveAreaNode, buttonPosition, isPrimarySource, sourceNode,
                  verticalOffset = 0,
                  buttonOffset = 0,
                  showButtonBackground = false ) {

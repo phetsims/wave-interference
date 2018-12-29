@@ -11,6 +11,7 @@ define( require => {
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
+  const LightScene = require( 'WAVE_INTERFERENCE/common/model/LightScene' );
   const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -25,16 +26,16 @@ define( require => {
   class LightWaveGeneratorNode extends WaveGeneratorNode {
 
     /**
-     * @param {WavesModel} model
+     * @param {LightScene} lightScene
      * @param {Node} waveAreaNode - for bounds
      * @param {boolean} isPrimarySource
      */
-    constructor( model, waveAreaNode, isPrimarySource ) {
-      const scene = model.lightScene;
-      const laserPointerNode = new LaserPointerNode( scene.button1PressedProperty, _.extend( {
+    constructor( lightScene, waveAreaNode, isPrimarySource ) {
+      assert && assert( lightScene instanceof LightScene, 'lightScene should be an instance of SoundScene' );
+      const laserPointerNode = new LaserPointerNode( lightScene.button1PressedProperty, _.extend( {
         rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 )
       }, DEFAULT_OPTIONS ) );
-      super( model, scene, waveAreaNode, 70, isPrimarySource, laserPointerNode );
+      super( lightScene, waveAreaNode, 70, isPrimarySource, laserPointerNode );
     }
   }
 

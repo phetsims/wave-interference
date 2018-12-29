@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const Image = require( 'SCENERY/nodes/Image' );
+  const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Util = require( 'DOT/Util' );
   const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -65,21 +66,22 @@ define( require => {
   class SoundWaveGeneratorNode extends WaveGeneratorNode {
 
     /**
-     * @param {WavesModel} model
+     * @param {SoundScene} soundScene
      * @param {Node} waveAreaNode - for bounds
      * @param {boolean} isPrimarySource
      */
-    constructor( model, waveAreaNode, isPrimarySource ) {
+    constructor( soundScene, waveAreaNode, isPrimarySource ) {
+      assert && assert( soundScene instanceof SoundScene, 'soundScene should be an instance of SoundScene' );
       const image = new Image( speakerImageMID, {
         rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 ),
         scale: 0.75
       } );
-      super( model, model.soundScene, waveAreaNode, 42, isPrimarySource, image );
-      const modelProperty = isPrimarySource ? model.soundScene.oscillator1Property :
-                            model.soundScene.oscillator2Property;
+      super( soundScene, waveAreaNode, 42, isPrimarySource, image );
+      const modelProperty = isPrimarySource ? soundScene.oscillator1Property :
+                            soundScene.oscillator2Property;
       modelProperty.link( oscillator1 => {
 
-        const max = model.soundScene.amplitudeProperty.range.max;
+        const max = soundScene.amplitudeProperty.range.max;
 
         // Sign is chosen so that the membrane forward corresponds to a high pressure outside the speaker,
         // see https://github.com/phetsims/wave-interference/issues/178
