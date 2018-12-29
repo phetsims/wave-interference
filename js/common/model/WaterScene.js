@@ -10,12 +10,12 @@ define( require => {
 
   // modules
   const arrayRemove = require( 'PHET_CORE/arrayRemove' );
+  const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveSpatialTypeEnum = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialTypeEnum' );
-  const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
 
   class WaterScene extends Scene {
 

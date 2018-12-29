@@ -24,11 +24,11 @@ define( require => {
   const Rectangle = require( 'DOT/Rectangle' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Util = require( 'DOT/Util' );
+  const Validator = require( 'AXON/Validator' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveSpatialTypeEnum = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialTypeEnum' );
-  const Validator = require( 'AXON/Validator' );
 
   // strings
   const distanceUnitsString = require( 'string!WAVE_INTERFERENCE/distanceUnits' );

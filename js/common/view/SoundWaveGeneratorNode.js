@@ -9,9 +9,9 @@ define( require => {
   'use strict';
 
   // modules
-  const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const Image = require( 'SCENERY/nodes/Image' );
   const Util = require( 'DOT/Util' );
+  const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // images

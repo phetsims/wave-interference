@@ -15,8 +15,8 @@ define( require => {
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // strings
-  const particlesString = require( 'string!WAVE_INTERFERENCE/particles' );
   const bothString = require( 'string!WAVE_INTERFERENCE/both' );
+  const particlesString = require( 'string!WAVE_INTERFERENCE/particles' );
   const wavesString = require( 'string!WAVE_INTERFERENCE/waves' );
 
   class SoundViewTypeRadioButtonGroup extends VerticalAquaRadioButtonGroup {

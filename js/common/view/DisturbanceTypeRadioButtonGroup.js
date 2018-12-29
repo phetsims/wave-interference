@@ -9,10 +9,10 @@ define( require => {
   'use strict';
 
   // modules
+  const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
   const DisturbanceTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/DisturbanceTypeIconNode' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
 
   class DisturbanceTypeRadioButtonGroup extends RadioButtonGroup {
 

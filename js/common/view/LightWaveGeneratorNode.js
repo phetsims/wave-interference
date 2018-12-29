@@ -10,8 +10,8 @@ define( require => {
 
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
-  const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
+  const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
