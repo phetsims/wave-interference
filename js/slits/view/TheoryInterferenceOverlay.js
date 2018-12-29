@@ -14,12 +14,13 @@ define( require => {
   const Line = require( 'SCENERY/nodes/Line' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
   const LENGTH = 500;
   const MAXIMUM_COLOR = 'yellow';
-  const MINIMUM_COLOR = 'red';
+  const MINIMUM_COLOR = PhetColorScheme.RED_COLORBLIND;
   const LINE_WIDTH = 1;
 
   class TheoryInterferenceOverlay extends Node {
