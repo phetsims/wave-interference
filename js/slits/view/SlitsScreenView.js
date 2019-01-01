@@ -35,7 +35,9 @@ define( require => {
       } );
 
       // The Slits screen has an additional control panel below the main control panel, which controls the barrier/slits
-      const slitControlPanel = new SlitsControlPanel( alignGroup, model, this );
+      const slitControlPanel = new SlitsControlPanel(
+        alignGroup, model.sceneProperty, model.waterScene, model.soundScene, model.lightScene, this
+      );
 
       // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.  Should only happen
       // during startup.  Use the same pattern as required in WavesScreenView for consistency.

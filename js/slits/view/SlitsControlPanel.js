@@ -34,16 +34,19 @@ define( require => {
 
     /**
      * @param {AlignGroup} alignGroup
-     * @param {SlitsModel} model
+     * @param {Property.<Scene>} sceneProperty
+     * @param {Scene} waterScene
+     * @param {Scene} soundScene
+     * @param {Scene} lightScene
      * @param {Node} comboBoxParent
      */
-    constructor( alignGroup, model, comboBoxParent ) {
+    constructor( alignGroup, sceneProperty, waterScene, soundScene, lightScene, comboBoxParent ) {
 
-      const barrierTypeDynamicProperty = new DynamicProperty( model.sceneProperty, {
+      const barrierTypeDynamicProperty = new DynamicProperty( sceneProperty, {
         derive: 'barrierTypeProperty',
         bidirectional: true
       } );
-      
+
       const comboBox = new ComboBox( [
         ComboBox.createItem( new WaveInterferenceText( noBarrierString ), BarrierTypeEnum.NO_BARRIER ),
         ComboBox.createItem( new WaveInterferenceText( oneSlitString ), BarrierTypeEnum.ONE_SLIT ),
@@ -65,32 +68,32 @@ define( require => {
       // Slit width controls.  Ranges, values and deltas specified in
       // https://github.com/phetsims/wave-interference/issues/177
       const waterSlitWidthControl = new NumberControl(
-        slitWidthString, model.waterScene.slitWidthProperty, model.waterScene.slitWidthProperty.range, _.extend( {
+        slitWidthString, waterScene.slitWidthProperty, waterScene.slitWidthProperty.range, _.extend( {
           delta: 0.1, // cm
           decimalPlaces: 1,
           valuePattern: cmValueString,
-          majorTicks: createTicks( model.waterScene.slitWidthProperty )
+          majorTicks: createTicks( waterScene.slitWidthProperty )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const soundSlitWidthControl = new NumberControl(
-        slitWidthString, model.soundScene.slitWidthProperty, model.soundScene.slitWidthProperty.range, _.extend( {
+        slitWidthString, soundScene.slitWidthProperty, soundScene.slitWidthProperty.range, _.extend( {
           delta: 1, // cm
           constrainValue: value => Util.roundToInterval( value, 10 ),
           valuePattern: cmValueString,
-          majorTicks: createTicks( model.soundScene.slitWidthProperty )
+          majorTicks: createTicks( soundScene.slitWidthProperty )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const lightSlitWidthControl = new NumberControl(
-        slitWidthString, model.lightScene.slitWidthProperty, model.lightScene.slitWidthProperty.range, _.extend( {
+        slitWidthString, lightScene.slitWidthProperty, lightScene.slitWidthProperty.range, _.extend( {
           delta: 10, // nm
           constrainValue: value => Util.roundToInterval( value, 50 ),
           valuePattern: nmValueString,
-          majorTicks: createTicks( model.lightScene.slitWidthProperty )
+          majorTicks: createTicks( lightScene.slitWidthProperty )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-      const slitWidthControl = new ToggleNode( model.sceneProperty, [
-        { value: model.waterScene, node: waterSlitWidthControl },
-        { value: model.soundScene, node: soundSlitWidthControl },
-        { value: model.lightScene, node: lightSlitWidthControl }
+      const slitWidthControl = new ToggleNode( sceneProperty, [
+        { value: waterScene, node: waterSlitWidthControl },
+        { value: soundScene, node: soundSlitWidthControl },
+        { value: lightScene, node: lightSlitWidthControl }
       ] );
       barrierTypeDynamicProperty.link( barrierType => {
         const enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
@@ -103,40 +106,40 @@ define( require => {
       // https://github.com/phetsims/wave-interference/issues/177
       const waterSeparationControl = new NumberControl(
         slitSeparationString,
-        model.waterScene.slitSeparationProperty,
-        model.waterScene.slitSeparationProperty.range,
+        waterScene.slitSeparationProperty,
+        waterScene.slitSeparationProperty.range,
         _.extend( {
           decimalPlaces: 1,
           delta: 0.1, // cm
           valuePattern: cmValueString,
-          majorTicks: createTicks( model.waterScene.slitSeparationProperty )
+          majorTicks: createTicks( waterScene.slitSeparationProperty )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const soundSeparationControl = new NumberControl(
         slitSeparationString,
-        model.soundScene.slitSeparationProperty,
-        model.soundScene.slitSeparationProperty.range,
+        soundScene.slitSeparationProperty,
+        soundScene.slitSeparationProperty.range,
         _.extend( {
           delta: 1, // cm
           constrainValue: value => Util.roundToInterval( value, 10 ),
           valuePattern: cmValueString,
-          majorTicks: createTicks( model.soundScene.slitSeparationProperty )
+          majorTicks: createTicks( soundScene.slitSeparationProperty )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const lightSeparationControl = new NumberControl(
         slitSeparationString,
-        model.lightScene.slitSeparationProperty,
-        model.lightScene.slitSeparationProperty.range,
+        lightScene.slitSeparationProperty,
+        lightScene.slitSeparationProperty.range,
         _.extend( {
           delta: 10, // nm
           constrainValue: value => Util.roundToInterval( value, 50 ),
           valuePattern: nmValueString,
-          majorTicks: createTicks( model.lightScene.slitSeparationProperty )
+          majorTicks: createTicks( lightScene.slitSeparationProperty )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
-      const slitSeparationControl = new ToggleNode( model.sceneProperty, [
-        { value: model.waterScene, node: waterSeparationControl },
-        { value: model.soundScene, node: soundSeparationControl },
-        { value: model.lightScene, node: lightSeparationControl }
+      const slitSeparationControl = new ToggleNode( sceneProperty, [
+        { value: waterScene, node: waterSeparationControl },
+        { value: soundScene, node: soundSeparationControl },
+        { value: lightScene, node: lightSeparationControl }
       ] );
 
       barrierTypeDynamicProperty.link( barrierType => {
