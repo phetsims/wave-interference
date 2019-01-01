@@ -37,6 +37,7 @@ define( require => {
       const waterSceneRange = waterSeparationProperty.range;
       const soundSceneRange = soundSeparationProperty.range;
       const lightSceneRange = lightSeparationProperty.range;
+      const allRanges = [ waterSceneRange, soundSceneRange, lightSceneRange ];
 
       // Switch between controls for each scene.  No advantage in using SceneToggleNode in this case
       // because the control constructor calls are substantially different.
@@ -47,7 +48,7 @@ define( require => {
           valuePattern: cmValueString,
           decimalPlaces: 1,
           constrainValue: value => Util.roundToInterval( value, 0.5 ),
-          majorTicks: createTicks( waterSceneRange, [ waterSceneRange, soundSceneRange, lightSceneRange ] )
+          majorTicks: createTicks( waterSceneRange, allRanges )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.soundScene,
@@ -55,7 +56,7 @@ define( require => {
           delta: 1,
           valuePattern: cmValueString,
           constrainValue: value => Util.roundToInterval( value, 10 ),
-          majorTicks: createTicks( soundSceneRange, [ waterSceneRange, soundSceneRange, lightSceneRange ] )
+          majorTicks: createTicks( soundSceneRange, allRanges )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.lightScene,
@@ -63,7 +64,7 @@ define( require => {
           delta: 10,
           valuePattern: nmValueString,
           constrainValue: value => Util.roundToInterval( value, 100 ),
-          majorTicks: createTicks( lightSceneRange, [ waterSceneRange, soundSceneRange, lightSceneRange ] )
+          majorTicks: createTicks( lightSceneRange, allRanges )
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       } ] );
     }
