@@ -23,20 +23,24 @@ define( require => {
      * @param {WaveInterferenceTimerNode} timerNode
      * @param {WaveMeterNode} waveMeterNode
      * @param {AlignGroup} alignGroup - to align with neighbors
-     * @param {WavesModel} model
+     * @param {Property.<Boolean>} isMeasuringTapeInPlayAreaProperty
+     * @param {Property.<Vector2>} measuringTapeTipPositionProperty
+     * @param {Property.<Boolean>} isTimerInPlayAreaProperty
+     * @param {Property.<Boolean>} isWaveMeterInPlayAreaProperty
      */
-    constructor( measuringTapeNode, timerNode, waveMeterNode, alignGroup, model ) {
+    constructor( measuringTapeNode, timerNode, waveMeterNode, alignGroup, isMeasuringTapeInPlayAreaProperty,
+                 measuringTapeTipPositionProperty, isTimerInPlayAreaProperty, isWaveMeterInPlayAreaProperty ) {
 
       // Capture image for icon
-      model.isMeasuringTapeInPlayAreaProperty.value = true;
+      isMeasuringTapeInPlayAreaProperty.value = true;
       measuringTapeNode.setTextVisible( false );
-      model.measuringTapeTipPositionProperty.value = new Vector2( 220, 200 ); // Shorter tape for icon
+      measuringTapeTipPositionProperty.value = new Vector2( 220, 200 ); // Shorter tape for icon
       const measuringTapeIcon = measuringTapeNode.rasterized( { wrap: true } ).mutate( { scale: 0.65 } );
-      model.measuringTapeTipPositionProperty.reset();
-      model.isMeasuringTapeInPlayAreaProperty.value = false;
+      measuringTapeTipPositionProperty.reset();
+      isMeasuringTapeInPlayAreaProperty.value = false;
       measuringTapeNode.setTextVisible( true );
 
-      initializeIcon( measuringTapeIcon, model.isMeasuringTapeInPlayAreaProperty, event => {
+      initializeIcon( measuringTapeIcon, isMeasuringTapeInPlayAreaProperty, event => {
 
         // When clicking on the measuring tape icon, pop it out into the play area
         const targetPosition = this.globalToParentPoint( event.pointer.point );
@@ -45,21 +49,21 @@ define( require => {
         measuringTapeNode.basePositionProperty.set( measuringTapeNode.basePositionProperty.value.plus( delta ) );
         measuringTapeNode.tipPositionProperty.set( measuringTapeNode.tipPositionProperty.value.plus( delta ) );
         measuringTapeNode.startBaseDrag( event );
-        model.isMeasuringTapeInPlayAreaProperty.value = true;
+        isMeasuringTapeInPlayAreaProperty.value = true;
       } );
 
       // Node used to create the icon
-      model.isTimerInPlayAreaProperty.value = true;
+      isTimerInPlayAreaProperty.value = true;
       const timerNodeIcon = timerNode.rasterized().mutate( { scale: 0.45 } );
-      model.isTimerInPlayAreaProperty.value = false;
+      isTimerInPlayAreaProperty.value = false;
 
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
-      initializeIcon( timerNodeIcon, model.isTimerInPlayAreaProperty, event => {
+      initializeIcon( timerNodeIcon, isTimerInPlayAreaProperty, event => {
         timerNode.center = this.globalToParentPoint( event.pointer.point );
 
         // timerNode provided as targetNode in the DragListener constructor, so this press will target it
         timerNode.timerNodeDragListener.press( event );
-        model.isTimerInPlayAreaProperty.value = true;
+        isTimerInPlayAreaProperty.value = true;
       } );
 
       // Make sure the probes have enough breathing room so they don't get shoved into the WaveMeterNode icon.  Anything
@@ -69,11 +73,11 @@ define( require => {
 
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
       // Temporarily show the node so it can be rasterized for an icon
-      model.isWaveMeterInPlayAreaProperty.value = true;
+      isWaveMeterInPlayAreaProperty.value = true;
       const waveMeterIcon = waveMeterNode.rasterized().mutate( { scale: 0.25 } );
-      model.isWaveMeterInPlayAreaProperty.value = false;
+      isWaveMeterInPlayAreaProperty.value = false;
 
-      initializeIcon( waveMeterIcon, model.isWaveMeterInPlayAreaProperty, event => {
+      initializeIcon( waveMeterIcon, isWaveMeterInPlayAreaProperty, event => {
 
         // Fine-tuned empirically to set the drag point to be the center of the chart.
         waveMeterNode.backgroundNode.setTranslation( this.globalToParentPoint( event.pointer.point ).plusXY( -60, -66 ) );
@@ -81,7 +85,7 @@ define( require => {
         // Set the internal flag that indicates the probes should remain in alignment during the drag
         waveMeterNode.synchronizeProbeLocations = true;
         waveMeterNode.startDrag( event );
-        model.isWaveMeterInPlayAreaProperty.value = true;
+        isWaveMeterInPlayAreaProperty.value = true;
       } );
 
       // Layout for the toolbox

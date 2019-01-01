@@ -328,7 +328,10 @@ define( require => {
         }
       } ) );
 
-      const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveMeterNode, alignGroup, model );
+      const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveMeterNode, alignGroup,
+        model.isMeasuringTapeInPlayAreaProperty, model.measuringTapeTipPositionProperty,
+        model.isTimerInPlayAreaProperty, model.isWaveMeterInPlayAreaProperty
+      );
       const updateToolboxPosition = () => {
         toolboxPanel.mutate( {
           right: this.layoutBounds.right - MARGIN,
