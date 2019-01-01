@@ -73,7 +73,7 @@ define( require => {
 
       // When enabled by a query parameter, show the theoretical interference pattern.
       if ( WaveInterferenceQueryParameters.theory ) {
-        this.addChild( new TheoryInterferenceOverlay( model, this.waveAreaNode.bounds, {
+        this.addChild( new TheoryInterferenceOverlay( model.sceneProperty, model.scenes, this.waveAreaNode.bounds, {
           clipArea: Shape.bounds( this.waveAreaNode.bounds )
         } ) );
       }

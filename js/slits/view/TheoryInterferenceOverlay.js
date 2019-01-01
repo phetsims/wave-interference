@@ -26,19 +26,20 @@ define( require => {
   class TheoryInterferenceOverlay extends Node {
 
     /**
-     * @param {SlitsModel} model
+     * @param {Property.<Scene>} sceneProperty
+     * @param {Scene[]} scenes
      * @param {Bounds2} viewBounds - the area where the lattice appears
      * @param {Object} [options]
      */
-    constructor( model, viewBounds, options ) {
+    constructor( sceneProperty, scenes, viewBounds, options ) {
       super( options );
 
       const updateLines = () => {
         this.removeAllChildren();
-        const barrierType = model.sceneProperty.value.barrierTypeProperty.get();
+        const barrierType = sceneProperty.value.barrierTypeProperty.get();
         if ( barrierType !== BarrierTypeEnum.NO_BARRIER ) {
 
-          const scene = model.sceneProperty.value;
+          const scene = sceneProperty.value;
           this.modelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), viewBounds );
 
           const barrierY = viewBounds.centerY;
@@ -113,8 +114,8 @@ define( require => {
         }
       };
 
-      model.sceneProperty.link( updateLines );
-      model.scenes.forEach( scene => {
+      sceneProperty.link( updateLines );
+      scenes.forEach( scene => {
 
         // When any of the relevant physical Properties change, update the lines.
         scene.barrierTypeProperty.link( updateLines );
