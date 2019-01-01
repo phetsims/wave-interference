@@ -18,7 +18,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
-  const LENGTH = 500;
+  const LENGTH = 1000;
   const MAXIMUM_COLOR = 'yellow';
   const MINIMUM_COLOR = PhetColorScheme.RED_COLORBLIND;
   const LINE_WIDTH = 1;
