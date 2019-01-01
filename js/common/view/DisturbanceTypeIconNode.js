@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
+  const LineStyles = require( 'KITE/util/LineStyles' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Shape = require( 'KITE/Shape' );
@@ -30,6 +31,10 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( disturbanceType, options ) {
+
+      options = _.extend( {
+        stroked: false
+      }, options );
       super();
 
       const minAngle = disturbanceType === DisturbanceTypeEnum.PULSE ? Math.PI : 0;
@@ -58,10 +63,18 @@ define( require => {
         shape.lineToRelative( MARGIN, 0 );
       }
 
-      this.addChild( new Path( shape, {
-        stroke: 'black',
-        lineWidth: 2
-      } ) );
+      // In the pulse button, there is a white stroke
+      const child = options.stroked ?
+                    new Path( shape.getStrokedShape( new LineStyles( { lineWidth: 6 } ) ), {
+                      fill: 'black',
+                      stroke: 'white',
+                      lineWidth: 2.5
+                    } ) :
+                    new Path( shape, {
+                      stroke: 'black',
+                      lineWidth: 2
+                    } );
+      this.addChild( child );
 
       this.mutate( options );
     }

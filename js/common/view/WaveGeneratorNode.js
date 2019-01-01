@@ -34,7 +34,10 @@ define( require => {
                  verticalOffset = 0,
                  buttonOffset = 0,
                  showButtonBackground = false ) {
-      const pulseIcon = new DisturbanceTypeIconNode( DisturbanceTypeEnum.PULSE, { scale: 0.48 } );
+      const pulseIcon = new DisturbanceTypeIconNode( DisturbanceTypeEnum.PULSE, {
+        scale: 0.36,
+        stroked: true
+      } );
 
       const buttonOptions = {
         centerY: sourceNode.centerY + buttonOffset,

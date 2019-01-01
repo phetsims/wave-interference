@@ -29,7 +29,7 @@ define( require => {
         node: new DisturbanceTypeIconNode( DisturbanceTypeEnum.PULSE )
       } ], _.extend( {
         orientation: 'vertical',
-        buttonContentXMargin: 0,
+        buttonContentXMargin: 1,
         buttonContentYMargin: 8,
         selectedLineWidth: 2,
         baseColor: 'white',
