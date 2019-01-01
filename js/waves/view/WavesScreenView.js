@@ -387,7 +387,7 @@ define( require => {
       this.addChild( waterGrayBackground );
 
       // Show the side of the water, when fully rotated and in WATER scene
-      const waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model );
+      const waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model.waterScene );
       Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], ( rotationAmount, scene ) => {
         waterSideViewNode.visible = rotationAmount === 1.0 && scene === model.waterScene;
         waterGrayBackground.visible = rotationAmount !== 0 && scene === model.waterScene;

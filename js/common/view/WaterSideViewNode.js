@@ -23,9 +23,9 @@ define( require => {
 
     /**
      * @param {Bounds2} waveAreaBounds
-     * @param {WavesModel} model
+     * @param {WaterScene} waterScene
      */
-    constructor( waveAreaBounds, model ) {
+    constructor( waveAreaBounds, waterScene ) {
 
       super( null, {
         lineJoin: WaveInterferenceConstants.CHART_LINE_JOIN,
@@ -36,12 +36,12 @@ define( require => {
       this.waveAreaBounds = waveAreaBounds;
 
       // @private
-      this.model = model;
+      this.waterScene = waterScene;
 
       // @private - reduce garbage by reusing the same array to get model values
       this.array = [];
 
-      model.waterScene.lattice.changedEmitter.addListener( () => this.update() );
+      waterScene.lattice.changedEmitter.addListener( () => this.update() );
     }
 
     /**
@@ -49,7 +49,7 @@ define( require => {
      */
     update() {
       const bounds = this.waveAreaBounds;
-      const waterSideShape = WaveInterferenceUtils.getWaterSideShape( this.array, this.model.waterScene.lattice, bounds, 0, 0 );
+      const waterSideShape = WaveInterferenceUtils.getWaterSideShape( this.array, this.waterScene.lattice, bounds, 0, 0 );
       this.shape = waterSideShape
         .lineTo( waterSideShape.bounds.right, bounds.maxY )
         .lineTo( waterSideShape.bounds.left, bounds.maxY )
