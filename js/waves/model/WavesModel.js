@@ -380,7 +380,7 @@ define( require => {
       this.measuringTapeBasePositionProperty.reset();
       this.isMeasuringTapeInPlayAreaProperty.reset();
 
-      // Signify for listeners that the model reset is complete
+      // Signify to listeners that the model reset is complete
       this.resetEmitter.emit();
     }
 
