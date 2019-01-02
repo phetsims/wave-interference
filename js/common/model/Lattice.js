@@ -243,10 +243,9 @@ define( require => {
 
     /**
      * Propagates the wave by one step.  This is a discrete algorithm and cannot use dt.
-     * @param {function} forcingFunction - sets values after the wave equation update
      * @public
      */
-    step( forcingFunction ) {
+    step() {
 
       // Move to the next matrix
       this.currentMatrixIndex = ( this.currentMatrixIndex - 1 + this.matrices.length ) % this.matrices.length;
@@ -313,9 +312,6 @@ define( require => {
                     ( matrix1.get( i, j - 1 ) - matrix1.get( i, j ) + matrix2.get( i, j - 1 ) - matrix2.get( i, j - 2 ) );
         matrix0.set( i, j, sum );
       }
-
-      // Apply values on top of the computed lattice values so there is no noise at the point sources
-      forcingFunction();
     }
   }
 

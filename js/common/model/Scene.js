@@ -560,7 +560,10 @@ define( require => {
       }
 
       // Update the lattice
-      this.lattice.step( () => this.setSourceValues() );
+      this.lattice.step();
+
+      // Apply values on top of the computed lattice values so there is no noise at the point sources
+      this.setSourceValues();
 
       // Scene-specific physics updates
       this.step( dt );
