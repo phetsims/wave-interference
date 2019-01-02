@@ -624,7 +624,7 @@ define( require => {
      * @protected
      */
     handleButton1Toggled( isPressed ) {
-      if ( isPressed ) {
+      if ( isPressed && !this.button2PressedProperty.value ) {
         this.resetPhase();
       }
       if ( isPressed && this.disturbanceTypeProperty.value === DisturbanceTypeEnum.PULSE ) {
@@ -643,7 +643,7 @@ define( require => {
      * @protected
      */
     handleButton2Toggled( isPressed ) {
-      if ( isPressed ) {
+      if ( isPressed && !this.button1PressedProperty.value ) {
         this.resetPhase();
       }
       this.continuousWave2OscillatingProperty.value = isPressed;
