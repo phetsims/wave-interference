@@ -15,6 +15,7 @@ define( require => {
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveSpatialTypeEnum = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialTypeEnum' );
 
   class WaterScene extends Scene {
@@ -209,6 +210,20 @@ define( require => {
      */
     handleButton2Toggled( isPressed ) {
       // Override as a no-op, since water controls the source via WaterDrops hitting the surface
+    }
+
+    /**
+     * Gets the horizontal coordinate where water drops come out--aligned with the oscillation cell.
+     * @returns {number}
+     * @public
+     */
+    getWaterDropX() {
+
+      // Note this is nudged over 1/2 a cell so it will appear in the center of the cell rather than
+      // at the left edge of the cell.  See also WaveInterferenceUtils.getWaterSideShape.
+      return this.latticeToViewTransform.modelToViewX(
+        WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE + 0.5
+      );
     }
 
     /**

@@ -12,7 +12,6 @@ define( require => {
   // modules
   const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const Line = require( 'SCENERY/nodes/Line' );
-  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -40,12 +39,9 @@ define( require => {
         if ( barrierType !== BarrierTypeEnum.NO_BARRIER ) {
 
           const scene = sceneProperty.value;
-          this.modelViewTransform = ModelViewTransform2.createRectangleMapping( scene.getWaveAreaBounds(), viewBounds );
-
           const barrierY = viewBounds.centerY;
-          const cellWidth = ModelViewTransform2.createRectangleMapping( scene.lattice.visibleBounds, viewBounds )
-            .modelToViewDeltaX( 1 );
-          const barrierX = this.modelViewTransform.modelToViewX( scene.barrierLatticeCoordinateProperty.value ) + cellWidth / 2;
+          const cellWidth = scene.latticeToViewTransform.modelToViewDeltaX( 1 );
+          const barrierX = scene.latticeToViewTransform.modelToViewX( scene.barrierLatticeCoordinateProperty.value ) + cellWidth / 2;
 
           // Render all the minima and maxima on both sides of the origin
           [ 'maxima', 'minima' ].forEach( type => {

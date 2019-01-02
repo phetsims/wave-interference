@@ -34,9 +34,24 @@ The tools which appear in the toolbox are shared
 across each [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js). 
 
 There are 3 coordinate frames:
-* view coordinates
-* lattice coordinates (integer), with damping regions
+* lattice coordinates (integer)
 * Scene-specific physical coordinates (such as cm or nm)
+* view coordinates
+
+Coordinate transformations between these frames are defined in Scene.js
+```js
+      // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice
+      // coordinates, does not include damping regions
+      this.modelToLatticeTransform = ...;
+
+      // @public {ModelViewTransform2|null} - transforms from the physical units for this scene to view coordinates,
+      // filled in after the view area is initialized, see setViewBounds
+      this.modelViewTransform = ...;
+
+      // @public {ModelViewTransform2|null} - transforms from lattice coordinates to view coordinates, filled in after
+      // the view area is initialized, see setViewBounds
+      this.latticeToViewTransform = ...;
+```
 
 The wave is represented on a single 2D discrete scalar lattice, and we use use the discretization of the wave equation 
 described in http://www.mtnmath.com/whatth/node47.html and known as a finite difference method:

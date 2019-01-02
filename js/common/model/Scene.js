@@ -217,6 +217,14 @@ define( require => {
         this.lattice.visibleBounds
       );
 
+      // @public {ModelViewTransform2|null} - transforms from the physical units for this scene to view coordinates,
+      // filled in after the view area is initialized, see setViewBounds
+      this.modelViewTransform = null;
+
+      // @public {ModelViewTransform2|null} - transforms from lattice coordinates to view coordinates, filled in after
+      // the view area is initialized, see setViewBounds
+      this.latticeToViewTransform = null;
+
       // @public - horizontal location of the barrier in lattice coordinates (includes damping region)
       // note: this is a floating point representation in 2D to work seamlessly with DragListener
       // lattice computations using this floating point value should use Util.roundSymmetric()
@@ -679,6 +687,26 @@ define( require => {
     step( dt ) {
 
       // No-op here, subclasses can override to provide behavior.
+    }
+
+    /**
+     * After the view is initialized, determine the coordinate transformations that map to view coordinates.
+     * @param {Bounds2} viewBounds
+     * @public
+     */
+    setViewBounds( viewBounds ) {
+      assert && assert( this.modelViewTransform === null, 'setViewBounds cannot be called twice' );
+
+      this.modelViewTransform = ModelViewTransform2.createRectangleMapping(
+        this.getWaveAreaBounds(),
+        viewBounds
+      );
+
+      const latticeBounds = new Bounds2( 0, 0, 1, 1 );
+      const modelBounds = this.modelToLatticeTransform.viewToModelBounds( latticeBounds );
+      const tempViewBounds = this.modelViewTransform.modelToViewBounds( modelBounds );
+
+      this.latticeToViewTransform = ModelViewTransform2.createRectangleMapping( latticeBounds, tempViewBounds );
     }
   }
 

@@ -17,7 +17,6 @@ define( require => {
   const WaterScene = require( 'WAVE_INTERFERENCE/common/model/WaterScene' );
   const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // constants
   // how far the water drops have to fall, tuned so the water drop initially peeks out from the faucet (by less
@@ -48,7 +47,7 @@ define( require => {
 
           // Adjusted based on the dimension of the faucet image to align with the horizontal water drop location.
           // The vertical offset is adjusted with FAUCET_VERTICAL_OFFSET
-          x: WaveInterferenceUtils.getWaterDropX( waterScene.lattice.visibleBounds, waveAreaNode.bounds ),
+          x: waterScene.getWaterDropX(),
           scale: 0.25,
           horizontalPipeLength: 1600, // Long enough that it still shows even for extreme aspect ratios
 

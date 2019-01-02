@@ -100,6 +100,9 @@ define( require => {
       } );
       this.addChild( this.waveAreaNode );
 
+      // Initialize the view-related transforms in Scene
+      model.scenes.forEach( scene => scene.setViewBounds( this.waveAreaNode.bounds ) );
+
       // Thin border to distinguish between the lattice node and the light screen.  This is not part of the
       // waveAreaNode because that would extend its bounds
       const borderNode = new Rectangle(

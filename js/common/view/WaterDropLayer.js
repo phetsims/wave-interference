@@ -9,13 +9,11 @@ define( require => {
   'use strict';
 
   // modules
-  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
   const WaterDropImage = require( 'WAVE_INTERFERENCE/common/view/WaterDropImage' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   class WaterDropLayer extends Node {
 
@@ -26,15 +24,8 @@ define( require => {
      */
     constructor( model, waveAreaNodeBounds, options ) {
       super();
-      const modelViewTransform = ModelViewTransform2.createRectangleMapping(
-        model.waterScene.getWaveAreaBounds(),
-        waveAreaNodeBounds
-      );
 
-      const waterDropX = WaveInterferenceUtils.getWaterDropX(
-        model.waterScene.lattice.visibleBounds,
-        waveAreaNodeBounds
-      );
+      const waterDropX = model.waterScene.getWaterDropX();
 
       // Preallocate Images that will be associated with different water drop instances.
       const MAX_DROPS = 4;
@@ -56,7 +47,7 @@ define( require => {
 
             waterDropNodes[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && waterDrop.startsOscillation;
             waterDropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
-            const dy = waterDrop.sign * modelViewTransform.modelToViewDeltaY( waterDrop.sourceSeparation / 2 );
+            const dy = waterDrop.sign * model.waterScene.modelViewTransform.modelToViewDeltaY( waterDrop.sourceSeparation / 2 );
             waterDropNodes[ i ].center = new Vector2( waterDropX, waveAreaNodeBounds.centerY - waterDrop.y + dy );
           }
         } );

@@ -11,7 +11,6 @@ define( require => {
   // modules
   const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
   const DisturbanceTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/DisturbanceTypeIconNode' );
-  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
@@ -90,11 +89,6 @@ define( require => {
         children: [ nodeWithButton ]
       } );
 
-      const modelViewTransform = ModelViewTransform2.createRectangleMapping(
-        scene.getWaveAreaBounds(),
-        waveAreaNode.bounds
-      );
-
       const sourceSeparationProperty = scene.desiredSourceSeparationProperty || scene.sourceSeparationProperty;
       sourceSeparationProperty.link( sourceSeparation => {
 
@@ -104,7 +98,7 @@ define( require => {
           nodeWithButton.visible = separation > 0;
         }
         const sign = isPrimarySource ? 1 : -1;
-        const viewSeparation = modelViewTransform.modelToViewDeltaY( separation );
+        const viewSeparation = scene.modelViewTransform.modelToViewDeltaY( separation );
 
         nodeWithButton.centerY = waveAreaNode.centerY + sign * viewSeparation / 2 + verticalOffset;
       } );

@@ -11,10 +11,8 @@ define( require => {
   // modules
   const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
-  const Bounds2 = require( 'DOT/Bounds2' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const DynamicProperty = require( 'AXON/DynamicProperty' );
-  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const SlitsModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsModel' );
@@ -68,21 +66,7 @@ define( require => {
       this.rectangleC = rectangleC;
 
       // @private - View width for one cell
-      this.cellWidth = ModelViewTransform2.createRectangleMapping( scene.lattice.visibleBounds, viewBounds )
-        .modelToViewDeltaX( 1 );
-
-      // @private - Convert from model coordinates to view coordinates
-      this.modelViewTransform = ModelViewTransform2.createRectangleMapping(
-        this.scene.getWaveAreaBounds(),
-        viewBounds
-      );
-
-      const latticeBounds = new Bounds2( 0, 0, 1, 1 );
-      const modelBounds = scene.modelToLatticeTransform.viewToModelBounds( latticeBounds );
-      const tempViewBounds = this.modelViewTransform.modelToViewBounds( modelBounds );
-
-      //@private
-      this.latticeToViewTransform = ModelViewTransform2.createRectangleMapping( latticeBounds, tempViewBounds );
+      this.cellWidth = scene.latticeToViewTransform.modelToViewDeltaX( 1 );
 
       this.addInputListener( new DragListener( {
         mapLocation: modelPosition => {
@@ -94,7 +78,7 @@ define( require => {
 
         // Use continuous value for drag handler
         locationProperty: scene.barrierLocationProperty,
-        transform: this.latticeToViewTransform
+        transform: scene.latticeToViewTransform
       } ) );
 
       // @private - draggable double-headed arrow beneath the barrier
@@ -133,7 +117,7 @@ define( require => {
 
       // Barrier origin in view coordinates, sets the parent node location for compatibility with DragListener,
       // see https://github.com/phetsims/wave-interference/issues/75
-      this.x = this.latticeToViewTransform.modelToViewX( scene.barrierLatticeCoordinateProperty.value );
+      this.x = scene.latticeToViewTransform.modelToViewX( scene.barrierLatticeCoordinateProperty.value );
 
       if ( barrierType === BarrierTypeEnum.NO_BARRIER ) {
 
@@ -152,7 +136,7 @@ define( require => {
           this.rectangleC.visible = false;
           this.arrowNode.visible = true;
 
-          const slitWidthView = this.modelViewTransform.modelToViewDeltaY( slitWidth );
+          const slitWidthView = scene.modelViewTransform.modelToViewDeltaY( slitWidth );
           const y1 = this.waveAreaViewBounds.centerY - slitWidthView / 2;
           const y2 = this.waveAreaViewBounds.centerY + slitWidthView / 2;
           this.rectangleA.setRect( 0, waveAreaTop, this.cellWidth, y1 - waveAreaTop, CORNER_RADIUS, CORNER_RADIUS );
@@ -167,13 +151,13 @@ define( require => {
           this.arrowNode.visible = true;
 
           const waveAreaWidth = scene.waveAreaWidth;
-          const bottomOfTopBarrier = this.modelViewTransform
+          const bottomOfTopBarrier = scene.modelViewTransform
             .modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 - slitWidth / 2 );
-          const topOfCentralBarrier = this.modelViewTransform
+          const topOfCentralBarrier = scene.modelViewTransform
             .modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 + slitWidth / 2 );
-          const bottomOfCentralBarrier = this.modelViewTransform
+          const bottomOfCentralBarrier = scene.modelViewTransform
             .modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 - slitWidth / 2 );
-          const topOfBottomBarrier = this.modelViewTransform
+          const topOfBottomBarrier = scene.modelViewTransform
             .modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 + slitWidth / 2 );
           this.rectangleA.setRect(
             0, waveAreaTop,

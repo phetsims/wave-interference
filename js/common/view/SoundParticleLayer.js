@@ -10,7 +10,6 @@ define( require => {
 
   // modules
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
-  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -40,12 +39,6 @@ define( require => {
 
       // @private
       this.model = model;
-
-      // @private
-      this.modelViewTransform = ModelViewTransform2.createRectangleMapping(
-        model.soundScene.getWaveAreaBounds(),
-        waveAreaNodeBounds
-      );
 
       // @private
       this.whiteSphereImage = createSphereImage( 'rgb(210,210,210)' );
@@ -79,8 +72,8 @@ define( require => {
 
         context.drawImage(
           sphereImage,
-          RESOLUTION * ( this.modelViewTransform.modelToViewX( soundParticle.x ) ) - sphereImage.width / 2,
-          RESOLUTION * ( this.modelViewTransform.modelToViewY( soundParticle.y ) ) - sphereImage.height / 2
+          RESOLUTION * ( this.model.soundScene.modelViewTransform.modelToViewX( soundParticle.x ) ) - sphereImage.width / 2,
+          RESOLUTION * ( this.model.soundScene.modelViewTransform.modelToViewY( soundParticle.y ) ) - sphereImage.height / 2
         );
       } );
     }
