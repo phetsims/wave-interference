@@ -48,10 +48,10 @@
     "value": "Position (nm)"
   },
   "cmValue": {
-    "value": "{0} cm"
+    "value": "{{value}} cm"
   },
   "nmValue": {
-    "value": "{0} nm"
+    "value": "{{value}} nm"
   },
   "min": {
     "value": "min"
