@@ -24,11 +24,10 @@ define( require => {
   class LatticeCanvasNode extends CanvasNode {
 
     /**
-     * @param {Scene} scene
+     * @param {Lattice} lattice
      * @param {Object} [options]
      */
-    constructor( scene, options ) {
-      const lattice = scene.lattice;
+    constructor( lattice, options ) {
 
       options = _.extend( {
 

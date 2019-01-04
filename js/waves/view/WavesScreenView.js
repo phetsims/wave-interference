@@ -155,9 +155,9 @@ define( require => {
       this.addChild( resetAllButton );
 
       // Create the canvases to render the lattices
-      this.waterCanvasNode = new LatticeCanvasNode( model.waterScene, { baseColor: WATER_BLUE } );
-      this.soundCanvasNode = new LatticeCanvasNode( model.soundScene, { baseColor: Color.white } );
-      this.lightCanvasNode = new LatticeCanvasNode( model.lightScene );
+      this.waterCanvasNode = new LatticeCanvasNode( model.waterScene.lattice, { baseColor: WATER_BLUE } );
+      this.soundCanvasNode = new LatticeCanvasNode( model.soundScene.lattice, { baseColor: Color.white } );
+      this.lightCanvasNode = new LatticeCanvasNode( model.lightScene.lattice );
       this.sceneToNode = scene => scene === model.waterScene ? this.waterCanvasNode :
                                   scene === model.soundScene ? this.soundCanvasNode :
                                   this.lightCanvasNode;
