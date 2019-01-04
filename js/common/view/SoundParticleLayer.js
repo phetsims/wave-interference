@@ -40,11 +40,17 @@ define( require => {
       // @private
       this.model = model;
 
-      // @private
-      this.whiteSphereImage = createSphereImage( 'rgb(210,210,210)' );
+      createSphereImage( 'rgb(210,210,210)', canvas => {
 
-      // @private
-      this.redSphereImage = createSphereImage( 'red' );
+        // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
+        this.whiteSphereImage = canvas;
+      } );
+
+      createSphereImage( 'red', canvas => {
+
+        // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
+        this.redSphereImage = canvas;
+      } );
 
       // At the end of each model step, update all of the particles as a batch.
       const update = () => {
@@ -82,15 +88,14 @@ define( require => {
   /**
    * Create an image of a ShadedSphereNode for the given color.
    * @param {ColorDef} color
-   * @returns {HTMLImageElement|HTMLCanvasElement}
+   * @param {function} callback, see Node.toCanvas for signature
+   * @returns {HTMLCanvasElement}
    */
-  const createSphereImage = color => new ShadedSphereNode( 10, {
+  const createSphereImage = ( color, callback ) => new ShadedSphereNode( 10, {
     mainColor: color,
-    stroke: 'black'
-  } ).rasterized( {
-    resolution: RESOLUTION,
-    useCanvas: true
-  } ).children[ 0 ].image;
+    stroke: 'black',
+    scale: 2
+  } ).toCanvas( callback );
 
   return waveInterference.register( 'SoundParticleLayer', SoundParticleLayer );
 } );
