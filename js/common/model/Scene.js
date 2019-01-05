@@ -390,7 +390,6 @@ define( require => {
       const isContinuous = ( this.disturbanceTypeProperty.get() === DisturbanceTypeEnum.CONTINUOUS );
       const continuous1 = isContinuous && this.continuousWave1OscillatingProperty.get();
       const continuous2 = isContinuous && this.continuousWave2OscillatingProperty.get();
-      let enteredArray = false;
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
         // The simulation is designed to start with a downward wave, corresponding to water splashing in
@@ -420,10 +419,8 @@ define( require => {
 
           this.entries.push( {
             stepIndex: this.stepIndex,
-            state: 'on',
             sourcePosition: new Vector2( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j )
           } );
-          enteredArray = true;
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
@@ -434,18 +431,9 @@ define( require => {
 
           this.entries.push( {
             stepIndex: this.stepIndex,
-            state: 'on',
             sourcePosition: new Vector2( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j )
           } );
         }
-      }
-
-      if ( !enteredArray ) {
-        // TODO: doesn't distinguish between passing through zero and a true zero.  We would need that probably.
-        this.entries.push( {
-          stepIndex: this.stepIndex,
-          state: 'off'
-        } );
       }
     }
 
@@ -596,32 +584,48 @@ define( require => {
       // Notify listeners about changes
       this.lattice.changedEmitter.emit();
 
+      // I expected the wave speed on the lattice to be 1 or sqrt(2)/2, and was surprised to see that this value
+      // worked much better empirically.  This is a speed in lattice cells per time step, which is the same
+      // for each scene
+      const theoreticalRate = Math.sqrt( 2 ) / 3;
+
       // zero out values that are outside of the mask
       for ( let i = 0; i < this.lattice.width; i++ ) {
         for ( let j = 0; j < this.lattice.height; j++ ) {
 
-          let isWhitelisted = false;
+          let matchesMask = false;
           for ( let k = 0; k < this.entries.length; k++ ) {
             const entry = this.entries[ k ];
-            if ( entry.state === 'on' ) {
-              const distanceFromCellToSource = entry.sourcePosition.distanceXY( i, j );
+            const distanceFromCellToSource = entry.sourcePosition.distanceXY( i, j );
 
-              const theoreticalRate = Math.sqrt( 2 ) / 3;// TODO: why is this the wave speed?
-              const time = this.stepIndex - entry.stepIndex;
-              const theoreticalDistance = theoreticalRate * time;
-              if ( Math.abs( theoreticalDistance - distanceFromCellToSource ) <= 1.1 ) {
-                isWhitelisted = true;
-              }
+            const time = this.stepIndex - entry.stepIndex;
+            const theoreticalDistance = theoreticalRate * time;
+            if ( Math.abs( theoreticalDistance - distanceFromCellToSource ) <= 1.1 ) {
+              matchesMask = true;
+              break;
             }
           }
 
-          if ( !isWhitelisted ) {
+          if ( !matchesMask ) {
             this.lattice.setCurrentValue( i, j, 0 );
             this.lattice.setLastValue( i, j, 0 );
             this.lattice.visitedMatrix.set( i, j, 0 );
           }
         }
       }
+
+      // Prune entries.  Elements that are too far out of range are eliminated. At the time of writing, this
+      // caps out around 608 entries with both sources on.
+      for ( let k = 0; k < this.entries.length; k++ ) {
+        const entry = this.entries[ k ];
+
+        const time = this.stepIndex - entry.stepIndex;
+        if ( time > Math.sqrt( 2 ) * this.lattice.width / theoreticalRate ) { // d = vt, t=d/v
+          this.entries.splice( k, 1 );
+          k--;
+        }
+      }
+      // ( this.stepIndex % 10 === 0 ) && console.log( this.entries.length );
 
       this.stepIndex++;
     }
