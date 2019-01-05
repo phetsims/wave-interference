@@ -418,10 +418,8 @@ define( require => {
           lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
           this.oscillator1Property.value = waveValue;
 
-          // TODO: doesn't distinguish between passing through zero and a true zero.  We would need that probably.
           this.entries.push( {
             stepIndex: this.stepIndex,
-            value: this.oscillator1Property.value,
             state: 'on',
             sourcePosition: new Vector2( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j )
           } );
@@ -433,6 +431,12 @@ define( require => {
           const j = latticeCenterJ - distanceFromCenter;
           lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
           this.oscillator2Property.value = waveValue;
+
+          this.entries.push( {
+            stepIndex: this.stepIndex,
+            state: 'on',
+            sourcePosition: new Vector2( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j )
+          } );
         }
       }
 
