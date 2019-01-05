@@ -574,8 +574,7 @@ define( require => {
       if ( this.pulseFiringProperty.get() ) {
         const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
 
-        // For 50% longer than one pulse, keep the oscillator fixed at 0 to prevent "ringing"
-        if ( timeSincePulseStarted > period * 1.5 ) {
+        if ( timeSincePulseStarted > period ) {
           this.pulseFiringProperty.set( false );
           this.pulseStartTime = 0;
         }
