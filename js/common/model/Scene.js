@@ -370,6 +370,10 @@ define( require => {
           }
         } );
       }
+
+      // TODO: memory leak, will need to be pruned
+      this.entries = [];
+      this.stepIndex = 0;
     }
 
     /**
@@ -386,6 +390,7 @@ define( require => {
       const isContinuous = ( this.disturbanceTypeProperty.get() === DisturbanceTypeEnum.CONTINUOUS );
       const continuous1 = isContinuous && this.continuousWave1OscillatingProperty.get();
       const continuous2 = isContinuous && this.continuousWave2OscillatingProperty.get();
+      let enteredArray = false;
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
         // The simulation is designed to start with a downward wave, corresponding to water splashing in
@@ -412,6 +417,15 @@ define( require => {
           const j = latticeCenterJ + distanceFromCenter;
           lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
           this.oscillator1Property.value = waveValue;
+
+          // TODO: doesn't distinguish between passing through zero and a true zero.  We would need that probably.
+          this.entries.push( {
+            stepIndex: this.stepIndex,
+            value: this.oscillator1Property.value,
+            state: 'on',
+            sourcePosition: new Vector2( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j )
+          } );
+          enteredArray = true;
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
@@ -420,6 +434,14 @@ define( require => {
           lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
           this.oscillator2Property.value = waveValue;
         }
+      }
+
+      if ( !enteredArray ) {
+        // TODO: doesn't distinguish between passing through zero and a true zero.  We would need that probably.
+        this.entries.push( {
+          stepIndex: this.stepIndex,
+          state: 'off'
+        } );
       }
     }
 
@@ -570,6 +592,35 @@ define( require => {
 
       // Notify listeners about changes
       this.lattice.changedEmitter.emit();
+
+      // zero out values that are outside of the mask
+      for ( let i = 0; i < this.lattice.width; i++ ) {
+        for ( let j = 0; j < this.lattice.height; j++ ) {
+
+          let isWhitelisted = false;
+          for ( let k = 0; k < this.entries.length; k++ ) {
+            const entry = this.entries[ k ];
+            if ( entry.state === 'on' ) {
+              const distanceFromCellToSource = entry.sourcePosition.distanceXY( i, j );
+
+              const theoreticalRate = Math.sqrt( 2 ) / 3;// TODO: why is this the wave speed?
+              const time = this.stepIndex - entry.stepIndex;
+              const theoreticalDistance = theoreticalRate * time;
+              if ( Math.abs( theoreticalDistance - distanceFromCellToSource ) <= 1.1 ) {
+                isWhitelisted = true;
+              }
+            }
+          }
+
+          if ( !isWhitelisted ) {
+            this.lattice.setCurrentValue( i, j, 0 );
+            this.lattice.setLastValue( i, j, 0 );
+            this.lattice.visitedMatrix.set( i, j, 0 );
+          }
+        }
+      }
+
+      this.stepIndex++;
     }
 
     /**
