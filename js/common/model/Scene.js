@@ -601,11 +601,15 @@ define( require => {
       // worked much better empirically.  This is a speed in lattice cells per time step, which is the same
       // for each scene
       const theoreticalRate = Math.sqrt( 2 ) / 3;
+      const MASKING_TOLERANCE = 1.1;
 
       // zero out values that are outside of the mask
       for ( let i = 0; i < this.lattice.width; i++ ) {
         for ( let j = 0; j < this.lattice.height; j++ ) {
 
+          // Brute force search to see if the current cell corresponds to the distance = rate * time of *any* of the
+          // source disturbances.  It is likely that a data structure could simplify the effort here, which may be
+          // necessary, because this can sometimes drop performance to 5fps on iPad Air.
           let matchesMask = false;
           for ( let k = 0; k < this.entries.length; k++ ) {
             const entry = this.entries[ k ];
@@ -613,7 +617,7 @@ define( require => {
 
             const time = this.stepIndex - entry.stepIndex;
             const theoreticalDistance = theoreticalRate * time;
-            if ( Math.abs( theoreticalDistance - distanceFromCellToSource ) <= 1.1 ) {
+            if ( Math.abs( theoreticalDistance - distanceFromCellToSource ) <= MASKING_TOLERANCE ) {
               matchesMask = true;
               break;
             }
