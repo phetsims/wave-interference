@@ -15,9 +15,9 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
-  // I expected the wave speed on the lattice to be 1 or sqrt(2)/2, and was surprised to see that this value
-  // worked much better empirically.  This is a speed in lattice cells per time step, which is the same
-  // for each scene
+  // It seems the expected the wave speed on the lattice should be 1 or sqrt(2)/2, and was surprised to see that this
+  // value worked much better empirically.  This is a speed in lattice cells per time step, which is the same for each
+  // scene
   const waveSpeed = Math.sqrt( 2 ) / 3;
   const I = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE;
 
