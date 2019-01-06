@@ -22,8 +22,6 @@ define( require => {
 
   class TemporalMask {
 
-    /**
-     */
     constructor() {
 
       // @private - record of {on, time,j} of changes in wave disturbance sources.
