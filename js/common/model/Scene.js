@@ -581,8 +581,21 @@ define( require => {
       // Scene-specific physics updates
       this.step( dt );
 
+      this.applyMask();
+
       // Notify listeners about changes
       this.lattice.changedEmitter.emit();
+
+      this.stepIndex++;
+    }
+
+    /**
+     * By recording the times and positions of the wave disturbances, and knowing the wave propagation speed,
+     * we can apply a masking function across the wave area, zeroing out any cell that could note have been generated
+     * from the source disturbance.  This filters out spurious noise and restores "black" for the light scene.
+     * @private
+     */
+    applyMask() {
 
       // I expected the wave speed on the lattice to be 1 or sqrt(2)/2, and was surprised to see that this value
       // worked much better empirically.  This is a speed in lattice cells per time step, which is the same
@@ -625,9 +638,6 @@ define( require => {
           k--;
         }
       }
-      // ( this.stepIndex % 10 === 0 ) && console.log( this.entries.length );
-
-      this.stepIndex++;
     }
 
     /**
