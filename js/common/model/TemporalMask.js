@@ -105,6 +105,14 @@ define( require => {
         }
       }
     }
+
+    /**
+     * Clear the state.
+     * @public
+     */
+    clear() {
+      this.deltas.length = 0;
+    }
   }
 
   return waveInterference.register( 'TemporalMask', TemporalMask );

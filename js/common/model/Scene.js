@@ -284,6 +284,15 @@ define( require => {
       // @public - true when the second source is continuously oscillating
       this.continuousWave2OscillatingProperty = new BooleanProperty( false );
 
+      // @private
+      this.temporalMask1 = new TemporalMask();
+
+      // @private
+      this.temporalMask2 = new TemporalMask();
+
+      // @private
+      this.stepIndex = 0;
+
       // When the user changes disturbance type, the button pops out and waves stop
       this.disturbanceTypeProperty.link( () => {
         this.button1PressedProperty.value = false;
@@ -371,15 +380,6 @@ define( require => {
           }
         } );
       }
-
-      // @private
-      this.temporalMask1 = new TemporalMask();
-
-      // @private
-      this.temporalMask2 = new TemporalMask();
-
-      // @private
-      this.stepIndex = 0;
     }
 
     /**
@@ -637,6 +637,8 @@ define( require => {
      */
     clear() {
       this.lattice.clear();
+      this.temporalMask1.clear();
+      this.temporalMask2.clear();
     }
 
     /**
