@@ -2,7 +2,8 @@
 
 /**
  * Records on and off times of a single source, so that we can determine whether it could have contributed to the value
- * on the lattice at a later time.
+ * on the lattice at a later time.  This is used to prevent artifacts when the wave is turned off, and to restore
+ * the lattice to black (for light).
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
