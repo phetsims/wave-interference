@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * The scene determines the medium and wave generator types, coordinate frames, relative scale, etc.  For a description
@@ -23,6 +23,7 @@ define( require => {
   const Range = require( 'DOT/Range' );
   const Rectangle = require( 'DOT/Rectangle' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const TemporalMask = require( 'WAVE_INTERFERENCE/common/model/TemporalMask' );
   const Util = require( 'DOT/Util' );
   const Validator = require( 'AXON/Validator' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -371,8 +372,13 @@ define( require => {
         } );
       }
 
-      // TODO: memory leak, will need to be pruned
-      this.entries = [];
+      // @private
+      this.temporalMask1 = new TemporalMask();
+
+      // @private
+      this.temporalMask2 = new TemporalMask();
+
+      // @private
       this.stepIndex = 0;
     }
 
@@ -390,6 +396,11 @@ define( require => {
       const isContinuous = ( this.disturbanceTypeProperty.get() === DisturbanceTypeEnum.CONTINUOUS );
       const continuous1 = isContinuous && this.continuousWave1OscillatingProperty.get();
       const continuous2 = isContinuous && this.continuousWave2OscillatingProperty.get();
+
+      // Used to compute whether a delta appears in either mask
+      let temporalMask1Empty = true;
+      let temporalMask2Empty = true;
+
       if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
 
         // The simulation is designed to start with a downward wave, corresponding to water splashing in
@@ -416,11 +427,8 @@ define( require => {
           const j = latticeCenterJ + distanceFromCenter;
           lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
           this.oscillator1Property.value = waveValue;
-
-          this.entries.push( {
-            stepIndex: this.stepIndex,
-            sourcePosition: new Vector2( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j )
-          } );
+          this.temporalMask1.set( true, this.stepIndex, j );
+          temporalMask1Empty = false;
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
@@ -428,13 +436,13 @@ define( require => {
           const j = latticeCenterJ - distanceFromCenter;
           lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
           this.oscillator2Property.value = waveValue;
-
-          this.entries.push( {
-            stepIndex: this.stepIndex,
-            sourcePosition: new Vector2( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j )
-          } );
+          this.temporalMask2.set( true, this.stepIndex, j );
+          temporalMask2Empty = false;
         }
       }
+
+      temporalMask1Empty && this.temporalMask1.set( false, this.stepIndex, 0 );
+      temporalMask2Empty && this.temporalMask2.set( false, this.stepIndex, 0 );
     }
 
     /**
@@ -581,7 +589,11 @@ define( require => {
       // Scene-specific physics updates
       this.step( dt );
 
-      this.applyMask();
+      // Apply temporal masking, but only for point sources.  Plane waves already clear the wave area when changing
+      // parameters
+      if ( this.waveSpatialType === WaveSpatialTypeEnum.POINT ) {
+        this.applyTemporalMask();
+      }
 
       // Notify listeners about changes
       this.lattice.changedEmitter.emit();
@@ -594,38 +606,20 @@ define( require => {
      * we can apply a masking function across the wave area, zeroing out any cell that could note have been generated
      * from the source disturbance.  This filters out spurious noise and restores "black" for the light scene.
      *
-     * TODO: Letting the wave sit for 3 minutes on iPad air causes it to oversaturate.
+     * TODO: Letting the wave sit for 3 minutes on iPad air causes it to oversaturate. after several minutes, 2 sources.
      * @private
      */
-    applyMask() {
-
-      // I expected the wave speed on the lattice to be 1 or sqrt(2)/2, and was surprised to see that this value
-      // worked much better empirically.  This is a speed in lattice cells per time step, which is the same
-      // for each scene
-      const theoreticalRate = Math.sqrt( 2 ) / 3;
-      const MASKING_TOLERANCE = 1.1;
+    applyTemporalMask() {
 
       // zero out values that are outside of the mask
       for ( let i = 0; i < this.lattice.width; i++ ) {
         for ( let j = 0; j < this.lattice.height; j++ ) {
 
-          // Brute force search to see if the current cell corresponds to the distance = rate * time of *any* of the
-          // source disturbances.  It is likely that a data structure could simplify the effort here, which may be
-          // necessary, because this can sometimes drop performance to 5fps on iPad Air.
-          let matchesMask = false;
-          for ( let k = 0; k < this.entries.length; k++ ) {
-            const entry = this.entries[ k ];
-            const distanceFromCellToSource = entry.sourcePosition.distanceXY( i, j );
+          const cameFrom1 = this.temporalMask1.matches( i, j, this.stepIndex );
+          const cameFrom2 = this.temporalMask2.matches( i, j, this.stepIndex );
 
-            const time = this.stepIndex - entry.stepIndex;
-            const theoreticalDistance = theoreticalRate * time;
-            if ( Math.abs( theoreticalDistance - distanceFromCellToSource ) <= MASKING_TOLERANCE ) {
-              matchesMask = true;
-              break;
-            }
-          }
-
-          if ( !matchesMask ) {
+          // Math.random()<0.0001 && console.log(cameFrom1,cameFrom2);
+          if ( !cameFrom1 && !cameFrom2 ) {
             this.lattice.setCurrentValue( i, j, 0 );
             this.lattice.setLastValue( i, j, 0 );
             this.lattice.visitedMatrix.set( i, j, 0 );
@@ -633,17 +627,10 @@ define( require => {
         }
       }
 
-      // Prune entries.  Elements that are too far out of range are eliminated. At the time of writing, this
-      // caps out around 608 entries with both sources on.
-      for ( let k = 0; k < this.entries.length; k++ ) {
-        const entry = this.entries[ k ];
-
-        const time = this.stepIndex - entry.stepIndex;
-        if ( time > Math.sqrt( 2 ) * this.lattice.width / theoreticalRate ) { // d = vt, t=d/v
-          this.entries.splice( k, 1 );
-          k--;
-        }
-      }
+      // Prune entries.  Elements that are too far out of range are eliminated.  Use the diagonal of the lattice for the
+      // max distance
+      this.temporalMask1.prune( Math.sqrt( 2 ) * this.lattice.width, this.stepIndex );
+      this.temporalMask2.prune( Math.sqrt( 2 ) * this.lattice.width, this.stepIndex );
     }
 
     /**
