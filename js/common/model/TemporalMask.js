@@ -19,7 +19,6 @@ define( require => {
   // value worked much better empirically.  This is a speed in lattice cells per time step, which is the same for each
   // scene
   const waveSpeed = Math.sqrt( 2 ) / 3;
-  const I = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE;
 
   class TemporalMask {
 
@@ -65,7 +64,7 @@ define( require => {
         const delta = this.deltas[ k ];
         if ( delta.on ) {
 
-          const di = I - i;
+          const di = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE - i;
           const dj = delta.j - j;
           const distance = Math.sqrt( di * di + dj * dj );
 
