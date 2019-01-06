@@ -618,9 +618,7 @@ define( require => {
           const cameFrom2 = this.temporalMask2.matches( i, j, this.stepIndex );
 
           if ( !cameFrom1 && !cameFrom2 ) {
-            this.lattice.setCurrentValue( i, j, 0 );
-            this.lattice.setLastValue( i, j, 0 );
-            this.lattice.visitedMatrix.set( i, j, 0 );
+            this.lattice.clearCell( i, j );
           }
         }
       }

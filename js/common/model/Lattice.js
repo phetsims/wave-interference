@@ -187,6 +187,19 @@ define( require => {
     }
 
     /**
+     * Clears the cell at the given index
+     * @param {number} i
+     * @param {number} j
+     * @public
+     */
+    clearCell( i, j ) {
+      for ( let k = 0; k < NUMBER_OF_MATRICES; k++ ) {
+        this.matrices[ k ].set( i, j, 0.0 );
+      }
+      this.visitedMatrix.set( i, j, 0 );
+    }
+
+    /**
      * Determines whether the incoming wave has reached the cell.
      * @param {number} i - horizontal coordinate to check
      * @param {number} j - vertical coordinate to check
