@@ -593,6 +593,8 @@ define( require => {
      * By recording the times and positions of the wave disturbances, and knowing the wave propagation speed,
      * we can apply a masking function across the wave area, zeroing out any cell that could note have been generated
      * from the source disturbance.  This filters out spurious noise and restores "black" for the light scene.
+     *
+     * TODO: Letting the wave sit for 3 minutes on iPad air causes it to oversaturate.
      * @private
      */
     applyMask() {
