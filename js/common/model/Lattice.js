@@ -22,6 +22,7 @@ define( require => {
   const WAVE_SPEED = 0.5;
   const WAVE_SPEED_SQUARED = WAVE_SPEED * WAVE_SPEED; // precompute to avoid work in the inner loop
   const NUMBER_OF_MATRICES = 3; // The discretized wave equation algorithm requires current value + 2 history points
+  const DAMPING_COEFFICIENT = 0.999; // wave values scaled by this much at each frame to wash out numerical artifacts
 
   // This is the threshold for the wave value that determines if the light has visited.  If the value is higher,
   // it will track the wavefront of the light more accurately (and hence could be used for more accurate computation of
@@ -278,7 +279,7 @@ define( require => {
                               matrix1.get( i, j - 1 );
           const m1ij = matrix1.get( i, j );
           const value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
-          matrix0.set( i, j, value );
+          matrix0.set( i, j, value * DAMPING_COEFFICIENT );
 
           if ( Math.abs( value ) > LIGHT_VISIT_THRESHOLD ) {
             this.visitedMatrix.set( i, j, 1 );
