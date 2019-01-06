@@ -23,10 +23,12 @@ define( require => {
      */
     constructor( waterScene, soundScene, lightScene, sceneProperty ) {
 
+      const waveInterferenceSceneIcons = new WaveInterferenceSceneIcons();
+
       super( sceneProperty, [
-        { value: waterScene, node: WaveInterferenceSceneIcons.WATER_ICON },
-        { value: soundScene, node: WaveInterferenceSceneIcons.SOUND_ICON },
-        { value: lightScene, node: WaveInterferenceSceneIcons.LIGHT_ICON }
+        { value: waterScene, node: waveInterferenceSceneIcons.waterIcon },
+        { value: soundScene, node: waveInterferenceSceneIcons.soundIcon },
+        { value: lightScene, node: waveInterferenceSceneIcons.lightIcon }
       ], {
         orientation: 'horizontal',
         spacing: 15,

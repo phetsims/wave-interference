@@ -618,7 +618,6 @@ define( require => {
           const cameFrom1 = this.temporalMask1.matches( i, j, this.stepIndex );
           const cameFrom2 = this.temporalMask2.matches( i, j, this.stepIndex );
 
-          // Math.random()<0.0001 && console.log(cameFrom1,cameFrom2);
           if ( !cameFrom1 && !cameFrom2 ) {
             this.lattice.setCurrentValue( i, j, 0 );
             this.lattice.setLastValue( i, j, 0 );

@@ -18,26 +18,29 @@ define( require => {
   const speakerImage = require( 'image!WAVE_INTERFERENCE/speaker/speaker_MID.png' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  const WaveInterferenceSceneIcons = {
+  class WaveInterferenceSceneIcons {
+    constructor() {
 
-    // @public - Faucet icon, rasterized to clip out invisible parts (like the ShooterNode)
-    WATER_ICON: new FaucetNode( 1, new NumberProperty( 0 ), new BooleanProperty( true ), {
-      interactiveProperty: new BooleanProperty( false )
-    } ).rasterized(),
+      // @public - Faucet icon, rasterized to clip out invisible parts (like the ShooterNode)
+      this.waterIcon = new FaucetNode( 1, new NumberProperty( 0 ), new BooleanProperty( true ), {
+        interactiveProperty: new BooleanProperty( false )
+      } ).rasterized();
 
-    // @public
-    SOUND_ICON: new Image( speakerImage ),
+      // @public
+      this.soundIcon = new Image( speakerImage );
 
-    // @public
-    LIGHT_ICON: new LaserPointerNode( new BooleanProperty( false ), LightWaveGeneratorNode.DEFAULT_OPTIONS )
-  };
+      // @public
+      this.lightIcon = new LaserPointerNode( new BooleanProperty( false ), LightWaveGeneratorNode.DEFAULT_OPTIONS );
 
-  // Icon sizes
-  const waterIconWidth = 20.3;
-  const iconWidth = 29;
-  WaveInterferenceSceneIcons.WATER_ICON.scale( waterIconWidth / WaveInterferenceSceneIcons.WATER_ICON.width );
-  WaveInterferenceSceneIcons.SOUND_ICON.scale( iconWidth / WaveInterferenceSceneIcons.SOUND_ICON.height );
-  WaveInterferenceSceneIcons.LIGHT_ICON.scale( iconWidth / WaveInterferenceSceneIcons.LIGHT_ICON.width );
+      // Icon sizes
+      const waterIconWidth = 20.3;
+      const iconWidth = 29;
+      this.waterIcon.scale( waterIconWidth / this.waterIcon.width );
+      this.soundIcon.scale( iconWidth / this.soundIcon.height );
+      this.lightIcon.scale( iconWidth / this.lightIcon.width );
+    }
+  }
+
 
   return waveInterference.register( 'WaveInterferenceSceneIcons', WaveInterferenceSceneIcons );
 } );
