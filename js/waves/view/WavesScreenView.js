@@ -105,13 +105,10 @@ define( require => {
 
       // Thin border to distinguish between the lattice node and the light screen.  This is not part of the
       // waveAreaNode because that would extend its bounds
-      const borderNode = new Rectangle(
-        0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, {
-          stroke: 'white',
-          lineWidth: 1,
-          top: this.waveAreaNode.top - 0.5,
-          centerX: this.waveAreaNode.centerX
-        } );
+      const borderNode = Rectangle.bounds( this.waveAreaNode.bounds.dilated( 1 ), {
+        stroke: 'white',
+        lineWidth: 1
+      } );
 
       // @protected {Node} placeholder for z-ordering for subclasses
       this.afterWaveAreaNode = new Node();
