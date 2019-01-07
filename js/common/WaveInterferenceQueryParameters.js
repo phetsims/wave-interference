@@ -20,7 +20,9 @@ define( require => {
 
     // This is a temporary query parameter that adds the in-development "Diffraction" screen. Once the Diffraction
     // screen is included in a published version, this query parameter will be deleted.
-    includeDiffractionScreen: { type: 'flag' }
+    includeDiffractionScreen: { type: 'flag' },
+
+    latticeSize: { type: 'number', defaultValue: 101 }
   } );
 
   waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );

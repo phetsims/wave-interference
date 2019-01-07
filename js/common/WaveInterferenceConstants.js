@@ -14,6 +14,7 @@ define( require => {
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Range = require( 'DOT/Range' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
 
   // constants
   const THUMB_SIZE = new Dimension2( 13, 22 );
@@ -74,7 +75,7 @@ define( require => {
     // The lattice must have an odd dimension, so that there can be a cell exactly in the middle (for a single-cell
     // oscillator), symmetry for the two oscillator screen, and so the 1-cell wide barrier can appear directly in the
     // middle of the lattice.  See https://github.com/phetsims/wave-interference/issues/167
-    LATTICE_DIMENSION: 101,
+    LATTICE_DIMENSION: WaveInterferenceQueryParameters.latticeSize,
 
     // Number of cells around the boundary of the lattice to avoid reflections at the edge
     LATTICE_PADDING: 20,
