@@ -1,11 +1,11 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.57 Sun Jan 06 2019 19:24:47 GMT-0700 (MST)",
+  "comment": "# wave-interference 1.0.0-dev.58 Mon Jan 07 2019 10:11:47 GMT-0700 (MST)",
   "assert": {
     "sha": "5407993d77f0bb5a1ad63c112103ed4d22dbd1b7",
     "branch": "master"
   },
   "axon": {
-    "sha": "20990e4923b62c928c2929ab0e3315ddfa9f6329",
+    "sha": "6c959fa69318ddf3c245c47efe0b796e047f5c6c",
     "branch": "master"
   },
   "brand": {
@@ -65,7 +65,7 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "1021233f9c5ffb0c842b7d167a65672ca6d722fd",
+    "sha": "e3576c6dc4b0f3ecf74bad023c395c79480bf479",
     "branch": "master"
   },
   "scenery-phet": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "b57c4be988cf06eb7428c554c8e7929bfe1ae9e2",
+    "sha": "f252b041f6ae5a994c3bf3dd584f7059e94a2389",
     "branch": "master"
   }
 }
