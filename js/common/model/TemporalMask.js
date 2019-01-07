@@ -11,14 +11,9 @@ define( require => {
   'use strict';
 
   // modules
+  const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-
-  // constants
-  // It seems the expected the wave speed on the lattice should be 1 or sqrt(2)/2, and was surprised to see that this
-  // value worked much better empirically.  This is a speed in lattice cells per time step, which is the same for each
-  // scene
-  const waveSpeed = Math.sqrt( 2 ) / 3;
 
   class TemporalMask {
 
@@ -72,10 +67,11 @@ define( require => {
           const startTime = delta.time;
           const endTime = this.deltas[ k + 1 ] ? this.deltas[ k + 1 ].time : time;
 
-          const theoreticalTime = time - distance / waveSpeed;
+          const theoreticalTime = time - distance / Lattice.WAVE_SPEED;
 
           // if theoreticalDistance matches any time in this range, then we have a winner
-          if ( theoreticalTime >= startTime && theoreticalTime <= endTime ) {
+          const tolerance = 4;
+          if ( theoreticalTime >= startTime - tolerance && theoreticalTime <= endTime + tolerance ) {
 
             // Return as early as possible to improve performance
             return true;
@@ -99,7 +95,7 @@ define( require => {
         const time = this.time - delta.time;
 
         // max time is across the diagonal of the lattice
-        if ( time > maxDistance / waveSpeed ) { // d = vt, t=d/v
+        if ( time > maxDistance / Lattice.WAVE_SPEED ) { // d = vt, t=d/v
           this.deltas.splice( k, 1 );
           k--;
         }

@@ -329,5 +329,8 @@ define( require => {
     }
   }
 
+  // @public {number} - see docs above
+  Lattice.WAVE_SPEED = WAVE_SPEED;
+
   return waveInterference.register( 'Lattice', Lattice );
 } );
