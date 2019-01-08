@@ -9,10 +9,10 @@ define( require => {
   'use strict';
 
   // modules
-  const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
   const DisturbanceTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/DisturbanceTypeIconNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
+  const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -33,7 +33,7 @@ define( require => {
                  verticalOffset = 0,
                  buttonOffset = 0,
                  showButtonBackground = false ) {
-      const pulseIcon = new DisturbanceTypeIconNode( DisturbanceTypeEnum.PULSE, {
+      const pulseIcon = new DisturbanceTypeIconNode( Scene.DisturbanceType.PULSE, {
         scale: 0.36,
         stroked: true
       } );
@@ -69,17 +69,17 @@ define( require => {
       const nodeWithButton = new Node( { children: children } );
 
       const updateEnabled = () => {
-        if ( scene.disturbanceTypeProperty.value === DisturbanceTypeEnum.PULSE ) {
+        if ( scene.disturbanceTypeProperty.value === Scene.DisturbanceType.PULSE ) {
           button.enabled = !scene.pulseFiringProperty.value && !scene.isAboutToFireProperty.value;
         }
-        else if ( scene.disturbanceTypeProperty.value === DisturbanceTypeEnum.CONTINUOUS ) {
+        else if ( scene.disturbanceTypeProperty.value === Scene.DisturbanceType.CONTINUOUS ) {
           button.enabled = true;
         }
       };
 
       // When changing between PULSE and CONTINUOUS, update the buttons.
       scene.disturbanceTypeProperty.link( disturbanceType => {
-        pulseIcon.visible = disturbanceType === DisturbanceTypeEnum.PULSE;
+        pulseIcon.visible = disturbanceType === Scene.DisturbanceType.PULSE;
           updateEnabled();
         }
       );

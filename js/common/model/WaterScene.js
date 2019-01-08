@@ -10,7 +10,6 @@ define( require => {
 
   // modules
   const arrayRemove = require( 'PHET_CORE/arrayRemove' );
-  const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
@@ -84,7 +83,7 @@ define( require => {
       // Send a water drop if the button is pressed but not if the button is still pressed from the last pulse.
       // model.button1PressedProperty.value not consulted because we send a shutoff water drop. so that the previous
       // drop gets a full cycle
-      const isPulseMode = this.disturbanceTypeProperty.value === DisturbanceTypeEnum.PULSE;
+      const isPulseMode = this.disturbanceTypeProperty.value === Scene.DisturbanceType.PULSE;
       const firePulseDrop = isPulseMode && !this.pulseFiringProperty.value && this.button1PressedProperty.value;
       if ( !isPulseMode || firePulseDrop ) {
 
@@ -92,7 +91,7 @@ define( require => {
         const buttonPressed = buttonProperty.value;
         const frequency = this.desiredFrequencyProperty.value;
         const amplitude = this.desiredAmplitudeProperty.value;
-        const isPulse = this.disturbanceTypeProperty.value === DisturbanceTypeEnum.PULSE;
+        const isPulse = this.disturbanceTypeProperty.value === Scene.DisturbanceType.PULSE;
 
         // Distance between the sources, or 0 if there is only 1 source
         const sourceSeparation = this.numberOfSources === 2 ? this.desiredSourceSeparationProperty.value : 0;

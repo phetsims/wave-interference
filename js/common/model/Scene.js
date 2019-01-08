@@ -15,7 +15,7 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
-  const DisturbanceTypeEnum = require( 'WAVE_INTERFERENCE/common/model/DisturbanceTypeEnum' );
+  const Enumeration = require( 'PHET_CORE/Enumeration' );
   const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const NumberProperty = require( 'AXON/NumberProperty' );
@@ -241,8 +241,8 @@ define( require => {
       );
 
       // @public - pulse or continuous
-      this.disturbanceTypeProperty = new Property( DisturbanceTypeEnum.CONTINUOUS, {
-        validValues: DisturbanceTypeEnum.VALUES
+      this.disturbanceTypeProperty = new Property( Scene.DisturbanceType.CONTINUOUS, {
+        validValues: Scene.DisturbanceType.VALUES
       } );
 
       // The first button can trigger a pulse, or continuous wave, depending on the disturbanceTypeProperty
@@ -393,7 +393,7 @@ define( require => {
       const period = 1 / frequency;
       const timeSincePulseStarted = time - this.pulseStartTime;
       const lattice = this.lattice;
-      const isContinuous = ( this.disturbanceTypeProperty.get() === DisturbanceTypeEnum.CONTINUOUS );
+      const isContinuous = ( this.disturbanceTypeProperty.get() === Scene.DisturbanceType.CONTINUOUS );
       const continuous1 = isContinuous && this.continuousWave1OscillatingProperty.get();
       const continuous2 = isContinuous && this.continuousWave2OscillatingProperty.get();
 
@@ -689,7 +689,7 @@ define( require => {
       if ( isPressed && !this.button2PressedProperty.value ) {
         this.resetPhase();
       }
-      if ( isPressed && this.disturbanceTypeProperty.value === DisturbanceTypeEnum.PULSE ) {
+      if ( isPressed && this.disturbanceTypeProperty.value === Scene.DisturbanceType.PULSE ) {
         this.startPulse();
       }
       else {
@@ -771,6 +771,12 @@ define( require => {
       this.latticeToViewTransform = ModelViewTransform2.createRectangleMapping( latticeBounds, tempViewBounds );
     }
   }
+
+  /**
+   * A wave can be ongoing (CONTINUOUS) or a single wavelength (PULSE)
+   * @public
+   */
+  Scene.DisturbanceType = new Enumeration( [ 'PULSE', 'CONTINUOUS' ] );
 
   return waveInterference.register( 'Scene', Scene );
 } );
