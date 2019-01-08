@@ -11,7 +11,6 @@ define( require => {
   // modules
   const HBox = require( 'SCENERY/nodes/HBox' );
   const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
-  const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   const StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -39,11 +38,11 @@ define( require => {
 
       const radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
         node: new WaveInterferenceText( normalString ),
-        value: PlaySpeedEnum.NORMAL,
+        value: WavesModel.PlaySpeed.NORMAL,
         property: model.playSpeedProperty
       }, {
         node: new WaveInterferenceText( slowString ),
-        value: PlaySpeedEnum.SLOW,
+        value: WavesModel.PlaySpeed.SLOW,
         property: model.playSpeedProperty
       } ] );
 

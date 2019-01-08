@@ -15,10 +15,10 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Emitter = require( 'AXON/Emitter' );
+  const Enumeration = require( 'PHET_CORE/Enumeration' );
   const EventTimer = require( 'PHET_CORE/EventTimer' );
   const LightScene = require( 'WAVE_INTERFERENCE/common/model/LightScene' );
   const NumberProperty = require( 'AXON/NumberProperty' );
-  const PlaySpeedEnum = require( 'WAVE_INTERFERENCE/common/model/PlaySpeedEnum' );
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
@@ -213,15 +213,15 @@ define( require => {
       } );
 
       // @public - the speed at which the simulation is playing
-      this.playSpeedProperty = new Property( PlaySpeedEnum.NORMAL, {
-        validValues: PlaySpeedEnum.VALUES
+      this.playSpeedProperty = new Property( WavesModel.PlaySpeed.NORMAL, {
+        validValues: WavesModel.PlaySpeed.VALUES
       } );
 
       const eventTimerModel = {
 
         // @public
         getPeriodBeforeNextEvent: () => {
-          const scaleFactor = this.playSpeedProperty.value === PlaySpeedEnum.NORMAL ? 1.0 : 0.5;
+          const scaleFactor = this.playSpeedProperty.value === WavesModel.PlaySpeed.NORMAL ? 1.0 : 0.5;
           return 1 / EVENT_RATE / scaleFactor;
         }
       };
@@ -400,6 +400,12 @@ define( require => {
    * @public
    */
   WavesModel.EVENT_RATE = EVENT_RATE;
+
+  /**
+   * The simulation can run at normal speed (NORMAL) or slow motion (SLOW).
+   * @public
+   */
+  WavesModel.PlaySpeed = new Enumeration( [ 'NORMAL', 'SLOW' ] );
 
   return waveInterference.register( 'WavesModel', WavesModel );
 } );
