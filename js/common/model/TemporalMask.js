@@ -70,8 +70,9 @@ define( require => {
           const theoreticalTime = time - distance / Lattice.WAVE_SPEED;
 
           // if theoreticalDistance matches any time in this range, then we have a winner
-          const tolerance = 4;
-          if ( theoreticalTime >= startTime - tolerance && theoreticalTime <= endTime + tolerance ) {
+          const headTolerance = 4;
+          const tailTolerance = 4;
+          if ( theoreticalTime >= startTime - headTolerance && theoreticalTime <= endTime + tailTolerance ) {
 
             // Return as early as possible to improve performance
             return true;

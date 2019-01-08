@@ -22,7 +22,7 @@ define( require => {
   const WAVE_SPEED = 0.5;
   const WAVE_SPEED_SQUARED = WAVE_SPEED * WAVE_SPEED; // precompute to avoid work in the inner loop
   const NUMBER_OF_MATRICES = 3; // The discretized wave equation algorithm requires current value + 2 history points
-  const DAMPING_COEFFICIENT = 0.999; // wave values scaled by this much at each frame to wash out numerical artifacts
+  const DAMPING_COEFFICIENT = 0.9999; // wave values scaled by this much at each frame to wash out numerical artifacts
 
   // This is the threshold for the wave value that determines if the light has visited.  If the value is higher,
   // it will track the wavefront of the light more accurately (and hence could be used for more accurate computation of
@@ -193,9 +193,9 @@ define( require => {
      * @param {number} j
      * @public
      */
-    clearCell( i, j ) {
+    reduceCell( i, j ) {
       for ( let k = 0; k < NUMBER_OF_MATRICES; k++ ) {
-        this.matrices[ k ].set( i, j, 0.0 );
+        this.matrices[ k ].set( i, j, this.matrices[ k ].get( i, j ) * 0.95 );
       }
       this.visitedMatrix.set( i, j, 0 );
     }
