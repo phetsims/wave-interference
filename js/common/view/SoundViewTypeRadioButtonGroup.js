@@ -1,7 +1,7 @@
 // Copyright 2018, University of Colorado Boulder
 
 /**
- * Convenience class for the radio button group that chooses between SoundViewTypeEnum.VALUES.
+ * Convenience class for the radio button group that chooses between SoundScene.SoundViewType.VALUES.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -9,7 +9,7 @@ define( require => {
   'use strict';
 
   // modules
-  const SoundViewTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SoundViewTypeEnum' );
+  const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -27,15 +27,15 @@ define( require => {
     constructor( model ) {
       super( [ {
         node: new WaveInterferenceText( wavesString ),
-        value: SoundViewTypeEnum.WAVES,
+        value: SoundScene.SoundViewType.WAVES,
         property: model.soundScene.viewSelectionProperty
       }, {
         node: new WaveInterferenceText( particlesString ),
-        value: SoundViewTypeEnum.PARTICLES,
+        value: SoundScene.SoundViewType.PARTICLES,
         property: model.soundScene.viewSelectionProperty
       }, {
         node: new WaveInterferenceText( bothString ),
-        value: SoundViewTypeEnum.BOTH,
+        value: SoundScene.SoundViewType.BOTH,
         property: model.soundScene.viewSelectionProperty
       } ], {
         spacing: 4,

@@ -12,10 +12,10 @@ define( require => {
   'use strict';
 
   // modules
+  const Enumeration = require( 'PHET_CORE/Enumeration' );
   const Property = require( 'AXON/Property' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SoundParticle = require( 'WAVE_INTERFERENCE/common/model/SoundParticle' );
-  const SoundViewTypeEnum = require( 'WAVE_INTERFERENCE/common/model/SoundViewTypeEnum' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -36,8 +36,8 @@ define( require => {
       this.showSoundParticles = showSoundParticles;
 
       // @public - indicates the selected view for sound
-      this.viewSelectionProperty = new Property( SoundViewTypeEnum.WAVES, {
-        validValues: SoundViewTypeEnum.VALUES
+      this.viewSelectionProperty = new Property( SoundScene.SoundViewType.WAVES, {
+        validValues: SoundScene.SoundViewType.VALUES
       } );
 
       // @public (read-only) {SoundParticle[]} particles for the sound scene.
@@ -115,6 +115,11 @@ define( require => {
       }
     }
   }
+
+  /**
+   * @public
+   */
+  SoundScene.SoundViewType = new Enumeration( [ 'WAVES', 'PARTICLES', 'BOTH' ] );
 
   return waveInterference.register( 'SoundScene', SoundScene );
 } );
