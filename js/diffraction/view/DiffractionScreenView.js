@@ -9,8 +9,8 @@ define( require => {
   'use strict';
 
   // modules
-  const ApertureTypeEnum = require( 'WAVE_INTERFERENCE/diffraction/model/ApertureTypeEnum' );
   const Circle = require( 'SCENERY/nodes/Circle' );
+  const DiffractionModel = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionModel' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const Image = require( 'SCENERY/nodes/Image' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
@@ -69,10 +69,10 @@ define( require => {
       this.addChild( resetAllButton );
 
       const toggleButtonsContent = [ {
-        value: ApertureTypeEnum.RECTANGLE,
+        value: DiffractionModel.ApertureType.RECTANGLE,
         node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
       }, {
-        value: ApertureTypeEnum.CIRCLE,
+        value: DiffractionModel.ApertureType.CIRCLE,
         node: new Circle( 10, { fill: 'black' } )
       } ];
 
@@ -169,9 +169,9 @@ define( require => {
       this.addChild( this.slitsControlPanel );
 
       model.sceneProperty.link( scene => {
-        this.squareControlPanel.visible = scene === ApertureTypeEnum.RECTANGLE;
-        this.gaussianControlPanel.visible = scene === ApertureTypeEnum.CIRCLE;
-        this.slitsControlPanel.visible = scene === ApertureTypeEnum.SLITS;
+        this.squareControlPanel.visible = scene === DiffractionModel.ApertureType.RECTANGLE;
+        this.gaussianControlPanel.visible = scene === DiffractionModel.ApertureType.CIRCLE;
+        this.slitsControlPanel.visible = scene === DiffractionModel.ApertureType.SLITS;
       } );
 
       const beamWidth = 40;
@@ -266,7 +266,7 @@ define( require => {
 
       let i;
 
-      if ( this.model.sceneProperty.value === ApertureTypeEnum.RECTANGLE ) {
+      if ( this.model.sceneProperty.value === DiffractionModel.ApertureType.RECTANGLE ) {
         const rectWidth = this.model.squareWidthProperty.value;
         const rectHeight = this.model.squareHeightProperty.value;
         syntheticApertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2,
@@ -274,7 +274,7 @@ define( require => {
         displayedApertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2,
           rectWidth, rectHeight );
       }
-      else if ( this.model.sceneProperty.value === ApertureTypeEnum.CIRCLE ) {
+      else if ( this.model.sceneProperty.value === DiffractionModel.ApertureType.CIRCLE ) {
         for ( i = 0; i < width; i++ ) {
           for ( let k = 0; k < height; k++ ) {
             const v = Util.clamp( Math.floor( gaussian(
@@ -290,7 +290,7 @@ define( require => {
           }
         }
       }
-      else if ( this.model.sceneProperty.value === ApertureTypeEnum.SLITS ) {
+      else if ( this.model.sceneProperty.value === DiffractionModel.ApertureType.SLITS ) {
 
         syntheticApertureContext.rotate( this.model.angleProperty.value );
         displayedApertureContext.rotate( this.model.angleProperty.value );

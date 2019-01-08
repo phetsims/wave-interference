@@ -9,8 +9,8 @@ define( require => {
   'use strict';
 
   // modules
-  const ApertureTypeEnum = require( 'WAVE_INTERFERENCE/diffraction/model/ApertureTypeEnum' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const Enumeration = require( 'PHET_CORE/Enumeration' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
@@ -48,8 +48,8 @@ define( require => {
       } );
 
       // @public - selected scene
-      this.sceneProperty = new Property( ApertureTypeEnum.CIRCLE, {
-        validValues: ApertureTypeEnum.VALUES
+      this.sceneProperty = new Property( DiffractionModel.ApertureType.CIRCLE, {
+        validValues: DiffractionModel.ApertureType.VALUES
       } );
     }
 
@@ -68,6 +68,12 @@ define( require => {
       this.sceneProperty.reset();
     }
   }
+
+  /**
+   * An aperture can be circular (CIRCLE), rectangular (RECTANGLE), or an array of slits (SLITS).
+   * @public
+   */
+  DiffractionModel.ApertureType = new Enumeration( [ 'CIRCLE', 'RECTANGLE', 'SLITS' ] );
 
   return waveInterference.register( 'DiffractionModel', DiffractionModel );
 } );
