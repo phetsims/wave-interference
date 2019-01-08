@@ -15,9 +15,9 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const SlitsControlPanel = require( 'WAVE_INTERFERENCE/slits/view/SlitsControlPanel' );
   const TheoryInterferenceOverlay = require( 'WAVE_INTERFERENCE/slits/view/TheoryInterferenceOverlay' );
-  const ViewpointEnum = require( 'WAVE_INTERFERENCE/common/model/ViewpointEnum' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
+  const WavesModel = require( 'WAVE_INTERFERENCE/waves/model/WavesModel' );
   const WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
 
   class SlitsScreenView extends WavesScreenView {
@@ -64,7 +64,7 @@ define( require => {
         ( scene, rotationAmount, isRotating, viewpoint ) => {
 
           // Hide the barriers for water side view and while rotating
-          const hide = scene === model.waterScene && viewpoint === ViewpointEnum.SIDE || isRotating;
+          const hide = scene === model.waterScene && viewpoint === WavesModel.Viewpoint.SIDE || isRotating;
           waterBarriersNode.visible = !hide && scene === model.waterScene;
           soundBarriersNode.visible = !hide && scene === model.soundScene;
           lightBarriersNode.visible = !hide && scene === model.lightScene;

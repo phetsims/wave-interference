@@ -24,7 +24,6 @@ define( require => {
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
-  const ViewpointEnum = require( 'WAVE_INTERFERENCE/common/model/ViewpointEnum' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterScene = require( 'WAVE_INTERFERENCE/common/model/WaterScene' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -208,8 +207,8 @@ define( require => {
       this.scenes = [ this.waterScene, this.soundScene, this.lightScene ];
 
       // @public - indicates the user selection for side view or top view
-      this.viewpointProperty = new Property( ViewpointEnum.TOP, {
-        validValues: ViewpointEnum.VALUES
+      this.viewpointProperty = new Property( WavesModel.Viewpoint.TOP, {
+        validValues: WavesModel.Viewpoint.VALUES
       } );
 
       // @public - the speed at which the simulation is playing
@@ -272,7 +271,7 @@ define( require => {
 
       const rotationAmountRange = new Range( 0, 1 );
 
-      // @public - Linear interpolation between ViewpointEnum.TOP (0) and ViewpointEnum.SIDE (1).  This linear
+      // @public - Linear interpolation between WavesModel.Viewpoint.TOP (0) and Viewpoint.SIDE (1).  This linear
       // interpolate in the model is mapped through a CUBIC_IN_OUT in the view to obtain the desired look.
       this.rotationAmountProperty = new NumberProperty( 0, {
         range: rotationAmountRange
@@ -337,7 +336,7 @@ define( require => {
 
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
-      const sign = this.viewpointProperty.get() === ViewpointEnum.TOP ? -1 : +1;
+      const sign = this.viewpointProperty.get() === WavesModel.Viewpoint.TOP ? -1 : +1;
       this.rotationAmountProperty.value = Util.clamp( this.rotationAmountProperty.value + wallDT * sign * 1.4, 0, 1 );
 
       if ( this.isRunningProperty.get() || manualStep ) {
@@ -406,6 +405,12 @@ define( require => {
    * @public
    */
   WavesModel.PlaySpeed = new Enumeration( [ 'NORMAL', 'SLOW' ] );
+
+  /**
+   * The wave area can be viewed from the TOP or from the SIDE. The view animates between the selections.
+   * @public
+   */
+  WavesModel.Viewpoint = new Enumeration( [ 'TOP', 'SIDE' ] );
 
   return waveInterference.register( 'WavesModel', WavesModel );
 } );

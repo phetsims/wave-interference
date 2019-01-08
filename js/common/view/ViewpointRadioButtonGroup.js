@@ -9,10 +9,10 @@ define( require => {
   'use strict';
 
   // modules
-  const ViewpointEnum = require( 'WAVE_INTERFERENCE/common/model/ViewpointEnum' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
+  const WavesModel = require( 'WAVE_INTERFERENCE/waves/model/WavesModel' );
 
   // strings
   const sideViewString = require( 'string!WAVE_INTERFERENCE/sideView' );
@@ -24,18 +24,18 @@ define( require => {
   class ViewpointRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonGroup {
 
     /**
-     * @param {Property.<ViewpointEnum>} viewpointProperty
+     * @param {Property.<Viewpoint>} viewpointProperty
      * @param {Object} [options]
      */
     constructor( viewpointProperty, options ) {
 
       super( [ {
         node: new WaveInterferenceText( topViewString, TEXT_OPTIONS ),
-        value: ViewpointEnum.TOP,
+        value: WavesModel.Viewpoint.TOP,
         property: viewpointProperty
       }, {
         node: new WaveInterferenceText( sideViewString, TEXT_OPTIONS ),
-        value: ViewpointEnum.SIDE,
+        value: WavesModel.Viewpoint.SIDE,
         property: viewpointProperty
       } ], options );
     }
