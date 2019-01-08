@@ -15,7 +15,6 @@ define( require => {
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  const WaveSpatialTypeEnum = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialTypeEnum' );
 
   class WaterScene extends Scene {
 
@@ -146,7 +145,7 @@ define( require => {
       const timeSinceLastDrop = time - this.lastDropTime;
 
       // Emit water drops if the phase matches up, but not for the plane waves screen
-      if ( this.waveSpatialType === WaveSpatialTypeEnum.POINT &&
+      if ( this.waveSpatialType === Scene.WaveSpatialType.POINT &&
            ( this.lastDropTime === null || timeSinceLastDrop > period ) ) {
 
         this.launchWaterDrop( this.button1PressedProperty, this.continuousWave1OscillatingProperty, +1 );

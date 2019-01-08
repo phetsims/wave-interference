@@ -21,6 +21,7 @@ define( require => {
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
+  const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -29,7 +30,6 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
-  const WaveSpatialTypeEnum = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialTypeEnum' );
 
   // strings
   const centimetersUnitsString = require( 'string!WAVE_INTERFERENCE/centimetersUnits' );
@@ -79,7 +79,7 @@ define( require => {
         // True if SoundParticles should be created and displayed, and if the user can select to view them
         showSoundParticles: true,
 
-        waveSpatialType: WaveSpatialTypeEnum.POINT
+        waveSpatialType: Scene.WaveSpatialType.POINT
       }, options );
 
       assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),

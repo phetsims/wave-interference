@@ -9,10 +9,10 @@ define( require => {
   'use strict';
 
   // modules
+  const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WavesModel = require( 'WAVE_INTERFERENCE/waves/model/WavesModel' );
-  const WaveSpatialTypeEnum = require( 'WAVE_INTERFERENCE/common/model/WaveSpatialTypeEnum' );
 
   class SlitsModel extends WavesModel {
 
@@ -20,7 +20,7 @@ define( require => {
       super( {
 
         initialAmplitude: WaveInterferenceConstants.AMPLITUDE_RANGE.max,
-        waveSpatialType: WaveSpatialTypeEnum.PLANE,
+        waveSpatialType: Scene.WaveSpatialType.PLANE,
 
         // SoundParticles are not displayed on the Slits screen,
         // see https://github.com/phetsims/wave-interference/issues/109
