@@ -10,11 +10,11 @@ define( require => {
 
   // modules
   const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const DynamicProperty = require( 'AXON/DynamicProperty' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SlitsModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsModel' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -119,7 +119,7 @@ define( require => {
       // see https://github.com/phetsims/wave-interference/issues/75
       this.x = scene.latticeToViewTransform.modelToViewX( scene.barrierLatticeCoordinateProperty.value );
 
-      if ( barrierType === BarrierTypeEnum.NO_BARRIER ) {
+      if ( barrierType === Scene.BarrierType.NO_BARRIER ) {
 
         // No need to add children
         this.rectangleA.visible = false;
@@ -129,7 +129,7 @@ define( require => {
       }
       else {
         const waveAreaTop = this.waveAreaViewBounds.top;
-        if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
+        if ( barrierType === Scene.BarrierType.ONE_SLIT ) {
 
           this.rectangleA.visible = true;
           this.rectangleB.visible = true;
@@ -144,7 +144,7 @@ define( require => {
           this.arrowNode.centerX = this.cellWidth / 2;
           this.arrowNode.top = this.rectangleB.bottom + 2;
         }
-        else if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
+        else if ( barrierType === Scene.BarrierType.TWO_SLITS ) {
           this.rectangleA.visible = true;
           this.rectangleB.visible = true;
           this.rectangleC.visible = true;

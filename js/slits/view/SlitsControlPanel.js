@@ -9,11 +9,11 @@ define( require => {
   'use strict';
 
   // modules
-  const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const ComboBox = require( 'SUN/ComboBox' );
   const DynamicProperty = require( 'AXON/DynamicProperty' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
+  const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -48,9 +48,9 @@ define( require => {
       } );
 
       const comboBox = new ComboBox( [
-        ComboBox.createItem( new WaveInterferenceText( noBarrierString ), BarrierTypeEnum.NO_BARRIER ),
-        ComboBox.createItem( new WaveInterferenceText( oneSlitString ), BarrierTypeEnum.ONE_SLIT ),
-        ComboBox.createItem( new WaveInterferenceText( twoSlitsString ), BarrierTypeEnum.TWO_SLITS )
+        ComboBox.createItem( new WaveInterferenceText( noBarrierString ), Scene.BarrierType.NO_BARRIER ),
+        ComboBox.createItem( new WaveInterferenceText( oneSlitString ), Scene.BarrierType.ONE_SLIT ),
+        ComboBox.createItem( new WaveInterferenceText( twoSlitsString ), Scene.BarrierType.TWO_SLITS )
       ], barrierTypeDynamicProperty, comboBoxParent, {
         buttonYMargin: 0
       } );
@@ -96,7 +96,7 @@ define( require => {
         { value: lightScene, node: lightSlitWidthControl }
       ] );
       barrierTypeDynamicProperty.link( barrierType => {
-        const enabled = barrierType === BarrierTypeEnum.ONE_SLIT || barrierType === BarrierTypeEnum.TWO_SLITS;
+        const enabled = barrierType === Scene.BarrierType.ONE_SLIT || barrierType === Scene.BarrierType.TWO_SLITS;
         waterSlitWidthControl.enabled = enabled;
         soundSlitWidthControl.enabled = enabled;
         lightSlitWidthControl.enabled = enabled;
@@ -143,7 +143,7 @@ define( require => {
       ] );
 
       barrierTypeDynamicProperty.link( barrierType => {
-        const enabled = barrierType === BarrierTypeEnum.TWO_SLITS;
+        const enabled = barrierType === Scene.BarrierType.TWO_SLITS;
         waterSeparationControl.enabled = enabled;
         soundSeparationControl.enabled = enabled;
         lightSeparationControl.enabled = enabled;

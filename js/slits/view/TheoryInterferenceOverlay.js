@@ -10,10 +10,10 @@ define( require => {
   'use strict';
 
   // modules
-  const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const Line = require( 'SCENERY/nodes/Line' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -36,7 +36,7 @@ define( require => {
       const updateLines = () => {
         this.removeAllChildren();
         const barrierType = sceneProperty.value.barrierTypeProperty.get();
-        if ( barrierType !== BarrierTypeEnum.NO_BARRIER ) {
+        if ( barrierType !== Scene.BarrierType.NO_BARRIER ) {
 
           const scene = sceneProperty.value;
           const barrierY = viewBounds.centerY;
@@ -71,7 +71,7 @@ define( require => {
                 // d sin(θ) = (m + 1/2)λ for minima
                 // see http://electron9.phys.utk.edu/optics421/modules/m1/diffraction_and_interference.htm
 
-                if ( barrierType === BarrierTypeEnum.TWO_SLITS ) {
+                if ( barrierType === Scene.BarrierType.TWO_SLITS ) {
                   const addition = type === 'maxima' ? 0 : 0.5;
                   const separation = scene.slitSeparationProperty.value;
                   const arg = ( m + addition ) * scene.getWavelength() / separation;
@@ -86,7 +86,7 @@ define( require => {
                 // a sin(θ) = mλ for minima
                 // a sin(θ) = (m+1/2)λ for maxima
                 // see http://hyperphysics.phy-astr.gsu.edu/hbase/phyopt/sinslit.html
-                if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
+                if ( barrierType === Scene.BarrierType.ONE_SLIT ) {
                   const addition = type === 'minima' ? 0 : 0.5;
                   const aperture = scene.slitWidthProperty.value;
                   const arg = ( m + addition ) * scene.getWavelength() / aperture;
@@ -101,7 +101,7 @@ define( require => {
           } );
 
           // Strong central maximum for one slit, not covered by the math above
-          if ( barrierType === BarrierTypeEnum.ONE_SLIT ) {
+          if ( barrierType === Scene.BarrierType.ONE_SLIT ) {
             this.addChild( new Line( barrierX, barrierY, barrierX + LENGTH, barrierY, {
               stroke: MAXIMUM_COLOR,
               lineWidth: LINE_WIDTH

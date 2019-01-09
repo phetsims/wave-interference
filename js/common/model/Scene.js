@@ -11,7 +11,6 @@ define( require => {
   'use strict';
 
   // modules
-  const BarrierTypeEnum = require( 'WAVE_INTERFERENCE/slits/model/BarrierTypeEnum' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
@@ -329,8 +328,8 @@ define( require => {
       if ( this.waveSpatialType === Scene.WaveSpatialType.PLANE ) {
 
         // @public - type of the barrier in the lattice
-        this.barrierTypeProperty = new Property( BarrierTypeEnum.ONE_SLIT, {
-          validValues: BarrierTypeEnum.VALUES
+        this.barrierTypeProperty = new Property( Scene.BarrierType.ONE_SLIT, {
+          validValues: Scene.BarrierType.VALUES
         } );
 
         // When the barrier moves it creates a lot of artifacts, so clear the wave right of the barrier when it moves
@@ -453,7 +452,7 @@ define( require => {
     setPlaneSourceValues( amplitude, time ) {
       const lattice = this.lattice;
 
-      const barrierLatticeX = this.barrierTypeProperty.value === BarrierTypeEnum.NO_BARRIER ?
+      const barrierLatticeX = this.barrierTypeProperty.value === Scene.BarrierType.NO_BARRIER ?
                               lattice.width - lattice.dampX :
                               this.barrierLatticeCoordinateProperty.value;
       const slitSeparationModel = this.slitSeparationProperty.get();
@@ -495,12 +494,12 @@ define( require => {
           let isCellInBarrier = false;
 
           if ( i === barrierLatticeX ) {
-            if ( this.barrierTypeProperty.value === BarrierTypeEnum.ONE_SLIT ) {
+            if ( this.barrierTypeProperty.value === Scene.BarrierType.ONE_SLIT ) {
               const low = j > latticeCenterY + slitWidth / 2 - 0.5;
               const high = j < latticeCenterY - slitWidth / 2 - 0.5;
               isCellInBarrier = low || high;
             }
-            else if ( this.barrierTypeProperty.value === BarrierTypeEnum.TWO_SLITS ) {
+            else if ( this.barrierTypeProperty.value === Scene.BarrierType.TWO_SLITS ) {
 
               // Spacing is between center of slits.  This computation is done in model coordinates
               const topBarrierWidth = ( this.waveAreaWidth - slitWidthModel - slitSeparationModel ) / 2;
@@ -782,6 +781,12 @@ define( require => {
    * @public
    */
   Scene.WaveSpatialType = new Enumeration( [ 'POINT', 'PLANE' ] );
+
+  /**
+   * The wave area can contain a barrier with ONE_SLIT, TWO_SLITS or NO_BARRIER at all.
+   * @public
+   */
+  Scene.BarrierType = new Enumeration( [ 'NO_BARRIER', 'ONE_SLIT', 'TWO_SLITS' ] );
 
   return waveInterference.register( 'Scene', Scene );
 } );
