@@ -3,7 +3,7 @@
 /**
  * Records on and off times of a single source, so that we can determine whether it could have contributed to the value
  * on the lattice at a later time.  This is used to prevent artifacts when the wave is turned off, and to restore
- * the lattice to black (for light).
+ * the lattice to black (for light), see https://github.com/phetsims/wave-interference/issues/258
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -19,7 +19,7 @@ define( require => {
 
     constructor() {
 
-      // @private - record of {on, time,j} of changes in wave disturbance sources.
+      // @private - record of {on: boolean, time: number, j: number} of changes in wave disturbance sources.
       this.deltas = [];
     }
 
