@@ -320,7 +320,13 @@ define( require => {
 
         this.phase = proposedPhase;
 
-        this.handlePhaseChanged();
+        // When changing the plane wave frequency, clear the wave area to the right of the wave
+        if ( this.waveSpatialType === Scene.WaveSpatialType.PLANE ) {
+          this.lattice.clearRight( this.barrierLatticeCoordinateProperty.value );
+        }
+        else {
+          this.handlePhaseChanged();
+        }
       };
       this.frequencyProperty.lazyLink( phaseUpdate );
 
