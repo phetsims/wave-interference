@@ -28,15 +28,15 @@ define( require => {
       super( [ {
         node: new WaveInterferenceText( wavesString ),
         value: SoundScene.SoundViewType.WAVES,
-        property: model.soundScene.viewSelectionProperty
+        property: model.soundScene.soundViewTypeProperty
       }, {
         node: new WaveInterferenceText( particlesString ),
         value: SoundScene.SoundViewType.PARTICLES,
-        property: model.soundScene.viewSelectionProperty
+        property: model.soundScene.soundViewTypeProperty
       }, {
         node: new WaveInterferenceText( bothString ),
         value: SoundScene.SoundViewType.BOTH,
-        property: model.soundScene.viewSelectionProperty
+        property: model.soundScene.soundViewTypeProperty
       } ], {
         spacing: 4,
         radioButtonOptions: {

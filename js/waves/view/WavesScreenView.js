@@ -410,7 +410,7 @@ define( require => {
       // Update the visibility of the waveAreaNode, latticeNode and soundParticleLayer
       Property.multilink(
         [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty, model.showWavesProperty,
-          model.soundScene.viewSelectionProperty ],
+          model.soundScene.soundViewTypeProperty ],
         ( rotationAmount, isRotating, scene, showWaves, soundViewSelection ) => {
           const isWaterSideView = rotationAmount === 1 && scene === model.waterScene;
           const isVisiblePerspective = !isRotating && !isWaterSideView;
