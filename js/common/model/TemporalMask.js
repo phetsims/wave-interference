@@ -69,8 +69,11 @@ define( require => {
 
           const theoreticalTime = time - distance / Lattice.WAVE_SPEED;
 
-          // if theoreticalDistance matches any time in this range, then we have a winner
-          const headTolerance = 4;
+          // if theoreticalDistance matches any time in this range, the cell's value was caused by the oscillators, and
+          // not by a reflection or numerical artifact.  The tolerance is necessary because the actual group velocity
+          // of the tip exceeds the theoretical speed, and the group velocity at the tail is lower than the theoretical
+          // speed.  If the tolerance is too tight, this appears as an unnatural "clipping" of the wave area graph.
+          const headTolerance = 2;
           const tailTolerance = 4;
           if ( theoreticalTime >= startTime - headTolerance && theoreticalTime <= endTime + tailTolerance ) {
 

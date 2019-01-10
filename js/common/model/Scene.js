@@ -425,8 +425,10 @@ define( require => {
           const j = latticeCenterJ + distanceFromCenter;
           lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
           this.oscillator1Property.value = waveValue;
-          this.temporalMask1.set( true, this.stepIndex, j );
-          temporalMask1Empty = false;
+          if ( amplitude > 0 ) {
+            this.temporalMask1.set( true, this.stepIndex, j );
+            temporalMask1Empty = false;
+          }
         }
 
         // Secondary source (note if there is only one source, this sets the same value as above)
@@ -434,8 +436,10 @@ define( require => {
           const j = latticeCenterJ - distanceFromCenter;
           lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
           this.oscillator2Property.value = waveValue;
-          this.temporalMask2.set( true, this.stepIndex, j );
-          temporalMask2Empty = false;
+          if ( amplitude > 0 ) {
+            amplitude > 0 && this.temporalMask2.set( true, this.stepIndex, j );
+            temporalMask2Empty = false;
+          }
         }
       }
 
@@ -615,9 +619,7 @@ define( require => {
           const cameFrom1 = this.temporalMask1.matches( i, j, this.stepIndex );
           const cameFrom2 = this.temporalMask2.matches( i, j, this.stepIndex );
 
-          if ( !cameFrom1 && !cameFrom2 ) {
-            this.lattice.reduceCell( i, j );
-          }
+          this.lattice.setAllowed( i, j, cameFrom1 || cameFrom2 );
         }
       }
 

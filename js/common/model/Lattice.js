@@ -22,7 +22,6 @@ define( require => {
   const WAVE_SPEED = 0.5;
   const WAVE_SPEED_SQUARED = WAVE_SPEED * WAVE_SPEED; // precompute to avoid work in the inner loop
   const NUMBER_OF_MATRICES = 3; // The discretized wave equation algorithm requires current value + 2 history points
-  const DAMPING_COEFFICIENT = 0.9999; // wave values scaled by this much at each frame to wash out numerical artifacts
 
   // This is the threshold for the wave value that determines if the light has visited.  If the value is higher,
   // it will track the wavefront of the light more accurately (and hence could be used for more accurate computation of
@@ -53,8 +52,12 @@ define( require => {
         this.matrices.push( new Matrix( width, height ) );
       }
 
-      // @private {Matrix} - keeps track of which cells have been visited by the wave
+      // @private - keeps track of which cells have been visited by the wave
       this.visitedMatrix = new Matrix( width, height );
+
+      // @private - tracks which cells could have been activated by an source disturbance, as opposed to a numerical
+      // artifact or reflection.  See TemporalMask.
+      this.allowedMask = new Matrix( width, height );
 
       // @private {number} - indicates the current matrix. Previous matrix is one higher (with correct modulus)
       this.currentMatrixIndex = 0;
@@ -131,27 +134,32 @@ define( require => {
     }
 
     /**
-     * Returns the current value in the given cell
+     * Returns the current value in the given cell, masked by the allowedMask.
      * @param {number} i - horizontal integer coordinate
      * @param {number} j - vertical integer coordinate
      * @returns {number}
      * @public
      */
     getCurrentValue( i, j ) {
-      return this.matrices[ this.currentMatrixIndex ].get( i, j );
+      return this.allowedMask.get( i, j ) === 1 ? this.matrices[ this.currentMatrixIndex ].get( i, j ) : 0;
     }
 
     /**
-     * Returns the interpolated value of the given cell
+     * Returns the interpolated value of the given cell, masked by the allowedMask.
      * @param {number} i - horizontal integer coordinate
      * @param {number} j - vertical integer coordinate
      * @returns {number}
      * @public
      */
     getInterpolatedValue( i, j ) {
-      const currentValue = this.getCurrentValue( i, j );
-      const lastValue = this.getLastValue( i, j );
-      return currentValue * this.interpolationRatio + lastValue * ( 1 - this.interpolationRatio );
+      if ( this.allowedMask.get( i, j ) === 1 ) {
+        const currentValue = this.getCurrentValue( i, j );
+        const lastValue = this.getLastValue( i, j );
+        return currentValue * this.interpolationRatio + lastValue * ( 1 - this.interpolationRatio );
+      }
+      else {
+        return 0;
+      }
     }
 
     /**
@@ -188,16 +196,15 @@ define( require => {
     }
 
     /**
-     * Clears the cell at the given index
+     * In order to prevent numerical artifacts in the point source scenes, we use TemporalMask to identify which cells
+     * have a value because of the source oscillation.
      * @param {number} i
      * @param {number} j
+     * @param {boolean} allowed - true if the temporal mask indicates that the value could have been caused by sources
      * @public
      */
-    reduceCell( i, j ) {
-      for ( let k = 0; k < NUMBER_OF_MATRICES; k++ ) {
-        this.matrices[ k ].set( i, j, this.matrices[ k ].get( i, j ) * 0.95 );
-      }
-      this.visitedMatrix.set( i, j, 0 );
+    setAllowed( i, j, allowed ) {
+      this.allowedMask.set( i, j, allowed ? 1 : 0 );
     }
 
     /**
@@ -208,7 +215,7 @@ define( require => {
      * @public
      */
     hasCellBeenVisited( i, j ) {
-      return this.visitedMatrix.get( i, j ) === 1;
+      return this.visitedMatrix.get( i, j ) === 1 && this.allowedMask.get( i, j ) === 1;
     }
 
     /**
@@ -279,7 +286,7 @@ define( require => {
                               matrix1.get( i, j - 1 );
           const m1ij = matrix1.get( i, j );
           const value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
-          matrix0.set( i, j, value * DAMPING_COEFFICIENT );
+          matrix0.set( i, j, value );
 
           if ( Math.abs( value ) > LIGHT_VISIT_THRESHOLD ) {
             this.visitedMatrix.set( i, j, 1 );
