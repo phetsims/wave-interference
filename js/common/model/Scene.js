@@ -89,7 +89,7 @@ define( require => {
         graphHorizontalAxisLabel: null // {string} - text that describes the horizontal spatial axis
       }, config );
 
-      // @public {WaveSpatialType}
+      // @public (read-only) {WaveSpatialType}
       this.waveSpatialType = Validator.validate( config.waveSpatialType, { validValues: Scene.WaveSpatialType.VALUES } );
 
       // @public (read-only) {string} - units for this scene
