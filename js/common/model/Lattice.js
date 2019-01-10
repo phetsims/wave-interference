@@ -56,8 +56,8 @@ define( require => {
       this.visitedMatrix = new Matrix( width, height );
 
       // @private - tracks which cells could have been activated by an source disturbance, as opposed to a numerical
-      // artifact or reflection.  See TemporalMask.
-      this.allowedMask = new Matrix( width, height );
+      // artifact or reflection.  See TemporalMask.  Initialize to 1 to support plane waves, which is never masked.
+      this.allowedMask = new Matrix( width, height, 1 );
 
       // @private {number} - indicates the current matrix. Previous matrix is one higher (with correct modulus)
       this.currentMatrixIndex = 0;
@@ -237,6 +237,7 @@ define( require => {
           this.setCurrentValue( i, j, 0 );
           this.setLastValue( i, j, 0 );
           this.visitedMatrix.set( i, j, 0 );
+          this.allowedMask.set( i, j, 1 ); // Initialize to 1 to support plane waves, which is never masked.
         }
       }
       this.changedEmitter.emit();
