@@ -54,7 +54,7 @@ define( require => {
      */
     matches( i, j, time ) {
 
-      // search back through time to see if the source contributed to the value at (i,j) at the current time
+      // search to see if the source contributed to the value at (i,j) at the current time
       for ( let k = 0; k < this.deltas.length; k++ ) {
         const delta = this.deltas[ k ];
         if ( delta.on ) {
