@@ -291,6 +291,10 @@ define( require => {
       // @private
       this.stepIndex = 0;
 
+      // @private - when the plane wave frequency is changed, don't update the wave area for a few frames so there is no
+      // flicker, see https://github.com/phetsims/wave-interference/issues/309
+      this.stepsToSkipForPlaneWaveSources = 0;
+
       // When the user changes disturbance type, the button pops out and waves stop
       this.disturbanceTypeProperty.link( () => {
         this.button1PressedProperty.value = false;
@@ -322,7 +326,11 @@ define( require => {
 
         // When changing the plane wave frequency, clear the wave area to the right of the wave
         if ( this.waveSpatialType === Scene.WaveSpatialType.PLANE ) {
-          this.lattice.clearRight( this.barrierLatticeCoordinateProperty.value );
+          this.clear();
+
+          // when the plane wave frequency is changed, don't update the wave area for a few frames so there is no
+          // flicker, see https://github.com/phetsims/wave-interference/issues/309
+          this.stepsToSkipForPlaneWaveSources = 2;
         }
         else {
           this.handlePhaseChanged();
@@ -460,6 +468,13 @@ define( require => {
      * @private
      */
     setPlaneSourceValues( amplitude, time ) {
+
+      // When the plane wave frequency is changed, don't update the wave area for a few frames so there is no flicker,
+      // see https://github.com/phetsims/wave-interference/issues/309
+      if ( this.stepsToSkipForPlaneWaveSources > 0 ) {
+        this.stepsToSkipForPlaneWaveSources--;
+        return;
+      }
       const lattice = this.lattice;
 
       const barrierLatticeX = this.barrierTypeProperty.value === Scene.BarrierType.NO_BARRIER ?
@@ -745,6 +760,7 @@ define( require => {
       this.continuousWave2OscillatingProperty.reset();
       this.isAboutToFireProperty.reset();
       this.barrierTypeProperty && this.barrierTypeProperty.reset();
+      this.stepsToSkipForPlaneWaveSources = 0;
     }
 
     /**

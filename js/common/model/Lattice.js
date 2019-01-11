@@ -234,8 +234,9 @@ define( require => {
     clearRight( column ) {
       for ( let i = column; i < this.width; i++ ) {
         for ( let j = 0; j < this.height; j++ ) {
-          this.setCurrentValue( i, j, 0 );
-          this.setLastValue( i, j, 0 );
+          for ( let k = 0; k < this.matrices.length; k++ ) {
+            this.matrices[ k ].set( i, j, 0 );
+          }
           this.visitedMatrix.set( i, j, 0 );
           this.allowedMask.set( i, j, 1 ); // Initialize to 1 to support plane waves, which is never masked.
         }
