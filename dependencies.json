@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.60 Thu Jan 10 2019 20:24:59 GMT-0700 (MST)",
+  "comment": "# wave-interference 1.0.0-dev.61 Fri Jan 11 2019 09:41:23 GMT-0700 (MST)",
   "assert": {
     "sha": "5407993d77f0bb5a1ad63c112103ed4d22dbd1b7",
     "branch": "master"
@@ -53,7 +53,7 @@
     "branch": "master"
   },
   "phet-io-wrappers": {
-    "sha": "71bce9dcafd8b7bdcba8f72c0f321eee73f99c8d",
+    "sha": "c82b7f7ae8ba8030f2cbd1d4ed8e9e95b876ba17",
     "branch": "master"
   },
   "phetcommon": {
@@ -85,7 +85,7 @@
     "branch": "master"
   },
   "tandem": {
-    "sha": "d3c3404e61db4ecc1c50e182e2fa06083c525c29",
+    "sha": "88ea2c1bb26e6e4355a7e2cca2880168e84dd6dd",
     "branch": "master"
   },
   "twixt": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "86a81e4d31e8ff16ebba9b594d7b9cc74ffd7464",
+    "sha": "dfa6cd27d1e622e13b98703c6595ef59eb287503",
     "branch": "master"
   }
 }
