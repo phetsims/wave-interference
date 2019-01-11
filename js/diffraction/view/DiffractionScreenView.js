@@ -76,7 +76,7 @@ define( require => {
         node: new Circle( 10, { fill: 'black' } )
       } ];
 
-      const radioButtonGroup = new RadioButtonGroup( model.sceneProperty, toggleButtonsContent, {
+      const radioButtonGroup = new RadioButtonGroup( model.apertureTypeProperty, toggleButtonsContent, {
         left: 10,
         bottom: this.layoutBounds.bottom - 10
       } );
@@ -118,7 +118,7 @@ define( require => {
 
       const updateCanvases = this.updateCanvases.bind( this );
 
-      model.sceneProperty.lazyLink( updateCanvases );
+      model.apertureTypeProperty.lazyLink( updateCanvases );
 
       this.addChild( radioButtonGroup );
 
@@ -168,7 +168,7 @@ define( require => {
       }, PANEL_OPTIONS ) );
       this.addChild( this.slitsControlPanel );
 
-      model.sceneProperty.link( scene => {
+      model.apertureTypeProperty.link( scene => {
         this.squareControlPanel.visible = scene === DiffractionModel.ApertureType.RECTANGLE;
         this.gaussianControlPanel.visible = scene === DiffractionModel.ApertureType.CIRCLE;
         this.slitsControlPanel.visible = scene === DiffractionModel.ApertureType.SLITS;
@@ -266,7 +266,7 @@ define( require => {
 
       let i;
 
-      if ( this.model.sceneProperty.value === DiffractionModel.ApertureType.RECTANGLE ) {
+      if ( this.model.apertureTypeProperty.value === DiffractionModel.ApertureType.RECTANGLE ) {
         const rectWidth = this.model.squareWidthProperty.value;
         const rectHeight = this.model.squareHeightProperty.value;
         syntheticApertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2,
@@ -274,7 +274,7 @@ define( require => {
         displayedApertureContext.fillRect( width / 2 - rectWidth / 2, width / 2 - rectHeight / 2,
           rectWidth, rectHeight );
       }
-      else if ( this.model.sceneProperty.value === DiffractionModel.ApertureType.CIRCLE ) {
+      else if ( this.model.apertureTypeProperty.value === DiffractionModel.ApertureType.CIRCLE ) {
         for ( i = 0; i < width; i++ ) {
           for ( let k = 0; k < height; k++ ) {
             const v = Util.clamp( Math.floor( gaussian(
@@ -290,7 +290,7 @@ define( require => {
           }
         }
       }
-      else if ( this.model.sceneProperty.value === DiffractionModel.ApertureType.SLITS ) {
+      else if ( this.model.apertureTypeProperty.value === DiffractionModel.ApertureType.SLITS ) {
 
         syntheticApertureContext.rotate( this.model.angleProperty.value );
         displayedApertureContext.rotate( this.model.angleProperty.value );

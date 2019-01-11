@@ -47,8 +47,8 @@ define( require => {
         range: new Range( 0, Math.PI * 2 )
       } );
 
-      // @public - selected scene
-      this.sceneProperty = new Property( DiffractionModel.ApertureType.CIRCLE, {
+      // @public - selected aperture type, which is in essence the "scene" for this screen.
+      this.apertureTypeProperty = new Property( DiffractionModel.ApertureType.CIRCLE, {
         validValues: DiffractionModel.ApertureType.VALUES
       } );
     }
@@ -65,7 +65,7 @@ define( require => {
       this.gaussianMagnitudeProperty.reset();
       this.numberOfLinesProperty.reset();
       this.angleProperty.reset();
-      this.sceneProperty.reset();
+      this.apertureTypeProperty.reset();
     }
   }
 
