@@ -20,6 +20,7 @@ define( require => {
   // different values, but they do not have the properer emergent behavior.  WAVE_SPEED=1 propagates out as a diamond
   // rather than a circle, and WAVE_SPEED=0.1 is too slow and throws off the frequency of light.
   const WAVE_SPEED = 0.5;
+  const WAVE_SPEED_SQUARED = WAVE_SPEED * WAVE_SPEED; // precompute to avoid work in the inner loop
   const NUMBER_OF_MATRICES = 3; // The discretized wave equation algorithm requires current value + 2 history points
 
   // This is the threshold for the wave value that determines if the light has visited.  If the value is higher,
@@ -27,6 +28,7 @@ define( require => {
   // the speed of light), but will generate more artifacts in the initial wave.  If the value is lower, it will generate
   // fewer artifacts in the initial propagation, but will lead the initial wavefront by too far and make it seem like
   // light is faster than it should be measured (based on the propagation of wavefronts).
+  const LIGHT_VISIT_THRESHOLD = 1E-3;
 
   class Lattice {
 
@@ -51,7 +53,7 @@ define( require => {
       }
 
       // @private - keeps track of which cells have been visited by the wave
-      this.visitedMatrix = new Matrix( width, height, 1 );
+      this.visitedMatrix = new Matrix( width, height );
 
       // @private - tracks which cells could have been activated by an source disturbance, as opposed to a numerical
       // artifact or reflection.  See TemporalMask.  Initialize to 1 to support plane waves, which is never masked.
@@ -202,7 +204,7 @@ define( require => {
      * @public
      */
     setAllowed( i, j, allowed ) {
-      // this.allowedMask.set( i, j, allowed ? 1 : 0 );
+      this.allowedMask.set( i, j, allowed ? 1 : 0 );
     }
 
     /**
@@ -279,18 +281,17 @@ define( require => {
       // Main loop, doesn't update cells on the edges
       for ( let i = 1; i < width - 1; i++ ) {
         for ( let j = 1; j < height - 1; j++ ) {
-          matrix0.set( i, j, i === 75 ? 10 : 0 );
-          // const neighborSum = matrix1.get( i + 1, j ) +
-          //                     matrix1.get( i - 1, j ) +
-          //                     matrix1.get( i, j + 1 ) +
-          //                     matrix1.get( i, j - 1 );
-          // const m1ij = matrix1.get( i, j );
-          // const value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
-          // matrix0.set( i, j, value );
-          //
-          // if ( Math.abs( value ) > LIGHT_VISIT_THRESHOLD ) {
-          //   this.visitedMatrix.set( i, j, 1 );
-          // }
+          const neighborSum = matrix1.get( i + 1, j ) +
+                              matrix1.get( i - 1, j ) +
+                              matrix1.get( i, j + 1 ) +
+                              matrix1.get( i, j - 1 );
+          const m1ij = matrix1.get( i, j );
+          const value = m1ij * 2 - matrix2.get( i, j ) + WAVE_SPEED_SQUARED * ( neighborSum + m1ij * -4 );
+          matrix0.set( i, j, value );
+
+          if ( Math.abs( value ) > LIGHT_VISIT_THRESHOLD ) {
+            this.visitedMatrix.set( i, j, 1 );
+          }
         }
       }
 
