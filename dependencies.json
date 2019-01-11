@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.59 Thu Jan 10 2019 14:16:46 GMT-0700 (MST)",
+  "comment": "# wave-interference 1.0.0-dev.60 Thu Jan 10 2019 20:24:59 GMT-0700 (MST)",
   "assert": {
     "sha": "5407993d77f0bb5a1ad63c112103ed4d22dbd1b7",
     "branch": "master"
@@ -37,7 +37,7 @@
     "branch": "master"
   },
   "phet-io": {
-    "sha": "21b41ac5e59fefceb9637f79464047f09f5a5fb0",
+    "sha": "9b6c6ffb646d99caf18b4f7168f0d093ef80f9c4",
     "branch": "master"
   },
   "phet-io-wrapper-classroom-activity": {
@@ -69,7 +69,7 @@
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "92a326cc268320a57c0177941bd9c2a5a83b162c",
+    "sha": "75e3607015dc5d981fe611740bfe046fd4d8c9c3",
     "branch": "master"
   },
   "sherpa": {
@@ -77,7 +77,7 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "82670b148b147808333d66c18aca4edf8c97f45e",
+    "sha": "60ffa49945937bd81461553d253f5ccad008df6d",
     "branch": "master"
   },
   "tambo": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "77548c247dad0ce43db1e3861b7b29ceb7f604b9",
+    "sha": "86a81e4d31e8ff16ebba9b594d7b9cc74ffd7464",
     "branch": "master"
   }
 }
