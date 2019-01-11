@@ -19,55 +19,55 @@ define( require => {
 
     constructor() {
 
-      // @private - record of {on: boolean, time: number, j: number} of changes in wave disturbance sources.
+      // @private - record of {isSourceOn: boolean, numberOfSteps: number, verticalLatticeCoordinate: number} of changes in wave disturbance sources.
       this.deltas = [];
     }
 
     /**
      * Set the current state of the model.  If this differs from the prior state type (in position or whether it is on)
      * a delta is generated.
-     * @param {boolean} on - true if the source is on, false if the source is off
-     * @param {number} time - integer number of times the wave has been stepped on the lattice
-     * @param {number} j - vertical lattice coordinate
+     * @param {boolean} isSourceOn - true if the source is on, false if the source is off
+     * @param {number} numberOfSteps - integer number of times the wave has been stepped on the lattice
+     * @param {number} verticalLatticeCoordinate - vertical lattice coordinate
      * @public
      */
-    set( on, time, j ) {
+    set( isSourceOn, numberOfSteps, verticalLatticeCoordinate ) {
       const lastDelta = this.deltas.length > 0 ? this.deltas[ this.deltas.length - 1 ] : null;
-      if ( this.deltas.length === 0 || lastDelta.on !== on || lastDelta.j !== j ) {
+      if ( this.deltas.length === 0 || lastDelta.isSourceOn !== isSourceOn || lastDelta.verticalLatticeCoordinate !== verticalLatticeCoordinate ) {
 
         // record a delta
         this.deltas.push( {
-          on: on,
-          time: time,
-          j: j
+          isSourceOn: isSourceOn,
+          numberOfSteps: numberOfSteps,
+          verticalLatticeCoordinate: verticalLatticeCoordinate
         } );
       }
     }
 
     /**
      * Determines if the wave source was turned on at a time that contributed to the cell value
-     * @param {number} i - horizontal coordinate on the lattice
-     * @param {number} j - vertical coordinate on the lattice
-     * @param {number} time - integer number of times the wave has been stepped on the lattice
+     * @param {number} horizontalLatticeCoordinate - horizontal coordinate on the lattice (i)
+     * @param {number} verticalLatticeCoordinate - vertical coordinate on the lattice (j)
+     * @param {number} numberOfSteps - integer number of times the wave has been stepped on the lattice
      * @returns {boolean}
      * @public
      */
-    matches( i, j, time ) {
+    matches( horizontalLatticeCoordinate, verticalLatticeCoordinate, numberOfSteps ) {
 
-      // search to see if the source contributed to the value at (i,j) at the current time
+      // search to see if the source contributed to the value at the specified coordinate at the current numberOfSteps
       for ( let k = 0; k < this.deltas.length; k++ ) {
         const delta = this.deltas[ k ];
-        if ( delta.on ) {
+        if ( delta.isSourceOn ) {
 
-          const di = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE - i;
-          const dj = delta.j - j;
-          const distance = Math.sqrt( di * di + dj * dj );
+          const horizontalDelta = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE - horizontalLatticeCoordinate;
+          const verticalDelta = delta.verticalLatticeCoordinate - verticalLatticeCoordinate;
+          const distance = Math.sqrt( horizontalDelta * horizontalDelta + verticalDelta * verticalDelta );
 
           // Find out when this delta is in effect
-          const startTime = delta.time;
-          const endTime = this.deltas[ k + 1 ] ? this.deltas[ k + 1 ].time : time;
+          const startTime = delta.numberOfSteps;
+          const endTime = this.deltas[ k + 1 ] ? this.deltas[ k + 1 ].numberOfSteps : numberOfSteps;
 
-          const theoreticalTime = time - distance / Lattice.WAVE_SPEED;
+          const theoreticalTime = numberOfSteps - distance / Lattice.WAVE_SPEED;
 
           // if theoreticalDistance matches any time in this range, the cell's value was caused by the oscillators, and
           // not by a reflection or numerical artifact.  The tolerance is necessary because the actual group velocity
@@ -89,17 +89,17 @@ define( require => {
     /**
      * Remove delta values that are so old they can no longer impact the model, to avoid memory leaks.
      * @param {number} maxDistance - the furthest a point can be from a source
-     * @param {number} time - integer number of times the wave has been stepped on the lattice
+     * @param {number} numberOfSteps - integer number of times the wave has been stepped on the lattice
      * @public
      */
-    prune( maxDistance, time ) {
+    prune( maxDistance, numberOfSteps ) {
       for ( let k = 0; k < this.deltas.length; k++ ) {
         const delta = this.deltas[ k ];
 
-        const time = this.time - delta.time;
+        const numberOfSteps = this.numberOfSteps - delta.numberOfSteps;
 
-        // max time is across the diagonal of the lattice
-        if ( time > maxDistance / Lattice.WAVE_SPEED ) { // d = vt, t=d/v
+        // max numberOfSteps is across the diagonal of the lattice
+        if ( numberOfSteps > maxDistance / Lattice.WAVE_SPEED ) { // d = vt, t=d/v
           this.deltas.splice( k, 1 );
           k--;
         }
