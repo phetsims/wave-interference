@@ -48,9 +48,9 @@ define( require => {
       } );
 
       const comboBox = new ComboBox( [
-        ComboBox.createItem( new WaveInterferenceText( noBarrierString ), Scene.BarrierType.NO_BARRIER ),
         ComboBox.createItem( new WaveInterferenceText( oneSlitString ), Scene.BarrierType.ONE_SLIT ),
-        ComboBox.createItem( new WaveInterferenceText( twoSlitsString ), Scene.BarrierType.TWO_SLITS )
+        ComboBox.createItem( new WaveInterferenceText( twoSlitsString ), Scene.BarrierType.TWO_SLITS ),
+        ComboBox.createItem( new WaveInterferenceText( noBarrierString ), Scene.BarrierType.NO_BARRIER )
       ], barrierTypeDynamicProperty, comboBoxParent, {
         buttonYMargin: 0
       } );
