@@ -13,6 +13,7 @@ define( require => {
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Range = require( 'DOT/Range' );
+  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
 
@@ -21,6 +22,7 @@ define( require => {
   const DEFAULT_FONT_SIZE = 15;
   const DEFAULT_FONT = new PhetFont( DEFAULT_FONT_SIZE );
   const MAJOR_TICK_LENGTH = 12;
+  const LATTICE_PADDING = 20;
 
   const WaveInterferenceConstants = {
     WAVE_AREA_WIDTH: 500,
@@ -70,7 +72,10 @@ define( require => {
     FEMTO: 1E-15,
 
     // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).
-    POINT_SOURCE_HORIZONTAL_COORDINATE: 23,
+    POINT_SOURCE_HORIZONTAL_COORDINATE:
+      Util.roundSymmetric(
+      3 / 61 * ( WaveInterferenceQueryParameters.latticeSize - LATTICE_PADDING * 2 ) + LATTICE_PADDING
+      ) + 1,
 
     // The lattice must have an odd dimension, so that there can be a cell exactly in the middle (for a single-cell
     // oscillator), symmetry for the two oscillator screen, and so the 1-cell wide barrier can appear directly in the
@@ -78,7 +83,7 @@ define( require => {
     LATTICE_DIMENSION: WaveInterferenceQueryParameters.latticeSize,
 
     // Number of cells around the boundary of the lattice to avoid reflections at the edge
-    LATTICE_PADDING: 20,
+    LATTICE_PADDING: LATTICE_PADDING,
 
     // maxWidth for the right hand side panels
     PANEL_MAX_WIDTH: 200,
