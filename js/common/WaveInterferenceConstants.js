@@ -93,7 +93,12 @@ define( require => {
 
     // Use for the time and length scale texts above the wave area, looks best to be a smidge smaller than the
     // rest of the texts
-    TIME_AND_LENGTH_SCALE_INDICATOR_FONT: new PhetFont( DEFAULT_FONT_SIZE - 1 )
+    TIME_AND_LENGTH_SCALE_INDICATOR_FONT: new PhetFont( DEFAULT_FONT_SIZE - 1 ),
+
+    // tuned so that the time for the wave to pass across the lattice is the same as pre-1.0.  If the lattice size is
+    // changed, this can be re-tuned by computing the time it takes a sound wave to cross the new lattice size and
+    // dividing by the prior time.
+    SCALE_FACTOR: 54.176 / 20
   };
 
   assert && assert( WaveInterferenceConstants.LATTICE_DIMENSION % 2 === 1, 'lattice dimension must be odd' );

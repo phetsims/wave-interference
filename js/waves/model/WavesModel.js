@@ -54,10 +54,7 @@ define( require => {
   // This simulation uses EventTimer, which provides exactly the same model behavior on very slow and very fast
   // platforms.  Here we define the frequency of events in Hz, which has been tuned so that iPad2 has enough time to run
   // model computations.
-  // tuned so that the time for the wave to pass across the lattice is the same as pre-1.0.  If the lattice size is
-  // changed, this can be re-tuned by computing the time it takes a sound wave to cross the new lattice size and
-  // dividing by the prior time.
-  const EVENT_RATE = 54.176;
+  const EVENT_RATE = 20 * WaveInterferenceConstants.SCALE_FACTOR;
   const toFemto = WaveInterferenceUtils.toFemto;
 
   class WavesModel {

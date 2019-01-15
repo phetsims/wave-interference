@@ -18,6 +18,7 @@ define( require => {
   const SoundParticle = require( 'WAVE_INTERFERENCE/common/model/SoundParticle' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
   const SOUND_PARTICLE_GRADIENT_FORCE_SCALE = 0.67; // Additional scaling for the gradient force
@@ -109,7 +110,11 @@ define( require => {
           const fx = gradientX * k;
           const fy = gradientY * k;
           if ( !isNaN( fx ) && !isNaN( fy ) ) {
-            soundParticle.applyForce( fx, fy, dt, this );
+            soundParticle.applyForce(
+              fx * WaveInterferenceConstants.SCALE_FACTOR,
+              fy * WaveInterferenceConstants.SCALE_FACTOR,
+              dt, this
+            );
           }
         }
       }
