@@ -422,7 +422,8 @@ define( require => {
         // For 50% longer than one pulse, keep the oscillator fixed at 0 to prevent "ringing"
         // TODO: is this bad documentation or does the code need changing after we added TemporalMask?
         const waveValue = ( this.pulseFiringProperty.get() && timeSincePulseStarted > period ) ? 0 :
-                          -Math.sin( time * angularFrequency + this.phase ) * amplitude;
+                          -Math.sin( time * angularFrequency + this.phase ) * amplitude *
+                          WaveInterferenceConstants.AMPLITUDE_CALIBRATION_SCALE;
 
         // Distance between the sources, or 0 if there is only 1 source
         const sourceSeparation = this.numberOfSources === 2 ? this.sourceSeparationProperty.get() : 0;

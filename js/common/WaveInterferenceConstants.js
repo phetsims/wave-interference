@@ -97,7 +97,11 @@ define( require => {
     TIME_AND_LENGTH_SCALE_INDICATOR_FONT: new PhetFont( DEFAULT_FONT_SIZE - 1 ),
 
     // see above
-    CALIBRATION_SCALE: CALIBRATION_SCALE
+    CALIBRATION_SCALE: CALIBRATION_SCALE,
+
+    // The wave dies out more quickly on a larger lattice.  At the initial calibration of lattice size = 101 = 61+20+20,
+    // this was 1.0
+    AMPLITUDE_CALIBRATION_SCALE: 1.2
   };
 
   assert && assert( WaveInterferenceConstants.LATTICE_DIMENSION % 2 === 1, 'lattice dimension must be odd' );

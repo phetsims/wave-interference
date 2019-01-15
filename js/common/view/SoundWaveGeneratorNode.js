@@ -14,6 +14,7 @@ define( require => {
   const Util = require( 'DOT/Util' );
   const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // images
   const speakerImageMID = require( 'image!WAVE_INTERFERENCE/speaker/speaker_MID.png' );
@@ -81,7 +82,7 @@ define( require => {
                             soundScene.oscillator2Property;
       modelProperty.link( oscillator1 => {
 
-        const max = soundScene.amplitudeProperty.range.max;
+        const max = soundScene.amplitudeProperty.range.max * WaveInterferenceConstants.AMPLITUDE_CALIBRATION_SCALE;
 
         // Sign is chosen so that the membrane forward corresponds to a high pressure outside the speaker,
         // see https://github.com/phetsims/wave-interference/issues/178
