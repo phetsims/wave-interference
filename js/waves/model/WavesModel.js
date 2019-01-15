@@ -151,8 +151,9 @@ define( require => {
         waveSpeed: 34.3, // in cm/ms
 
         // Determined empirically by setting timeScaleFactor to 1, then checking the displayed wavelength of maximum
-        // frequency sound on the lattice and dividing by the desired wavelength
-        timeScaleFactor: 90 / 39.2,
+        // frequency sound on the lattice and dividing by the desired wavelength.  ?log can be useful.  Can check/fine
+        // tune by measuring the speed of sound.
+        timeScaleFactor: 244.7 / 103.939 * 35.24 / 34.3,
 
         initialSlitWidth: 90, // cm
         initialSlitSeparation: 200, // cm
@@ -187,8 +188,9 @@ define( require => {
         waveSpeed: 299.792458,
 
         // Determined empirically by setting timeScaleFactor to 1, then checking the displayed wavelength of maximum
-        // frequency wave on the lattice and dividing by the desired wavelength
-        timeScaleFactor: 1853 / 660,
+        // frequency wave on the lattice and dividing by the desired wavelength.  Can check by measuring the speed of
+        // light
+        timeScaleFactor: 1416.5 / 511.034,
 
         // nm - if this value is too high, the light screen will oversaturate,
         // see https://github.com/phetsims/wave-interference/issues/209

@@ -200,7 +200,7 @@ define( require => {
 
       // wavelength*frequency=wave speed
       phet.log && this.frequencyProperty.link( frequency =>
-        phet.log( `f = ${frequency}/${this.timeUnits}, w = ${this.waveSpeed / frequency} ${this.positionUnits}` )
+        phet.log( `f = ${frequency}/${this.timeUnits}, w = ${this.waveSpeed / frequency} ${this.positionUnits}, v= ${this.waveSpeed} ${this.positionUnits}/${this.timeUnits}` )
       );
 
       // @public (read-only) {string} - the unit to display on the WaveMeterNode, like "1 s"
