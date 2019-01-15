@@ -420,6 +420,7 @@ define( require => {
         const angularFrequency = Math.PI * 2 * frequency;
 
         // For 50% longer than one pulse, keep the oscillator fixed at 0 to prevent "ringing"
+        // TODO: is this bad documentation or does the code need changing after we added TemporalMask?
         const waveValue = ( this.pulseFiringProperty.get() && timeSincePulseStarted > period ) ? 0 :
                           -Math.sin( time * angularFrequency + this.phase ) * amplitude;
 
