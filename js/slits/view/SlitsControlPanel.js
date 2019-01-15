@@ -52,7 +52,8 @@ define( require => {
         ComboBox.createItem( new WaveInterferenceText( oneSlitString ), Scene.BarrierType.ONE_SLIT ),
         ComboBox.createItem( new WaveInterferenceText( twoSlitsString ), Scene.BarrierType.TWO_SLITS )
       ], barrierTypeDynamicProperty, comboBoxParent, {
-        buttonYMargin: 0
+        xMargin: 13,
+        yMargin: 6
       } );
 
       const createLabel = text => new WaveInterferenceText( text, {
