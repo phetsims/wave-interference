@@ -66,8 +66,8 @@ define( require => {
       this.rectangleB = rectangleB;
       this.rectangleC = rectangleC;
 
-      // @private - View width for one cell
-      this.cellWidth = scene.latticeToViewTransform.modelToViewDeltaX( WaveInterferenceConstants.CALIBRATION_SCALE );
+      // @private - Width of the barrier
+      this.barrierWidth = scene.latticeToViewTransform.modelToViewDeltaX( WaveInterferenceConstants.CALIBRATION_SCALE );
 
       this.addInputListener( new DragListener( {
         mapLocation: modelPosition => {
@@ -140,9 +140,9 @@ define( require => {
           const slitWidthView = scene.modelViewTransform.modelToViewDeltaY( slitWidth );
           const y1 = this.waveAreaViewBounds.centerY - slitWidthView / 2;
           const y2 = this.waveAreaViewBounds.centerY + slitWidthView / 2;
-          this.rectangleA.setRect( 0, waveAreaTop, this.cellWidth, y1 - waveAreaTop, CORNER_RADIUS, CORNER_RADIUS );
-          this.rectangleB.setRect( 0, y2, this.cellWidth, this.waveAreaViewBounds.bottom - y2, CORNER_RADIUS, CORNER_RADIUS );
-          this.arrowNode.centerX = this.cellWidth / 2;
+          this.rectangleA.setRect( 0, waveAreaTop, this.barrierWidth, y1 - waveAreaTop, CORNER_RADIUS, CORNER_RADIUS );
+          this.rectangleB.setRect( 0, y2, this.barrierWidth, this.waveAreaViewBounds.bottom - y2, CORNER_RADIUS, CORNER_RADIUS );
+          this.arrowNode.centerX = this.barrierWidth / 2;
           this.arrowNode.top = this.rectangleB.bottom + 2;
         }
         else if ( barrierType === Scene.BarrierType.TWO_SLITS ) {
@@ -162,20 +162,20 @@ define( require => {
             .modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 + slitWidth / 2 );
           this.rectangleA.setRect(
             0, waveAreaTop,
-            this.cellWidth, Math.max( 0, bottomOfTopBarrier - waveAreaTop ),
+            this.barrierWidth, Math.max( 0, bottomOfTopBarrier - waveAreaTop ),
             CORNER_RADIUS, CORNER_RADIUS
           );
           this.rectangleB.setRect(
             0, topOfCentralBarrier,
-            this.cellWidth, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ),
+            this.barrierWidth, Math.max( bottomOfCentralBarrier - topOfCentralBarrier, 0 ),
             CORNER_RADIUS, CORNER_RADIUS
           );
           this.rectangleC.setRect(
             0, topOfBottomBarrier,
-            this.cellWidth, Math.max( this.waveAreaViewBounds.bottom - topOfBottomBarrier ),
+            this.barrierWidth, Math.max( this.waveAreaViewBounds.bottom - topOfBottomBarrier ),
             CORNER_RADIUS, CORNER_RADIUS
           );
-          this.arrowNode.centerX = this.cellWidth / 2;
+          this.arrowNode.centerX = this.barrierWidth / 2;
           this.arrowNode.top = this.rectangleC.bottom + 2;
         }
       }
