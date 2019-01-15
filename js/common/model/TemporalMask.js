@@ -100,7 +100,14 @@ define( require => {
 
         // max numberOfSteps is across the diagonal of the lattice, but don't remove the last element or the wave could
         // clear
-        if ( steps > maxDistance / Lattice.WAVE_SPEED && this.deltas.length > 1 ) { // d = vt, t=d/v
+        if ( this.deltas.length > 1 &&
+
+             // d = vt, t=d/v
+             ( steps > maxDistance / Lattice.WAVE_SPEED ||
+
+               // too many deltas
+               this.deltas.length > 5 )
+        ) {
           this.deltas.splice( k, 1 );
           k--;
         }
