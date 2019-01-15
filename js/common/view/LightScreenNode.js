@@ -20,7 +20,6 @@ define( require => {
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // constants
-  const CELL_WIDTH = WaveInterferenceConstants.CELL_WIDTH;
   const CANVAS_WIDTH = 100;
 
   // This chooses the saturation point for the screen, as well as the "thinness" of the minima
@@ -43,6 +42,9 @@ define( require => {
         lightScreenNodeBrightness: 1
       }, options );
       super( options );
+
+      // @private - for the vertical scale factor
+      this.latticeCanvasBounds = latticeCanvasBounds;
 
       // @private
       this.lattice = lattice;
@@ -137,7 +139,7 @@ define( require => {
 
       // draw the sub-canvas to the rendering context at the appropriate scale
       context.save();
-      context.transform( CELL_WIDTH * 10, 0, 0, CELL_WIDTH, 0, 0 );
+      context.transform( 100, 0, 0, this.latticeCanvasBounds.height / this.lattice.visibleBounds.height, 0, 0 );
       context.drawImage( this.imageDataRenderer.canvas, 0, 0 );
       context.restore();
     }

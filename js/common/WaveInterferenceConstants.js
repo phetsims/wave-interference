@@ -63,7 +63,7 @@ define( require => {
     MAX_AMPLITUDE_TO_PLOT_ON_RIGHT: 2.14,
 
     // Size of a cell in view coordinates
-    CELL_WIDTH: 10,
+    CELL_WIDTH: Util.roundSymmetric( 10 / CALIBRATION_SCALE ),
 
     // lineJoin for the graph and the surface of the water
     CHART_LINE_JOIN: 'round',
