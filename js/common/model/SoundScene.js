@@ -111,8 +111,8 @@ define( require => {
           const fy = gradientY * k;
           if ( !isNaN( fx ) && !isNaN( fy ) ) {
             soundParticle.applyForce(
-              fx * WaveInterferenceConstants.SCALE_FACTOR,
-              fy * WaveInterferenceConstants.SCALE_FACTOR,
+              fx * WaveInterferenceConstants.CALIBRATION_SCALE,
+              fy * WaveInterferenceConstants.CALIBRATION_SCALE,
               dt, this
             );
           }

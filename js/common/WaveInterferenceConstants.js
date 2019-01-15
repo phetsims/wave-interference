@@ -24,6 +24,10 @@ define( require => {
   const MAJOR_TICK_LENGTH = 12;
   const LATTICE_PADDING = 20;
 
+  // the simulation was initially calibrated at a lattice size of 101-20x2.  This scale factor maintains the same
+  // calibrated behavior for differing lattice sizes.
+  const CALIBRATION_SCALE = ( WaveInterferenceQueryParameters.latticeSize - LATTICE_PADDING * 2 ) / ( 101 - 20 * 2 );
+
   const WaveInterferenceConstants = {
     WAVE_AREA_WIDTH: 500,
     MAJOR_TICK_LENGTH: MAJOR_TICK_LENGTH,
@@ -72,10 +76,7 @@ define( require => {
     FEMTO: 1E-15,
 
     // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).
-    POINT_SOURCE_HORIZONTAL_COORDINATE:
-      Util.roundSymmetric(
-      3 / 61 * ( WaveInterferenceQueryParameters.latticeSize - LATTICE_PADDING * 2 ) + LATTICE_PADDING
-      ) + 1,
+    POINT_SOURCE_HORIZONTAL_COORDINATE: Util.roundSymmetric( 3 * CALIBRATION_SCALE ) + LATTICE_PADDING,
 
     // The lattice must have an odd dimension, so that there can be a cell exactly in the middle (for a single-cell
     // oscillator), symmetry for the two oscillator screen, and so the 1-cell wide barrier can appear directly in the
@@ -95,10 +96,8 @@ define( require => {
     // rest of the texts
     TIME_AND_LENGTH_SCALE_INDICATOR_FONT: new PhetFont( DEFAULT_FONT_SIZE - 1 ),
 
-    // tuned so that the time for the wave to pass across the lattice is the same as pre-1.0.  If the lattice size is
-    // changed, this can be re-tuned by computing the time it takes a sound wave to cross the new lattice size and
-    // dividing by the prior time.
-    SCALE_FACTOR: 54.176 / 20
+    // see above
+    CALIBRATION_SCALE: CALIBRATION_SCALE
   };
 
   assert && assert( WaveInterferenceConstants.LATTICE_DIMENSION % 2 === 1, 'lattice dimension must be odd' );

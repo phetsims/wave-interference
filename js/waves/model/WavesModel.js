@@ -54,7 +54,7 @@ define( require => {
   // This simulation uses EventTimer, which provides exactly the same model behavior on very slow and very fast
   // platforms.  Here we define the frequency of events in Hz, which has been tuned so that iPad2 has enough time to run
   // model computations.
-  const EVENT_RATE = 20 * WaveInterferenceConstants.SCALE_FACTOR;
+  const EVENT_RATE = 20 * WaveInterferenceConstants.CALIBRATION_SCALE;
   const toFemto = WaveInterferenceUtils.toFemto;
 
   class WavesModel {
