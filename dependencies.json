@@ -1,11 +1,11 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.62 Fri Jan 11 2019 14:01:03 GMT-0700 (MST)",
+  "comment": "# wave-interference 1.0.0-dev.63 Tue Jan 15 2019 14:31:10 GMT-0700 (MST)",
   "assert": {
     "sha": "5407993d77f0bb5a1ad63c112103ed4d22dbd1b7",
     "branch": "master"
   },
   "axon": {
-    "sha": "78b0dfc4c54df032325c30523c8c9640635a0b8a",
+    "sha": "0d4f72c2287122eb3a7a04fb08b0280b4c6044f3",
     "branch": "master"
   },
   "brand": {
@@ -13,7 +13,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "c8f3764d8b0846df485123ab158058147d70eeb7",
+    "sha": "68fb1c9277df7b5703065eb06990fe86e09459cf",
     "branch": "master"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "01103f1bd2be1def48fb8a4d6a13633b84c3ca34",
+    "sha": "3a787db65c7a36d379572e062602847c6e2f2839",
     "branch": "master"
   },
   "kite": {
@@ -33,11 +33,11 @@
     "branch": "master"
   },
   "phet-core": {
-    "sha": "edd6b92a3a497ae28dee28e26fc89aac71f7a4e0",
+    "sha": "b477cbae4844815a92e8b28ba51fd72c3ad0f0c4",
     "branch": "master"
   },
   "phet-io": {
-    "sha": "9b6c6ffb646d99caf18b4f7168f0d093ef80f9c4",
+    "sha": "d61975c655240162d60dedbd0ddbf402a67deb39",
     "branch": "master"
   },
   "phet-io-wrapper-classroom-activity": {
@@ -65,19 +65,19 @@
     "branch": "master"
   },
   "scenery": {
-    "sha": "c3c56b71381950a9a30829e0490d6f82c704131f",
+    "sha": "3176bc25204ba8abcaa5fd9c7b08b91a39676e1d",
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "75e3607015dc5d981fe611740bfe046fd4d8c9c3",
+    "sha": "df5f5ec0112932aaacbce66232f03571c3c9cd84",
     "branch": "master"
   },
   "sherpa": {
-    "sha": "948995d1c635f8738c9c9a5cbfb624e0d8fd2de0",
+    "sha": "b898c26cb5284c17868c53e342f7dc8096f5ff00",
     "branch": "master"
   },
   "sun": {
-    "sha": "614e324bed1a8a60d491406a2fd73be76b0e808c",
+    "sha": "00dfc9100587385d5be5c11dcb19186d4c271180",
     "branch": "master"
   },
   "tambo": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "15dbc3b1e807f75dd5a5768ae061b176e75084f6",
+    "sha": "4092b34fc29d7892fbdb6a9afbbe2f62dc53ac69",
     "branch": "master"
   }
 }
