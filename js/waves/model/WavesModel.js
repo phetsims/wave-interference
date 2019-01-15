@@ -109,7 +109,11 @@ define( require => {
         frequencyRange: new Range( 0.25, 1 ), // cycles per second
         scaleIndicatorLength: 1, // 1 centimeter
         numberOfSources: options.numberOfSources,
-        waveSpeed: 1.85, // in position units/time units, measured empirically as 5.4 seconds to cross the 10cm lattice
+
+        // Calibration for water is done by measuring the empirical wave speed, since we want the timeScaleFactor to
+        // remain as 1.0
+        // in position units/time units, measured empirically as 5.4 seconds to cross the 10cm lattice
+        waveSpeed: 1.65,
 
         timeScaleFactor: 1, // 1 second in real time = 1 second on the simulation timer
 
