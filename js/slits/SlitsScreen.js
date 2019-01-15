@@ -31,7 +31,8 @@ define( require => {
       const options = {
         backgroundColorProperty: new Property( 'white' ),
         name: screenSlitsString,
-        homeScreenIcon: new Image( slitsScreenIcon )
+        homeScreenIcon: new Image( slitsScreenIcon ),
+        showUnselectedHomeScreenIconFrame: true
       };
       super(
         () => new SlitsModel(),

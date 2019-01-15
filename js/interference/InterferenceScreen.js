@@ -31,7 +31,8 @@ define( require => {
       const options = {
         backgroundColorProperty: new Property( 'white' ),
         name: screenInterferenceString,
-        homeScreenIcon: new Image( interferenceScreenIcon )
+        homeScreenIcon: new Image( interferenceScreenIcon ),
+        showUnselectedHomeScreenIconFrame: true
       };
       super(
         () => new InterferenceModel(),

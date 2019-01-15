@@ -31,7 +31,8 @@ define( require => {
       const options = {
         backgroundColorProperty: new Property( 'white' ),
         name: screenWavesString,
-        homeScreenIcon: new Image( wavesScreenIcon )
+        homeScreenIcon: new Image( wavesScreenIcon ),
+        showUnselectedHomeScreenIconFrame: true
       };
       super(
         () => new WavesModel(),

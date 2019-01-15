@@ -26,8 +26,7 @@ define( require => {
       team: 'Wendy Adams, Diana L\u00f3pez Tavares, Ariel Paul, Kathy Perkins, Katie Woessner',
       qualityAssurance: 'Steele Dalton, Liam Mulhall, Laura Rea, Katie Woessner',
       graphicArts: 'Cheryl McCutchan'
-    },
-    showSmallHomeScreenIconFrame: true
+    }
   };
 
   SimLauncher.launch( () => {

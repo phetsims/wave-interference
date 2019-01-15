@@ -28,7 +28,8 @@ define( require => {
       const options = {
         backgroundColorProperty: new Property( 'white' ),
         name: screenDiffractionString,
-        homeScreenIcon: new Image( diffractionScreenIcon )
+        homeScreenIcon: new Image( diffractionScreenIcon ),
+        showUnselectedHomeScreenIconFrame: true
       };
 
       super(
