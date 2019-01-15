@@ -13,6 +13,7 @@ define( require => {
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Range = require( 'DOT/Range' );
+  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
 
@@ -21,6 +22,11 @@ define( require => {
   const DEFAULT_FONT_SIZE = 15;
   const DEFAULT_FONT = new PhetFont( DEFAULT_FONT_SIZE );
   const MAJOR_TICK_LENGTH = 12;
+  const LATTICE_PADDING = 20;
+
+  // the simulation was initially calibrated at a lattice size of 101-20x2.  This scale factor maintains the same
+  // calibrated behavior for differing lattice sizes.
+  const CALIBRATION_SCALE = ( WaveInterferenceQueryParameters.latticeSize - LATTICE_PADDING * 2 ) / ( 101 - 20 * 2 );
 
   const WaveInterferenceConstants = {
     WAVE_AREA_WIDTH: 500,
@@ -70,7 +76,7 @@ define( require => {
     FEMTO: 1E-15,
 
     // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).
-    POINT_SOURCE_HORIZONTAL_COORDINATE: 23,
+    POINT_SOURCE_HORIZONTAL_COORDINATE: Util.roundSymmetric( 3 * CALIBRATION_SCALE ) + LATTICE_PADDING,
 
     // The lattice must have an odd dimension, so that there can be a cell exactly in the middle (for a single-cell
     // oscillator), symmetry for the two oscillator screen, and so the 1-cell wide barrier can appear directly in the
@@ -78,7 +84,7 @@ define( require => {
     LATTICE_DIMENSION: WaveInterferenceQueryParameters.latticeSize,
 
     // Number of cells around the boundary of the lattice to avoid reflections at the edge
-    LATTICE_PADDING: 20,
+    LATTICE_PADDING: LATTICE_PADDING,
 
     // maxWidth for the right hand side panels
     PANEL_MAX_WIDTH: 200,
@@ -88,7 +94,14 @@ define( require => {
 
     // Use for the time and length scale texts above the wave area, looks best to be a smidge smaller than the
     // rest of the texts
-    TIME_AND_LENGTH_SCALE_INDICATOR_FONT: new PhetFont( DEFAULT_FONT_SIZE - 1 )
+    TIME_AND_LENGTH_SCALE_INDICATOR_FONT: new PhetFont( DEFAULT_FONT_SIZE - 1 ),
+
+    // see above
+    CALIBRATION_SCALE: CALIBRATION_SCALE,
+
+    // The wave dies out more quickly on a larger lattice.  At the initial calibration of lattice size = 101 = 61+20+20,
+    // this was 1.0
+    AMPLITUDE_CALIBRATION_SCALE: 1.2
   };
 
   assert && assert( WaveInterferenceConstants.LATTICE_DIMENSION % 2 === 1, 'lattice dimension must be odd' );

@@ -52,9 +52,9 @@ define( require => {
   const waterWaveGeneratorString = require( 'string!WAVE_INTERFERENCE/waterWaveGenerator' );
 
   // This simulation uses EventTimer, which provides exactly the same model behavior on very slow and very fast
-  // platforms.  Here we define the frequency of events in Hz, which has been tuned so that iPad2 has enough time to run
-  // model computations.
-  const EVENT_RATE = 20;
+  // platforms.  Here we define the frequency of events in Hz, which has been tuned so that our slowest platform has
+  // an acceptable frame rate
+  const EVENT_RATE = 20 * WaveInterferenceConstants.CALIBRATION_SCALE;
   const toFemto = WaveInterferenceUtils.toFemto;
 
   class WavesModel {
