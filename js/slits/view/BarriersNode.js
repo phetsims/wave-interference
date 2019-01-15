@@ -17,6 +17,7 @@ define( require => {
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SlitsModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsModel' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
   const CORNER_RADIUS = 2;
@@ -66,7 +67,7 @@ define( require => {
       this.rectangleC = rectangleC;
 
       // @private - View width for one cell
-      this.cellWidth = scene.latticeToViewTransform.modelToViewDeltaX( 1 );
+      this.cellWidth = scene.latticeToViewTransform.modelToViewDeltaX( WaveInterferenceConstants.CALIBRATION_SCALE );
 
       this.addInputListener( new DragListener( {
         mapLocation: modelPosition => {
