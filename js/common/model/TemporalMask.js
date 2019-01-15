@@ -96,10 +96,11 @@ define( require => {
       for ( let k = 0; k < this.deltas.length; k++ ) {
         const delta = this.deltas[ k ];
 
-        const numberOfSteps = this.numberOfSteps - delta.numberOfSteps;
+        const steps = numberOfSteps - delta.numberOfSteps;
 
-        // max numberOfSteps is across the diagonal of the lattice
-        if ( numberOfSteps > maxDistance / Lattice.WAVE_SPEED ) { // d = vt, t=d/v
+        // max numberOfSteps is across the diagonal of the lattice, but don't remove the last element or the wave could
+        // clear
+        if ( steps > maxDistance / Lattice.WAVE_SPEED && this.deltas.length > 1 ) { // d = vt, t=d/v
           this.deltas.splice( k, 1 );
           k--;
         }
