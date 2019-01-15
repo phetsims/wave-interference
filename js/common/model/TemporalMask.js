@@ -106,7 +106,7 @@ define( require => {
              ( steps > maxDistance / Lattice.WAVE_SPEED ||
 
                // too many deltas
-               this.deltas.length > 5 )
+               this.deltas.length > 10 )
         ) {
           this.deltas.splice( k, 1 );
           k--;
