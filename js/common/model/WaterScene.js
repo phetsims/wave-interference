@@ -134,6 +134,8 @@ define( require => {
     setMuted( muted ) {
       super.setMuted( muted );
       muted && this.removeAllDrops();
+      this.continuousWave1OscillatingProperty.value = false;
+      this.continuousWave2OscillatingProperty.value = false;
     }
 
     /**
