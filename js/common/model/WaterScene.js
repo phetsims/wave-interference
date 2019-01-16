@@ -127,6 +127,16 @@ define( require => {
     }
 
     /**
+     * Override to clear water drops when muted.
+     * @public
+     * @override
+     */
+    setMuted( muted ) {
+      super.setMuted( muted );
+      muted && this.removeAllDrops();
+    }
+
+    /**
      * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
      * @param {number} dt - amount of time to move forward, in the units of the scene
      * @override
