@@ -53,7 +53,8 @@ define( require => {
         ComboBox.createItem( new WaveInterferenceText( noBarrierString ), Scene.BarrierType.NO_BARRIER )
       ], barrierTypeDynamicProperty, comboBoxParent, {
         xMargin: 13,
-        yMargin: 6
+        yMargin: 6,
+        cornerRadius: 4
       } );
 
       const createLabel = text => new WaveInterferenceText( text, {
