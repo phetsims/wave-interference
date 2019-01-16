@@ -59,7 +59,7 @@ define( require => {
           valuePattern: cmValueString,
           decimalPlaces: 1,
           constrainValue: value => Util.roundToInterval( value, 0.5 ),
-          majorTicks: createTicks( waterSceneRange, allRanges ),
+          majorTicks: createTicks( waterSceneRange, allRanges )
         }, createMuteOptions( model.waterScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.soundScene,
