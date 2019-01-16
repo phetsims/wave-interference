@@ -405,10 +405,6 @@ define( require => {
      */
     setPointSourceValues( amplitude, time ) {
 
-      if ( this.muted ) {
-        return;
-      }
-
       const frequency = this.frequencyProperty.get();
       const period = 1 / frequency;
       const timeSincePulseStarted = time - this.pulseStartTime;
@@ -616,8 +612,11 @@ define( require => {
       // Update the lattice
       this.lattice.step();
 
-      // Apply values on top of the computed lattice values so there is no noise at the point sources
-      this.setSourceValues();
+      if ( !this.muted ) {
+
+        // Apply values on top of the computed lattice values so there is no noise at the point sources
+        this.setSourceValues();
+      }
 
       // Scene-specific physics updates
       this.step( dt );

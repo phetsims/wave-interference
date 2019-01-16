@@ -146,7 +146,8 @@ define( require => {
 
       // Emit water drops if the phase matches up, but not for the plane waves screen
       if ( this.waveSpatialType === Scene.WaveSpatialType.POINT &&
-           ( this.lastDropTime === null || timeSinceLastDrop > period ) ) {
+           ( this.lastDropTime === null || timeSinceLastDrop > period ) &&
+           !this.muted ) {
 
         this.launchWaterDrop( this.button1PressedProperty, this.continuousWave1OscillatingProperty, +1 );
         this.launchWaterDrop( this.button2PressedProperty, this.continuousWave2OscillatingProperty, -1 );
