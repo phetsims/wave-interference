@@ -143,6 +143,9 @@ define( require => {
       // @public the frequency in the appropriate units for the scene
       this.frequencyProperty = new NumberProperty( frequencyRange.getCenter(), { range: frequencyRange } );
 
+      // @private - point source wave generation is suppressed when changing the source separation
+      this.muted = false;
+
       // @public distance between the sources in the units of the scene, or 0 if there is only one
       // source initialized to match the initial slit separation,
       // see https://github.com/phetsims/wave-interference/issues/87
@@ -401,6 +404,11 @@ define( require => {
      * @private
      */
     setPointSourceValues( amplitude, time ) {
+
+      if ( this.muted ) {
+        return;
+      }
+
       const frequency = this.frequencyProperty.get();
       const period = 1 / frequency;
       const timeSincePulseStarted = time - this.pulseStartTime;
@@ -660,6 +668,7 @@ define( require => {
       this.lattice.clear();
       this.temporalMask1.clear();
       this.temporalMask2.clear();
+      this.muted = false;
     }
 
     /**
@@ -690,6 +699,15 @@ define( require => {
      */
     getWaveAreaBounds() {
       return new Bounds2( 0, 0, this.waveAreaWidth, this.waveAreaWidth );
+    }
+
+    /**
+     * Mute or unmute the model.
+     * @param {boolean} muted
+     * @public
+     */
+    setMuted( muted ) {
+      this.muted = muted;
     }
 
     /**

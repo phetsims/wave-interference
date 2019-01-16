@@ -39,6 +39,17 @@ define( require => {
       const lightSceneRange = lightSeparationProperty.range;
       const allRanges = [ waterSceneRange, soundSceneRange, lightSceneRange ];
 
+      const createMuteOptions = scene => {
+        return {
+          sliderStartCallback: () => scene.setMuted( true ),
+          sliderEndCallback: () => scene.setMuted( false ),
+          leftArrowStartCallback: () => scene.setMuted( true ),
+          leftArrowEndCallback: () => scene.setMuted( false ),
+          rightArrowStartCallback: () => scene.setMuted( true ),
+          rightArrowEndCallback: () => scene.setMuted( false )
+        };
+      };
+
       // Switch between controls for each scene.  No advantage in using SceneToggleNode in this case
       // because the control constructor calls are substantially different.
       super( model.sceneProperty, [ {
@@ -48,8 +59,8 @@ define( require => {
           valuePattern: cmValueString,
           decimalPlaces: 1,
           constrainValue: value => Util.roundToInterval( value, 0.5 ),
-          majorTicks: createTicks( waterSceneRange, allRanges )
-        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
+          majorTicks: createTicks( waterSceneRange, allRanges ),
+        }, createMuteOptions( model.waterScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.soundScene,
         node: new NumberControl( separationString, soundSeparationProperty, soundSceneRange, _.extend( {
@@ -57,7 +68,7 @@ define( require => {
           valuePattern: cmValueString,
           constrainValue: value => Util.roundToInterval( value, 10 ),
           majorTicks: createTicks( soundSceneRange, allRanges )
-        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
+        }, createMuteOptions( model.soundScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.lightScene,
         node: new NumberControl( separationString, lightSeparationProperty, lightSceneRange, _.extend( {
@@ -65,7 +76,7 @@ define( require => {
           valuePattern: nmValueString,
           constrainValue: value => Util.roundToInterval( value, 100 ),
           majorTicks: createTicks( lightSceneRange, allRanges )
-        }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
+        }, createMuteOptions( model.lightScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       } ] );
     }
   }
