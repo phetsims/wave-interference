@@ -608,29 +608,28 @@ define( require => {
           this.pulseStartTime = 0;
         }
       }
-
-      // Update the lattice
-      this.lattice.step();
-
       if ( !this.muted ) {
+
+        // Update the lattice
+        this.lattice.step();
 
         // Apply values on top of the computed lattice values so there is no noise at the point sources
         this.setSourceValues();
+
+        // Scene-specific physics updates
+        this.step( dt );
+
+        // Apply temporal masking, but only for point sources.  Plane waves already clear the wave area when changing
+        // parameters
+        if ( this.waveSpatialType === Scene.WaveSpatialType.POINT ) {
+          this.applyTemporalMask();
+        }
+
+        // Notify listeners about changes
+        this.lattice.changedEmitter.emit();
+
+        this.stepIndex++;
       }
-
-      // Scene-specific physics updates
-      this.step( dt );
-
-      // Apply temporal masking, but only for point sources.  Plane waves already clear the wave area when changing
-      // parameters
-      if ( this.waveSpatialType === Scene.WaveSpatialType.POINT ) {
-        this.applyTemporalMask();
-      }
-
-      // Notify listeners about changes
-      this.lattice.changedEmitter.emit();
-
-      this.stepIndex++;
     }
 
     /**
@@ -667,7 +666,6 @@ define( require => {
       this.lattice.clear();
       this.temporalMask1.clear();
       this.temporalMask2.clear();
-      this.muted = false;
     }
 
     /**
@@ -707,6 +705,7 @@ define( require => {
      */
     setMuted( muted ) {
       this.muted = muted;
+      muted && this.clear();
     }
 
     /**
@@ -764,6 +763,7 @@ define( require => {
      */
     reset() {
       this.clear();
+      this.muted = false;
       this.frequencyProperty.reset();
       this.slitWidthProperty.reset();
       this.barrierLocationProperty.reset();
