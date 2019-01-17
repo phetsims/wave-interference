@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const ComboBox = require( 'SUN/ComboBox' );
+  const ComboBoxItem = require( 'SUN/ComboBoxItem' );
   const DynamicProperty = require( 'AXON/DynamicProperty' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
@@ -48,9 +49,9 @@ define( require => {
       } );
 
       const comboBox = new ComboBox( [
-        ComboBox.createItem( new WaveInterferenceText( oneSlitString ), Scene.BarrierType.ONE_SLIT ),
-        ComboBox.createItem( new WaveInterferenceText( twoSlitsString ), Scene.BarrierType.TWO_SLITS ),
-        ComboBox.createItem( new WaveInterferenceText( noBarrierString ), Scene.BarrierType.NO_BARRIER )
+        new ComboBoxItem( new WaveInterferenceText( oneSlitString ), Scene.BarrierType.ONE_SLIT ),
+        new ComboBoxItem( new WaveInterferenceText( twoSlitsString ), Scene.BarrierType.TWO_SLITS ),
+        new ComboBoxItem( new WaveInterferenceText( noBarrierString ), Scene.BarrierType.NO_BARRIER )
       ], barrierTypeDynamicProperty, comboBoxParent, {
         xMargin: 13,
         yMargin: 6,
