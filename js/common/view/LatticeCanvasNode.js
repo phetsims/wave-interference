@@ -5,7 +5,7 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
+define( require => { // eslint-disable-line bad-sim-text
   'use strict';
 
   // modules
