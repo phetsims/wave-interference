@@ -291,7 +291,7 @@ define( require => {
       // @private
       this.temporalMask2 = new TemporalMask();
 
-      // @private
+      // @private - used for temporal masking
       this.stepIndex = 0;
 
       // @private - when the plane wave frequency is changed, don't update the wave area for a few frames so there is no
@@ -615,9 +615,13 @@ define( require => {
 
         // Apply values on top of the computed lattice values so there is no noise at the point sources
         this.setSourceValues();
+      }
 
-        // Scene-specific physics updates
-        this.step( dt );
+      // Scene-specific physics updates happens even when muted, so sound particles will go back to their initial
+      // positions
+      this.step( dt );
+
+      if ( !this.muted ) {
 
         // Apply temporal masking, but only for point sources.  Plane waves already clear the wave area when changing
         // parameters
