@@ -119,6 +119,15 @@ define( require => {
         }
       }
     }
+
+    /**
+     * Restores the initial conditions of this scene.
+     * @public
+     */
+    reset() {
+      super.reset();
+      this.soundViewTypeProperty.reset();
+    }
   }
 
   /**
