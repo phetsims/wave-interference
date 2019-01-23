@@ -411,7 +411,7 @@ define( require => {
       Property.multilink(
         [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty, model.showWavesProperty,
           model.soundScene.soundViewTypeProperty ],
-        ( rotationAmount, isRotating, scene, showWaves, soundViewSelection ) => {
+        ( rotationAmount, isRotating, scene, showWaves, soundViewType ) => {
           const isWaterSideView = rotationAmount === 1 && scene === model.waterScene;
           const isVisiblePerspective = !isRotating && !isWaterSideView;
           this.waveAreaNode.visible = isVisiblePerspective;
@@ -419,13 +419,13 @@ define( require => {
           const showLattice = scene === model.soundScene ?
                               ( isVisiblePerspective &&
                                 showWaves &&
-                                soundViewSelection !== SoundScene.SoundViewType.PARTICLES
+                                soundViewType !== SoundScene.SoundViewType.PARTICLES
                               ) :
                               isVisiblePerspective;
           this.latticeNode.visible = showLattice;
 
-          soundParticleLayer.visible = ( soundViewSelection === SoundScene.SoundViewType.PARTICLES ||
-                                         soundViewSelection === SoundScene.SoundViewType.BOTH ) &&
+          soundParticleLayer.visible = ( soundViewType === SoundScene.SoundViewType.PARTICLES ||
+                                         soundViewType === SoundScene.SoundViewType.BOTH ) &&
                                        scene === model.soundScene && isVisiblePerspective;
 
           waterDropLayer.visible = scene === model.waterScene;
