@@ -98,9 +98,9 @@ define( require => {
 
         const steps = numberOfSteps - delta.numberOfSteps;
 
-        // max numberOfSteps is across the diagonal of the lattice, but don't remove the last element or the wave could
-        // clear
-        if ( this.deltas.length > 1 &&
+        // max numberOfSteps is across the diagonal of the lattice, but don't remove the last elements or the wave could
+        // clear, see https://github.com/phetsims/wave-interference/issues/319
+        if ( this.deltas.length > 3 &&
 
              // d = vt, t=d/v
              ( steps > maxDistance / Lattice.WAVE_SPEED ||
