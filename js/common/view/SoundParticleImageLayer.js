@@ -73,6 +73,7 @@ define( require => {
         images.push( soundParticleImage );
         this.addChild( soundParticleImage );
       }
+      update();
     }
   }
 
