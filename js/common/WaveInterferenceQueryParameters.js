@@ -22,7 +22,9 @@ define( require => {
     // screen is included in a published version, this query parameter will be deleted.
     includeDiffractionScreen: { type: 'flag' },
 
-    latticeSize: { type: 'number', defaultValue: 151 }
+    latticeSize: { type: 'number', defaultValue: 151 },
+
+    skipLatticeCanvasNode: { type: 'flag' }
   } );
 
   waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );
