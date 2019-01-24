@@ -41,6 +41,7 @@ define( require => {
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
   const Util = require( 'SCENERY/util/Util' );
+  const DOTUtil = require( 'DOT/Util' );//eslint-disable-line
   const ViewpointRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewpointRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterDropLayer = require( 'WAVE_INTERFERENCE/common/view/WaterDropLayer' );
@@ -395,13 +396,42 @@ define( require => {
         waterGrayBackground.visible = rotationAmount !== 0 && scene === model.waterScene;
       } );
 
+      // @public
+      this.steppedEmitter = new Emitter( {
+        listener: () => waterDropLayer.step( waterSideViewNode )
+      } );
+
+      let lastClipPath = null;
       const createSoundParticleLayer = () => {
-        const node = Util.isWebGLSupported && phet.chipper.queryParameters.webgl ?
+        const useWebgl = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
+        const node = useWebgl ?
                      new SoundParticleImageLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
                      new SoundParticleCanvasLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } );
 
-        // Don't let the particles appear outside of the wave area
+        // Don't let the particles appear outside of the wave area.  This works on the canvas layer but not webgl.
         node.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed( Matrix3.translation( -node.x, -node.y ) );
+
+        // WebGL doesn't support clipArea yet, this hack uses CSS clipping areas to achieve that effect.
+        // This hack relies on the fact that WebGL is only used to draw things in the wave area.
+        if ( useWebgl ) {
+          this.steppedEmitter.addListener( () => {
+            const globalBounds = node.localToGlobalBounds( this.waveAreaNode.bounds );
+            const webglContainers = document.getElementsByClassName( 'webgl-container' );
+            for ( let i = 0; i < webglContainers.length; i++ ) {
+              const element = webglContainers[ i ];
+              const left = DOTUtil.roundSymmetric( globalBounds.left );
+              const right = DOTUtil.roundSymmetric( globalBounds.right );
+              const top = DOTUtil.roundSymmetric( globalBounds.top );
+              const bottom = DOTUtil.roundSymmetric( globalBounds.bottom );
+              const clipPath = `polygon(${left}px ${top}px, ${right}px ${top}px, ${right}px ${bottom}px, ${left}px ${bottom}px)`;
+              if ( lastClipPath !== clipPath ) {
+                element.style.clipPath = clipPath;
+                element.style.webkitClipPath = clipPath; // iOS support
+                lastClipPath = clipPath;
+              }
+            }
+          } );
+        }
         return node;
       };
 
@@ -495,11 +525,6 @@ define( require => {
       this.addChild( measuringTapeNode );
       this.addChild( timerNode );
       this.addChild( waveMeterNode );
-
-      // @public
-      this.steppedEmitter = new Emitter( {
-        listener: () => waterDropLayer.step( waterSideViewNode )
-      } );
     }
 
     /**
