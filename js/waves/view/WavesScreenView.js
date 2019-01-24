@@ -27,6 +27,7 @@ define( require => {
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
+  const platform = require( 'PHET_CORE/platform' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
@@ -41,6 +42,7 @@ define( require => {
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
+  const SCENERYUtil = require( 'SCENERY/util/Util' );// eslint-disable-line
   const ViewpointRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewpointRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterDropLayer = require( 'WAVE_INTERFERENCE/common/view/WaterDropLayer' );
@@ -404,7 +406,7 @@ define( require => {
       const createSoundParticleLayer = () => {
 
         // Too much garbage on firefox, so only opt in to WebGL for mobile safari (where it is needed most)
-        const useWebgl = true;
+        const useWebgl = SCENERYUtil.isWebGLSupported && phet.chipper.queryParameters.webgl && platform.mobileSafari;
         const node = useWebgl ?
                      new SoundParticleImageLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
                      new SoundParticleCanvasLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } );
