@@ -33,7 +33,7 @@ define( require => {
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
-  const SoundParticleLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleLayer' );
+  const SoundParticleImageLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleImageLayer' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const SoundWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/SoundWaveGeneratorNode' );
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
@@ -396,7 +396,7 @@ define( require => {
       // Show the sound particles for the sound Scene, or a placeholder for the Slits screen, which does not show
       // SoundParticles
       const soundParticleLayer = model.soundScene.showSoundParticles ?
-                                 new SoundParticleLayer( model, this.waveAreaNode.bounds, {
+                                 new SoundParticleImageLayer( model, this.waveAreaNode.bounds, {
                                    center: this.waveAreaNode.center
                                  } ) : new Node();
 
