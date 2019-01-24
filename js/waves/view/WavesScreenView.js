@@ -15,6 +15,7 @@ define( require => {
   const DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DisturbanceTypeRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/DisturbanceTypeRadioButtonGroup' );
+  const DOTUtil = require( 'DOT/Util' );//eslint-disable-line
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const Emitter = require( 'AXON/Emitter' );
   const IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
@@ -26,6 +27,7 @@ define( require => {
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
+  const platform = require( 'PHET_CORE/platform' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
@@ -33,15 +35,14 @@ define( require => {
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
-  const SoundParticleImageLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleImageLayer' );
   const SoundParticleCanvasLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleCanvasLayer' );
+  const SoundParticleImageLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleImageLayer' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const SoundWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/SoundWaveGeneratorNode' );
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
   const Util = require( 'SCENERY/util/Util' );
-  const DOTUtil = require( 'DOT/Util' );//eslint-disable-line
   const ViewpointRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewpointRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterDropLayer = require( 'WAVE_INTERFERENCE/common/view/WaterDropLayer' );
@@ -403,7 +404,9 @@ define( require => {
 
       let lastClipPath = null;
       const createSoundParticleLayer = () => {
-        const useWebgl = Util.isWebGLSupported && phet.chipper.queryParameters.webgl;
+
+        // Too much garbage on firefox, so only opt in to WebGL for mobile safari (where it is needed most)
+        const useWebgl = Util.isWebGLSupported && phet.chipper.queryParameters.webgl && platform.isMobileSafari;
         const node = useWebgl ?
                      new SoundParticleImageLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
                      new SoundParticleCanvasLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } );
