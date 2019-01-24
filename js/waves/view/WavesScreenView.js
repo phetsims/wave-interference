@@ -34,11 +34,13 @@ define( require => {
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
   const SoundParticleImageLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleImageLayer' );
+  const SoundParticleCanvasLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleCanvasLayer' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const SoundWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/SoundWaveGeneratorNode' );
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
+  const Util = require( 'SCENERY/util/Util' );
   const ViewpointRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewpointRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterDropLayer = require( 'WAVE_INTERFERENCE/common/view/WaterDropLayer' );
@@ -393,17 +395,19 @@ define( require => {
         waterGrayBackground.visible = rotationAmount !== 0 && scene === model.waterScene;
       } );
 
+      const createSoundParticleLayer = () => {
+        const node = Util.isWebGLSupported && phet.chipper.queryParameters.webgl ?
+                     new SoundParticleImageLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
+                     new SoundParticleCanvasLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } );
+
+        // Don't let the particles appear outside of the wave area
+        node.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed( Matrix3.translation( -node.x, -node.y ) );
+        return node;
+      };
+
       // Show the sound particles for the sound Scene, or a placeholder for the Slits screen, which does not show
       // SoundParticles
-      const soundParticleLayer = model.soundScene.showSoundParticles ?
-                                 new SoundParticleImageLayer( model, this.waveAreaNode.bounds, {
-                                   center: this.waveAreaNode.center
-                                 } ) : new Node();
-
-      // Don't let the particles appear outside of the wave area
-      soundParticleLayer.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed(
-        Matrix3.translation( -soundParticleLayer.x, -soundParticleLayer.y )
-      );
+      const soundParticleLayer = model.soundScene.showSoundParticles ? createSoundParticleLayer() : new Node();
 
       const waterDropLayer = new WaterDropLayer( model, this.waveAreaNode.bounds );
 

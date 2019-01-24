@@ -19,7 +19,7 @@ define( require => {
   // resolution option for details about this value.
   const RESOLUTION = 2;
 
-  class SoundParticleLayer extends CanvasNode {
+  class SoundParticleCanvasLayer extends CanvasNode {
 
     /**
      * @param {WavesModel} model
@@ -102,5 +102,5 @@ define( require => {
     scale: 2
   } ).toCanvas( callback );
 
-  return waveInterference.register( 'SoundParticleLayer', SoundParticleLayer );
+  return waveInterference.register( 'SoundParticleCanvasLayer', SoundParticleCanvasLayer );
 } );
