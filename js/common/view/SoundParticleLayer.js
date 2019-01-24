@@ -74,7 +74,8 @@ define( require => {
         return;
       }
       context.transform( 1 / RESOLUTION, 0, 0, 1 / RESOLUTION, 0, 0 );
-      this.model.soundScene.soundParticles.forEach( soundParticle => {
+      for ( let i = 0; i < this.model.soundScene.soundParticles.length; i++ ) {
+        const soundParticle = this.model.soundScene.soundParticles[ i ];
 
         // Red particles are shown on a grid
         const isRed = ( soundParticle.i % 4 === 2 && soundParticle.j % 4 === 2 );
@@ -85,7 +86,7 @@ define( require => {
           RESOLUTION * ( this.model.soundScene.modelViewTransform.modelToViewX( soundParticle.x ) ) - sphereImage.width / 2,
           RESOLUTION * ( this.model.soundScene.modelViewTransform.modelToViewY( soundParticle.y ) ) - sphereImage.height / 2
         );
-      } );
+      }
     }
   }
 
