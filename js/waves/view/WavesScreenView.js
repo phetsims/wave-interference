@@ -418,19 +418,23 @@ define( require => {
         // This hack relies on the fact that WebGL is only used to draw things in the wave area.
         if ( useWebgl ) {
           this.steppedEmitter.addListener( () => {
-            const globalBounds = node.localToGlobalBounds( this.waveAreaNode.bounds );
-            const webglContainers = document.getElementsByClassName( 'webgl-container' );
-            for ( let i = 0; i < webglContainers.length; i++ ) {
-              const element = webglContainers[ i ];
-              const left = DOTUtil.roundSymmetric( globalBounds.left );
-              const right = DOTUtil.roundSymmetric( globalBounds.right );
-              const top = DOTUtil.roundSymmetric( globalBounds.top );
-              const bottom = DOTUtil.roundSymmetric( globalBounds.bottom );
-              const clipPath = `polygon(${left}px ${top}px, ${right}px ${top}px, ${right}px ${bottom}px, ${left}px ${bottom}px)`;
-              if ( lastClipPath !== clipPath ) {
-                element.style.clipPath = clipPath;
-                element.style.webkitClipPath = clipPath; // iOS support
-                lastClipPath = clipPath;
+
+            // Guard against extra garbage
+            if ( model.sceneProperty.value === model.soundScene ) {
+              const globalBounds = node.localToGlobalBounds( this.waveAreaNode.bounds );
+              const webglContainers = document.getElementsByClassName( 'webgl-container' );
+              for ( let i = 0; i < webglContainers.length; i++ ) {
+                const element = webglContainers[ i ];
+                const left = DOTUtil.roundSymmetric( globalBounds.left );
+                const right = DOTUtil.roundSymmetric( globalBounds.right );
+                const top = DOTUtil.roundSymmetric( globalBounds.top );
+                const bottom = DOTUtil.roundSymmetric( globalBounds.bottom );
+                const clipPath = `polygon(${left}px ${top}px, ${right}px ${top}px, ${right}px ${bottom}px, ${left}px ${bottom}px)`;
+                if ( lastClipPath !== clipPath ) {
+                  element.style.clipPath = clipPath;
+                  element.style.webkitClipPath = clipPath; // iOS support
+                  lastClipPath = clipPath;
+                }
               }
             }
           } );
