@@ -24,7 +24,9 @@ define( require => {
 
     latticeSize: { type: 'number', defaultValue: 151 },
 
-    skipLatticeCanvasNode: { type: 'flag' }
+    skipLatticeCanvasNode: { type: 'flag' },
+    skipSoundParticlesStep: { type: 'flag' },
+    skipSoundParticlesRender: { type: 'flag' }
   } );
 
   waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );

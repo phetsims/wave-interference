@@ -19,6 +19,7 @@ define( require => {
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
 
   // constants
   const SOUND_PARTICLE_GRADIENT_FORCE_SCALE = 0.67; // Additional scaling for the gradient force
@@ -70,6 +71,10 @@ define( require => {
     step( dt ) {
 
       super.step( dt );
+
+      if ( WaveInterferenceQueryParameters.skipSoundParticlesStep ) {
+        return;
+      }
 
       if ( this.showSoundParticles ) {
         const lattice = this.lattice;
