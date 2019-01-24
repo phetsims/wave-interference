@@ -45,7 +45,8 @@ define( require => {
         additionalControl: null,
 
         showIntensityCheckbox: true,
-        maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH
+        maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH,
+        yMargin: 4
       }, options );
 
       const frequencyControl = new FrequencyControl( model );
@@ -132,7 +133,7 @@ define( require => {
       }
       const HORIZONTAL_SEPARATOR_MARGIN = 7;
       const CHECKBOX_SPACING = 6;
-      separator.top = sceneRadioButtonGroup.bottom + 12;
+      separator.top = sceneRadioButtonGroup.bottom + 8;
       graphCheckbox.top = separator.bottom + HORIZONTAL_SEPARATOR_MARGIN;
       soundViewTypeRadioButtonGroup.top = graphCheckbox.bottom + CHECKBOX_SPACING + 2;
       screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
