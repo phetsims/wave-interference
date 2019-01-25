@@ -1,4 +1,4 @@
-// Copyright , University of Colorado Boulder
+// Copyright 2019, University of Colorado Boulder
 
 /**
  * At the time of writing, Scenery WebGLBlock doesn't support clipArea.  Hence we developed this workaround which

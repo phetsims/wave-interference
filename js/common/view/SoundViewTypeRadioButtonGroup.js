@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * Convenience class for the radio button group that chooses between SoundScene.SoundViewType.VALUES.
