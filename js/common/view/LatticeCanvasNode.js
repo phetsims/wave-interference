@@ -16,7 +16,6 @@ define( require => { // eslint-disable-line bad-sim-text
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // constants
@@ -87,10 +86,6 @@ define( require => { // eslint-disable-line bad-sim-text
      * @override
      */
     paintCanvas( context ) {
-
-      if ( WaveInterferenceQueryParameters.skipLatticeCanvasNode ) {
-        return;
-      }
 
       let m = 0;
       const data = this.imageDataRenderer.data;

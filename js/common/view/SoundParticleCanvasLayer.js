@@ -12,7 +12,6 @@ define( require => {
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
 
   // constants
   // Render at increased resolution so particles don't appear pixellated on a large screen.  See Node.rasterized's
@@ -70,9 +69,6 @@ define( require => {
      * @override
      */
     paintCanvas( context ) {
-      if ( WaveInterferenceQueryParameters.skipSoundParticlesRender ) {
-        return;
-      }
       context.transform( 1 / RESOLUTION, 0, 0, 1 / RESOLUTION, 0, 0 );
       for ( let i = 0; i < this.model.soundScene.soundParticles.length; i++ ) {
         const soundParticle = this.model.soundScene.soundParticles[ i ];

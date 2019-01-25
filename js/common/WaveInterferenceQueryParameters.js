@@ -22,11 +22,7 @@ define( require => {
     // screen is included in a published version, this query parameter will be deleted.
     includeDiffractionScreen: { type: 'flag' },
 
-    latticeSize: { type: 'number', defaultValue: 151 },
-
-    skipLatticeCanvasNode: { type: 'flag' },
-    skipSoundParticlesStep: { type: 'flag' },
-    skipSoundParticlesRender: { type: 'flag' }
+    latticeSize: { type: 'number', defaultValue: 151 }
   } );
 
   waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );
