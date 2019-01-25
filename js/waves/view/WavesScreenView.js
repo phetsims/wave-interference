@@ -25,12 +25,14 @@ define( require => {
   const LightWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/LightWaveGeneratorNode' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const RichText = require( 'SCENERY/nodes/RichText' );
+  const SCENERYUtil = require( 'SCENERY/util/Util' );// eslint-disable-line
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
@@ -41,7 +43,6 @@ define( require => {
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
-  const SCENERYUtil = require( 'SCENERY/util/Util' );// eslint-disable-line
   const ViewpointRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewpointRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterDropLayer = require( 'WAVE_INTERFERENCE/common/view/WaterDropLayer' );
@@ -403,10 +404,12 @@ define( require => {
 
       const createSoundParticleLayer = () => {
 
+        const zoomMatrixProperty = new Property( Matrix3.identity() );
+
         // Too much garbage on firefox, so only opt in to WebGL for mobile safari (where it is needed most)
         const useWebgl = SCENERYUtil.isWebGLSupported && phet.chipper.queryParameters.webgl;
         const node = useWebgl ?
-                     new SoundParticleWebGLNode( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
+                     new SoundParticleWebGLNode( model, ModelViewTransform2.createIdentity(), zoomMatrixProperty, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
                      new SoundParticleCanvasLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } );
 
         // Don't let the particles appear outside of the wave area.  This works on the canvas layer but not webgl.
