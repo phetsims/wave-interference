@@ -146,20 +146,7 @@ define( function( require ) {
       for ( i = 0; i < particleArray.length; i++ ) {
         this.addParticleData( particleArray[ i ] );
       }
-
-      // particleArray = this.model.transientParticles.getArray();
-      //
-      // for ( i = 0; i < particleArray.length; i++ ) {
-      //   this.addParticleData( particleArray[ i ] );
-      // }
-      //
-      // particleArray = this.model.playbackParticles.getArray();
-      //
-      // for ( i = 0; i < particleArray.length; i++ ) {
-      //   this.addParticleData( particleArray[ i ] );
-      // }
     }
-
   } );
 
   /**
