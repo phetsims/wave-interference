@@ -239,7 +239,7 @@ define( require => {
       );
 
       // @public {Property.<Scene>} - selected scene
-      this.sceneProperty = new Property( this.waterScene, {
+      this.sceneProperty = new Property( this.soundScene, { // TODO: revert
         validValues: this.scenes
       } );
 

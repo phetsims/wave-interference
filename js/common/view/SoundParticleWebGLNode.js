@@ -30,24 +30,28 @@ define( require => {
       this.node = node;
 
       // Simple example for custom shader
-      const vertexShaderSource = [
+      const vertexShaderSource =
         // Position
-        'attribute vec3 aPosition;',
-        'attribute vec3 aColor;',
-        'varying vec3 vColor;',
-        'uniform mat3 uModelViewMatrix;',
-        'uniform mat3 uProjectionMatrix;',
+        `
+        attribute vec3 aPosition;
+        attribute vec3 aColor;
+        varying vec3 vColor;
+        uniform mat3 uModelViewMatrix;
+        uniform mat3 uProjectionMatrix;
 
-        'void main( void ) {',
-        '  vColor = aColor;',
-        // homogeneous model-view transformation
-        '  vec3 view = uModelViewMatrix * vec3( aPosition.xy, 1 );',
-        // homogeneous map to to normalized device coordinates
-        '  vec3 ndc = uProjectionMatrix * vec3( view.xy, 1 );',
-        // combine with the z coordinate specified
-        '  gl_Position = vec4( ndc.xy, aPosition.z, 1.0 );',
-        '}'
-      ].join( '\n' );
+        void main( void ) {
+          vColor = aColor;
+          
+          // homogeneous model-view transformation
+          vec3 view = uModelViewMatrix * vec3( aPosition.xy, 1 );
+          
+          // homogeneous map to to normalized device coordinates
+          vec3 ndc = uProjectionMatrix * vec3( view.xy, 1 );
+          
+          // combine with the z coordinate specified
+          gl_Position = vec4( ndc.xy, aPosition.z, 1.0 );
+        }
+        `;
 
       // Simple demo for custom shader
       const fragmentShaderSource = [

@@ -38,7 +38,7 @@ define( require => {
       this.showSoundParticles = showSoundParticles;
 
       // @public - indicates the selected view for sound
-      this.soundViewTypeProperty = new Property( SoundScene.SoundViewType.WAVES, {
+      this.soundViewTypeProperty = new Property( SoundScene.SoundViewType.PARTICLES, { // TODO: revert
         validValues: SoundScene.SoundViewType.VALUES
       } );
 
