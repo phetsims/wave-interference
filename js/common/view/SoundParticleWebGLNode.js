@@ -54,15 +54,16 @@ define( require => {
         `;
 
       // Simple demo for custom shader
-      const fragmentShaderSource = [
-        'precision mediump float;',
-        'varying vec3 vColor;',
+      const fragmentShaderSource =
+        `
+        precision mediump float;
+        varying vec3 vColor;
 
         // Returns the color from the vertex shader
-        'void main( void ) {',
-        '  gl_FragColor = vec4( vColor, 1.0 );',
-        '}'
-      ].join( '\n' );
+        void main( void ) {
+          gl_FragColor = vec4( vColor, 1.0 );
+        }
+        `;
 
       this.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
         attributes: [ 'aPosition', 'aColor' ],
@@ -139,7 +140,11 @@ define( require => {
 
       super( Painter, options );
 
-      this.shape = Shape.regularPolygon( 3, 100 * Math.sqrt( 2 ) );
+      this.shape = new Shape();
+      this.shape.moveTo( waveAreaNodeBounds.left, waveAreaNodeBounds.top );
+      this.shape.lineTo( waveAreaNodeBounds.right, waveAreaNodeBounds.top );
+      this.shape.lineTo( waveAreaNodeBounds.right, waveAreaNodeBounds.bottom );
+      this.shape.close();
 
       // @private
       this.model = model;
