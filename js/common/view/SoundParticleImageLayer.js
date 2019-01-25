@@ -2,7 +2,7 @@
 
 /**
  * When selected, shows discrete and moving particles for the sound view.
- * TODO: docs if this works
+ * Note: Clipping is not enabled on mobileSafari, see https://github.com/phetsims/wave-interference/issues/322
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

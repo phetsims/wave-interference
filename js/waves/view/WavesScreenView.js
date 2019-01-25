@@ -31,7 +31,6 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const RichText = require( 'SCENERY/nodes/RichText' );
-  const SceneryWebGLClippingRegion = require( 'WAVE_INTERFERENCE/common/view/SceneryWebGLClippingRegion' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
@@ -414,11 +413,7 @@ define( require => {
         // Don't let the particles appear outside of the wave area.  This works on the canvas layer but not webgl.
         node.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed( Matrix3.translation( -node.x, -node.y ) );
 
-        // WebGL doesn't support clipArea yet, this hack uses CSS clipping areas to achieve that effect.
-        // This hack relies on the fact that WebGL is only used to draw things in the wave area.
-        if ( useWebgl ) {
-          this.steppedEmitter.addListener( SceneryWebGLClippingRegion.createListener( model, node, this.waveAreaNode.bounds ) );
-        }
+        // Note: Clipping is not enabled on mobileSafari, see https://github.com/phetsims/wave-interference/issues/322
         return node;
       };
 
