@@ -9,11 +9,9 @@ define( require => {
   'use strict';
 
   // modules
-  const Matrix3 = require( 'DOT/Matrix3' );
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
   const Shape = require( 'KITE/Shape' );
-  const SpriteSheet = require( 'SCENERY/util/SpriteSheet' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
   const WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
@@ -23,131 +21,90 @@ define( require => {
   // resolution option for details about this value.
   const RESOLUTION = 2;
 
+  const scratchFloatArray = new Float32Array( 9 );
+
   class Painter {
     constructor( gl, node ) {
-
-      // @private {Float32Array} - Column-major 3x3 array specifying our projection matrix for 2D points
-      // (homogenized to (x,y,1))
-
-      this.spriteSheet = new SpriteSheet( true );
-      this.spriteSheet.initializeContext( gl );
-      this.spriteSheet.addImage( node.redSphereImage, node.redSphereImage.width, node.redSphereImage.height );
-      this.spriteSheet.addImage( node.whiteSphereImage, node.whiteSphereImage.width, node.whiteSphereImage.height );
-
-      // Projection {Matrix3} that maps from Scenery's global coordinate frame to normalized device coordinates,
-      // where x,y are both in the range [-1,1] from one side of the Canvas to the other.
-      this.projectionMatrix = new Matrix3();
-
-      // @private {Float32Array} - Column-major 3x3 array specifying our projection matrix for 2D points
-      // (homogenized to (x,y,1))
-      this.projectionMatrixArray = new Float32Array( 9 );
-
-      // @private {number} - Initial length of the vertex buffer. May increase as needed.
-      this.lastArrayLength = 128;
-
-      // @private {Float32Array}
-      this.vertexArray = new Float32Array( this.lastArrayLength );
 
       this.gl = gl;
       this.node = node;
 
-      assert && assert( gl, 'Should be an actual context' );
+      // Simple example for custom shader
+      const vertexShaderSource =
+        // Position
+        `
+        attribute vec3 aPosition;
+        attribute vec3 aColor;
+        varying vec3 vColor;
+        uniform mat3 uModelViewMatrix;
+        uniform mat3 uProjectionMatrix;
 
-      // @private {WebGLRenderingContext}
-      this.gl = gl;
+        void main( void ) {
+          vColor = aColor;
+          
+          // homogeneous model-view transformation
+          vec3 view = uModelViewMatrix * vec3( aPosition.xy, 1 );
+          
+          // homogeneous map to to normalized device coordinates
+          vec3 ndc = uProjectionMatrix * vec3( view.xy, 1 );
+          
+          // combine with the z coordinate specified
+          gl_Position = vec4( ndc.xy, aPosition.z, 1.0 );
+        }
+        `;
 
-      // @private {ShaderProgram}
-      this.shaderProgram = new ShaderProgram( gl, [
-        // vertex shader
-        'attribute vec2 aVertex;',
-        'attribute vec2 aTextureCoord;',
-        'attribute float aAlpha;',
-        'varying vec2 vTextureCoord;',
-        'varying float vAlpha;',
-        'uniform mat3 uProjectionMatrix;',
+      // Simple demo for custom shader
+      const fragmentShaderSource =
+        `
+        precision mediump float;
+        varying vec3 vColor;
 
-        'void main() {',
-        '  vTextureCoord = aTextureCoord;',
-        '  vAlpha = aAlpha;',
-        '  vec3 ndc = uProjectionMatrix * vec3( aVertex, 1.0 );', // homogeneous map to to normalized device coordinates
-        '  gl_Position = vec4( ndc.xy, 0.0, 1.0 );',
-        '}'
-      ].join( '\n' ), [
-        // fragment shader
-        'precision mediump float;',
-        'varying vec2 vTextureCoord;',
-        'varying float vAlpha;',
-        'uniform sampler2D uTexture;',
+        // Returns the color from the vertex shader
+        void main( void ) {
+          gl_FragColor = vec4( vColor, 1.0 );
+        }
+        `;
 
-        'void main() {',
-        '  vec4 color = texture2D( uTexture, vTextureCoord, -0.7 );', // mipmap LOD bias of -0.7 (for now)
-        '  color.a *= vAlpha;',
-        '  gl_FragColor = color;', // don't premultiply alpha (we are loading the textures as premultiplied already)
-        '}'
-      ].join( '\n' ), {
-        // attributes: [ 'aVertex', 'aTextureCoord' ],
-        attributes: [ 'aVertex', 'aTextureCoord', 'aAlpha' ],
-        uniforms: [ 'uTexture', 'uProjectionMatrix' ]
+      this.shaderProgram = new ShaderProgram( gl, vertexShaderSource, fragmentShaderSource, {
+        attributes: [ 'aPosition', 'aColor' ],
+        uniforms: [ 'uModelViewMatrix', 'uProjectionMatrix' ]
       } );
 
-      // @private {WebGLBuffer}
       this.vertexBuffer = gl.createBuffer();
 
+      const points = node.shape.subpaths[ 0 ].points;
       gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
-      gl.bufferData( gl.ARRAY_BUFFER, this.vertexArray, gl.DYNAMIC_DRAW ); // fully buffer at the start
+      gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( [
+        points[ 0 ].x, points[ 0 ].y, 0.2,
+        points[ 1 ].x, points[ 1 ].y, 0.2,
+        points[ 2 ].x, points[ 2 ].y, 0.2
+      ] ), gl.STATIC_DRAW );
 
-      // finalX = 2 * x / display.width - 1
-      // finalY = 1 - 2 * y / display.height
-      // result = matrix * ( x, y, 1 )
-      this.projectionMatrix.rowMajor(
-        2 / node.waveAreaNodeBounds.width, 0, -1,
-        0, -2 / node.waveAreaNodeBounds.height, 1,
-        0, 0, 1 );
-      this.projectionMatrix.copyToArray( this.projectionMatrixArray );
+      this.colorBuffer = gl.createBuffer();
 
-      gl.viewport( 0.0, 0.0, node.waveAreaNodeBounds.width, node.waveAreaNodeBounds.height );
+      gl.bindBuffer( gl.ARRAY_BUFFER, this.colorBuffer );
+      gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( [
+        1, 0, 0,
+        0, 1, 0,
+        0, 0, 1
+      ] ), gl.STATIC_DRAW );
     }
 
     paint( modelViewMatrix, projectionMatrix ) {
-
       const gl = this.gl;
 
       this.shaderProgram.use();
 
-      this.vertexArrayIndex = 0;
-      this.drawCount = 0;
-
-      // (uniform) projection transform into normalized device coordinates
-      gl.uniformMatrix3fv( this.shaderProgram.uniformLocations.uProjectionMatrix, false, this.projectionMatrixArray );
+      gl.uniformMatrix3fv( this.shaderProgram.uniformLocations.uModelViewMatrix, false, modelViewMatrix.copyToArray( scratchFloatArray ) );
+      gl.uniformMatrix3fv( this.shaderProgram.uniformLocations.uProjectionMatrix, false, projectionMatrix.copyToArray( scratchFloatArray ) );
 
       gl.bindBuffer( gl.ARRAY_BUFFER, this.vertexBuffer );
-      // if we increased in length, we need to do a full bufferData to resize it on the GPU side
-      if ( this.vertexArray.length > this.lastArrayLength ) {
-        gl.bufferData( gl.ARRAY_BUFFER, this.vertexArray, gl.DYNAMIC_DRAW ); // fully buffer at the start
-      }
-      // otherwise do a more efficient update that only sends part of the array over
-      else {
-        gl.bufferSubData( gl.ARRAY_BUFFER, 0, this.vertexArray.subarray( 0, this.vertexArrayIndex ) );
-      }
+      gl.vertexAttribPointer( this.shaderProgram.attributeLocations.aPosition, 3, gl.FLOAT, false, 0, 0 );
 
-      const numComponents = 5;
-      const sizeOfFloat = Float32Array.BYTES_PER_ELEMENT;
-      const stride = numComponents * sizeOfFloat;
-      gl.vertexAttribPointer( this.shaderProgram.attributeLocations.aVertex, 2, gl.FLOAT, false, stride, 0 * sizeOfFloat );
-      gl.vertexAttribPointer( this.shaderProgram.attributeLocations.aTextureCoord, 2, gl.FLOAT, false, stride, 2 * sizeOfFloat );
-      gl.vertexAttribPointer( this.shaderProgram.attributeLocations.aAlpha, 1, gl.FLOAT, false, stride, 4 * sizeOfFloat );
+      gl.bindBuffer( gl.ARRAY_BUFFER, this.colorBuffer );
+      gl.vertexAttribPointer( this.shaderProgram.attributeLocations.aColor, 3, gl.FLOAT, false, 0, 0 );
 
-      gl.activeTexture( gl.TEXTURE0 );
-      gl.bindTexture( gl.TEXTURE_2D, this.spriteSheet.texture );
-      gl.uniform1i( this.shaderProgram.uniformLocations.uTexture, 0 );
-
-      gl.drawArrays( gl.TRIANGLES, 0, this.vertexArrayIndex / numComponents );
-
-      gl.bindTexture( gl.TEXTURE_2D, null );
-
-      this.drawCount++;
-
-      this.vertexArrayIndex = 0;
+      gl.drawArrays( gl.TRIANGLES, 0, 3 );
 
       this.shaderProgram.unuse();
 
@@ -162,6 +119,7 @@ define( require => {
     }
   }
 
+
   class SoundParticleWebGLNode extends WebGLNode {
 
     /**
@@ -170,6 +128,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( model, waveAreaNodeBounds, options ) {
+
 
       options = _.extend( {
 
@@ -180,8 +139,6 @@ define( require => {
       }, options );
 
       super( Painter, options );
-
-      this.waveAreaNodeBounds = waveAreaNodeBounds;
 
       this.shape = new Shape();
       this.shape.moveTo( waveAreaNodeBounds.left, waveAreaNodeBounds.top );
