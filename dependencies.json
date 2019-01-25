@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.0-dev.73 Thu Jan 24 2019 13:53:35 GMT-0700 (MST)",
+  "comment": "# wave-interference 1.0.0-dev.74 Fri Jan 25 2019 10:07:06 GMT-0700 (MST)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "master"
@@ -13,7 +13,7 @@
     "branch": "master"
   },
   "chipper": {
-    "sha": "da5e653338dd49f88e5855e0db2d1215795776b3",
+    "sha": "9419a94d7cb3bdd64d2a5c2be6331d7ab25a6533",
     "branch": "master"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "joist": {
-    "sha": "be111c695adba37790e6fe5eecd13ec0b2592884",
+    "sha": "71b72c0ffc87df8cea478a25d241de3129a091dc",
     "branch": "master"
   },
   "kite": {
@@ -69,7 +69,7 @@
     "branch": "master"
   },
   "scenery-phet": {
-    "sha": "cfb0ffa5177c69adf800608e9467130a72591c4d",
+    "sha": "c8085f6488546c1ebca95594b3e6399bf1e9bc15",
     "branch": "master"
   },
   "sherpa": {
@@ -77,11 +77,11 @@
     "branch": "master"
   },
   "sun": {
-    "sha": "1ee367d168ae92d088e0506f95f6acfadb9f2d8d",
+    "sha": "207b2b0cce88ee5c4a60688daa0f81a463c0a32f",
     "branch": "master"
   },
   "tambo": {
-    "sha": "a15d7f4eaa5d2f638f60a0bd5a8719cc1ed12b11",
+    "sha": "8d917e176c141a2ae9165a15f1ce401dfc671ce3",
     "branch": "master"
   },
   "tandem": {
@@ -93,7 +93,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "72fba213bdc3d835fbeef93a434ccb36e2b79b07",
+    "sha": "a04d401c39eb488a6270cd24db61c0d86ab3d95e",
     "branch": "master"
   }
 }
