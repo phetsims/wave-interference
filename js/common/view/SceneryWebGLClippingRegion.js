@@ -19,8 +19,9 @@ define( require => {
      * Creates a listener which can be called frequently (every frame) which clips the scenery WebGL container bounds
      * using CSS.
      *
-     * @param model
-     * @param node
+     * @param {WavesModel} model
+     * @param {Node} node
+     * @param {Bounds2} bounds - clipping bounds
      * @returns {Function}
      * @public
      */
@@ -43,6 +44,8 @@ define( require => {
             const top = Util.roundSymmetric( globalBounds.top );
             const bottom = Util.roundSymmetric( globalBounds.bottom );
             const clipPath = `polygon(${left}px ${top}px, ${right}px ${top}px, ${right}px ${bottom}px, ${left}px ${bottom}px)`;
+
+            // This guard won't work correctly if there are multiple webgl-containers.
             if ( lastClipPath !== clipPath ) {
               element.style.clipPath = clipPath;
               element.style.webkitClipPath = clipPath; // iOS support
