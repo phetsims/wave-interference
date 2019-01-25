@@ -27,7 +27,6 @@ define( require => {
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
-  const platform = require( 'PHET_CORE/platform' );
   const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
@@ -36,7 +35,7 @@ define( require => {
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
   const SoundParticleCanvasLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleCanvasLayer' );
-  const SoundParticleImageLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleImageLayer' );
+  const SoundParticleWebGLNode = require( 'WAVE_INTERFERENCE/common/view/SoundParticleWebGLNode' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const SoundWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/SoundWaveGeneratorNode' );
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
@@ -402,43 +401,17 @@ define( require => {
         listener: () => waterDropLayer.step( waterSideViewNode )
       } );
 
-      let lastClipPath = null;
       const createSoundParticleLayer = () => {
 
         // Too much garbage on firefox, so only opt in to WebGL for mobile safari (where it is needed most)
-        const useWebgl = SCENERYUtil.isWebGLSupported && phet.chipper.queryParameters.webgl && platform.mobileSafari;
+        const useWebgl = SCENERYUtil.isWebGLSupported && phet.chipper.queryParameters.webgl;
         const node = useWebgl ?
-                     new SoundParticleImageLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
+                     new SoundParticleWebGLNode( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
                      new SoundParticleCanvasLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } );
 
         // Don't let the particles appear outside of the wave area.  This works on the canvas layer but not webgl.
         node.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed( Matrix3.translation( -node.x, -node.y ) );
 
-        // WebGL doesn't support clipArea yet, this hack uses CSS clipping areas to achieve that effect.
-        // This hack relies on the fact that WebGL is only used to draw things in the wave area.
-        if ( useWebgl ) {
-          this.steppedEmitter.addListener( () => {
-
-            // Guard against extra garbage
-            if ( model.sceneProperty.value === model.soundScene ) {
-              const globalBounds = node.localToGlobalBounds( this.waveAreaNode.bounds );
-              const webglContainers = document.getElementsByClassName( 'webgl-container' );
-              for ( let i = 0; i < webglContainers.length; i++ ) {
-                const element = webglContainers[ i ];
-                const left = DOTUtil.roundSymmetric( globalBounds.left );
-                const right = DOTUtil.roundSymmetric( globalBounds.right );
-                const top = DOTUtil.roundSymmetric( globalBounds.top );
-                const bottom = DOTUtil.roundSymmetric( globalBounds.bottom );
-                const clipPath = `polygon(${left}px ${top}px, ${right}px ${top}px, ${right}px ${bottom}px, ${left}px ${bottom}px)`;
-                if ( lastClipPath !== clipPath ) {
-                  element.style.clipPath = clipPath;
-                  element.style.webkitClipPath = clipPath; // iOS support
-                  lastClipPath = clipPath;
-                }
-              }
-            }
-          } );
-        }
         return node;
       };
 
