@@ -12,6 +12,7 @@ define( require => {
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const ShaderProgram = require( 'SCENERY/util/ShaderProgram' );
   const Shape = require( 'KITE/Shape' );
+  const SpriteSheet = require( 'SCENERY/util/SpriteSheet' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
   const WebGLNode = require( 'SCENERY/nodes/WebGLNode' );
@@ -25,6 +26,11 @@ define( require => {
 
   class Painter {
     constructor( gl, node ) {
+
+      this.spriteSheet = new SpriteSheet( true );
+      this.spriteSheet.initializeContext( gl );
+      this.spriteSheet.addImage( node.redSphereImage, node.redSphereImage.width, node.redSphereImage.height );
+      this.spriteSheet.addImage( node.whiteSphereImage, node.whiteSphereImage.width, node.whiteSphereImage.height );
 
       this.gl = gl;
       this.node = node;
@@ -104,6 +110,10 @@ define( require => {
       gl.bindBuffer( gl.ARRAY_BUFFER, this.colorBuffer );
       gl.vertexAttribPointer( this.shaderProgram.attributeLocations.aColor, 3, gl.FLOAT, false, 0, 0 );
 
+      gl.activeTexture( gl.TEXTURE0 );
+      gl.bindTexture( gl.TEXTURE_2D, this.spriteSheet.texture );
+      gl.uniform1i( this.shaderProgram.uniformLocations.uTexture, 0 );
+
       gl.drawArrays( gl.TRIANGLES, 0, 3 );
 
       this.shaderProgram.unuse();
@@ -128,7 +138,6 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( model, waveAreaNodeBounds, options ) {
-
 
       options = _.extend( {
 
