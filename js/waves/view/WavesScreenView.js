@@ -31,7 +31,6 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const RichText = require( 'SCENERY/nodes/RichText' );
-  const SCENERYUtil = require( 'SCENERY/util/Util' );// eslint-disable-line
   const SceneryWebGLClippingRegion = require( 'WAVE_INTERFERENCE/common/view/SceneryWebGLClippingRegion' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
@@ -43,6 +42,7 @@ define( require => {
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
+  const Util = require( 'SCENERY/util/Util' );
   const ViewpointRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewpointRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterDropLayer = require( 'WAVE_INTERFERENCE/common/view/WaterDropLayer' );
@@ -406,7 +406,7 @@ define( require => {
 
         // Too much garbage on firefox, so only opt in to WebGL for mobile safari (where it is needed most)
         // and where the garbage doesn't seem to slow it down much.
-        const useWebgl = SCENERYUtil.isWebGLSupported && phet.chipper.queryParameters.webgl && platform.mobileSafari;
+        const useWebgl = Util.isWebGLSupported && phet.chipper.queryParameters.webgl && platform.mobileSafari;
         const node = useWebgl ?
                      new SoundParticleImageLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
                      new SoundParticleCanvasLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } );

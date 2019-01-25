@@ -10,7 +10,7 @@ define( require => {
   'use strict';
 
   // modules
-  const Util = require( 'DOT/Util' );//eslint-disable-line
+  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   const SceneryWebGLClippingRegion = {
