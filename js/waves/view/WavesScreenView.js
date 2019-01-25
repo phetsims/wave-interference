@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * View for the "Waves" screen.  Extended for the Interference and Slits screens.
@@ -15,7 +15,6 @@ define( require => {
   const DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DisturbanceTypeRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/DisturbanceTypeRadioButtonGroup' );
-  const DOTUtil = require( 'DOT/Util' );//eslint-disable-line
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const Emitter = require( 'AXON/Emitter' );
   const IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
@@ -32,6 +31,8 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const RichText = require( 'SCENERY/nodes/RichText' );
+  const SCENERYUtil = require( 'SCENERY/util/Util' );// eslint-disable-line
+  const SceneryWebGLClippingRegion = require( 'WAVE_INTERFERENCE/common/view/SceneryWebGLClippingRegion' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
@@ -42,7 +43,6 @@ define( require => {
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
-  const SCENERYUtil = require( 'SCENERY/util/Util' );// eslint-disable-line
   const ViewpointRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewpointRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterDropLayer = require( 'WAVE_INTERFERENCE/common/view/WaterDropLayer' );
@@ -402,10 +402,10 @@ define( require => {
         listener: () => waterDropLayer.step( waterSideViewNode )
       } );
 
-      let lastClipPath = null;
       const createSoundParticleLayer = () => {
 
         // Too much garbage on firefox, so only opt in to WebGL for mobile safari (where it is needed most)
+        // and where the garbage doesn't seem to slow it down much.
         const useWebgl = SCENERYUtil.isWebGLSupported && phet.chipper.queryParameters.webgl && platform.mobileSafari;
         const node = useWebgl ?
                      new SoundParticleImageLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
@@ -417,27 +417,7 @@ define( require => {
         // WebGL doesn't support clipArea yet, this hack uses CSS clipping areas to achieve that effect.
         // This hack relies on the fact that WebGL is only used to draw things in the wave area.
         if ( useWebgl ) {
-          this.steppedEmitter.addListener( () => {
-
-            // Guard against extra garbage
-            if ( model.sceneProperty.value === model.soundScene ) {
-              const globalBounds = node.localToGlobalBounds( this.waveAreaNode.bounds );
-              const webglContainers = document.getElementsByClassName( 'webgl-container' );
-              for ( let i = 0; i < webglContainers.length; i++ ) {
-                const element = webglContainers[ i ];
-                const left = DOTUtil.roundSymmetric( globalBounds.left );
-                const right = DOTUtil.roundSymmetric( globalBounds.right );
-                const top = DOTUtil.roundSymmetric( globalBounds.top );
-                const bottom = DOTUtil.roundSymmetric( globalBounds.bottom );
-                const clipPath = `polygon(${left}px ${top}px, ${right}px ${top}px, ${right}px ${bottom}px, ${left}px ${bottom}px)`;
-                if ( lastClipPath !== clipPath ) {
-                  element.style.clipPath = clipPath;
-                  element.style.webkitClipPath = clipPath; // iOS support
-                  lastClipPath = clipPath;
-                }
-              }
-            }
-          } );
+          this.steppedEmitter.addListener( SceneryWebGLClippingRegion.createListener( model, node, this.waveAreaNode.bounds ) );
         }
         return node;
       };
