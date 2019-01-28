@@ -87,30 +87,18 @@ define( require => {
     }
 
     /**
-     * Remove delta values that are so old they can no longer impact the model, to avoid memory leaks.
+     * Remove delta values that are so old they can no longer impact the model, to avoid memory leaks and too much CPU
      * @param {number} maxDistance - the furthest a point can be from a source
      * @param {number} numberOfSteps - integer number of times the wave has been stepped on the lattice
      * @public
      */
     prune( maxDistance, numberOfSteps ) {
-      for ( let k = 0; k < this.deltas.length; k++ ) {
-        const delta = this.deltas[ k ];
 
-        const steps = numberOfSteps - delta.numberOfSteps;
-
-        // max numberOfSteps is across the diagonal of the lattice, but don't remove the last elements or the wave could
-        // clear, see https://github.com/phetsims/wave-interference/issues/319
-        if ( this.deltas.length > 3 &&
-
-             // d = vt, t=d/v
-             ( steps > maxDistance / Lattice.WAVE_SPEED ||
-
-               // too many deltas
-               this.deltas.length > 10 )
-        ) {
-          this.deltas.splice( k, 1 );
-          k--;
-        }
+      // Save enough deltas so that even if the user toggles the source on and off rapidly, the effect will be further
+      // from the source.  But don't save so many deltas that performance is degraded.
+      // See https://github.com/phetsims/wave-interference/issues/319
+      while ( this.deltas.length > 10 ) {
+        this.deltas.shift(); // remove oldest deltas first
       }
     }
 
