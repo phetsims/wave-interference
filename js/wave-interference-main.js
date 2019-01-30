@@ -23,7 +23,7 @@ define( require => {
     credits: {
       leadDesign: 'Amy Rouinfar, Noah Podolefsky',
       softwareDevelopment: 'Sam Reid',
-      team: 'Wendy Adams, Ariel Paul, Kathy Perkins, Diana L\u00f3pez Tavares, Katie Woessner',
+      team: 'Wendy Adams, Diana L\u00f3pez Tavares, Ariel Paul, Kathy Perkins, Katie Woessner',
       qualityAssurance: 'Steele Dalton, Megan Lai, Liam Mulhall, Laura Rea, Jacob Romero, Katie Woessner, Kelly Wurtz',
       graphicArts: 'Cheryl McCutchan'
     }
