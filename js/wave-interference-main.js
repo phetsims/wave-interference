@@ -21,7 +21,7 @@ define( require => {
 
   const simOptions = {
     credits: {
-      leadDesign: 'Noah Podolefsky, Amy Rouinfar',
+      leadDesign: 'Amy Rouinfar, Noah Podolefsky',
       softwareDevelopment: 'Sam Reid',
       team: 'Wendy Adams, Diana L\u00f3pez Tavares, Ariel Paul, Kathy Perkins, Katie Woessner',
       qualityAssurance: 'Steele Dalton, Megan Lai, Liam Mulhall, Laura Rea, Jacob Romero, Katie Woessner, Kelly Wurtz',
