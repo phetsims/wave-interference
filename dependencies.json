@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.0-rc.3 Wed Jan 30 2019 09:54:37 GMT-0700 (MST)",
+  "comment": "# wave-interference 1.0.0 Wed Jan 30 2019 13:49:12 GMT-0700 (MST)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -93,7 +93,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "bcc28576e0bd0a51a9513c0dcf344f0c91db689a",
+    "sha": "098ae7da2346ceef7df9475adee6b9b3bf9c77b5",
     "branch": "1.0"
   }
 }
