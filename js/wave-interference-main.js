@@ -26,7 +26,7 @@ define( require => {
       team: 'Wendy Adams, Diana L\u00f3pez Tavares, Ariel Paul, Kathy Perkins, Katie Woessner',
       qualityAssurance: 'Steele Dalton, Megan Lai, Liam Mulhall, Laura Rea, Jacob Romero, Katie Woessner, Kelly Wurtz',
       graphicArts: 'Cheryl McCutchan',
-      thanks: 'Thanks to STROBE NSF Science and Technology Center for their support'
+      thanks: 'Thanks to the STROBE NSF Science and Technology Center on Real-Time Functional Imaging for their support.'
     }
   };
 
