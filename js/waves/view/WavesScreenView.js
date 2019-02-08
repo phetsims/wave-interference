@@ -398,7 +398,7 @@ define( require => {
 
       // @public
       this.steppedEmitter = new Emitter( {
-        before: () => waterDropLayer.step( waterSideViewNode )
+        first: () => waterDropLayer.step( waterSideViewNode )
       } );
 
       const createSoundParticleLayer = () => {
