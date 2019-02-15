@@ -31,7 +31,7 @@ define( require => {
         font: WaveInterferenceConstants.TIME_AND_LENGTH_SCALE_INDICATOR_FONT
       } );
 
-      const createBar = centerX => new Line( 0, 0, 0, text.height, { stroke: 'black', centerX } );
+      const createBar = centerX => new Line( 0, 0, 0, text.height, { stroke: 'black', centerX: centerX } );
       const leftBar = createBar( -width / 2 );
       const rightBar = createBar( width / 2 );
       const arrowNode = new ArrowNode( leftBar.right + 1, leftBar.centerY, rightBar.left - 1, rightBar.centerY, {
