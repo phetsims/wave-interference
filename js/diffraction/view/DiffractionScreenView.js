@@ -354,7 +354,7 @@ define( require => {
       // get the largest magnitude
       let maxMagnitude = 0;
       for ( let ai = 0; ai < h_hats.length; ai++ ) {
-        const mag = h_hats[ ai ].magnitude();
+        const mag = h_hats[ ai ].magnitude;
         if ( mag > maxMagnitude ) {
           maxMagnitude = mag;
         }
@@ -379,7 +379,7 @@ define( require => {
         for ( let l = 0; l < dims[ 0 ]; l++ ) {
           const idxInPixels = 4 * ( dims[ 0 ] * k + l );
           currImageData.data[ idxInPixels + 3 ] = 255; // full alpha
-          let color = Math.log( cc * lookupHHat( l, k ).magnitude() + 1 );
+          let color = Math.log( cc * lookupHHat( l, k ).magnitude + 1 );
           color = Util.roundSymmetric( 255 * ( color / logOfMaxMag ) );
           // RGB are the same -> gray
           for ( let c = 0; c < 3; c++ ) { // lol c++
