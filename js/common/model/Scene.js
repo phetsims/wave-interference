@@ -24,7 +24,7 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const TemporalMask = require( 'WAVE_INTERFERENCE/common/model/TemporalMask' );
   const Util = require( 'DOT/Util' );
-  const Validator = require( 'AXON/Validator' );
+  const validate = require( 'AXON/validate' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -90,55 +90,55 @@ define( require => {
       }, config );
 
       // @public (read-only) {WaveSpatialType}
-      this.waveSpatialType = Validator.validate( config.waveSpatialType, { validValues: Scene.WaveSpatialType.VALUES } );
+      this.waveSpatialType = validate( config.waveSpatialType, { validValues: Scene.WaveSpatialType.VALUES } );
 
       // @public (read-only) {string} - units for this scene
-      this.translatedPositionUnits = Validator.validate( config.translatedPositionUnits, VALID_STRING );
+      this.translatedPositionUnits = validate( config.translatedPositionUnits, VALID_STRING );
 
       // @public (read-only) {number} - width of the visible part of the lattice in the scene's units
-      this.waveAreaWidth = Validator.validate( config.waveAreaWidth, POSITIVE_NUMBER );
+      this.waveAreaWidth = validate( config.waveAreaWidth, POSITIVE_NUMBER );
 
       // @public (read-only) {string} - text that describes the horizontal spatial axis
-      this.graphHorizontalAxisLabel = Validator.validate( config.graphHorizontalAxisLabel, VALID_STRING );
+      this.graphHorizontalAxisLabel = validate( config.graphHorizontalAxisLabel, VALID_STRING );
 
       // @public (read-only) {number} - length that depicts indicate relative scale, see LengthScaleIndicatorNode
-      this.scaleIndicatorLength = Validator.validate( config.scaleIndicatorLength, POSITIVE_NUMBER );
+      this.scaleIndicatorLength = validate( config.scaleIndicatorLength, POSITIVE_NUMBER );
 
       // @public (read-only) {string} - the units (in English and for the PhET-iO data stream)
-      this.positionUnits = Validator.validate( config.positionUnits, VALID_STRING );
+      this.positionUnits = validate( config.positionUnits, VALID_STRING );
 
       // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
-      this.timeScaleFactor = Validator.validate( config.timeScaleFactor, POSITIVE_NUMBER );
+      this.timeScaleFactor = validate( config.timeScaleFactor, POSITIVE_NUMBER );
 
       // @public (read-only) {string} - units for time, shown in the timer and optionally top right of the lattice
-      this.timeUnits = Validator.validate( config.timeUnits, VALID_STRING );
+      this.timeUnits = validate( config.timeUnits, VALID_STRING );
 
       // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
-      this.graphVerticalAxisLabel = Validator.validate( config.graphVerticalAxisLabel, VALID_STRING );
+      this.graphVerticalAxisLabel = validate( config.graphVerticalAxisLabel, VALID_STRING );
 
       // @public (read-only) {string} - the title to the shown on the wave-area graph
-      this.graphTitle = Validator.validate( config.graphTitle, VALID_STRING );
+      this.graphTitle = validate( config.graphTitle, VALID_STRING );
 
       // @public (read-only) {number}
-      this.numberOfSources = Validator.validate( config.numberOfSources, { validValues: [ 1, 2 ] } );
+      this.numberOfSources = validate( config.numberOfSources, { validValues: [ 1, 2 ] } );
 
       // @public (read-only) {number}
-      this.waveSpeed = Validator.validate( config.waveSpeed, POSITIVE_NUMBER );
+      this.waveSpeed = validate( config.waveSpeed, POSITIVE_NUMBER );
 
       // @public (read-only) {string} - displayed at the top right of the wave area
-      this.timeScaleString = Validator.validate( config.timeScaleString, { valueType: 'string' } );
+      this.timeScaleString = validate( config.timeScaleString, { valueType: 'string' } );
 
       // @public (read-only) {string} - shown on the PlaneWaveGeneratorNode
-      this.planeWaveGeneratorNodeText = Validator.validate( config.planeWaveGeneratorNodeText, VALID_STRING );
+      this.planeWaveGeneratorNodeText = validate( config.planeWaveGeneratorNodeText, VALID_STRING );
 
       // These config values are used to create Property instances.
-      const frequencyRange = Validator.validate( config.frequencyRange, VALID_RANGE );
-      const initialSlitSeparation = Validator.validate( config.initialSlitSeparation, POSITIVE_NUMBER );
-      const sourceSeparationRange = Validator.validate( config.sourceSeparationRange, VALID_RANGE );
-      const initialSlitWidth = Validator.validate( config.initialSlitWidth, POSITIVE_NUMBER );
-      const slitWidthRange = Validator.validate( config.slitWidthRange, VALID_RANGE );
-      const slitSeparationRange = Validator.validate( config.slitSeparationRange, VALID_RANGE );
-      const initialAmplitude = Validator.validate( config.initialAmplitude, POSITIVE_NUMBER );
+      const frequencyRange = validate( config.frequencyRange, VALID_RANGE );
+      const initialSlitSeparation = validate( config.initialSlitSeparation, POSITIVE_NUMBER );
+      const sourceSeparationRange = validate( config.sourceSeparationRange, VALID_RANGE );
+      const initialSlitWidth = validate( config.initialSlitWidth, POSITIVE_NUMBER );
+      const slitWidthRange = validate( config.slitWidthRange, VALID_RANGE );
+      const slitSeparationRange = validate( config.slitSeparationRange, VALID_RANGE );
+      const initialAmplitude = validate( config.initialAmplitude, POSITIVE_NUMBER );
 
       // @public the frequency in the appropriate units for the scene
       this.frequencyProperty = new NumberProperty( frequencyRange.getCenter(), { range: frequencyRange } );
