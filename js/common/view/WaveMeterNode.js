@@ -63,7 +63,7 @@ define( require => {
       super();
 
       // @public (read-only) {Node} - shows the background for the MeterBodyNode.  Any attached probes or other
-      // supplemental nodes should not be children if the backgroundNode if they need to translate independently.
+      // supplemental nodes should not be children of the backgroundNode if they need to translate independently.
       this.backgroundNode = backgroundNode;
 
       // @private {DragListener} - set by setDragListener
