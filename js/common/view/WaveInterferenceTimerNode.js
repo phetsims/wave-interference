@@ -31,8 +31,10 @@ define( require => {
       } );
 
       config = _.extend( {
-        unitsNode: unitsNode,
-        maxValue: 999.99
+        timerReadoutNodeOptions: {
+          unitsNode: unitsNode,
+          maxValue: 999.99
+        }
       }, config );
       assert && assert( !!config.end, 'end is a required argument' );
       assert && assert( !!config.visibleBoundsProperty, 'visibleBoundsProperty is a required argument' );
