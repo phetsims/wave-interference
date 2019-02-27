@@ -49,15 +49,15 @@ define( require => {
       const stepButton = new StepButton( {
         scale: BUTTON_SCALE,
 
+        // Only enable the step button when the model is paused.
+        isPlayingProperty: model.isRunningProperty,
+
         // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
         // dt, so the model will behave the same,
         // see https://github.com/phetsims/wave-interference/issues/254
         // and https://github.com/phetsims/wave-interference/issues/226
         listener: () => model.advanceTime( 1 / WavesModel.EVENT_RATE, true )
       } );
-
-      // Only enable the step button when the model is paused.
-      model.isRunningProperty.link( isRunning => {stepButton.enabled = !isRunning;} );
 
       super( _.extend( {
         spacing: 20,
