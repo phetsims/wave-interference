@@ -90,7 +90,7 @@ define( require => {
         matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
       } );
 
-      this.miniDiffractionNode = new MatrixCanvasNode( model.diffractionMatrix, {
+      this.miniDiffractionCanvas = new MatrixCanvasNode( model.diffractionMatrix, {
         scale: ICON_SCALE,
         centerY: laserPointerNode.centerY,
         centerX: this.diffractionCanvas.centerX,
@@ -166,7 +166,7 @@ define( require => {
       const transmittedBeam = new Rectangle(
         this.miniApertureCanvas.centerX,
         laserPointerNode.centerY - beamWidth / 2,
-        Math.max( this.miniDiffractionNode.centerX - this.miniApertureCanvas.centerX, 0 ),
+        Math.max( this.miniDiffractionCanvas.centerX - this.miniApertureCanvas.centerX, 0 ),
         beamWidth, {
           fill: 'gray',
           opacity: 0.7
@@ -178,7 +178,7 @@ define( require => {
       this.addChild( transmittedBeam );
       this.addChild( this.miniApertureCanvas );
       this.addChild( incidentBeam );
-      this.addChild( this.miniDiffractionNode );
+      this.addChild( this.miniDiffractionCanvas );
       this.addChild( laserPointerNode );
 
       updateCanvases();
@@ -188,6 +188,7 @@ define( require => {
       this.apertureCanvas.invalidatePaint();
       this.miniApertureCanvas.invalidatePaint();
       this.diffractionCanvas.invalidatePaint();
+      this.miniDiffractionCanvas.invalidatePaint();
     }
   }
 
