@@ -30,17 +30,11 @@ define( require => {
       // @public - whether the laser is emitting light
       this.onProperty = new BooleanProperty( true );
 
+      // @public
       this.ellipseScene = new EllipseScene();
-      this.rectangleScene = new RectangleScene();
 
-      // @public dimensions of the elliptical aperture
-      this.sigmaXProperty = new NumberProperty( 10, {
-        range: new Range( 2, 10 )
-      } );
-      this.sigmaYProperty = new NumberProperty( 10, {
-        range: new Range( 2, 10 )
-      } );
-      this.gaussianMagnitudeProperty = new NumberProperty( 400 );
+      // @public
+      this.rectangleScene = new RectangleScene();
 
       // @public characteristics of the grating
       this.numberOfLinesProperty = new NumberProperty( 10, {
@@ -57,58 +51,25 @@ define( require => {
       this.scenes = [ this.ellipseScene, this.rectangleScene ];
 
       // @public - selected aperture type, which is in essence the "scene" for this screen.
-      this.sceneProperty = new Property( this.rectangleScene, {
+      this.sceneProperty = new Property( this.ellipseScene, {
         validValues: this.scenes
       } );
 
-      // The displayed aperture
-      // var N = dims[1];
-      // var M = dims[0];
-      // for (var k = 0; k < N; k++) {
-      //   for (var l = 0; l < M; l++) {
-      //     var idx = k*M + l;
-      // 2d array with stride defined by index = kM + l
+      // The displayed aperture, shared by all scenes
       this.apertureMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
-      // Transformed aperture to account for wavelength changes
+      // Transformed aperture to account for wavelength changes for the FFT, shared by all scenes
       this.scaledAperture = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
-      // Result of FFT on the scaledAperture
+      // Result of FFT on the scaledAperture, shared by all scenes
       this.diffractionMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
       const update = () => {
         this.apertureMatrix.timesEquals( 0 ); // clear
-        this.rectangleScene.paintMatrix( this.apertureMatrix );
-        this.diffractionMatrix.timesEquals( 0 ); // TODO: unnecessary
-
-        this.fft( this.apertureMatrix, this.diffractionMatrix );
-
+        this.sceneProperty.value.paintMatrix( this.apertureMatrix );
+        DiffractionModel.fft( this.apertureMatrix, this.diffractionMatrix );
       };
-      this.rectangleScene.link( update );
-
-      // TODO: one set of apertureMatrix/scaledApertureMatrix/transformedMatrix per scene?
-      // TODO: or one total (shared)?  <--- leaning toward shared
-    }
-
-    /**
-     * @param {Matrix} input
-     * @param {Matrix} output
-     */
-    fft( input, output ) {
-      // compute the h hat values
-      const result = [];
-      Fourier.transform( DiffractionModel.getPlainArray( input ), result );
-      const shifted = Fourier.shift( result, DIMS );
-
-      // get the largest magnitude
-      const maxMagnitude = Math.max( ...shifted.map( h => h.magnitude() ) );
-
-      // draw the pixels
-      const logOfMaxMag = Math.log( CONTRAST_CONSTANT * maxMagnitude + 1 );
-
-      for ( let i = 0; i < result.length; i++ ) {
-        this.diffractionMatrix.entries[ i ] = Math.log( CONTRAST_CONSTANT * shifted[ i ].magnitude() + 1 ) / logOfMaxMag;
-      }
+      this.scenes.forEach( scene => scene.link( update ) );
     }
 
     /**
@@ -117,9 +78,6 @@ define( require => {
     reset() {
       this.scenes.forEach( scene => scene.reset() );
       this.onProperty.reset();
-      this.sigmaXProperty.reset();
-      this.sigmaYProperty.reset();
-      this.gaussianMagnitudeProperty.reset();
       this.numberOfLinesProperty.reset();
       this.angleProperty.reset();
       this.sceneProperty.reset();
@@ -138,6 +96,27 @@ define( require => {
       x[ i ] = matrix.entries[ i ];
     }
     return x;
+  };
+
+  /**
+   * @param {Matrix} input
+   * @param {Matrix} output
+   */
+  DiffractionModel.fft = ( input, output ) => {
+    // compute the h hat values
+    const result = [];
+    Fourier.transform( DiffractionModel.getPlainArray( input ), result );
+    const shifted = Fourier.shift( result, DIMS );
+
+    // get the largest magnitude
+    const maxMagnitude = Math.max( ...shifted.map( h => h.magnitude() ) );
+
+    // draw the pixels
+    const logOfMaxMag = Math.log( CONTRAST_CONSTANT * maxMagnitude + 1 );
+
+    for ( let i = 0; i < result.length; i++ ) {
+      output.entries[ i ] = Math.log( CONTRAST_CONSTANT * shifted[ i ].magnitude() + 1 ) / logOfMaxMag;
+    }
   };
 
   return waveInterference.register( 'DiffractionModel', DiffractionModel );

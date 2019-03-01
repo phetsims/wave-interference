@@ -12,18 +12,17 @@ define( require => {
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
   const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
-  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   class EllipseScene extends DiffractionScene {
 
     constructor() {
 
-      const diameterProperty = new NumberProperty( 16, {
-        range: new Range( 2, 30 )
+      const diameterProperty = new NumberProperty( 10, {
+        range: new Range( 5, 30 )
       } );
-      const eccentricityProperty = new NumberProperty( 16, {
-        range: new Range( 2, 30 )
+      const eccentricityProperty = new NumberProperty( 0, {
+        range: new Range( 0, 0.99 )
       } );
       super( [ diameterProperty, eccentricityProperty ] );
 
@@ -41,21 +40,34 @@ define( require => {
      * @public
      */
     paintMatrix( matrix ) {
+      assert && assert( matrix.getRowDimension() % 2 === 0, 'matrix should be even' );
+      assert && assert( matrix.getColumnDimension() % 2 === 0, 'matrix should be even' );
 
-      // TODO: n will always be even as power of 2, so is this OK?
-      const centerRow = Util.roundSymmetric( matrix.getRowDimension() / 2 );
-      const centerColumn = Util.roundSymmetric( matrix.getColumnDimension() / 2 );
+      const y0 = matrix.getRowDimension() / 2;
+      const x0 = matrix.getColumnDimension() / 2;
       const diameter = this.diameterProperty.value;
       const eccentricity = this.eccentricityProperty.value;
-      for ( let column = centerColumn - diameter; column <= centerColumn + diameter; column++ ) {
-        for ( let row = centerRow - eccentricity; row <= centerRow + eccentricity; row++ ) {
-          matrix.set( row, column, 1 );
+
+      const rx = diameter;
+      const rx2 = rx * rx;
+      const ry2 = rx * rx * ( 1 - eccentricity * eccentricity );
+
+      for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
+        for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
+          const dx = ( x - x0 );
+          const dy = ( y - y0 );
+
+          // Ellipse equation: (x-h)^2 /rx^2  + (y-k)^2/ry^2 <=1
+          const ellipseValue = dx * dx / rx2 + dy * dy / ry2;
+
+          matrix.set( y, x, ellipseValue < 1 ? 1 : 0 );
         }
       }
     }
   }
 
   /**
+   * TODO: do we need this to smooth the edges?
    * @param {number} x0
    * @param {number} y0
    * @param {number} sigmaX

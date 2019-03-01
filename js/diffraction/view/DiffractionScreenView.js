@@ -103,12 +103,9 @@ define( require => {
 
       this.addChild( radioButtonGroup );
       model.scenes.forEach( scene => scene.link( updateCanvases ) );
-
-      model.sigmaYProperty.lazyLink( updateCanvases );
       model.onProperty.lazyLink( updateCanvases );
       model.numberOfLinesProperty.lazyLink( updateCanvases );
       model.angleProperty.lazyLink( updateCanvases );
-      model.gaussianMagnitudeProperty.lazyLink( updateCanvases );
       this.rectangleSceneControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
@@ -126,8 +123,10 @@ define( require => {
       this.gaussianControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'sigmaX', model.sigmaXProperty, model.sigmaXProperty.range, NUMBER_CONTROL_OPTIONS ),
-          new NumberControl( 'sigmaY', model.sigmaYProperty, model.sigmaYProperty.range, NUMBER_CONTROL_OPTIONS )
+          new NumberControl( 'Diameter', model.ellipseScene.diameterProperty, model.ellipseScene.diameterProperty.range, NUMBER_CONTROL_OPTIONS ),
+          new NumberControl( 'Eccentricity', model.ellipseScene.eccentricityProperty, model.ellipseScene.eccentricityProperty.range, _.extend( {
+            delta: 0.01
+          }, NUMBER_CONTROL_OPTIONS ) )
         ]
       } ), _.extend( {
         leftTop: this.apertureCanvas.leftBottom.plusXY( 0, 5 )
