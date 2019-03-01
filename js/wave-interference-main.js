@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
+  const DiffractionScreen = require( 'WAVE_INTERFERENCE/diffraction/DiffractionScreen' );
   const InterferenceScreen = require( 'WAVE_INTERFERENCE/interference/InterferenceScreen' );
   const Sim = require( 'JOIST/Sim' );
   const SimLauncher = require( 'JOIST/SimLauncher' );
@@ -43,7 +44,8 @@ define( require => {
     const sim = new Sim( waveInterferenceTitleString, [
       new WavesScreen( alignGroup ),
       new InterferenceScreen( alignGroup ),
-      new SlitsScreen( alignGroup )
+      new SlitsScreen( alignGroup ),
+      new DiffractionScreen()
     ], simOptions );
     sim.start();
   } );

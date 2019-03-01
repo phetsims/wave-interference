@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * Shows the draggable TimerNode, which reads out the elapsed time in the appropriate units for the model scene.
