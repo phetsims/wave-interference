@@ -64,11 +64,11 @@ define( require => {
       this.addChild( resetAllButton );
 
       const toggleButtonsContent = [ {
-        value: model.rectangleScene,
-        node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
-      }, {
         value: model.ellipseScene,
         node: new Circle( 10, { fill: 'black' } )
+      }, {
+        value: model.rectangleScene,
+        node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
       } ];
 
       const radioButtonGroup = new RadioButtonGroup( model.sceneProperty, toggleButtonsContent, {
