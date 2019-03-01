@@ -12,7 +12,6 @@ define( require => {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const DiffractionModel = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionModel' );
   const Dimension2 = require( 'DOT/Dimension2' );
-  const Image = require( 'SCENERY/nodes/Image' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const MatrixCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/MatrixCanvasNode' );
@@ -27,8 +26,7 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
-  const width = 256;
-  const height = width; // square canvas
+  const ICON_SCALE = 0.2;
   const NUMBER_CONTROL_OPTIONS = WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS;
   const PANEL_OPTIONS = {
     xMargin: 10,
@@ -76,38 +74,6 @@ define( require => {
         bottom: this.layoutBounds.bottom - 10
       } );
 
-      this.placeholderImage = document.createElement( 'canvas' );
-      this.placeholderImage.width = width;
-      this.placeholderImage.height = height;
-
-      const context = this.placeholderImage.getContext( '2d' );
-      context.fillStyle = 'black';
-      context.fillRect( 0, 0, width, height );
-
-      const imageScale = 1;
-      this.apertureImage = new Image( this.placeholderImage, { scale: imageScale, top: 100, left: 140 } );
-
-      this.diffractionImage = new Image( this.placeholderImage, {
-        right: this.layoutBounds.right - 10,
-        scale: imageScale,
-        top: 100
-      } );
-
-      const ICON_SCALE = 0.2;
-      this.apertureIcon = new Image( this.placeholderImage, {
-        scale: ICON_SCALE,
-        centerY: laserPointerNode.centerY,
-        centerX: this.apertureImage.centerX,
-        matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
-      } );
-
-      this.diffractionIcon = new Image( this.placeholderImage, {
-        scale: ICON_SCALE,
-        centerY: laserPointerNode.centerY,
-        centerX: this.diffractionImage.centerX,
-        matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
-      } );
-
       this.apertureCanvas = new MatrixCanvasNode( model.apertureMatrix );
       this.apertureCanvas.setTranslation( 200, 200 );
       this.addChild( this.apertureCanvas );
@@ -117,15 +83,27 @@ define( require => {
       this.diffractionCanvas.top = this.apertureCanvas.top;
       this.addChild( this.diffractionCanvas );
 
+      this.miniApertureCanvas = new MatrixCanvasNode( model.apertureMatrix, {
+        scale: ICON_SCALE,
+        centerY: laserPointerNode.centerY,
+        centerX: this.apertureCanvas.centerX,
+        matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
+      } );
+
+      this.miniDiffractionNode = new MatrixCanvasNode( model.diffractionMatrix, {
+        scale: ICON_SCALE,
+        centerY: laserPointerNode.centerY,
+        centerX: this.diffractionCanvas.centerX,
+        matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
+      } );
+
       const updateCanvases = this.updateCanvases.bind( this );
 
       model.sceneProperty.lazyLink( updateCanvases );
 
       this.addChild( radioButtonGroup );
+      model.scenes.forEach( scene => scene.link( updateCanvases ) );
 
-      model.rectangleScene.rowRadiusProperty.lazyLink( updateCanvases );
-      model.rectangleScene.columnRadiusProperty.lazyLink( updateCanvases );
-      model.sigmaXProperty.lazyLink( updateCanvases );
       model.sigmaYProperty.lazyLink( updateCanvases );
       model.onProperty.lazyLink( updateCanvases );
       model.numberOfLinesProperty.lazyLink( updateCanvases );
@@ -141,7 +119,7 @@ define( require => {
             // delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ) ]
       } ), _.extend( {
-        leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
+        leftTop: this.apertureCanvas.leftBottom.plusXY( 0, 5 )
       }, PANEL_OPTIONS ) );
       this.addChild( this.rectangleSceneControlPanel );
 
@@ -152,7 +130,7 @@ define( require => {
           new NumberControl( 'sigmaY', model.sigmaYProperty, model.sigmaYProperty.range, NUMBER_CONTROL_OPTIONS )
         ]
       } ), _.extend( {
-        leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
+        leftTop: this.apertureCanvas.leftBottom.plusXY( 0, 5 )
       }, PANEL_OPTIONS ) );
       this.addChild( this.gaussianControlPanel );
 
@@ -165,7 +143,7 @@ define( require => {
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
       } ), _.extend( {
-        leftTop: this.apertureImage.leftBottom.plusXY( 0, 5 )
+        leftTop: this.apertureCanvas.leftBottom.plusXY( 0, 5 )
       }, PANEL_OPTIONS ) );
       this.addChild( this.slitsControlPanel );
 
@@ -180,16 +158,16 @@ define( require => {
       const beamWidth = 40;
       const incidentBeam = new Rectangle(
         laserPointerNode.right, laserPointerNode.centerY - beamWidth / 2,
-        this.apertureIcon.centerX - laserPointerNode.right, beamWidth, {
+        this.miniApertureCanvas.centerX - laserPointerNode.right, beamWidth, {
           fill: 'gray',
           opacity: 0.7
         } );
 
       // support for larger canvas for generating rasters
       const transmittedBeam = new Rectangle(
-        this.apertureIcon.centerX,
+        this.miniApertureCanvas.centerX,
         laserPointerNode.centerY - beamWidth / 2,
-        Math.max( this.diffractionIcon.centerX - this.apertureIcon.centerX, 0 ),
+        Math.max( this.miniDiffractionNode.centerX - this.miniApertureCanvas.centerX, 0 ),
         beamWidth, {
           fill: 'gray',
           opacity: 0.7
@@ -199,33 +177,18 @@ define( require => {
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
       this.addChild( transmittedBeam );
-      this.addChild( this.apertureIcon );
+      this.addChild( this.miniApertureCanvas );
       this.addChild( incidentBeam );
+      this.addChild( this.miniDiffractionNode );
       this.addChild( laserPointerNode );
 
       updateCanvases();
     }
 
     updateCanvases() {
-
       this.apertureCanvas.invalidatePaint();
+      this.miniApertureCanvas.invalidatePaint();
       this.diffractionCanvas.invalidatePaint();
-
-      //   for ( i = 0; i < width; i++ ) {
-      //     for ( let k = 0; k < height; k++ ) {
-      //       const v = Util.clamp( Math.floor( gaussian(
-      //         width / 2,
-      //         height / 2,
-      //         this.model.sigmaXProperty.value,
-      //         this.model.sigmaYProperty.value, i, k ) * this.model.gaussianMagnitudeProperty.value ), 0, 255 );
-      //       const v2 = v > 128 ? 255 : 0;
-      //       syntheticApertureContext.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
-      //       displayedApertureContext.fillStyle = 'rgb(' + v2 + ',' + v2 + ',' + v2 + ')';
-      //       syntheticApertureContext.fillRect( i, k, 1, 1 );
-      //       displayedApertureContext.fillRect( i, k, 1, 1 );
-      //     }
-      //   }
-      // }
     }
   }
 
