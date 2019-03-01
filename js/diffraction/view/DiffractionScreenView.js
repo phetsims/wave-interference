@@ -64,14 +64,14 @@ define( require => {
       this.addChild( resetAllButton );
 
       const toggleButtonsContent = [ {
-        value: DiffractionModel.ApertureType.RECTANGLE,
+        value: model.rectangleScene,
         node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
       }, {
-        value: DiffractionModel.ApertureType.CIRCLE,
+        value: model.ellipseScene,
         node: new Circle( 10, { fill: 'black' } )
       } ];
 
-      const radioButtonGroup = new RadioButtonGroup( model.apertureTypeProperty, toggleButtonsContent, {
+      const radioButtonGroup = new RadioButtonGroup( model.sceneProperty, toggleButtonsContent, {
         left: 10,
         bottom: this.layoutBounds.bottom - 10
       } );
@@ -119,7 +119,7 @@ define( require => {
 
       const updateCanvases = this.updateCanvases.bind( this );
 
-      model.apertureTypeProperty.lazyLink( updateCanvases );
+      model.sceneProperty.lazyLink( updateCanvases );
 
       this.addChild( radioButtonGroup );
 
@@ -169,9 +169,11 @@ define( require => {
       }, PANEL_OPTIONS ) );
       this.addChild( this.slitsControlPanel );
 
-      model.apertureTypeProperty.link( scene => {
-        this.rectangleSceneControlPanel.visible = scene === DiffractionModel.ApertureType.RECTANGLE;
-        this.gaussianControlPanel.visible = scene === DiffractionModel.ApertureType.CIRCLE;
+
+      // TODO: Use togglenode?
+      model.sceneProperty.link( scene => {
+        this.rectangleSceneControlPanel.visible = scene === model.rectangleScene;
+        this.gaussianControlPanel.visible = scene === model.ellipseScene;
         this.slitsControlPanel.visible = scene === DiffractionModel.ApertureType.SLITS;
       } );
 

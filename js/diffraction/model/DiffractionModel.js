@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const EllipseScene = require( 'WAVE_INTERFERENCE/diffraction/model/EllipseScene' );
   const Enumeration = require( 'PHET_CORE/Enumeration' );
   const Matrix = require( 'DOT/Matrix' );
   const NumberProperty = require( 'AXON/NumberProperty' );
@@ -29,6 +30,7 @@ define( require => {
       // @public - whether the laser is emitting light
       this.onProperty = new BooleanProperty( true );
 
+      this.ellipseScene = new EllipseScene();
       this.rectangleScene = new RectangleScene();
 
       // @public dimensions of the elliptical aperture
@@ -48,13 +50,15 @@ define( require => {
         range: new Range( 0, Math.PI * 2 )
       } );
 
-      // @public - selected aperture type, which is in essence the "scene" for this screen.
-      this.apertureTypeProperty = new Property( DiffractionModel.ApertureType.RECTANGLE, {
+      this.sceneProperty = new Property( DiffractionModel.ApertureType.RECTANGLE, {
         validValues: DiffractionModel.ApertureType.VALUES
       } );
 
+      this.scenes = [ this.ellipseScene, this.rectangleScene ];
+
+      // @public - selected aperture type, which is in essence the "scene" for this screen.
       this.sceneProperty = new Property( this.rectangleScene, {
-        validValues: [ this.rectangleScene ]
+        validValues: this.scenes
       } );
 
       // The displayed aperture
@@ -111,14 +115,14 @@ define( require => {
      * @public
      */
     reset() {
+      this.scenes.forEach( scene => scene.reset() );
       this.onProperty.reset();
-      this.rectangleScene.reset();
       this.sigmaXProperty.reset();
       this.sigmaYProperty.reset();
       this.gaussianMagnitudeProperty.reset();
       this.numberOfLinesProperty.reset();
       this.angleProperty.reset();
-      this.apertureTypeProperty.reset();
+      this.sceneProperty.reset();
     }
   }
 
@@ -127,23 +131,6 @@ define( require => {
    * @public
    */
   DiffractionModel.ApertureType = new Enumeration( [ 'CIRCLE', 'RECTANGLE', 'SLITS' ] );
-
-  /**
-   * @param {number} x0
-   * @param {number} y0
-   * @param {number} sigmaX
-   * @param {number} sigmaY
-   * @param {number} x
-   * @param {number} y
-   * @returns {number}
-   */
-  DiffractionModel.gaussian = ( x0, y0, sigmaX, sigmaY, x, y ) => {
-    const dx = x - x0;
-    const dy = y - y0;
-    const a = dx * dx / sigmaX / sigmaX;
-    const b = dy * dy / sigmaY / sigmaY;
-    return Math.pow( Math.E, -( a + b ) / 2 );
-  };
 
   DiffractionModel.getPlainArray = matrix => {
     const x = [];

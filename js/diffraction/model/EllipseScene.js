@@ -15,23 +15,23 @@ define( require => {
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  class RectangleScene extends DiffractionScene {
+  class EllipseScene extends DiffractionScene {
 
     constructor() {
 
-      const columnRadiusProperty = new NumberProperty( 16, {
+      const diameterProperty = new NumberProperty( 16, {
         range: new Range( 2, 30 )
       } );
-      const rowRadiusProperty = new NumberProperty( 16, {
+      const eccentricityProperty = new NumberProperty( 16, {
         range: new Range( 2, 30 )
       } );
-      super( [ columnRadiusProperty, rowRadiusProperty ] );
+      super( [ diameterProperty, eccentricityProperty ] );
 
       // @public {NumberProperty}
-      this.columnRadiusProperty = columnRadiusProperty;
+      this.diameterProperty = diameterProperty;
 
       // @public {NumberProperty}
-      this.rowRadiusProperty = rowRadiusProperty;
+      this.eccentricityProperty = eccentricityProperty;
     }
 
     /**
@@ -45,15 +45,32 @@ define( require => {
       // TODO: n will always be even as power of 2, so is this OK?
       const centerRow = Util.roundSymmetric( matrix.getRowDimension() / 2 );
       const centerColumn = Util.roundSymmetric( matrix.getColumnDimension() / 2 );
-      const columnRadius = this.columnRadiusProperty.value;
-      const rowRadius = this.rowRadiusProperty.value;
-      for ( let column = centerColumn - columnRadius; column <= centerColumn + columnRadius; column++ ) {
-        for ( let row = centerRow - rowRadius; row <= centerRow + rowRadius; row++ ) {
+      const diameter = this.diameterProperty.value;
+      const eccentricity = this.eccentricityProperty.value;
+      for ( let column = centerColumn - diameter; column <= centerColumn + diameter; column++ ) {
+        for ( let row = centerRow - eccentricity; row <= centerRow + eccentricity; row++ ) {
           matrix.set( row, column, 1 );
         }
       }
     }
   }
 
-  return waveInterference.register( 'RectangleScene', RectangleScene );
+  /**
+   * @param {number} x0
+   * @param {number} y0
+   * @param {number} sigmaX
+   * @param {number} sigmaY
+   * @param {number} x
+   * @param {number} y
+   * @returns {number}
+   */
+  EllipseScene.gaussian = ( x0, y0, sigmaX, sigmaY, x, y ) => {
+    const dx = x - x0;
+    const dy = y - y0;
+    const a = dx * dx / sigmaX / sigmaX;
+    const b = dy * dy / sigmaY / sigmaY;
+    return Math.pow( Math.E, -( a + b ) / 2 );
+  };
+
+  return waveInterference.register( 'EllipseScene', EllipseScene );
 } );
