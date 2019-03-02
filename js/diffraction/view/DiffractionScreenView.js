@@ -120,7 +120,7 @@ define( require => {
         fill: '#e2e3e5',
         centerTop: this.apertureNode.centerBottom.plusXY( 0, 10 )
       };
-      this.rectangleSceneControlPanel = new Panel( new VBox( {
+      this.rectangleSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
           new NumberControl( 'columnRadius', model.rectangleScene.columnRadiusProperty, model.rectangleScene.columnRadiusProperty.range, _.extend( {
