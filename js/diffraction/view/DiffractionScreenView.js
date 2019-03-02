@@ -64,16 +64,18 @@ define( require => {
       }, {
         value: model.rectangleScene,
         node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
-      }, {
-        value: 'test',
-        node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
-      }, {
-        value: 'test2',
-        node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
-      }, {
-        value: 'test3',
-        node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
-      } ];
+      }
+        // , {
+        //   value: 'test',
+        //   node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
+        // }, {
+        //   value: 'test2',
+        //   node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
+        // }, {
+        //   value: 'test3',
+        //   node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
+        // }
+      ];
 
       this.apertureNode = new MatrixCanvasNode( model.apertureMatrix );
       this.apertureNode.setTranslation( 200, 200 );
