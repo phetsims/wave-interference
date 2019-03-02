@@ -28,7 +28,7 @@ define( require => { // eslint-disable-line bad-sim-text
         // only use the visible part for the bounds (not the damping regions)
         canvasBounds: new Bounds2( 0, 0, 256, 256 ), // TODO: factor out
         layerSplit: true, // ensure we're on our own layer
-        baseColor: Color.blue
+        baseColor: Color.white
       }, options );
 
       super( options );
@@ -78,9 +78,9 @@ define( require => { // eslint-disable-line bad-sim-text
           const value = this.dataMatrix.get( row, column ); // TODO: inline stride for performance?
 
           // Note this interpolation doesn't include the gamma factor that Color.blend does
-          const r = 255 * value;
-          const g = 255 * value;
-          const b = 255 * value;
+          const r = value * this.baseColor.red;
+          const g = value * this.baseColor.green;
+          const b = value * this.baseColor.blue;
 
           // ImageData.data is Uint8ClampedArray.  Use Math.round instead of Util.roundSymmetric
           // because performance is critical and all numbers are non-negative.

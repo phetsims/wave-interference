@@ -17,6 +17,7 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
   const RectangleScene = require( 'WAVE_INTERFERENCE/diffraction/model/RectangleScene' );
+  const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -29,6 +30,11 @@ define( require => {
 
       // @public - whether the laser is emitting light
       this.onProperty = new BooleanProperty( true );
+
+      // @public - the wavelength of the laser in nm
+      this.wavelengthProperty = new NumberProperty( ( VisibleColor.MIN_WAVELENGTH + VisibleColor.MAX_WAVELENGTH ) / 2, {
+        range: new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH )
+      } );
 
       // @public
       this.ellipseScene = new EllipseScene();

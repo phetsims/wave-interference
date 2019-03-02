@@ -23,14 +23,23 @@ define( require => {
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const VBox = require( 'SCENERY/nodes/VBox' );
+  const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+  const WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
   // constants
   const ICON_SCALE = 0.2;
   const NUMBER_CONTROL_OPTIONS = WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS;
   const BOX_SPACING = 15;
+
+  const PANEL_OPTIONS = {
+    xMargin: 10,
+    yMargin: 10,
+    cornerRadius: 5,
+    fill: '#e2e3e5'
+  };
 
   class DiffractionScreenView extends ScreenView {
 
@@ -84,6 +93,7 @@ define( require => {
       this.diffractionNode = new MatrixCanvasNode( model.diffractionMatrix );
       this.diffractionNode.left = this.apertureNode.right + 100;
       this.diffractionNode.top = this.apertureNode.top;
+      model.wavelengthProperty.link( wavelength => this.diffractionNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength ) ) );
       this.addChild( this.diffractionNode );
 
       const sceneRadioButtonGroup = new RadioButtonGroup( model.sceneProperty, sceneRadioButtonContent, {
@@ -104,6 +114,7 @@ define( require => {
         centerX: this.diffractionNode.centerX,
         matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
       } );
+      model.wavelengthProperty.link( wavelength => this.miniDiffractionNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength ) ) );
 
       const updateCanvases = this.updateCanvases.bind( this );
 
@@ -115,13 +126,9 @@ define( require => {
       model.numberOfLinesProperty.lazyLink( updateCanvases );
       model.angleProperty.lazyLink( updateCanvases );
 
-      const panelOptions = {
-        xMargin: 10,
-        yMargin: 10,
-        cornerRadius: 5,
-        fill: '#e2e3e5',
+      const aperturePanelOptions = _.extend( {
         centerTop: this.apertureNode.centerBottom.plusXY( 0, 10 )
-      };
+      }, PANEL_OPTIONS );
       this.rectangleSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
@@ -131,7 +138,7 @@ define( require => {
           new NumberControl( 'rowRadius', model.rectangleScene.rowRadiusProperty, model.rectangleScene.rowRadiusProperty.range, _.extend( {
             // delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ) ]
-      } ), panelOptions );
+      } ), aperturePanelOptions );
       this.addChild( this.rectangleSceneControlPanel );
 
       this.ellipseSceneControlPanel = new Panel( new HBox( {
@@ -165,7 +172,7 @@ define( require => {
             }
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
-      } ), panelOptions );
+      } ), aperturePanelOptions );
       this.addChild( this.ellipseSceneControlPanel );
 
       this.slitsControlPanel = new Panel( new VBox( {
@@ -178,7 +185,7 @@ define( require => {
         ]
       } ), _.extend( {
         leftTop: this.apertureNode.leftBottom.plusXY( 0, 5 )
-      }, panelOptions ) );
+      }, aperturePanelOptions ) );
       this.addChild( this.slitsControlPanel );
 
       // TODO: Use togglenode?
@@ -192,9 +199,10 @@ define( require => {
       const incidentBeam = new Rectangle(
         laserPointerNode.right, laserPointerNode.centerY - beamWidth / 2,
         this.miniApertureNode.centerX - laserPointerNode.right, beamWidth, {
-          fill: 'gray',
           opacity: 0.7
         } );
+
+      model.wavelengthProperty.link( wavelength => incidentBeam.setFill( VisibleColor.wavelengthToColor( wavelength ) ) );
 
       // support for larger canvas for generating rasters
       const transmittedBeam = new Rectangle(
@@ -202,18 +210,27 @@ define( require => {
         laserPointerNode.centerY - beamWidth / 2,
         Math.max( this.miniDiffractionNode.centerX - this.miniApertureNode.centerX, 0 ),
         beamWidth, {
-          fill: 'gray',
           opacity: 0.7
         } );
+      model.wavelengthProperty.link( wavelength => transmittedBeam.setFill( VisibleColor.wavelengthToColor( wavelength ) ) );
 
       model.onProperty.linkAttribute( incidentBeam, 'visible' );
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
+
+      const wavelengthSlider = new Panel( new WavelengthSlider( model.wavelengthProperty, {
+        trackWidth: 100,
+        trackHeight: 20
+      } ), _.extend( {
+        left: 5,
+        top: laserPointerNode.bottom + 10
+      }, PANEL_OPTIONS ) );
 
       this.addChild( transmittedBeam );
       this.addChild( this.miniApertureNode );
       this.addChild( incidentBeam );
       this.addChild( this.miniDiffractionNode );
       this.addChild( laserPointerNode );
+      this.addChild( wavelengthSlider );
 
       updateCanvases();
     }
