@@ -30,12 +30,6 @@ define( require => {
   // constants
   const ICON_SCALE = 0.2;
   const NUMBER_CONTROL_OPTIONS = WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS;
-  const PANEL_OPTIONS = {
-    xMargin: 10,
-    yMargin: 10,
-    cornerRadius: 5,
-    fill: '#e2e3e5'
-  };
   const BOX_SPACING = 15;
 
   class DiffractionScreenView extends ScreenView {
@@ -119,7 +113,13 @@ define( require => {
       model.numberOfLinesProperty.lazyLink( updateCanvases );
       model.angleProperty.lazyLink( updateCanvases );
 
-      PANEL_OPTIONS.centerTop = this.apertureNode.centerBottom.plusXY( 0, 10 );
+      const panelOptions = {
+        xMargin: 10,
+        yMargin: 10,
+        cornerRadius: 5,
+        fill: '#e2e3e5',
+        centerTop: this.apertureNode.centerBottom.plusXY( 0, 10 )
+      };
       this.rectangleSceneControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
@@ -129,7 +129,7 @@ define( require => {
           new NumberControl( 'rowRadius', model.rectangleScene.rowRadiusProperty, model.rectangleScene.rowRadiusProperty.range, _.extend( {
             // delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ) ]
-      } ), PANEL_OPTIONS );
+      } ), panelOptions );
       this.addChild( this.rectangleSceneControlPanel );
 
       this.ellipseSceneControlPanel = new Panel( new HBox( {
@@ -163,7 +163,7 @@ define( require => {
             }
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
-      } ), PANEL_OPTIONS );
+      } ), panelOptions );
       this.addChild( this.ellipseSceneControlPanel );
 
       this.slitsControlPanel = new Panel( new VBox( {
@@ -176,7 +176,7 @@ define( require => {
         ]
       } ), _.extend( {
         leftTop: this.apertureNode.leftBottom.plusXY( 0, 5 )
-      }, PANEL_OPTIONS ) );
+      }, panelOptions ) );
       this.addChild( this.slitsControlPanel );
 
       // TODO: Use togglenode?
