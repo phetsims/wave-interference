@@ -81,31 +81,31 @@ define( require => {
         node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
       } ];
 
-      this.apertureCanvas = new MatrixCanvasNode( model.apertureMatrix );
-      this.apertureCanvas.setTranslation( 200, 200 );
-      this.addChild( this.apertureCanvas );
+      this.apertureNode = new MatrixCanvasNode( model.apertureMatrix );
+      this.apertureNode.setTranslation( 200, 200 );
+      this.addChild( this.apertureNode );
 
-      this.diffractionCanvas = new MatrixCanvasNode( model.diffractionMatrix );
-      this.diffractionCanvas.left = this.apertureCanvas.right + 100;
-      this.diffractionCanvas.top = this.apertureCanvas.top;
-      this.addChild( this.diffractionCanvas );
+      this.diffractionNode = new MatrixCanvasNode( model.diffractionMatrix );
+      this.diffractionNode.left = this.apertureNode.right + 100;
+      this.diffractionNode.top = this.apertureNode.top;
+      this.addChild( this.diffractionNode );
 
       const sceneRadioButtonGroup = new RadioButtonGroup( model.sceneProperty, sceneRadioButtonContent, {
-        right: this.apertureCanvas.left - 20,
-        bottom: this.apertureCanvas.bottom
+        right: this.apertureNode.left - 20,
+        bottom: this.apertureNode.bottom
       } );
 
-      this.miniApertureCanvas = new MatrixCanvasNode( model.apertureMatrix, {
+      this.miniApertureNode = new MatrixCanvasNode( model.apertureMatrix, {
         scale: ICON_SCALE,
         centerY: laserPointerNode.centerY,
-        centerX: this.apertureCanvas.centerX,
+        centerX: this.apertureNode.centerX,
         matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
       } );
 
-      this.miniDiffractionCanvas = new MatrixCanvasNode( model.diffractionMatrix, {
+      this.miniDiffractionNode = new MatrixCanvasNode( model.diffractionMatrix, {
         scale: ICON_SCALE,
         centerY: laserPointerNode.centerY,
-        centerX: this.diffractionCanvas.centerX,
+        centerX: this.diffractionNode.centerX,
         matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
       } );
 
@@ -119,7 +119,7 @@ define( require => {
       model.numberOfLinesProperty.lazyLink( updateCanvases );
       model.angleProperty.lazyLink( updateCanvases );
 
-      PANEL_OPTIONS.centerTop = this.apertureCanvas.centerBottom.plusXY( 0, 10 );
+      PANEL_OPTIONS.centerTop = this.apertureNode.centerBottom.plusXY( 0, 10 );
       this.rectangleSceneControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
@@ -175,7 +175,7 @@ define( require => {
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
       } ), _.extend( {
-        leftTop: this.apertureCanvas.leftBottom.plusXY( 0, 5 )
+        leftTop: this.apertureNode.leftBottom.plusXY( 0, 5 )
       }, PANEL_OPTIONS ) );
       this.addChild( this.slitsControlPanel );
 
@@ -189,16 +189,16 @@ define( require => {
       const beamWidth = 40;
       const incidentBeam = new Rectangle(
         laserPointerNode.right, laserPointerNode.centerY - beamWidth / 2,
-        this.miniApertureCanvas.centerX - laserPointerNode.right, beamWidth, {
+        this.miniApertureNode.centerX - laserPointerNode.right, beamWidth, {
           fill: 'gray',
           opacity: 0.7
         } );
 
       // support for larger canvas for generating rasters
       const transmittedBeam = new Rectangle(
-        this.miniApertureCanvas.centerX,
+        this.miniApertureNode.centerX,
         laserPointerNode.centerY - beamWidth / 2,
-        Math.max( this.miniDiffractionCanvas.centerX - this.miniApertureCanvas.centerX, 0 ),
+        Math.max( this.miniDiffractionNode.centerX - this.miniApertureNode.centerX, 0 ),
         beamWidth, {
           fill: 'gray',
           opacity: 0.7
@@ -208,19 +208,19 @@ define( require => {
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
       this.addChild( transmittedBeam );
-      this.addChild( this.miniApertureCanvas );
+      this.addChild( this.miniApertureNode );
       this.addChild( incidentBeam );
-      this.addChild( this.miniDiffractionCanvas );
+      this.addChild( this.miniDiffractionNode );
       this.addChild( laserPointerNode );
 
       updateCanvases();
     }
 
     updateCanvases() {
-      this.apertureCanvas.invalidatePaint();
-      this.miniApertureCanvas.invalidatePaint();
-      this.diffractionCanvas.invalidatePaint();
-      this.miniDiffractionCanvas.invalidatePaint();
+      this.apertureNode.invalidatePaint();
+      this.miniApertureNode.invalidatePaint();
+      this.diffractionNode.invalidatePaint();
+      this.miniDiffractionNode.invalidatePaint();
     }
   }
 
