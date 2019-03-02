@@ -33,7 +33,8 @@ define( require => {
   const PANEL_OPTIONS = {
     xMargin: 10,
     yMargin: 10,
-    cornerRadius: 5
+    cornerRadius: 5,
+    fill: '#e2e3e5'
   };
   const BOX_SPACING = 15;
 
@@ -117,6 +118,8 @@ define( require => {
       model.onProperty.lazyLink( updateCanvases );
       model.numberOfLinesProperty.lazyLink( updateCanvases );
       model.angleProperty.lazyLink( updateCanvases );
+
+      PANEL_OPTIONS.centerTop = this.apertureCanvas.centerBottom.plusXY( 0, 10 );
       this.rectangleSceneControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
@@ -126,9 +129,7 @@ define( require => {
           new NumberControl( 'rowRadius', model.rectangleScene.rowRadiusProperty, model.rectangleScene.rowRadiusProperty.range, _.extend( {
             // delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ) ]
-      } ), _.extend( {
-        centerTop: this.apertureCanvas.centerBottom.plusXY( 0, 10 )
-      }, PANEL_OPTIONS ) );
+      } ), PANEL_OPTIONS );
       this.addChild( this.rectangleSceneControlPanel );
 
       this.ellipseSceneControlPanel = new Panel( new HBox( {
@@ -162,9 +163,7 @@ define( require => {
             }
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
-      } ), _.extend( {
-        centerTop: this.apertureCanvas.centerBottom.plusXY( 0, 10 )
-      }, PANEL_OPTIONS ) );
+      } ), PANEL_OPTIONS );
       this.addChild( this.ellipseSceneControlPanel );
 
       this.slitsControlPanel = new Panel( new VBox( {
