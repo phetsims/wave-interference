@@ -12,6 +12,7 @@ define( require => {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const DiffractionModel = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionModel' );
   const Dimension2 = require( 'DOT/Dimension2' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const MatrixCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/MatrixCanvasNode' );
@@ -24,6 +25,7 @@ define( require => {
   const VBox = require( 'SCENERY/nodes/VBox' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // constants
   const ICON_SCALE = 0.2;
@@ -61,18 +63,22 @@ define( require => {
       } );
       this.addChild( resetAllButton );
 
-      const toggleButtonsContent = [ {
+      const sceneRadioButtonContent = [ {
         value: model.ellipseScene,
         node: new Circle( 10, { fill: 'black' } )
       }, {
         value: model.rectangleScene,
         node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
+      }, {
+        value: 'test',
+        node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
+      }, {
+        value: 'test2',
+        node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
+      }, {
+        value: 'test3',
+        node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
       } ];
-
-      const radioButtonGroup = new RadioButtonGroup( model.sceneProperty, toggleButtonsContent, {
-        left: 10,
-        bottom: this.layoutBounds.bottom - 10
-      } );
 
       this.apertureCanvas = new MatrixCanvasNode( model.apertureMatrix );
       this.apertureCanvas.setTranslation( 200, 200 );
@@ -82,6 +88,11 @@ define( require => {
       this.diffractionCanvas.left = this.apertureCanvas.right + 100;
       this.diffractionCanvas.top = this.apertureCanvas.top;
       this.addChild( this.diffractionCanvas );
+
+      const sceneRadioButtonGroup = new RadioButtonGroup( model.sceneProperty, sceneRadioButtonContent, {
+        right: this.apertureCanvas.left - 20,
+        bottom: this.apertureCanvas.bottom
+      } );
 
       this.miniApertureCanvas = new MatrixCanvasNode( model.apertureMatrix, {
         scale: ICON_SCALE,
@@ -101,7 +112,7 @@ define( require => {
 
       model.sceneProperty.lazyLink( updateCanvases );
 
-      this.addChild( radioButtonGroup );
+      this.addChild( sceneRadioButtonGroup );
       model.scenes.forEach( scene => scene.link( updateCanvases ) );
       model.onProperty.lazyLink( updateCanvases );
       model.numberOfLinesProperty.lazyLink( updateCanvases );
@@ -116,22 +127,45 @@ define( require => {
             // delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ) ]
       } ), _.extend( {
-        leftTop: this.apertureCanvas.leftBottom.plusXY( 0, 5 )
+        centerTop: this.apertureCanvas.centerBottom.plusXY( 0, 10 )
       }, PANEL_OPTIONS ) );
       this.addChild( this.rectangleSceneControlPanel );
 
-      this.gaussianControlPanel = new Panel( new VBox( {
+      this.ellipseSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'Diameter', model.ellipseScene.diameterProperty, model.ellipseScene.diameterProperty.range, NUMBER_CONTROL_OPTIONS ),
+          new NumberControl( 'Diameter', model.ellipseScene.diameterProperty, model.ellipseScene.diameterProperty.range, _.extend( {
+            sliderOptions: {
+              majorTicks: [ {
+
+                // TODO: model coordinates for these
+                value: model.ellipseScene.diameterProperty.range.min,
+                label: new WaveInterferenceText( model.ellipseScene.diameterProperty.range.min )
+              }, {
+                value: model.ellipseScene.diameterProperty.range.max,
+                label: new WaveInterferenceText( model.ellipseScene.diameterProperty.range.max )
+              } ]
+            }
+          }, NUMBER_CONTROL_OPTIONS ) ),
           new NumberControl( 'Eccentricity', model.ellipseScene.eccentricityProperty, model.ellipseScene.eccentricityProperty.range, _.extend( {
-            delta: 0.01
+            delta: 0.01,
+            sliderOptions: {
+              majorTicks: [ {
+
+                // TODO: model coordinates for these
+                value: model.ellipseScene.eccentricityProperty.range.min,
+                label: new WaveInterferenceText( model.ellipseScene.eccentricityProperty.range.min )
+              }, {
+                value: model.ellipseScene.eccentricityProperty.range.max,
+                label: new WaveInterferenceText( model.ellipseScene.eccentricityProperty.range.max )
+              } ]
+            }
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
       } ), _.extend( {
-        leftTop: this.apertureCanvas.leftBottom.plusXY( 0, 5 )
+        centerTop: this.apertureCanvas.centerBottom.plusXY( 0, 10 )
       }, PANEL_OPTIONS ) );
-      this.addChild( this.gaussianControlPanel );
+      this.addChild( this.ellipseSceneControlPanel );
 
       this.slitsControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
@@ -146,11 +180,10 @@ define( require => {
       }, PANEL_OPTIONS ) );
       this.addChild( this.slitsControlPanel );
 
-
       // TODO: Use togglenode?
       model.sceneProperty.link( scene => {
         this.rectangleSceneControlPanel.visible = scene === model.rectangleScene;
-        this.gaussianControlPanel.visible = scene === model.ellipseScene;
+        this.ellipseSceneControlPanel.visible = scene === model.ellipseScene;
         this.slitsControlPanel.visible = scene === DiffractionModel.ApertureType.SLITS;
       } );
 
