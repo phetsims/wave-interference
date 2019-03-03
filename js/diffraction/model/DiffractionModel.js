@@ -22,8 +22,8 @@ define( require => {
 
   // constants
   const MATRIX_DIMENSION = 256;
-  const DIMS = [ MATRIX_DIMENSION, MATRIX_DIMENSION ];
-  const CONTRAST_CONSTANT = 9e-3;
+  const MATRIX_DIMENSIONS = [ MATRIX_DIMENSION, MATRIX_DIMENSION ];
+  const CONTRAST = 0.01;
   const DEFAULT_WAVELENGTH = ( VisibleColor.MIN_WAVELENGTH + VisibleColor.MAX_WAVELENGTH ) / 2;
 
   class DiffractionModel {
@@ -121,16 +121,16 @@ define( require => {
     // compute the h hat values
     const result = [];
     Fourier.transform( DiffractionModel.getPlainArray( input ), result );
-    const shifted = Fourier.shift( result, DIMS );
+    const shifted = Fourier.shift( result, MATRIX_DIMENSIONS );
 
     // get the largest magnitude
     const maxMagnitude = Math.max( ...shifted.map( h => h.magnitude() ) );
 
     // draw the pixels
-    const logOfMaxMag = Math.log( CONTRAST_CONSTANT * maxMagnitude + 1 );
+    const logOfMaxMag = Math.log( CONTRAST * maxMagnitude + 1 );
 
     for ( let i = 0; i < result.length; i++ ) {
-      output.entries[ i ] = Math.log( CONTRAST_CONSTANT * shifted[ i ].magnitude() + 1 ) / logOfMaxMag;
+      output.entries[ i ] = Math.log( CONTRAST * shifted[ i ].magnitude() + 1 ) / logOfMaxMag;
     }
   };
 
