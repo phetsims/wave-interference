@@ -37,9 +37,10 @@ define( require => {
      * Add our pattern to the matrix.
      *
      * @param {Matrix} matrix
+     * @public {number} scaleFactor - zoom factor to account for frequency difference
      * @public
      */
-    paintMatrix( matrix ) {
+    paintMatrix( matrix, scaleFactor ) {
       assert && assert( matrix.getRowDimension() % 2 === 0, 'matrix should be even' );
       assert && assert( matrix.getColumnDimension() % 2 === 0, 'matrix should be even' );
 
@@ -49,8 +50,8 @@ define( require => {
       const eccentricity = this.eccentricityProperty.value;
 
       const rx = diameter;
-      const rx2 = rx * rx;
-      const ry2 = rx * rx * ( 1 - eccentricity * eccentricity );
+      const rx2 = rx * rx * scaleFactor;
+      const ry2 = rx * rx * ( 1 - eccentricity * eccentricity ) * scaleFactor;
 
       for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
         for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {

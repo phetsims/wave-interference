@@ -24,6 +24,7 @@ define( require => {
   const MATRIX_DIMENSION = 256;
   const DIMS = [ MATRIX_DIMENSION, MATRIX_DIMENSION ];
   const CONTRAST_CONSTANT = 9e-3;
+  const DEFAULT_WAVELENGTH = ( VisibleColor.MIN_WAVELENGTH + VisibleColor.MAX_WAVELENGTH ) / 2;
 
   class DiffractionModel {
     constructor() {
@@ -32,7 +33,7 @@ define( require => {
       this.onProperty = new BooleanProperty( true );
 
       // @public - the wavelength of the laser in nm
-      this.wavelengthProperty = new NumberProperty( ( VisibleColor.MIN_WAVELENGTH + VisibleColor.MAX_WAVELENGTH ) / 2, {
+      this.wavelengthProperty = new NumberProperty( DEFAULT_WAVELENGTH, {
         range: new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH )
       } );
 
@@ -65,18 +66,25 @@ define( require => {
       this.apertureMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
       // Transformed aperture to account for wavelength changes for the FFT, shared by all scenes
-      this.scaledAperture = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
+      this.scaledApertureMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
-      // Result of FFT on the scaledAperture, shared by all scenes
+      // Result of FFT on the scaledApertureMatrix, shared by all scenes
       this.diffractionMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
       const update = () => {
         this.apertureMatrix.timesEquals( 0 ); // clear
-        this.sceneProperty.value.paintMatrix( this.apertureMatrix );
-        DiffractionModel.fft( this.apertureMatrix, this.diffractionMatrix );
+
+        const percentDifference = ( this.wavelengthProperty.value - DEFAULT_WAVELENGTH ) / DEFAULT_WAVELENGTH;
+
+        // More frequency => more diffraction
+        const scaleFactor = 1 - percentDifference * 2;
+        this.sceneProperty.value.paintMatrix( this.apertureMatrix, 1 );
+        this.sceneProperty.value.paintMatrix( this.scaledApertureMatrix, scaleFactor );
+        DiffractionModel.fft( this.scaledApertureMatrix, this.diffractionMatrix );
       };
       this.scenes.forEach( scene => scene.link( update ) );
       this.sceneProperty.link( update );
+      this.wavelengthProperty.link( update );
     }
 
     /**
