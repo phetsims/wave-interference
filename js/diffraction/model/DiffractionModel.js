@@ -76,10 +76,10 @@ define( require => {
         this.apertureMatrix.timesEquals( 0 ); // clear
         this.scaledApertureMatrix.timesEquals( 0 ); // clear
 
-        const percentDifference = ( this.wavelengthProperty.value - DEFAULT_WAVELENGTH ) / DEFAULT_WAVELENGTH;
+        const scaleDifference = ( this.wavelengthProperty.value - DEFAULT_WAVELENGTH ) / DEFAULT_WAVELENGTH;
 
         // More frequency => more diffraction
-        const scaleFactor = 1 - percentDifference * 2;
+        const scaleFactor = 1 - scaleDifference * 2;
         const scene = this.sceneProperty.value;
         scene.paintMatrix( this.apertureMatrix, 1 );
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
