@@ -37,7 +37,7 @@ define( require => {
      * Add our pattern to the matrix.
      *
      * @param {Matrix} matrix
-     * @public {number} scaleFactor - zoom factor to account for frequency difference
+     * @param {number} scaleFactor - zoom factor to account for frequency difference
      * @public
      */
     paintMatrix( matrix, scaleFactor ) {

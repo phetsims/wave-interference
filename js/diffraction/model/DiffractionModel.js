@@ -72,14 +72,17 @@ define( require => {
       this.diffractionMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
       const update = () => {
+        // TODO: clear in the paint methods
         this.apertureMatrix.timesEquals( 0 ); // clear
+        this.scaledApertureMatrix.timesEquals( 0 ); // clear
 
         const percentDifference = ( this.wavelengthProperty.value - DEFAULT_WAVELENGTH ) / DEFAULT_WAVELENGTH;
 
         // More frequency => more diffraction
         const scaleFactor = 1 - percentDifference * 2;
-        this.sceneProperty.value.paintMatrix( this.apertureMatrix, 1 );
-        this.sceneProperty.value.paintMatrix( this.scaledApertureMatrix, scaleFactor );
+        const scene = this.sceneProperty.value;
+        scene.paintMatrix( this.apertureMatrix, 1 );
+        scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
         DiffractionModel.fft( this.scaledApertureMatrix, this.diffractionMatrix );
       };
       this.scenes.forEach( scene => scene.link( update ) );
