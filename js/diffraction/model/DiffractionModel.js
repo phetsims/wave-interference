@@ -76,6 +76,7 @@ define( require => {
         DiffractionModel.fft( this.apertureMatrix, this.diffractionMatrix );
       };
       this.scenes.forEach( scene => scene.link( update ) );
+      this.sceneProperty.link( update );
     }
 
     /**
