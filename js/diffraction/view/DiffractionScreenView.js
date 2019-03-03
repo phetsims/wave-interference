@@ -33,6 +33,7 @@ define( require => {
   const ICON_SCALE = 0.2;
   const NUMBER_CONTROL_OPTIONS = WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS;
   const BOX_SPACING = 15;
+  const BOTTOM_MARGIN = 10;
 
   const PANEL_OPTIONS = {
     xMargin: 10,
@@ -63,7 +64,7 @@ define( require => {
       const resetAllButton = new ResetAllButton( {
         listener: () => model.reset(),
         right: this.layoutBounds.maxX - 10,
-        bottom: this.layoutBounds.maxY - 10
+        bottom: this.layoutBounds.maxY - BOTTOM_MARGIN
       } );
       this.addChild( resetAllButton );
 
@@ -86,15 +87,18 @@ define( require => {
         // }
       ];
 
-      this.apertureNode = new MatrixCanvasNode( model.apertureMatrix );
-      this.apertureNode.setTranslation( 200, 200 );
+      const MATRIX_CANVAS_NODE_SCALE = 1.4;
+      this.apertureNode = new MatrixCanvasNode( model.apertureMatrix, { scale: MATRIX_CANVAS_NODE_SCALE } );
+      this.apertureNode.top = 120;
       this.addChild( this.apertureNode );
 
-      this.diffractionNode = new MatrixCanvasNode( model.diffractionMatrix );
-      this.diffractionNode.left = this.apertureNode.right + 100;
+      this.diffractionNode = new MatrixCanvasNode( model.diffractionMatrix, { scale: MATRIX_CANVAS_NODE_SCALE } );
+      this.diffractionNode.right = this.layoutBounds.right - 20;
       this.diffractionNode.top = this.apertureNode.top;
       model.wavelengthProperty.link( wavelength => this.diffractionNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength ) ) );
       this.addChild( this.diffractionNode );
+
+      this.apertureNode.right = this.diffractionNode.left - 50;
 
       const sceneRadioButtonGroup = new RadioButtonGroup( model.sceneProperty, sceneRadioButtonContent, {
         right: this.apertureNode.left - 20,
@@ -127,7 +131,8 @@ define( require => {
       model.angleProperty.lazyLink( updateCanvases );
 
       const aperturePanelOptions = _.extend( {
-        centerTop: this.apertureNode.centerBottom.plusXY( 0, 10 )
+        centerX: this.apertureNode.centerX,
+        bottom: this.layoutBounds.bottom - BOTTOM_MARGIN
       }, PANEL_OPTIONS );
       this.rectangleSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
