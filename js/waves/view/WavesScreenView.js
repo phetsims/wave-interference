@@ -119,7 +119,7 @@ define( require => {
       // show the length scale at the top left of the wave area
       const lengthScaleIndicatorNode = new SceneToggleNode(
         model,
-        scene => new LengthScaleIndicatorNode( scene, this.waveAreaNode.width ), {
+        scene => new LengthScaleIndicatorNode( scene.scaleIndicatorLength * this.waveAreaNode.width / scene.waveAreaWidth, scene.scaleIndicatorText ), {
           alignChildren: ToggleNode.LEFT,
           bottom: this.waveAreaNode.top - 2,
           left: this.waveAreaNode.left

@@ -20,14 +20,13 @@ define( require => {
   class LengthScaleIndicatorNode extends Node {
 
     /**
-     * @param {Scene} scene
-     * @param {number} latticeViewWidth
+     * @param {number} width - width of the indicator
+     * @param {string} string - text to display to the right of the indicator
      * @param {Object} [options]
      */
-    constructor( scene, latticeViewWidth, options ) {
+    constructor( width, string, options ) {
 
-      const width = scene.scaleIndicatorLength * latticeViewWidth / scene.waveAreaWidth;
-      const text = new WaveInterferenceText( scene.scaleIndicatorText, {
+      const text = new WaveInterferenceText( string, {
         font: WaveInterferenceConstants.TIME_AND_LENGTH_SCALE_INDICATOR_FONT
       } );
 

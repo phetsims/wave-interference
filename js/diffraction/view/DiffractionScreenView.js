@@ -14,6 +14,7 @@ define( require => {
   const Dimension2 = require( 'DOT/Dimension2' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
+  const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const MatrixCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/MatrixCanvasNode' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
@@ -99,6 +100,11 @@ define( require => {
       this.addChild( this.diffractionNode );
 
       this.apertureNode.right = this.diffractionNode.left - 50;
+
+      const lengthScaleIndicatorNode = new LengthScaleIndicatorNode( 45, '1000 nm', {
+        leftBottom: this.apertureNode.leftTop.plusXY( 0, -5 )
+      } );
+      this.addChild( lengthScaleIndicatorNode );
 
       const sceneRadioButtonGroup = new RadioButtonGroup( model.sceneProperty, sceneRadioButtonContent, {
         right: this.apertureNode.left - 20,

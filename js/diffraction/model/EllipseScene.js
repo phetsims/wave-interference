@@ -19,7 +19,7 @@ define( require => {
     constructor() {
 
       const diameterProperty = new NumberProperty( 10, {
-        range: new Range( 5, 30 )
+        range: new Range( 5, 256 / 2 * 0.8 ) // TODO: magic number
       } );
       const eccentricityProperty = new NumberProperty( 0, {
         range: new Range( 0, 0.99 )
