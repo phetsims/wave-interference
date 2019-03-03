@@ -217,9 +217,20 @@ define( require => {
       model.onProperty.linkAttribute( incidentBeam, 'visible' );
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
-      const wavelengthSlider = new Panel( new WavelengthSlider( model.wavelengthProperty, {
-        trackWidth: 100,
-        trackHeight: 20
+      const wavelengthSlider = new Panel( new VBox( {
+        children: [
+          new WaveInterferenceText( 'Wavelength' ), // TODO: i18n
+          new WavelengthSlider( model.wavelengthProperty, {
+            trackWidth: 100,
+            trackHeight: 30,
+
+            // thumb
+            thumbWidth: 25,
+            thumbHeight: 25,
+
+            valueFont: WaveInterferenceConstants.DEFAULT_FONT
+          } )
+        ]
       } ), _.extend( {
         left: 5,
         top: laserPointerNode.bottom + 10
