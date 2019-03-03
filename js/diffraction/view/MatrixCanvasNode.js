@@ -15,6 +15,9 @@ define( require => { // eslint-disable-line bad-sim-text
   const ImageDataRenderer = require( 'WAVE_INTERFERENCE/common/view/ImageDataRenderer' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
+  // Linear scaling factor to increase the brightness
+  const SCALE_FACTOR = 3;
+
   class MatrixCanvasNode extends CanvasNode {
 
     /**
@@ -78,9 +81,9 @@ define( require => { // eslint-disable-line bad-sim-text
           const value = this.dataMatrix.get( row, column ); // TODO: inline stride for performance?
 
           // Note this interpolation doesn't include the gamma factor that Color.blend does
-          const r = value * this.baseColor.red;
-          const g = value * this.baseColor.green;
-          const b = value * this.baseColor.blue;
+          const r = Math.min( value * this.baseColor.red * SCALE_FACTOR, 255 );
+          const g = Math.min( value * this.baseColor.green * SCALE_FACTOR, 255 );
+          const b = Math.min( value * this.baseColor.blue * SCALE_FACTOR, 255 );
 
           // ImageData.data is Uint8ClampedArray.  Use Math.round instead of Util.roundSymmetric
           // because performance is critical and all numbers are non-negative.
