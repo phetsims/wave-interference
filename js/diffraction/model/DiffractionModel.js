@@ -86,8 +86,17 @@ define( require => {
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
         // DiffractionModel.fftKiss( this.scaledApertureMatrix, this.diffractionMatrix );
         // this.diffractionMatrix.entries = this.diffractionMatrix.transpose().entries;
-        // DiffractionModel.fftTurbomaze( this.scaledApertureMatrix, this.diffractionMatrix );
+        let x = Date.now();
+        DiffractionModel.fftTurbomaze( this.scaledApertureMatrix, this.diffractionMatrix );
+        const m = Date.now() - x;
+        // console.log(m);
+
+        let y = Date.now();
         DiffractionModel.fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
+        const n = Date.now() - y;
+        // console.log(n);
+
+        console.log( m, n, n / m );
       };
       this.scenes.forEach( scene => scene.link( update ) );
       this.sceneProperty.link( update );
@@ -139,7 +148,12 @@ define( require => {
     const shifted = Fourier.shift( result, MATRIX_DIMENSIONS );
 
     // get the largest magnitude
-    const maxMagnitude = Math.max( ...shifted.map( h => h.magnitude() ) );
+    let maxMagnitude = 0;
+    for ( let i = 0; i < shifted.length; i++ ) {
+      if ( shifted[ i ].magnitude() > maxMagnitude ) {
+        maxMagnitude = shifted[ i ].magnitude();
+      }
+    }
 
     // draw the pixels
     const logOfMaxMag = Math.log( CONTRAST * maxMagnitude + 1 );
@@ -250,7 +264,13 @@ define( require => {
     const shifted = Fourier.shift( result, MATRIX_DIMENSIONS );
 
     // get the largest magnitude
-    const maxMagnitude = Math.max( ...shifted.map( h => h.magnitude ) );
+    let maxMagnitude = 0;
+    for ( let i = 0; i < shifted.length; i++ ) {
+      if ( shifted[ i ].magnitude > maxMagnitude ) {
+        maxMagnitude = shifted[ i ].magnitude;
+      }
+    }
+    // const maxMagnitude = Math.max( ...shifted.map( h => h.magnitude ) );
 
     // draw the pixels
     const logOfMaxMag = Math.log( CONTRAST * maxMagnitude + 1 );
