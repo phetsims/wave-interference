@@ -239,14 +239,16 @@ define( require => {
     }
     FFT.fft2d( re, im );
 
-    FrequencyFilter.swap( re, im );
+    // FrequencyFilter.swap( re, im );
 
-    // const shifted = Fourier.shift( result, MATRIX_DIMENSIONS );
-
-    const shifted = [];
+    const result = [];
     for ( let i = 0; i < re.length; i++ ) {
-      shifted[ i ] = new Complex( re[ i ], im[ i ] );
+      result[ i ] = new Complex( re[ i ], im[ i ] );
     }
+
+    // Rearrange quadrants
+    const shifted = Fourier.shift( result, MATRIX_DIMENSIONS );
+
     // get the largest magnitude
     const maxMagnitude = Math.max( ...shifted.map( h => h.magnitude ) );
 
@@ -256,20 +258,6 @@ define( require => {
     for ( let i = 0; i < shifted.length; i++ ) {
       output.entries[ i ] = Math.log( CONTRAST * shifted[ i ].magnitude + 1 ) / logOfMaxMag;
     }
-
-    const e2 = [];
-    for ( let i = 0; i < output.entries.length; i++ ) {
-      e2.push( output.entries[ ( i + output.entries.length / 2 ) % output.entries.length ] );
-    }
-
-    output.entries = e2;
-
-    // for ( let i = 0; i < input.entries.length; i++ ) {
-    //   output.entries[ i ] = Math.sqrt( re[ i ] * re[ i ] + im[ i ] * im[ i ] );
-    //   // re[ i ] = input.entries[ i ];
-    //   // im[ i ] = 0;
-    // }
-    // debugger;
   };
 
   return waveInterference.register( 'DiffractionModel', DiffractionModel );
