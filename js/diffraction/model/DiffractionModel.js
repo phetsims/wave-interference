@@ -84,9 +84,10 @@ define( require => {
         const scene = this.sceneProperty.value;
         scene.paintMatrix( this.apertureMatrix, 1 );
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
-        DiffractionModel.fftKiss( this.scaledApertureMatrix, this.diffractionMatrix );
-        this.diffractionMatrix.entries = this.diffractionMatrix.transpose().entries;
+        // DiffractionModel.fftKiss( this.scaledApertureMatrix, this.diffractionMatrix );
+        // this.diffractionMatrix.entries = this.diffractionMatrix.transpose().entries;
         // DiffractionModel.fftTurbomaze( this.scaledApertureMatrix, this.diffractionMatrix );
+        DiffractionModel.fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
       };
       this.scenes.forEach( scene => scene.link( update ) );
       this.sceneProperty.link( update );
@@ -226,6 +227,24 @@ define( require => {
       }
     }
     ctx.putImageData( imgData, 0, 0 );
+  };
+
+  DiffractionModel.fftImageProcessingLabs = ( input, output ) => {
+    FFT.init( input.getRowDimension() );
+    const im = new Array( input.entries.length );
+    const re = new Array( input.entries.length );
+    for ( let i = 0; i < input.entries.length; i++ ) {
+      re[ i ] = input.entries[ i ];
+      im[ i ] = 0;
+    }
+    FFT.fft2d( re, im );
+
+    for ( let i = 0; i < input.entries.length; i++ ) {
+      output.entries[ i ] = Math.sqrt( re[ i ] * re[ i ] + im[ i ] * im[ i ] );
+      // re[ i ] = input.entries[ i ];
+      // im[ i ] = 0;
+    }
+    debugger;
   };
 
   return waveInterference.register( 'DiffractionModel', DiffractionModel );
