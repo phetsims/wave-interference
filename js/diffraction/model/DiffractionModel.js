@@ -83,7 +83,8 @@ define( require => {
         const scene = this.sceneProperty.value;
         scene.paintMatrix( this.apertureMatrix, 1 );
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
-        DiffractionModel.fft( this.scaledApertureMatrix, this.diffractionMatrix );
+        DiffractionModel.fftKiss( this.scaledApertureMatrix, this.diffractionMatrix );
+        // DiffractionModel.fftTurbomaze( this.scaledApertureMatrix, this.diffractionMatrix );
       };
       this.scenes.forEach( scene => scene.link( update ) );
       this.sceneProperty.link( update );
@@ -116,11 +117,19 @@ define( require => {
     return x;
   };
 
+  DiffractionModel.getFloat32Array = matrix => {
+    const x = new Float32Array( matrix.getColumnDimension() * matrix.getRowDimension() );
+    for ( let i = 0; i < matrix.size; i++ ) {
+      x[ i ] = matrix.entries[ i ];
+    }
+    return x;
+  };
+
   /**
    * @param {Matrix} input
    * @param {Matrix} output
    */
-  DiffractionModel.fft = ( input, output ) => {
+  DiffractionModel.fftTurbomaze = ( input, output ) => {
     // compute the h hat values
     const result = [];
     Fourier.transform( DiffractionModel.getPlainArray( input ), result );
@@ -135,6 +144,56 @@ define( require => {
     for ( let i = 0; i < result.length; i++ ) {
       output.entries[ i ] = Math.log( CONTRAST * shifted[ i ].magnitude() + 1 ) / logOfMaxMag;
     }
+  };
+
+  /**
+   * @param {Matrix} input
+   * @param {Matrix} output
+   */
+  DiffractionModel.fftKiss = ( input, output ) => {
+
+    const spectrum = rfft2d( DiffractionModel.getFloat32Array( input ), input.getRowDimension(), input.getColumnDimension() );
+    const spectrumCanvas = document.getElementById( 'spectrum' );
+    const ctx = spectrumCanvas.getContext( '2d' );
+
+    let maxval = 0;
+    let minval = 999999999;
+    const n = spectrumCanvas.height * ( spectrumCanvas.width / 2 + 1 );
+    for ( let i = 0; i < 2 * n; i += 2 ) {
+      spectrum[ i ] = Math.log( spectrum[ i ] * spectrum[ i ] + spectrum[ i + 1 ] * spectrum[ i + 1 ] );
+      assert && assert( !isNaN( spectrum[ i ] ) );
+      maxval = Math.max( maxval, spectrum[ i ] );
+      minval = Math.min( minval, spectrum[ i ] );
+    }
+
+    const imgData = ctx.getImageData( 0, 0, spectrumCanvas.width, spectrumCanvas.height );
+    let y = 0;
+    let x = 0;
+    for ( let i = 0; i <= 2 * n; i += 2 ) {
+      const val = ( spectrum[ i ] - minval ) * 255 / maxval;
+      // output.entries[ i ] = val / 255 / Math.E;
+      assert && assert( !isNaN( val ), 'val' );
+      // console.log( val );
+
+      const j = y * spectrumCanvas.width + x;
+      const k = ( y + 1 ) * spectrumCanvas.width - ( x + 1 );
+
+      output.entries[ j * 4 / 2 ] = val / 255 / Math.E;
+      output.entries[ k * 4 / 2 ] = val / 255 / Math.E;
+
+      for ( let l = 0; l < 4; l++ ) {
+
+        imgData.data[ j * 4 + l ] = l < 3 ? val : 255;
+        imgData.data[ k * 4 + l ] = l < 3 ? val : 255;
+      }
+
+      x++;
+      if ( x === spectrumCanvas.width / 2 + 1 ) {
+        x = 0;
+        y++;
+      }
+    }
+    ctx.putImageData( imgData, 0, 0 );
   };
 
   return waveInterference.register( 'DiffractionModel', DiffractionModel );
