@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const Complex = require( 'DOT/Complex' );
   const EllipseScene = require( 'WAVE_INTERFERENCE/diffraction/model/EllipseScene' );
   const Enumeration = require( 'PHET_CORE/Enumeration' );
   const Matrix = require( 'DOT/Matrix' );
@@ -84,6 +85,7 @@ define( require => {
         scene.paintMatrix( this.apertureMatrix, 1 );
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
         DiffractionModel.fftKiss( this.scaledApertureMatrix, this.diffractionMatrix );
+        this.diffractionMatrix.entries = this.diffractionMatrix.transpose().entries;
         // DiffractionModel.fftTurbomaze( this.scaledApertureMatrix, this.diffractionMatrix );
       };
       this.scenes.forEach( scene => scene.link( update ) );
@@ -153,6 +155,36 @@ define( require => {
   DiffractionModel.fftKiss = ( input, output ) => {
 
     const spectrum = rfft2d( DiffractionModel.getFloat32Array( input ), input.getRowDimension(), input.getColumnDimension() );
+    let result = [];
+    for ( let i = 0; i < spectrum.length; i += 2 ) {
+      result.push( new Complex( spectrum[ i ], spectrum[ i + 1 ] ) );
+    }
+    debugger;
+
+    // var m = new Matrix(input.getRowDimension(), input.getColumnDimension(),null,result);
+    // m=m.transpose();
+    // result = m.entries;
+
+    const shifted = Fourier.shift( result, MATRIX_DIMENSIONS );
+    // const shifted = result;
+
+    // get the largest magnitude
+    const maxMagnitude = Math.max( ...shifted.map( h => h.magnitude ) );
+
+    // draw the pixels
+    const logOfMaxMag = Math.log( CONTRAST * maxMagnitude + 1 );
+
+    for ( let i = 0; i < shifted.length; i++ ) {
+      output.entries[ i ] = Math.log( CONTRAST * shifted[ i ].magnitude + 1 ) / logOfMaxMag;
+    }
+
+    // var m = new Matrix( input.getRowDimension(), input.getColumnDimension(), null, output.entries );
+    // var nz = m.transpose();
+    //
+    // output.entries = nz.entries;
+
+    return;
+
     const spectrumCanvas = document.getElementById( 'spectrum' );
     const ctx = spectrumCanvas.getContext( '2d' );
 
