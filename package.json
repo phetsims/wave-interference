@@ -13,8 +13,7 @@
     "requirejsNamespace": "WAVE_INTERFERENCE",
     "preload": [
       "../sherpa/lib/fourier-1.1.0.js",
-      "../sherpa/lib/js-kiss-fft-a.out-1.0.0.js",
-      "../sherpa/lib/js-kiss-fft-1.0.0.js"
+      "../sherpa/lib/imageprocessing-labs-fft-1.0.0.js"
     ],
     "phetLibs": [
       "twixt",
@@ -28,6 +27,9 @@
     "simulation": true
   },
   "eslintConfig": {
-    "extends": "../chipper/eslint/sim_es6_eslintrc.js"
+    "extends": "../chipper/eslint/sim_es6_eslintrc.js",
+    "globals": {
+      "FFT": false
+    }
   }
 }

@@ -86,12 +86,12 @@ define( require => {
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
         // DiffractionModel.fftKiss( this.scaledApertureMatrix, this.diffractionMatrix );
         // this.diffractionMatrix.entries = this.diffractionMatrix.transpose().entries;
-        let x = Date.now();
+        const x = Date.now();
         DiffractionModel.fftTurbomaze( this.scaledApertureMatrix, this.diffractionMatrix );
         const m = Date.now() - x;
         // console.log(m);
 
-        let y = Date.now();
+        const y = Date.now();
         DiffractionModel.fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
         const n = Date.now() - y;
         // console.log(n);
@@ -169,78 +169,78 @@ define( require => {
    */
   DiffractionModel.fftKiss = ( input, output ) => {
 
-    const spectrum = rfft2d( DiffractionModel.getFloat32Array( input ), input.getRowDimension(), input.getColumnDimension() );
-    let result = [];
-    for ( let i = 0; i < spectrum.length; i += 2 ) {
-      result.push( new Complex( spectrum[ i ], spectrum[ i + 1 ] ) );
-    }
-    debugger;
-
-    // var m = new Matrix(input.getRowDimension(), input.getColumnDimension(),null,result);
-    // m=m.transpose();
-    // result = m.entries;
-
-    const shifted = Fourier.shift( result, MATRIX_DIMENSIONS );
-    // const shifted = result;
-
-    // get the largest magnitude
-    const maxMagnitude = Math.max( ...shifted.map( h => h.magnitude ) );
-
-    // draw the pixels
-    const logOfMaxMag = Math.log( CONTRAST * maxMagnitude + 1 );
-
-    for ( let i = 0; i < shifted.length; i++ ) {
-      output.entries[ i ] = Math.log( CONTRAST * shifted[ i ].magnitude + 1 ) / logOfMaxMag;
-    }
-
-    // var m = new Matrix( input.getRowDimension(), input.getColumnDimension(), null, output.entries );
-    // var nz = m.transpose();
+    // const spectrum = rfft2d( DiffractionModel.getFloat32Array( input ), input.getRowDimension(), input.getColumnDimension() );
+    // let result = [];
+    // for ( let i = 0; i < spectrum.length; i += 2 ) {
+    //   result.push( new Complex( spectrum[ i ], spectrum[ i + 1 ] ) );
+    // }
+    // debugger;
     //
-    // output.entries = nz.entries;
-
-    return;
-
-    const spectrumCanvas = document.getElementById( 'spectrum' );
-    const ctx = spectrumCanvas.getContext( '2d' );
-
-    let maxval = 0;
-    let minval = 999999999;
-    const n = spectrumCanvas.height * ( spectrumCanvas.width / 2 + 1 );
-    for ( let i = 0; i < 2 * n; i += 2 ) {
-      spectrum[ i ] = Math.log( spectrum[ i ] * spectrum[ i ] + spectrum[ i + 1 ] * spectrum[ i + 1 ] );
-      assert && assert( !isNaN( spectrum[ i ] ) );
-      maxval = Math.max( maxval, spectrum[ i ] );
-      minval = Math.min( minval, spectrum[ i ] );
-    }
-
-    const imgData = ctx.getImageData( 0, 0, spectrumCanvas.width, spectrumCanvas.height );
-    let y = 0;
-    let x = 0;
-    for ( let i = 0; i <= 2 * n; i += 2 ) {
-      const val = ( spectrum[ i ] - minval ) * 255 / maxval;
-      // output.entries[ i ] = val / 255 / Math.E;
-      assert && assert( !isNaN( val ), 'val' );
-      // console.log( val );
-
-      const j = y * spectrumCanvas.width + x;
-      const k = ( y + 1 ) * spectrumCanvas.width - ( x + 1 );
-
-      output.entries[ j * 4 / 2 ] = val / 255 / Math.E;
-      output.entries[ k * 4 / 2 ] = val / 255 / Math.E;
-
-      for ( let l = 0; l < 4; l++ ) {
-
-        imgData.data[ j * 4 + l ] = l < 3 ? val : 255;
-        imgData.data[ k * 4 + l ] = l < 3 ? val : 255;
-      }
-
-      x++;
-      if ( x === spectrumCanvas.width / 2 + 1 ) {
-        x = 0;
-        y++;
-      }
-    }
-    ctx.putImageData( imgData, 0, 0 );
+    // // var m = new Matrix(input.getRowDimension(), input.getColumnDimension(),null,result);
+    // // m=m.transpose();
+    // // result = m.entries;
+    //
+    // const shifted = Fourier.shift( result, MATRIX_DIMENSIONS );
+    // // const shifted = result;
+    //
+    // // get the largest magnitude
+    // const maxMagnitude = Math.max( ...shifted.map( h => h.magnitude ) );
+    //
+    // // draw the pixels
+    // const logOfMaxMag = Math.log( CONTRAST * maxMagnitude + 1 );
+    //
+    // for ( let i = 0; i < shifted.length; i++ ) {
+    //   output.entries[ i ] = Math.log( CONTRAST * shifted[ i ].magnitude + 1 ) / logOfMaxMag;
+    // }
+    //
+    // // var m = new Matrix( input.getRowDimension(), input.getColumnDimension(), null, output.entries );
+    // // var nz = m.transpose();
+    // //
+    // // output.entries = nz.entries;
+    //
+    // return;
+    //
+    // const spectrumCanvas = document.getElementById( 'spectrum' );
+    // const ctx = spectrumCanvas.getContext( '2d' );
+    //
+    // let maxval = 0;
+    // let minval = 999999999;
+    // const n = spectrumCanvas.height * ( spectrumCanvas.width / 2 + 1 );
+    // for ( let i = 0; i < 2 * n; i += 2 ) {
+    //   spectrum[ i ] = Math.log( spectrum[ i ] * spectrum[ i ] + spectrum[ i + 1 ] * spectrum[ i + 1 ] );
+    //   assert && assert( !isNaN( spectrum[ i ] ) );
+    //   maxval = Math.max( maxval, spectrum[ i ] );
+    //   minval = Math.min( minval, spectrum[ i ] );
+    // }
+    //
+    // const imgData = ctx.getImageData( 0, 0, spectrumCanvas.width, spectrumCanvas.height );
+    // let y = 0;
+    // let x = 0;
+    // for ( let i = 0; i <= 2 * n; i += 2 ) {
+    //   const val = ( spectrum[ i ] - minval ) * 255 / maxval;
+    //   // output.entries[ i ] = val / 255 / Math.E;
+    //   assert && assert( !isNaN( val ), 'val' );
+    //   // console.log( val );
+    //
+    //   const j = y * spectrumCanvas.width + x;
+    //   const k = ( y + 1 ) * spectrumCanvas.width - ( x + 1 );
+    //
+    //   output.entries[ j * 4 / 2 ] = val / 255 / Math.E;
+    //   output.entries[ k * 4 / 2 ] = val / 255 / Math.E;
+    //
+    //   for ( let l = 0; l < 4; l++ ) {
+    //
+    //     imgData.data[ j * 4 + l ] = l < 3 ? val : 255;
+    //     imgData.data[ k * 4 + l ] = l < 3 ? val : 255;
+    //   }
+    //
+    //   x++;
+    //   if ( x === spectrumCanvas.width / 2 + 1 ) {
+    //     x = 0;
+    //     y++;
+    //   }
+    // }
+    // ctx.putImageData( imgData, 0, 0 );
   };
 
   DiffractionModel.fftImageProcessingLabs = ( input, output ) => {
