@@ -255,6 +255,11 @@ define( require => {
 
     // FrequencyFilter.swap( re, im );
 
+    // From https://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/www/notes/fourier/fourier.pdf
+    // Practical issues: For display purposes, you probably want to cyclically translate the picture so that pixel (0,0), which now contains frequency (ωx, ωy ) = (0, 0), moves to the center
+    // of the image. And you probably want to display pixel values proportional to log(magnitude)
+    // of each complex number (this looks more interesting than just magnitude). For color images, do the above to each of the three channels (R, G, and B) independently.
+
     const result = [];
     for ( let i = 0; i < re.length; i++ ) {
       result[ i ] = new Complex( re[ i ], im[ i ] );
