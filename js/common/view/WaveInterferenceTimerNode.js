@@ -31,9 +31,9 @@ define( require => {
       } );
 
       config = _.extend( {
+        maxValue: 999.99,
         timerReadoutNodeOptions: {
-          unitsNode: unitsNode,
-          maxValue: 999.99
+          unitsNode: unitsNode
         }
       }, config );
       assert && assert( !!config.end, 'end is a required argument' );
