@@ -26,6 +26,7 @@ define( require => {
   const Util = require( 'DOT/Util' );
   const validate = require( 'AXON/validate' );
   const Vector2 = require( 'DOT/Vector2' );
+  const Vector2Property = require( 'DOT/Vector2Property' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
@@ -231,9 +232,7 @@ define( require => {
       // note: this is a floating point representation in 2D to work seamlessly with DragListener
       // lattice computations using this floating point value should use Util.roundSymmetric()
       // start slightly left of 50.5 so it will round to 50 instead of 51
-      this.barrierLocationProperty = new Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ), {
-        valueType: Vector2
-      } );
+      this.barrierLocationProperty = new Vector2Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ) );
 
       // @public {DerivedProperty.<number>} - lattice cell index of the continuous barrier location (x coordinate only)
       this.barrierLatticeCoordinateProperty = new DerivedProperty(

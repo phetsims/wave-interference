@@ -25,6 +25,7 @@ define( require => {
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
+  const Vector2Property = require( 'DOT/Vector2Property' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterScene = require( 'WAVE_INTERFERENCE/common/model/WaterScene' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -293,15 +294,11 @@ define( require => {
 
       // @public - model for the view coordinates of the base of the measuring tape
       // We use view coordinates so that nothing needs to be done when switching scenes and coordinate frames.
-      this.measuringTapeBasePositionProperty = new Property( new Vector2( 200, 200 ), {
-        valueType: Vector2
-      } );
+      this.measuringTapeBasePositionProperty = new Vector2Property( new Vector2( 200, 200 ) );
 
       // @public - model for the view coordinates of the tip of the measuring tape
       // This position sets reasonable model defaults for each scene: 1.0cm, 50cm, 500nm
-      this.measuringTapeTipPositionProperty = new Property( new Vector2( 250, 200 ), {
-        valueType: Vector2
-      } );
+      this.measuringTapeTipPositionProperty = new Vector2Property( new Vector2( 250, 200 ) );
 
       // @public - Notifies listeners when the model reset is complete
       this.resetEmitter = new Emitter();
