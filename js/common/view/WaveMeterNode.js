@@ -17,11 +17,11 @@ define( require => {
   const LabeledScrollingChartNode = require( 'GRIDDLE/LabeledScrollingChartNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
-  const Property = require( 'AXON/Property' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScrollingChartNode = require( 'GRIDDLE/ScrollingChartNode' );
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   const Vector2 = require( 'DOT/Vector2' );
+  const Vector2Property = require( 'DOT/Vector2Property' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveMeterProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterProbeNode' );
@@ -117,8 +117,8 @@ define( require => {
         model.rotationAmountProperty.link( snapToCenter );
 
         // Add the wire behind the probe.
-        this.addChild( new WireNode( connectionProperty, new Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
-          new NodeProperty( probeNode, 'bounds', 'centerBottom' ), new Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
+        this.addChild( new WireNode( connectionProperty, new Vector2Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
+          new NodeProperty( probeNode, 'bounds', 'centerBottom' ), new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
             lineWidth: WIRE_LINE_WIDTH,
             stroke: wireColor
           }
