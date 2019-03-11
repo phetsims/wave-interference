@@ -63,6 +63,9 @@ define( require => {
           const ellipseValue = dx * dx / rx2 + dy * dy / ry2;
 
           matrix.set( y, x, ellipseValue < 1 ? 1 : 0 );
+
+          // TODO: Should we blur with something like
+          // matrix.set( y, x, ellipseValue < 1 ? 1 - ellipseValue * ellipseValue * ellipseValue : 0 );
         }
       }
     }
