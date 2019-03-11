@@ -86,17 +86,18 @@ define( require => {
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
         // DiffractionModel.fftKiss( this.scaledApertureMatrix, this.diffractionMatrix );
         // this.diffractionMatrix.entries = this.diffractionMatrix.transpose().entries;
-        const x = Date.now();
-        DiffractionModel.fftTurbomaze( this.scaledApertureMatrix, this.diffractionMatrix );
-        const m = Date.now() - x;
+        // const x = Date.now();
+        // DiffractionModel.fftTurbomaze( this.scaledApertureMatrix, this.diffractionMatrix );
+        // const m = Date.now() - x;
         // console.log(m);
 
-        const y = Date.now();
-        // DiffractionModel.fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
-        const n = Date.now() - y;
+        // const y = Date.now();
+        DiffractionModel.fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
+        // const n = Date.now() - y;
         // console.log(n);
 
-        console.log( m, n, n / m );
+        // console.log( m, n );
+        // $( '#phetProfiler' ).html( 'm=' + m + ', n=' + n );
       };
       this.scenes.forEach( scene => scene.link( update ) );
       this.sceneProperty.link( update );
