@@ -23,7 +23,6 @@ define( require => {
 
   // constants
   const MATRIX_DIMENSION = 256;
-  const MATRIX_DIMENSIONS = [ MATRIX_DIMENSION, MATRIX_DIMENSION ];
   const CONTRAST = 0.01;
   const DEFAULT_WAVELENGTH = ( VisibleColor.MIN_WAVELENGTH + VisibleColor.MAX_WAVELENGTH ) / 2;
 
