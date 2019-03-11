@@ -212,6 +212,7 @@ define( require => {
     }
     FFT.fft2d( re, im );
 
+    // TODO: inline this or don't allocate
     const result = [];
     for ( let i = 0; i < re.length; i++ ) {
       result[ i ] = new Complex( re[ i ], im[ i ] );

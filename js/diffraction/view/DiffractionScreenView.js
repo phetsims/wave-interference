@@ -88,7 +88,7 @@ define( require => {
         // }
       ];
 
-      const MATRIX_CANVAS_NODE_SCALE = 1.4/2;
+      const MATRIX_CANVAS_NODE_SCALE = 1.4;
       this.apertureNode = new MatrixCanvasNode( model.apertureMatrix, { scale: MATRIX_CANVAS_NODE_SCALE } );
       this.apertureNode.top = 120;
       this.addChild( this.apertureNode );
