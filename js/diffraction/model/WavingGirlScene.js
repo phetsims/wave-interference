@@ -10,6 +10,9 @@ define( require => {
 
   // modules
   const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
+  const Matrix3 = require( 'DOT/Matrix3' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
+  const Range = require( 'DOT/Range' );
   const Shape = require( 'KITE/Shape' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -20,10 +23,28 @@ define( require => {
                                      '\t M1.917,17.28h4.621v4.621H1.917V17.28z M61.268,42.681l-7.027-7.787v-0.08H41.919v9.479H54.17v3.106l-7.77,7.879l3.545,3.494\n' +
                                      '\tl13.625-13.82L61.268,42.681z' );
 
+  // TODO: this shape is too slow and we will need to optimize.
+  // TODO: one way to do so would be to compute the x/y map once during startup.  Then inverse transform the input
+  // TODO: point instead of transforming the target each time.  But then it will be complicated determining the range
+  // TODO: for iteration.  Perhaps we should try canvas draw image and sampling.
+
   class WavingGirlScene extends DiffractionScene {
 
     constructor() {
-      super( [] );
+
+      const heightProperty = new NumberProperty( 1000, {
+        range: new Range( 0, 1000 )
+      } );
+      const rotationProperty = new NumberProperty( 0, {
+        range: new Range( 0, Math.PI * 2 )
+      } );
+      super( [ heightProperty, rotationProperty ] );
+
+      // @public {NumberProperty}
+      this.heightProperty = heightProperty;
+
+      // @public {NumberProperty}
+      this.rotationProperty = rotationProperty;
     }
 
     /**
@@ -37,10 +58,15 @@ define( require => {
       assert && assert( matrix.getRowDimension() % 2 === 0, 'matrix should be even' );
       assert && assert( matrix.getColumnDimension() % 2 === 0, 'matrix should be even' );
 
+      // const height = this.heightProperty.value;
+      const rotation = this.rotationProperty.value;
+
+      const transformedWavingGirlShape = wavingGirlShape.transformed( Matrix3.rotationAround( rotation, wavingGirlShape.bounds.centerX, wavingGirlShape.bounds.centerY ) );
+
       for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
         for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
 
-          const contained = wavingGirlShape.containsPoint( new Vector2( x, y ) );
+          const contained = transformedWavingGirlShape.containsPoint( new Vector2( x, y ) );
 
           matrix.set( y, x, contained ? 1 : 0 );
         }

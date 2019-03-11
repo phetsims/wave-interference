@@ -229,6 +229,40 @@ define( require => {
       } ), aperturePanelOptions );
       this.addChild( this.circleDiamondSceneControlPanel ); // TODO: separate file?
 
+      this.wavingGirlSceneControlPanel = new Panel( new HBox( {
+        spacing: BOX_SPACING,
+        children: [
+          new NumberControl( 'Height', model.wavingGirlScene.heightProperty, model.wavingGirlScene.heightProperty.range, _.extend( {
+            sliderOptions: {
+              majorTicks: [ {
+
+                // TODO: model coordinates for these
+                value: model.wavingGirlScene.heightProperty.range.min,
+                label: new WaveInterferenceText( model.wavingGirlScene.heightProperty.range.min )
+              }, {
+                value: model.wavingGirlScene.heightProperty.range.max,
+                label: new WaveInterferenceText( model.wavingGirlScene.heightProperty.range.max )
+              } ]
+            }
+          }, NUMBER_CONTROL_OPTIONS ) ),
+          new NumberControl( 'Rotation', model.wavingGirlScene.rotationProperty, model.wavingGirlScene.rotationProperty.range, _.extend( {
+            delta: 0.01,
+            sliderOptions: {
+              majorTicks: [ {
+
+                // TODO: model coordinates for these
+                value: model.wavingGirlScene.rotationProperty.range.min,
+                label: new WaveInterferenceText( model.wavingGirlScene.rotationProperty.range.min )
+              }, {
+                value: model.wavingGirlScene.rotationProperty.range.max,
+                label: new WaveInterferenceText( '360 o' )
+              } ]
+            }
+          }, NUMBER_CONTROL_OPTIONS ) )
+        ]
+      } ), aperturePanelOptions );
+      this.addChild( this.wavingGirlSceneControlPanel ); // TODO: separate file
+
       this.slitsControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
@@ -246,6 +280,7 @@ define( require => {
       model.sceneProperty.link( scene => {
         this.rectangleSceneControlPanel.visible = scene === model.rectangleScene;
         this.ellipseSceneControlPanel.visible = scene === model.ellipseScene;
+        this.wavingGirlSceneControlPanel.visible = scene === model.wavingGirlScene;
         this.circleDiamondSceneControlPanel.visible = scene === model.circleDiamondScene;
         this.slitsControlPanel.visible = scene === DiffractionModel.ApertureType.SLITS;
       } );
