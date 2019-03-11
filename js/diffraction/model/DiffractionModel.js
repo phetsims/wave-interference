@@ -20,11 +20,12 @@ define( require => {
   const RectangleScene = require( 'WAVE_INTERFERENCE/diffraction/model/RectangleScene' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
-  const MATRIX_DIMENSION = 256;
   const CONTRAST = 0.01;
   const DEFAULT_WAVELENGTH = ( VisibleColor.MIN_WAVELENGTH + VisibleColor.MAX_WAVELENGTH ) / 2;
+  const MATRIX_DIMENSION = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
 
   class DiffractionModel {
     constructor() {

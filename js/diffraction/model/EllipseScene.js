@@ -9,17 +9,18 @@ define( require => {
   'use strict';
 
   // modules
+  const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
-  const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   class EllipseScene extends DiffractionScene {
 
     constructor() {
 
       const diameterProperty = new NumberProperty( 10, {
-        range: new Range( 5, 256 / 2 * 0.8 ) // TODO: magic number
+        range: new Range( 5, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 * 0.8 ) // TODO: magic number
       } );
       const eccentricityProperty = new NumberProperty( 0, {
         range: new Range( 0, 0.99 )

@@ -14,6 +14,7 @@ define( require => { // eslint-disable-line bad-sim-text
   const Color = require( 'SCENERY/util/Color' );
   const ImageDataRenderer = require( 'WAVE_INTERFERENCE/common/view/ImageDataRenderer' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // Linear scaling factor to increase the brightness
   const SCALE_FACTOR = 3;
@@ -29,7 +30,10 @@ define( require => { // eslint-disable-line bad-sim-text
       options = _.extend( {
 
         // only use the visible part for the bounds (not the damping regions)
-        canvasBounds: new Bounds2( 0, 0, 256, 256 ), // TODO: factor out
+        canvasBounds: new Bounds2( 0, 0,
+          WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION,
+          WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION
+        ),
         layerSplit: true, // ensure we're on our own layer
         baseColor: Color.white
       }, options );
