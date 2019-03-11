@@ -183,6 +183,8 @@ define( require => {
   // of each complex number (this looks more interesting than just magnitude). For color images, do the above to each of the three channels (R, G, and B) independently.
   DiffractionModel.fftImageProcessingLabs = ( input, output ) => {
     FFT.init( input.getRowDimension() );
+
+    // TODO: Could be faster by allocating arrays once
     const im = new Array( input.entries.length );
     const re = new Array( input.entries.length );
     for ( let i = 0; i < input.entries.length; i++ ) {
@@ -190,8 +192,6 @@ define( require => {
       im[ i ] = 0;
     }
     FFT.fft2d( re, im );
-
-    // FrequencyFilter.swap( re, im );
 
     const result = [];
     for ( let i = 0; i < re.length; i++ ) {
