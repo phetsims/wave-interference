@@ -17,6 +17,7 @@ define( require => {
   const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const MatrixCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/MatrixCanvasNode' );
+  const Node = require( 'SCENERY/nodes/Node' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Panel = require( 'SUN/Panel' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
@@ -75,11 +76,16 @@ define( require => {
       }, {
         value: model.rectangleScene,
         node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
+      }, {
+        value: model.circleDiamondScene,
+        node: new Node( {
+          children: [
+            new Circle( 5, { fill: 'black' } ),
+            new Rectangle( 0, 0, 10, 10, { fill: 'black', rotation: Math.PI / 4, x: 10, y: 8 } )
+          ]
+        } )
       }
         // , {
-        //   value: 'test',
-        //   node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
-        // }, {
         //   value: 'test2',
         //   node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
         // }, {

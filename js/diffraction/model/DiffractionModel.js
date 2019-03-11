@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const CircleDiamondScene = require( 'WAVE_INTERFERENCE/diffraction/model/CircleDiamondScene' );
   const EllipseScene = require( 'WAVE_INTERFERENCE/diffraction/model/EllipseScene' );
   const Enumeration = require( 'PHET_CORE/Enumeration' );
   const Matrix = require( 'DOT/Matrix' );
@@ -51,6 +52,9 @@ define( require => {
       // @public
       this.rectangleScene = new RectangleScene();
 
+      // @public
+      this.circleDiamondScene = new CircleDiamondScene();
+
       // @public characteristics of the grating
       this.numberOfLinesProperty = new NumberProperty( 10, {
         range: new Range( 2, 200 )
@@ -63,7 +67,7 @@ define( require => {
         validValues: DiffractionModel.ApertureType.VALUES
       } );
 
-      this.scenes = [ this.ellipseScene, this.rectangleScene ];
+      this.scenes = [ this.ellipseScene, this.rectangleScene, this.circleDiamondScene ];
 
       // @public - selected aperture type, which is in essence the "scene" for this screen.
       this.sceneProperty = new Property( this.ellipseScene, {
