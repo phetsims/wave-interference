@@ -21,6 +21,7 @@ define( require => {
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WavingGirlScene = require( 'WAVE_INTERFERENCE/diffraction/model/WavingGirlScene' );
 
   // constants
   const CONTRAST = 0.01;
@@ -55,7 +56,11 @@ define( require => {
       // @public
       this.circleDiamondScene = new CircleDiamondScene();
 
+      // @public
+      this.wavingGirlScene = new WavingGirlScene();
+
       // @public characteristics of the grating
+      // TODO: DELETE
       this.numberOfLinesProperty = new NumberProperty( 10, {
         range: new Range( 2, 200 )
       } );
@@ -67,7 +72,7 @@ define( require => {
         validValues: DiffractionModel.ApertureType.VALUES
       } );
 
-      this.scenes = [ this.ellipseScene, this.rectangleScene, this.circleDiamondScene ];
+      this.scenes = [ this.ellipseScene, this.rectangleScene, this.circleDiamondScene, this.wavingGirlScene ];
 
       // @public - selected aperture type, which is in essence the "scene" for this screen.
       this.sceneProperty = new Property( this.ellipseScene, {

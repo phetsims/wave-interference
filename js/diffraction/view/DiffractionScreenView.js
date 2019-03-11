@@ -84,14 +84,15 @@ define( require => {
             new Rectangle( 0, 0, 10, 10, { fill: 'black', rotation: Math.PI / 4, x: 10, y: 8 } )
           ]
         } )
-      }
-        // , {
+      },
+        //  {
         //   value: 'test2',
         //   node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
-        // }, {
-        //   value: 'test3',
-        //   node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
-        // }
+        // },
+        {
+          value: model.wavingGirlScene,
+          node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
+        }
       ];
 
       const MATRIX_CANVAS_NODE_SCALE = 1.4;

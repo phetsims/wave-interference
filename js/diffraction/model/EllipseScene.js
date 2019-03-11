@@ -71,23 +71,5 @@ define( require => {
     }
   }
 
-  /**
-   * TODO: do we need this to smooth the edges?
-   * @param {number} x0
-   * @param {number} y0
-   * @param {number} sigmaX
-   * @param {number} sigmaY
-   * @param {number} x
-   * @param {number} y
-   * @returns {number}
-   */
-  EllipseScene.gaussian = ( x0, y0, sigmaX, sigmaY, x, y ) => {
-    const dx = x - x0;
-    const dy = y - y0;
-    const a = dx * dx / sigmaX / sigmaX;
-    const b = dy * dy / sigmaY / sigmaY;
-    return Math.pow( Math.E, -( a + b ) / 2 );
-  };
-
   return waveInterference.register( 'EllipseScene', EllipseScene );
 } );
