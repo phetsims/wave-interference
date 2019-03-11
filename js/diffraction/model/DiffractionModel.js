@@ -143,10 +143,29 @@ define( require => {
   };
 
   /**
-   * @param {Complex[]} result - 1d array representing matrix
-   * @param {Matrix} output - 1d array for outputs
+   * @param {Matrix} input
+   * @param {Matrix} output - to set resultant values to
    */
-  DiffractionModel.mapOutputViaContrast = ( result, output ) => {
+  DiffractionModel.fftImageProcessingLabs = ( input, output ) => {
+
+    for ( let i = 0; i < input.entries.length; i++ ) {
+      re[ i ] = input.entries[ i ];
+      im[ i ] = 0;
+    }
+
+    // TODO: supply input.entries as re?
+    FFT.fft2d( re, im );
+
+    // TODO: inline this or don't allocate.  Also, should we be creating Complex all the time?
+    const result = [];
+    for ( let i = 0; i < re.length; i++ ) {
+      result[ i ] = new Complex( re[ i ], im[ i ] );
+    }
+
+    // From https://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/www/notes/fourier/fourier.pdf
+    // Practical issues: For display purposes, you probably want to cyclically translate the picture so that pixel (0,0), which now contains frequency (ωx, ωy ) = (0, 0), moves to the center
+    // of the image. And you probably want to display pixel values proportional to log(magnitude)
+    // of each complex number (this looks more interesting than just magnitude). For color images, do the above to each of the three channels (R, G, and B) independently.
 
     for ( let row = 0; row < MATRIX_DIMENSION; row++ ) {
       for ( let col = 0; col < MATRIX_DIMENSION; col++ ) {
@@ -173,29 +192,6 @@ define( require => {
     for ( let i = 0; i < SCRATCH_SHIFTED.length; i++ ) {
       output.entries[ i ] = Math.log( CONTRAST * SCRATCH_SHIFTED[ i ].magnitude + 1 ) / logOfMaxMag;
     }
-  };
-
-  // From https://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/www/notes/fourier/fourier.pdf
-  // Practical issues: For display purposes, you probably want to cyclically translate the picture so that pixel (0,0), which now contains frequency (ωx, ωy ) = (0, 0), moves to the center
-  // of the image. And you probably want to display pixel values proportional to log(magnitude)
-  // of each complex number (this looks more interesting than just magnitude). For color images, do the above to each of the three channels (R, G, and B) independently.
-  DiffractionModel.fftImageProcessingLabs = ( input, output ) => {
-
-    for ( let i = 0; i < input.entries.length; i++ ) {
-      re[ i ] = input.entries[ i ];
-      im[ i ] = 0;
-    }
-
-    // TODO: supply input.entries as re?
-    FFT.fft2d( re, im );
-
-    // TODO: inline this or don't allocate.  Also, should we be creating Complex all the time?
-    const result = [];
-    for ( let i = 0; i < re.length; i++ ) {
-      result[ i ] = new Complex( re[ i ], im[ i ] );
-    }
-
-    DiffractionModel.mapOutputViaContrast( result, output );
   };
 
   return waveInterference.register( 'DiffractionModel', DiffractionModel );
