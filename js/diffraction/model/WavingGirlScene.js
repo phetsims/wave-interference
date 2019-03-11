@@ -10,9 +10,7 @@ define( require => {
 
   // modules
   const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
-  const Matrix3 = require( 'DOT/Matrix3' );
   const Shape = require( 'KITE/Shape' );
-  const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
