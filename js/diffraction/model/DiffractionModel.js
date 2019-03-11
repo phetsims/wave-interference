@@ -31,6 +31,7 @@ define( require => {
   const SCRATCH_SHIFTED = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
   const im = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
   const re = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
+  FFT.init( MATRIX_DIMENSION );
 
   class DiffractionModel {
     constructor() {
@@ -78,9 +79,10 @@ define( require => {
       this.diffractionMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
       const update = () => {
-        // TODO: clear in the paint methods
-        this.apertureMatrix.timesEquals( 0 ); // clear
-        this.scaledApertureMatrix.timesEquals( 0 ); // clear
+
+        // clear before drawing
+        this.apertureMatrix.timesEquals( 0 );
+        this.scaledApertureMatrix.timesEquals( 0 );
 
         const scaleDifference = ( this.wavelengthProperty.value - DEFAULT_WAVELENGTH ) / DEFAULT_WAVELENGTH;
 
@@ -89,20 +91,7 @@ define( require => {
         const scene = this.sceneProperty.value;
         scene.paintMatrix( this.apertureMatrix, 1 );
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
-        // DiffractionModel.fftKiss( this.scaledApertureMatrix, this.diffractionMatrix );
-        // this.diffractionMatrix.entries = this.diffractionMatrix.transpose().entries;
-        // const x = Date.now();
-        // DiffractionModel.fftTurbomaze( this.scaledApertureMatrix, this.diffractionMatrix );
-        // const m = Date.now() - x;
-        // console.log(m);
-
-        // const y = Date.now();
         DiffractionModel.fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
-        // const n = Date.now() - y;
-        // console.log(n);
-
-        // console.log( m, n );
-        // $( '#phetProfiler' ).html( 'm=' + m + ', n=' + n );
       };
       this.scenes.forEach( scene => scene.link( update ) );
       this.sceneProperty.link( update );
@@ -186,26 +175,11 @@ define( require => {
     }
   };
 
-  /**
-   * @param {Matrix} input
-   * @param {Matrix} output
-   */
-  DiffractionModel.fftTurbomaze = ( input, output ) => {
-    // compute the h hat values
-    const result = [];
-    Fourier.transform( DiffractionModel.getPlainArray( input ), result );
-    const complexes = result.map( c => new Complex( c.real, c.imag ) );
-
-    // Patch to reuse output code
-    DiffractionModel.mapOutputViaContrast( complexes, output );
-  };
-
   // From https://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/www/notes/fourier/fourier.pdf
   // Practical issues: For display purposes, you probably want to cyclically translate the picture so that pixel (0,0), which now contains frequency (ωx, ωy ) = (0, 0), moves to the center
   // of the image. And you probably want to display pixel values proportional to log(magnitude)
   // of each complex number (this looks more interesting than just magnitude). For color images, do the above to each of the three channels (R, G, and B) independently.
   DiffractionModel.fftImageProcessingLabs = ( input, output ) => {
-    FFT.init( input.getRowDimension() );
 
     for ( let i = 0; i < input.entries.length; i++ ) {
       re[ i ] = input.entries[ i ];
