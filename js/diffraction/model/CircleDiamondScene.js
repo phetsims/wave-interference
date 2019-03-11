@@ -49,7 +49,7 @@ define( require => {
       assert && assert( matrix.getRowDimension() % 2 === 0, 'matrix should be even' );
       assert && assert( matrix.getColumnDimension() % 2 === 0, 'matrix should be even' );
 
-      const delta = 0.01;
+      const delta = 0.1;
 
       const circleCenterX = Util.roundSymmetric( matrix.getColumnDimension() * ( 1 / 2 - delta ) );
       const circleCenterY = Util.roundSymmetric( matrix.getRowDimension() * ( 1 / 2 - delta ) );
