@@ -10,9 +10,12 @@ define( require => {
 
   // modules
   const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
+  const Matrix3 = require( 'DOT/Matrix3' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
+  const Shape = require( 'KITE/Shape' );
   const Util = require( 'DOT/Util' );
+  const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
@@ -46,13 +49,19 @@ define( require => {
       assert && assert( matrix.getRowDimension() % 2 === 0, 'matrix should be even' );
       assert && assert( matrix.getColumnDimension() % 2 === 0, 'matrix should be even' );
 
-      const circleCenterX = Util.roundSymmetric( matrix.getColumnDimension() * 1 / 3 );
-      const circleCenterY = Util.roundSymmetric( matrix.getRowDimension() * 1 / 3 );
+      const delta = 0.01;
+
+      const circleCenterX = Util.roundSymmetric( matrix.getColumnDimension() * ( 1 / 2 - delta ) );
+      const circleCenterY = Util.roundSymmetric( matrix.getRowDimension() * ( 1 / 2 - delta ) );
       const circleRadius = this.circleDiameterProperty.value / 2;
 
-      const diamondCenterX = Util.roundSymmetric( matrix.getColumnDimension() * 2 / 3 );
-      const diamondCenterY = Util.roundSymmetric( matrix.getRowDimension() * 2 / 3 );
+      const diamondCenterX = Util.roundSymmetric( matrix.getColumnDimension() * ( 1 / 2 + delta ) );
+      const diamondCenterY = Util.roundSymmetric( matrix.getRowDimension() * ( 1 / 2 + delta ) );
       const diamondRadius = this.diamondDiameterProperty.value / 2;
+
+      const rectangle = Shape.rectangle( -diamondRadius, -diamondRadius, diamondRadius * 2, diamondRadius * 2 );
+      const diamond = rectangle.transformed( Matrix3.rotation2( Math.PI / 4 ) )
+        .transformed( Matrix3.translation( diamondCenterX, diamondCenterY ) );
 
       for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
         for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
@@ -61,10 +70,7 @@ define( require => {
           const distanceToCenterCircle = Math.sqrt( dxCircle * dxCircle + dyCircle * dyCircle );
           const isInCircle = distanceToCenterCircle < circleRadius;
 
-          const dxDiamond = ( x - diamondCenterX );
-          const dyDiamond = ( y - diamondCenterY );
-          const distanceToCenterDiamond = Math.sqrt( dxDiamond * dxDiamond + dyDiamond * dyDiamond );
-          const isInDiamond = distanceToCenterDiamond < diamondRadius;
+          const isInDiamond = diamond.containsPoint( new Vector2( x, y ) );
 
           matrix.set( y, x, isInCircle || isInDiamond ? 1 : 0 );
         }
