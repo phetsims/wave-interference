@@ -192,6 +192,42 @@ define( require => {
       } ), aperturePanelOptions );
       this.addChild( this.ellipseSceneControlPanel );
 
+      this.circleDiamondSceneControlPanel = new Panel( new HBox( {
+        spacing: BOX_SPACING,
+        children: [
+          new NumberControl( 'Circle Diameter', model.circleDiamondScene.circleDiameterProperty, model.circleDiamondScene.circleDiameterProperty.range, _.extend( {
+            sliderOptions: {
+              majorTicks: [ {
+
+                // TODO: model coordinates for these
+                value: model.circleDiamondScene.circleDiameterProperty.range.min,
+                label: new WaveInterferenceText( model.circleDiamondScene.circleDiameterProperty.range.min )
+              }, {
+                value: model.circleDiamondScene.circleDiameterProperty.range.max,
+                label: new WaveInterferenceText( model.circleDiamondScene.circleDiameterProperty.range.max )
+              } ]
+            }
+          }, NUMBER_CONTROL_OPTIONS ) ),
+
+          // TODO: Call this "square?"
+          new NumberControl( 'Diamond Diameter', model.circleDiamondScene.diamondDiameterProperty, model.circleDiamondScene.diamondDiameterProperty.range, _.extend( {
+            delta: 0.01,
+            sliderOptions: {
+              majorTicks: [ {
+
+                // TODO: model coordinates for these
+                value: model.circleDiamondScene.diamondDiameterProperty.range.min,
+                label: new WaveInterferenceText( model.circleDiamondScene.diamondDiameterProperty.range.min )
+              }, {
+                value: model.circleDiamondScene.diamondDiameterProperty.range.max,
+                label: new WaveInterferenceText( model.circleDiamondScene.diamondDiameterProperty.range.max )
+              } ]
+            }
+          }, NUMBER_CONTROL_OPTIONS ) )
+        ]
+      } ), aperturePanelOptions );
+      this.addChild( this.circleDiamondSceneControlPanel ); // TODO: separate file?
+
       this.slitsControlPanel = new Panel( new VBox( {
         spacing: BOX_SPACING,
         children: [
@@ -209,6 +245,7 @@ define( require => {
       model.sceneProperty.link( scene => {
         this.rectangleSceneControlPanel.visible = scene === model.rectangleScene;
         this.ellipseSceneControlPanel.visible = scene === model.ellipseScene;
+        this.circleDiamondSceneControlPanel.visible = scene === model.circleDiamondScene;
         this.slitsControlPanel.visible = scene === DiffractionModel.ApertureType.SLITS;
       } );
 

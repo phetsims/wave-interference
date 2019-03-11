@@ -12,6 +12,7 @@ define( require => {
   const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
+  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
@@ -22,16 +23,16 @@ define( require => {
       const circleDiameterProperty = new NumberProperty( 10, {
         range: new Range( 5, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 * 0.8 ) // TODO: magic number
       } );
-      const squareDiameterProperty = new NumberProperty( 0, {
-        range: new Range( 0, 0.99 )
+      const diamondDiameterProperty = new NumberProperty( 10, {
+        range: new Range( 5, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 * 0.8 )
       } );
-      super( [ circleDiameterProperty, squareDiameterProperty ] );
+      super( [ circleDiameterProperty, diamondDiameterProperty ] );
 
       // @public {NumberProperty}
       this.circleDiameterProperty = circleDiameterProperty;
 
       // @public {NumberProperty}
-      this.squareDiameterProperty = squareDiameterProperty;
+      this.diamondDiameterProperty = diamondDiameterProperty;
     }
 
     /**
@@ -45,24 +46,27 @@ define( require => {
       assert && assert( matrix.getRowDimension() % 2 === 0, 'matrix should be even' );
       assert && assert( matrix.getColumnDimension() % 2 === 0, 'matrix should be even' );
 
-      const y0 = matrix.getRowDimension() / 2;
-      const x0 = matrix.getColumnDimension() / 2;
-      const diameter = this.circleDiameterProperty.value;
-      const eccentricity = this.squareDiameterProperty.value;
+      const circleCenterX = Util.roundSymmetric( matrix.getColumnDimension() * 1 / 3 );
+      const circleCenterY = Util.roundSymmetric( matrix.getRowDimension() * 1 / 3 );
+      const circleRadius = this.circleDiameterProperty.value / 2;
 
-      const rx = diameter;
-      const rx2 = rx * rx * scaleFactor;
-      const ry2 = rx * rx * ( 1 - eccentricity * eccentricity ) * scaleFactor;
+      const diamondCenterX = Util.roundSymmetric( matrix.getColumnDimension() * 2 / 3 );
+      const diamondCenterY = Util.roundSymmetric( matrix.getRowDimension() * 2 / 3 );
+      const diamondRadius = this.diamondDiameterProperty.value / 2;
 
       for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
         for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
-          const dx = ( x - x0 );
-          const dy = ( y - y0 );
+          const dxCircle = ( x - circleCenterX );
+          const dyCircle = ( y - circleCenterY );
+          const distanceToCenterCircle = Math.sqrt( dxCircle * dxCircle + dyCircle * dyCircle );
+          const isInCircle = distanceToCenterCircle < circleRadius;
 
-          // Ellipse equation: (x-h)^2 /rx^2  + (y-k)^2/ry^2 <=1
-          const ellipseValue = dx * dx / rx2 + dy * dy / ry2;
+          const dxDiamond = ( x - diamondCenterX );
+          const dyDiamond = ( y - diamondCenterY );
+          const distanceToCenterDiamond = Math.sqrt( dxDiamond * dxDiamond + dyDiamond * dyDiamond );
+          const isInDiamond = distanceToCenterDiamond < diamondRadius;
 
-          matrix.set( y, x, ellipseValue < 1 ? 1 : 0 );
+          matrix.set( y, x, isInCircle || isInDiamond ? 1 : 0 );
         }
       }
     }

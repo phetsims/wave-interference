@@ -86,6 +86,7 @@ define( require => {
       const update = () => {
 
         // clear before drawing
+        // TODO: do this as part of paint if we don't need compositing
         this.apertureMatrix.timesEquals( 0 );
         this.scaledApertureMatrix.timesEquals( 0 );
 
