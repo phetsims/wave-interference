@@ -157,7 +157,7 @@ define( require => {
           ( row + MATRIX_DIMENSION / 2 ) % MATRIX_DIMENSION,
           ( col + MATRIX_DIMENSION / 2 ) % MATRIX_DIMENSION
         );
-        SHIFTED_MAGNITUDES[ destination ] = Math.sqrt( re[ source ] * re[ source + im[ source ] * im[ source ] ] );
+        SHIFTED_MAGNITUDES[ destination ] = Math.sqrt( re[ source ] * re[ source ] + im[ source ] * im[ source ] );
       }
     }
 
