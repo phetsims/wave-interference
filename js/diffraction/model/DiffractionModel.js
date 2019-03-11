@@ -27,6 +27,11 @@ define( require => {
   const DEFAULT_WAVELENGTH = ( VisibleColor.MIN_WAVELENGTH + VisibleColor.MAX_WAVELENGTH ) / 2;
   const MATRIX_DIMENSION = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
 
+  // preallocated once to avoid generating garbage
+  const SCRATCH_SHIFTED = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
+  const im = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
+  const re = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
+
   class DiffractionModel {
     constructor() {
 
@@ -154,8 +159,6 @@ define( require => {
    */
   DiffractionModel.mapOutputViaContrast = ( result, output ) => {
 
-    // TODO: allocate once
-    const shifted = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
     for ( let row = 0; row < MATRIX_DIMENSION; row++ ) {
       for ( let col = 0; col < MATRIX_DIMENSION; col++ ) {
         const sourceIndex = getIndex( row, col );
@@ -163,23 +166,23 @@ define( require => {
           ( row + MATRIX_DIMENSION / 2 ) % MATRIX_DIMENSION,
           ( col + MATRIX_DIMENSION / 2 ) % MATRIX_DIMENSION
         );
-        shifted[ destinationIndex ] = result[ sourceIndex ];
+        SCRATCH_SHIFTED[ destinationIndex ] = result[ sourceIndex ];
       }
     }
 
     // get the largest magnitude
     let maxMagnitude = 0;
-    for ( let i = 0; i < shifted.length; i++ ) {
-      if ( shifted[ i ].magnitude > maxMagnitude ) {
-        maxMagnitude = shifted[ i ].magnitude;
+    for ( let i = 0; i < SCRATCH_SHIFTED.length; i++ ) {
+      if ( SCRATCH_SHIFTED[ i ].magnitude > maxMagnitude ) {
+        maxMagnitude = SCRATCH_SHIFTED[ i ].magnitude;
       }
     }
 
     // draw the pixels
     const logOfMaxMag = Math.log( CONTRAST * maxMagnitude + 1 );
 
-    for ( let i = 0; i < shifted.length; i++ ) {
-      output.entries[ i ] = Math.log( CONTRAST * shifted[ i ].magnitude + 1 ) / logOfMaxMag;
+    for ( let i = 0; i < SCRATCH_SHIFTED.length; i++ ) {
+      output.entries[ i ] = Math.log( CONTRAST * SCRATCH_SHIFTED[ i ].magnitude + 1 ) / logOfMaxMag;
     }
   };
 
@@ -204,16 +207,15 @@ define( require => {
   DiffractionModel.fftImageProcessingLabs = ( input, output ) => {
     FFT.init( input.getRowDimension() );
 
-    // TODO: Could be faster by allocating arrays once
-    const im = new Array( input.entries.length );
-    const re = new Array( input.entries.length );
     for ( let i = 0; i < input.entries.length; i++ ) {
       re[ i ] = input.entries[ i ];
       im[ i ] = 0;
     }
+
+    // TODO: supply input.entries as re?
     FFT.fft2d( re, im );
 
-    // TODO: inline this or don't allocate
+    // TODO: inline this or don't allocate.  Also, should we be creating Complex all the time?
     const result = [];
     for ( let i = 0; i < re.length; i++ ) {
       result[ i ] = new Complex( re[ i ], im[ i ] );
