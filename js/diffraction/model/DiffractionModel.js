@@ -138,32 +138,31 @@ define( require => {
   };
 
   /**
+   * Given row/column indices, find the index in the flattened array.  Uses the same strategy as DOT/Matrix.
+   * @param {number} i - row index
+   * @param {number} j - column index
+   * @returns {number} - array index
+   */
+  const getIndex = ( i, j ) => {
+    return i * MATRIX_DIMENSION + j;
+  };
+
+  /**
    * @param {Complex[]} result - 1d array representing matrix
    * @param {Matrix} output - 1d array for outputs
    */
   DiffractionModel.mapOutputViaContrast = ( result, output ) => {
 
-    // Ugly brute force algorithm for swapping quadrants.  TODO: there is probably a better way to do this.
-    const realMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION, result.map( r => r.real ), true );
-    const shiftedRealMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
-    for ( let row = 0; row < MATRIX_DIMENSION; row++ ) {
-      for ( let column = 0; column < MATRIX_DIMENSION; column++ ) {
-        shiftedRealMatrix.set( ( row + MATRIX_DIMENSION / 2 ) % MATRIX_DIMENSION, ( column + MATRIX_DIMENSION / 2 ) % MATRIX_DIMENSION, realMatrix.get( row, column ) );
-      }
-    }
-
-    const imaginaryMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION, result.map( r => r.imaginary ), true );
-    const shiftedImaginaryMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
-    for ( let row = 0; row < MATRIX_DIMENSION; row++ ) {
-      for ( let column = 0; column < MATRIX_DIMENSION; column++ ) {
-        shiftedImaginaryMatrix.set( ( row + MATRIX_DIMENSION / 2 ) % MATRIX_DIMENSION, ( column + MATRIX_DIMENSION / 2 ) % MATRIX_DIMENSION, imaginaryMatrix.get( row, column ) );
-      }
-    }
-
+    // TODO: allocate once
     const shifted = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
     for ( let row = 0; row < MATRIX_DIMENSION; row++ ) {
-      for ( let column = 0; column < MATRIX_DIMENSION; column++ ) {
-        shifted[ realMatrix.index( row, column ) ] = new Complex( shiftedRealMatrix.get( row, column ), shiftedImaginaryMatrix.get( row, column ) );
+      for ( let col = 0; col < MATRIX_DIMENSION; col++ ) {
+        const sourceIndex = getIndex( row, col );
+        const destinationIndex = getIndex(
+          ( row + MATRIX_DIMENSION / 2 ) % MATRIX_DIMENSION,
+          ( col + MATRIX_DIMENSION / 2 ) % MATRIX_DIMENSION
+        );
+        shifted[ destinationIndex ] = result[ sourceIndex ];
       }
     }
 
