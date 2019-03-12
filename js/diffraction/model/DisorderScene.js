@@ -12,18 +12,19 @@ define( require => {
   const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
+  const Util = require( 'DOT/Util' );
+  const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   class DisorderScene extends DiffractionScene {
 
     constructor() {
 
-      const diameterProperty = new NumberProperty( 10, {
-        range: new Range( 5, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 * 0.8 ) // TODO: magic number
+      const diameterProperty = new NumberProperty( 500, {
+        range: new Range( 0, 1000 )
       } );
       const latticeSpacingProperty = new NumberProperty( 0, {
-        range: new Range( 0, 0.99 )
+        range: new Range( 0, 1000 )
       } );
       const disorderProperty = new NumberProperty( 0, {
         range: new Range( 0, 5 )
@@ -51,28 +52,98 @@ define( require => {
       assert && assert( matrix.getRowDimension() % 2 === 0, 'matrix should be even' );
       assert && assert( matrix.getColumnDimension() % 2 === 0, 'matrix should be even' );
 
-      const y0 = matrix.getRowDimension() / 2;
-      const x0 = matrix.getColumnDimension() / 2;
-      const diameter = this.diameterProperty.value;
-      const eccentricity = this.latticeSpacingProperty.value;
+      /**
+       * Tick Mark  Cell [row, column]  x-displacement  y-displacement  Eccentricity
+       2  [1, 2]  0%  -45%  --
+       2  [1, 4]  -35%  -45%  --
+       2  [2, 3]  10%  0%  --
+       2  [3, 4]  30%  40%  --
 
+       3  [1, 1]  -50%  -70%  45%-y
+       3  [1, 3]  40%  0%  --
+       3  [3, 2]  0%  -60%  --
+       3  [4, 1]  -40%  -45%  40%-y
 
-      const rx = diameter;
-      const rx2 = rx * rx * scaleFactor;
-      const ry2 = rx * rx * ( 1 - eccentricity * eccentricity ) * scaleFactor;
+       4  [2, 1]  55%  55%  --
+       4  [3, 1]  -55%  -45%  45%-x
+       4  [4, 3]  35%  45%  50%-x
+       4  [4, 4]  -65%  60%  --
+
+       5  [2, 2]  -75%  -65%  70%-y
+       5  [2, 4]  65%  65%  60%-y
+       5  [3, 3]  60%  -75%  50%-x
+       5  [4, 2]  -60%  70%  75%-x
+       */
+      const array = [
+
+        // No perturbations at the 1st tick
+        [],
+
+        // 2nd tick
+        [ { cell: new Vector2( 1, 2 ), x: 0, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 1, 4 ), x: -35, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 2, 3 ), x: 10, y: 0, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 3, 4 ), x: 30, y: 40, eccentricity: 100, eccentricityDirection: 'x' } ],
+
+        // 3rd tick
+        [ { cell: new Vector2( 1, 1 ), x: 0, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 1, 3 ), x: -35, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 3, 2 ), x: 10, y: 0, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 4, 1 ), x: 30, y: 40, eccentricity: 100, eccentricityDirection: 'x' } ],
+
+        // 4th tick
+        [ { cell: new Vector2( 2, 1 ), x: 0, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 3, 1 ), x: -35, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 4, 3 ), x: 10, y: 0, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 4, 4 ), x: 30, y: 40, eccentricity: 100, eccentricityDirection: 'x' } ],
+
+        // 5th tick
+        [ { cell: new Vector2( 2, 2 ), x: 0, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 2, 4 ), x: -35, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 3, 3 ), x: 10, y: 0, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 4, 2 ), x: 30, y: 40, eccentricity: 100, eccentricityDirection: 'x' } ]
+      ];
+
+      const points = [];
+      for ( let i = 0; i < array.length; i++ ) {
+        const arrayElement = array[ i ];
+        for ( let j = 0; j < arrayElement.length; j++ ) {
+          const entry = arrayElement[ j ];
+          points.push( { center: entry.cell } );
+        }
+      }
+
+      const latticeSpacing = this.latticeSpacingProperty.value;
+      const edgePoint = Util.linear( 0, 1000, matrix.getColumnDimension() / 4, matrix.getColumnDimension() / 6, latticeSpacing );
+      const eccentricity = 0;
+
+      const diameter = Util.linear( 0, 1000, 0, 10, this.diameterProperty.value );
 
       for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
         for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
-          const dx = ( x - x0 );
-          const dy = ( y - y0 );
+          for ( let pointIndex = 0; pointIndex < points.length; pointIndex++ ) {
 
-          // Ellipse equation: (x-h)^2 /rx^2  + (y-k)^2/ry^2 <=1
-          const ellipseValue = dx * dx / rx2 + dy * dy / ry2;
+            const point = points[ pointIndex ];
+            const x0 = Util.roundSymmetric( Util.linear( 2.5, 1, matrix.getColumnDimension() / 2, edgePoint, point.center.x ) );
+            const y0 = Util.roundSymmetric( Util.linear( 2.5, 1, matrix.getRowDimension() / 2, edgePoint, point.center.y ) );
 
-          matrix.set( y, x, ellipseValue < 1 ? 1 : 0 );
+            const rx = diameter;
+            const rx2 = rx * rx * scaleFactor;
+            const ry2 = rx * rx * ( 1 - eccentricity * eccentricity ) * scaleFactor;
 
-          // TODO: Should we blur with something like
-          // matrix.set( y, x, ellipseValue < 1 ? 1 - ellipseValue * ellipseValue * ellipseValue : 0 );
+            const dx = ( x - x0 );
+            const dy = ( y - y0 );
+
+            // Ellipse equation: (x-h)^2 /rx^2  + (y-k)^2/ry^2 <=1
+            const ellipseValue = dx * dx / rx2 + dy * dy / ry2;
+
+            if ( ellipseValue < 1 ) {
+              matrix.set( y, x, 1 );
+
+              // Bail as soon as overlapping one ellipse to avoid extra work
+              break;
+            }
+          }
         }
       }
     }

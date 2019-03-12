@@ -258,7 +258,7 @@ define( require => {
             }
           }, NUMBER_CONTROL_OPTIONS ) ),
           new NumberControl( 'Disorder', model.disorderScene.disorderProperty, model.disorderScene.disorderProperty.range, _.extend( {
-            delta: 0.01,
+            delta: 1,
             sliderOptions: {
               majorTicks: [ {
 
