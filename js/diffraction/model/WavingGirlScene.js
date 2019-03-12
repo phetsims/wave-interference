@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * This scene shows a single rectangular aperture.
+ * This scene shows a the iconic "waving girl" aperture shape.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -10,23 +10,13 @@ define( require => {
 
   // modules
   const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
-  const Matrix3 = require( 'DOT/Matrix3' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
-  const Shape = require( 'KITE/Shape' );
-  const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
-  const wavingGirlShape = new Shape( 'M31.769,1.91c6.404,0,11.594,5.191,11.594,11.595S38.173,25.1,31.769,25.1s-11.595-5.191-11.595-11.595\n' +
-                                     '\tS25.365,1.91,31.769,1.91z M55.387,84.578L38.434,57.425V28.922H25.105v28.503L8.152,84.578H55.387z M22.439,89.964h6.397v18.126\n' +
-                                     '\th-6.397V89.964z M34.701,89.964h6.396v18.126h-6.396V89.964z M7.027,35.853v-9.064H1.429v9.064v6.13v2.399h18.659v-8.529H7.027z\n' +
-                                     '\t M1.917,17.28h4.621v4.621H1.917V17.28z M61.268,42.681l-7.027-7.787v-0.08H41.919v9.479H54.17v3.106l-7.77,7.879l3.545,3.494\n' +
-                                     '\tl13.625-13.82L61.268,42.681z' );
-
-  // TODO: this shape is too slow and we will need to optimize.
-  // TODO: one way to do so would be to compute the x/y map once during startup.  Then inverse transform the input
-  // TODO: point instead of transforming the target each time.  But then it will be complicated determining the range
-  // TODO: for iteration.  Perhaps we should try canvas draw image and sampling.
+  // images
+  const wavingGirl256Image = require( 'image!WAVE_INTERFERENCE/waving_girl_256.png' );
 
   class WavingGirlScene extends DiffractionScene {
 
@@ -45,6 +35,12 @@ define( require => {
 
       // @public {NumberProperty}
       this.rotationProperty = rotationProperty;
+
+      // Render to a canvas and sample points.  Using kite Shape.containsPoint on the SVG shape declaration was much too slow
+      this.canvas = document.createElement( 'canvas' );
+      this.canvas.width = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
+      this.canvas.height = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
+      this.context = this.canvas.getContext( '2d' );
     }
 
     /**
@@ -58,19 +54,32 @@ define( require => {
       assert && assert( matrix.getRowDimension() % 2 === 0, 'matrix should be even' );
       assert && assert( matrix.getColumnDimension() % 2 === 0, 'matrix should be even' );
 
-      // const height = this.heightProperty.value;
-      const rotation = this.rotationProperty.value;
+      // clear canvas
+      this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
+      this.context.save();
+      this.context.translate( 0, -wavingGirl256Image.height * 0.2 );
+      this.context.translate( wavingGirl256Image.width / 2, wavingGirl256Image.height / 2 );
+      this.context.rotate( this.rotationProperty.value );
+      this.context.scale( 0.3 * scaleFactor, 0.3 * this.heightProperty.value / 1000 * scaleFactor );
+      this.context.translate( -wavingGirl256Image.width / 2, -wavingGirl256Image.height / 2 );
+      this.context.drawImage( wavingGirl256Image, 0, 0 );
 
-      const transformedWavingGirlShape = wavingGirlShape.transformed( Matrix3.rotationAround( rotation, wavingGirlShape.bounds.centerX, wavingGirlShape.bounds.centerY ) );
+      const canvasData = this.context.getImageData( 0, 0, this.canvas.width, this.canvas.height );
 
       for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
         for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
 
-          const contained = transformedWavingGirlShape.containsPoint( new Vector2( x, y ) );
+          const pixelIndex = y * canvasData.width + x;
+          const arrayIndex = pixelIndex * 4;
+          const a = canvasData.data[ arrayIndex + 3 ]; // R=0, G=1, B=2, A=3
+          const contained = a > 0;
+
+          // TODO: consider average over neighborhood -- if performance on iPad Air 2 is fast enough.
 
           matrix.set( y, x, contained ? 1 : 0 );
         }
       }
+      this.context.restore();
     }
   }
 
