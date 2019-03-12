@@ -19,7 +19,7 @@ define( require => {
     constructor( properties, options ) {
 
       // @private
-      this.properties = properties;
+      this.properties = properties; // TODO: set properties after constructor to simplify clients
     }
 
     reset() {

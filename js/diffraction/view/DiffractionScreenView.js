@@ -84,15 +84,13 @@ define( require => {
             new Rectangle( 0, 0, 10, 10, { fill: 'black', rotation: Math.PI / 4, x: 10, y: 8 } )
           ]
         } )
-      },
-        //  {
-        //   value: 'test2',
-        //   node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
-        // },
-        {
-          value: model.wavingGirlScene,
-          node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
-        }
+      }, {
+        value: model.disorderScene,
+        node: new Rectangle( 0, 0, 20, 20, { fill: 'blue' } ) // TODO: icon
+      }, {
+        value: model.wavingGirlScene,
+        node: new Rectangle( 0, 0, 20, 20, { fill: 'green' } ) // TODO: icon
+      }
       ];
 
       const MATRIX_CANVAS_NODE_SCALE = 1.4;
@@ -229,6 +227,54 @@ define( require => {
       } ), aperturePanelOptions );
       this.addChild( this.circleDiamondSceneControlPanel ); // TODO: separate file?
 
+      this.disorderSceneControlPanel = new Panel( new HBox( {
+        spacing: BOX_SPACING,
+        children: [
+          new NumberControl( 'Circle Diameter', model.disorderScene.diameterProperty, model.disorderScene.diameterProperty.range, _.extend( {
+            sliderOptions: {
+              majorTicks: [ {
+
+                // TODO: model coordinates for these
+                value: model.disorderScene.diameterProperty.range.min,
+                label: new WaveInterferenceText( model.disorderScene.diameterProperty.range.min )
+              }, {
+                value: model.disorderScene.diameterProperty.range.max,
+                label: new WaveInterferenceText( model.disorderScene.diameterProperty.range.max )
+              } ]
+            }
+          }, NUMBER_CONTROL_OPTIONS ) ),
+          new NumberControl( 'Lattice Spacing', model.disorderScene.latticeSpacingProperty, model.disorderScene.latticeSpacingProperty.range, _.extend( {
+            delta: 0.01,
+            sliderOptions: {
+              majorTicks: [ {
+
+                // TODO: model coordinates for these
+                value: model.disorderScene.latticeSpacingProperty.range.min,
+                label: new WaveInterferenceText( model.disorderScene.latticeSpacingProperty.range.min )
+              }, {
+                value: model.disorderScene.latticeSpacingProperty.range.max,
+                label: new WaveInterferenceText( '360 o' )
+              } ]
+            }
+          }, NUMBER_CONTROL_OPTIONS ) ),
+          new NumberControl( 'Disorder', model.disorderScene.disorderProperty, model.disorderScene.disorderProperty.range, _.extend( {
+            delta: 0.01,
+            sliderOptions: {
+              majorTicks: [ {
+
+                // TODO: model coordinates for these
+                value: model.disorderScene.disorderProperty.range.min,
+                label: new WaveInterferenceText( 'None' )
+              }, {
+                value: model.disorderScene.disorderProperty.range.max,
+                label: new WaveInterferenceText( 'Lots' )
+              } ]
+            }
+          }, NUMBER_CONTROL_OPTIONS ) )
+        ]
+      } ), aperturePanelOptions );
+      this.addChild( this.disorderSceneControlPanel ); // TODO: separate file
+
       this.wavingGirlSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
@@ -281,6 +327,7 @@ define( require => {
         this.rectangleSceneControlPanel.visible = scene === model.rectangleScene;
         this.ellipseSceneControlPanel.visible = scene === model.ellipseScene;
         this.wavingGirlSceneControlPanel.visible = scene === model.wavingGirlScene;
+        this.disorderSceneControlPanel.visible = scene === model.disorderScene;
         this.circleDiamondSceneControlPanel.visible = scene === model.circleDiamondScene;
         this.slitsControlPanel.visible = scene === DiffractionModel.ApertureType.SLITS;
       } );
