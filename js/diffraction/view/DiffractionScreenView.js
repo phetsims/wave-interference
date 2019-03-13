@@ -10,7 +10,6 @@ define( require => {
 
   // modules
   const Circle = require( 'SCENERY/nodes/Circle' );
-  const DiffractionModel = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionModel' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
@@ -24,6 +23,7 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const ScreenView = require( 'JOIST/ScreenView' );
+  const ToggleNode = require( 'SUN/ToggleNode' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -141,10 +141,6 @@ define( require => {
       model.numberOfLinesProperty.lazyLink( updateCanvases );
       model.angleProperty.lazyLink( updateCanvases );
 
-      const aperturePanelOptions = _.extend( {
-        centerX: this.apertureNode.centerX,
-        bottom: this.layoutBounds.bottom - BOTTOM_MARGIN
-      }, PANEL_OPTIONS );
       this.rectangleSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
@@ -154,8 +150,7 @@ define( require => {
           new NumberControl( 'rowRadius', model.rectangleScene.rowRadiusProperty, model.rectangleScene.rowRadiusProperty.range, _.extend( {
             // delta: 2 // avoid odd/even artifacts
           }, NUMBER_CONTROL_OPTIONS ) ) ]
-      } ), aperturePanelOptions );
-      this.addChild( this.rectangleSceneControlPanel );
+      } ), PANEL_OPTIONS );
 
       this.ellipseSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
@@ -188,8 +183,7 @@ define( require => {
             }
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
-      } ), aperturePanelOptions );
-      this.addChild( this.ellipseSceneControlPanel );
+      } ), PANEL_OPTIONS );
 
       this.circleDiamondSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
@@ -224,9 +218,9 @@ define( require => {
             }
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
-      } ), aperturePanelOptions );
-      this.addChild( this.circleDiamondSceneControlPanel ); // TODO: separate file?
+      } ), PANEL_OPTIONS );
 
+      // TODO: Separate files for control panels
       this.disorderSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
@@ -272,8 +266,7 @@ define( require => {
             }
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
-      } ), aperturePanelOptions );
-      this.addChild( this.disorderSceneControlPanel ); // TODO: separate file
+      } ), PANEL_OPTIONS );
 
       this.wavingGirlSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
@@ -306,31 +299,21 @@ define( require => {
             }
           }, NUMBER_CONTROL_OPTIONS ) )
         ]
-      } ), aperturePanelOptions );
-      this.addChild( this.wavingGirlSceneControlPanel ); // TODO: separate file
+      } ), PANEL_OPTIONS );
+      // TODO: separate file
 
-      this.slitsControlPanel = new Panel( new VBox( {
-        spacing: BOX_SPACING,
-        children: [
-          new NumberControl( 'number lines', model.numberOfLinesProperty, model.numberOfLinesProperty.range, NUMBER_CONTROL_OPTIONS ),
-          new NumberControl( 'angle', model.angleProperty, model.angleProperty.range, _.extend( {
-            delta: 0.01
-          }, NUMBER_CONTROL_OPTIONS ) )
-        ]
-      } ), _.extend( {
-        leftTop: this.apertureNode.leftBottom.plusXY( 0, 5 )
-      }, aperturePanelOptions ) );
-      this.addChild( this.slitsControlPanel );
-
-      // TODO: Use togglenode?
-      model.sceneProperty.link( scene => {
-        this.rectangleSceneControlPanel.visible = scene === model.rectangleScene;
-        this.ellipseSceneControlPanel.visible = scene === model.ellipseScene;
-        this.wavingGirlSceneControlPanel.visible = scene === model.wavingGirlScene;
-        this.disorderSceneControlPanel.visible = scene === model.disorderScene;
-        this.circleDiamondSceneControlPanel.visible = scene === model.circleDiamondScene;
-        this.slitsControlPanel.visible = scene === DiffractionModel.ApertureType.SLITS;
+      const controlPanelToggleNode = new ToggleNode( model.sceneProperty, [
+        { value: model.rectangleScene, node: this.rectangleSceneControlPanel },
+        { value: model.ellipseScene, node: this.ellipseSceneControlPanel },
+        { value: model.wavingGirlScene, node: this.wavingGirlSceneControlPanel },
+        { value: model.disorderScene, node: this.disorderSceneControlPanel },
+        { value: model.circleDiamondScene, node: this.circleDiamondSceneControlPanel }
+      ], {
+        alignChildren: ToggleNode.CENTER_BOTTOM,
+        centerX: this.apertureNode.centerX,
+        bottom: this.layoutBounds.bottom - BOTTOM_MARGIN
       } );
+      this.addChild( controlPanelToggleNode );
 
       const beamWidth = 40;
       const incidentBeam = new Rectangle(

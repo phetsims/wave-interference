@@ -13,7 +13,6 @@ define( require => {
   const CircleDiamondScene = require( 'WAVE_INTERFERENCE/diffraction/model/CircleDiamondScene' );
   const DisorderScene = require( 'WAVE_INTERFERENCE/diffraction/model/DisorderScene' );
   const EllipseScene = require( 'WAVE_INTERFERENCE/diffraction/model/EllipseScene' );
-  const Enumeration = require( 'PHET_CORE/Enumeration' );
   const Matrix = require( 'DOT/Matrix' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
@@ -72,10 +71,7 @@ define( require => {
         range: new Range( 0, Math.PI * 2 )
       } );
 
-      this.sceneProperty = new Property( DiffractionModel.ApertureType.RECTANGLE, {
-        validValues: DiffractionModel.ApertureType.VALUES
-      } );
-
+      // @public (read-only) {DiffractionScene[]}
       this.scenes = [
         this.ellipseScene,
         this.rectangleScene,
@@ -130,12 +126,6 @@ define( require => {
       this.sceneProperty.reset();
     }
   }
-
-  /**
-   * An aperture can be circular (CIRCLE), rectangular (RECTANGLE), or an array of slits (SLITS).
-   * @public
-   */
-  DiffractionModel.ApertureType = new Enumeration( [ 'CIRCLE', 'RECTANGLE', 'SLITS' ] );
 
   /**
    * Given row/column indices, find the index in the flattened array.  Uses the same strategy as DOT/Matrix.

@@ -116,6 +116,9 @@ define( require => {
       const latticeSpacing = this.latticeSpacingProperty.value;
       const edgePoint = Util.linear( 0, 1000, matrix.getColumnDimension() / 4, matrix.getColumnDimension() / 6, latticeSpacing );
       const eccentricity = 0;
+      // const distanceBetweenRows =
+      //   Util.roundSymmetric( Util.linear( 2.5, 1, matrix.getColumnDimension() / 2, edgePoint, 1 ) ) -
+      //   Util.roundSymmetric( Util.linear( 2.5, 1, matrix.getRowDimension() / 2, edgePoint, 2 ) );
 
       const diameter = Util.linear( 0, 1000, 0, 10, this.diameterProperty.value );
 
