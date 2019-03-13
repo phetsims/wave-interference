@@ -40,7 +40,7 @@ define( require => { // eslint-disable-line bad-sim-text
 
       super( options );
 
-      // @private -- note node already defines matrix
+      // @private -- note node already defines matrix, so we use a different variable name
       this.dataMatrix = matrix;
 
       // @private

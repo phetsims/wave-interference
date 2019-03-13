@@ -97,7 +97,7 @@ define( require => {
       const update = () => {
 
         // clear before drawing
-        // TODO: do this as part of paint if we don't need compositing
+        // TODO: do this as part of paint if we don't need compositing, since we visit each pixel anyways.
         this.apertureMatrix.timesEquals( 0 );
         this.scaledApertureMatrix.timesEquals( 0 );
 
@@ -108,11 +108,17 @@ define( require => {
         const scene = this.sceneProperty.value;
         scene.paintMatrix( this.apertureMatrix, 1 );
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
-        DiffractionModel.fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
+        if ( this.onProperty.value ) {
+          DiffractionModel.fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
+        }
+        else {
+          this.diffractionMatrix.timesEquals( 0 );
+        }
       };
       this.scenes.forEach( scene => scene.link( update ) );
       this.sceneProperty.link( update );
       this.wavelengthProperty.link( update );
+      this.onProperty.link( update );
     }
 
     /**
