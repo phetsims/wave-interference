@@ -130,6 +130,7 @@ define( require => {
       this.numberOfLinesProperty.reset();
       this.angleProperty.reset();
       this.sceneProperty.reset();
+      this.wavelengthProperty.reset();
     }
   }
 
