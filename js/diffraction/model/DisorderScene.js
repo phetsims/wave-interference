@@ -86,22 +86,22 @@ define( require => {
           { cell: new Vector2( 3, 4 ), x: 30, y: 40, eccentricity: 100, eccentricityDirection: 'x' } ],
 
         // 3rd tick
-        [ { cell: new Vector2( 1, 1 ), x: 0, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 1, 3 ), x: -35, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 3, 2 ), x: 10, y: 0, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 4, 1 ), x: 30, y: 40, eccentricity: 100, eccentricityDirection: 'x' } ],
+        [ { cell: new Vector2( 1, 1 ), x: -50, y: -70, eccentricity: 45, eccentricityDirection: 'y' },
+          { cell: new Vector2( 1, 3 ), x: 40, y: 0, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 3, 2 ), x: 10, y: -60, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 4, 1 ), x: -40, y: -45, eccentricity: 40, eccentricityDirection: 'y' } ],
 
         // 4th tick
-        [ { cell: new Vector2( 2, 1 ), x: 0, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 3, 1 ), x: -35, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 4, 3 ), x: 10, y: 0, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 4, 4 ), x: 30, y: 40, eccentricity: 100, eccentricityDirection: 'x' } ],
+        [ { cell: new Vector2( 2, 1 ), x: 55, y: 55, eccentricity: 100, eccentricityDirection: 'x' },
+          { cell: new Vector2( 3, 1 ), x: -55, y: -45, eccentricity: 45, eccentricityDirection: 'x' },
+          { cell: new Vector2( 4, 3 ), x: 35, y: 45, eccentricity: 50, eccentricityDirection: 'x' },
+          { cell: new Vector2( 4, 4 ), x: -65, y: 60, eccentricity: 100, eccentricityDirection: 'x' } ],
 
         // 5th tick
-        [ { cell: new Vector2( 2, 2 ), x: 0, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 2, 4 ), x: -35, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 3, 3 ), x: 10, y: 0, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 4, 2 ), x: 30, y: 40, eccentricity: 100, eccentricityDirection: 'x' } ]
+        [ { cell: new Vector2( 2, 2 ), x: -75, y: -65, eccentricity: 70, eccentricityDirection: 'y' },
+          { cell: new Vector2( 2, 4 ), x: 65, y: 65, eccentricity: 60, eccentricityDirection: 'y' },
+          { cell: new Vector2( 3, 3 ), x: 60, y: -75, eccentricity: 50, eccentricityDirection: 'x' },
+          { cell: new Vector2( 4, 2 ), x: -60, y: 70, eccentricity: 75, eccentricityDirection: 'x' } ]
       ];
 
       const points = [];
