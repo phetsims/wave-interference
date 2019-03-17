@@ -114,7 +114,7 @@ define( require => {
           let position = entry.cell;
           let scalePercent = new Vector2( 100, 100 );
           if ( isDisordered ) {
-            position = position.plusXY( entry.offsetPercent.x / 300, entry.offsetPercent.y / 300 );
+            position = position.plusXY( entry.offsetPercent.x / 100, entry.offsetPercent.y / 100 );
             scalePercent = entry.scalePercent;
           }
           points.push( { center: position, scalePercent: scalePercent } );
