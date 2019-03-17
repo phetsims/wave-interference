@@ -127,8 +127,8 @@ define( require => {
       const diameter = Util.linear( 0, 1000, 0, 10, this.diameterProperty.value );
 
       // TODO: paint is getting called twice for every value change. This is a performance problem.
-      // TODO: you can see this by console.logging each paint
-      console.log( this.disorderProperty.value );
+      // TODO: you can see this by console.logging each paint.  Oh, there is one call to paint for the view and one for
+      // TODO: the scaled model
 
       for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
         for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
