@@ -130,6 +130,9 @@ define( require => {
       // TODO: you can see this by console.logging each paint.  Oh, there is one call to paint for the view and one for
       // TODO: the scaled model
 
+      // clear since every cell is not set in the loop
+      matrix.timesEquals( 0 );
+
       for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
         for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
           for ( let pointIndex = 0; pointIndex < points.length; pointIndex++ ) {

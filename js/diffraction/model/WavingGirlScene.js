@@ -51,8 +51,11 @@ define( require => {
      * @public
      */
     paintMatrix( matrix, scaleFactor ) {
-      assert && assert( matrix.getRowDimension() % 2 === 0, 'matrix should be even' );
-      assert && assert( matrix.getColumnDimension() % 2 === 0, 'matrix should be even' );
+      const rowDimension = matrix.getRowDimension();
+      const columnDimension = matrix.getColumnDimension();
+
+      assert && assert( rowDimension % 2 === 0, 'matrix should be even' );
+      assert && assert( columnDimension % 2 === 0, 'matrix should be even' );
 
       // clear canvas
       this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
@@ -65,11 +68,11 @@ define( require => {
       this.context.drawImage( wavingGirl256Image, 0, 0 );
 
       const canvasData = this.context.getImageData( 0, 0, this.canvas.width, this.canvas.height );
+      const canvasDataWidth = canvasData.width;
 
-      for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
-        for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
-
-          const pixelIndex = y * canvasData.width + x;
+      for ( let x = 0; x <= columnDimension; x++ ) {
+        for ( let y = 0; y <= rowDimension; y++ ) {
+          const pixelIndex = y * canvasDataWidth + x;
           const arrayIndex = pixelIndex * 4;
           const a = canvasData.data[ arrayIndex + 3 ]; // R=0, G=1, B=2, A=3
           const contained = a > 0;

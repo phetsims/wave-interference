@@ -48,6 +48,10 @@ define( require => {
       const centerColumn = Util.roundSymmetric( matrix.getColumnDimension() / 2 );
       const columnRadius = Util.roundSymmetric( this.columnRadiusProperty.value * scaleFactor );
       const rowRadius = Util.roundSymmetric( this.rowRadiusProperty.value * scaleFactor );
+
+      // clear since every cell is not set in the loop
+      matrix.timesEquals( 0 );
+
       for ( let column = centerColumn - columnRadius; column <= centerColumn + columnRadius; column++ ) {
         for ( let row = centerRow - rowRadius; row <= centerRow + rowRadius; row++ ) {
           matrix.set( row, column, 1 );
