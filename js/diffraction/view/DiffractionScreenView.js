@@ -70,6 +70,10 @@ define( require => {
       } );
       this.addChild( resetAllButton );
 
+      const GRID_ICON_SPACING = 2.4;
+      const circle = () => new Circle( 1.65, { fill: 'black' } );
+      const row = () => new HBox( { spacing: GRID_ICON_SPACING, children: _.times( 4, circle ) } );
+
       const sceneRadioButtonContent = [ {
         value: model.ellipseScene,
         node: new Circle( 10, { fill: 'black' } )
@@ -86,7 +90,7 @@ define( require => {
         } )
       }, {
         value: model.disorderScene,
-        node: new Rectangle( 0, 0, 20, 20, { fill: 'blue' } ) // TODO: icon
+        node: new VBox( { spacing: GRID_ICON_SPACING, children: _.times( 4, row ) } )
       }, {
         value: model.wavingGirlScene,
         node: new Rectangle( 0, 0, 20, 20, { fill: 'green' } ) // TODO: icon
