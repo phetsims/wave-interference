@@ -27,9 +27,9 @@ define( require => {
         range: new Range( 0, 1000 )
       } );
       const disorderProperty = new NumberProperty( 0, {
-        range: new Range( 0, 5 )
+        range: new Range( 0, 4 )
       } );
-      super( [ diameterProperty, latticeSpacingProperty ] );
+      super( [ diameterProperty, latticeSpacingProperty, disorderProperty ] );
 
       // @public {NumberProperty}
       this.diameterProperty = diameterProperty;
@@ -80,28 +80,28 @@ define( require => {
         [],
 
         // 2nd tick
-        [ { cell: new Vector2( 1, 2 ), x: 0, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 1, 4 ), x: -35, y: -45, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 2, 3 ), x: 10, y: 0, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 3, 4 ), x: 30, y: 40, eccentricity: 100, eccentricityDirection: 'x' } ],
+        [ { cell: new Vector2( 1, 2 ), offsetPercent: new Vector2( 0, -45 ), scalePercent: new Vector2( 100, 100 ) },
+          { cell: new Vector2( 1, 4 ), offsetPercent: new Vector2( -35, -45 ), scalePercent: new Vector2( 100, 100 ) },
+          { cell: new Vector2( 2, 3 ), offsetPercent: new Vector2( 10, 0 ), scalePercent: new Vector2( 100, 100 ) },
+          { cell: new Vector2( 3, 4 ), offsetPercent: new Vector2( 30, 40 ), scalePercent: new Vector2( 100, 100 ) } ],
 
         // 3rd tick
-        [ { cell: new Vector2( 1, 1 ), x: -50, y: -70, eccentricity: 45, eccentricityDirection: 'y' },
-          { cell: new Vector2( 1, 3 ), x: 40, y: 0, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 3, 2 ), x: 10, y: -60, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 4, 1 ), x: -40, y: -45, eccentricity: 40, eccentricityDirection: 'y' } ],
+        [ { cell: new Vector2( 1, 1 ), offsetPercent: new Vector2( -50, -70 ), scalePercent: new Vector2( 100, 45 ) },
+          { cell: new Vector2( 1, 3 ), offsetPercent: new Vector2( 40, 0 ), scalePercent: new Vector2( 100, 100 ) },
+          { cell: new Vector2( 3, 2 ), offsetPercent: new Vector2( 10, -60 ), scalePercent: new Vector2( 100, 100 ) },
+          { cell: new Vector2( 4, 1 ), offsetPercent: new Vector2( -40, -45 ), scalePercent: new Vector2( 100, 40 ) } ],
 
         // 4th tick
-        [ { cell: new Vector2( 2, 1 ), x: 55, y: 55, eccentricity: 100, eccentricityDirection: 'x' },
-          { cell: new Vector2( 3, 1 ), x: -55, y: -45, eccentricity: 45, eccentricityDirection: 'x' },
-          { cell: new Vector2( 4, 3 ), x: 35, y: 45, eccentricity: 50, eccentricityDirection: 'x' },
-          { cell: new Vector2( 4, 4 ), x: -65, y: 60, eccentricity: 100, eccentricityDirection: 'x' } ],
+        [ { cell: new Vector2( 2, 1 ), offsetPercent: new Vector2( 55, 55 ), scalePercent: new Vector2( 100, 100 ) },
+          { cell: new Vector2( 3, 1 ), offsetPercent: new Vector2( -55, -45 ), scalePercent: new Vector2( 45, 100 ) },
+          { cell: new Vector2( 4, 3 ), offsetPercent: new Vector2( 35, 45 ), scalePercent: new Vector2( 50, 100 ) },
+          { cell: new Vector2( 4, 4 ), offsetPercent: new Vector2( -65, 60 ), scalePercent: new Vector2( 100, 100 ) } ],
 
         // 5th tick
-        [ { cell: new Vector2( 2, 2 ), x: -75, y: -65, eccentricity: 70, eccentricityDirection: 'y' },
-          { cell: new Vector2( 2, 4 ), x: 65, y: 65, eccentricity: 60, eccentricityDirection: 'y' },
-          { cell: new Vector2( 3, 3 ), x: 60, y: -75, eccentricity: 50, eccentricityDirection: 'x' },
-          { cell: new Vector2( 4, 2 ), x: -60, y: 70, eccentricity: 75, eccentricityDirection: 'x' } ]
+        [ { cell: new Vector2( 2, 2 ), offsetPercent: new Vector2( -75, -65 ), scalePercent: new Vector2( 100, 70 ) },
+          { cell: new Vector2( 2, 4 ), offsetPercent: new Vector2( 65, 65 ), scalePercent: new Vector2( 100, 60 ) },
+          { cell: new Vector2( 3, 3 ), offsetPercent: new Vector2( 60, -75 ), scalePercent: new Vector2( 60, 100 ) },
+          { cell: new Vector2( 4, 2 ), offsetPercent: new Vector2( -60, 70 ), scalePercent: new Vector2( 75, 100 ) } ]
       ];
 
       const points = [];
@@ -109,30 +109,39 @@ define( require => {
         const arrayElement = array[ i ];
         for ( let j = 0; j < arrayElement.length; j++ ) {
           const entry = arrayElement[ j ];
-          points.push( { center: entry.cell } );
+
+          const isDisordered = this.disorderProperty.value >= i;
+          let position = entry.cell;
+          let scalePercent = new Vector2( 100, 100 );
+          if ( isDisordered ) {
+            position = position.plusXY( entry.offsetPercent.x / 300, entry.offsetPercent.y / 300 );
+            scalePercent = entry.scalePercent;
+          }
+          points.push( { center: position, scalePercent: scalePercent } );
         }
       }
 
       const latticeSpacing = this.latticeSpacingProperty.value;
       const edgePoint = Util.linear( 0, 1000, matrix.getColumnDimension() / 4, matrix.getColumnDimension() / 6, latticeSpacing );
-      const eccentricity = 0;
-      // const distanceBetweenRows =
-      //   Util.roundSymmetric( Util.linear( 2.5, 1, matrix.getColumnDimension() / 2, edgePoint, 1 ) ) -
-      //   Util.roundSymmetric( Util.linear( 2.5, 1, matrix.getRowDimension() / 2, edgePoint, 2 ) );
 
       const diameter = Util.linear( 0, 1000, 0, 10, this.diameterProperty.value );
+
+      // TODO: paint is getting called twice for every value change. This is a performance problem.
+      // TODO: you can see this by console.logging each paint
+      console.log( this.disorderProperty.value );
 
       for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
         for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
           for ( let pointIndex = 0; pointIndex < points.length; pointIndex++ ) {
 
             const point = points[ pointIndex ];
+            const scalePercent = point.scalePercent;
             const x0 = Util.roundSymmetric( Util.linear( 2.5, 1, matrix.getColumnDimension() / 2, edgePoint, point.center.x ) );
             const y0 = Util.roundSymmetric( Util.linear( 2.5, 1, matrix.getRowDimension() / 2, edgePoint, point.center.y ) );
 
             const rx = diameter;
-            const rx2 = rx * rx * scaleFactor;
-            const ry2 = rx * rx * ( 1 - eccentricity * eccentricity ) * scaleFactor;
+            const rx2 = rx * rx * scaleFactor * scalePercent.x / 100;
+            const ry2 = rx * rx * scaleFactor * scalePercent.y / 100;
 
             const dx = ( x - x0 );
             const dy = ( y - y0 );
