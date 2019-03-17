@@ -121,7 +121,11 @@ define( require => {
 
       const sceneRadioButtonGroup = new RadioButtonGroup( model.sceneProperty, sceneRadioButtonContent, {
         right: this.apertureNode.left - 20,
-        bottom: this.apertureNode.bottom
+        bottom: this.apertureNode.bottom,
+
+        baseColor: 'white',
+        selectedStroke: '#419ac9',
+        selectedLineWidth: 2
       } );
 
       this.miniApertureNode = new MatrixCanvasNode( model.apertureMatrix, {
