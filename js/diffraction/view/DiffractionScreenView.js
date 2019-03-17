@@ -12,6 +12,7 @@ define( require => {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const HBox = require( 'SCENERY/nodes/HBox' );
+  const Image = require( 'SCENERY/nodes/Image' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
   const Matrix3 = require( 'DOT/Matrix3' );
@@ -30,6 +31,9 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+
+  // images
+  const wavingGirl256Image = require( 'image!WAVE_INTERFERENCE/waving_girl_256.png' );
 
   // constants
   const ICON_SCALE = 0.2;
@@ -93,7 +97,7 @@ define( require => {
         node: new VBox( { spacing: GRID_ICON_SPACING, children: _.times( 4, row ) } )
       }, {
         value: model.wavingGirlScene,
-        node: new Rectangle( 0, 0, 20, 20, { fill: 'green' } ) // TODO: icon
+        node: new Image( wavingGirl256Image, { maxHeight: 25 } )
       }
       ];
 
