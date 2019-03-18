@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const Circle = require( 'SCENERY/nodes/Circle' );
+  const DiffractionNumberControl = require( 'WAVE_INTERFERENCE/diffraction/view/DiffractionNumberControl' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const Image = require( 'SCENERY/nodes/Image' );
@@ -38,7 +39,7 @@ define( require => {
   // constants
   const ICON_SCALE = 0.2;
   const NUMBER_CONTROL_OPTIONS = WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS;
-  const BOX_SPACING = 15;
+  const BOX_SPACING = 40;
   const BOTTOM_MARGIN = 10;
 
   const PANEL_OPTIONS = {
@@ -167,33 +168,14 @@ define( require => {
       this.ellipseSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'Diameter', model.ellipseScene.diameterProperty, model.ellipseScene.diameterProperty.range, _.extend( {
-            sliderOptions: {
-              majorTicks: [ {
-
-                // TODO: model coordinates for these
-                value: model.ellipseScene.diameterProperty.range.min,
-                label: new WaveInterferenceText( model.ellipseScene.diameterProperty.range.min )
-              }, {
-                value: model.ellipseScene.diameterProperty.range.max,
-                label: new WaveInterferenceText( model.ellipseScene.diameterProperty.range.max )
-              } ]
-            }
-          }, NUMBER_CONTROL_OPTIONS ) ),
-          new NumberControl( 'Eccentricity', model.ellipseScene.eccentricityProperty, model.ellipseScene.eccentricityProperty.range, _.extend( {
-            delta: 0.01,
-            sliderOptions: {
-              majorTicks: [ {
-
-                // TODO: model coordinates for these
-                value: model.ellipseScene.eccentricityProperty.range.min,
-                label: new WaveInterferenceText( model.ellipseScene.eccentricityProperty.range.min )
-              }, {
-                value: model.ellipseScene.eccentricityProperty.range.max,
-                label: new WaveInterferenceText( model.ellipseScene.eccentricityProperty.range.max )
-              } ]
-            }
-          }, NUMBER_CONTROL_OPTIONS ) )
+          new DiffractionNumberControl( 'Diameter',
+            model.ellipseScene.diameterProperty.range.min,
+            model.ellipseScene.diameterProperty.range.max, model.ellipseScene.diameterProperty ),
+          new DiffractionNumberControl( 'Eccentricity',
+            model.ellipseScene.eccentricityProperty.range.min,// TODO: model coordinates?
+            model.ellipseScene.eccentricityProperty.range.max, model.ellipseScene.eccentricityProperty, {
+              delta: 0.01
+            } )
         ]
       } ), PANEL_OPTIONS );
 
