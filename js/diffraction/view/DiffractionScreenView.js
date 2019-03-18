@@ -36,6 +36,9 @@ define( require => {
   // images
   const wavingGirl256Image = require( 'image!WAVE_INTERFERENCE/waving_girl_256.png' );
 
+  // strings
+  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
+
   // constants
   const ICON_SCALE = 0.2;
   const NUMBER_CONTROL_OPTIONS = WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS;
@@ -170,7 +173,11 @@ define( require => {
         children: [
           new DiffractionNumberControl( 'Diameter',
             model.ellipseScene.diameterProperty.range.min,
-            model.ellipseScene.diameterProperty.range.max, model.ellipseScene.diameterProperty ),
+            model.ellipseScene.diameterProperty.range.max, model.ellipseScene.diameterProperty, {
+              numberDisplayOptions: {
+                valuePattern: nmValueString
+              }
+            } ),
           new DiffractionNumberControl( 'Eccentricity',
             model.ellipseScene.eccentricityProperty.range.min,// TODO: model coordinates?
             model.ellipseScene.eccentricityProperty.range.max, model.ellipseScene.eccentricityProperty, {

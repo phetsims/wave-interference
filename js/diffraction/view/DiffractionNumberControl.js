@@ -42,6 +42,11 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( title, minLabel, maxLabel, property, options ) {
+
+      // TODO: This hack/workaround addresses the problem described in https://github.com/phetsims/phet-info/issues/91#issuecomment-474008231
+      // TODO: apparently the current implementation of merge changes all arguments except for the last one, so by putting
+      // TODO: the shared values last, we can prevent them from leaking out.
+      const merged = merge( {}, options, NUMBER_CONTROL_OPTIONS );
       super( title, property, property.range, merge( {
         sliderOptions: {
           majorTicks: [ {
@@ -54,7 +59,7 @@ define( require => {
             label: new WaveInterferenceText( maxLabel )
           } ]
         }
-      }, NUMBER_CONTROL_OPTIONS ) );
+      }, merged ) );
     }
   }
 
