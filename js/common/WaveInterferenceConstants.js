@@ -40,17 +40,23 @@ define( require => {
 
     // These constants are used for the NumberControls to give them a consistent looks
     NUMBER_CONTROL_OPTIONS: {
-      trackSize: new Dimension2( 100, 1 ),
-      valueFont: new PhetFont( 13 ),
-      majorTickLength: MAJOR_TICK_LENGTH,
-      thumbSize: THUMB_SIZE,
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 3 } ),
       arrowButtonOptions: {
         scale: 0.65
       },
-      titleFont: DEFAULT_FONT,
-      titleMaxWidth: 95,
-      valueMaxWidth: 65
+      sliderOptions: {
+        trackSize: new Dimension2( 100, 1 ),
+        thumbSize: THUMB_SIZE,
+        majorTickLength: MAJOR_TICK_LENGTH
+      },
+      numberDisplayOptions: {
+        font: new PhetFont( 13 ),
+        maxWidth: 65
+      },
+      titleNodeOptions: {
+        font: DEFAULT_FONT,
+        maxWidth: 95
+      }
     },
     THUMB_SIZE: THUMB_SIZE,
     DEFAULT_FONT: DEFAULT_FONT,

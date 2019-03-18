@@ -12,6 +12,7 @@ define( require => {
   const ComboBox = require( 'SUN/ComboBox' );
   const ComboBoxItem = require( 'SUN/ComboBoxItem' );
   const DynamicProperty = require( 'AXON/DynamicProperty' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
@@ -71,27 +72,39 @@ define( require => {
       // Slit width controls.  Ranges, values and deltas specified in
       // https://github.com/phetsims/wave-interference/issues/177
       const waterSlitWidthControl = new NumberControl(
-        slitWidthString, waterScene.slitWidthProperty, waterScene.slitWidthProperty.range, _.extend( {
+        slitWidthString, waterScene.slitWidthProperty, waterScene.slitWidthProperty.range, merge( {
           delta: 0.1, // cm
-          decimalPlaces: 1,
-          valuePattern: cmValueString,
-          majorTicks: createTicks( waterScene.slitWidthProperty )
+          numberDisplayOptions: {
+            decimalPlaces: 1,
+            valuePattern: cmValueString
+          },
+          sliderOptions: {
+            majorTicks: createTicks( waterScene.slitWidthProperty )
+          }
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const soundSlitWidthControl = new NumberControl(
-        slitWidthString, soundScene.slitWidthProperty, soundScene.slitWidthProperty.range, _.extend( {
+        slitWidthString, soundScene.slitWidthProperty, soundScene.slitWidthProperty.range, merge( {
           delta: 1, // cm
-          constrainValue: value => Util.roundToInterval( value, 10 ),
-          valuePattern: cmValueString,
-          majorTicks: createTicks( soundScene.slitWidthProperty )
+          sliderOptions: {
+            constrainValue: value => Util.roundToInterval( value, 10 ),
+            majorTicks: createTicks( soundScene.slitWidthProperty )
+          },
+          numberDisplayOptions: {
+            valuePattern: cmValueString
+          }
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const lightSlitWidthControl = new NumberControl(
-        slitWidthString, lightScene.slitWidthProperty, lightScene.slitWidthProperty.range, _.extend( {
+        slitWidthString, lightScene.slitWidthProperty, lightScene.slitWidthProperty.range, merge( {
           delta: 10, // nm
-          constrainValue: value => Util.roundToInterval( value, 50 ),
-          valuePattern: nmValueString,
-          majorTicks: createTicks( lightScene.slitWidthProperty )
+          sliderOptions: {
+            constrainValue: value => Util.roundToInterval( value, 50 ),
+            majorTicks: createTicks( lightScene.slitWidthProperty )
+          },
+          numberDisplayOptions: {
+            valuePattern: nmValueString
+          }
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const slitWidthControl = new ToggleNode( sceneProperty, [
         { value: waterScene, node: waterSlitWidthControl },
@@ -111,33 +124,43 @@ define( require => {
         slitSeparationString,
         waterScene.slitSeparationProperty,
         waterScene.slitSeparationProperty.range,
-        _.extend( {
-          decimalPlaces: 1,
+        merge( {
           delta: 0.1, // cm
-          valuePattern: cmValueString,
-          majorTicks: createTicks( waterScene.slitSeparationProperty )
+          numberDisplayOptions: {
+            decimalPlaces: 1,
+            valuePattern: cmValueString
+          },
+          sliderOptions: {
+            majorTicks: createTicks( waterScene.slitSeparationProperty )
+          }
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const soundSeparationControl = new NumberControl(
         slitSeparationString,
         soundScene.slitSeparationProperty,
         soundScene.slitSeparationProperty.range,
-        _.extend( {
+        merge( {
           delta: 1, // cm
-          constrainValue: value => Util.roundToInterval( value, 10 ),
-          valuePattern: cmValueString,
-          majorTicks: createTicks( soundScene.slitSeparationProperty )
+          numberDisplayOptions: {
+            valuePattern: cmValueString
+          },
+          sliderOptions: {
+            constrainValue: value => Util.roundToInterval( value, 10 ),
+            majorTicks: createTicks( soundScene.slitSeparationProperty )
+          }
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
       const lightSeparationControl = new NumberControl(
         slitSeparationString,
         lightScene.slitSeparationProperty,
         lightScene.slitSeparationProperty.range,
-        _.extend( {
+        merge( {
           delta: 10, // nm
-          constrainValue: value => Util.roundToInterval( value, 50 ),
-          valuePattern: nmValueString,
-          majorTicks: createTicks( lightScene.slitSeparationProperty )
+          sliderOptions: {
+            constrainValue: value => Util.roundToInterval( value, 50 ),
+            majorTicks: createTicks( lightScene.slitSeparationProperty )
+          },
+          numberDisplayOptions: { valuePattern: nmValueString }
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
       const slitSeparationControl = new ToggleNode( sceneProperty, [
         { value: waterScene, node: waterSeparationControl },

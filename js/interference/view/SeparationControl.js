@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const ToggleNode = require( 'SUN/ToggleNode' );
@@ -54,28 +55,36 @@ define( require => {
       // because the control constructor calls are substantially different.
       super( model.sceneProperty, [ {
         value: model.waterScene,
-        node: new NumberControl( separationString, waterSeparationProperty, waterSceneRange, _.extend( {
+        node: new NumberControl( separationString, waterSeparationProperty, waterSceneRange, merge( {
           delta: 0.1,
-          valuePattern: cmValueString,
-          decimalPlaces: 1,
-          constrainValue: value => Util.roundToInterval( value, 0.5 ),
-          majorTicks: createTicks( waterSceneRange, allRanges )
+          numberDisplayOptions: {
+            valuePattern: cmValueString,
+            decimalPlaces: 1
+          },
+          sliderOptions: {
+            constrainValue: value => Util.roundToInterval( value, 0.5 ),
+            majorTicks: createTicks( waterSceneRange, allRanges )
+          }
         }, createMuteOptions( model.waterScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.soundScene,
-        node: new NumberControl( separationString, soundSeparationProperty, soundSceneRange, _.extend( {
+        node: new NumberControl( separationString, soundSeparationProperty, soundSceneRange, merge( {
           delta: 1,
-          valuePattern: cmValueString,
-          constrainValue: value => Util.roundToInterval( value, 10 ),
-          majorTicks: createTicks( soundSceneRange, allRanges )
+          numberDisplayOptions: { valuePattern: cmValueString },
+          sliderOptions: {
+            constrainValue: value => Util.roundToInterval( value, 10 ),
+            majorTicks: createTicks( soundSceneRange, allRanges )
+          }
         }, createMuteOptions( model.soundScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       }, {
         value: model.lightScene,
-        node: new NumberControl( separationString, lightSeparationProperty, lightSceneRange, _.extend( {
+        node: new NumberControl( separationString, lightSeparationProperty, lightSceneRange, merge( {
           delta: 10,
-          valuePattern: nmValueString,
-          constrainValue: value => Util.roundToInterval( value, 100 ),
-          majorTicks: createTicks( lightSceneRange, allRanges )
+          numberDisplayOptions: { valuePattern: nmValueString },
+          sliderOptions: {
+            constrainValue: value => Util.roundToInterval( value, 100 ),
+            majorTicks: createTicks( lightSceneRange, allRanges )
+          }
         }, createMuteOptions( model.lightScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
       } ] );
     }
