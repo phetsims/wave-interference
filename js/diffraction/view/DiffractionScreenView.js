@@ -200,85 +200,102 @@ define( require => {
       } ), PANEL_OPTIONS );
 
       this.circleDiamondSceneControlPanel = new Panel( new HBox( {
-        spacing: BOX_SPACING,
-        children: [
-          new NumberControl( 'Circle Diameter', model.circleDiamondScene.circleDiameterProperty, model.circleDiamondScene.circleDiameterProperty.range, _.extend( {
-            sliderOptions: {
-              majorTicks: [ {
+          spacing: BOX_SPACING,
+          children: [
+            new DiffractionNumberControl( 'Circle Diameter',
+              model.circleDiamondScene.circleDiameterProperty.range.min,
+              model.circleDiamondScene.circleDiameterProperty.range.max,
+              model.circleDiamondScene.circleDiameterProperty, {
+                sliderOptions: {
+                  majorTicks: [ {
 
-                // TODO: model coordinates for these
-                value: model.circleDiamondScene.circleDiameterProperty.range.min,
-                label: new WaveInterferenceText( model.circleDiamondScene.circleDiameterProperty.range.min )
-              }, {
-                value: model.circleDiamondScene.circleDiameterProperty.range.max,
-                label: new WaveInterferenceText( model.circleDiamondScene.circleDiameterProperty.range.max )
-              } ]
-            }
-          }, NUMBER_CONTROL_OPTIONS ) ),
+                    // TODO: model coordinates for these
+                    value: model.circleDiamondScene.circleDiameterProperty.range.min,
+                    label: new WaveInterferenceText( model.circleDiamondScene.circleDiameterProperty.range.min )
+                  }, {
+                    value: model.circleDiamondScene.circleDiameterProperty.range.max,
+                    label: new WaveInterferenceText( model.circleDiamondScene.circleDiameterProperty.range.max )
+                  } ]
+                }
+              } ),
 
-          // TODO: Call this "square?"
-          new NumberControl( 'Diamond Diameter', model.circleDiamondScene.diamondDiameterProperty, model.circleDiamondScene.diamondDiameterProperty.range, _.extend( {
-            delta: 0.01,
-            sliderOptions: {
-              majorTicks: [ {
+            // TODO: Call this "square?"
+            new DiffractionNumberControl( 'Diamond Diameter',
+              model.circleDiamondScene.diamondDiameterProperty.range.min,
+              model.circleDiamondScene.diamondDiameterProperty.range.max,
+              model.circleDiamondScene.diamondDiameterProperty, {
+                delta: 0.01,
+                sliderOptions: {
+                  majorTicks: [ {
 
-                // TODO: model coordinates for these
-                value: model.circleDiamondScene.diamondDiameterProperty.range.min,
-                label: new WaveInterferenceText( model.circleDiamondScene.diamondDiameterProperty.range.min )
-              }, {
-                value: model.circleDiamondScene.diamondDiameterProperty.range.max,
-                label: new WaveInterferenceText( model.circleDiamondScene.diamondDiameterProperty.range.max )
-              } ]
-            }
-          }, NUMBER_CONTROL_OPTIONS ) )
-        ]
-      } ), PANEL_OPTIONS );
+                    // TODO: model coordinates for these
+                    value: model.circleDiamondScene.diamondDiameterProperty.range.min,
+                    label: new WaveInterferenceText( model.circleDiamondScene.diamondDiameterProperty.range.min )
+                  }, {
+                    value: model.circleDiamondScene.diamondDiameterProperty.range.max,
+                    label: new WaveInterferenceText( model.circleDiamondScene.diamondDiameterProperty.range.max )
+                  } ]
+                }
+              } )
+          ]
+        } ),
+        PANEL_OPTIONS
+      );
 
       // TODO: Separate files for control panels
       this.disorderSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'Circle Diameter', model.disorderScene.diameterProperty, model.disorderScene.diameterProperty.range, _.extend( {
-            sliderOptions: {
-              majorTicks: [ {
+          new DiffractionNumberControl( 'Circle Diameter',
+            model.disorderScene.diameterProperty.range.min,
+            model.disorderScene.diameterProperty.range.max,
+            model.disorderScene.diameterProperty, {
+              sliderOptions: {
+                majorTicks: [ {
 
-                // TODO: model coordinates for these
-                value: model.disorderScene.diameterProperty.range.min,
-                label: new WaveInterferenceText( model.disorderScene.diameterProperty.range.min )
-              }, {
-                value: model.disorderScene.diameterProperty.range.max,
-                label: new WaveInterferenceText( model.disorderScene.diameterProperty.range.max )
-              } ]
-            }
-          }, NUMBER_CONTROL_OPTIONS ) ),
-          new NumberControl( 'Lattice Spacing', model.disorderScene.latticeSpacingProperty, model.disorderScene.latticeSpacingProperty.range, _.extend( {
-            delta: 0.01,
-            sliderOptions: {
-              majorTicks: [ {
+                  // TODO: model coordinates for these
+                  value: model.disorderScene.diameterProperty.range.min,
+                  label: new WaveInterferenceText( model.disorderScene.diameterProperty.range.min )
+                }, {
+                  value: model.disorderScene.diameterProperty.range.max,
+                  label: new WaveInterferenceText( model.disorderScene.diameterProperty.range.max )
+                } ]
+              }
+            } ),
+          new DiffractionNumberControl( 'Lattice Spacing',
+            model.disorderScene.latticeSpacingProperty.range.min,
+            model.disorderScene.latticeSpacingProperty.range.max,
+            model.disorderScene.latticeSpacingProperty, {
+              delta: 0.01,
+              sliderOptions: {
+                majorTicks: [ {
 
-                // TODO: model coordinates for these
-                value: model.disorderScene.latticeSpacingProperty.range.min,
-                label: new WaveInterferenceText( model.disorderScene.latticeSpacingProperty.range.min )
-              }, {
-                value: model.disorderScene.latticeSpacingProperty.range.max,
-                label: new WaveInterferenceText( '360 o' )
-              } ]
-            }
-          }, NUMBER_CONTROL_OPTIONS ) ),
-          new NumberControl( 'Disorder', model.disorderScene.disorderProperty, model.disorderScene.disorderProperty.range, _.extend( {
-            delta: 1,
-            sliderOptions: {
-              majorTicks: [ {
+                  // TODO: model coordinates for these
+                  value: model.disorderScene.latticeSpacingProperty.range.min,
+                  label: new WaveInterferenceText( model.disorderScene.latticeSpacingProperty.range.min )
+                }, {
+                  value: model.disorderScene.latticeSpacingProperty.range.max,
+                  label: new WaveInterferenceText( '360 o' )
+                } ]
+              }
+            } ),
+          new DiffractionNumberControl( 'Disorder',
+            model.disorderScene.disorderProperty.range.min,
+            model.disorderScene.disorderProperty.range.max,
+            model.disorderScene.disorderProperty, {
+              delta: 1,
+              sliderOptions: {
+                majorTicks: [ {
 
-                // TODO: model coordinates for these
-                value: model.disorderScene.disorderProperty.range.min,
-                label: new WaveInterferenceText( 'None' )
-              }, {
-                value: model.disorderScene.disorderProperty.range.max,
-                label: new WaveInterferenceText( 'Lots' )
-              } ]
-            }
-          }, NUMBER_CONTROL_OPTIONS ) )
+                  // TODO: model coordinates for these
+                  value: model.disorderScene.disorderProperty.range.min,
+                  label: new WaveInterferenceText( 'None' )
+                }, {
+                  value: model.disorderScene.disorderProperty.range.max,
+                  label: new WaveInterferenceText( 'Lots' )
+                } ]
+              }
+            } )
         ]
       } ), PANEL_OPTIONS );
 
