@@ -181,7 +181,10 @@ define( require => {
           new DiffractionNumberControl( 'Eccentricity',
             model.ellipseScene.eccentricityProperty.range.min,// TODO: model coordinates?
             model.ellipseScene.eccentricityProperty.range.max, model.ellipseScene.eccentricityProperty, {
-              delta: 0.01
+              delta: 0.01,
+              numberDisplayOptions: {
+                decimalPlaces: 2
+              }
             } )
         ]
       } ), PANEL_OPTIONS );
