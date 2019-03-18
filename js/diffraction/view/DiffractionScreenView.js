@@ -19,7 +19,6 @@ define( require => {
   const Matrix3 = require( 'DOT/Matrix3' );
   const MatrixCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/MatrixCanvasNode' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Panel = require( 'SUN/Panel' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -41,7 +40,6 @@ define( require => {
 
   // constants
   const ICON_SCALE = 0.2;
-  const NUMBER_CONTROL_OPTIONS = WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS;
   const BOX_SPACING = 40;
   const BOTTOM_MARGIN = 10;
 
@@ -206,16 +204,8 @@ define( require => {
               model.circleDiamondScene.circleDiameterProperty.range.min,
               model.circleDiamondScene.circleDiameterProperty.range.max,
               model.circleDiamondScene.circleDiameterProperty, {
-                sliderOptions: {
-                  majorTicks: [ {
-
-                    // TODO: model coordinates for these
-                    value: model.circleDiamondScene.circleDiameterProperty.range.min,
-                    label: new WaveInterferenceText( model.circleDiamondScene.circleDiameterProperty.range.min )
-                  }, {
-                    value: model.circleDiamondScene.circleDiameterProperty.range.max,
-                    label: new WaveInterferenceText( model.circleDiamondScene.circleDiameterProperty.range.max )
-                  } ]
+                numberDisplayOptions: {
+                  valuePattern: nmValueString
                 }
               } ),
 
@@ -225,16 +215,8 @@ define( require => {
               model.circleDiamondScene.diamondDiameterProperty.range.max,
               model.circleDiamondScene.diamondDiameterProperty, {
                 delta: 0.01,
-                sliderOptions: {
-                  majorTicks: [ {
-
-                    // TODO: model coordinates for these
-                    value: model.circleDiamondScene.diamondDiameterProperty.range.min,
-                    label: new WaveInterferenceText( model.circleDiamondScene.diamondDiameterProperty.range.min )
-                  }, {
-                    value: model.circleDiamondScene.diamondDiameterProperty.range.max,
-                    label: new WaveInterferenceText( model.circleDiamondScene.diamondDiameterProperty.range.max )
-                  } ]
+                numberDisplayOptions: {
+                  valuePattern: nmValueString
                 }
               } )
           ]
@@ -249,35 +231,12 @@ define( require => {
           new DiffractionNumberControl( 'Circle Diameter',
             model.disorderScene.diameterProperty.range.min,
             model.disorderScene.diameterProperty.range.max,
-            model.disorderScene.diameterProperty, {
-              sliderOptions: {
-                majorTicks: [ {
-
-                  // TODO: model coordinates for these
-                  value: model.disorderScene.diameterProperty.range.min,
-                  label: new WaveInterferenceText( model.disorderScene.diameterProperty.range.min )
-                }, {
-                  value: model.disorderScene.diameterProperty.range.max,
-                  label: new WaveInterferenceText( model.disorderScene.diameterProperty.range.max )
-                } ]
-              }
-            } ),
+            model.disorderScene.diameterProperty ),
           new DiffractionNumberControl( 'Lattice Spacing',
             model.disorderScene.latticeSpacingProperty.range.min,
             model.disorderScene.latticeSpacingProperty.range.max,
             model.disorderScene.latticeSpacingProperty, {
-              delta: 0.01,
-              sliderOptions: {
-                majorTicks: [ {
-
-                  // TODO: model coordinates for these
-                  value: model.disorderScene.latticeSpacingProperty.range.min,
-                  label: new WaveInterferenceText( model.disorderScene.latticeSpacingProperty.range.min )
-                }, {
-                  value: model.disorderScene.latticeSpacingProperty.range.max,
-                  label: new WaveInterferenceText( '360 o' )
-                } ]
-              }
+              delta: 0.01
             } ),
           new DiffractionNumberControl( 'Disorder',
             model.disorderScene.disorderProperty.range.min,
@@ -302,33 +261,27 @@ define( require => {
       this.wavingGirlSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
-          new NumberControl( 'Height', model.wavingGirlScene.heightProperty, model.wavingGirlScene.heightProperty.range, _.extend( {
-            sliderOptions: {
-              majorTicks: [ {
+          new DiffractionNumberControl( 'Height',
+            model.wavingGirlScene.heightProperty.range.min,
+            model.wavingGirlScene.heightProperty.range.max,
+            model.wavingGirlScene.heightProperty ),
+          new DiffractionNumberControl( 'Rotation',
+            model.wavingGirlScene.rotationProperty.range.min,
+            model.wavingGirlScene.rotationProperty.range.max,
+            model.wavingGirlScene.rotationProperty, {
+              delta: 0.01,
+              sliderOptions: {
+                majorTicks: [ {
 
-                // TODO: model coordinates for these
-                value: model.wavingGirlScene.heightProperty.range.min,
-                label: new WaveInterferenceText( model.wavingGirlScene.heightProperty.range.min )
-              }, {
-                value: model.wavingGirlScene.heightProperty.range.max,
-                label: new WaveInterferenceText( model.wavingGirlScene.heightProperty.range.max )
-              } ]
-            }
-          }, NUMBER_CONTROL_OPTIONS ) ),
-          new NumberControl( 'Rotation', model.wavingGirlScene.rotationProperty, model.wavingGirlScene.rotationProperty.range, _.extend( {
-            delta: 0.01,
-            sliderOptions: {
-              majorTicks: [ {
-
-                // TODO: model coordinates for these
-                value: model.wavingGirlScene.rotationProperty.range.min,
-                label: new WaveInterferenceText( model.wavingGirlScene.rotationProperty.range.min )
-              }, {
-                value: model.wavingGirlScene.rotationProperty.range.max,
-                label: new WaveInterferenceText( '360 o' )
-              } ]
-            }
-          }, NUMBER_CONTROL_OPTIONS ) )
+                  // TODO: model coordinates for these
+                  value: model.wavingGirlScene.rotationProperty.range.min,
+                  label: new WaveInterferenceText( model.wavingGirlScene.rotationProperty.range.min )
+                }, {
+                  value: model.wavingGirlScene.rotationProperty.range.max,
+                  label: new WaveInterferenceText( '360˚' )
+                } ]
+              }
+            } )
         ]
       } ), PANEL_OPTIONS );
       // TODO: separate file
