@@ -157,17 +157,6 @@ define( require => {
       model.numberOfLinesProperty.lazyLink( updateCanvases );
       model.angleProperty.lazyLink( updateCanvases );
 
-      this.rectangleSceneControlPanel = new Panel( new HBox( {
-        spacing: BOX_SPACING,
-        children: [
-          new NumberControl( 'columnRadius', model.rectangleScene.columnRadiusProperty, model.rectangleScene.columnRadiusProperty.range, _.extend( {
-            // delta: 2 // avoid odd/even artifacts
-          }, NUMBER_CONTROL_OPTIONS ) ),
-          new NumberControl( 'rowRadius', model.rectangleScene.rowRadiusProperty, model.rectangleScene.rowRadiusProperty.range, _.extend( {
-            // delta: 2 // avoid odd/even artifacts
-          }, NUMBER_CONTROL_OPTIONS ) ) ]
-      } ), PANEL_OPTIONS );
-
       this.ellipseSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
@@ -187,6 +176,27 @@ define( require => {
               }
             } )
         ]
+      } ), PANEL_OPTIONS );
+
+      this.rectangleSceneControlPanel = new Panel( new HBox( {
+        spacing: BOX_SPACING,
+        children: [
+          new DiffractionNumberControl( 'Width',
+            model.rectangleScene.columnRadiusProperty.range.min,
+            model.rectangleScene.columnRadiusProperty.range.max,
+            model.rectangleScene.columnRadiusProperty, {
+              numberDisplayOptions: {
+                valuePattern: nmValueString
+              }
+            } ),
+          new DiffractionNumberControl( 'Height',
+            model.rectangleScene.rowRadiusProperty.range.min,
+            model.rectangleScene.rowRadiusProperty.range.max,
+            model.rectangleScene.rowRadiusProperty, {
+              numberDisplayOptions: {
+                valuePattern: nmValueString
+              }
+            } ) ]
       } ), PANEL_OPTIONS );
 
       this.circleDiamondSceneControlPanel = new Panel( new HBox( {
