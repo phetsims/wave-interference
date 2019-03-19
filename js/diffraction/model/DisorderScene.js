@@ -19,26 +19,24 @@ define( require => {
   class DisorderScene extends DiffractionScene {
 
     constructor() {
+      super();
 
-      const diameterProperty = new NumberProperty( 500, {
+      // @public {NumberProperty}
+      this.diameterProperty = new NumberProperty( 500, {
         range: new Range( 0, 1000 )
       } );
-      const latticeSpacingProperty = new NumberProperty( 0, {
+
+      // @public {NumberProperty}
+      this.latticeSpacingProperty = new NumberProperty( 0, {
         range: new Range( 0, 1000 )
       } );
-      const disorderProperty = new NumberProperty( 0, {
+
+      // @public {NumberProperty}
+      this.disorderProperty = new NumberProperty( 0, {
         range: new Range( 0, 4 )
       } );
-      super( [ diameterProperty, latticeSpacingProperty, disorderProperty ] );
 
-      // @public {NumberProperty}
-      this.diameterProperty = diameterProperty;
-
-      // @public {NumberProperty}
-      this.latticeSpacingProperty = latticeSpacingProperty;
-
-      // @public {NumberProperty}
-      this.disorderProperty = disorderProperty;
+      this.properties = [ this.diameterProperty, this.latticeSpacingProperty, this.disorderProperty ];
     }
 
     /**

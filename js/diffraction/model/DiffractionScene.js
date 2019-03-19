@@ -13,13 +13,10 @@ define( require => {
 
   class DiffractionScene {
 
-    /**
-     * @param {Object} [options]
-     */
-    constructor( properties, options ) {
+    constructor() {
 
-      // @private
-      this.properties = properties; // TODO: set properties after constructor to simplify clients
+      // @public (read-only) {Property.<*>[]} - set by subclasses
+      this.properties = null;
     }
 
     reset() {

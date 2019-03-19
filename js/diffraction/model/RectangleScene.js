@@ -18,20 +18,19 @@ define( require => {
   class RectangleScene extends DiffractionScene {
 
     constructor() {
-
-      const columnRadiusProperty = new NumberProperty( 16, {
-        range: new Range( 2, 30 )
-      } );
-      const rowRadiusProperty = new NumberProperty( 16, {
-        range: new Range( 2, 30 )
-      } );
-      super( [ columnRadiusProperty, rowRadiusProperty ] );
+      super();
 
       // @public {NumberProperty}
-      this.columnRadiusProperty = columnRadiusProperty;
+      this.columnRadiusProperty = new NumberProperty( 16, {
+        range: new Range( 2, 30 )
+      } );
 
       // @public {NumberProperty}
-      this.rowRadiusProperty = rowRadiusProperty;
+      this.rowRadiusProperty = new NumberProperty( 16, {
+        range: new Range( 2, 30 )
+      } );
+
+      this.properties = [ this.columnRadiusProperty, this.rowRadiusProperty ];
     }
 
     /**

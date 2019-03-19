@@ -21,20 +21,19 @@ define( require => {
   class WavingGirlScene extends DiffractionScene {
 
     constructor() {
+      super();
 
-      const heightProperty = new NumberProperty( 1000, {
+      // @public {NumberProperty}
+      this.heightProperty = new NumberProperty( 1000, {
         range: new Range( 0, 1000 )
       } );
-      const rotationProperty = new NumberProperty( 0, {
+
+      // @public {NumberProperty}
+      this.rotationProperty = new NumberProperty( 0, {
         range: new Range( 0, Math.PI * 2 )
       } );
-      super( [ heightProperty, rotationProperty ] );
 
-      // @public {NumberProperty}
-      this.heightProperty = heightProperty;
-
-      // @public {NumberProperty}
-      this.rotationProperty = rotationProperty;
+      this.properties = [ this.heightProperty, this.rotationProperty ];
 
       // Render to a canvas and sample points.  Using kite Shape.containsPoint on the SVG shape declaration was much too slow
       this.canvas = document.createElement( 'canvas' );

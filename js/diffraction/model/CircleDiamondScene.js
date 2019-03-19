@@ -22,20 +22,19 @@ define( require => {
   class CircleDiamondScene extends DiffractionScene {
 
     constructor() {
+      super();
 
-      const circleDiameterProperty = new NumberProperty( 10, {
+      // @public {NumberProperty}
+      this.circleDiameterProperty = new NumberProperty( 10, {
         range: new Range( 5, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 * 0.8 ) // TODO: magic number
       } );
-      const diamondDiameterProperty = new NumberProperty( 10, {
+
+      // @public {NumberProperty}
+      this.diamondDiameterProperty = new NumberProperty( 10, {
         range: new Range( 5, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 * 0.8 )
       } );
-      super( [ circleDiameterProperty, diamondDiameterProperty ] );
 
-      // @public {NumberProperty}
-      this.circleDiameterProperty = circleDiameterProperty;
-
-      // @public {NumberProperty}
-      this.diamondDiameterProperty = diamondDiameterProperty;
+      this.properties = [ this.circleDiameterProperty, this.diamondDiameterProperty ];
     }
 
     /**
