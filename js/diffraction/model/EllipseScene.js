@@ -18,7 +18,8 @@ define( require => {
   class EllipseScene extends DiffractionScene {
     constructor() {
 
-      // TODO: This value looks matched to the default wavelength
+      // TODO: This value looks matched to the default wavelength which is up for discussion in
+      // TODO: https://github.com/phetsims/wave-interference/issues/353
       const diameterProperty = new NumberProperty( 550, {
         range: new Range( 400, 8000 )
       } );
