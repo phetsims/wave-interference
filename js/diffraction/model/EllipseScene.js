@@ -20,7 +20,7 @@ define( require => {
 
       // TODO: This value looks matched to the default wavelength
       const diameterProperty = new NumberProperty( 550, {
-        range: new Range( 400, 10000 )
+        range: new Range( 400, 8000 )
       } );
       const eccentricityProperty = new NumberProperty( 0, {
         range: new Range( 0, 0.99 )
