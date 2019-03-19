@@ -181,17 +181,17 @@ define( require => {
         spacing: BOX_SPACING,
         children: [
           new DiffractionNumberControl( 'Width',
-            model.rectangleScene.columnRadiusProperty.range.min,
-            model.rectangleScene.columnRadiusProperty.range.max,
-            model.rectangleScene.columnRadiusProperty, {
+            model.rectangleScene.widthProperty.range.min,
+            model.rectangleScene.widthProperty.range.max,
+            model.rectangleScene.widthProperty, {
               numberDisplayOptions: {
                 valuePattern: nmValueString
               }
             } ),
           new DiffractionNumberControl( 'Height',
-            model.rectangleScene.rowRadiusProperty.range.min,
-            model.rectangleScene.rowRadiusProperty.range.max,
-            model.rectangleScene.rowRadiusProperty, {
+            model.rectangleScene.heightProperty.range.min,
+            model.rectangleScene.heightProperty.range.max,
+            model.rectangleScene.heightProperty, {
               numberDisplayOptions: {
                 valuePattern: nmValueString
               }

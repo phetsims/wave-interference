@@ -9,11 +9,12 @@ define( require => {
   'use strict';
 
   // modules
+  const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
-  const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   class RectangleScene extends DiffractionScene {
 
@@ -21,16 +22,16 @@ define( require => {
       super();
 
       // @public {NumberProperty}
-      this.columnRadiusProperty = new NumberProperty( 16, {
-        range: new Range( 2, 30 )
+      this.widthProperty = new NumberProperty( 550, { // TODO: initial value should match initial wavelength?
+        range: new Range( 400, 8000 )
       } );
 
       // @public {NumberProperty}
-      this.rowRadiusProperty = new NumberProperty( 16, {
-        range: new Range( 2, 30 )
+      this.heightProperty = new NumberProperty( 550, { // TODO: initial value should match initial wavelength?
+        range: new Range( 400, 8000 )
       } );
 
-      this.properties = [ this.columnRadiusProperty, this.rowRadiusProperty ];
+      this.properties = [ this.widthProperty, this.heightProperty ];
     }
 
     /**
@@ -42,11 +43,14 @@ define( require => {
      */
     paintMatrix( matrix, scaleFactor ) {
 
+      const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION /
+                                 WaveInterferenceConstants.DIFFRACTION_APERTURE_WIDTH;
+
       // TODO: n will always be even as power of 2, so is this OK?
       const centerRow = Util.roundSymmetric( matrix.getRowDimension() / 2 );
       const centerColumn = Util.roundSymmetric( matrix.getColumnDimension() / 2 );
-      const columnRadius = Util.roundSymmetric( this.columnRadiusProperty.value * scaleFactor );
-      const rowRadius = Util.roundSymmetric( this.rowRadiusProperty.value * scaleFactor );
+      const columnRadius = Util.roundSymmetric( this.widthProperty.value * modelToMatrixScale * scaleFactor / 2 );
+      const rowRadius = Util.roundSymmetric( this.heightProperty.value * modelToMatrixScale * scaleFactor / 2 );
 
       // clear since every cell is not set in the loop
       matrix.timesEquals( 0 );
