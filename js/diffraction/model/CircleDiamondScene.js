@@ -19,19 +19,24 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
+  // constants
+  // TODO: factor out?
+  const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION /
+                             WaveInterferenceConstants.DIFFRACTION_APERTURE_WIDTH;
+
   class CircleDiamondScene extends DiffractionScene {
 
     constructor() {
       super();
 
       // @public {NumberProperty}
-      this.circleDiameterProperty = new NumberProperty( 10, {
-        range: new Range( 5, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 * 0.8 ) // TODO: magic number
+      this.circleDiameterProperty = new NumberProperty( 550, {
+        range: new Range( 0, 1000 )
       } );
 
       // @public {NumberProperty}
-      this.diamondDiameterProperty = new NumberProperty( 10, {
-        range: new Range( 5, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 * 0.8 )
+      this.diamondDiameterProperty = new NumberProperty( 550, {
+        range: new Range( 0, 1000 )
       } );
 
       this.properties = [ this.circleDiameterProperty, this.diamondDiameterProperty ];
@@ -53,11 +58,11 @@ define( require => {
 
       const circleCenterX = Util.roundSymmetric( matrix.getColumnDimension() * ( 1 / 2 - delta ) );
       const circleCenterY = Util.roundSymmetric( matrix.getRowDimension() * ( 1 / 2 - delta ) );
-      const circleRadius = this.circleDiameterProperty.value / 2 * scaleFactor;
+      const circleRadius = this.circleDiameterProperty.value / 2 * scaleFactor * modelToMatrixScale;
 
       const diamondCenterX = Util.roundSymmetric( matrix.getColumnDimension() * ( 1 / 2 + delta ) );
       const diamondCenterY = Util.roundSymmetric( matrix.getRowDimension() * ( 1 / 2 + delta ) );
-      const diamondRadius = this.diamondDiameterProperty.value / 2 * scaleFactor;
+      const diamondRadius = this.diamondDiameterProperty.value / 2 * scaleFactor * modelToMatrixScale;
 
       const rectangle = Shape.rectangle( -diamondRadius, -diamondRadius, diamondRadius * 2, diamondRadius * 2 );
       const diamond = rectangle.transformed( Matrix3.rotation2( Math.PI / 4 ) )
