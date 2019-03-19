@@ -16,11 +16,11 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   class EllipseScene extends DiffractionScene {
-
     constructor() {
 
-      const diameterProperty = new NumberProperty( 10, {
-        range: new Range( 5, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 * 0.8 ) // TODO: magic number
+      // TODO: This value looks matched to the default wavelength
+      const diameterProperty = new NumberProperty( 550, {
+        range: new Range( 400, 10000 )
       } );
       const eccentricityProperty = new NumberProperty( 0, {
         range: new Range( 0, 0.99 )
@@ -50,9 +50,11 @@ define( require => {
       const diameter = this.diameterProperty.value;
       const eccentricity = this.eccentricityProperty.value;
 
-      const rx = diameter;
-      const rx2 = rx * rx * scaleFactor;
-      const ry2 = rx * rx * ( 1 - eccentricity * eccentricity ) * scaleFactor;
+      const rx = diameter / 2 * scaleFactor *
+                 WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION /
+                 WaveInterferenceConstants.DIFFRACTION_APERTURE_WIDTH;
+      const rx2 = rx * rx;
+      const ry2 = rx * rx * ( 1 - eccentricity * eccentricity );
 
       for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
         for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {

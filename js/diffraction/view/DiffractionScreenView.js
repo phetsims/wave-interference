@@ -116,7 +116,8 @@ define( require => {
 
       this.apertureNode.right = this.diffractionNode.left - 50;
 
-      const lengthScaleIndicatorNode = new LengthScaleIndicatorNode( 45, '1000 nm', {
+      // 1/10 of the way across the aperture is 1000nm.  Full aperture is 10,000nm
+      const lengthScaleIndicatorNode = new LengthScaleIndicatorNode( this.apertureNode.width / 10, '1000 nm', {
         leftBottom: this.apertureNode.leftTop.plusXY( 0, -5 )
       } );
       this.addChild( lengthScaleIndicatorNode );

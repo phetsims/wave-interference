@@ -110,7 +110,10 @@ define( require => {
     AMPLITUDE_CALIBRATION_SCALE: 1.2,
 
     // For the diffraction screen.  The matrix is square
-    DIFFRACTION_MATRIX_DIMENSION: 256
+    DIFFRACTION_MATRIX_DIMENSION: 256,
+
+    // The length of the aperture width or height in nanometers
+    DIFFRACTION_APERTURE_WIDTH: 10000
   };
 
   assert && assert( WaveInterferenceConstants.LATTICE_DIMENSION % 2 === 1, 'lattice dimension must be odd' );
