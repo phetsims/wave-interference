@@ -25,7 +25,8 @@ define( require => {
 
   // constants
   const CONTRAST = 0.01;
-  const DEFAULT_WAVELENGTH = ( VisibleColor.MIN_WAVELENGTH + VisibleColor.MAX_WAVELENGTH ) / 2;
+  const DEFAULT_FREQUENCY = ( VisibleColor.MIN_FREQUENCY + VisibleColor.MAX_FREQUENCY ) / 2;
+  const DEFAULT_WAVELENGTH = VisibleColor.SPEED_OF_LIGHT / DEFAULT_FREQUENCY * 1E9;
   const MATRIX_DIMENSION = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
 
   // preallocated to avoid generating garbage
