@@ -95,5 +95,9 @@
   "wave-interference": {
     "sha": "bf6f7f7cf5948e887fc23d7644cb8f43d8c260b8",
     "branch": "1.0"
+  },
+  "phetmarks": {
+    "branch": "master",
+    "sha": "8decc0216e90f38a005b0d6726ccc2672286628b"
   }
 }
