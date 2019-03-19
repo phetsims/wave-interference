@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.1 Fri Mar 08 2019 14:17:17 GMT-0500 (EST)",
+  "comment": "# wave-interference 1.0.1 Tue Mar 19 2019 17:25:28 GMT-0400 (EDT)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -10,11 +10,11 @@
   },
   "brand": {
     "sha": "4d714b59caa53acb5e0a914ca201cdbd7f4bba4d",
-    "branch": "wave-interference-1.0"
+    "branch": "HEAD"
   },
   "chipper": {
-    "sha": "9419a94d7cb3bdd64d2a5c2be6331d7ab25a6533",
-    "branch": "HEAD"
+    "sha": "178a976731fa551a821c42292199b106a37b60ba",
+    "branch": "wave-interference-1.0"
   },
   "dot": {
     "sha": "d3cd38ecf7c1f8bae42649291d993bf9f8033f46",
@@ -26,7 +26,7 @@
   },
   "joist": {
     "sha": "606919f3ec2ab0555456be0ea2e9c0f6dd71501d",
-    "branch": "wave-interference-1.0"
+    "branch": "HEAD"
   },
   "kite": {
     "sha": "20a875b740cbb9c441c72911e60617cd05a5d4e1",
@@ -58,6 +58,10 @@
   },
   "phetcommon": {
     "sha": "fa4055ab385803b7e9d46877c9a5efbe2b88da6a",
+    "branch": "HEAD"
+  },
+  "phetmarks": {
+    "sha": "8decc0216e90f38a005b0d6726ccc2672286628b",
     "branch": "HEAD"
   },
   "query-string-machine": {
@@ -93,11 +97,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "bf6f7f7cf5948e887fc23d7644cb8f43d8c260b8",
+    "sha": "d89697052e85566069ad1eea984387114461cf9d",
     "branch": "1.0"
-  },
-  "phetmarks": {
-    "branch": "master",
-    "sha": "8decc0216e90f38a005b0d6726ccc2672286628b"
   }
 }
