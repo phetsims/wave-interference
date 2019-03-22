@@ -405,7 +405,7 @@ define( require => {
 
         // Too much garbage on firefox, so only opt in to WebGL for mobile safari (where it is needed most)
         // and where the garbage doesn't seem to slow it down much.
-        const useWebgl = Util.isWebGLSupported && phet.chipper.queryParameters.webgl && platform.mobileSafari;
+        const useWebgl = phet.chipper.queryParameters.webgl && platform.mobileSafari && Util.isWebGLSupported;
         const node = useWebgl ?
                      new SoundParticleImageLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
                      new SoundParticleCanvasLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } );
