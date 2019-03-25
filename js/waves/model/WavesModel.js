@@ -80,7 +80,10 @@ define( require => {
         // True if SoundParticles should be created and displayed, and if the user can select to view them
         showSoundParticles: true,
 
-        waveSpatialType: Scene.WaveSpatialType.POINT
+        waveSpatialType: Scene.WaveSpatialType.POINT,
+
+        // The property name of the initial scene to display
+        initialScene: 'waterScene'
       }, options );
 
       assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
@@ -240,7 +243,7 @@ define( require => {
       );
 
       // @public {Property.<Scene>} - selected scene
-      this.sceneProperty = new Property( this.waterScene, {
+      this.sceneProperty = new Property( this[ options.initialScene ], {
         validValues: this.scenes
       } );
 

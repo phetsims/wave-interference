@@ -46,7 +46,8 @@ define( require => {
 
         showIntensityCheckbox: true,
         maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH,
-        yMargin: 4
+        yMargin: 4,
+        showSceneRadioButtons: true
       }, options );
 
       const frequencyControl = new FrequencyControl( model );
@@ -91,24 +92,24 @@ define( require => {
       intensityCheckbox.mouseArea = intensityCheckbox.localBounds.dilated( 2 ).withX( separator.right );
       intensityCheckbox.touchArea = intensityCheckbox.mouseArea;
 
-      const sceneRadioButtonGroup = new SceneRadioButtonGroup(
+      const sceneRadioButtonGroup = options.showSceneRadioButtons ? new SceneRadioButtonGroup(
         model.waterScene,
         model.soundScene,
         model.lightScene,
         model.sceneProperty
-      );
+      ) : null;
 
       // Horizontal layout
       const centerX = frequencyControl.centerX;
       frequencyControl.centerX = centerX;
       amplitudeControl.centerX = centerX;
       if ( options.additionalControl ) {options.additionalControl.centerX = centerX;}
-      sceneRadioButtonGroup.centerX = centerX;
+      if ( sceneRadioButtonGroup ) { sceneRadioButtonGroup.centerX = centerX; }
       separator.centerX = centerX;
       const minX = _.min( [
         frequencyControl.left,
         amplitudeControl.left,
-        sceneRadioButtonGroup.left
+        ...( sceneRadioButtonGroup ? [ sceneRadioButtonGroup.left ] : [] )
       ] );
 
       // Align controls to the left
@@ -126,14 +127,18 @@ define( require => {
       // The Separation NumberControl is an additionalControl
       if ( options.additionalControl ) {
         options.additionalControl.top = y + 8;
-        sceneRadioButtonGroup.top = options.additionalControl.bottom + 8 + 8;
+        if ( sceneRadioButtonGroup ) {
+          sceneRadioButtonGroup.top = options.additionalControl.bottom + 8 + 8;
+        }
       }
       else {
-        sceneRadioButtonGroup.top = y + 8;
+        if ( sceneRadioButtonGroup ) {
+          sceneRadioButtonGroup.top = y + 8;
+        }
       }
       const HORIZONTAL_SEPARATOR_MARGIN = 7;
       const CHECKBOX_SPACING = 6;
-      separator.top = sceneRadioButtonGroup.bottom + 8;
+      separator.top = sceneRadioButtonGroup ? ( sceneRadioButtonGroup.bottom + 8 ) : y;
       graphCheckbox.top = separator.bottom + HORIZONTAL_SEPARATOR_MARGIN;
       soundViewTypeRadioButtonGroup.top = graphCheckbox.bottom + CHECKBOX_SPACING + 2;
       screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
@@ -151,7 +156,7 @@ define( require => {
           amplitudeControl,
 
           ...( options.additionalControl ? [ options.additionalControl ] : [] ),
-          sceneRadioButtonGroup,
+          ...( sceneRadioButtonGroup ? [ sceneRadioButtonGroup ] : [] ),
           separator,
           graphCheckbox,
 

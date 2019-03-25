@@ -22,7 +22,10 @@ define( require => {
     // screen is included in a published version, this query parameter will be deleted.
     includeDiffractionScreen: { type: 'flag' },
 
-    latticeSize: { type: 'number', defaultValue: 151 }
+    latticeSize: { type: 'number', defaultValue: 151 },
+
+    // TODO: temporary flag until the new sim repo exists, see https://github.com/phetsims/wave-interference/issues/357
+    mediumScreens: { type: 'flag' }
   } );
 
   waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );

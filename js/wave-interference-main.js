@@ -12,9 +12,11 @@ define( require => {
   const AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   const DiffractionScreen = require( 'WAVE_INTERFERENCE/diffraction/DiffractionScreen' );
   const InterferenceScreen = require( 'WAVE_INTERFERENCE/interference/InterferenceScreen' );
+  const MediumScreen = require( 'WAVE_INTERFERENCE/medium/MediumScreen' );
   const Sim = require( 'JOIST/Sim' );
   const SimLauncher = require( 'JOIST/SimLauncher' );
   const SlitsScreen = require( 'WAVE_INTERFERENCE/slits/SlitsScreen' );
+  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
   const WavesScreen = require( 'WAVE_INTERFERENCE/waves/WavesScreen' );
 
   // strings
@@ -41,12 +43,18 @@ define( require => {
       matchVertical: false
     } );
 
-    const sim = new Sim( waveInterferenceTitleString, [
+    // TODO: Remove this when we have a repo, see https://github.com/phetsims/wave-interference/issues/357
+    const screens = WaveInterferenceQueryParameters.mediumScreens ? [
+      new MediumScreen( 'waterScene', 'Water', alignGroup ),
+      new MediumScreen( 'soundScene', 'Sound', alignGroup ),
+      new MediumScreen( 'lightScene', 'Light', alignGroup )
+    ] : [
       new WavesScreen( alignGroup ),
       new InterferenceScreen( alignGroup ),
       new SlitsScreen( alignGroup ),
       new DiffractionScreen()
-    ], simOptions );
+    ];
+    const sim = new Sim( waveInterferenceTitleString, screens, simOptions );
     sim.start();
   } );
 } );
