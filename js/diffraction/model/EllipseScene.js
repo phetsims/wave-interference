@@ -32,48 +32,22 @@ define( require => {
       this.properties = [ this.diameterProperty, this.eccentricityProperty ];
     }
 
-    /**
-     * Add our pattern to the matrix.
-     *
-     * @param {Matrix} matrix
-     * @param {number} scaleFactor - zoom factor to account for frequency difference
-     * @public
-     */
-    paintMatrix( matrix, scaleFactor ) {
-      assert && assert( matrix.getRowDimension() % 2 === 0, 'matrix should be even' );
-      assert && assert( matrix.getColumnDimension() % 2 === 0, 'matrix should be even' );
-
-      // TODO: blur gets rid of a lot of artifacts
-      const y0 = matrix.getRowDimension() / 2;
-      const x0 = matrix.getColumnDimension() / 2;
-      const diameter = this.diameterProperty.value;
+    renderToContext( scaleFactor ) {
       const eccentricity = this.eccentricityProperty.value;
-
+      const diameter = this.diameterProperty.value;
       const rx = diameter / 2 * scaleFactor * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
-      const rx2 = rx * rx;
-      const ry2 = rx * rx * ( 1 - eccentricity * eccentricity );
+      const ry = Math.sqrt( rx * rx * ( 1 - eccentricity * eccentricity ) );
 
-      // TODO: use canvas strategy from disorder scene everywhere, to improve performance
-      // TODO: use canvas to get aliasing and eliminate artifacts, perhaps add filter = blur
-      // TODO: this.context.filter = 'blur(0.6px)'; // TODO: should we blur? How does it impact performance on iPad?
-      // this.context.fillStyle = 'white';
-      // this.context.beginPath();
-      // this.context.arc( 30, 30, 20, 0, Math.PI * 2 );
-      // this.context.fill();
-      for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
-        for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
-          const dx = ( x - x0 );
-          const dy = ( y - y0 );
-
-          // Ellipse equation: (x-h)^2 /rx^2  + (y-k)^2/ry^2 <=1
-          const ellipseValue = dx * dx / rx2 + dy * dy / ry2;
-
-          matrix.set( y, x, ellipseValue < 1 ? 1 : 0 );
-
-          // TODO: Should we blur with something like this?
-          // matrix.set( y, x, ellipseValue < 1 ? 1 - ellipseValue * ellipseValue * ellipseValue : 0 );
-        }
-      }
+      // Blurring a bit eliminates more artifacts
+      this.context.filter = 'blur(0.75px)';
+      this.context.fillStyle = 'white';
+      this.context.beginPath();
+      this.context.ellipse(
+        WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2,
+        WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2,
+        rx, ry, 0, 0, Math.PI * 2
+      );
+      this.context.fill();
     }
   }
 
