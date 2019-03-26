@@ -24,6 +24,7 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const ScreenView = require( 'JOIST/ScreenView' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
@@ -36,7 +37,17 @@ define( require => {
   const wavingGirl256Image = require( 'image!WAVE_INTERFERENCE/waving_girl_256.png' );
 
   // strings
+  const widthString = require( 'string!WAVE_INTERFERENCE/width' );
+  const heightString = require( 'string!WAVE_INTERFERENCE/height' );
+  const rotationString = require( 'string!WAVE_INTERFERENCE/rotation' );
+  const diameterString = require( 'string!WAVE_INTERFERENCE/diameter' );
+  const eccentricityString = require( 'string!WAVE_INTERFERENCE/eccentricity' );
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
+  const wavelengthString = require( 'string!WAVE_INTERFERENCE/wavelength' );
+  const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
+  const latticeSpacingString = require( 'string!WAVE_INTERFERENCE/latticeSpacing' );
+  const diamondDiameterString = require( 'string!WAVE_INTERFERENCE/diamondDiameter' );
+  const disorderString = require( 'string!WAVE_INTERFERENCE/disorder' );
 
   // constants
   const ICON_SCALE = 0.2;
@@ -117,7 +128,7 @@ define( require => {
       this.apertureNode.right = this.diffractionNode.left - 50;
 
       // 1/10 of the way across the aperture is 1000nm.  Full aperture is 10,000nm
-      const lengthScaleIndicatorNode = new LengthScaleIndicatorNode( this.apertureNode.width / 10, '1000 nm', {
+      const lengthScaleIndicatorNode = new LengthScaleIndicatorNode( this.apertureNode.width / 10, StringUtils.fillIn( nmValueString, { value: 1000 } ), {
         leftBottom: this.apertureNode.leftTop.plusXY( 0, -5 )
       } );
       this.addChild( lengthScaleIndicatorNode );
@@ -157,14 +168,14 @@ define( require => {
       this.ellipseSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
-          new DiffractionNumberControl( 'Diameter',
+          new DiffractionNumberControl( diameterString,
             model.ellipseScene.diameterProperty.range.min,
             model.ellipseScene.diameterProperty.range.max, model.ellipseScene.diameterProperty, {
               numberDisplayOptions: {
                 valuePattern: nmValueString
               }
             } ),
-          new DiffractionNumberControl( 'Eccentricity',
+          new DiffractionNumberControl( eccentricityString,
             model.ellipseScene.eccentricityProperty.range.min,
             model.ellipseScene.eccentricityProperty.range.max, model.ellipseScene.eccentricityProperty, {
               delta: 0.01,
@@ -178,7 +189,7 @@ define( require => {
       this.rectangleSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
-          new DiffractionNumberControl( 'Width',
+          new DiffractionNumberControl( widthString,
             model.rectangleScene.widthProperty.range.min,
             model.rectangleScene.widthProperty.range.max,
             model.rectangleScene.widthProperty, {
@@ -186,7 +197,7 @@ define( require => {
                 valuePattern: nmValueString
               }
             } ),
-          new DiffractionNumberControl( 'Height',
+          new DiffractionNumberControl( heightString,
             model.rectangleScene.heightProperty.range.min,
             model.rectangleScene.heightProperty.range.max,
             model.rectangleScene.heightProperty, {
@@ -199,7 +210,7 @@ define( require => {
       this.circleDiamondSceneControlPanel = new Panel( new HBox( {
           spacing: BOX_SPACING,
           children: [
-            new DiffractionNumberControl( 'Circle Diameter',
+            new DiffractionNumberControl( circleDiameterString,
               model.circleDiamondScene.circleDiameterProperty.range.min,
               model.circleDiamondScene.circleDiameterProperty.range.max,
               model.circleDiamondScene.circleDiameterProperty, {
@@ -209,7 +220,7 @@ define( require => {
               } ),
 
             // TODO (design): Should this be "square diameter"
-            new DiffractionNumberControl( 'Diamond Diameter',
+            new DiffractionNumberControl( diamondDiameterString,
               model.circleDiamondScene.diamondDiameterProperty.range.min,
               model.circleDiamondScene.diamondDiameterProperty.range.max,
               model.circleDiamondScene.diamondDiameterProperty, {
@@ -227,17 +238,17 @@ define( require => {
       this.disorderSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
-          new DiffractionNumberControl( 'Circle Diameter',
+          new DiffractionNumberControl( circleDiameterString,
             model.disorderScene.diameterProperty.range.min,
             model.disorderScene.diameterProperty.range.max,
             model.disorderScene.diameterProperty ),
-          new DiffractionNumberControl( 'Lattice Spacing',
+          new DiffractionNumberControl( latticeSpacingString,
             model.disorderScene.latticeSpacingProperty.range.min,
             model.disorderScene.latticeSpacingProperty.range.max,
             model.disorderScene.latticeSpacingProperty, {
               delta: 0.01
             } ),
-          new DiffractionNumberControl( 'Disorder',
+          new DiffractionNumberControl( disorderString,
             model.disorderScene.disorderProperty.range.min,
             model.disorderScene.disorderProperty.range.max,
             model.disorderScene.disorderProperty, {
@@ -258,11 +269,11 @@ define( require => {
       this.wavingGirlSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
         children: [
-          new DiffractionNumberControl( 'Height',
+          new DiffractionNumberControl( heightString,
             model.wavingGirlScene.heightProperty.range.min,
             model.wavingGirlScene.heightProperty.range.max,
             model.wavingGirlScene.heightProperty ),
-          new DiffractionNumberControl( 'Rotation',
+          new DiffractionNumberControl( rotationString,
             model.wavingGirlScene.rotationProperty.range.min,
             model.wavingGirlScene.rotationProperty.range.max,
             model.wavingGirlScene.rotationProperty, {
@@ -318,7 +329,7 @@ define( require => {
 
       const wavelengthSlider = new Panel( new VBox( {
         children: [
-          new WaveInterferenceText( 'Wavelength' ), // TODO: i18n
+          new WaveInterferenceText( wavelengthString ),
           new WavelengthSlider( model.wavelengthProperty, {
             trackWidth: 100,
             trackHeight: 30,

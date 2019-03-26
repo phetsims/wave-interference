@@ -17,6 +17,15 @@
   "frequency": {
     "value": "Frequency"
   },
+  "diameter": {
+    "value": "Diameter"
+  },
+  "eccentricity": {
+    "value": "Eccentricity"
+  },
+  "wavelength": {
+    "value": "Wavelength"
+  },
   "amplitude": {
     "value": "Amplitude"
   },
@@ -124,6 +133,27 @@
   },
   "slitWidth": {
     "value": "Slit Width"
+  },
+  "width": {
+    "value": "Width"
+  },
+  "height": {
+    "value": "Height"
+  },
+  "circleDiameter": {
+    "value": "Circle Diameter"
+  },
+  "rotation": {
+    "value": "Rotation"
+  },
+  "diamondDiameter": {
+    "value": "Diamond Diameter"
+  },
+  "latticeSpacing": {
+    "value": "Lattice Spacing"
+  },
+  "disorder": {
+    "value": "Disorder"
   },
   "slitSeparation": {
     "value": "Slit Separation"
