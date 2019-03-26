@@ -34,8 +34,6 @@ define( require => {
       const mergedOptions = merge( {
         sliderOptions: {
           majorTicks: [ {
-
-            // TODO: model coordinates for these
             value: property.range.min,
             label: new WaveInterferenceText( minLabel )
           }, {
