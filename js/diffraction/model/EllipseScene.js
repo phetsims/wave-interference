@@ -52,6 +52,7 @@ define( require => {
       const rx2 = rx * rx;
       const ry2 = rx * rx * ( 1 - eccentricity * eccentricity );
 
+      // TODO: use canvas strategy from disorder scene everywhere, to improve performance
       for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
         for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
           const dx = ( x - x0 );
