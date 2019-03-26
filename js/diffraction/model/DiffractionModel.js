@@ -86,12 +86,6 @@ define( require => {
       this.diffractionMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
       const update = () => {
-
-        // clear before drawing
-        // TODO: do this as part of paint if we don't need compositing, since we visit each pixel anyways.
-        // this.apertureMatrix.timesEquals( 0 );
-        // this.scaledApertureMatrix.timesEquals( 0 );
-
         const scaleDifference = ( this.wavelengthProperty.value - WaveInterferenceConstants.DEFAULT_WAVELENGTH ) /
                                 WaveInterferenceConstants.DEFAULT_WAVELENGTH;
 

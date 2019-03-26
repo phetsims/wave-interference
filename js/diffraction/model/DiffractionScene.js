@@ -36,7 +36,7 @@ define( require => {
      * @public
      */
     paintMatrix( matrix, scaleFactor ) {
-      // TODO: use this strategy for all scenes, to improve performance and uniformity
+
       // clear canvas
       this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
 

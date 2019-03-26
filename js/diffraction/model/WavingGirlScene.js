@@ -35,7 +35,7 @@ define( require => {
       this.properties = [ this.heightProperty, this.rotationProperty ];
     }
 
-    // TODO: should this be a function passed to super()?
+    // TODO: Docs for renderToContext
     renderToContext() {
       this.context.translate( 0, -wavingGirl256Image.height * 0.2 );
       this.context.translate( wavingGirl256Image.width / 2, wavingGirl256Image.height / 2 );

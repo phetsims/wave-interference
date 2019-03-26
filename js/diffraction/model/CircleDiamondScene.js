@@ -36,8 +36,6 @@ define( require => {
 
     renderToContext() {
 
-      // TODO: separate the objects based on scaleFactor?
-      // TODO: move scale factor to parent?
       const delta = 0.1;
 
       const circleCenterX = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 - delta ) );
