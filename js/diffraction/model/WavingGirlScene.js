@@ -78,8 +78,6 @@ define( require => {
           const pixelIndex = y * canvasDataWidth + x;
           const arrayIndex = pixelIndex * 4;
           const a = canvasData.data[ arrayIndex + 3 ]; // R=0, G=1, B=2, A=3
-
-          // TODO: consider average over neighborhood -- if performance on iPad Air 2 is fast enough.
           matrix.set( y, x, a / 255 );
         }
       }
