@@ -37,17 +37,17 @@ define( require => {
   const wavingGirl256Image = require( 'image!WAVE_INTERFERENCE/waving_girl_256.png' );
 
   // strings
-  const widthString = require( 'string!WAVE_INTERFERENCE/width' );
-  const heightString = require( 'string!WAVE_INTERFERENCE/height' );
-  const rotationString = require( 'string!WAVE_INTERFERENCE/rotation' );
-  const diameterString = require( 'string!WAVE_INTERFERENCE/diameter' );
-  const eccentricityString = require( 'string!WAVE_INTERFERENCE/eccentricity' );
-  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
-  const wavelengthString = require( 'string!WAVE_INTERFERENCE/wavelength' );
   const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
-  const latticeSpacingString = require( 'string!WAVE_INTERFERENCE/latticeSpacing' );
+  const diameterString = require( 'string!WAVE_INTERFERENCE/diameter' );
   const diamondDiameterString = require( 'string!WAVE_INTERFERENCE/diamondDiameter' );
   const disorderString = require( 'string!WAVE_INTERFERENCE/disorder' );
+  const eccentricityString = require( 'string!WAVE_INTERFERENCE/eccentricity' );
+  const heightString = require( 'string!WAVE_INTERFERENCE/height' );
+  const latticeSpacingString = require( 'string!WAVE_INTERFERENCE/latticeSpacing' );
+  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
+  const rotationString = require( 'string!WAVE_INTERFERENCE/rotation' );
+  const wavelengthString = require( 'string!WAVE_INTERFERENCE/wavelength' );
+  const widthString = require( 'string!WAVE_INTERFERENCE/width' );
 
   // constants
   const ICON_SCALE = 0.2;

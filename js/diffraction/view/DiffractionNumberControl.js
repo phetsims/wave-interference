@@ -9,10 +9,8 @@ define( require => {
   'use strict';
 
   // modules
-  // const Dimension2 = require( 'DOT/Dimension2' );
   const merge = require( 'PHET_CORE/merge' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
-  // const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
