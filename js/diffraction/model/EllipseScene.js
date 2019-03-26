@@ -43,6 +43,7 @@ define( require => {
       assert && assert( matrix.getRowDimension() % 2 === 0, 'matrix should be even' );
       assert && assert( matrix.getColumnDimension() % 2 === 0, 'matrix should be even' );
 
+      // TODO: blur gets rid of a lot of artifacts
       const y0 = matrix.getRowDimension() / 2;
       const x0 = matrix.getColumnDimension() / 2;
       const diameter = this.diameterProperty.value;
@@ -53,6 +54,12 @@ define( require => {
       const ry2 = rx * rx * ( 1 - eccentricity * eccentricity );
 
       // TODO: use canvas strategy from disorder scene everywhere, to improve performance
+      // TODO: use canvas to get aliasing and eliminate artifacts, perhaps add filter = blur
+      // TODO: this.context.filter = 'blur(0.6px)'; // TODO: should we blur? How does it impact performance on iPad?
+      // this.context.fillStyle = 'white';
+      // this.context.beginPath();
+      // this.context.arc( 30, 30, 20, 0, Math.PI * 2 );
+      // this.context.fill();
       for ( let x = 0; x <= matrix.getColumnDimension(); x++ ) {
         for ( let y = 0; y <= matrix.getRowDimension(); y++ ) {
           const dx = ( x - x0 );
