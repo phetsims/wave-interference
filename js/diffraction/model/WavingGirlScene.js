@@ -61,7 +61,6 @@ define( require => {
       this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
 
       // TODO:
-      this.context.filter = 'blur(0.6px)'; // TODO: should we blur? How does it impact performance on iPad?
       this.context.save();
       this.context.translate( 0, -wavingGirl256Image.height * 0.2 );
       this.context.translate( wavingGirl256Image.width / 2, wavingGirl256Image.height / 2 );
