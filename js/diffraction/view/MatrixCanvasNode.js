@@ -50,10 +50,6 @@ define( require => { // eslint-disable-line bad-sim-text
       // scale.
       // TODO: where is the scaling defined?  Do we need this smaller raster?  If so, why?
       this.imageDataRenderer = new ImageDataRenderer( matrix.getRowDimension(), matrix.getColumnDimension() );
-
-      // Invalidate paint when model indicates changes
-      // TODO: why is this commented out?
-      // matrix.changedEmitter.addListener( this.invalidatePaint.bind( this ) );
     }
 
     /**
@@ -81,8 +77,7 @@ define( require => { // eslint-disable-line bad-sim-text
       for ( let row = 0; row < m; row++ ) {
         for ( let column = 0; column < n; column++ ) {
 
-          // Note this is transposed because of the ordering of putImageData
-          // TODO: re-transpose because of ordering of putImageData?
+          // Get the value from the data matrix
           const value = this.dataMatrix.get( row, column ); // TODO: inline stride for performance?
 
           // Note this interpolation doesn't include the gamma factor that Color.blend does
