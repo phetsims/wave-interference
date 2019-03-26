@@ -47,6 +47,7 @@ define( require => {
       assert && assert( columnDimension % 2 === 0, 'matrix should be even' );
 
       // TODO: Should scale factor be appled to the canvas transform?
+      this.context.fillStyle = 'white';
       this.renderToContext( scaleFactor );
 
       const canvasData = this.context.getImageData( 0, 0, this.canvas.width, this.canvas.height );

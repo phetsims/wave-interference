@@ -40,7 +40,6 @@ define( require => {
 
       // Blurring a bit eliminates more artifacts
       this.context.filter = 'blur(0.75px)';
-      this.context.fillStyle = 'white';
       this.context.beginPath();
       this.context.ellipse(
         WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2,
