@@ -22,12 +22,12 @@ define( require => {
       super();
 
       // @public {NumberProperty}
-      this.widthProperty = new NumberProperty( 550, { // TODO: initial value should match initial wavelength?
+      this.widthProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
         range: new Range( 400, 8000 )
       } );
 
       // @public {NumberProperty}
-      this.heightProperty = new NumberProperty( 550, { // TODO: initial value should match initial wavelength?
+      this.heightProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
         range: new Range( 400, 8000 )
       } );
 

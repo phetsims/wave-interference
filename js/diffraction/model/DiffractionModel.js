@@ -25,8 +25,7 @@ define( require => {
 
   // constants
   const CONTRAST = 0.01;
-  const DEFAULT_FREQUENCY = ( VisibleColor.MIN_FREQUENCY + VisibleColor.MAX_FREQUENCY ) / 2;
-  const DEFAULT_WAVELENGTH = VisibleColor.SPEED_OF_LIGHT / DEFAULT_FREQUENCY * 1E9;
+
   const MATRIX_DIMENSION = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
 
   // preallocated to avoid generating garbage
@@ -44,7 +43,7 @@ define( require => {
       this.onProperty = new BooleanProperty( true );
 
       // @public - the wavelength of the laser in nm
-      this.wavelengthProperty = new NumberProperty( DEFAULT_WAVELENGTH, {
+      this.wavelengthProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
         range: new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH )
       } );
 
@@ -93,7 +92,8 @@ define( require => {
         // this.apertureMatrix.timesEquals( 0 );
         // this.scaledApertureMatrix.timesEquals( 0 );
 
-        const scaleDifference = ( this.wavelengthProperty.value - DEFAULT_WAVELENGTH ) / DEFAULT_WAVELENGTH;
+        const scaleDifference = ( this.wavelengthProperty.value - WaveInterferenceConstants.DEFAULT_WAVELENGTH ) /
+                                WaveInterferenceConstants.DEFAULT_WAVELENGTH;
 
         // More frequency => more diffraction
         const scaleFactor = 1 - scaleDifference * 2;

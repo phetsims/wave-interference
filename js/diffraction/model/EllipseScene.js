@@ -22,7 +22,7 @@ define( require => {
       // TODO: This value looks matched to the default wavelength which is up for discussion in
       // TODO: https://github.com/phetsims/wave-interference/issues/353
       // @public {NumberProperty}
-      this.diameterProperty = new NumberProperty( 550, {
+      this.diameterProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
         range: new Range( 400, 8000 )
       } );
 

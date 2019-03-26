@@ -25,12 +25,12 @@ define( require => {
       super();
 
       // @public {NumberProperty}
-      this.circleDiameterProperty = new NumberProperty( 550, {
+      this.circleDiameterProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
         range: new Range( 0, 1000 )
       } );
 
       // @public {NumberProperty}
-      this.diamondDiameterProperty = new NumberProperty( 550, {
+      this.diamondDiameterProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
         range: new Range( 0, 1000 )
       } );
 

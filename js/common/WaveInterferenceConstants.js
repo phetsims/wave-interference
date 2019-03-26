@@ -14,6 +14,7 @@ define( require => {
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Range = require( 'DOT/Range' );
   const Util = require( 'DOT/Util' );
+  const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
 
@@ -23,6 +24,7 @@ define( require => {
   const DEFAULT_FONT = new PhetFont( DEFAULT_FONT_SIZE );
   const MAJOR_TICK_LENGTH = 12;
   const LATTICE_PADDING = 20;
+  const DEFAULT_FREQUENCY = ( VisibleColor.MIN_FREQUENCY + VisibleColor.MAX_FREQUENCY ) / 2;
 
   // the simulation was initially calibrated at a lattice size of 101-20x2.  This scale factor maintains the same
   // calibrated behavior for differing lattice sizes.
@@ -113,7 +115,9 @@ define( require => {
     DIFFRACTION_MATRIX_DIMENSION: 256,
 
     // The length of the aperture width or height in nanometers
-    DIFFRACTION_APERTURE_WIDTH: 10000
+    DIFFRACTION_APERTURE_WIDTH: 10000,
+
+    DEFAULT_WAVELENGTH: VisibleColor.SPEED_OF_LIGHT / DEFAULT_FREQUENCY * 1E9
   };
 
   // Derived constants
