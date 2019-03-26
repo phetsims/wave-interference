@@ -117,10 +117,6 @@ define( require => {
 
       const radius = this.diameterProperty.value * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE / 2;
 
-      // TODO: paint is getting called twice for every value change. This is a performance problem.
-      // TODO: you can see this by console.logging each paint.  Oh, there is one call to paint for the view and one for
-      // TODO: the scaled model
-
       context.beginPath();
       for ( let pointIndex = 0; pointIndex < points.length; pointIndex++ ) {
         const point = points[ pointIndex ];
