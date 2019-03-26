@@ -24,6 +24,8 @@ define( require => {
       this.canvas.width = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
       this.canvas.height = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
       this.context = this.canvas.getContext( '2d' );
+
+      assert && assert( this.renderToContext, 'Subclass must define renderToContext' );
     }
 
     /**
@@ -38,7 +40,7 @@ define( require => {
       // clear canvas
       this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
 
-      // TODO:
+      // TODO: Can context be local?
       this.context.save();
       const rowDimension = matrix.getRowDimension();
       const columnDimension = matrix.getColumnDimension();
@@ -50,7 +52,7 @@ define( require => {
       this.context.translate( this.canvas.width / 2, this.canvas.height / 2 );
       this.context.scale( scaleFactor, scaleFactor );
       this.context.translate( -this.canvas.width / 2, -this.canvas.height / 2 );
-      this.renderToContext( 1 );
+      this.renderToContext();
 
       const canvasData = this.context.getImageData( 0, 0, this.canvas.width, this.canvas.height );
       const canvasDataWidth = canvasData.width;

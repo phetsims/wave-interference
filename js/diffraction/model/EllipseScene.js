@@ -32,10 +32,10 @@ define( require => {
       this.properties = [ this.diameterProperty, this.eccentricityProperty ];
     }
 
-    renderToContext( scaleFactor ) {
+    renderToContext() {
       const eccentricity = this.eccentricityProperty.value;
       const diameter = this.diameterProperty.value;
-      const rx = diameter / 2 * scaleFactor * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
+      const rx = diameter / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
       const ry = Math.sqrt( rx * rx * ( 1 - eccentricity * eccentricity ) );
 
       // Blurring a bit eliminates more artifacts

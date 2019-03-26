@@ -36,11 +36,11 @@ define( require => {
     }
 
     // TODO: should this be a function passed to super()?
-    renderToContext( scaleFactor ) {
+    renderToContext() {
       this.context.translate( 0, -wavingGirl256Image.height * 0.2 );
       this.context.translate( wavingGirl256Image.width / 2, wavingGirl256Image.height / 2 );
       this.context.rotate( this.rotationProperty.value );
-      this.context.scale( 0.3 * scaleFactor, 0.3 * this.heightProperty.value / 1000 * scaleFactor );
+      this.context.scale( 0.3, 0.3 * this.heightProperty.value / 1000 );
       this.context.translate( -wavingGirl256Image.width / 2, -wavingGirl256Image.height / 2 );
       this.context.drawImage( wavingGirl256Image, 0, 0 );
     }

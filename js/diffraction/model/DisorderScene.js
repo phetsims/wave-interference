@@ -93,7 +93,7 @@ define( require => {
       this.properties = [ this.diameterProperty, this.latticeSpacingProperty, this.disorderProperty ];
     }
 
-    renderToContext( scaleFactor ) {
+    renderToContext() {
 
       const points = [];
       for ( let i = 0; i < array.length; i++ ) {
@@ -129,8 +129,8 @@ define( require => {
         const y0 = Util.roundSymmetric( Util.linear( 2.5, 1, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2, edgePoint, point.center.y ) );
 
         const rx = radius;
-        const rx2 = rx * rx * scaleFactor * scalePercent.x / 100;
-        const ry2 = rx * rx * scaleFactor * scalePercent.y / 100;
+        const rx2 = rx * rx * scalePercent.x / 100;
+        const ry2 = rx * rx * scalePercent.y / 100;
 
         // Don't connect the ellipses
         this.context.moveTo( x0, y0 );

@@ -34,19 +34,19 @@ define( require => {
       this.properties = [ this.circleDiameterProperty, this.diamondDiameterProperty ];
     }
 
-    renderToContext( scaleFactor ) {
+    renderToContext() {
 
       // TODO: separate the objects based on scaleFactor?
       // TODO: move scale factor to parent?
-      const delta = 0.1 * scaleFactor;
+      const delta = 0.1;
 
       const circleCenterX = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 - delta ) );
       const circleCenterY = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 - delta ) );
-      const circleRadius = this.circleDiameterProperty.value / 2 * scaleFactor * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
+      const circleRadius = this.circleDiameterProperty.value / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
 
       const diamondCenterX = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
       const diamondCenterY = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
-      const diamondRadius = this.diamondDiameterProperty.value / 2 * scaleFactor * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
+      const diamondRadius = this.diamondDiameterProperty.value / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
 
       // Blurring a bit eliminates more artifacts
       // this.context.filter = 'blur(0.75px)';

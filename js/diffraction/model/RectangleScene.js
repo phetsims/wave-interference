@@ -34,10 +34,10 @@ define( require => {
       this.properties = [ this.widthProperty, this.heightProperty ];
     }
 
-    renderToContext( scaleFactor ) {
+    renderToContext() {
       const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
-      const columnRadius = Util.roundSymmetric( this.widthProperty.value * modelToMatrixScale * scaleFactor / 2 );
-      const rowRadius = Util.roundSymmetric( this.heightProperty.value * modelToMatrixScale * scaleFactor / 2 );
+      const columnRadius = Util.roundSymmetric( this.widthProperty.value * modelToMatrixScale / 2 );
+      const rowRadius = Util.roundSymmetric( this.heightProperty.value * modelToMatrixScale / 2 );
 
       // Blurring a bit eliminates more artifacts
       this.context.filter = 'blur(0.5px)';
