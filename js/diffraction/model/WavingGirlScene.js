@@ -56,6 +56,7 @@ define( require => {
       assert && assert( rowDimension % 2 === 0, 'matrix should be even' );
       assert && assert( columnDimension % 2 === 0, 'matrix should be even' );
 
+      // TODO: use this strategy for all scenes, to improve performance and uniformity
       // clear canvas
       this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
       this.context.save();
