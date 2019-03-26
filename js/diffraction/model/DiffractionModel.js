@@ -63,15 +63,6 @@ define( require => {
       // @public
       this.wavingGirlScene = new WavingGirlScene();
 
-      // @public characteristics of the grating
-      // TODO: DELETE
-      this.numberOfLinesProperty = new NumberProperty( 10, {
-        range: new Range( 2, 200 )
-      } );
-      this.angleProperty = new NumberProperty( 0, {
-        range: new Range( 0, Math.PI * 2 )
-      } );
-
       // @public (read-only) {DiffractionScene[]}
       this.scenes = [
         this.ellipseScene,
@@ -128,8 +119,6 @@ define( require => {
     reset() {
       this.scenes.forEach( scene => scene.reset() );
       this.onProperty.reset();
-      this.numberOfLinesProperty.reset();
-      this.angleProperty.reset();
       this.sceneProperty.reset();
       this.wavelengthProperty.reset();
     }

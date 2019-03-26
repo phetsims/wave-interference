@@ -153,8 +153,6 @@ define( require => {
       this.addChild( sceneRadioButtonGroup );
       model.scenes.forEach( scene => scene.link( updateCanvases ) );
       model.onProperty.lazyLink( updateCanvases );
-      model.numberOfLinesProperty.lazyLink( updateCanvases );
-      model.angleProperty.lazyLink( updateCanvases );
 
       this.ellipseSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,
