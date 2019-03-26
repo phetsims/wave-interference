@@ -77,7 +77,6 @@ define( require => {
           const contained = a > 0;
 
           // TODO: consider average over neighborhood -- if performance on iPad Air 2 is fast enough.
-
           matrix.set( y, x, contained ? 1 : 0 );
         }
       }

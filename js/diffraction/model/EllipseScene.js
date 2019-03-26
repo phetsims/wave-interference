@@ -19,8 +19,6 @@ define( require => {
     constructor() {
       super();
 
-      // TODO: This value looks matched to the default wavelength which is up for discussion in
-      // TODO: https://github.com/phetsims/wave-interference/issues/353
       // @public {NumberProperty}
       this.diameterProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
         range: new Range( 400, 8000 )
@@ -64,7 +62,7 @@ define( require => {
 
           matrix.set( y, x, ellipseValue < 1 ? 1 : 0 );
 
-          // TODO: Should we blur with something like
+          // TODO: Should we blur with something like this?
           // matrix.set( y, x, ellipseValue < 1 ? 1 - ellipseValue * ellipseValue * ellipseValue : 0 );
         }
       }
