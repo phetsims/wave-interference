@@ -52,6 +52,7 @@ define( require => { // eslint-disable-line bad-sim-text
       this.imageDataRenderer = new ImageDataRenderer( matrix.getRowDimension(), matrix.getColumnDimension() );
 
       // Invalidate paint when model indicates changes
+      // TODO: why is this commented out?
       // matrix.changedEmitter.addListener( this.invalidatePaint.bind( this ) );
     }
 

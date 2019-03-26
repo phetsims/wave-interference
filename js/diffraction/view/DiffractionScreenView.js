@@ -208,7 +208,7 @@ define( require => {
                 }
               } ),
 
-            // TODO: Call this "square?"
+            // TODO (design): Should this be "square diameter"
             new DiffractionNumberControl( 'Diamond Diameter',
               model.circleDiamondScene.diamondDiameterProperty.range.min,
               model.circleDiamondScene.diamondDiameterProperty.range.max,
@@ -244,8 +244,6 @@ define( require => {
               delta: 1,
               sliderOptions: {
                 majorTicks: [ {
-
-                  // TODO: model coordinates for these
                   value: model.disorderScene.disorderProperty.range.min,
                   label: new WaveInterferenceText( 'None' )
                 }, {
@@ -271,8 +269,6 @@ define( require => {
               delta: 0.01,
               sliderOptions: {
                 majorTicks: [ {
-
-                  // TODO: model coordinates for these
                   value: model.wavingGirlScene.rotationProperty.range.min,
                   label: new WaveInterferenceText( model.wavingGirlScene.rotationProperty.range.min )
                 }, {
