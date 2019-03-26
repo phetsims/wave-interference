@@ -25,7 +25,10 @@ define( require => {
     latticeSize: { type: 'number', defaultValue: 151 },
 
     // TODO: temporary flag until the new sim repo exists, see https://github.com/phetsims/wave-interference/issues/357
-    mediumScreens: { type: 'flag' }
+    mediumScreens: { type: 'flag' },
+
+    // Debugging flag that shows the scaled aperture matrix rather than the unscaled aperture matrix
+    showScaledMatrix: { type: 'flag' }
   } );
 
   waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );

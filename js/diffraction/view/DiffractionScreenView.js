@@ -30,6 +30,7 @@ define( require => {
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
 
@@ -115,7 +116,9 @@ define( require => {
       ];
 
       const MATRIX_CANVAS_NODE_SCALE = 1.4;
-      this.apertureNode = new MatrixCanvasNode( model.apertureMatrix, { scale: MATRIX_CANVAS_NODE_SCALE } );
+      this.apertureNode = new MatrixCanvasNode( WaveInterferenceQueryParameters.showScaledMatrix ?
+                                                model.scaledApertureMatrix :
+                                                model.apertureMatrix, { scale: MATRIX_CANVAS_NODE_SCALE } );
       this.apertureNode.top = 120;
       this.addChild( this.apertureNode );
 
@@ -164,6 +167,9 @@ define( require => {
       this.addChild( sceneRadioButtonGroup );
       model.scenes.forEach( scene => scene.link( updateCanvases ) );
       model.onProperty.lazyLink( updateCanvases );
+
+      // When showing the scaled matrix for debugging, update it when the wavelength changes
+      WaveInterferenceQueryParameters.showScaledMatrix && model.wavelengthProperty.lazyLink( updateCanvases );
 
       this.ellipseSceneControlPanel = new Panel( new HBox( {
         spacing: BOX_SPACING,

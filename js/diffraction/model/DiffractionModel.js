@@ -96,7 +96,8 @@ define( require => {
                                 WaveInterferenceConstants.DEFAULT_WAVELENGTH;
 
         // More frequency => more diffraction
-        const scaleFactor = 1 - scaleDifference * 2;
+        const scaleFactor = 1 - scaleDifference * 1.5;
+        assert && assert( scaleFactor > 0, 'scale factor should be positive' );
         const scene = this.sceneProperty.value;
         scene.paintMatrix( this.apertureMatrix, 1 );
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
