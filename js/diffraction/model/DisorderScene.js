@@ -93,7 +93,7 @@ define( require => {
       this.properties = [ this.diameterProperty, this.latticeSpacingProperty, this.disorderProperty ];
     }
 
-    renderToContext() {
+    renderToContext( context ) {
 
       const points = [];
       for ( let i = 0; i < array.length; i++ ) {
@@ -121,7 +121,7 @@ define( require => {
       // TODO: you can see this by console.logging each paint.  Oh, there is one call to paint for the view and one for
       // TODO: the scaled model
 
-      this.context.beginPath();
+      context.beginPath();
       for ( let pointIndex = 0; pointIndex < points.length; pointIndex++ ) {
         const point = points[ pointIndex ];
         const scalePercent = point.scalePercent;
@@ -133,11 +133,11 @@ define( require => {
         const ry2 = rx * rx * scalePercent.y / 100;
 
         // Don't connect the ellipses
-        this.context.moveTo( x0, y0 );
+        context.moveTo( x0, y0 );
 
-        this.context.ellipse( x0, y0, Math.sqrt( rx2 ), Math.sqrt( ry2 ), 0, 0, Math.PI * 2 );
+        context.ellipse( x0, y0, Math.sqrt( rx2 ), Math.sqrt( ry2 ), 0, 0, Math.PI * 2 );
       }
-      this.context.fill();
+      context.fill();
     }
   }
 

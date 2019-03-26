@@ -32,21 +32,26 @@ define( require => {
       this.properties = [ this.diameterProperty, this.eccentricityProperty ];
     }
 
-    renderToContext() {
+    /**
+     * Render the aperture shape(s) to the canvas context.
+     * @param {CanvasRenderingContext2D} context
+     * @protected
+     */
+    renderToContext( context ) {
       const eccentricity = this.eccentricityProperty.value;
       const diameter = this.diameterProperty.value;
       const rx = diameter / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
       const ry = Math.sqrt( rx * rx * ( 1 - eccentricity * eccentricity ) );
 
       // Blurring a bit eliminates more artifacts
-      this.context.filter = 'blur(0.75px)';
-      this.context.beginPath();
-      this.context.ellipse(
+      context.filter = 'blur(0.75px)';
+      context.beginPath();
+      context.ellipse(
         WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2,
         WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2,
         rx, ry, 0, 0, Math.PI * 2
       );
-      this.context.fill();
+      context.fill();
     }
   }
 

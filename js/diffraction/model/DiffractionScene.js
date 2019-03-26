@@ -20,9 +20,12 @@ define( require => {
       this.properties = null;
 
       // Render to a canvas and sample points.  Using kite Shape.containsPoint on the SVG shape declaration was much too slow
+      // @private
       this.canvas = document.createElement( 'canvas' );
       this.canvas.width = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
       this.canvas.height = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
+
+      // @private
       this.context = this.canvas.getContext( '2d' );
 
       assert && assert( this.renderToContext, 'Subclass must define renderToContext' );
@@ -39,8 +42,6 @@ define( require => {
 
       // clear canvas
       this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
-
-      // TODO: Can context be local?
       this.context.save();
       const rowDimension = matrix.getRowDimension();
       const columnDimension = matrix.getColumnDimension();
@@ -52,7 +53,7 @@ define( require => {
       this.context.translate( this.canvas.width / 2, this.canvas.height / 2 );
       this.context.scale( scaleFactor, scaleFactor );
       this.context.translate( -this.canvas.width / 2, -this.canvas.height / 2 );
-      this.renderToContext();
+      this.renderToContext( this.context );
 
       const canvasData = this.context.getImageData( 0, 0, this.canvas.width, this.canvas.height );
       const canvasDataWidth = canvasData.width;
@@ -67,6 +68,15 @@ define( require => {
 
       }
       this.context.restore();
+    }
+
+    /**
+     * Render the aperture shape(s) to the canvas context.
+     * @param {CanvasRenderingContext2D} context
+     * @protected
+     */
+    renderToContext( context ) {
+      assert && assert( false, 'should be overriden in subclasses' );
     }
 
     /**

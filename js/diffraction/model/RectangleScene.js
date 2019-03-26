@@ -34,14 +34,19 @@ define( require => {
       this.properties = [ this.widthProperty, this.heightProperty ];
     }
 
-    renderToContext() {
+    /**
+     * Render the aperture shape(s) to the canvas context.
+     * @param {CanvasRenderingContext2D} context
+     * @protected
+     */
+    renderToContext( context ) {
       const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
       const columnRadius = Util.roundSymmetric( this.widthProperty.value * modelToMatrixScale / 2 );
       const rowRadius = Util.roundSymmetric( this.heightProperty.value * modelToMatrixScale / 2 );
 
       // Blurring a bit eliminates more artifacts
-      this.context.filter = 'blur(0.5px)';
-      this.context.fillRect(
+      context.filter = 'blur(0.5px)';
+      context.fillRect(
         WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 - columnRadius,
         WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 - rowRadius,
         columnRadius * 2, rowRadius * 2

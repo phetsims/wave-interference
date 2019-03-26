@@ -34,7 +34,12 @@ define( require => {
       this.properties = [ this.circleDiameterProperty, this.diamondDiameterProperty ];
     }
 
-    renderToContext() {
+    /**
+     * Render the aperture shape(s) to the canvas context.
+     * @param {CanvasRenderingContext2D} context
+     * @protected
+     */
+    renderToContext( context ) {
 
       const delta = 0.1;
 
@@ -47,15 +52,15 @@ define( require => {
       const diamondRadius = this.diamondDiameterProperty.value / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
 
       // Blurring a bit eliminates more artifacts
-      // this.context.filter = 'blur(0.75px)';
-      this.context.beginPath();
-      this.context.arc( circleCenterX, circleCenterY, circleRadius, 0, Math.PI * 2 );
-      this.context.fill();
+      // context.filter = 'blur(0.75px)';
+      context.beginPath();
+      context.arc( circleCenterX, circleCenterY, circleRadius, 0, Math.PI * 2 );
+      context.fill();
 
-      this.context.translate( 150, 200 );
-      this.context.rotate( Math.PI / 4 );
-      this.context.translate( -150, -200 );
-      this.context.fillRect( diamondCenterX - diamondRadius, diamondCenterY - diamondRadius, diamondRadius * 2, diamondRadius * 2 );
+      context.translate( 150, 200 );
+      context.rotate( Math.PI / 4 );
+      context.translate( -150, -200 );
+      context.fillRect( diamondCenterX - diamondRadius, diamondCenterY - diamondRadius, diamondRadius * 2, diamondRadius * 2 );
     }
   }
 

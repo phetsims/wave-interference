@@ -35,14 +35,18 @@ define( require => {
       this.properties = [ this.heightProperty, this.rotationProperty ];
     }
 
-    // TODO: Docs for renderToContext
-    renderToContext() {
-      this.context.translate( 0, -wavingGirl256Image.height * 0.2 );
-      this.context.translate( wavingGirl256Image.width / 2, wavingGirl256Image.height / 2 );
-      this.context.rotate( this.rotationProperty.value );
-      this.context.scale( 0.3, 0.3 * this.heightProperty.value / 1000 );
-      this.context.translate( -wavingGirl256Image.width / 2, -wavingGirl256Image.height / 2 );
-      this.context.drawImage( wavingGirl256Image, 0, 0 );
+    /**
+     * Render the aperture shape(s) to the canvas context.
+     * @param {CanvasRenderingContext2D} context
+     * @protected
+     */
+    renderToContext( context ) {
+      context.translate( 0, -wavingGirl256Image.height * 0.2 );
+      context.translate( wavingGirl256Image.width / 2, wavingGirl256Image.height / 2 );
+      context.rotate( this.rotationProperty.value );
+      context.scale( 0.3, 0.3 * this.heightProperty.value / 1000 );
+      context.translate( -wavingGirl256Image.width / 2, -wavingGirl256Image.height / 2 );
+      context.drawImage( wavingGirl256Image, 0, 0 );
     }
   }
 
