@@ -34,31 +34,19 @@ define( require => {
       this.properties = [ this.widthProperty, this.heightProperty ];
     }
 
-    /**
-     * Add our pattern to the matrix.
-     *
-     * @param {Matrix} matrix
-     * @param {number} scaleFactor - zoom factor to account for frequency difference
-     * @public
-     */
-    paintMatrix( matrix, scaleFactor ) {
-
+    renderToContext( scaleFactor ) {
       const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
-
-      // TODO: n will always be even as power of 2, so is this OK?
-      const centerRow = Util.roundSymmetric( matrix.getRowDimension() / 2 );
-      const centerColumn = Util.roundSymmetric( matrix.getColumnDimension() / 2 );
       const columnRadius = Util.roundSymmetric( this.widthProperty.value * modelToMatrixScale * scaleFactor / 2 );
       const rowRadius = Util.roundSymmetric( this.heightProperty.value * modelToMatrixScale * scaleFactor / 2 );
 
-      // clear since every cell is not set in the loop
-      matrix.timesEquals( 0 );
-
-      for ( let column = centerColumn - columnRadius; column <= centerColumn + columnRadius; column++ ) {
-        for ( let row = centerRow - rowRadius; row <= centerRow + rowRadius; row++ ) {
-          matrix.set( row, column, 1 );
-        }
-      }
+      // Blurring a bit eliminates more artifacts
+      this.context.filter = 'blur(0.5px)';
+      this.context.fillStyle = 'white';
+      this.context.fillRect(
+        WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 - columnRadius,
+        WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 - rowRadius,
+        columnRadius * 2, rowRadius * 2
+      );
     }
   }
 
