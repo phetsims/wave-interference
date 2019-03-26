@@ -17,11 +17,6 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
-  // constants
-  // TODO: factor out?
-  const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION /
-                             WaveInterferenceConstants.DIFFRACTION_APERTURE_WIDTH;
-
   class DisorderScene extends DiffractionScene {
 
     constructor() {
@@ -128,7 +123,7 @@ define( require => {
       const latticeSpacing = this.latticeSpacingProperty.value;
       const edgePoint = Util.linear( 0, 1000, matrix.getColumnDimension() / 4, matrix.getColumnDimension() / 6, latticeSpacing );
 
-      const radius = this.diameterProperty.value * modelToMatrixScale / 2;
+      const radius = this.diameterProperty.value * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE / 2;
 
       // TODO: paint is getting called twice for every value change. This is a performance problem.
       // TODO: you can see this by console.logging each paint.  Oh, there is one call to paint for the view and one for

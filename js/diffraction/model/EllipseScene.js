@@ -50,9 +50,7 @@ define( require => {
       const diameter = this.diameterProperty.value;
       const eccentricity = this.eccentricityProperty.value;
 
-      const rx = diameter / 2 * scaleFactor *
-                 WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION /
-                 WaveInterferenceConstants.DIFFRACTION_APERTURE_WIDTH;
+      const rx = diameter / 2 * scaleFactor * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
       const rx2 = rx * rx;
       const ry2 = rx * rx * ( 1 - eccentricity * eccentricity );
 

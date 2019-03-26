@@ -116,6 +116,10 @@ define( require => {
     DIFFRACTION_APERTURE_WIDTH: 10000
   };
 
+  // Derived constants
+  WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION /
+                                                                WaveInterferenceConstants.DIFFRACTION_APERTURE_WIDTH;
+
   assert && assert( WaveInterferenceConstants.LATTICE_DIMENSION % 2 === 1, 'lattice dimension must be odd' );
 
   waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );

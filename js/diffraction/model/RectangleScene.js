@@ -43,8 +43,7 @@ define( require => {
      */
     paintMatrix( matrix, scaleFactor ) {
 
-      const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION /
-                                 WaveInterferenceConstants.DIFFRACTION_APERTURE_WIDTH;
+      const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
 
       // TODO: n will always be even as power of 2, so is this OK?
       const centerRow = Util.roundSymmetric( matrix.getRowDimension() / 2 );
