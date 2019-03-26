@@ -59,6 +59,7 @@ define( require => {
       // TODO: use this strategy for all scenes, to improve performance and uniformity
       // clear canvas
       this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
+      this.context.filter = 'blur(0.5px)'; // TODO: should we blur? How does it impact performance on iPad?
       this.context.save();
       this.context.translate( 0, -wavingGirl256Image.height * 0.2 );
       this.context.translate( wavingGirl256Image.width / 2, wavingGirl256Image.height / 2 );
@@ -75,10 +76,9 @@ define( require => {
           const pixelIndex = y * canvasDataWidth + x;
           const arrayIndex = pixelIndex * 4;
           const a = canvasData.data[ arrayIndex + 3 ]; // R=0, G=1, B=2, A=3
-          const contained = a > 0;
 
           // TODO: consider average over neighborhood -- if performance on iPad Air 2 is fast enough.
-          matrix.set( y, x, contained ? 1 : 0 );
+          matrix.set( y, x, a / 255 );
         }
       }
       this.context.restore();
