@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.2-rc.1 Wed Mar 20 2019 20:05:16 GMT-0400 (EDT)",
+  "comment": "# wave-interference 1.0.2-rc.1 Thu Mar 28 2019 14:26:14 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -13,8 +13,8 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "178a976731fa551a821c42292199b106a37b60ba",
-    "branch": "HEAD"
+    "sha": "9b2400bca668295fec109f5a2cb10019b39fa43f",
+    "branch": "wave-interference-1.0"
   },
   "dot": {
     "sha": "d3cd38ecf7c1f8bae42649291d993bf9f8033f46",
@@ -97,7 +97,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "5cd78a1ce9dc62492939de97dfee185d5486daf6",
+    "sha": "e0530c690af44fca5e71112289fafbd454426df0",
     "branch": "1.0"
   }
 }
