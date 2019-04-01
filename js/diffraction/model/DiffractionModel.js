@@ -161,7 +161,8 @@ define( require => {
       }
     }
 
-    // get the largest magnitude
+    // get the largest magnitude.  Spread operator Math.max( ...arr ) did not have good performance characteristics
+    // so we compute this manually.
     let maxMagnitude = 0;
     for ( let i = 0; i < SHIFTED_MAGNITUDES.length; i++ ) {
       if ( SHIFTED_MAGNITUDES[ i ] > maxMagnitude ) {
@@ -169,9 +170,7 @@ define( require => {
       }
     }
 
-    // draw the pixels
     const logOfMaxMag = Math.log( CONTRAST * maxMagnitude + 1 );
-
     for ( let i = 0; i < SHIFTED_MAGNITUDES.length; i++ ) {
       output.entries[ i ] = Math.log( CONTRAST * SHIFTED_MAGNITUDES[ i ] + 1 ) / logOfMaxMag;
     }

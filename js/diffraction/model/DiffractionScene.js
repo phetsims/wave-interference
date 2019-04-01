@@ -90,6 +90,7 @@ define( require => {
     /**
      * Link to each Property instance
      * @param {function} listener
+     * @public
      */
     link( listener ) {
       this.properties.forEach( property => property.link( listener ) );

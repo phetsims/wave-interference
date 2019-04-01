@@ -93,8 +93,12 @@ define( require => {
       this.properties = [ this.diameterProperty, this.latticeSpacingProperty, this.disorderProperty ];
     }
 
+    /**
+     * Render the aperture shape(s) to the canvas context.
+     * @param {CanvasRenderingContext2D} context
+     * @protected
+     */
     renderToContext( context ) {
-
       const points = [];
       for ( let i = 0; i < array.length; i++ ) {
         const arrayElement = array[ i ];
