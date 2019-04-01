@@ -48,7 +48,7 @@ define( require => { // eslint-disable-line bad-sim-text
 
       // @private - For performance, render into a sub-canvas which will be drawn into the rendering context at the right
       // scale.
-      // TODO: where is the scaling defined?  Do we need this smaller raster?  If so, why?
+      // TODO: Do we need this nested raster?  If so, why?
       this.imageDataRenderer = new ImageDataRenderer( matrix.getRowDimension(), matrix.getColumnDimension() );
     }
 
