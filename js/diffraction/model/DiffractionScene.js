@@ -53,6 +53,9 @@ define( require => {
       this.context.translate( this.canvas.width / 2, this.canvas.height / 2 );
       this.context.scale( scaleFactor, scaleFactor );
       this.context.translate( -this.canvas.width / 2, -this.canvas.height / 2 );
+
+      // Each scene paints its aperture pattern to the canvas context.  This has good performance, simplifies the code
+      // and provides smooth results because the canvas data is anti-aliased.
       this.renderToContext( this.context );
 
       const canvasData = this.context.getImageData( 0, 0, this.canvas.width, this.canvas.height );
