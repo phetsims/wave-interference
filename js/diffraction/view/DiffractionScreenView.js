@@ -47,7 +47,7 @@ define( require => {
 
   // constants
   const ICON_SCALE = 0.2;
-  const BOTTOM_MARGIN = 10;
+  const MARGIN = 10;
 
   const PANEL_OPTIONS = {
     xMargin: 10,
@@ -68,17 +68,17 @@ define( require => {
       this.model = model;
 
       const laserPointerNode = new LaserPointerNode( model.onProperty, {
-        left: 10,
+        left: MARGIN,
         centerY: 50,
-        bodySize: new Dimension2( 110 * 0.8, 78 * 0.8 ),
-        nozzleSize: new Dimension2( 20 * 0.8, 60 * 0.8 )
+        bodySize: new Dimension2( 88, 62.4 ),
+        nozzleSize: new Dimension2( 16, 48 )
       } );
 
       // Reset All button
       const resetAllButton = new ResetAllButton( {
         listener: () => model.reset(),
-        right: this.layoutBounds.maxX - 10,
-        bottom: this.layoutBounds.maxY - BOTTOM_MARGIN
+        right: this.layoutBounds.maxX - MARGIN,
+        bottom: this.layoutBounds.maxY - MARGIN
       } );
       this.addChild( resetAllButton );
 
@@ -176,7 +176,7 @@ define( require => {
       ], {
         alignChildren: ToggleNode.CENTER_BOTTOM,
         centerX: this.apertureNode.centerX,
-        bottom: this.layoutBounds.bottom - BOTTOM_MARGIN
+        bottom: this.layoutBounds.bottom - MARGIN
       } );
       this.addChild( controlPanelToggleNode );
 
@@ -218,7 +218,7 @@ define( require => {
         ]
       } ), _.extend( {
         left: 5,
-        top: laserPointerNode.bottom + 10
+        top: laserPointerNode.bottom + MARGIN
       }, PANEL_OPTIONS ) );
 
       this.addChild( transmittedBeam );
