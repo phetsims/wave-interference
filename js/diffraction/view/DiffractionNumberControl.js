@@ -19,8 +19,8 @@ define( require => {
 
     /**
      * @param {string} title
-     * @param {string} minLabel
-     * @param {string} maxLabel
+     * @param {string} minLabel TODO: some numbers are being passed here.
+     * @param {string} maxLabel TODO: or if after design is final, all sites use property.min/property.max, then remove these parameters.  Or just move to that pattern now and use options to override?
      * @param {Property.<number>} property
      * @param {Object} [options]
      */

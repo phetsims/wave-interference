@@ -32,14 +32,16 @@ define( require => {
         children: [
           new DiffractionNumberControl( diameterString,
             ellipseScene.diameterProperty.range.min,
-            ellipseScene.diameterProperty.range.max, ellipseScene.diameterProperty, {
+            ellipseScene.diameterProperty.range.max,
+            ellipseScene.diameterProperty, {
               numberDisplayOptions: {
                 valuePattern: nmValueString
               }
             } ),
           new DiffractionNumberControl( eccentricityString,
             ellipseScene.eccentricityProperty.range.min,
-            ellipseScene.eccentricityProperty.range.max, ellipseScene.eccentricityProperty, {
+            ellipseScene.eccentricityProperty.range.max,
+            ellipseScene.eccentricityProperty, {
               delta: 0.01,
               numberDisplayOptions: {
                 decimalPlaces: 2
