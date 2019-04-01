@@ -9,12 +9,9 @@ define( require => {
   'use strict';
 
   // modules
+  const BasicScreen = require( 'WAVE_INTERFERENCE/common/BasicScreen' );
   const Image = require( 'SCENERY/nodes/Image' );
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WavesModel = require( 'WAVE_INTERFERENCE/waves/model/WavesModel' );
-  const WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
 
   // images
   const wavesScreenIcon = require( 'image!WAVE_INTERFERENCE/waves_screen_icon.png' );
@@ -22,33 +19,17 @@ define( require => {
   // strings
   const screenWavesString = require( 'string!WAVE_INTERFERENCE/screen.waves' );
 
-  class WavesScreen extends Screen {
+  class WavesScreen extends BasicScreen {
 
     /**
      * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
      */
     constructor( alignGroup ) {
       const options = {
-        backgroundColorProperty: new Property( 'white' ),
-        name: screenWavesString,
         homeScreenIcon: new Image( wavesScreenIcon ),
-        showUnselectedHomeScreenIconFrame: true,
-        showScreenIconFrameForNavigationBarFill: 'black'
+        name: screenWavesString
       };
-      super(
-        () => new WavesModel(),
-        model => new WavesScreenView( model, alignGroup, {
-          showViewpointRadioButtonGroup: true,
-
-          lightScreenNodeBrightness: 1.85,
-
-          // The intensity checkbox is not available in the waves screen because it distracts from the learing goals of the screen
-          controlPanelOptions: {
-            showIntensityCheckbox: false
-          }
-        } ),
-        options
-      );
+      super( alignGroup, options );
     }
   }
 
