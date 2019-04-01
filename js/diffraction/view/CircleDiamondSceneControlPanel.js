@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * Control panel for the RectangleScene.
+ * Control panel for the CircleDiamondScene.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
