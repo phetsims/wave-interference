@@ -94,8 +94,7 @@ define( require => {
         assert && assert( scaleFactor > 0, 'scale factor should be positive' );
         const scene = this.sceneProperty.value;
 
-        // Note that paintMatrix is called twice.  TODO: Can this be optimized to improve performance, perhaps the
-        // unscaled one can use the scaled one?
+        // Note that paintMatrix is called twice.
         scene.paintMatrix( this.apertureMatrix, 1 );
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
         if ( this.onProperty.value ) {
