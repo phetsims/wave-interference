@@ -18,8 +18,8 @@ define( require => {
 
   // strings
   const heightString = require( 'string!WAVE_INTERFERENCE/height' );
-  const rotationString = require( 'string!WAVE_INTERFERENCE/rotation' );
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
+  const rotationString = require( 'string!WAVE_INTERFERENCE/rotation' );
 
   class WavingGirlSceneControlPanel extends Panel {
 
