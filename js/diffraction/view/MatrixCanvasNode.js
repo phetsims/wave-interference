@@ -78,7 +78,7 @@ define( require => { // eslint-disable-line bad-sim-text
         for ( let column = 0; column < n; column++ ) {
 
           // Get the value from the data matrix
-          const value = this.dataMatrix.get( row, column ); // TODO: inline stride for performance?
+          const value = this.dataMatrix.get( row, column );
 
           // Note this interpolation doesn't include the gamma factor that Color.blend does
           const r = Math.min( value * this.baseColor.red * SCALE_FACTOR, 255 );
