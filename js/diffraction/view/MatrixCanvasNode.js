@@ -46,9 +46,7 @@ define( require => { // eslint-disable-line bad-sim-text
       // @private
       this.baseColor = options.baseColor;
 
-      // @private - For performance, render into a sub-canvas which will be drawn into the rendering context at the right
-      // scale.
-      // TODO: Do we need this nested raster?  If so, why?
+      // @private - Use putImageData for performance
       this.imageDataRenderer = new ImageDataRenderer( matrix.getRowDimension(), matrix.getColumnDimension() );
     }
 
@@ -98,9 +96,7 @@ define( require => { // eslint-disable-line bad-sim-text
       this.imageDataRenderer.putImageData();
 
       // draw the sub-canvas to the rendering context at the appropriate scale
-      context.save();
       context.drawImage( this.imageDataRenderer.canvas, 0, 0 );
-      context.restore();
     }
   }
 
