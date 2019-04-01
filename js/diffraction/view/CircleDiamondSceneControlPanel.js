@@ -38,8 +38,6 @@ define( require => {
                 valuePattern: nmValueString
               }
             } ),
-
-          // TODO (design): Should this be "square diameter"
           new DiffractionNumberControl( diamondDiameterString,
             circleDiamondScene.diamondDiameterProperty.range.min,
             circleDiamondScene.diamondDiameterProperty.range.max,
