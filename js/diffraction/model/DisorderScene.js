@@ -81,8 +81,8 @@ define( require => {
       } );
 
       // @public {NumberProperty}
-      this.latticeSpacingProperty = new NumberProperty( 0, {
-        range: new Range( 0, 1000 )
+      this.latticeSpacingProperty = new NumberProperty( 600, {
+        range: new Range( 200, 1000 )
       } );
 
       // @public {NumberProperty}
@@ -113,20 +113,24 @@ define( require => {
       }
 
       const latticeSpacing = this.latticeSpacingProperty.value;
-      const edgePoint = Util.linear( 0, 1000, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 4, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 6, latticeSpacing );
 
+      // Spacing in matrix coordinates.
+      const matrixSpacing = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE * latticeSpacing;
+
+      const WIDTH = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
       const radius = this.diameterProperty.value * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE / 2;
 
       context.beginPath();
       for ( let pointIndex = 0; pointIndex < points.length; pointIndex++ ) {
         const point = points[ pointIndex ];
         const scalePercent = point.scalePercent;
-        const x0 = Util.roundSymmetric( Util.linear( 2.5, 1, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2, edgePoint, point.center.x ) );
-        const y0 = Util.roundSymmetric( Util.linear( 2.5, 1, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2, edgePoint, point.center.y ) );
 
-        const rx = radius;
-        const rx2 = rx * rx * scalePercent.x / 100;
-        const ry2 = rx * rx * scalePercent.y / 100;
+        // 2.5 is the center of 1,2,3,4 and 3.5 is one cell over.
+        const x0 = Util.roundSymmetric( Util.linear( 2.5, 3.5, WIDTH / 2, WIDTH / 2 + matrixSpacing, point.center.x ) );
+        const y0 = Util.roundSymmetric( Util.linear( 2.5, 3.5, WIDTH / 2, WIDTH / 2 + matrixSpacing, point.center.y ) );
+
+        const rx2 = radius * radius * scalePercent.x / 100;
+        const ry2 = radius * radius * scalePercent.y / 100;
 
         // Don't connect the ellipses
         context.moveTo( x0, y0 );
