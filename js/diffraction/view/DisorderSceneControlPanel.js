@@ -31,31 +31,22 @@ define( require => {
       super( new HBox( {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
-          new DiffractionNumberControl( circleDiameterString,
-            disorderScene.diameterProperty.range.min,
-            disorderScene.diameterProperty.range.max,
-            disorderScene.diameterProperty ),
-          new DiffractionNumberControl( latticeSpacingString,
-            disorderScene.latticeSpacingProperty.range.min,
-            disorderScene.latticeSpacingProperty.range.max,
-            disorderScene.latticeSpacingProperty, {
-              delta: 0.01
-            } ),
-          new DiffractionNumberControl( disorderString,
-            disorderScene.disorderProperty.range.min,
-            disorderScene.disorderProperty.range.max,
-            disorderScene.disorderProperty, {
-              delta: 1,
-              sliderOptions: {
-                majorTicks: [ {
-                  value: disorderScene.disorderProperty.range.min,
-                  label: new WaveInterferenceText( 'None' )
-                }, {
-                  value: disorderScene.disorderProperty.range.max,
-                  label: new WaveInterferenceText( 'Lots' )
-                } ]
-              }
-            } )
+          new DiffractionNumberControl( circleDiameterString, disorderScene.diameterProperty ),
+          new DiffractionNumberControl( latticeSpacingString, disorderScene.latticeSpacingProperty, {
+            delta: 0.01
+          } ),
+          new DiffractionNumberControl( disorderString, disorderScene.disorderProperty, {
+            delta: 1,
+            sliderOptions: {
+              majorTicks: [ {
+                value: disorderScene.disorderProperty.range.min,
+                label: new WaveInterferenceText( 'None' )
+              }, {
+                value: disorderScene.disorderProperty.range.max,
+                label: new WaveInterferenceText( 'Lots' )
+              } ]
+            }
+          } )
         ]
       } ), options );
     }

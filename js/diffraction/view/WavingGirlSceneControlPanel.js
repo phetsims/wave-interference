@@ -30,25 +30,19 @@ define( require => {
       super( new HBox( {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
-          new DiffractionNumberControl( heightString,
-            wavingGirlScene.heightProperty.range.min,
-            wavingGirlScene.heightProperty.range.max,
-            wavingGirlScene.heightProperty ),
-          new DiffractionNumberControl( rotationString,
-            wavingGirlScene.rotationProperty.range.min,
-            wavingGirlScene.rotationProperty.range.max,
-            wavingGirlScene.rotationProperty, {
-              delta: 0.01,
-              sliderOptions: {
-                majorTicks: [ {
-                  value: wavingGirlScene.rotationProperty.range.min,
-                  label: new WaveInterferenceText( wavingGirlScene.rotationProperty.range.min )
-                }, {
-                  value: wavingGirlScene.rotationProperty.range.max,
-                  label: new WaveInterferenceText( '360˚' )
-                } ]
-              }
-            } )
+          new DiffractionNumberControl( heightString, wavingGirlScene.heightProperty ),
+          new DiffractionNumberControl( rotationString, wavingGirlScene.rotationProperty, {
+            delta: 0.01,
+            sliderOptions: {
+              majorTicks: [ {
+                value: wavingGirlScene.rotationProperty.range.min,
+                label: new WaveInterferenceText( wavingGirlScene.rotationProperty.range.min )
+              }, {
+                value: wavingGirlScene.rotationProperty.range.max,
+                label: new WaveInterferenceText( '360˚' )
+              } ]
+            }
+          } )
         ]
       } ), options );
     }

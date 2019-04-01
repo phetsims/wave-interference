@@ -30,23 +30,17 @@ define( require => {
       super( new HBox( {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
-          new DiffractionNumberControl( diameterString,
-            ellipseScene.diameterProperty.range.min,
-            ellipseScene.diameterProperty.range.max,
-            ellipseScene.diameterProperty, {
-              numberDisplayOptions: {
-                valuePattern: nmValueString
-              }
-            } ),
-          new DiffractionNumberControl( eccentricityString,
-            ellipseScene.eccentricityProperty.range.min,
-            ellipseScene.eccentricityProperty.range.max,
-            ellipseScene.eccentricityProperty, {
-              delta: 0.01,
-              numberDisplayOptions: {
-                decimalPlaces: 2
-              }
-            } )
+          new DiffractionNumberControl( diameterString, ellipseScene.diameterProperty, {
+            numberDisplayOptions: {
+              valuePattern: nmValueString
+            }
+          } ),
+          new DiffractionNumberControl( eccentricityString, ellipseScene.eccentricityProperty, {
+            delta: 0.01,
+            numberDisplayOptions: {
+              decimalPlaces: 2
+            }
+          } )
         ]
       } ), options );
     }

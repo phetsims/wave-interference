@@ -30,22 +30,16 @@ define( require => {
       super( new HBox( {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
-          new DiffractionNumberControl( widthString,
-            rectangleScene.widthProperty.range.min,
-            rectangleScene.widthProperty.range.max,
-            rectangleScene.widthProperty, {
-              numberDisplayOptions: {
-                valuePattern: nmValueString
-              }
-            } ),
-          new DiffractionNumberControl( heightString,
-            rectangleScene.heightProperty.range.min,
-            rectangleScene.heightProperty.range.max,
-            rectangleScene.heightProperty, {
-              numberDisplayOptions: {
-                valuePattern: nmValueString
-              }
-            } ) ]
+          new DiffractionNumberControl( widthString, rectangleScene.widthProperty, {
+            numberDisplayOptions: {
+              valuePattern: nmValueString
+            }
+          } ),
+          new DiffractionNumberControl( heightString, rectangleScene.heightProperty, {
+            numberDisplayOptions: {
+              valuePattern: nmValueString
+            }
+          } ) ]
       } ), options );
     }
   }

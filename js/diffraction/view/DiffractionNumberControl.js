@@ -19,12 +19,10 @@ define( require => {
 
     /**
      * @param {string} title
-     * @param {string} minLabel TODO: some numbers are being passed here.
-     * @param {string} maxLabel TODO: or if after design is final, all sites use property.min/property.max, then remove these parameters.  Or just move to that pattern now and use options to override?
      * @param {Property.<number>} property
      * @param {Object} [options]
      */
-    constructor( title, minLabel, maxLabel, property, options ) {
+    constructor( title, property, options ) {
 
       // Normally we would like to specify options last, however, at the time of writing, there is a problem that
       // https://github.com/phetsims/phet-info/issues/91#issuecomment-474008231 where all merge arguments are mutated
@@ -33,10 +31,10 @@ define( require => {
         sliderOptions: {
           majorTicks: [ {
             value: property.range.min,
-            label: new WaveInterferenceText( minLabel )
+            label: new WaveInterferenceText( property.range.min )
           }, {
             value: property.range.max,
-            label: new WaveInterferenceText( maxLabel )
+            label: new WaveInterferenceText( property.range.max )
           } ]
         }
       }, options, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS );
