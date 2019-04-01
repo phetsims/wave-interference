@@ -10,8 +10,9 @@ define( require => {
 
   // modules
   const Circle = require( 'SCENERY/nodes/Circle' );
-  const DiffractionNumberControl = require( 'WAVE_INTERFERENCE/diffraction/view/DiffractionNumberControl' );
+  const CircleDiamondSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/CircleDiamondSceneControlPanel' );
   const Dimension2 = require( 'DOT/Dimension2' );
+  const DisorderSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/DisorderSceneControlPanel' );
   const EllipseSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/EllipseSceneControlPanel' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const Image = require( 'SCENERY/nodes/Image' );
@@ -35,23 +36,17 @@ define( require => {
   const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
+  const WavingGirlSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/WavingGirlSceneControlPanel' );
 
   // images
   const wavingGirl256Image = require( 'image!WAVE_INTERFERENCE/waving_girl_256.png' );
 
   // strings
-  const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
-  const diamondDiameterString = require( 'string!WAVE_INTERFERENCE/diamondDiameter' );
-  const disorderString = require( 'string!WAVE_INTERFERENCE/disorder' );
-  const heightString = require( 'string!WAVE_INTERFERENCE/height' );
-  const latticeSpacingString = require( 'string!WAVE_INTERFERENCE/latticeSpacing' );
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
-  const rotationString = require( 'string!WAVE_INTERFERENCE/rotation' );
   const wavelengthString = require( 'string!WAVE_INTERFERENCE/wavelength' );
 
   // constants
   const ICON_SCALE = 0.2;
-  const BOX_SPACING = 40;
   const BOTTOM_MARGIN = 10;
 
   const PANEL_OPTIONS = {
@@ -170,100 +165,14 @@ define( require => {
       // When showing the scaled matrix for debugging, update it when the wavelength changes
       WaveInterferenceQueryParameters.showScaledMatrix && model.wavelengthProperty.lazyLink( updateCanvases );
 
-      this.ellipseSceneControlPanel = new EllipseSceneControlPanel( model.ellipseScene, BOX_SPACING, PANEL_OPTIONS );
-      this.rectangleSceneControlPanel = new RectangleSceneControlPanel( model.rectangleScene, BOX_SPACING, PANEL_OPTIONS );
-
-      this.circleDiamondSceneControlPanel = new Panel( new HBox( {
-          spacing: BOX_SPACING,
-          children: [
-            new DiffractionNumberControl( circleDiameterString,
-              model.circleDiamondScene.circleDiameterProperty.range.min,
-              model.circleDiamondScene.circleDiameterProperty.range.max,
-              model.circleDiamondScene.circleDiameterProperty, {
-                numberDisplayOptions: {
-                  valuePattern: nmValueString
-                }
-              } ),
-
-            // TODO (design): Should this be "square diameter"
-            new DiffractionNumberControl( diamondDiameterString,
-              model.circleDiamondScene.diamondDiameterProperty.range.min,
-              model.circleDiamondScene.diamondDiameterProperty.range.max,
-              model.circleDiamondScene.diamondDiameterProperty, {
-                delta: 0.01,
-                numberDisplayOptions: {
-                  valuePattern: nmValueString
-                }
-              } )
-          ]
-        } ),
-        PANEL_OPTIONS
-      );
-
-      // TODO: Separate files for control panels
-      this.disorderSceneControlPanel = new Panel( new HBox( {
-        spacing: BOX_SPACING,
-        children: [
-          new DiffractionNumberControl( circleDiameterString,
-            model.disorderScene.diameterProperty.range.min,
-            model.disorderScene.diameterProperty.range.max,
-            model.disorderScene.diameterProperty ),
-          new DiffractionNumberControl( latticeSpacingString,
-            model.disorderScene.latticeSpacingProperty.range.min,
-            model.disorderScene.latticeSpacingProperty.range.max,
-            model.disorderScene.latticeSpacingProperty, {
-              delta: 0.01
-            } ),
-          new DiffractionNumberControl( disorderString,
-            model.disorderScene.disorderProperty.range.min,
-            model.disorderScene.disorderProperty.range.max,
-            model.disorderScene.disorderProperty, {
-              delta: 1,
-              sliderOptions: {
-                majorTicks: [ {
-                  value: model.disorderScene.disorderProperty.range.min,
-                  label: new WaveInterferenceText( 'None' )
-                }, {
-                  value: model.disorderScene.disorderProperty.range.max,
-                  label: new WaveInterferenceText( 'Lots' )
-                } ]
-              }
-            } )
-        ]
-      } ), PANEL_OPTIONS );
-
-      this.wavingGirlSceneControlPanel = new Panel( new HBox( {
-        spacing: BOX_SPACING,
-        children: [
-          new DiffractionNumberControl( heightString,
-            model.wavingGirlScene.heightProperty.range.min,
-            model.wavingGirlScene.heightProperty.range.max,
-            model.wavingGirlScene.heightProperty ),
-          new DiffractionNumberControl( rotationString,
-            model.wavingGirlScene.rotationProperty.range.min,
-            model.wavingGirlScene.rotationProperty.range.max,
-            model.wavingGirlScene.rotationProperty, {
-              delta: 0.01,
-              sliderOptions: {
-                majorTicks: [ {
-                  value: model.wavingGirlScene.rotationProperty.range.min,
-                  label: new WaveInterferenceText( model.wavingGirlScene.rotationProperty.range.min )
-                }, {
-                  value: model.wavingGirlScene.rotationProperty.range.max,
-                  label: new WaveInterferenceText( '360˚' )
-                } ]
-              }
-            } )
-        ]
-      } ), PANEL_OPTIONS );
-      // TODO: separate file
-
+      // Nickname so everything fits on one line.
+      const OPTS = PANEL_OPTIONS;
       const controlPanelToggleNode = new ToggleNode( model.sceneProperty, [
-        { value: model.rectangleScene, node: this.rectangleSceneControlPanel },
-        { value: model.ellipseScene, node: this.ellipseSceneControlPanel },
-        { value: model.wavingGirlScene, node: this.wavingGirlSceneControlPanel },
-        { value: model.disorderScene, node: this.disorderSceneControlPanel },
-        { value: model.circleDiamondScene, node: this.circleDiamondSceneControlPanel }
+        { value: model.ellipseScene, node: new EllipseSceneControlPanel( model.ellipseScene, OPTS ) },
+        { value: model.rectangleScene, node: new RectangleSceneControlPanel( model.rectangleScene, OPTS ) },
+        { value: model.circleDiamondScene, node: new CircleDiamondSceneControlPanel( model.circleDiamondScene, OPTS ) },
+        { value: model.disorderScene, node: new DisorderSceneControlPanel( model.disorderScene, OPTS ) },
+        { value: model.wavingGirlScene, node: new WavingGirlSceneControlPanel( model.wavingGirlScene, OPTS ) }
       ], {
         alignChildren: ToggleNode.CENTER_BOTTOM,
         centerX: this.apertureNode.centerX,

@@ -16,39 +16,43 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // strings
-  const heightString = require( 'string!WAVE_INTERFERENCE/height' );
+  const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
+  const diamondDiameterString = require( 'string!WAVE_INTERFERENCE/diamondDiameter' );
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
-  const widthString = require( 'string!WAVE_INTERFERENCE/width' );
 
-  class RectangleSceneControlPanel extends Panel {
+  class CircleDiamondSceneControlPanel extends Panel {
 
     /**
-     * @param {RectangleScene} rectangleScene
+     * @param {CircleDiamondScene} circleDiamondScene
      * @param {Object} [options]
      */
-    constructor( rectangleScene, options ) {
+    constructor( circleDiamondScene, options ) {
       super( new HBox( {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
-          new DiffractionNumberControl( widthString,
-            rectangleScene.widthProperty.range.min,
-            rectangleScene.widthProperty.range.max,
-            rectangleScene.widthProperty, {
+          new DiffractionNumberControl( circleDiameterString,
+            circleDiamondScene.circleDiameterProperty.range.min,
+            circleDiamondScene.circleDiameterProperty.range.max,
+            circleDiamondScene.circleDiameterProperty, {
               numberDisplayOptions: {
                 valuePattern: nmValueString
               }
             } ),
-          new DiffractionNumberControl( heightString,
-            rectangleScene.heightProperty.range.min,
-            rectangleScene.heightProperty.range.max,
-            rectangleScene.heightProperty, {
+
+          // TODO (design): Should this be "square diameter"
+          new DiffractionNumberControl( diamondDiameterString,
+            circleDiamondScene.diamondDiameterProperty.range.min,
+            circleDiamondScene.diamondDiameterProperty.range.max,
+            circleDiamondScene.diamondDiameterProperty, {
+              delta: 0.01,
               numberDisplayOptions: {
                 valuePattern: nmValueString
               }
-            } ) ]
+            } )
+        ]
       } ), options );
     }
   }
 
-  return waveInterference.register( 'RectangleSceneControlPanel', RectangleSceneControlPanel );
+  return waveInterference.register( 'CircleDiamondSceneControlPanel', CircleDiamondSceneControlPanel );
 } );

@@ -117,7 +117,9 @@ define( require => {
     // The length of the aperture width or height in nanometers
     DIFFRACTION_APERTURE_WIDTH: 10000,
 
-    DEFAULT_WAVELENGTH: VisibleColor.SPEED_OF_LIGHT / DEFAULT_FREQUENCY * 1E9
+    DEFAULT_WAVELENGTH: VisibleColor.SPEED_OF_LIGHT / DEFAULT_FREQUENCY * 1E9,
+
+    DIFFRACTION_HBOX_SPACING: 40
   };
 
   // Derived constants
