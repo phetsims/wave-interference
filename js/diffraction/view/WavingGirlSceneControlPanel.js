@@ -19,6 +19,7 @@ define( require => {
   // strings
   const heightString = require( 'string!WAVE_INTERFERENCE/height' );
   const rotationString = require( 'string!WAVE_INTERFERENCE/rotation' );
+  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
 
   class WavingGirlSceneControlPanel extends Panel {
 
@@ -30,7 +31,11 @@ define( require => {
       super( new HBox( {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
-          new DiffractionNumberControl( heightString, wavingGirlScene.heightProperty ),
+          new DiffractionNumberControl( heightString, wavingGirlScene.heightProperty, {
+            numberDisplayOptions: {
+              valuePattern: nmValueString
+            }
+          } ),
           new DiffractionNumberControl( rotationString, wavingGirlScene.rotationProperty, {
             delta: 0.01,
             sliderOptions: {

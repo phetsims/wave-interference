@@ -20,6 +20,7 @@ define( require => {
   const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
   const disorderString = require( 'string!WAVE_INTERFERENCE/disorder' );
   const latticeSpacingString = require( 'string!WAVE_INTERFERENCE/latticeSpacing' );
+  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
 
   class DisorderSceneControlPanel extends Panel {
 
@@ -31,9 +32,16 @@ define( require => {
       super( new HBox( {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
-          new DiffractionNumberControl( circleDiameterString, disorderScene.diameterProperty ),
+          new DiffractionNumberControl( circleDiameterString, disorderScene.diameterProperty, {
+            numberDisplayOptions: {
+              valuePattern: nmValueString
+            }
+          } ),
           new DiffractionNumberControl( latticeSpacingString, disorderScene.latticeSpacingProperty, {
-            delta: 0.01
+            delta: 0.01,
+            numberDisplayOptions: {
+              valuePattern: nmValueString
+            }
           } ),
           new DiffractionNumberControl( disorderString, disorderScene.disorderProperty, {
             delta: 1,
