@@ -12,6 +12,7 @@ define( require => {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const DiffractionNumberControl = require( 'WAVE_INTERFERENCE/diffraction/view/DiffractionNumberControl' );
   const Dimension2 = require( 'DOT/Dimension2' );
+  const EllipseSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/EllipseSceneControlPanel' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const Image = require( 'SCENERY/nodes/Image' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
@@ -22,6 +23,7 @@ define( require => {
   const Panel = require( 'SUN/Panel' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const RectangleSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/RectangleSceneControlPanel' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -39,16 +41,13 @@ define( require => {
 
   // strings
   const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
-  const diameterString = require( 'string!WAVE_INTERFERENCE/diameter' );
   const diamondDiameterString = require( 'string!WAVE_INTERFERENCE/diamondDiameter' );
   const disorderString = require( 'string!WAVE_INTERFERENCE/disorder' );
-  const eccentricityString = require( 'string!WAVE_INTERFERENCE/eccentricity' );
   const heightString = require( 'string!WAVE_INTERFERENCE/height' );
   const latticeSpacingString = require( 'string!WAVE_INTERFERENCE/latticeSpacing' );
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
   const rotationString = require( 'string!WAVE_INTERFERENCE/rotation' );
   const wavelengthString = require( 'string!WAVE_INTERFERENCE/wavelength' );
-  const widthString = require( 'string!WAVE_INTERFERENCE/width' );
 
   // constants
   const ICON_SCALE = 0.2;
@@ -171,47 +170,8 @@ define( require => {
       // When showing the scaled matrix for debugging, update it when the wavelength changes
       WaveInterferenceQueryParameters.showScaledMatrix && model.wavelengthProperty.lazyLink( updateCanvases );
 
-      this.ellipseSceneControlPanel = new Panel( new HBox( {
-        spacing: BOX_SPACING,
-        children: [
-          new DiffractionNumberControl( diameterString,
-            model.ellipseScene.diameterProperty.range.min,
-            model.ellipseScene.diameterProperty.range.max, model.ellipseScene.diameterProperty, {
-              numberDisplayOptions: {
-                valuePattern: nmValueString
-              }
-            } ),
-          new DiffractionNumberControl( eccentricityString,
-            model.ellipseScene.eccentricityProperty.range.min,
-            model.ellipseScene.eccentricityProperty.range.max, model.ellipseScene.eccentricityProperty, {
-              delta: 0.01,
-              numberDisplayOptions: {
-                decimalPlaces: 2
-              }
-            } )
-        ]
-      } ), PANEL_OPTIONS );
-
-      this.rectangleSceneControlPanel = new Panel( new HBox( {
-        spacing: BOX_SPACING,
-        children: [
-          new DiffractionNumberControl( widthString,
-            model.rectangleScene.widthProperty.range.min,
-            model.rectangleScene.widthProperty.range.max,
-            model.rectangleScene.widthProperty, {
-              numberDisplayOptions: {
-                valuePattern: nmValueString
-              }
-            } ),
-          new DiffractionNumberControl( heightString,
-            model.rectangleScene.heightProperty.range.min,
-            model.rectangleScene.heightProperty.range.max,
-            model.rectangleScene.heightProperty, {
-              numberDisplayOptions: {
-                valuePattern: nmValueString
-              }
-            } ) ]
-      } ), PANEL_OPTIONS );
+      this.ellipseSceneControlPanel = new EllipseSceneControlPanel( model.ellipseScene, BOX_SPACING, PANEL_OPTIONS );
+      this.rectangleSceneControlPanel = new RectangleSceneControlPanel( model.rectangleScene, BOX_SPACING, PANEL_OPTIONS );
 
       this.circleDiamondSceneControlPanel = new Panel( new HBox( {
           spacing: BOX_SPACING,
