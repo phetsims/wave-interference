@@ -61,9 +61,10 @@ define( require => {
 
       // Typical values for the propagating wave can be between -5 and 5 (though values can exceed this range very close
       // to the oscillating cell.  We choose to map a value of 0 to the center of the wave area, and the max (5) to the
-      // desired distance amplitude.  A wave value of 0 appears in the center of the wave area. A value of 5 appears 80
-      // screen view coordinates above the center line.
-      return Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 80, waveValue );
+      // desired distance amplitude.  A wave value of 0 appears in the center of the wave area. A value of 5 appears 47
+      // screen view coordinates above the center line.  This was tuned to prevent the water from going higher than the
+      // faucet.
+      return Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 47, waveValue );
     }
 
     /**
