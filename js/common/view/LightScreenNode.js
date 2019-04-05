@@ -14,6 +14,7 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const ImageDataRenderer = require( 'WAVE_INTERFERENCE/common/view/ImageDataRenderer' );
   const Matrix3 = require( 'DOT/Matrix3' );
+  const PiecewiseLinearFunction = require( 'DOT/PiecewiseLinearFunction' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -24,6 +25,26 @@ define( require => {
 
   // This chooses the saturation point for the screen, as well as the "thinness" of the minima
   const BRIGHTNESS_SCALE_FACTOR = 5;
+
+  // Piecewise linear function optimized for a wide range of brightness, used in Waves Intro sim and Waves screen
+  const piecewiseBrightnessFunction = intensity => {
+    const brightness = PiecewiseLinearFunction.evaluate( [
+      0, 0,
+      0.002237089269640335, 0.4,
+      0.008937089269640335, 0.5,
+      0.05372277438413573, 0.64,
+      0.13422634397144692, 0.7,
+      0.2096934692889395, 0.8,
+      1, 1
+    ], intensity );
+    return Util.clamp( brightness, 0, 1 );
+  };
+
+  // Linear brightness function optimized for showing interference patterns in the Interference and Slits screens
+  const linearBrightnessFunction = intensity => {
+    const brightness = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
+    return Util.clamp( brightness * BRIGHTNESS_SCALE_FACTOR * this.lightScreenNodeBrightness, 0, 1 );
+  };
 
   class LightScreenNode extends CanvasNode {
 
@@ -39,7 +60,7 @@ define( require => {
         // only use the visible part for the bounds (not the damping regions)
         canvasBounds: new Bounds2( 0, 0, CANVAS_WIDTH, latticeCanvasBounds.height ),
         layerSplit: true, // ensure we're on our own layer
-        lightScreenNodeBrightness: 1,
+        piecewiseLinearBrightness: false,
 
         // Use a small window for interference and slits screens, to accentuate the patterns
         // Use a large window for waves-intro and waves screen, to smooth out noise
@@ -54,7 +75,7 @@ define( require => {
       this.lattice = lattice;
 
       // @private
-      this.lightScreenNodeBrightness = options.lightScreenNodeBrightness;
+      this.piecewiseLinearBrightness = options.piecewiseLinearBrightness;
 
       // @private
       this.lightScreenAveragingWindowSize = options.lightScreenAveragingWindowSize;
@@ -128,8 +149,9 @@ define( require => {
           }
         }
         const intensity = sum / count;
-        let brightness = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
-        brightness = Util.clamp( brightness * BRIGHTNESS_SCALE_FACTOR * this.lightScreenNodeBrightness, 0, 1 );
+        const brightness = this.piecewiseLinearBrightness ?
+                           piecewiseBrightnessFunction( intensity ) :
+                           linearBrightnessFunction( intensity );
 
         // Note this interpolation doesn't include the gamma factor that Color.blend does
         const r = this.baseColor.red * brightness;

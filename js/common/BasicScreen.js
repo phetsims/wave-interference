@@ -38,8 +38,7 @@ define( require => {
         () => new WavesModel( options.initialScene ? { initialScene: options.initialScene } : {} ),
         model => new WavesScreenView( model, alignGroup, {
           showViewpointRadioButtonGroup: true,
-
-          lightScreenNodeBrightness: 1.85,
+          piecewiseLinearBrightness: true,
           lightScreenAveragingWindowSize: 40,
 
           // The intensity checkbox is not available in the waves screen because it distracts from the learning goals of the screen

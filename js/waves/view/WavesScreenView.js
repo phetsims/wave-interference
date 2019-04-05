@@ -85,7 +85,7 @@ define( require => {
 
         // Scale factor for the brightness on the LightScreenNode,
         // see https://github.com/phetsims/wave-interference/issues/161
-        lightScreenNodeBrightness: 1,
+        piecewiseLinearBrightness: false,
 
         lightScreenAveragingWindowSize: 3,
 
@@ -173,7 +173,7 @@ define( require => {
       } );
 
       const lightScreenNode = new LightScreenNode( model.lightScene.lattice, model.lightScene.intensitySample, {
-        lightScreenNodeBrightness: options.lightScreenNodeBrightness,
+        piecewiseLinearBrightness: options.piecewiseLinearBrightness,
         lightScreenAveragingWindowSize: options.lightScreenAveragingWindowSize,
         scale: latticeScale,
         left: this.waveAreaNode.right + 5,
