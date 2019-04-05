@@ -58,7 +58,6 @@ define( require => {
 
       // @private
       this.lightScreenAveragingWindowSize = options.lightScreenAveragingWindowSize;
-      console.log( this.lightScreenAveragingWindowSize )
 
       // @private
       this.intensitySample = intensitySample;
