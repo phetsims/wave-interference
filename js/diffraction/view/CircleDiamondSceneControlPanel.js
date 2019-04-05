@@ -17,7 +17,7 @@ define( require => {
 
   // strings
   const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
-  const diamondDiameterString = require( 'string!WAVE_INTERFERENCE/diamondDiameter' );
+  const diamondSideLengthString = require( 'string!WAVE_INTERFERENCE/diamondSideLength' );
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
 
   class CircleDiamondSceneControlPanel extends Panel {
@@ -35,7 +35,7 @@ define( require => {
               valuePattern: nmValueString
             }
           } ),
-          new DiffractionNumberControl( diamondDiameterString, circleDiamondScene.diamondDiameterProperty, {
+          new DiffractionNumberControl( diamondSideLengthString, circleDiamondScene.diamondSideLengthProperty, {
             delta: 0.01,
             numberDisplayOptions: {
               valuePattern: nmValueString

@@ -146,8 +146,8 @@
   "rotation": {
     "value": "Rotation"
   },
-  "diamondDiameter": {
-    "value": "Diamond Diameter"
+  "diamondSideLength": {
+    "value": "Diamond Side Length"
   },
   "latticeSpacing": {
     "value": "Lattice Spacing"

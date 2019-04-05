@@ -27,11 +27,11 @@ define( require => {
       } );
 
       // @public {NumberProperty}
-      this.diamondDiameterProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
+      this.diamondSideLengthProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
         range: new Range( 0, 1000 )
       } );
 
-      this.properties = [ this.circleDiameterProperty, this.diamondDiameterProperty ];
+      this.properties = [ this.circleDiameterProperty, this.diamondSideLengthProperty ];
     }
 
     /**
@@ -49,7 +49,7 @@ define( require => {
 
       const diamondCenterX = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
       const diamondCenterY = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
-      const diamondRadius = this.diamondDiameterProperty.value / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
+      const diamondRadius = this.diamondSideLengthProperty.value / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
 
       // Blurring a bit eliminates more artifacts
       // context.filter = 'blur(0.75px)';

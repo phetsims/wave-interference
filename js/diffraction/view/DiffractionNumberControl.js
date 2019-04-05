@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const Dimension2 = require( 'DOT/Dimension2' );
   const merge = require( 'PHET_CORE/merge' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -39,7 +40,16 @@ define( require => {
         }
       }, options, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS );
 
-      super( title, property, property.range, mergedOptions );
+      // make wider to accommodate Diamond Side Length string.
+      const expandedOptions = merge( mergedOptions, {
+        sliderOptions: {
+          trackSize: new Dimension2( 140, 1 )
+        },
+        titleNodeOptions: {
+          maxWidth: 140
+        }
+      } );
+      super( title, property, property.range, expandedOptions );
     }
   }
 
