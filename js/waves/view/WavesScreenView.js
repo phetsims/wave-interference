@@ -87,6 +87,8 @@ define( require => {
         // see https://github.com/phetsims/wave-interference/issues/161
         lightScreenNodeBrightness: 1,
 
+        lightScreenAveragingWindowSize: 3,
+
         // Nested options as discussed in https://github.com/phetsims/tasks/issues/730,
         // see WaveInterferenceControlPanel for keys/values
         controlPanelOptions: {}
@@ -172,6 +174,7 @@ define( require => {
 
       const lightScreenNode = new LightScreenNode( model.lightScene.lattice, model.lightScene.intensitySample, {
         lightScreenNodeBrightness: options.lightScreenNodeBrightness,
+        lightScreenAveragingWindowSize: options.lightScreenAveragingWindowSize,
         scale: latticeScale,
         left: this.waveAreaNode.right + 5,
         y: this.waveAreaNode.top

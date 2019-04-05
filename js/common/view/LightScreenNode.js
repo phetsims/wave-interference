@@ -39,7 +39,11 @@ define( require => {
         // only use the visible part for the bounds (not the damping regions)
         canvasBounds: new Bounds2( 0, 0, CANVAS_WIDTH, latticeCanvasBounds.height ),
         layerSplit: true, // ensure we're on our own layer
-        lightScreenNodeBrightness: 1
+        lightScreenNodeBrightness: 1,
+
+        // Use a small window for interference and slits screens, to accentuate the patterns
+        // Use a large window for waves-intro and waves screen, to smooth out noise
+        lightScreenAveragingWindowSize: 3
       }, options );
       super( options );
 
@@ -51,6 +55,10 @@ define( require => {
 
       // @private
       this.lightScreenNodeBrightness = options.lightScreenNodeBrightness;
+
+      // @private
+      this.lightScreenAveragingWindowSize = options.lightScreenAveragingWindowSize;
+      console.log( this.lightScreenAveragingWindowSize )
 
       // @private
       this.intensitySample = intensitySample;
@@ -102,7 +110,8 @@ define( require => {
       const height = this.lattice.height;
 
       // Smoothing for the screen node
-      const windowRadius = 3;
+      const windowRadius = this.lightScreenAveragingWindowSize;
+
       for ( let k = dampY; k < height - dampY; k++ ) {
 
         let sum = intensityValues[ k - this.lattice.dampY ];

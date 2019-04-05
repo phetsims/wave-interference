@@ -40,6 +40,7 @@ define( require => {
           showViewpointRadioButtonGroup: true,
 
           lightScreenNodeBrightness: 1.85,
+          lightScreenAveragingWindowSize: 40,
 
           // The intensity checkbox is not available in the waves screen because it distracts from the learning goals of the screen
           controlPanelOptions: {
