@@ -162,6 +162,9 @@ define( require => {
               const value = scene.lattice.getCurrentValue( sampleI, sampleJ );
               dynamicSeries.data.push( new Vector2( scene.timeProperty.value, value ) );
             }
+            else {
+              dynamicSeries.data.push( new Vector2( scene.timeProperty.value, NaN ) );
+            }
           }
           while ( dynamicSeries.data.length > 0 && dynamicSeries.data[ 0 ].x < scene.timeProperty.value - maxSeconds ) {
             dynamicSeries.data.shift();
