@@ -33,18 +33,22 @@ define( require => {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
           new DiffractionNumberControl( circleDiameterString, disorderScene.diameterProperty, {
+            delta: 10, // nm
             numberDisplayOptions: {
               valuePattern: nmValueString
             }
           } ),
           new DiffractionNumberControl( latticeSpacingString, disorderScene.latticeSpacingProperty, {
-            delta: 0.01,
+            delta: 50, // nm
             numberDisplayOptions: {
               valuePattern: nmValueString
             }
           } ),
           new DiffractionNumberControl( disorderString, disorderScene.disorderProperty, {
             delta: 1,
+            numberDisplayOptions: {
+              visible: false
+            },
             sliderOptions: {
               majorTicks: [ {
                 value: disorderScene.disorderProperty.range.min,
@@ -52,7 +56,8 @@ define( require => {
               }, {
                 value: disorderScene.disorderProperty.range.max,
                 label: new WaveInterferenceText( 'Lots' )
-              } ]
+              } ],
+              minorTickSpacing: 1
             }
           } )
         ]

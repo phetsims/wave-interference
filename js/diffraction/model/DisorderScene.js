@@ -76,13 +76,13 @@ define( require => {
       super();
 
       // @public {NumberProperty}
-      this.diameterProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
-        range: new Range( 0, 1000 )
+      this.diameterProperty = new NumberProperty( 300, {
+        range: new Range( 100, 500 )
       } );
 
       // @public {NumberProperty}
-      this.latticeSpacingProperty = new NumberProperty( 600, {
-        range: new Range( 200, 1000 )
+      this.latticeSpacingProperty = new NumberProperty( 1000, {
+        range: new Range( 500, 1500 )
       } );
 
       // @public {NumberProperty}
