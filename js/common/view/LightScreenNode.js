@@ -43,7 +43,7 @@ define( require => {
   // Linear brightness function optimized for showing interference patterns in the Interference and Slits screens
   const linearBrightnessFunction = intensity => {
     const brightness = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
-    return Util.clamp( brightness * BRIGHTNESS_SCALE_FACTOR * this.lightScreenNodeBrightness, 0, 1 );
+    return Util.clamp( brightness * BRIGHTNESS_SCALE_FACTOR, 0, 1 );
   };
 
   class LightScreenNode extends CanvasNode {
