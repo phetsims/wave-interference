@@ -24,7 +24,7 @@ define( require => {
 
       // @public {NumberProperty}
       this.heightProperty = new NumberProperty( 1000, {
-        range: new Range( 500, 2500 )
+        range: new Range( 500, 2500 ) // nm
       } );
 
       // @public {NumberProperty}
@@ -43,7 +43,7 @@ define( require => {
     renderToContext( context ) {
       context.translate( 0, -wavingGirl256Image.height * 0.2 );
       context.translate( wavingGirl256Image.width / 2, wavingGirl256Image.height / 2 );
-      context.rotate( this.rotationProperty.value );
+      context.rotate( this.rotationProperty.value / 360 * 2 * Math.PI );
       context.scale( 0.3, 0.3 * this.heightProperty.value / 1000 );
       context.translate( -wavingGirl256Image.width / 2, -wavingGirl256Image.height / 2 );
       context.drawImage( wavingGirl256Image, 0, 0 );

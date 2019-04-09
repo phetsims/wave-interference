@@ -62,6 +62,9 @@
   "nmValue": {
     "value": "{{value}} nm"
   },
+  "degreesValue": {
+    "value": "{{value}} ˚"
+  },
   "min": {
     "value": "min"
   },

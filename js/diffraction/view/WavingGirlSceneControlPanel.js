@@ -18,6 +18,7 @@ define( require => {
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // strings
+  const degreesValueString = require( 'string!WAVE_INTERFERENCE/degreesValue' );
   const heightString = require( 'string!WAVE_INTERFERENCE/height' );
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
   const rotationString = require( 'string!WAVE_INTERFERENCE/rotation' );
@@ -41,15 +42,18 @@ define( require => {
             }
           } ),
           new DiffractionNumberControl( rotationString, wavingGirlScene.rotationProperty, {
-            delta: 0.01,
+            delta: 1,
+            numberDisplayOptions: { // TODO: duplicated in many places
+              valuePattern: degreesValueString
+            },
             sliderOptions: {
-              constrainValue: value => Util.roundToInterval( value, 0.01 ),
+              constrainValue: value => Util.roundToInterval( value, 30 ), // degrees
               majorTicks: [ {
                 value: wavingGirlScene.rotationProperty.range.min,
                 label: new WaveInterferenceText( wavingGirlScene.rotationProperty.range.min )
               }, {
                 value: wavingGirlScene.rotationProperty.range.max,
-                label: new WaveInterferenceText( '360˚' )
+                label: new WaveInterferenceText( '360' )
               } ]
             }
           } )
