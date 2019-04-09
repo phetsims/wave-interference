@@ -21,14 +21,14 @@ define( require => {
     constructor() {
       super();
 
-      // @public {NumberProperty}
+      // @public {NumberProperty} - in nm
       this.widthProperty = new NumberProperty( 500, {
-        range: new Range( 200, 8000 ) // nm
+        range: new Range( 200, 8000 )
       } );
 
-      // @public {NumberProperty}
+      // @public {NumberProperty} - in nm
       this.heightProperty = new NumberProperty( 500, {
-        range: new Range( 200, 8000 ) // nm
+        range: new Range( 200, 8000 )
       } );
 
       this.properties = [ this.widthProperty, this.heightProperty ];

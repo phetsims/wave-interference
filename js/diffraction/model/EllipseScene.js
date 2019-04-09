@@ -19,12 +19,12 @@ define( require => {
     constructor() {
       super();
 
-      // @public {NumberProperty}
+      // @public {NumberProperty} - in nm
       this.diameterProperty = new NumberProperty( 500, {
         range: new Range( 200, 8000 )
       } );
 
-      // @public {NumberProperty}
+      // @public {NumberProperty} - in nm
       this.eccentricityProperty = new NumberProperty( 0, {
         range: new Range( 0, 0.99 )
       } );

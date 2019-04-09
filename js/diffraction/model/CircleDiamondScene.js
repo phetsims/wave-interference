@@ -21,12 +21,12 @@ define( require => {
     constructor() {
       super();
 
-      // @public {NumberProperty}
+      // @public {NumberProperty} - in nm
       this.circleDiameterProperty = new NumberProperty( 500, { // TODO: 500 duplicated many places
         range: new Range( 200, 1000 )
       } );
 
-      // @public {NumberProperty}
+      // @public {NumberProperty} - in nm
       this.diamondSideLengthProperty = new NumberProperty( 500, {
         range: new Range( 200, 1000 )
       } );
