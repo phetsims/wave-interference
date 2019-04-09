@@ -13,6 +13,7 @@ define( require => {
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // images
   const wavingGirl256Image = require( 'image!WAVE_INTERFERENCE/waving_girl_256.png' );
@@ -41,10 +42,14 @@ define( require => {
      * @protected
      */
     renderToContext( context ) {
+
+      const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
+
       context.translate( 0, -wavingGirl256Image.height * 0.2 );
       context.translate( wavingGirl256Image.width / 2, wavingGirl256Image.height / 2 );
       context.rotate( this.rotationProperty.value / 360 * 2 * Math.PI );
-      context.scale( 0.3, 0.3 * this.heightProperty.value / 1000 );
+      const scale = modelToMatrixScale / wavingGirl256Image.height * 1000;
+      context.scale( scale, scale * this.heightProperty.value / 1000 );
       context.translate( -wavingGirl256Image.width / 2, -wavingGirl256Image.height / 2 );
       context.drawImage( wavingGirl256Image, 0, 0 );
     }
