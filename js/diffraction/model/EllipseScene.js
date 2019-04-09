@@ -20,8 +20,8 @@ define( require => {
       super();
 
       // @public {NumberProperty}
-      this.diameterProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
-        range: new Range( 400, 8000 )
+      this.diameterProperty = new NumberProperty( 500, {
+        range: new Range( 200, 8000 )
       } );
 
       // @public {NumberProperty}

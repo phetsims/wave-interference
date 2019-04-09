@@ -24,12 +24,12 @@ define( require => {
 
       // @public {NumberProperty}
       this.heightProperty = new NumberProperty( 1000, {
-        range: new Range( 0, 1000 )
+        range: new Range( 500, 2500 )
       } );
 
       // @public {NumberProperty}
       this.rotationProperty = new NumberProperty( 0, {
-        range: new Range( 0, Math.PI * 2 )
+        range: new Range( 0, 360 ) // degrees
       } );
 
       this.properties = [ this.heightProperty, this.rotationProperty ];

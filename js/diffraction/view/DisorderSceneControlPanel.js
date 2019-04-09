@@ -12,6 +12,7 @@ define( require => {
   const DiffractionNumberControl = require( 'WAVE_INTERFERENCE/diffraction/view/DiffractionNumberControl' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const Panel = require( 'SUN/Panel' );
+  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -33,19 +34,22 @@ define( require => {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
           new DiffractionNumberControl( circleDiameterString, disorderScene.diameterProperty, {
-            delta: 10, // nm
             numberDisplayOptions: {
               valuePattern: nmValueString
+            },
+            sliderOptions: {
+              constrainValue: value => Util.roundToInterval( value, 10 )
             }
           } ),
           new DiffractionNumberControl( latticeSpacingString, disorderScene.latticeSpacingProperty, {
-            delta: 50, // nm
             numberDisplayOptions: {
               valuePattern: nmValueString
+            },
+            sliderOptions: {
+              constrainValue: value => Util.roundToInterval( value, 50 )
             }
           } ),
           new DiffractionNumberControl( disorderString, disorderScene.disorderProperty, {
-            delta: 1,
             numberDisplayOptions: {
               visible: false
             },

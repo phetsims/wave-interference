@@ -22,13 +22,13 @@ define( require => {
       super();
 
       // @public {NumberProperty}
-      this.circleDiameterProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
-        range: new Range( 0, 1000 )
+      this.circleDiameterProperty = new NumberProperty( 500, { // TODO: 500 duplicated many places
+        range: new Range( 200, 1000 )
       } );
 
       // @public {NumberProperty}
-      this.diamondSideLengthProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
-        range: new Range( 0, 1000 )
+      this.diamondSideLengthProperty = new NumberProperty( 500, {
+        range: new Range( 200, 1000 )
       } );
 
       this.properties = [ this.circleDiameterProperty, this.diamondSideLengthProperty ];
