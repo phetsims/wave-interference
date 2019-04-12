@@ -399,10 +399,9 @@ define( require => {
         waterGrayBackground.visible = rotationAmount !== 0 && scene === model.waterScene;
       } );
 
-      // @public
-      this.steppedEmitter = new Emitter( {
-        first: () => waterDropLayer.step( waterSideViewNode )
-      } );
+      // @public - TODO https://github.com/phetsims/axon/issues/222: use Action?
+      this.steppedEmitter = new Emitter();
+      this.steppedEmitter.addListener( () => waterDropLayer.step( waterSideViewNode ) );
 
       const createSoundParticleLayer = () => {
 
