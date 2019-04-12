@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const Action = require( 'AXON/Action' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
   const Color = require( 'SCENERY/util/Color' );
@@ -399,9 +400,8 @@ define( require => {
         waterGrayBackground.visible = rotationAmount !== 0 && scene === model.waterScene;
       } );
 
-      // @public - TODO https://github.com/phetsims/axon/issues/222: use Action?
-      this.steppedEmitter = new Emitter();
-      this.steppedEmitter.addListener( () => waterDropLayer.step( waterSideViewNode ) );
+      // @public
+      this.steppedEmitter = new Action( () => waterDropLayer.step( waterSideViewNode ) );
 
       const createSoundParticleLayer = () => {
 
