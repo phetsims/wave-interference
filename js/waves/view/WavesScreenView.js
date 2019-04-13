@@ -17,7 +17,6 @@ define( require => {
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DisturbanceTypeRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/DisturbanceTypeRadioButtonGroup' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
-  const Emitter = require( 'AXON/Emitter' );
   const IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   const LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
   const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
