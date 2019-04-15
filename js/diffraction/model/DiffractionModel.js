@@ -10,7 +10,7 @@ define( require => {
 
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
-  const CircleDiamondScene = require( 'WAVE_INTERFERENCE/diffraction/model/CircleDiamondScene' );
+  const CircleSquareScene = require( 'WAVE_INTERFERENCE/diffraction/model/CircleSquareScene' );
   const DisorderScene = require( 'WAVE_INTERFERENCE/diffraction/model/DisorderScene' );
   const EllipseScene = require( 'WAVE_INTERFERENCE/diffraction/model/EllipseScene' );
   const Matrix = require( 'DOT/Matrix' );
@@ -55,7 +55,7 @@ define( require => {
       this.rectangleScene = new RectangleScene();
 
       // @public
-      this.circleDiamondScene = new CircleDiamondScene();
+      this.circleSquareScene = new CircleSquareScene();
 
       // @public
       this.disorderScene = new DisorderScene();
@@ -67,7 +67,7 @@ define( require => {
       this.scenes = [
         this.ellipseScene,
         this.rectangleScene,
-        this.circleDiamondScene,
+        this.circleSquareScene,
         this.disorderScene,
         this.wavingGirlScene
       ];

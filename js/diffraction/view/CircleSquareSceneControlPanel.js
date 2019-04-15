@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * Control panel for the CircleDiamondScene.
+ * Control panel for the CircleSquareScene.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -18,20 +18,20 @@ define( require => {
 
   // strings
   const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
-  const diamondSideLengthString = require( 'string!WAVE_INTERFERENCE/diamondSideLength' );
+  const squareWidthString = require( 'string!WAVE_INTERFERENCE/squareWidth' );
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
 
-  class CircleDiamondSceneControlPanel extends Panel {
+  class CircleSquareSceneControlPanel extends Panel {
 
     /**
-     * @param {CircleDiamondScene} circleDiamondScene
+     * @param {CircleSquareScene} circleSquareScene
      * @param {Object} [options]
      */
-    constructor( circleDiamondScene, options ) {
+    constructor( circleSquareScene, options ) {
       super( new HBox( {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
-          new DiffractionNumberControl( circleDiameterString, circleDiamondScene.circleDiameterProperty, {
+          new DiffractionNumberControl( circleDiameterString, circleSquareScene.circleDiameterProperty, {
             numberDisplayOptions: {
               valuePattern: nmValueString
             },
@@ -39,7 +39,7 @@ define( require => {
               constrainValue: value => Util.roundToInterval( value, 20 )
             }
           } ),
-          new DiffractionNumberControl( diamondSideLengthString, circleDiamondScene.diamondSideLengthProperty, {
+          new DiffractionNumberControl( squareWidthString, circleSquareScene.squareWidthProperty, {
             delta: 0.01,
             numberDisplayOptions: {
               valuePattern: nmValueString
@@ -53,5 +53,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'CircleDiamondSceneControlPanel', CircleDiamondSceneControlPanel );
+  return waveInterference.register( 'CircleSquareSceneControlPanel', CircleSquareSceneControlPanel );
 } );

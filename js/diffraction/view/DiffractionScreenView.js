@@ -10,7 +10,7 @@ define( require => {
 
   // modules
   const Circle = require( 'SCENERY/nodes/Circle' );
-  const CircleDiamondSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/CircleDiamondSceneControlPanel' );
+  const CircleSquareSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/CircleSquareSceneControlPanel' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const DisorderSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/DisorderSceneControlPanel' );
   const EllipseSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/EllipseSceneControlPanel' );
@@ -95,7 +95,7 @@ define( require => {
         value: model.rectangleScene,
         node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
       }, {
-        value: model.circleDiamondScene,
+        value: model.circleSquareScene,
         node: new Node( {
           children: [
             new Circle( 5, { fill: 'black' } ),
@@ -171,7 +171,7 @@ define( require => {
       const controlPanelToggleNode = new ToggleNode( model.sceneProperty, [
         { value: model.ellipseScene, node: new EllipseSceneControlPanel( model.ellipseScene, OPTS ) },
         { value: model.rectangleScene, node: new RectangleSceneControlPanel( model.rectangleScene, OPTS ) },
-        { value: model.circleDiamondScene, node: new CircleDiamondSceneControlPanel( model.circleDiamondScene, OPTS ) },
+        { value: model.circleSquareScene, node: new CircleSquareSceneControlPanel( model.circleSquareScene, OPTS ) },
         { value: model.disorderScene, node: new DisorderSceneControlPanel( model.disorderScene, OPTS ) },
         { value: model.wavingGirlScene, node: new WavingGirlSceneControlPanel( model.wavingGirlScene, OPTS ) }
       ], {

@@ -40,6 +40,7 @@ define( require => {
         }
       }, options, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS );
 
+      // TODO: Should we reduce the widths now that we are no longer using long "Diamond Side Length" string?
       // make wider to accommodate Diamond Side Length string.
       const expandedOptions = merge( mergedOptions, {
         sliderOptions: {

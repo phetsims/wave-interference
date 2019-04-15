@@ -16,7 +16,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
-  class CircleDiamondScene extends DiffractionScene {
+  class CircleSquareScene extends DiffractionScene {
 
     constructor() {
       super();
@@ -27,11 +27,11 @@ define( require => {
       } );
 
       // @public {NumberProperty} - in nm
-      this.diamondSideLengthProperty = new NumberProperty( 500, {
+      this.squareWidthProperty = new NumberProperty( 500, {
         range: new Range( 200, 1000 )
       } );
 
-      this.properties = [ this.circleDiameterProperty, this.diamondSideLengthProperty ];
+      this.properties = [ this.circleDiameterProperty, this.squareWidthProperty ];
     }
 
     /**
@@ -47,9 +47,9 @@ define( require => {
       const circleCenterY = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 - delta ) );
       const circleRadius = this.circleDiameterProperty.value / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
 
-      const diamondCenterX = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
-      const diamondCenterY = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
-      const diamondRadius = this.diamondSideLengthProperty.value / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
+      const squareCenterX = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
+      const squareCenterY = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
+      const squareRadius = this.squareWidthProperty.value / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
 
       // Blurring a bit eliminates more artifacts
       // context.filter = 'blur(0.75px)';
@@ -57,12 +57,9 @@ define( require => {
       context.arc( circleCenterX, circleCenterY, circleRadius, 0, Math.PI * 2 );
       context.fill();
 
-      context.translate( 150, 200 );
-      context.rotate( Math.PI / 4 );
-      context.translate( -150, -200 );
-      context.fillRect( diamondCenterX - diamondRadius, diamondCenterY - diamondRadius, diamondRadius * 2, diamondRadius * 2 );
+      context.fillRect( squareCenterX - squareRadius, squareCenterY - squareRadius, squareRadius * 2, squareRadius * 2 );
     }
   }
 
-  return waveInterference.register( 'CircleDiamondScene', CircleDiamondScene );
+  return waveInterference.register( 'CircleSquareScene', CircleSquareScene );
 } );
