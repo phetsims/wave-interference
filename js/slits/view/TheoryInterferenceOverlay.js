@@ -83,7 +83,8 @@ define( require => {
 
                 if ( barrierType === Scene.BarrierType.TWO_SLITS ) {
                   const addition = type === 'maxima' ? 0 : 0.5;
-                  const separation = scene.slitSeparationProperty.value;
+                  const separation = options.interferenceScreen ? scene.sourceSeparationProperty.value :
+                                     scene.slitSeparationProperty.value;
                   const arg = ( m + addition ) * scene.getWavelength() / separation;
 
                   // make sure in bounds
@@ -129,6 +130,7 @@ define( require => {
         }
         scene.frequencyProperty.link( updateLines );
         scene.slitSeparationProperty.link( updateLines );
+        scene.sourceSeparationProperty.link( updateLines );
         scene.barrierLatticeCoordinateProperty.link( updateLines );
         scene.slitWidthProperty.link( updateLines );
       } );
