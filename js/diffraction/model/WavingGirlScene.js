@@ -16,7 +16,7 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // images
-  const wavingGirl256Image = require( 'image!WAVE_INTERFERENCE/waving_girl_256.png' );
+  const wavingGirlApertureImage = require( 'image!WAVE_INTERFERENCE/waving_girl_aperture.png' );
 
   class WavingGirlScene extends DiffractionScene {
 
@@ -45,13 +45,13 @@ define( require => {
 
       const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
 
-      context.translate( 0, -wavingGirl256Image.height * 0.2 );
-      context.translate( wavingGirl256Image.width / 2, wavingGirl256Image.height / 2 );
+      context.translate( wavingGirlApertureImage.width / 2, wavingGirlApertureImage.height * 0.1 );
+      context.translate( wavingGirlApertureImage.width / 2, wavingGirlApertureImage.height / 2 );
       context.rotate( this.rotationProperty.value / 360 * 2 * Math.PI );
-      const scale = modelToMatrixScale / wavingGirl256Image.height * this.heightProperty.value;
+      const scale = modelToMatrixScale / wavingGirlApertureImage.height * this.heightProperty.value;
       context.scale( scale, scale );
-      context.translate( -wavingGirl256Image.width / 2, -wavingGirl256Image.height / 2 );
-      context.drawImage( wavingGirl256Image, 0, 0 );
+      context.translate( -wavingGirlApertureImage.width / 2, -wavingGirlApertureImage.height / 2 );
+      context.drawImage( wavingGirlApertureImage, 0, 0 );
     }
   }
 

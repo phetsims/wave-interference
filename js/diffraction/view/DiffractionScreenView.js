@@ -26,6 +26,7 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const RectangleSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/RectangleSceneControlPanel' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  const SceneCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/SceneCanvasNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const ToggleNode = require( 'SUN/ToggleNode' );
@@ -39,7 +40,7 @@ define( require => {
   const WavingGirlSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/WavingGirlSceneControlPanel' );
 
   // images
-  const wavingGirl256Image = require( 'image!WAVE_INTERFERENCE/waving_girl_256.png' );
+  const wavingGirlIconImage = require( 'image!WAVE_INTERFERENCE/waving_girl_icon.png' );
 
   // strings
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
@@ -107,13 +108,10 @@ define( require => {
         node: disorderSceneIcon
       }, {
         value: model.wavingGirlScene,
-        node: new Image( wavingGirl256Image, { maxHeight: 25 } )
-      }
-      ];
+        node: new Image( wavingGirlIconImage, { maxHeight: 25 } )
+      } ];
 
-      this.apertureNode = new MatrixCanvasNode( WaveInterferenceQueryParameters.showScaledMatrix ?
-                                                model.scaledApertureMatrix :
-                                                model.apertureMatrix, { scale: MATRIX_CANVAS_NODE_SCALE } );
+      this.apertureNode = new SceneCanvasNode( model.sceneProperty, { scale: MATRIX_CANVAS_NODE_SCALE } );
       this.apertureNode.top = 120;
       this.addChild( this.apertureNode );
 
@@ -140,7 +138,7 @@ define( require => {
         selectedLineWidth: 2
       } );
 
-      this.miniApertureNode = new MatrixCanvasNode( model.apertureMatrix, {
+      this.miniApertureNode = new SceneCanvasNode( model.sceneProperty, {
         scale: ICON_SCALE,
         centerY: laserPointerNode.centerY,
         centerX: this.apertureNode.centerX,

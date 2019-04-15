@@ -47,7 +47,15 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amy Rouinfar, see screen_icons.ai"
   },
-  "waving_girl_256.png": {
+  "waving_girl_256_aperture.png": {
+    "text": [
+      "Copyright 2018 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amy Rouinfar, see waving_girl.ai"
+  },
+  "waving_girl_icon.png": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],

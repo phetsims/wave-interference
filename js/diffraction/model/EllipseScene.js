@@ -44,7 +44,6 @@ define( require => {
       const ry = Math.sqrt( rx * rx * ( 1 - eccentricity * eccentricity ) );
 
       // Blurring a bit eliminates more artifacts
-      context.filter = 'blur(0.75px)';
       context.beginPath();
       context.ellipse(
         WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2,
