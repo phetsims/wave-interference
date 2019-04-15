@@ -15,6 +15,7 @@ define( require => {
   const EllipseScene = require( 'WAVE_INTERFERENCE/diffraction/model/EllipseScene' );
   const Matrix = require( 'DOT/Matrix' );
   const NumberProperty = require( 'AXON/NumberProperty' );
+  const PiecewiseLinearFunction = require( 'DOT/PiecewiseLinearFunction' );
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
   const RectangleScene = require( 'WAVE_INTERFERENCE/diffraction/model/RectangleScene' );
@@ -99,6 +100,14 @@ define( require => {
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
         if ( this.onProperty.value ) {
           DiffractionModel.fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
+
+          const p = PiecewiseLinearFunction.evaluate( [
+            this.ellipseScene.diameterProperty.range.min, 0,
+            1500, 0,
+            4000, 1,
+            this.ellipseScene.diameterProperty.range.max, 1
+          ], this.ellipseScene.diameterProperty.value );
+          this.diffractionMatrix.blendEquals( this.apertureMatrix, p );
         }
         else {
           this.diffractionMatrix.timesEquals( 0 );
