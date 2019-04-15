@@ -48,6 +48,8 @@ define( require => {
   // constants
   const ICON_SCALE = 0.2;
   const MARGIN = 10;
+  const GRID_ICON_SPACING = 2.4;
+  const MATRIX_CANVAS_NODE_SCALE = 1.4;
 
   const PANEL_OPTIONS = {
     xMargin: 10,
@@ -82,9 +84,9 @@ define( require => {
       } );
       this.addChild( resetAllButton );
 
-      const GRID_ICON_SPACING = 2.4;
-      const circle = () => new Circle( 1.65, { fill: 'black' } );
-      const row = () => new HBox( { spacing: GRID_ICON_SPACING, children: _.times( 4, circle ) } );
+      const createCircle = () => new Circle( 1.65, { fill: 'black' } );
+      const createRow = () => new HBox( { spacing: GRID_ICON_SPACING, children: _.times( 4, createCircle ) } );
+      const disorderSceneIcon = new VBox( { spacing: GRID_ICON_SPACING, children: _.times( 4, createRow ) } );
 
       const sceneRadioButtonContent = [ {
         value: model.ellipseScene,
@@ -102,14 +104,13 @@ define( require => {
         } )
       }, {
         value: model.disorderScene,
-        node: new VBox( { spacing: GRID_ICON_SPACING, children: _.times( 4, row ) } )
+        node: disorderSceneIcon
       }, {
         value: model.wavingGirlScene,
         node: new Image( wavingGirl256Image, { maxHeight: 25 } )
       }
       ];
 
-      const MATRIX_CANVAS_NODE_SCALE = 1.4;
       this.apertureNode = new MatrixCanvasNode( WaveInterferenceQueryParameters.showScaledMatrix ?
                                                 model.scaledApertureMatrix :
                                                 model.apertureMatrix, { scale: MATRIX_CANVAS_NODE_SCALE } );
