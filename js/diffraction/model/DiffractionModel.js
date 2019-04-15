@@ -15,7 +15,6 @@ define( require => {
   const EllipseScene = require( 'WAVE_INTERFERENCE/diffraction/model/EllipseScene' );
   const Matrix = require( 'DOT/Matrix' );
   const NumberProperty = require( 'AXON/NumberProperty' );
-  const PiecewiseLinearFunction = require( 'DOT/PiecewiseLinearFunction' );
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
   const RectangleScene = require( 'WAVE_INTERFERENCE/diffraction/model/RectangleScene' );
