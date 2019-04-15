@@ -101,13 +101,14 @@ define( require => {
         if ( this.onProperty.value ) {
           DiffractionModel.fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
 
-          const p = PiecewiseLinearFunction.evaluate( [
-            this.ellipseScene.diameterProperty.range.min, 0,
-            1500, 0,
-            4000, 1,
-            this.ellipseScene.diameterProperty.range.max, 1
-          ], this.ellipseScene.diameterProperty.value );
-          this.diffractionMatrix.blendEquals( this.apertureMatrix, p );
+          // TODO: https://github.com/phetsims/wave-interference/issues/354
+          // const p = PiecewiseLinearFunction.evaluate( [
+          //   this.ellipseScene.diameterProperty.range.min, 0,
+          //   1500, 0,
+          //   4000, 1,
+          //   this.ellipseScene.diameterProperty.range.max, 1
+          // ], this.ellipseScene.diameterProperty.value );
+          // this.diffractionMatrix.blendEquals( this.apertureMatrix, p );
         }
         else {
           this.diffractionMatrix.timesEquals( 0 );
