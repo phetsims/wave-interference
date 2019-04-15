@@ -48,8 +48,8 @@ define( require => {
       context.translate( 0, -wavingGirl256Image.height * 0.2 );
       context.translate( wavingGirl256Image.width / 2, wavingGirl256Image.height / 2 );
       context.rotate( this.rotationProperty.value / 360 * 2 * Math.PI );
-      const scale = modelToMatrixScale / wavingGirl256Image.height * 1000;
-      context.scale( scale, scale * this.heightProperty.value / 1000 );
+      const scale = modelToMatrixScale / wavingGirl256Image.height * this.heightProperty.value;
+      context.scale( scale, scale );
       context.translate( -wavingGirl256Image.width / 2, -wavingGirl256Image.height / 2 );
       context.drawImage( wavingGirl256Image, 0, 0 );
     }
