@@ -10,7 +10,10 @@ define( require => {
 
   // modules
   const SeparationControl = require( 'WAVE_INTERFERENCE/interference/view/SeparationControl' );
+  const Shape = require( 'KITE/Shape' );
+  const TheoryInterferenceOverlay = require( 'WAVE_INTERFERENCE/slits/view/TheoryInterferenceOverlay' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
   const WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
 
   class InterferenceScreenView extends WavesScreenView {
@@ -30,6 +33,13 @@ define( require => {
           additionalControl: new SeparationControl( model )
         }
       } );
+
+      // When enabled by a query parameter, show the theoretical interference pattern.
+      if ( WaveInterferenceQueryParameters.theory ) {
+        this.addChild( new TheoryInterferenceOverlay( model.sceneProperty, model.scenes, this.waveAreaNode.bounds, {
+          clipArea: Shape.bounds( this.waveAreaNode.bounds )
+        } ) );
+      }
     }
   }
 

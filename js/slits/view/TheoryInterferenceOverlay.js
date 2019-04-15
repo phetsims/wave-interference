@@ -15,6 +15,7 @@ define( require => {
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
   const LENGTH = 1000;
@@ -31,17 +32,26 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( sceneProperty, scenes, viewBounds, options ) {
+      options = _.extend( {
+
+        // On the interference screen, the theory pattern is always shown for 2 sources even though 0, 1 or 2 sources
+        // may be oscillating
+        interferenceScreen: true
+      }, options );
       super( options );
 
       const updateLines = () => {
         this.removeAllChildren();
-        const barrierType = sceneProperty.value.barrierTypeProperty.get();
+        const barrierType = options.interferenceScreen ? Scene.BarrierType.TWO_SLITS :
+                            sceneProperty.value.barrierTypeProperty.value;
         if ( barrierType !== Scene.BarrierType.NO_BARRIER ) {
 
           const scene = sceneProperty.value;
           const barrierY = viewBounds.centerY;
           const cellWidth = scene.latticeToViewTransform.modelToViewDeltaX( 1 );
-          const barrierX = scene.latticeToViewTransform.modelToViewX( scene.barrierLatticeCoordinateProperty.value ) + cellWidth / 2;
+          const modelX = options.interferenceScreen ? WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE :
+                         scene.barrierLatticeCoordinateProperty.value;
+          const barrierX = scene.latticeToViewTransform.modelToViewX( modelX ) + cellWidth / 2;
 
           // Render all the minima and maxima on both sides of the origin
           [ 'maxima', 'minima' ].forEach( type => {
@@ -114,7 +124,9 @@ define( require => {
       scenes.forEach( scene => {
 
         // When any of the relevant physical Properties change, update the lines.
-        scene.barrierTypeProperty.link( updateLines );
+        if ( !options.interferenceScreen ) {
+          scene.barrierTypeProperty.link( updateLines );
+        }
         scene.frequencyProperty.link( updateLines );
         scene.slitSeparationProperty.link( updateLines );
         scene.barrierLatticeCoordinateProperty.link( updateLines );
