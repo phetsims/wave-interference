@@ -99,7 +99,7 @@ define( require => {
         node: new Node( {
           children: [
             new Circle( 5, { fill: 'black' } ),
-            new Rectangle( 0, 0, 10, 10, { fill: 'black', rotation: Math.PI / 4, x: 10, y: 8 } )
+            new Rectangle( 0, 0, 10, 10, { fill: 'black', x: 10, y: 8 } )
           ]
         } )
       }, {

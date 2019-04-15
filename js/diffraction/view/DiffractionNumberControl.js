@@ -40,8 +40,7 @@ define( require => {
         }
       }, options, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS );
 
-      // TODO: Should we reduce the widths now that we are no longer using long "Diamond Side Length" string?
-      // make wider to accommodate Diamond Side Length string.
+      // make wider to give more room for layout and breathing room for i18n
       const expandedOptions = merge( mergedOptions, {
         sliderOptions: {
           trackSize: new Dimension2( 140, 1 )
