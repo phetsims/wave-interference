@@ -40,7 +40,6 @@ define( require => {
             }
           } ),
           new DiffractionNumberControl( squareWidthString, circleSquareScene.squareWidthProperty, {
-            delta: 0.01,
             numberDisplayOptions: {
               valuePattern: nmValueString
             },
