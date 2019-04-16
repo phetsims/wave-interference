@@ -18,8 +18,8 @@ define( require => {
 
   // strings
   const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
-  const squareWidthString = require( 'string!WAVE_INTERFERENCE/squareWidth' );
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
+  const squareWidthString = require( 'string!WAVE_INTERFERENCE/squareWidth' );
 
   class CircleSquareSceneControlPanel extends Panel {
 
