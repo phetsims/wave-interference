@@ -119,7 +119,11 @@ define( require => {
 
     DEFAULT_WAVELENGTH: VisibleColor.SPEED_OF_LIGHT / DEFAULT_FREQUENCY * 1E9,
 
-    DIFFRACTION_HBOX_SPACING: 40
+    DIFFRACTION_HBOX_SPACING: 40,
+
+    SOUND_PARTICLE_GRAY_COLOR: 'rgb(210,210,210)',
+
+    SOUND_PARTICLE_RED_COLOR: 'red'
   };
 
   // Derived constants

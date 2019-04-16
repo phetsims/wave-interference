@@ -13,8 +13,9 @@ define( require => {
   const Image = require( 'SCENERY/nodes/Image' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
+  const SoundParticleNode = require( 'WAVE_INTERFERENCE/common/view/SoundParticleNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   class SoundParticleImageLayer extends Node {
 
@@ -37,13 +38,13 @@ define( require => {
       // @private
       this.model = model;
 
-      createSphereImage( 'rgb(210,210,210)', canvas => {
+      SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_GRAY_COLOR, canvas => {
 
         // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
         this.whiteSphereImage = canvas;
       } );
 
-      createSphereImage( 'red', canvas => {
+      SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_RED_COLOR, canvas => {
 
         // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
         this.redSphereImage = canvas;
@@ -91,18 +92,6 @@ define( require => {
       this.setTranslation( x, y );
     }
   }
-
-  /**
-   * Create an image of a ShadedSphereNode for the given color.
-   * @param {ColorDef} color
-   * @param {function} callback, see Node.toCanvas for signature
-   * @returns {HTMLCanvasElement}
-   */
-  const createSphereImage = ( color, callback ) => new ShadedSphereNode( 10, {
-    mainColor: color,
-    stroke: 'black',
-    scale: 2
-  } ).toCanvas( callback );
 
   return waveInterference.register( 'SoundParticleImageLayer', SoundParticleImageLayer );
 } );
