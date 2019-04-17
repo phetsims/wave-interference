@@ -50,7 +50,7 @@ define( require => {
   const ICON_SCALE = 0.2;
   const MARGIN = 10;
   const GRID_ICON_SPACING = 2.4;
-  const MATRIX_CANVAS_NODE_SCALE = 1.4;
+  const MATRIX_CANVAS_NODE_SCALE = 1.4 * 500 / 490; // TODO: is this scale factor permanent or temporary?
 
   const PANEL_OPTIONS = {
     xMargin: 10,
