@@ -3,6 +3,7 @@
 /**
  * Model for the Diffraction screen.
  *
+ * @author Ariel Paul (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( require => {
@@ -86,11 +87,10 @@ define( require => {
       this.diffractionMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
       const update = () => {
-        const scaleDifference = ( this.wavelengthProperty.value - WaveInterferenceConstants.DEFAULT_WAVELENGTH ) /
-                                WaveInterferenceConstants.DEFAULT_WAVELENGTH;
 
-        // More frequency => more diffraction
-        const scaleFactor = 1 - scaleDifference * 1.5;
+        // To give the appearance of the proper diffraction, we are scaling the aperture size before the FFT
+        const scaleFactor = WaveInterferenceConstants.DEFAULT_WAVELENGTH / this.wavelengthProperty.value;
+
         assert && assert( scaleFactor > 0, 'scale factor should be positive' );
         const scene = this.sceneProperty.value;
 
