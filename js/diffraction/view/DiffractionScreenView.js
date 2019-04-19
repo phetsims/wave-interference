@@ -43,7 +43,7 @@ define( require => {
   const wavingGirlIconImage = require( 'image!WAVE_INTERFERENCE/waving_girl_icon.png' );
 
   // strings
-  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
+  const mmValueString = require( 'string!WAVE_INTERFERENCE/mmValue' );
   const wavelengthString = require( 'string!WAVE_INTERFERENCE/wavelength' );
 
   // constants
@@ -123,8 +123,8 @@ define( require => {
 
       this.apertureNode.right = this.diffractionNode.left - 50;
 
-      // 1/10 of the way across the aperture is 1000nm.  Full aperture is 10,000nm
-      const lengthScaleIndicatorNode = new LengthScaleIndicatorNode( this.apertureNode.width / 10, StringUtils.fillIn( nmValueString, { value: 1000 } ), {
+      // 1/10 of the way across the aperture, but round to nearest mm which is 0.1mm
+      const lengthScaleIndicatorNode = new LengthScaleIndicatorNode( this.apertureNode.width * 0.075, StringUtils.fillIn( mmValueString, { value: 0.1 } ), {
         leftBottom: this.apertureNode.leftTop.plusXY( 0, -5 )
       } );
       this.addChild( lengthScaleIndicatorNode );
