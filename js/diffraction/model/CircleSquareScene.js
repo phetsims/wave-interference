@@ -21,14 +21,14 @@ define( require => {
     constructor() {
       super();
 
-      // @public {NumberProperty} - in nm
-      this.circleDiameterProperty = new NumberProperty( 500, { // TODO: 500 duplicated many places
-        range: new Range( 200, 1000 )
+      // @public {NumberProperty} - in mm
+      this.circleDiameterProperty = new NumberProperty( 50 * 1E-3, {
+        range: new Range( 30 * 1E-3, 150 * 1E-3 )
       } );
 
-      // @public {NumberProperty} - in nm
-      this.squareWidthProperty = new NumberProperty( 500, {
-        range: new Range( 200, 1000 )
+      // @public {NumberProperty} - in mm
+      this.squareWidthProperty = new NumberProperty( 50 * 1E-3, {
+        range: new Range( 30 * 1E-3, 150 * 1E-3 )
       } );
 
       this.properties = [ this.circleDiameterProperty, this.squareWidthProperty ];

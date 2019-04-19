@@ -32,10 +32,10 @@ define( require => {
         sliderOptions: {
           majorTicks: [ {
             value: property.range.min,
-            label: new WaveInterferenceText( property.range.min )
+            label: new WaveInterferenceText( property.range.min.toFixed( 2 ) )
           }, {
             value: property.range.max,
-            label: new WaveInterferenceText( property.range.max )
+            label: new WaveInterferenceText( property.range.max.toFixed( 2 ) )
           } ]
         }
       }, options, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS );

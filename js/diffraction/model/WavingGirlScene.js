@@ -23,9 +23,9 @@ define( require => {
     constructor() {
       super();
 
-      // @public {NumberProperty}
-      this.heightProperty = new NumberProperty( 1000, {
-        range: new Range( 500, 2500 ) // nm
+      // @public {NumberProperty} - in mm
+      this.heightProperty = new NumberProperty( 200 * 1E-3, {
+        range: new Range( 50 * 1E-3, 400 * 1E-3 )
       } );
 
       // @public {NumberProperty}

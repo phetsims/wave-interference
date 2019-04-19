@@ -32,19 +32,23 @@ define( require => {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
           new DiffractionNumberControl( widthString, rectangleScene.widthProperty, {
+            delta: 50 * 1E-3,
             numberDisplayOptions: { // TODO: duplicated in many places
-              valuePattern: nmValueString
+              valuePattern: nmValueString,
+              decimalPlaces: 2
             },
             sliderOptions: {
-              constrainValue: value => Util.roundToInterval( value, 50 )
+              constrainValue: value => Util.roundToInterval( value, 10E-3 )
             }
           } ),
           new DiffractionNumberControl( heightString, rectangleScene.heightProperty, {
+            delta: 50 * 1E-3,
             numberDisplayOptions: {
-              valuePattern: nmValueString
+              valuePattern: nmValueString,
+              decimalPlaces: 2
             },
             sliderOptions: { // TODO: duplicated in many places
-              constrainValue: value => Util.roundToInterval( value, 50 )
+              constrainValue: value => Util.roundToInterval( value, 10E-3 )
             }
           } ) ]
       } ), options );

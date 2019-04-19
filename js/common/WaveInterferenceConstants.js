@@ -114,8 +114,8 @@ define( require => {
     // For the diffraction screen.  The matrix is square
     DIFFRACTION_MATRIX_DIMENSION: 256,
 
-    // The length of the aperture width or height in nanometers
-    DIFFRACTION_APERTURE_WIDTH: 10000,
+    // The length of the aperture width or height in mm
+    DIFFRACTION_APERTURE_WIDTH: 10000 * 400 / 3000 * 1E-3,
 
     // in nm
     DEFAULT_WAVELENGTH: VisibleColor.SPEED_OF_LIGHT / DEFAULT_FREQUENCY * 1E9,

@@ -76,13 +76,13 @@ define( require => {
       super();
 
       // @public {NumberProperty}
-      this.diameterProperty = new NumberProperty( 300, {
-        range: new Range( 100, 500 )
+      this.diameterProperty = new NumberProperty( 50E-3, {
+        range: new Range( 10E-3, 100E-3 )
       } );
 
       // @public {NumberProperty}
-      this.latticeSpacingProperty = new NumberProperty( 1000, {
-        range: new Range( 500, 1500 )
+      this.latticeSpacingProperty = new NumberProperty( 100 * 1E-3, {
+        range: new Range( 50 * 1E-3, 200 * 1E-3 )
       } );
 
       // @public {NumberProperty}

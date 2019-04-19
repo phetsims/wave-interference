@@ -19,7 +19,7 @@ define( require => {
   // strings
   const diameterString = require( 'string!WAVE_INTERFERENCE/diameter' );
   const eccentricityString = require( 'string!WAVE_INTERFERENCE/eccentricity' );
-  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
+  const mmValueString = require( 'string!WAVE_INTERFERENCE/mmValue' );
 
   class EllipseSceneControlPanel extends Panel {
 
@@ -32,11 +32,13 @@ define( require => {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
           new DiffractionNumberControl( diameterString, ellipseScene.diameterProperty, {
+            delta: 50 * 1E-3,
             numberDisplayOptions: {
-              valuePattern: nmValueString
+              valuePattern: mmValueString,
+              decimalPlaces: 2
             },
             sliderOptions: {
-              constrainValue: value => Util.roundToInterval( value, 50 )
+              constrainValue: value => Util.roundToInterval( value, 10E-3 )
             }
           } ),
           new DiffractionNumberControl( eccentricityString, ellipseScene.eccentricityProperty, {
