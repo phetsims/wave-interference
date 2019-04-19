@@ -23,12 +23,12 @@ define( require => {
 
       // @public {NumberProperty} - in nm
       this.widthProperty = new NumberProperty( 500, {
-        range: new Range( 200, 8000 )
+        range: new Range( 200, 3000 )
       } );
 
       // @public {NumberProperty} - in nm
       this.heightProperty = new NumberProperty( 500, {
-        range: new Range( 200, 8000 )
+        range: new Range( 200, 3000 )
       } );
 
       this.properties = [ this.widthProperty, this.heightProperty ];

@@ -21,7 +21,7 @@ define( require => {
 
       // @public {NumberProperty} - in nm
       this.diameterProperty = new NumberProperty( 500, {
-        range: new Range( 200, 8000 )
+        range: new Range( 200, 3000 )
       } );
 
       // @public {NumberProperty} - in nm
