@@ -123,11 +123,17 @@ define( require => {
 
       this.apertureNode.right = this.diffractionNode.left - 50;
 
-      // 1/10 of the way across the aperture, but round to nearest mm which is 0.1mm
-      const lengthScaleIndicatorNode = new LengthScaleIndicatorNode( this.apertureNode.width * 0.075, StringUtils.fillIn( mmValueString, { value: 0.1 } ), {
+      // Show 0.1mm on the aperture
+      const apertureScaleIndicatorNode = new LengthScaleIndicatorNode( this.apertureNode.width * 0.075, StringUtils.fillIn( mmValueString, { value: 0.1 } ), {
         leftBottom: this.apertureNode.leftTop.plusXY( 0, -5 )
       } );
-      this.addChild( lengthScaleIndicatorNode );
+      this.addChild( apertureScaleIndicatorNode );
+
+      // 1/10 of the way across the screen, which is 10cm wide
+      const diffractionScaleIndicatorNode = new LengthScaleIndicatorNode( this.diffractionNode.width * 0.1, StringUtils.fillIn( mmValueString, { value: 10 } ), {
+        leftBottom: this.diffractionNode.leftTop.plusXY( 0, -5 )
+      } );
+      this.addChild( diffractionScaleIndicatorNode );
 
       const sceneRadioButtonGroup = new RadioButtonGroup( model.sceneProperty, sceneRadioButtonContent, {
         right: this.apertureNode.left - 20,
