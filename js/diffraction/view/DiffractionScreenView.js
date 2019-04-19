@@ -47,7 +47,7 @@ define( require => {
   const wavelengthString = require( 'string!WAVE_INTERFERENCE/wavelength' );
 
   // constants
-  const ICON_SCALE = 0.2;
+  const MINI_DIFFRACTION_SCALE = 0.2;
   const MARGIN = 10;
   const GRID_ICON_SPACING = 2.4;
   const MATRIX_CANVAS_NODE_SCALE = 1.4 * 500 / 490; // TODO: is this scale factor permanent or temporary?
@@ -145,14 +145,14 @@ define( require => {
       } );
 
       this.miniApertureNode = new SceneCanvasNode( model.sceneProperty, {
-        scale: ICON_SCALE,
+        scale: MINI_DIFFRACTION_SCALE / 2,
         centerY: laserPointerNode.centerY,
         centerX: this.apertureNode.centerX,
         matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
       } );
 
       this.miniDiffractionNode = new MatrixCanvasNode( model.diffractionMatrix, {
-        scale: ICON_SCALE,
+        scale: MINI_DIFFRACTION_SCALE,
         centerY: laserPointerNode.centerY,
         centerX: this.diffractionNode.centerX,
         matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
@@ -185,7 +185,7 @@ define( require => {
       } );
       this.addChild( controlPanelToggleNode );
 
-      const beamWidth = 40;
+      const beamWidth = 22;
       const incidentBeam = new Rectangle(
         laserPointerNode.right, laserPointerNode.centerY - beamWidth / 2,
         this.miniApertureNode.centerX - laserPointerNode.right, beamWidth, {
