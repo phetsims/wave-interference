@@ -16,16 +16,14 @@ define( require => {
   class MediumScreen extends BasicScreen {
 
     /**
-     * @param {string} medium - the medium to display
-     * @param {string} name - the name of the screen
      * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
+     * @param {Object} options
      */
-    constructor( medium, name, alignGroup ) {
-      super( alignGroup, {
-        initialScene: medium,
-        name: name,
+    constructor( alignGroup, options ) {
+      options = _.extend( {
         showSceneRadioButtons: false
-      } );
+      }, options );
+      super( alignGroup, options );
     }
   }
 
