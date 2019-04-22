@@ -48,6 +48,7 @@ define( require => {
 
   // constants
   const MINI_DIFFRACTION_SCALE = 0.2;
+  const MATRIX_DIMENSION = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
   const MARGIN = 10;
   const GRID_ICON_SPACING = 2.4;
   const MATRIX_CANVAS_NODE_SCALE = 1.4 * 500 / 490; // TODO: is this scale factor permanent or temporary?
@@ -144,8 +145,18 @@ define( require => {
         selectedLineWidth: 2
       } );
 
-      this.miniApertureNode = new SceneCanvasNode( model.sceneProperty, {
+      // The mini aperture node has a small background
+      this.miniApertureNodeBackground = new Rectangle( 0, 0, MATRIX_DIMENSION, MATRIX_DIMENSION, {
+        fill: 'black',
         scale: MINI_DIFFRACTION_SCALE / 2,
+        centerY: laserPointerNode.centerY,
+        centerX: this.apertureNode.centerX,
+        matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
+      } );
+
+      // The mini aperture node has an even smaller pattern rendering
+      this.miniApertureNode = new SceneCanvasNode( model.sceneProperty, {
+        scale: MINI_DIFFRACTION_SCALE / 4,
         centerY: laserPointerNode.centerY,
         centerX: this.apertureNode.centerX,
         matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
@@ -227,6 +238,7 @@ define( require => {
       }, PANEL_OPTIONS ) );
 
       this.addChild( transmittedBeam );
+      this.addChild( this.miniApertureNodeBackground );
       this.addChild( this.miniApertureNode );
       this.addChild( incidentBeam );
       this.addChild( this.miniDiffractionNode );
