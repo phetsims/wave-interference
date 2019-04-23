@@ -27,7 +27,8 @@ define( require => {
         showUnselectedHomeScreenIconFrame: true,
         showScreenIconFrameForNavigationBarFill: 'black',
         showSceneRadioButtons: true,
-        initialScene: null
+        initialScene: null,
+        showPlaySoundButton: false
       }, options );
       super(
         () => new WavesModel( options.initialScene ? { initialScene: options.initialScene } : {} ),
@@ -39,7 +40,8 @@ define( require => {
           // The intensity checkbox is not available in the waves screen because it distracts from the learning goals of the screen
           controlPanelOptions: {
             showIntensityCheckbox: false,
-            showSceneRadioButtons: options.showSceneRadioButtons
+            showSceneRadioButtons: options.showSceneRadioButtons,
+            showPlaySoundButton: options.showPlaySoundButton
           }
         } ),
         options

@@ -24,6 +24,7 @@ define( require => {
   // strings
   const graphString = require( 'string!WAVE_INTERFERENCE/graph' );
   const intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
+  const playSoundString = require( 'string!WAVE_INTERFERENCE/playSound' );
   const screenString = require( 'string!WAVE_INTERFERENCE/screen' );
 
   // constants
@@ -47,7 +48,8 @@ define( require => {
         showIntensityCheckbox: true,
         maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH,
         yMargin: 4,
-        showSceneRadioButtons: true
+        showSceneRadioButtons: true,
+        showPlaySoundButton: false
       }, options );
 
       const frequencyControl = new FrequencyControl( model );
@@ -99,6 +101,8 @@ define( require => {
         model.sceneProperty
       ) : null;
 
+      const playSoundCheckbox = new Checkbox( new WaveInterferenceText( playSoundString ), model.soundScene.isSoundPlayingProperty, CHECKBOX_OPTIONS );
+
       // Horizontal layout
       const centerX = frequencyControl.centerX;
       frequencyControl.centerX = centerX;
@@ -116,6 +120,7 @@ define( require => {
       soundViewTypeRadioButtonGroup.left = minX;
       graphCheckbox.left = minX;
       screenCheckbox.left = minX;
+      playSoundCheckbox.left = minX;
 
       // Indent the intensity checkbox
       intensityCheckbox.left = minX + 20;
@@ -140,7 +145,8 @@ define( require => {
       const CHECKBOX_SPACING = 6;
       separator.top = sceneRadioButtonGroup ? ( sceneRadioButtonGroup.bottom + 8 ) : y;
       graphCheckbox.top = separator.bottom + HORIZONTAL_SEPARATOR_MARGIN;
-      soundViewTypeRadioButtonGroup.top = graphCheckbox.bottom + CHECKBOX_SPACING + 2;
+      playSoundCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
+      soundViewTypeRadioButtonGroup.top = ( options.showPlaySoundButton ? playSoundCheckbox.bottom : graphCheckbox.bottom ) + CHECKBOX_SPACING + 2;
       screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
       intensityCheckbox.top = screenCheckbox.bottom + CHECKBOX_SPACING;
 
@@ -165,7 +171,9 @@ define( require => {
 
           // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
           ...( scene === model.lightScene ? [ screenCheckbox ] : [] ),
-          ...( scene === model.lightScene && options.showIntensityCheckbox ? [ intensityCheckbox ] : [] )
+          ...( scene === model.lightScene && options.showIntensityCheckbox ? [ intensityCheckbox ] : [] ),
+
+          ...( scene === model.soundScene && options.showPlaySoundButton ? [ playSoundCheckbox ] : [] )
         ];
       } );
 

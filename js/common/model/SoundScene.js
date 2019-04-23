@@ -12,6 +12,7 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Enumeration = require( 'PHET_CORE/Enumeration' );
   const Property = require( 'AXON/Property' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
@@ -43,6 +44,9 @@ define( require => {
 
       // @public (read-only) {SoundParticle[]} particles for the sound scene.
       this.soundParticles = [];
+
+      // @public - indicates whether the user has selected to hear the sine wave
+      this.isSoundPlayingProperty = new BooleanProperty( false );
 
       if ( this.showSoundParticles ) {
 
