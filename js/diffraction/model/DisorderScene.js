@@ -138,7 +138,6 @@ define( require => {
 
         // Don't connect the ellipses
         context.moveTo( x0, y0 );
-
         context.ellipse( x0, y0, Math.sqrt( rx2 ), Math.sqrt( ry2 ), 0, 0, Math.PI * 2 );
       }
       context.fill();

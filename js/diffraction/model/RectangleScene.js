@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * This scene shows a single rectangular aperture.
+ * This scene shows a single rectangular aperture with an adjustable width and height.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -44,8 +44,6 @@ define( require => {
       const columnRadius = Util.roundSymmetric( this.widthProperty.value * modelToMatrixScale / 2 );
       const rowRadius = Util.roundSymmetric( this.heightProperty.value * modelToMatrixScale / 2 );
 
-      // Blurring a bit eliminates more artifacts
-      context.filter = 'blur(0.5px)';
       context.fillRect(
         WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 - columnRadius,
         WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 - rowRadius,

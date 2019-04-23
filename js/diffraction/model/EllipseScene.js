@@ -43,7 +43,6 @@ define( require => {
       const rx = diameter / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
       const ry = Math.sqrt( rx * rx * ( 1 - eccentricity * eccentricity ) );
 
-      // Blurring a bit eliminates more artifacts
       context.beginPath();
       context.ellipse(
         WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2,

@@ -42,9 +42,7 @@ define( require => {
      * @protected
      */
     renderToContext( context ) {
-
       const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
-
       context.translate( wavingGirlApertureImage.width / 2, wavingGirlApertureImage.height * 0.1 );
       context.translate( wavingGirlApertureImage.width / 2, wavingGirlApertureImage.height / 2 );
       context.rotate( this.rotationProperty.value / 360 * 2 * Math.PI );

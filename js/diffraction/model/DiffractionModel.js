@@ -26,7 +26,6 @@ define( require => {
 
   // constants
   const CONTRAST = 0.01;
-
   const MATRIX_DIMENSION = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
 
   // preallocated to avoid generating garbage
@@ -48,19 +47,11 @@ define( require => {
         range: new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH )
       } );
 
-      // @public
+      // @public (read-only) - scenes
       this.ellipseScene = new EllipseScene();
-
-      // @public
       this.rectangleScene = new RectangleScene();
-
-      // @public
       this.circleSquareScene = new CircleSquareScene();
-
-      // @public
       this.disorderScene = new DisorderScene();
-
-      // @public
       this.wavingGirlScene = new WavingGirlScene();
 
       // @public (read-only) {DiffractionScene[]}
@@ -77,26 +68,30 @@ define( require => {
         validValues: this.scenes
       } );
 
-      // The displayed aperture, shared by all scenes
+      // @public - The displayed aperture, shared by all scenes
       this.apertureMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
-      // Transformed aperture to account for wavelength changes for the FFT, shared by all scenes
+      // @private - Transformed aperture to account for wavelength changes for the FFT, shared by all scenes
       this.scaledApertureMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
-      // Result of FFT on the scaledApertureMatrix, shared by all scenes
+      // @public - Result of FFT on the scaledApertureMatrix, shared by all scenes
       this.diffractionMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
+      /**
+       * Update the aperture and FFT result when model characteristics change.
+       */
       const update = () => {
 
-        // To give the appearance of the proper diffraction, we are scaling the aperture size before the FFT
+        // To give the appearance of the proper diffraction, we scale the aperture size before the FFT
         const scaleFactor = WaveInterferenceConstants.DEFAULT_WAVELENGTH / this.wavelengthProperty.value;
-
-        assert && assert( scaleFactor > 0, 'scale factor should be positive' );
         const scene = this.sceneProperty.value;
 
-        // Note that paintMatrix is called twice.
+        // Compute the aperture that will be rendered
         scene.paintMatrix( this.apertureMatrix, 1 );
+
+        // Compute the aperture that will be FFT'ed
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
+
         if ( this.onProperty.value ) {
           DiffractionModel.fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
         }
@@ -111,7 +106,7 @@ define( require => {
     }
 
     /**
-     * @public
+     * @public - restore initial conditions
      */
     reset() {
       this.scenes.forEach( scene => scene.reset() );

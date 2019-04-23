@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * This scene shows a single rectangular aperture.
+ * This scene shows an aperture with an adjustable circle and square.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -51,8 +51,6 @@ define( require => {
       const squareCenterY = Util.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
       const squareRadius = this.squareWidthProperty.value / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
 
-      // Blurring a bit eliminates more artifacts
-      // context.filter = 'blur(0.75px)';
       context.beginPath();
       context.arc( circleCenterX, circleCenterY, circleRadius, 0, Math.PI * 2 );
       context.fill();
