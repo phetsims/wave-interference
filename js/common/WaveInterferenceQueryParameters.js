@@ -18,14 +18,7 @@ define( require => {
     // See https://github.com/phetsims/wave-interference/issues/196
     theory: { type: 'flag' },
 
-    // This is a temporary query parameter that adds the in-development "Diffraction" screen. Once the Diffraction
-    // screen is included in a published version, this query parameter will be deleted.
-    includeDiffractionScreen: { type: 'flag' },
-
-    latticeSize: { type: 'number', defaultValue: 151 },
-
-    // Debugging flag that shows the scaled aperture matrix rather than the unscaled aperture matrix
-    showScaledMatrix: { type: 'flag' }
+    latticeSize: { type: 'number', defaultValue: 151 }
   } );
 
   waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );

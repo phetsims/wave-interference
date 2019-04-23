@@ -189,9 +189,6 @@ define( require => {
       model.scenes.forEach( scene => scene.link( updateCanvases ) );
       model.onProperty.lazyLink( updateCanvases );
 
-      // When showing the scaled matrix for debugging, update it when the wavelength changes
-      WaveInterferenceQueryParameters.showScaledMatrix && model.wavelengthProperty.lazyLink( updateCanvases );
-
       // Nickname so everything fits on one line.
       const OPTS = PANEL_OPTIONS;
       const controlPanelToggleNode = new ToggleNode( model.sceneProperty, [
