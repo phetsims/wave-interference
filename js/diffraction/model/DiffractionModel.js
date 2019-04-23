@@ -30,8 +30,8 @@ define( require => {
 
   // preallocated to avoid generating garbage
   const SHIFTED_MAGNITUDES = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
-  const im = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
-  const re = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
+  const IMAGINARY_PART = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
+  const REAL_PART = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
 
   // initialization for 3rd party library
   FFT.init( MATRIX_DIMENSION );
@@ -127,22 +127,25 @@ define( require => {
   };
 
   /**
-   * @param {Matrix} input
-   * @param {Matrix} output - to set resultant values to
+   * @param {Matrix} input - aperture matrix
+   * @param {Matrix} output - place to set fft result values
    */
   DiffractionModel.fftImageProcessingLabs = ( input, output ) => {
 
+    // Take the values from the aperture
     for ( let i = 0; i < input.entries.length; i++ ) {
-      re[ i ] = input.entries[ i ];
-      im[ i ] = 0;
+      REAL_PART[ i ] = input.entries[ i ];
+      IMAGINARY_PART[ i ] = 0;
     }
 
-    FFT.fft2d( re, im );
+    // FFT library performs in-place computation.  Result overwrites the input.
+    FFT.fft2d( REAL_PART, IMAGINARY_PART );
 
     // From https://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/www/notes/fourier/fourier.pdf
-    // Practical issues: For display purposes, you probably want to cyclically translate the picture so that pixel (0,0), which now contains frequency (ωx, ωy ) = (0, 0), moves to the center
-    // of the image. And you probably want to display pixel values proportional to log(magnitude)
-    // of each complex number (this looks more interesting than just magnitude). For color images, do the above to each of the three channels (R, G, and B) independently.
+    // Practical issues: For display purposes, you probably want to cyclically translate the picture so that pixel (0,0)
+    // which now contains frequency (ωx, ωy ) = (0, 0), moves to the center of the image. And you probably want to
+    // display pixel values proportional to log(magnitude) of each complex number (this looks more interesting than just
+    // magnitude). For color images, do the above to each of the three channels (R, G, and B) independently.
 
     for ( let row = 0; row < MATRIX_DIMENSION; row++ ) {
       for ( let col = 0; col < MATRIX_DIMENSION; col++ ) {
@@ -151,7 +154,7 @@ define( require => {
           ( row + MATRIX_DIMENSION / 2 ) % MATRIX_DIMENSION,
           ( col + MATRIX_DIMENSION / 2 ) % MATRIX_DIMENSION
         );
-        SHIFTED_MAGNITUDES[ destination ] = Math.sqrt( re[ source ] * re[ source ] + im[ source ] * im[ source ] );
+        SHIFTED_MAGNITUDES[ destination ] = Math.sqrt( REAL_PART[ source ] * REAL_PART[ source ] + IMAGINARY_PART[ source ] * IMAGINARY_PART[ source ] );
       }
     }
 
@@ -164,6 +167,7 @@ define( require => {
       }
     }
 
+    // Set values to the output Matrix
     const logOfMaxMag = Math.log( CONTRAST * maxMagnitude + 1 );
     for ( let i = 0; i < SHIFTED_MAGNITUDES.length; i++ ) {
       output.entries[ i ] = Math.log( CONTRAST * SHIFTED_MAGNITUDES[ i ] + 1 ) / logOfMaxMag;
