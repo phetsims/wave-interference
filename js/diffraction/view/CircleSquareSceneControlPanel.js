@@ -15,11 +15,15 @@ define( require => {
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
 
   // strings
   const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
   const squareWidthString = require( 'string!WAVE_INTERFERENCE/squareWidth' );
+
+  // constants
+  const constrained = WaveInterferenceUtils.constrained;
 
   class CircleSquareSceneControlPanel extends Panel {
 
@@ -48,7 +52,7 @@ define( require => {
               decimalPlaces: 2
             },
             sliderOptions: {
-              constrainValue: value => Util.roundToInterval( value, 10 * 1E-3 ) // TODO: factor out
+              constrainValue: value => Util.roundToInterval( value, 10 * 1E-3 )
             }
           } )
         ]
