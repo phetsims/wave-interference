@@ -10,10 +10,12 @@ define( function( require ) {
 
   // modules
   const SoundGenerator = require( 'TAMBO/sound-generators/SoundGenerator' );
+  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   class SineWaveGenerator extends SoundGenerator {
-    constructor( frequencyProperty, options ) {
+    constructor( frequencyProperty, amplitudeProperty, options ) {
       // TODO: the sound sounds buggy if I put {connectImmediately: true}
       super( options );
 
@@ -31,6 +33,13 @@ define( function( require ) {
           this.oscillator.start();
           started = true;
         }
+      } );
+
+      // Wire up volume to amplitude
+      amplitudeProperty.link( amplitude => {
+        const amp = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
+          0, 1, amplitude );
+        this.setOutputLevel( amp );
       } );
 
       // Output through the master after all properties are set

@@ -513,7 +513,7 @@ define( require => {
 
       // Only start up the audio system if sound is enabled for this screen
       if ( options.controlPanelOptions.showPlaySoundButton ) {
-        const sineWavePlayer = new SineWaveGenerator( this.model.soundScene.frequencyProperty, {
+        const sineWavePlayer = new SineWaveGenerator( this.model.soundScene.frequencyProperty, this.model.soundScene.amplitudeProperty, {
           enableControlProperties: [
             this.model.soundScene.isSoundPlayingProperty,
             this.model.soundScene.button1PressedProperty,
