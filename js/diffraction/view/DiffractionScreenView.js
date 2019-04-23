@@ -47,12 +47,13 @@ define( require => {
   const wavelengthString = require( 'string!WAVE_INTERFERENCE/wavelength' );
 
   // constants
-  const MINI_DIFFRACTION_SCALE = 0.2;
+  const MATRIX_CANVAS_NODE_SCALE = 1.43; // scale factor for showing the large aperture and diffraction patterns
+  const MINI_DIFFRACTION_SCALE = 0.2; // scale factor for showing the mini diffraction pattern at the top of the screen
   const MATRIX_DIMENSION = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
   const MARGIN = 10;
-  const GRID_ICON_SPACING = 2.4;
-  const MATRIX_CANVAS_NODE_SCALE = 1.43;
+  const DISORDER_SCENE_ICON_DOTS_SPACING = 2.4;
 
+  // Options for the control panels
   const PANEL_OPTIONS = {
     xMargin: 10,
     yMargin: 10,
@@ -86,10 +87,18 @@ define( require => {
       } );
       this.addChild( resetAllButton );
 
+      // Disorder scene icon
       const createCircle = () => new Circle( 1.65, { fill: 'black' } );
-      const createRow = () => new HBox( { spacing: GRID_ICON_SPACING, children: _.times( 4, createCircle ) } );
-      const disorderSceneIcon = new VBox( { spacing: GRID_ICON_SPACING, children: _.times( 4, createRow ) } );
+      const createRow = () => new HBox( {
+        spacing: DISORDER_SCENE_ICON_DOTS_SPACING,
+        children: _.times( 4, createCircle )
+      } );
+      const disorderSceneIcon = new VBox( {
+        spacing: DISORDER_SCENE_ICON_DOTS_SPACING,
+        children: _.times( 4, createRow )
+      } );
 
+      // Scene radio buttons
       const sceneRadioButtonContent = [ {
         value: model.ellipseScene,
         node: new Circle( 10, { fill: 'black' } )
@@ -112,10 +121,12 @@ define( require => {
         node: new Image( wavingGirlIconImage, { maxHeight: 25 } )
       } ];
 
+      // @private - Main (large) aperture node
       this.apertureNode = new SceneCanvasNode( model.sceneProperty, { scale: MATRIX_CANVAS_NODE_SCALE } );
       this.apertureNode.top = 120;
       this.addChild( this.apertureNode );
 
+      // @private - Main (large) diffraction node
       this.diffractionNode = new MatrixCanvasNode( model.diffractionMatrix, { scale: MATRIX_CANVAS_NODE_SCALE } );
       this.diffractionNode.right = this.layoutBounds.right - 20;
       this.diffractionNode.top = this.apertureNode.top;
@@ -124,29 +135,28 @@ define( require => {
 
       this.apertureNode.right = this.diffractionNode.left - 50;
 
-      // Show 0.1mm on the aperture
+      // Length scale indicator on the aperture
       const apertureScaleIndicatorNode = new LengthScaleIndicatorNode( this.apertureNode.width * 0.075, StringUtils.fillIn( mmValueString, { value: 0.1 } ), {
         leftBottom: this.apertureNode.leftTop.plusXY( 0, -5 )
       } );
       this.addChild( apertureScaleIndicatorNode );
 
-      // 1/10 of the way across the screen, which is 10cm wide
+      // Length scale indicator on the diffraction pattern
       const diffractionScaleIndicatorNode = new LengthScaleIndicatorNode( this.diffractionNode.width * 0.1, StringUtils.fillIn( mmValueString, { value: 10 } ), {
         leftBottom: this.diffractionNode.leftTop.plusXY( 0, -5 )
       } );
       this.addChild( diffractionScaleIndicatorNode );
 
       const sceneRadioButtonGroup = new RadioButtonGroup( model.sceneProperty, sceneRadioButtonContent, {
-        right: this.apertureNode.left - 20,
-        bottom: this.apertureNode.bottom,
-
         baseColor: 'white',
         selectedStroke: '#419ac9',
-        selectedLineWidth: 2
+        selectedLineWidth: 2,
+        right: this.apertureNode.left - 20,
+        bottom: this.apertureNode.bottom
       } );
 
       // The mini aperture node has a small background
-      this.miniApertureNodeBackground = new Rectangle( 0, 0, MATRIX_DIMENSION, MATRIX_DIMENSION, {
+      const miniApertureNodeBackground = new Rectangle( 0, 0, MATRIX_DIMENSION, MATRIX_DIMENSION, {
         fill: 'black',
         scale: MINI_DIFFRACTION_SCALE / 2,
         centerY: laserPointerNode.centerY,
@@ -154,7 +164,7 @@ define( require => {
         matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
       } );
 
-      // The mini aperture node has an even smaller pattern rendering
+      // @private - The mini aperture node has an even smaller pattern rendering
       this.miniApertureNode = new SceneCanvasNode( model.sceneProperty, {
         scale: MINI_DIFFRACTION_SCALE / 4,
         centerY: laserPointerNode.centerY,
@@ -162,16 +172,17 @@ define( require => {
         matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
       } );
 
+      // @private - The mini diffraction pattern at the top of the screen
       this.miniDiffractionNode = new MatrixCanvasNode( model.diffractionMatrix, {
         scale: MINI_DIFFRACTION_SCALE,
         centerY: laserPointerNode.centerY,
         centerX: this.diffractionNode.centerX,
         matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
       } );
+
       model.wavelengthProperty.link( wavelength => this.miniDiffractionNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength ) ) );
 
       const updateCanvases = this.updateCanvases.bind( this );
-
       model.sceneProperty.lazyLink( updateCanvases );
 
       this.addChild( sceneRadioButtonGroup );
@@ -196,10 +207,10 @@ define( require => {
       } );
       this.addChild( controlPanelToggleNode );
 
-      const beamWidth = 22;
+      const BEAM_WIDTH = 22;
       const incidentBeam = new Rectangle(
-        laserPointerNode.right, laserPointerNode.centerY - beamWidth / 2,
-        this.miniApertureNode.centerX - laserPointerNode.right, beamWidth, {
+        laserPointerNode.right, laserPointerNode.centerY - BEAM_WIDTH / 2,
+        this.miniApertureNode.centerX - laserPointerNode.right, BEAM_WIDTH, {
           opacity: 0.7
         } );
 
@@ -208,9 +219,9 @@ define( require => {
       // support for larger canvas for generating rasters
       const transmittedBeam = new Rectangle(
         this.miniApertureNode.centerX,
-        laserPointerNode.centerY - beamWidth / 2,
+        laserPointerNode.centerY - BEAM_WIDTH / 2,
         Math.max( this.miniDiffractionNode.centerX - this.miniApertureNode.centerX, 0 ),
-        beamWidth, {
+        BEAM_WIDTH, {
           opacity: 0.7
         } );
       model.wavelengthProperty.link( wavelength => transmittedBeam.setFill( VisibleColor.wavelengthToColor( wavelength ) ) );
@@ -238,7 +249,7 @@ define( require => {
       }, PANEL_OPTIONS ) );
 
       this.addChild( transmittedBeam );
-      this.addChild( this.miniApertureNodeBackground );
+      this.addChild( miniApertureNodeBackground );
       this.addChild( this.miniApertureNode );
       this.addChild( incidentBeam );
       this.addChild( this.miniDiffractionNode );
@@ -248,6 +259,9 @@ define( require => {
       updateCanvases();
     }
 
+    /**
+     * @private - update the main/mini aperture/diffraction patterns.
+     */
     updateCanvases() {
       this.apertureNode.invalidatePaint();
       this.miniApertureNode.invalidatePaint();
