@@ -34,6 +34,8 @@ define( require => {
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
+  const SineWaveGenerator = require( 'WAVE_INTERFERENCE/waves/view/SineWaveGenerator' );
+  const soundManager = require( 'TAMBO/soundManager' );
   const SoundParticleCanvasLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleCanvasLayer' );
   const SoundParticleImageLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleImageLayer' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
@@ -508,6 +510,17 @@ define( require => {
       this.addChild( measuringTapeNode );
       this.addChild( timerNode );
       this.addChild( waveMeterNode );
+
+      // Only start up the audio system if sound is enabled for this screen
+      if ( options.controlPanelOptions.showPlaySoundButton ) {
+        const sineWavePlayer = new SineWaveGenerator( this.model.soundScene.frequencyProperty, {
+          enableControlProperties: [
+            this.model.soundScene.isSoundPlayingProperty,
+            this.model.soundScene.button1PressedProperty
+          ]
+        } );
+        soundManager.addSoundGenerator( sineWavePlayer );
+      }
     }
 
     /**
