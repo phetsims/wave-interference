@@ -44,7 +44,7 @@ define( require => {
             }
           } ),
           new DiffractionNumberControl( rotationString, wavingGirlScene.rotationProperty, {
-            numberDisplayOptions: { // TODO: duplicated in many places
+            numberDisplayOptions: {
               valuePattern: degreesValueString
             },
             sliderOptions: {

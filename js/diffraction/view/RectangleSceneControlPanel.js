@@ -33,7 +33,7 @@ define( require => {
         children: [
           new DiffractionNumberControl( widthString, rectangleScene.widthProperty, {
             delta: 50 * 1E-3,
-            numberDisplayOptions: { // TODO: duplicated in many places
+            numberDisplayOptions: {
               valuePattern: nmValueString,
               decimalPlaces: 2
             },
@@ -47,7 +47,7 @@ define( require => {
               valuePattern: nmValueString,
               decimalPlaces: 2
             },
-            sliderOptions: { // TODO: duplicated in many places
+            sliderOptions: {
               constrainValue: value => Util.roundToInterval( value, 10E-3 )
             }
           } ) ]
