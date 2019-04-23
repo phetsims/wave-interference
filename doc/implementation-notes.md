@@ -106,4 +106,12 @@ By using `?dev`, you can show the [TheoryInterferenceOverlay](https://github.com
 
 ## The Final Screen: Diffraction
 In the fourth screen, we use a Fast Fourier Transform (FFT) in order to compute the diffraction pattern, see
-https://en.wikipedia.org/wiki/Diffraction
+https://en.wikipedia.org/wiki/Diffraction.  A 3rd party library is used to compute the FFT.
+
+There are 5 apertures (each shown in a scene) with different tunable characteristics.  The aperture renders to a canvas
+in the model for the sake of determining which points in the aperture are open and closed.  The same "render to canvas" 
+code is used for rendering crisp images in the view.
+
+The FFT does not take the wavelength as an argument.  To simulate the wavelength-dependence of the FFT, we artificially 
+rescale the size of the aperture itself based on the wavelength, then run the FFT on the artificially sized aperture.  
+The artificially-sized aperture does not appear to the user.

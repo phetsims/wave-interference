@@ -36,4 +36,15 @@ see http://hyperphysics.phy-astr.gsu.edu/hbase/phyopt/sinslit.html
 
 ## Diffraction Screen (under development)
 
-The diffraction pattern is computed as the discrete Fast Fourier Transform of the input pattern.
+Please see https://en.wikipedia.org/wiki/Diffraction for general information about wave diffraction.  In this screen,
+the diffraction pattern is computed as the discrete Fast Fourier Transform of the input pattern.
+
+Diffraction through a 2d circular aperture creates an Airy disk pattern, which is described here:
+https://en.wikipedia.org/wiki/Airy_disk  
+
+Many dimensions are described in the simulation, explanation and elaboration is provided in 
+https://github.com/phetsims/wave-interference/issues/370#issuecomment-484183051
+
+The FFT does not take the wavelength as an argument.  To simulate the wavelength-dependence of the FFT, we artificially 
+rescale the size of the aperture itself based on the wavelength, then run the FFT on the artificially sized aperture.  
+The artificially-sized aperture does not appear to the user.
