@@ -516,7 +516,8 @@ define( require => {
         const sineWavePlayer = new SineWaveGenerator( this.model.soundScene.frequencyProperty, {
           enableControlProperties: [
             this.model.soundScene.isSoundPlayingProperty,
-            this.model.soundScene.button1PressedProperty
+            this.model.soundScene.button1PressedProperty,
+            this.model.isRunningProperty
           ]
         } );
         soundManager.addSoundGenerator( sineWavePlayer );
