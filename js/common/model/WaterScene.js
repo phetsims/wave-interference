@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const arrayRemove = require( 'PHET_CORE/arrayRemove' );
+  const Emitter = require( 'AXON/Emitter' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const WaterDrop = require( 'WAVE_INTERFERENCE/common/model/WaterDrop' );
@@ -23,6 +24,9 @@ define( require => {
      */
     constructor( config ) {
       super( config );
+
+      // @public - Emits when a water drop hits the y=0 plane
+      this.waterDropAbsorbedEmitter = new Emitter( { validators: [ { valueType: WaterDrop } ] } );
 
       // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
       // gets propagated to the lattice via the water drops
@@ -175,6 +179,9 @@ define( require => {
         // Remove any water drops that went below y=0
         if ( waterDrop.y < 0 ) {
           toRemove.push( waterDrop );
+          if ( waterDrop.amplitude > 0 && waterDrop.startsOscillation ) {
+            this.waterDropAbsorbedEmitter.emit( waterDrop );
+          }
         }
       }
       for ( let i = 0; i < toRemove.length; i++ ) {

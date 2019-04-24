@@ -28,11 +28,13 @@ define( require => {
         showScreenIconFrameForNavigationBarFill: 'black',
         showSceneRadioButtons: true,
         initialScene: null,
-        showPlaySoundButton: false
+        showPlaySoundButton: false,
+        supportsSound: false
       }, options );
       super(
         () => new WavesModel( options.initialScene ? { initialScene: options.initialScene } : {} ),
         model => new WavesScreenView( model, alignGroup, {
+          supportsSound: options.supportsSound,
           showViewpointRadioButtonGroup: true,
           piecewiseLinearBrightness: true,
           lightScreenAveragingWindowSize: 40,

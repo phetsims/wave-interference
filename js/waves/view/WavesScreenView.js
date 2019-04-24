@@ -16,6 +16,7 @@ define( require => {
   const DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DisturbanceTypeRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/DisturbanceTypeRadioButtonGroup' );
+  const DotUtil = require( 'DOT/Util' ); // eslint-disable-line
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const IntensityGraphPanel = require( 'WAVE_INTERFERENCE/common/view/IntensityGraphPanel' );
   const LatticeCanvasNode = require( 'WAVE_INTERFERENCE/common/view/LatticeCanvasNode' );
@@ -26,8 +27,10 @@ define( require => {
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
+  const PitchedPopGenerator = require( 'TAMBO/sound-generators/PitchedPopGenerator' );
   const platform = require( 'PHET_CORE/platform' );
   const Property = require( 'AXON/Property' );
+  const Range = require( 'DOT/Range' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const RichText = require( 'SCENERY/nodes/RichText' );
@@ -93,7 +96,9 @@ define( require => {
 
         // Nested options as discussed in https://github.com/phetsims/tasks/issues/730,
         // see WaveInterferenceControlPanel for keys/values
-        controlPanelOptions: {}
+        controlPanelOptions: {},
+
+        supportsSound: false
       }, options );
       super();
 
@@ -512,15 +517,31 @@ define( require => {
       this.addChild( waveMeterNode );
 
       // Only start up the audio system if sound is enabled for this screen
-      if ( options.controlPanelOptions.showPlaySoundButton ) {
-        const sineWavePlayer = new SineWaveGenerator( this.model.soundScene.frequencyProperty, this.model.soundScene.amplitudeProperty, {
-          enableControlProperties: [
-            this.model.soundScene.isSoundPlayingProperty,
-            this.model.soundScene.button1PressedProperty,
-            this.model.isRunningProperty
-          ]
+      if ( options.supportsSound ) {
+
+        // Only wire up for the sound scene
+        if ( options.controlPanelOptions.showPlaySoundButton ) {
+          const sineWavePlayer = new SineWaveGenerator( this.model.soundScene.frequencyProperty, this.model.soundScene.amplitudeProperty, {
+            enableControlProperties: [
+              this.model.soundScene.isSoundPlayingProperty,
+              this.model.soundScene.button1PressedProperty,
+              this.model.isRunningProperty
+            ]
+          } );
+          soundManager.addSoundGenerator( sineWavePlayer );
+        }
+
+        // generate sound when balls are added or removed
+        this.pitchedPopGenerator = new PitchedPopGenerator( {
+          pitchRange: new Range( 220, 400 )
+          // enableControlProperties: [ resetNotInProgressProperty ]
         } );
-        soundManager.addSoundGenerator( sineWavePlayer );
+        soundManager.addSoundGenerator( this.pitchedPopGenerator );
+        this.model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
+          const amp = DotUtil.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
+            1, 0, waterDrop.amplitude );
+          this.pitchedPopGenerator.playPop( amp );
+        } );
       }
     }
 
