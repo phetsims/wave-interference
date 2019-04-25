@@ -33,6 +33,7 @@ define( require => {
   const Range = require( 'DOT/Range' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  const ResetAllSoundGenerator = require( 'TAMBO/sound-generators/ResetAllSoundGenerator' );
   const RichText = require( 'SCENERY/nodes/RichText' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
@@ -542,6 +543,10 @@ define( require => {
             1, 0, waterDrop.amplitude );
           this.pitchedPopGenerator.playPop( amp );
         } );
+
+        soundManager.addSoundGenerator( new ResetAllSoundGenerator( model.isResettingProperty, {
+          initialOutputLevel: 0.7
+        } ) );
       }
     }
 

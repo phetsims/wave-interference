@@ -306,6 +306,9 @@ define( require => {
       // @public - Notifies listeners when the model reset is complete
       this.resetEmitter = new Emitter();
 
+      // @public - Notifies when reset in in progress
+      this.isResettingProperty = new BooleanProperty( false ); // TODO: reconcile with resetEmitter.
+
       // Reset the stopwatch time when changing scenes, and pause it.
       this.sceneProperty.link( () => {
         this.isTimerRunningProperty.reset();
@@ -363,6 +366,7 @@ define( require => {
      * @public
      */
     reset() {
+      this.isResettingProperty.value = true;
 
       // Reset frequencyProperty first because it changes the time and phase.  This is done by resetting each of the
       // frequencyProperties in the scenes
@@ -387,6 +391,8 @@ define( require => {
 
       // Signify to listeners that the model reset is complete
       this.resetEmitter.emit();
+
+      this.isResettingProperty.value = false;
     }
 
     /**
