@@ -63,6 +63,7 @@ define( require => {
 
   // sounds
   const waterDropSound = require( 'sound!WAVE_INTERFERENCE/water-drop.mp3' );
+  const speakerPulseSound = require( 'sound!WAVE_INTERFERENCE/speaker-pulse.mp3' );
 
   // constants
   const MARGIN = 8;
@@ -548,6 +549,18 @@ define( require => {
         soundManager.addSoundGenerator( new ResetAllSoundGenerator( model.isResettingProperty, {
           initialOutputLevel: 0.7
         } ) );
+
+        const speakerPulseSoundClip = new SoundClip( speakerPulseSound );
+        soundManager.addSoundGenerator( speakerPulseSoundClip );
+        this.model.soundScene.oscillator1Property.link( ( value, previousValue ) => {
+          if ( previousValue >= 0 && value < 0 ) {
+
+            const amplitude = DotUtil.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
+              0.0, 0.7, this.model.soundScene.amplitudeProperty.value );
+            speakerPulseSoundClip.setOutputLevel( amplitude );
+            speakerPulseSoundClip.play();
+          }
+        } );
       }
     }
 
