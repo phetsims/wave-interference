@@ -15,23 +15,34 @@ define( function( require ) {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   class SineWaveGenerator extends SoundGenerator {
+
+    /**
+     * @param {Property.<number>} frequencyProperty
+     * @param {Property.<number>} amplitudeProperty
+     * @param {Object} [options]
+     */
     constructor( frequencyProperty, amplitudeProperty, options ) {
-      // TODO: the sound sounds buggy if I put {connectImmediately: true}
       super( options );
 
-      this.oscillator = this.audioContext.createOscillator();
-      frequencyProperty.link( frequency => {
-        const value = frequency * 1000; // convert frequency in mHz to Hz
-        this.oscillator.frequency.setValueAtTime( value, this.audioContext.currentTime );
-      } );
+      // @private {OscillatorNode|null} created when sound begins and nullified when sound ends, see #373
+      this.oscillator = null;
+      const updateFrequency = () => {
+        const value = frequencyProperty.value * 1000; // convert frequency in mHz to Hz
+        this.oscillator && this.oscillator.frequency.setValueAtTime( value, this.audioContext.currentTime );
+      };
+      frequencyProperty.link( updateFrequency );
 
-      // TODO: Even if all enableControlProperties are initially false, there is a sound when this.oscillator.start()
-      // is called.  This works around that problem
-      let started = false;
       this.fullyEnabledProperty.link( fullyEnabled => {
-        if ( !started && fullyEnabled ) {
+        if ( fullyEnabled && this.oscillator === null ) {
+          this.oscillator = this.audioContext.createOscillator();
+          updateFrequency();
+          this.oscillator.connect( this.masterGainNode );
           this.oscillator.start();
-          started = true;
+        }
+        else if ( !fullyEnabled && this.oscillator !== null ) {
+          this.oscillator.stop();
+          this.oscillator.disconnect( this.masterGainNode );
+          this.oscillator = null;
         }
       } );
 
@@ -41,9 +52,6 @@ define( function( require ) {
           0, 1, amplitude );
         this.setOutputLevel( amp );
       } );
-
-      // Output through the master after all properties are set
-      this.oscillator.connect( this.masterGainNode );
     }
   }
 
