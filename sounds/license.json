@@ -1,4 +1,12 @@
 {
+  "light-beam-loop.mp3": {
+    "text": [
+      "Copyright 2019 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris"
+  },
   "speaker-pulse.mp3": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
