@@ -43,6 +43,7 @@ define( require => {
   const SoundParticleCanvasLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleCanvasLayer' );
   const SoundParticleImageLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleImageLayer' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
+  const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const SoundWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/SoundWaveGeneratorNode' );
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
   const ToggleNode = require( 'SUN/ToggleNode' );
@@ -61,6 +62,9 @@ define( require => {
   const WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
   const WaveMeterNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterNode' );
+
+  // sounds
+  const waterDropSound = require( 'sound!WAVE_INTERFERENCE/water-drop.mp3' );
 
   // constants
   const MARGIN = 8;
@@ -534,16 +538,13 @@ define( require => {
           soundManager.addSoundGenerator( sineWavePlayer );
         }
 
-        // generate sound when balls are added or removed
-        this.pitchedPopGenerator = new PitchedPopGenerator( {
-          pitchRange: new Range( 220, 400 )
-          // enableControlProperties: [ resetNotInProgressProperty ]
-        } );
-        soundManager.addSoundGenerator( this.pitchedPopGenerator );
+        const waterDropSoundClip = new SoundClip( waterDropSound );
+        soundManager.addSoundGenerator( waterDropSoundClip );
         this.model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
           const amp = DotUtil.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
-            1, 0, waterDrop.amplitude );
-          this.pitchedPopGenerator.playPop( amp );
+            1.3, 0.5, waterDrop.amplitude );
+          waterDropSoundClip.setPlaybackRate( amp, 0 );
+          waterDropSoundClip.play();
         } );
 
         soundManager.addSoundGenerator( new ResetAllSoundGenerator( model.isResettingProperty, {
