@@ -523,6 +523,7 @@ define( require => {
       this.addChild( waveMeterNode );
 
       // Only start up the audio system if sound is enabled for this screen
+      // TODO: Move this to another file
       if ( options.supportsSound ) {
 
         // Only wire up for the sound scene
@@ -542,7 +543,7 @@ define( require => {
         this.model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
           const amp = DotUtil.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
             1.3, 0.5, waterDrop.amplitude );
-          waterDropSoundClip.setPlaybackRate( amp, 0 );
+          waterDropSoundClip.setPlaybackRate( amp );
           waterDropSoundClip.play();
         } );
 
@@ -557,7 +558,10 @@ define( require => {
 
             const amplitude = DotUtil.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
               0.0, 0.7, this.model.soundScene.amplitudeProperty.value );
+            const playbackRate = DotUtil.linear( this.model.soundScene.frequencyProperty.range.min, this.model.soundScene.frequencyProperty.range.max,
+              1, 1.4, this.model.soundScene.frequencyProperty.value );
             speakerPulseSoundClip.setOutputLevel( amplitude );
+            speakerPulseSoundClip.setPlaybackRate( playbackRate );
             speakerPulseSoundClip.play();
           }
         } );
