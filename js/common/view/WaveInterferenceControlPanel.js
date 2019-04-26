@@ -10,7 +10,6 @@ define( require => {
 
   // modules
   const AmplitudeControl = require( 'WAVE_INTERFERENCE/common/view/AmplitudeControl' );
-  const Checkbox = require( 'SUN/Checkbox' );
   const FrequencyControl = require( 'WAVE_INTERFERENCE/common/view/FrequencyControl' );
   const HSeparator = require( 'SUN/HSeparator' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -18,6 +17,7 @@ define( require => {
   const SoundViewTypeRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SoundViewTypeRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceCheckbox = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceCheckbox' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
@@ -26,9 +26,6 @@ define( require => {
   const intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
   const playSoundString = require( 'string!WAVE_INTERFERENCE/playSound' );
   const screenString = require( 'string!WAVE_INTERFERENCE/screen' );
-
-  // constants
-  const CHECKBOX_OPTIONS = { boxWidth: 14 };
 
   class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
@@ -49,28 +46,29 @@ define( require => {
         maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH,
         yMargin: 4,
         showSceneRadioButtons: true,
-        showPlaySoundButton: false
+        showPlaySoundButton: false,
+        supportsSound: true
       }, options );
 
       const frequencyControl = new FrequencyControl( model );
       const amplitudeControl = new AmplitudeControl( model );
       const soundViewTypeRadioButtonGroup = new SoundViewTypeRadioButtonGroup( model );
 
-      const graphCheckbox = new Checkbox(
+      const graphCheckbox = new WaveInterferenceCheckbox(
         new WaveInterferenceText( graphString ),
-        model.showGraphProperty,
-        CHECKBOX_OPTIONS
-      );
-      const screenCheckbox = new Checkbox(
+        model.showGraphProperty, {
+          audioEnabled: options.supportsSound
+        } );
+      const screenCheckbox = new WaveInterferenceCheckbox(
         new WaveInterferenceText( screenString ),
-        model.showScreenProperty,
-        CHECKBOX_OPTIONS
-      );
-      const intensityCheckbox = new Checkbox(
+        model.showScreenProperty, {
+          audioEnabled: options.supportsSound
+        } );
+      const intensityCheckbox = new WaveInterferenceCheckbox(
         new WaveInterferenceText( intensityString ),
-        model.showIntensityGraphProperty,
-        CHECKBOX_OPTIONS
-      );
+        model.showIntensityGraphProperty, {
+          audioEnabled: options.supportsSound
+        } );
 
       // Only enable the intensity checkbox when the screen is selected
       model.showScreenProperty.link( showScreen => intensityCheckbox.setEnabled( showScreen ) );
@@ -101,7 +99,10 @@ define( require => {
         model.sceneProperty
       ) : null;
 
-      const playSoundCheckbox = new Checkbox( new WaveInterferenceText( playSoundString ), model.soundScene.isSoundPlayingProperty, CHECKBOX_OPTIONS );
+      const playSoundCheckbox = new WaveInterferenceCheckbox( new WaveInterferenceText( playSoundString ),
+        model.soundScene.isSoundPlayingProperty, {
+          audioEnabled: options.supportsSound
+        } );
 
       // Horizontal layout
       const centerX = frequencyControl.centerX;

@@ -359,7 +359,9 @@ define( require => {
       this.addChild( toolboxPanel );
 
       // @protected {WaveInterferenceControlPanel} for subtype layout
-      this.controlPanel = new WaveInterferenceControlPanel( model, alignGroup, options.controlPanelOptions );
+      this.controlPanel = new WaveInterferenceControlPanel( model, alignGroup, options.controlPanelOptions, {
+        supportsSound: options.supportsSound
+      } );
 
       const updateControlPanelPosition = () => {
         this.controlPanel.mutate( {
