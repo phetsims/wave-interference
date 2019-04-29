@@ -60,10 +60,7 @@ define( require => {
   const WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
   const WaveMeterNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterNode' );
-
-  // sounds
-  const waterDropSound = require( 'sound!WAVE_INTERFERENCE/water-drop.mp3' );
-  const speakerPulseSound = require( 'sound!WAVE_INTERFERENCE/speaker-pulse.mp3' );
+  const WavesScreenSoundView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenSoundView' );
 
   // constants
   const MARGIN = 8;
@@ -525,46 +522,7 @@ define( require => {
       // Only start up the audio system if sound is enabled for this screen
       // TODO: Move this to another file
       if ( options.supportsSound ) {
-
-        // Only wire up for the sound scene
-        if ( options.controlPanelOptions.showPlaySoundButton ) {
-          const sineWavePlayer = new SineWaveGenerator( this.model.soundScene.frequencyProperty, this.model.soundScene.amplitudeProperty, {
-            enableControlProperties: [
-              this.model.soundScene.isSoundPlayingProperty,
-              this.model.soundScene.button1PressedProperty,
-              this.model.isRunningProperty
-            ]
-          } );
-          soundManager.addSoundGenerator( sineWavePlayer );
-        }
-
-        const waterDropSoundClip = new SoundClip( waterDropSound );
-        soundManager.addSoundGenerator( waterDropSoundClip );
-        this.model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
-          const amp = DotUtil.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
-            1.3, 0.5, waterDrop.amplitude );// TODO: use Property range
-          waterDropSoundClip.setPlaybackRate( amp );
-          waterDropSoundClip.play();
-        } );
-
-        soundManager.addSoundGenerator( new ResetAllSoundGenerator( model.isResettingProperty, {
-          initialOutputLevel: 0.7
-        } ) );
-
-        const speakerPulseSoundClip = new SoundClip( speakerPulseSound );
-        soundManager.addSoundGenerator( speakerPulseSoundClip );
-        this.model.soundScene.oscillator1Property.link( ( value, previousValue ) => {
-          if ( previousValue >= 0 && value < 0 ) {
-
-            const amplitude = DotUtil.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
-              0.0, 0.7, this.model.soundScene.amplitudeProperty.value );
-            const playbackRate = DotUtil.linear( this.model.soundScene.frequencyProperty.range.min, this.model.soundScene.frequencyProperty.range.max,
-              1, 1.4, this.model.soundScene.frequencyProperty.value );
-            speakerPulseSoundClip.setOutputLevel( amplitude );
-            speakerPulseSoundClip.setPlaybackRate( playbackRate );
-            speakerPulseSoundClip.play();
-          }
-        } );
+        new WavesScreenSoundView( model, options ).start();
       }
     }
 
