@@ -13,10 +13,11 @@ define( require => {
   const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const soundManager = require( 'TAMBO/soundManager' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
 
   // sounds
-  const checkboxUncheckedSound = require( 'sound!TAMBO/check-box-unchecked.mp3' );
   const checkboxCheckedSound = require( 'sound!TAMBO/check-box-checked.mp3' );
+  const checkboxUncheckedSound = require( 'sound!TAMBO/check-box-unchecked.mp3' );
 
   class WaveInterferenceCheckbox extends Checkbox {
 
@@ -29,7 +30,7 @@ define( require => {
       options = _.extend( { boxWidth: 14, supportsSound: false }, options );
       super( content, property, options );
 
-      if ( options.audioEnabled ) {
+      if ( options.audioEnabled && WaveInterferenceQueryParameters.fullSonification ) {
         const uncheckedClip = new SoundClip( checkboxUncheckedSound );
         soundManager.addSoundGenerator( uncheckedClip );
         const checkedClip = new SoundClip( checkboxCheckedSound );

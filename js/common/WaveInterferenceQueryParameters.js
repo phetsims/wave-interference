@@ -18,7 +18,10 @@ define( require => {
     // See https://github.com/phetsims/wave-interference/issues/196
     theory: { type: 'flag' },
 
-    latticeSize: { type: 'number', defaultValue: 151 }
+    latticeSize: { type: 'number', defaultValue: 151 },
+
+    // TODO: eliminate this flag when we are ready for publication with sonification.
+    fullSonification: { type: 'flag' }
   } );
 
   waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );
