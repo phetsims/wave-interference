@@ -47,6 +47,7 @@ define( function( require ) {
       } );
 
       // Wire up volume to amplitude
+      // TODO: Ashton
       amplitudeProperty.link( amplitude => {
         const amp = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
           0, 0.4, amplitude );
