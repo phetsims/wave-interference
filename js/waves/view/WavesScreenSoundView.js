@@ -50,7 +50,7 @@ define( require => {
         soundManager.addSoundGenerator( waterDropSoundClip );
         model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
           const amp = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
-            1.3, 0.5, waterDrop.amplitude );
+            1.0, 0.5, waterDrop.amplitude );
           waterDropSoundClip.setPlaybackRate( amp );
           waterDropSoundClip.play();
         } );
