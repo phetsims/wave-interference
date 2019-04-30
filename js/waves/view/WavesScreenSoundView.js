@@ -83,7 +83,7 @@ define( require => {
         const lightFrequencyProperty = model.lightScene.frequencyProperty;
         Property.multilink( [ lightAmplitudeProperty, lightFrequencyProperty ], ( amplitude, frequency ) => {
           const outputLevel = Util.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
-            0.0, 0.7, amplitude );
+            0.0, 0.4, amplitude );
           const playbackRate = Util.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
             1, 1.8, frequency );
           lightBeamLoopSoundClip.setOutputLevel( outputLevel );
