@@ -35,7 +35,7 @@ define( require => {
         const checkedClip = new SoundClip( checkboxCheckedSound );
         soundManager.addSoundGenerator( checkedClip );
 
-        property.link( value => {
+        property.lazyLink( value => {
           if ( value ) {
             checkedClip.play();
           }
