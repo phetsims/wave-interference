@@ -65,7 +65,7 @@ define( require => {
           if ( previousValue >= 0 && value < 0 ) {
 
             const amplitude = Util.linear( model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
-              0.0, 0.7, model.soundScene.amplitudeProperty.value );
+              0.0, 0.4, model.soundScene.amplitudeProperty.value );
             const playbackRate = Util.linear( model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
               1, 1.4, model.soundScene.frequencyProperty.value );
             speakerPulseSoundClip.setOutputLevel( amplitude );
