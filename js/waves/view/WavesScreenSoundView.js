@@ -28,9 +28,10 @@ define( require => {
 
     /**
      * @param {WavesModel} model
+     * @param {WavesScreenView} view
      * @param {Object} [options]
      */
-    constructor( model, options ) {
+    constructor( model, view, options ) {
 
       // Only wire up for the sound scene
       if ( options.controlPanelOptions.showPlaySoundButton ) {
@@ -41,7 +42,11 @@ define( require => {
             model.isRunningProperty
           ]
         } );
-        soundManager.addSoundGenerator( sineWavePlayer );
+
+        // Suppress the tone when another screen is selected
+        soundManager.addSoundGenerator( sineWavePlayer, {
+          associatedViewNode: view
+        } );
       }
 
       if ( WaveInterferenceQueryParameters.fullSonification ) {

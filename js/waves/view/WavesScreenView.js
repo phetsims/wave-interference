@@ -517,7 +517,7 @@ define( require => {
       // Only start up the audio system if sound is enabled for this screen
       // TODO: Move this to another file
       if ( options.supportsSound ) {
-        new WavesScreenSoundView( model, options ).start();
+        new WavesScreenSoundView( model, this, options ).start();
       }
     }
 
