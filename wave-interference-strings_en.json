@@ -47,8 +47,8 @@
   "electricFieldAtCenter": {
     "value": "Electric Field at Center"
   },
-  "playSound": {
-    "value": "Play Sound"
+  "playTone": {
+    "value": "Play Tone"
   },
   "pressureAtCenter": {
     "value": "Pressure at Center"

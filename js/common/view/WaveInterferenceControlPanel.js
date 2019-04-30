@@ -24,7 +24,7 @@ define( require => {
   // strings
   const graphString = require( 'string!WAVE_INTERFERENCE/graph' );
   const intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
-  const playSoundString = require( 'string!WAVE_INTERFERENCE/playSound' );
+  const playSoundString = require( 'string!WAVE_INTERFERENCE/playTone' );
   const screenString = require( 'string!WAVE_INTERFERENCE/screen' );
 
   class WaveInterferenceControlPanel extends WaveInterferencePanel {
