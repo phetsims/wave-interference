@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const Property = require( 'AXON/Property' );
   const ResetAllSoundGenerator = require( 'TAMBO/sound-generators/ResetAllSoundGenerator' );
   const SineWaveGenerator = require( 'WAVE_INTERFERENCE/waves/view/SineWaveGenerator' );
   const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
@@ -18,6 +19,7 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // sounds
+  const lightBeamLoopSound = require( 'sound!WAVE_INTERFERENCE/light-beam-loop.mp3' );
   const speakerPulseSound = require( 'sound!WAVE_INTERFERENCE/speaker-pulse.mp3' );
   const waterDropSound = require( 'sound!WAVE_INTERFERENCE/water-drop.mp3' );
 
@@ -66,6 +68,33 @@ define( require => {
           speakerPulseSoundClip.setOutputLevel( amplitude );
           speakerPulseSoundClip.setPlaybackRate( playbackRate );
           speakerPulseSoundClip.play();
+        }
+      } );
+
+      const lightBeamLoopSoundClip = new SoundClip( lightBeamLoopSound, {
+        loop: true
+      } );
+      soundManager.addSoundGenerator( lightBeamLoopSoundClip );
+
+      const lightAmplitudeProperty = model.lightScene.amplitudeProperty;
+      const lightFrequencyProperty = model.lightScene.frequencyProperty;
+      Property.multilink( [ lightAmplitudeProperty, lightFrequencyProperty ], ( amplitude, frequency ) => {
+        const outputLevel = Util.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
+          0.0, 0.7, amplitude );
+        const playbackRate = Util.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
+          1, 1.8, frequency );
+        lightBeamLoopSoundClip.setOutputLevel( outputLevel );
+        lightBeamLoopSoundClip.setPlaybackRate( playbackRate );
+      } );
+
+      // TODO: starting when the model is unpaused doesn't match the phase
+      Property.multilink( [ model.lightScene.button1PressedProperty, model.isRunningProperty ], ( button1Pressed, isRunning ) => {
+        const shouldPlay = isRunning && button1Pressed;
+        if ( lightBeamLoopSoundClip.isPlaying && !shouldPlay ) {
+          lightBeamLoopSoundClip.stop();
+        }
+        else if ( !lightBeamLoopSoundClip.isPlaying && shouldPlay ) {
+          lightBeamLoopSoundClip.play();
         }
       } );
     }
