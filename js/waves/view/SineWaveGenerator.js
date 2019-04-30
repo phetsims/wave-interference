@@ -49,7 +49,7 @@ define( function( require ) {
       // Wire up volume to amplitude
       amplitudeProperty.link( amplitude => {
         const amp = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
-          0, 1, amplitude );
+          0, 0.4, amplitude );
         this.setOutputLevel( amp );
       } );
     }
