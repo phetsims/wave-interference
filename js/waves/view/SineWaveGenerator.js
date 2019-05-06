@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  const soundConstants = require( 'TAMBO/soundConstants' );
   const SoundGenerator = require( 'TAMBO/sound-generators/SoundGenerator' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -40,8 +41,10 @@ define( function( require ) {
           this.oscillator.start();
         }
         else if ( !fullyEnabled && this.oscillator !== null ) {
-          this.oscillator.stop();
-          this.oscillator.disconnect( this.masterGainNode );
+
+          // The parent fades out, we schedule a stop to coincide with the end of the fade out time.
+          this.oscillator.stop( this.audioContext.currentTime + soundConstants.LINEAR_GAIN_CHANGE_TIME );
+          // oscillator.disconnect() happens automatically
           this.oscillator = null;
         }
       } );
