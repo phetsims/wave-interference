@@ -65,7 +65,12 @@ define( require => {
         model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
           const amp = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
             1.0, 0.5, waterDrop.amplitude );
-          const clip = phet.joist.random.sample( [ waterDropSoundClip, waterDropSoundClip1, waterDropSoundClip2, waterDropSoundClip3 ] );
+          const clip = phet.joist.random.sample( [
+            // waterDropSoundClip,
+            waterDropSoundClip1,
+            // waterDropSoundClip2,
+            waterDropSoundClip3
+          ] );
           clip.setPlaybackRate( amp );
           clip.play();
         } );
@@ -74,7 +79,9 @@ define( require => {
           initialOutputLevel: 0.7
         } ) );
 
-        const speakerPulseSoundClip = new SoundClip( speakerPulseSound );
+        const speakerPulseSoundClip = new SoundClip( speakerPulseSound, {
+          trimSilence: false
+        } );
         soundManager.addSoundGenerator( speakerPulseSoundClip );
         model.soundScene.oscillator1Property.link( ( value, previousValue ) => {
           if ( previousValue >= 0 && value < 0 ) {
@@ -83,8 +90,8 @@ define( require => {
               0.0, 0.4, model.soundScene.amplitudeProperty.value );
             const playbackRate = Util.linear( model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
               1, 1.4, model.soundScene.frequencyProperty.value );
-            speakerPulseSoundClip.setOutputLevel( amplitude );
-            speakerPulseSoundClip.setPlaybackRate( playbackRate );
+            speakerPulseSoundClip.setOutputLevel( amplitude, 0.5 );
+            speakerPulseSoundClip.setPlaybackRate( playbackRate / 2 );
             speakerPulseSoundClip.play();
           }
         } );
