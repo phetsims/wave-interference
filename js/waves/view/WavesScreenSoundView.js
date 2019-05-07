@@ -20,9 +20,12 @@ define( require => {
   const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
 
   // sounds
-  const lightBeamLoopSound = require( 'sound!WAVE_INTERFERENCE/light-beam-loop.mp3' );
-  const speakerPulseSound = require( 'sound!WAVE_INTERFERENCE/speaker-pulse.mp3' );
-  const waterDropSound = require( 'sound!WAVE_INTERFERENCE/water-drop.mp3' );
+  const lightBeamLoopSound = require( 'sound!WAVE_INTERFERENCE/light-beam-loop-v2.mp3' );
+  const speakerPulseSound = require( 'sound!WAVE_INTERFERENCE/speaker-pusle-V3.mp3' );
+  const waterDropSound = require( 'sound!WAVE_INTERFERENCE/water-drop-pitch-adj.mp3' );
+  const waterDropSound1 = require( 'sound!WAVE_INTERFERENCE/water-drop-pitch-adj-001.mp3' );
+  const waterDropSound2 = require( 'sound!WAVE_INTERFERENCE/water-drop-pitch-adj-002.mp3' );
+  const waterDropSound3 = require( 'sound!WAVE_INTERFERENCE/water-drop-pitch-adj-003.mp3' );
 
   class WavesScreenSoundView {
 
@@ -52,12 +55,19 @@ define( require => {
       if ( WaveInterferenceQueryParameters.fullSonification ) {
 
         const waterDropSoundClip = new SoundClip( waterDropSound );
+        const waterDropSoundClip1 = new SoundClip( waterDropSound1 );
+        const waterDropSoundClip2 = new SoundClip( waterDropSound2 );
+        const waterDropSoundClip3 = new SoundClip( waterDropSound3 );
         soundManager.addSoundGenerator( waterDropSoundClip );
+        soundManager.addSoundGenerator( waterDropSoundClip1 );
+        soundManager.addSoundGenerator( waterDropSoundClip2 );
+        soundManager.addSoundGenerator( waterDropSoundClip3 );
         model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
           const amp = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
             1.0, 0.5, waterDrop.amplitude );
-          waterDropSoundClip.setPlaybackRate( amp );
-          waterDropSoundClip.play();
+          const clip = phet.joist.random.sample( [ waterDropSoundClip, waterDropSoundClip1, waterDropSoundClip2, waterDropSoundClip3 ] );
+          clip.setPlaybackRate( amp );
+          clip.play();
         } );
 
         soundManager.addSoundGenerator( new ResetAllSoundGenerator( model.isResettingProperty, {
