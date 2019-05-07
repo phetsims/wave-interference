@@ -18,16 +18,19 @@ define( require => {
   const Image = require( 'SCENERY/nodes/Image' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const LengthScaleIndicatorNode = require( 'WAVE_INTERFERENCE/common/view/LengthScaleIndicatorNode' );
+  const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const MatrixCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/MatrixCanvasNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Panel = require( 'SUN/Panel' );
+  const Path = require( 'SCENERY/nodes/Path' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const RectangleSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/RectangleSceneControlPanel' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const SceneCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/SceneCanvasNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
+  const Shape = require( 'KITE/Shape' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const VBox = require( 'SCENERY/nodes/VBox' );
@@ -212,14 +215,41 @@ define( require => {
 
       model.wavelengthProperty.link( wavelength => incidentBeam.setFill( VisibleColor.wavelengthToColor( wavelength ) ) );
 
-      const transmittedBeam = new Rectangle(
-        this.miniApertureNode.centerX,
-        laserPointerNode.centerY - BEAM_WIDTH / 2,
-        Math.max( this.miniDiffractionNode.centerX - this.miniApertureNode.centerX, 0 ),
-        BEAM_WIDTH, {
+      // The diffracted beam makes a cone shape emanating from the aperture.
+      const coneSize = 8;
+      const transmittedBeam = new Path(
+        new Shape()
+          .moveTo( this.miniApertureNode.centerX, this.miniApertureNode.centerY - coneSize / 2 )
+          .lineToPoint( this.miniDiffractionNode.leftTop )
+          .lineTo( this.miniDiffractionNode.right, this.miniDiffractionNode.top + this.miniDiffractionNode.height * 0.2 )
+          .lineToPoint( this.miniDiffractionNode.rightBottom )
+          .lineTo( this.miniApertureNode.centerX, this.miniApertureNode.centerY + coneSize / 2 )
+          .close(), {
           opacity: 0.7
         } );
-      model.wavelengthProperty.link( wavelength => transmittedBeam.setFill( VisibleColor.wavelengthToColor( wavelength ) ) );
+
+      // There is a symmetrical gradient which is strong in the center and fades out toward the top and bottom
+      model.wavelengthProperty.link( wavelength => {
+
+        const color = VisibleColor.wavelengthToColor( wavelength );
+
+        const a = 0.3;
+        const b = 0.45;
+        const bOpacity = 0.8;
+        const aOpacity = 0.4;
+        const gradient = new LinearGradient(
+          0, this.miniDiffractionNode.top,
+          0, this.miniDiffractionNode.bottom )
+          .addColorStop( 0, color.withAlpha( 0 ) )
+          .addColorStop( a, color.withAlpha( aOpacity ) )
+          .addColorStop( b, color.withAlpha( bOpacity ) )
+          .addColorStop( 0.5, color )
+          .addColorStop( 1 - b, color.withAlpha( bOpacity ) )
+          .addColorStop( 1 - a, color.withAlpha( aOpacity ) )
+          .addColorStop( 1, color.withAlpha( 0 ) );
+
+        transmittedBeam.setFill( gradient );
+      } );
 
       model.onProperty.linkAttribute( incidentBeam, 'visible' );
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
@@ -243,11 +273,13 @@ define( require => {
         top: laserPointerNode.bottom + MARGIN
       }, PANEL_OPTIONS ) );
 
+
+      this.addChild( incidentBeam );
       this.addChild( transmittedBeam );
       this.addChild( miniApertureNodeBackground );
       this.addChild( this.miniApertureNode );
-      this.addChild( incidentBeam );
       this.addChild( this.miniDiffractionNode );
+
       this.addChild( laserPointerNode );
       this.addChild( wavelengthSlider );
 
