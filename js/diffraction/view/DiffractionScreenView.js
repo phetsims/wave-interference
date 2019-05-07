@@ -212,7 +212,6 @@ define( require => {
 
       model.wavelengthProperty.link( wavelength => incidentBeam.setFill( VisibleColor.wavelengthToColor( wavelength ) ) );
 
-      // support for larger canvas for generating rasters
       const transmittedBeam = new Rectangle(
         this.miniApertureNode.centerX,
         laserPointerNode.centerY - BEAM_WIDTH / 2,
