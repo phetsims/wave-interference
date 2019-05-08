@@ -77,8 +77,9 @@ define( require => {
       const laserPointerNode = new LaserPointerNode( model.onProperty, {
         left: MARGIN,
         centerY: 50,
-        bodySize: new Dimension2( 88, 62.4 ),
-        nozzleSize: new Dimension2( 16, 48 )
+        bodySize: new Dimension2( 88, 50 ),
+        nozzleSize: new Dimension2( 16, 38 ),
+        buttonRadius: 17.6
       } );
 
       // Reset All button
