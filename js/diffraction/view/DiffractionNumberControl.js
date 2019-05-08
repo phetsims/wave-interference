@@ -43,7 +43,8 @@ define( require => {
       // make wider to give more room for layout and breathing room for i18n
       const expandedOptions = merge( mergedOptions, {
         sliderOptions: {
-          trackSize: new Dimension2( 140, 1 )
+          trackSize: new Dimension2( 140, 1 ),
+          thumbSize: new Dimension2( 13, 24.2 )
         },
         titleNodeOptions: {
           maxWidth: 140
