@@ -58,7 +58,7 @@ define( require => {
   // Options for the control panels
   const PANEL_OPTIONS = {
     xMargin: 10,
-    yMargin: 10,
+    yMargin: 14,
     cornerRadius: 5,
     fill: '#e2e3e5'
   };
