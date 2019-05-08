@@ -52,7 +52,7 @@ define( require => {
   const MATRIX_CANVAS_NODE_SCALE = 1.43; // scale factor for showing the large aperture and diffraction patterns
   const MINI_DIFFRACTION_SCALE = 0.2; // scale factor for showing the mini diffraction pattern at the top of the screen
   const MATRIX_DIMENSION = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
-  const MARGIN = 10;
+  const MARGIN = WaveInterferenceConstants.MARGIN;
   const DISORDER_SCENE_ICON_DOTS_SPACING = 2.4;
 
   // Options for the control panels

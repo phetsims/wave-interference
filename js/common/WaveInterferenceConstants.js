@@ -126,7 +126,9 @@ define( require => {
 
     SOUND_PARTICLE_GRAY_COLOR: 'rgb(210,210,210)',
 
-    SOUND_PARTICLE_RED_COLOR: 'red'
+    SOUND_PARTICLE_RED_COLOR: 'red',
+
+    MARGIN: 8
   };
 
   // Derived constants

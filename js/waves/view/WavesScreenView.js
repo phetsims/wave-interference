@@ -58,7 +58,7 @@ define( require => {
   const WavesScreenSoundView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenSoundView' );
 
   // constants
-  const MARGIN = 8;
+  const MARGIN = WaveInterferenceConstants.MARGIN;
   const SPACING = 6;
   const WAVE_MARGIN = 8; // Additional margin shown around the wave lattice
   const WATER_BLUE = WaveInterferenceConstants.WATER_SIDE_COLOR;
