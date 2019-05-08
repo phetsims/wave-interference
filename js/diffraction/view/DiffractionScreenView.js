@@ -270,7 +270,7 @@ define( require => {
         ]
       } ), _.extend( {
         left: 5,
-        top: laserPointerNode.bottom + MARGIN
+        top: apertureScaleIndicatorNode.top
       }, PANEL_OPTIONS ) );
 
 
