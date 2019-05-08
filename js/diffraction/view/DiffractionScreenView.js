@@ -269,7 +269,7 @@ define( require => {
           } )
         ]
       } ), _.extend( {
-        left: 5,
+        left: laserPointerNode.left,
         top: apertureScaleIndicatorNode.top
       }, PANEL_OPTIONS ) );
 
