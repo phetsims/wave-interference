@@ -22,7 +22,6 @@ define( require => {
   const Matrix3 = require( 'DOT/Matrix3' );
   const MatrixCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/MatrixCanvasNode' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const Panel = require( 'SUN/Panel' );
   const Path = require( 'SCENERY/nodes/Path' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -37,6 +36,7 @@ define( require => {
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
   const WavingGirlSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/WavingGirlSceneControlPanel' );
@@ -57,10 +57,7 @@ define( require => {
 
   // Options for the control panels
   const PANEL_OPTIONS = {
-    xMargin: 10,
-    yMargin: 14,
-    cornerRadius: 5,
-    fill: '#e2e3e5'
+    yMargin: 14
   };
 
   class DiffractionScreenView extends ScreenView {
@@ -255,7 +252,7 @@ define( require => {
       model.onProperty.linkAttribute( incidentBeam, 'visible' );
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
-      const wavelengthPanel = new Panel( new VBox( {
+      const wavelengthPanel = new WaveInterferencePanel( new VBox( {
         children: [
           new WaveInterferenceText( wavelengthString ),
           new WavelengthSlider( model.wavelengthProperty, {

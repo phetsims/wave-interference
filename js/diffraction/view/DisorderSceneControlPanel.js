@@ -11,10 +11,10 @@ define( require => {
   // modules
   const DiffractionNumberControl = require( 'WAVE_INTERFERENCE/diffraction/view/DiffractionNumberControl' );
   const HBox = require( 'SCENERY/nodes/HBox' );
-  const Panel = require( 'SUN/Panel' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // strings
@@ -23,7 +23,7 @@ define( require => {
   const latticeSpacingString = require( 'string!WAVE_INTERFERENCE/latticeSpacing' );
   const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
 
-  class DisorderSceneControlPanel extends Panel {
+  class DisorderSceneControlPanel extends WaveInterferencePanel {
 
     /**
      * @param {DisorderScene} disorderScene
