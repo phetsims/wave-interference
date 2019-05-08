@@ -254,7 +254,7 @@ define( require => {
       model.onProperty.linkAttribute( incidentBeam, 'visible' );
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
-      const wavelengthSlider = new Panel( new VBox( {
+      const wavelengthPanel = new Panel( new VBox( {
         children: [
           new WaveInterferenceText( wavelengthString ),
           new WavelengthSlider( model.wavelengthProperty, {
@@ -281,7 +281,7 @@ define( require => {
       this.addChild( this.miniDiffractionNode );
 
       this.addChild( laserPointerNode );
-      this.addChild( wavelengthSlider );
+      this.addChild( wavelengthPanel );
 
       updateCanvases();
     }
