@@ -12,6 +12,7 @@ define( require => {
   const AlignGroup = require( 'SCENERY/nodes/AlignGroup' );
   const DiffractionScreen = require( 'WAVE_INTERFERENCE/diffraction/DiffractionScreen' );
   const InterferenceScreen = require( 'WAVE_INTERFERENCE/interference/InterferenceScreen' );
+  const platform = require( 'PHET_CORE/platform' );
   const Sim = require( 'JOIST/Sim' );
   const SimLauncher = require( 'JOIST/SimLauncher' );
   const SlitsScreen = require( 'WAVE_INTERFERENCE/slits/SlitsScreen' );
@@ -30,7 +31,8 @@ define( require => {
       thanks: 'This material is based upon work supported by the National Science Foundation under STROBE Grant No. DMR ' +
               '1548924. Any opinions, findings, and conclusions or recommendations expressed in this material are those ' +
               'of the author(s) and do not necessarily reflect the views of the National Science Foundation.'
-    }
+    },
+    webgl: platform.mobileSafari
   };
 
   SimLauncher.launch( () => {
