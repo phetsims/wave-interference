@@ -24,8 +24,8 @@ define( require => {
       super();
 
       // @public {NumberProperty} - in mm
-      this.heightProperty = new NumberProperty( 200 * 1E-3, {
-        range: new Range( 50 * 1E-3, 400 * 1E-3 )
+      this.heightProperty = new NumberProperty( 100 * 1E-3, {
+        range: new Range( 40 * 1E-3, 400 * 1E-3 )
       } );
 
       // @public {NumberProperty}

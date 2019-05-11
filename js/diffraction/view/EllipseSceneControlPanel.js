@@ -32,13 +32,13 @@ define( require => {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
           new DiffractionNumberControl( diameterString, ellipseScene.diameterProperty, {
-            delta: 50 * 1E-3,
+            delta: 10 * 1E-3,
             numberDisplayOptions: {
               valuePattern: mmValueString,
               decimalPlaces: 2
             },
             sliderOptions: {
-              constrainValue: value => Util.roundToInterval( value, 10E-3 )
+              constrainValue: value => Util.roundToInterval( value, 20E-3 )
             }
           } ),
           new DiffractionNumberControl( eccentricityString, ellipseScene.eccentricityProperty, {
