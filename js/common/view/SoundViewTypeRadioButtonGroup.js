@@ -25,18 +25,15 @@ define( require => {
      * @param {WavesModel} model
      */
     constructor( model ) {
-      super( [ {
+      super( model.soundScene.soundViewTypeProperty, [ {
         node: new WaveInterferenceText( wavesString ),
-        value: SoundScene.SoundViewType.WAVES,
-        property: model.soundScene.soundViewTypeProperty
+        value: SoundScene.SoundViewType.WAVES
       }, {
         node: new WaveInterferenceText( particlesString ),
-        value: SoundScene.SoundViewType.PARTICLES,
-        property: model.soundScene.soundViewTypeProperty
+        value: SoundScene.SoundViewType.PARTICLES
       }, {
         node: new WaveInterferenceText( bothString ),
-        value: SoundScene.SoundViewType.BOTH,
-        property: model.soundScene.soundViewTypeProperty
+        value: SoundScene.SoundViewType.BOTH
       } ], {
         spacing: 4,
         radioButtonOptions: {

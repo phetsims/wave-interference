@@ -36,14 +36,12 @@ define( require => {
         scale: BUTTON_SCALE
       } );
 
-      const radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( [ {
+      const radioButtonGroup = new WaveInterferenceVerticalAquaRadioButtonGroup( model.playSpeedProperty, [ {
         node: new WaveInterferenceText( normalString ),
-        value: WavesModel.PlaySpeed.NORMAL,
-        property: model.playSpeedProperty
+        value: WavesModel.PlaySpeed.NORMAL
       }, {
         node: new WaveInterferenceText( slowString ),
-        value: WavesModel.PlaySpeed.SLOW,
-        property: model.playSpeedProperty
+        value: WavesModel.PlaySpeed.SLOW
       } ] );
 
       const stepButton = new StepButton( {

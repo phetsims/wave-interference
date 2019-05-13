@@ -29,14 +29,12 @@ define( require => {
      */
     constructor( viewpointProperty, options ) {
 
-      super( [ {
+      super( viewpointProperty, [ {
         node: new WaveInterferenceText( topViewString, TEXT_OPTIONS ),
-        value: WavesModel.Viewpoint.TOP,
-        property: viewpointProperty
+        value: WavesModel.Viewpoint.TOP
       }, {
         node: new WaveInterferenceText( sideViewString, TEXT_OPTIONS ),
-        value: WavesModel.Viewpoint.SIDE,
-        property: viewpointProperty
+        value: WavesModel.Viewpoint.SIDE
       } ], options );
     }
   }

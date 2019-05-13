@@ -15,12 +15,13 @@ define( require => {
   class WaveInterferenceVerticalAquaRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
     /**
+     * @param {Property} property
      * @param {Object[]} items - see VerticalAquaRadioButtonGroup
      * @param {Object} [options]
      */
-    constructor( items, options ) {
+    constructor( property, items, options ) {
       options = _.extend( { spacing: 8 }, options );
-      super( items, options );
+      super( property, items, options );
     }
   }
 
