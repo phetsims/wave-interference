@@ -18,7 +18,7 @@ define( require => {
 
   // strings
   const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
-  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
+  const mmValueString = require( 'string!WAVE_INTERFERENCE/mmValue' );
   const squareWidthString = require( 'string!WAVE_INTERFERENCE/squareWidth' );
 
   class CircleSquareSceneControlPanel extends WaveInterferencePanel {
@@ -34,7 +34,7 @@ define( require => {
           new DiffractionNumberControl( circleDiameterString, circleSquareScene.circleDiameterProperty, {
             delta: 50 * 1E-3,
             numberDisplayOptions: {
-              valuePattern: nmValueString,
+              valuePattern: mmValueString,
               decimalPlaces: 2
             },
             sliderOptions: {
@@ -44,7 +44,7 @@ define( require => {
           new DiffractionNumberControl( squareWidthString, circleSquareScene.squareWidthProperty, {
             delta: 50 * 1E-3,
             numberDisplayOptions: {
-              valuePattern: nmValueString,
+              valuePattern: mmValueString,
               decimalPlaces: 2
             },
             sliderOptions: {

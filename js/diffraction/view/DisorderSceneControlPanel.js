@@ -21,7 +21,7 @@ define( require => {
   const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
   const disorderString = require( 'string!WAVE_INTERFERENCE/disorder' );
   const latticeSpacingString = require( 'string!WAVE_INTERFERENCE/latticeSpacing' );
-  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
+  const mmValueString = require( 'string!WAVE_INTERFERENCE/mmValue' );
 
   class DisorderSceneControlPanel extends WaveInterferencePanel {
 
@@ -36,7 +36,7 @@ define( require => {
           new DiffractionNumberControl( circleDiameterString, disorderScene.diameterProperty, {
             delta: 10E-3,
             numberDisplayOptions: {
-              valuePattern: nmValueString,
+              valuePattern: mmValueString,
               decimalPlaces: 2
             },
             sliderOptions: {
@@ -46,7 +46,7 @@ define( require => {
           new DiffractionNumberControl( latticeSpacingString, disorderScene.latticeSpacingProperty, {
             delta: 10E-3,
             numberDisplayOptions: {
-              valuePattern: nmValueString,
+              valuePattern: mmValueString,
               decimalPlaces: 2
             },
             sliderOptions: {

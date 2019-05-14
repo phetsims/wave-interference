@@ -18,7 +18,7 @@ define( require => {
 
   // strings
   const heightString = require( 'string!WAVE_INTERFERENCE/height' );
-  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
+  const mmValueString = require( 'string!WAVE_INTERFERENCE/mmValue' );
   const widthString = require( 'string!WAVE_INTERFERENCE/width' );
 
   class RectangleSceneControlPanel extends WaveInterferencePanel {
@@ -34,7 +34,7 @@ define( require => {
           new DiffractionNumberControl( widthString, rectangleScene.widthProperty, {
             delta: 10 * 1E-3,
             numberDisplayOptions: {
-              valuePattern: nmValueString,
+              valuePattern: mmValueString,
               decimalPlaces: 2
             },
             sliderOptions: {
@@ -44,7 +44,7 @@ define( require => {
           new DiffractionNumberControl( heightString, rectangleScene.heightProperty, {
             delta: 10 * 1E-3,
             numberDisplayOptions: {
-              valuePattern: nmValueString,
+              valuePattern: mmValueString,
               decimalPlaces: 2
             },
             sliderOptions: {

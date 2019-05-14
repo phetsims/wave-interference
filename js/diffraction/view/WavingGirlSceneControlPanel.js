@@ -20,7 +20,7 @@ define( require => {
   // strings
   const degreesValueString = require( 'string!WAVE_INTERFERENCE/degreesValue' );
   const heightString = require( 'string!WAVE_INTERFERENCE/height' );
-  const nmValueString = require( 'string!WAVE_INTERFERENCE/nmValue' );
+  const mmValueString = require( 'string!WAVE_INTERFERENCE/mmValue' );
   const rotationString = require( 'string!WAVE_INTERFERENCE/rotation' );
 
   class WavingGirlSceneControlPanel extends WaveInterferencePanel {
@@ -36,7 +36,7 @@ define( require => {
           new DiffractionNumberControl( heightString, wavingGirlScene.heightProperty, {
             delta: 10 * 1E-3,
             numberDisplayOptions: {
-              valuePattern: nmValueString,
+              valuePattern: mmValueString,
               decimalPlaces: 2
             },
             sliderOptions: {
