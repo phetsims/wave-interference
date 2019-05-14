@@ -32,7 +32,7 @@ define( require => {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
         children: [
           new DiffractionNumberControl( circleDiameterString, circleSquareScene.circleDiameterProperty, {
-            delta: 50 * 1E-3,
+            delta: 10 * 1E-3,
             numberDisplayOptions: {
               valuePattern: mmValueString,
               decimalPlaces: 2
@@ -42,7 +42,7 @@ define( require => {
             }
           } ),
           new DiffractionNumberControl( squareWidthString, circleSquareScene.squareWidthProperty, {
-            delta: 50 * 1E-3,
+            delta: 10 * 1E-3,
             numberDisplayOptions: {
               valuePattern: mmValueString,
               decimalPlaces: 2
