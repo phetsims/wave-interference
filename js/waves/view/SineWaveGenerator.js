@@ -9,11 +9,23 @@ define( function( require ) {
   'use strict';
 
   // modules
+  const LinearFunction = require( 'DOT/LinearFunction' );
   const soundConstants = require( 'TAMBO/soundConstants' );
   const SoundGenerator = require( 'TAMBO/sound-generators/SoundGenerator' );
-  const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+
+  // constants
+  const MAX_OUTPUT_LEVEL = 0.4; // valid range is from 0 to 1
+
+  // function to map amplitude to output level
+  // TODO: Ashton - set output level to mix well with other sounds
+  const mapAmplitudeToOutputLevel = new LinearFunction(
+    WaveInterferenceConstants.AMPLITUDE_RANGE.min,
+    WaveInterferenceConstants.AMPLITUDE_RANGE.max,
+    0,
+    MAX_OUTPUT_LEVEL
+  );
 
   class SineWaveGenerator extends SoundGenerator {
 
@@ -23,7 +35,7 @@ define( function( require ) {
      * @param {Object} [options]
      */
     constructor( frequencyProperty, amplitudeProperty, options ) {
-      super( options );
+      super( _.extend( options, { initialOutputLevel: 0 } ) );
 
       // @private {OscillatorNode|null} created when sound begins and nullified when sound ends, see #373
       this.oscillator = null;
@@ -44,17 +56,14 @@ define( function( require ) {
 
           // The parent fades out, we schedule a stop to coincide with the end of the fade out time.
           this.oscillator.stop( this.audioContext.currentTime + soundConstants.LINEAR_GAIN_CHANGE_TIME );
-          // oscillator.disconnect() happens automatically
           this.oscillator = null;
+          // note that there is no need to disconnect the oscillator - this happens automatically
         }
       } );
 
-      // Wire up volume to amplitude
-      // TODO: Ashton
+      // wire up volume to amplitude
       amplitudeProperty.link( amplitude => {
-        const amp = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
-          0, 0.4, amplitude );
-        this.setOutputLevel( amp );
+        this.setOutputLevel( mapAmplitudeToOutputLevel( amplitude ) );
       } );
     }
   }
