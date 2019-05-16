@@ -130,7 +130,9 @@ define( require => {
       this.diffractionNode = new MatrixCanvasNode( model.diffractionMatrix, { scale: MATRIX_CANVAS_NODE_SCALE } );
       this.diffractionNode.right = this.layoutBounds.right - 20;
       this.diffractionNode.top = this.apertureNode.top;
-      model.wavelengthProperty.link( wavelength => this.diffractionNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength ) ) );
+      model.wavelengthProperty.link( wavelength => this.diffractionNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength, {
+        reduceIntensityAtExtrema: false
+      } ) ) );
       this.addChild( this.diffractionNode );
 
       this.apertureNode.right = this.diffractionNode.left - 50;
@@ -180,7 +182,9 @@ define( require => {
         matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
       } );
 
-      model.wavelengthProperty.link( wavelength => this.miniDiffractionNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength ) ) );
+      model.wavelengthProperty.link( wavelength => this.miniDiffractionNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength, {
+        reduceIntensityAtExtrema: false
+      } ) ) );
 
       const updateCanvases = this.updateCanvases.bind( this );
       model.sceneProperty.lazyLink( updateCanvases );
