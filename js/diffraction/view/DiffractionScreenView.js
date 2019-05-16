@@ -123,10 +123,12 @@ define( require => {
 
       // @private - Main (large) aperture node
       this.apertureNode = new SceneCanvasNode( model.sceneProperty, { scale: MATRIX_CANVAS_NODE_SCALE } );
+      // TODO: layout in options
       this.apertureNode.top = 120;
       this.addChild( this.apertureNode );
 
       // @private - Main (large) diffraction node
+      // TODO: Layout in options
       this.diffractionNode = new MatrixCanvasNode( model.diffractionMatrix, { scale: MATRIX_CANVAS_NODE_SCALE } );
       this.diffractionNode.right = this.layoutBounds.right - 20;
       this.diffractionNode.top = this.apertureNode.top;
