@@ -405,7 +405,7 @@ define( require => {
       } );
 
       // @public
-      this.steppedAction = new Action( () => waterDropLayer.step( waterSideViewNode ) );
+      this.stepAction = new Action( () => waterDropLayer.step( waterSideViewNode ) );
 
       const createSoundParticleLayer = () => {
 
@@ -539,7 +539,7 @@ define( require => {
      * @public
      */
     step( dt ) {
-      this.steppedAction.execute();
+      this.stepAction.execute();
     }
   }
 
