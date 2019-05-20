@@ -22,7 +22,7 @@ define( require => {
   // sounds
   const lightBeamLoopSound = require( 'sound!WAVE_INTERFERENCE/light-beam-loop-v3.mp3' );
   const speakerPulseSound = require( 'sound!WAVE_INTERFERENCE/speaker-pulse-v4.mp3' );
-  const waterDropSound = require( 'sound!WAVE_INTERFERENCE/water-drop-v4.mp3' );
+  const waterDropSound0 = require( 'sound!WAVE_INTERFERENCE/water-drop-v4.mp3' );
   const waterDropSound1 = require( 'sound!WAVE_INTERFERENCE/water-drop-v4-001.mp3' );
   const waterDropSound2 = require( 'sound!WAVE_INTERFERENCE/water-drop-v4-002.mp3' );
   const waterDropSound3 = require( 'sound!WAVE_INTERFERENCE/water-drop-v4-003.mp3' );
@@ -54,11 +54,11 @@ define( require => {
 
       if ( WaveInterferenceQueryParameters.fullSonification ) {
 
-        const waterDropSoundClip = new SoundClip( waterDropSound );
+        const waterDropSoundClip0 = new SoundClip( waterDropSound0 );
         const waterDropSoundClip1 = new SoundClip( waterDropSound1 );
         const waterDropSoundClip2 = new SoundClip( waterDropSound2 );
         const waterDropSoundClip3 = new SoundClip( waterDropSound3 );
-        soundManager.addSoundGenerator( waterDropSoundClip );
+        soundManager.addSoundGenerator( waterDropSoundClip0 );
         soundManager.addSoundGenerator( waterDropSoundClip1 );
         soundManager.addSoundGenerator( waterDropSoundClip2 );
         soundManager.addSoundGenerator( waterDropSoundClip3 );
@@ -66,9 +66,9 @@ define( require => {
           const amp = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
             1.0, 0.5, waterDrop.amplitude );
           const clip = phet.joist.random.sample( [
-            // waterDropSoundClip,
+            waterDropSoundClip0,
             waterDropSoundClip1,
-            // waterDropSoundClip2,
+            waterDropSoundClip2,
             waterDropSoundClip3
           ] );
           clip.setPlaybackRate( amp );
