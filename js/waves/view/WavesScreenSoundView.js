@@ -62,17 +62,21 @@ define( require => {
         soundManager.addSoundGenerator( waterDropSoundClip1 );
         soundManager.addSoundGenerator( waterDropSoundClip2 );
         soundManager.addSoundGenerator( waterDropSoundClip3 );
+        let selectedClip = null;
+        const soundClips = [
+          waterDropSoundClip0,
+          waterDropSoundClip1,
+          waterDropSoundClip2,
+          waterDropSoundClip3
+        ];
         model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
           const amp = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
             1.0, 0.5, waterDrop.amplitude );
-          const clip = phet.joist.random.sample( [
-            waterDropSoundClip0,
-            waterDropSoundClip1,
-            waterDropSoundClip2,
-            waterDropSoundClip3
-          ] );
-          clip.setPlaybackRate( amp );
-          clip.play();
+
+          // Select water drop sounds randomly, but do not let the same sound go twice in a row
+          selectedClip = phet.joist.random.sample( _.without( soundClips, selectedClip ) );
+          selectedClip.setPlaybackRate( amp );
+          selectedClip.play();
         } );
 
         soundManager.addSoundGenerator( new ResetAllSoundGenerator( model.isResettingProperty, {
