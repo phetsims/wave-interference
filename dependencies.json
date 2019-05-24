@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.3 Wed Apr 24 2019 17:15:51 GMT-0800 (Alaskan Daylight Time)",
+  "comment": "# wave-interference 1.0.3 Fri May 24 2019 15:15:04 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -13,8 +13,8 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "0051d76b37c961730bdd8dce1e07a101fbff4489",
-    "branch": "HEAD"
+    "sha": "af102b366bf1c3dee171f147aee7da9ca68dda97",
+    "branch": "wave-interference-1.0"
   },
   "dot": {
     "sha": "d3cd38ecf7c1f8bae42649291d993bf9f8033f46",
@@ -38,18 +38,6 @@
   },
   "phet-io": {
     "sha": "1f3a5f334da67258806b10528256087895113e66",
-    "branch": "HEAD"
-  },
-  "phet-io-wrapper-classroom-activity": {
-    "sha": "64aff78db6605aa5317724d50fdb28bd9cf495e2",
-    "branch": "HEAD"
-  },
-  "phet-io-wrapper-hookes-law-energy": {
-    "sha": "edb231a365b0b81c976f6e502874a234a0284915",
-    "branch": "HEAD"
-  },
-  "phet-io-wrapper-lab-book": {
-    "sha": "fb5c98c155259e2bdd37eb64e30081017a6e1d09",
     "branch": "HEAD"
   },
   "phet-io-wrappers": {
@@ -97,7 +85,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "7b6104aa4467d79625688c62d0ce30296ae8b6e7",
+    "sha": "60c9b88997d6ea29fccc9d24345d9c56ed673dec",
     "branch": "1.0"
   }
 }
