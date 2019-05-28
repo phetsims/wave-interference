@@ -22,10 +22,10 @@ define( require => {
   // sounds
   const lightBeamLoopSound = require( 'sound!WAVE_INTERFERENCE/light-beam-loop-v3.mp3' );
   const speakerPulseSound = require( 'sound!WAVE_INTERFERENCE/speaker-pulse-v4.mp3' );
-  const waterDropSound0 = require( 'sound!WAVE_INTERFERENCE/water-drop-v4.mp3' );
-  const waterDropSound1 = require( 'sound!WAVE_INTERFERENCE/water-drop-v4-001.mp3' );
-  const waterDropSound2 = require( 'sound!WAVE_INTERFERENCE/water-drop-v4-002.mp3' );
-  const waterDropSound3 = require( 'sound!WAVE_INTERFERENCE/water-drop-v4-003.mp3' );
+  const waterDropSound0 = require( 'sound!WAVE_INTERFERENCE/water-drop-v5.mp3' );
+  const waterDropSound1 = require( 'sound!WAVE_INTERFERENCE/water-drop-v5-001.mp3' );
+  const waterDropSound2 = require( 'sound!WAVE_INTERFERENCE/water-drop-v5-002.mp3' );
+  const waterDropSound3 = require( 'sound!WAVE_INTERFERENCE/water-drop-v5-003.mp3' );
 
   class WavesScreenSoundView {
 
