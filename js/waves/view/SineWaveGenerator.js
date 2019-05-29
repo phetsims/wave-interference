@@ -55,7 +55,7 @@ define( function( require ) {
         else if ( !fullyEnabled && this.oscillator !== null ) {
 
           // The parent fades out, we schedule a stop to coincide with the end of the fade out time.
-          this.oscillator.stop( this.audioContext.currentTime + soundConstants.LINEAR_GAIN_CHANGE_TIME );
+          this.oscillator.stop( this.audioContext.currentTime + soundConstants.DEFAULT_LINEAR_GAIN_CHANGE_TIME );
           this.oscillator = null;
           // note that there is no need to disconnect the oscillator - this happens automatically
         }
