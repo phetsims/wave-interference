@@ -128,10 +128,11 @@ define( require => {
       this.addChild( this.apertureNode );
 
       // @private - Main (large) diffraction node
-      // TODO: Layout in options
-      this.diffractionNode = new MatrixCanvasNode( model.diffractionMatrix, { scale: MATRIX_CANVAS_NODE_SCALE } );
-      this.diffractionNode.right = this.layoutBounds.right - 20;
-      this.diffractionNode.top = this.apertureNode.top;
+      this.diffractionNode = new MatrixCanvasNode( model.diffractionMatrix, {
+        scale: MATRIX_CANVAS_NODE_SCALE,
+        right: this.layoutBounds.right - 20,
+        top: this.apertureNode.top
+      } );
       model.wavelengthProperty.link( wavelength => this.diffractionNode.setBaseColor( VisibleColor.wavelengthToColor( wavelength, {
         reduceIntensityAtExtrema: false
       } ) ) );
