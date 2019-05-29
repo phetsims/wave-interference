@@ -20,7 +20,7 @@ define( require => {
   const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
 
   // sounds
-  const lightBeamLoopSound = require( 'sound!WAVE_INTERFERENCE/light-beam-loop-v3.mp3' );
+  const lightBeamLoopSound = require( 'sound!WAVE_INTERFERENCE/light-beam-loop-v5-eq-out-bass.mp3' );
   const speakerPulseSound = require( 'sound!WAVE_INTERFERENCE/speaker-pulse-v4.mp3' );
   const waterDropSound0 = require( 'sound!WAVE_INTERFERENCE/water-drop-v5.mp3' );
   const waterDropSound1 = require( 'sound!WAVE_INTERFERENCE/water-drop-v5-001.mp3' );
