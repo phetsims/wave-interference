@@ -22,14 +22,19 @@ define( require => {
   const Matrix3 = require( 'DOT/Matrix3' );
   const MatrixCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/MatrixCanvasNode' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Path = require( 'SCENERY/nodes/Path' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  const Range = require( 'DOT/Range' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const RectangleSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/RectangleSceneControlPanel' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const SceneCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/SceneCanvasNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
+  const SpectrumThumb = require( 'SCENERY_PHET/SpectrumThumb' );
+  const SpectrumTrack = require( 'SCENERY_PHET/SpectrumTrack' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const VBox = require( 'SCENERY/nodes/VBox' );
@@ -37,8 +42,6 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
-  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  const WavelengthSlider = require( 'SCENERY_PHET/WavelengthSlider' );
   const WavingGirlSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/WavingGirlSceneControlPanel' );
 
   // images
@@ -260,25 +263,38 @@ define( require => {
       model.onProperty.linkAttribute( incidentBeam, 'visible' );
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
-      const wavelengthPanel = new WaveInterferencePanel( new VBox( {
-        children: [
-          new WaveInterferenceText( wavelengthString ),
-          new WavelengthSlider( model.wavelengthProperty, {
-            trackWidth: 100,
-            trackHeight: 30,
-
-            // thumb
-            thumbWidth: 25,
-            thumbHeight: 25,
-
-            valueFont: WaveInterferenceConstants.DEFAULT_FONT
+      const wavelengthToColor = VisibleColor.wavelengthToColor;
+      const wavelengthPanel = new WaveInterferencePanel(
+        new NumberControl( wavelengthString, model.wavelengthProperty, new Range( 380, 780 ), {
+          titleNodeOptions: {
+            font: WaveInterferenceConstants.DEFAULT_FONT
+          },
+          numberDisplayOptions: {
+            font: new PhetFont( 14 ),
+            valuePattern: '{0} nm'
+          },
+          sliderOptions: {
+            trackNode: new SpectrumTrack( model.wavelengthProperty, {
+              minValue: 380,
+              maxValue: 780,
+              valueToColor: wavelengthToColor,
+              size: new Dimension2( 160, 20 )
+            } ),
+            thumbNode: new SpectrumThumb( model.wavelengthProperty, {
+              valueToColor: wavelengthToColor,
+              width: 25,
+              height: 25,
+              cursorHeight: 20
+            } )
+          },
+          layoutFunction: NumberControl.createLayoutFunction3( {
+            // alignTitle: 'left'
           } )
-        ]
-      } ), _.extend( {
-        left: laserPointerNode.left,
-        top: apertureScaleIndicatorNode.top
-      }, PANEL_OPTIONS ) );
-
+        } ), _.extend( PANEL_OPTIONS, {
+          left: laserPointerNode.left,
+          top: apertureScaleIndicatorNode.top,
+          xMargin: 6
+        } ) );
 
       this.addChild( incidentBeam );
       this.addChild( transmittedBeam );
