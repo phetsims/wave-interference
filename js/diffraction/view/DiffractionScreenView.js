@@ -264,6 +264,7 @@ define( require => {
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
       const wavelengthToColor = VisibleColor.wavelengthToColor;
+      const trackHeight = 20;
       const wavelengthPanel = new WaveInterferencePanel(
         new NumberControl( wavelengthString, model.wavelengthProperty, new Range( 380, 780 ), {
           titleNodeOptions: {
@@ -278,13 +279,13 @@ define( require => {
               minValue: 380,
               maxValue: 780,
               valueToColor: wavelengthToColor,
-              size: new Dimension2( 160, 20 )
+              size: new Dimension2( 160, trackHeight )
             } ),
             thumbNode: new SpectrumThumb( model.wavelengthProperty, {
               valueToColor: wavelengthToColor,
               width: 25,
               height: 25,
-              cursorHeight: 20
+              cursorHeight: trackHeight
             } )
           },
           layoutFunction: NumberControl.createLayoutFunction3( {
