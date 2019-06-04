@@ -118,7 +118,7 @@ define( require => {
 
         // TODO: starting when the model is unpaused doesn't match the phase
         Property.multilink( [ model.lightScene.button1PressedProperty, model.isRunningProperty ], ( button1Pressed, isRunning ) => {
-          const shouldPlay = isRunning && button1Pressed;
+          const shouldPlay = button1Pressed && isRunning;
           if ( lightBeamLoopSoundClip.isPlaying && !shouldPlay ) {
             lightBeamLoopSoundClip.stop();
           }
