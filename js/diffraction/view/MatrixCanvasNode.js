@@ -15,9 +15,10 @@ define( require => { // eslint-disable-line bad-sim-text
   const ImageDataRenderer = require( 'WAVE_INTERFERENCE/common/view/ImageDataRenderer' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
 
   // Linear scaling factor to increase the brightness
-  const SCALE_FACTOR = 3;
+  const SCALE_FACTOR = WaveInterferenceQueryParameters.diffractionScaleFactor;
 
   class MatrixCanvasNode extends CanvasNode {
 

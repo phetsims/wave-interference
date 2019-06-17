@@ -21,7 +21,10 @@ define( require => {
     latticeSize: { type: 'number', defaultValue: 151 },
 
     // TODO: eliminate this flag when we are ready for publication with sonification.
-    fullSonification: { type: 'flag' }
+    fullSonification: { type: 'flag' },
+
+    // TODO: eliminate this flag for publication
+    diffractionScaleFactor: { type: 'number', defaultValue: 3 }
   } );
 
   waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );
