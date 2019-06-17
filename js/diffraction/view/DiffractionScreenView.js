@@ -272,7 +272,8 @@ define( require => {
             scale: 0.63
           },
           titleNodeOptions: {
-            font: WaveInterferenceConstants.DEFAULT_FONT
+            font: WaveInterferenceConstants.DEFAULT_FONT,
+            maxWidth: 175
           },
           numberDisplayOptions: {
             font: new PhetFont( 14 ),
