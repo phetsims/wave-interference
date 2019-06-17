@@ -54,8 +54,12 @@ define( require => {
       this.context.scale( scaleFactor, scaleFactor );
       this.context.translate( -this.canvas.width / 2, -this.canvas.height / 2 );
 
-      // Each scene paints its aperture pattern to the canvas context.  This has good performance, simplifies the code
-      // and provides smooth results because the canvas data is anti-aliased.
+      // Each scene paints its aperture pattern to the canvas context.  This has good performance and unifies the code
+      // Disable image smoothing for the data to ensure for all platforms compute the same, see https://github.com/phetsims/wave-interference/issues/405
+      this.context.mozImageSmoothingEnabled = false;
+      this.context.webkitImageSmoothingEnabled = false;
+      this.context.msImageSmoothingEnabled = false;
+      this.context.imageSmoothingEnabled = false;
       this.renderToContext( this.context );
 
       const canvasData = this.context.getImageData( 0, 0, this.canvas.width, this.canvas.height );
