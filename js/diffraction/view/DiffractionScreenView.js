@@ -264,7 +264,7 @@ define( require => {
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
       const wavelengthToColor = VisibleColor.wavelengthToColor;
-      const trackHeight = 20;
+      const trackHeight = WaveInterferenceConstants.SPECTRUM_TRACK_HEIGHT;
       const range = new Range( 380, 780 );
       const wavelengthPanel = new WaveInterferencePanel(
         new NumberControl( wavelengthString, model.wavelengthProperty, range, {

@@ -16,6 +16,7 @@ define( require => {
   const SpectrumSliderTrack = require( 'SCENERY_PHET/SpectrumSliderTrack' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
@@ -40,7 +41,7 @@ define( require => {
       const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty );
 
       const lightFrequencyProperty = model.lightScene.frequencyProperty;
-      const trackSize = new Dimension2( 150, 20 );
+      const trackSize = new Dimension2( 150, WaveInterferenceConstants.SPECTRUM_TRACK_HEIGHT );
       const lightFrequencySlider = new HSlider( lightFrequencyProperty, lightFrequencyProperty.range, {
         trackNode: new SpectrumSliderTrack( lightFrequencyProperty, lightFrequencyProperty.range, {
           valueToColor: f => VisibleColor.frequencyToColor( fromFemto( f ) ),

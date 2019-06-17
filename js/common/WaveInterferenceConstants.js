@@ -128,7 +128,10 @@ define( require => {
 
     SOUND_PARTICLE_RED_COLOR: 'red',
 
-    MARGIN: 8
+    MARGIN: 8,
+
+    // The height of the spectrum track (for frequency or wavelength controls), in view coordinates
+    SPECTRUM_TRACK_HEIGHT: 20
   };
 
   // Derived constants
