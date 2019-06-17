@@ -268,6 +268,9 @@ define( require => {
       const range = new Range( 380, 780 );
       const wavelengthPanel = new WaveInterferencePanel(
         new NumberControl( wavelengthString, model.wavelengthProperty, range, {
+          arrowButtonOptions: {
+            scale: 0.63
+          },
           titleNodeOptions: {
             font: WaveInterferenceConstants.DEFAULT_FONT
           },
