@@ -265,8 +265,9 @@ define( require => {
 
       const wavelengthToColor = VisibleColor.wavelengthToColor;
       const trackHeight = 20;
+      const range = new Range( 380, 780 );
       const wavelengthPanel = new WaveInterferencePanel(
-        new NumberControl( wavelengthString, model.wavelengthProperty, new Range( 380, 780 ), {
+        new NumberControl( wavelengthString, model.wavelengthProperty, range, {
           titleNodeOptions: {
             font: WaveInterferenceConstants.DEFAULT_FONT
           },
@@ -275,9 +276,7 @@ define( require => {
             valuePattern: '{0} nm'
           },
           sliderOptions: {
-            trackNode: new SpectrumTrack( model.wavelengthProperty, {
-              minValue: 380,
-              maxValue: 780,
+            trackNode: new SpectrumTrack( model.wavelengthProperty, range, {
               valueToColor: wavelengthToColor,
               size: new Dimension2( 160, trackHeight )
             } ),
