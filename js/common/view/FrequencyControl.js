@@ -9,10 +9,12 @@ define( require => {
   'use strict';
 
   // modules
-  const DynamicProperty = require( 'AXON/DynamicProperty' );
-  const FrequencySlider = require( 'SCENERY_PHET/FrequencySlider' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const HSlider = require( 'SUN/HSlider' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const Property = require( 'AXON/Property' );
+  const SpectrumSliderThumb = require( 'SCENERY_PHET/SpectrumSliderThumb' );
+  const SpectrumSliderTrack = require( 'SCENERY_PHET/SpectrumSliderTrack' );
+  const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -37,22 +39,19 @@ define( require => {
       const waterFrequencySlider = new WaveInterferenceSlider( model.getWaterFrequencySliderProperty() );
       const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty );
 
-      // For the light scene, create a Property in Hz as required by the FrequencySlider.
-      const frequencyInHzProperty = new DynamicProperty( new Property( model.lightScene.frequencyProperty ), {
-        bidirectional: true,
-        map: frequency => WaveInterferenceUtils.fromFemto( frequency ),
-        inverseMap: frequency => WaveInterferenceUtils.toFemto( frequency )
-      } );
-
-      const lightFrequencySlider = new FrequencySlider( frequencyInHzProperty, {
-        minFrequency: fromFemto( model.lightScene.frequencyProperty.range.min ),
-        maxFrequency: fromFemto( model.lightScene.frequencyProperty.range.max ),
-        trackWidth: 150,
-        trackHeight: 20,
-        valueVisible: false,
-        tweakersVisible: false,
-        thumbWidth: 14,
-        thumbHeight: 18
+      const lightFrequencyProperty = model.lightScene.frequencyProperty;
+      const trackSize = new Dimension2( 150, 20 );
+      const lightFrequencySlider = new HSlider( lightFrequencyProperty, lightFrequencyProperty.range, {
+        trackNode: new SpectrumSliderTrack( lightFrequencyProperty, lightFrequencyProperty.range, {
+          valueToColor: f => VisibleColor.frequencyToColor( fromFemto( f ) ),
+          size: trackSize
+        } ),
+        thumbNode: new SpectrumSliderThumb( lightFrequencyProperty, {
+          valueToColor: f => VisibleColor.frequencyToColor( fromFemto( f ) ),
+          width: 14,
+          height: 18,
+          cursorHeight: trackSize.height
+        } )
       } );
 
       lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( 0, 10 );
