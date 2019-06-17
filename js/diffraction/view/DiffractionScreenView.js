@@ -33,8 +33,8 @@ define( require => {
   const SceneCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/SceneCanvasNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
-  const SpectrumThumb = require( 'SCENERY_PHET/SpectrumThumb' );
-  const SpectrumTrack = require( 'SCENERY_PHET/SpectrumTrack' );
+  const SpectrumSliderThumb = require( 'SCENERY_PHET/SpectrumSliderThumb' );
+  const SpectrumSliderTrack = require( 'SCENERY_PHET/SpectrumSliderTrack' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const VBox = require( 'SCENERY/nodes/VBox' );
@@ -276,11 +276,11 @@ define( require => {
             valuePattern: '{0} nm'
           },
           sliderOptions: {
-            trackNode: new SpectrumTrack( model.wavelengthProperty, range, {
+            trackNode: new SpectrumSliderTrack( model.wavelengthProperty, range, {
               valueToColor: wavelengthToColor,
               size: new Dimension2( 160, trackHeight )
             } ),
-            thumbNode: new SpectrumThumb( model.wavelengthProperty, {
+            thumbNode: new SpectrumSliderThumb( model.wavelengthProperty, {
               valueToColor: wavelengthToColor,
               width: 25,
               height: 25,
