@@ -42,12 +42,12 @@ define( require => {
 
       const createMuteOptions = scene => {
         return {
-          sliderStartCallback: () => scene.setMuted( true ),
-          sliderEndCallback: () => scene.setMuted( false ),
-          leftArrowStartCallback: () => scene.setMuted( true ),
-          leftArrowEndCallback: () => scene.setMuted( false ),
-          rightArrowStartCallback: () => scene.setMuted( true ),
-          rightArrowEndCallback: () => scene.setMuted( false )
+          startCallback: () => scene.setMuted( true ),
+          endCallback: () => scene.setMuted( false ),
+          leftStart: () => scene.setMuted( true ),
+          leftEnd: () => scene.setMuted( false ),
+          rightStart: () => scene.setMuted( true ),
+          rightEnd: () => scene.setMuted( false )
         };
       };
 
