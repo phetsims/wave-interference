@@ -24,7 +24,7 @@ define( require => {
     fullSonification: { type: 'flag' },
 
     // TODO: eliminate this flag for publication
-    diffractionScaleFactor: { type: 'number', defaultValue: 3 }
+    diffractionScaleFactor: { type: 'number', defaultValue: 2.5 }
   } );
 
   waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );
