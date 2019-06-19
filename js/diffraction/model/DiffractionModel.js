@@ -92,7 +92,7 @@ define( require => {
         scene.paintMatrix( this.scaledApertureMatrix, scaleFactor );
 
         if ( this.onProperty.value ) {
-          DiffractionModel.fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
+          fftImageProcessingLabs( this.scaledApertureMatrix, this.diffractionMatrix );
         }
         else {
           this.diffractionMatrix.timesEquals( 0 );
@@ -129,7 +129,7 @@ define( require => {
    * @param {Matrix} input - aperture matrix
    * @param {Matrix} output - place to set fft result values
    */
-  DiffractionModel.fftImageProcessingLabs = ( input, output ) => {
+  const fftImageProcessingLabs = ( input, output ) => {
 
     // Take the values from the aperture
     for ( let i = 0; i < input.entries.length; i++ ) {
@@ -145,7 +145,6 @@ define( require => {
     // which now contains frequency (ωx, ωy ) = (0, 0), moves to the center of the image. And you probably want to
     // display pixel values proportional to log(magnitude) of each complex number (this looks more interesting than just
     // magnitude). For color images, do the above to each of the three channels (R, G, and B) independently.
-
     for ( let row = 0; row < MATRIX_DIMENSION; row++ ) {
       for ( let col = 0; col < MATRIX_DIMENSION; col++ ) {
         const source = getIndex( row, col );
@@ -157,16 +156,8 @@ define( require => {
       }
     }
 
-    // get the largest magnitude.  Spread operator Math.max( ...arr ) did not have good performance characteristics
-    // so we compute this manually.
-    let maxMagnitude = 0;
-    for ( let i = 0; i < SHIFTED_MAGNITUDES.length; i++ ) {
-      if ( SHIFTED_MAGNITUDES[ i ] > maxMagnitude ) {
-        maxMagnitude = SHIFTED_MAGNITUDES[ i ];
-      }
-    }
-
     // Set values to the output Matrix
+    const maxMagnitude = _.max( SHIFTED_MAGNITUDES );
     const logOfMaxMag = Math.log( CONTRAST * maxMagnitude + 1 );
     for ( let i = 0; i < SHIFTED_MAGNITUDES.length; i++ ) {
       output.entries[ i ] = Math.log( CONTRAST * SHIFTED_MAGNITUDES[ i ] + 1 ) / logOfMaxMag;
