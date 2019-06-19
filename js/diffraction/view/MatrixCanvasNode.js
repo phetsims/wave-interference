@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * Renders the main area of the lattice (doesn't include the damping regions) using 2d canvas.
+ * Renders data from a Matrix into a canvas.  Shows the apertures and diffraction regions.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * This scene shows a single rectangular aperture.
+ * This scene shows a controllable discrete amount of disorder in the aperture.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -17,29 +17,6 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
-  // constants
-  /**
-   * Tick Mark  Cell [row, column]  x-displacement  y-displacement  Eccentricity
-   2  [1, 2]  0%  -45%  --
-   2  [1, 4]  -35%  -45%  --
-   2  [2, 3]  10%  0%  --
-   2  [3, 4]  30%  40%  --
-
-   3  [1, 1]  -50%  -70%  45%-y
-   3  [1, 3]  40%  0%  --
-   3  [3, 2]  0%  -60%  --
-   3  [4, 1]  -40%  -45%  40%-y
-
-   4  [2, 1]  55%  55%  --
-   4  [3, 1]  -55%  -45%  45%-x
-   4  [4, 3]  35%  45%  50%-x
-   4  [4, 4]  -65%  60%  --
-
-   5  [2, 2]  -75%  -65%  70%-y
-   5  [2, 4]  65%  65%  60%-y
-   5  [3, 3]  60%  -75%  50%-x
-   5  [4, 2]  -60%  70%  75%-x
-   */
   const array = [
 
     // No perturbations at the 1st tick

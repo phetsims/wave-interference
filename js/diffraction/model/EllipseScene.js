@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * This scene shows a single rectangular aperture.
+ * This scene shows a single elliptical aperture.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */

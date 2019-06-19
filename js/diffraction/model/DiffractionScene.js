@@ -16,7 +16,9 @@ define( require => {
 
     constructor() {
 
-      // @public (read-only) {Property.<*>[]} - set by subclasses
+      // @protected {Property.<*>[]} - set by subclasses after construction
+      // TODO: to the reviewer, is this pattern for specifying this.properties acceptable?  If not, can you please
+      // TODO: recommend a better pattern?
       this.properties = null;
 
       // Render to a canvas and sample points.  Using kite Shape.containsPoint on the SVG shape declaration was much too slow

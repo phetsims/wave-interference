@@ -23,14 +23,14 @@ define( require => {
     constructor() {
       super();
 
-      // @public {NumberProperty} - in mm
+      // @public {NumberProperty} - the height of the aperture in mm
       this.heightProperty = new NumberProperty( 100 * 1E-3, {
         range: new Range( 40 * 1E-3, 400 * 1E-3 )
       } );
 
-      // @public {NumberProperty}
+      // @public {NumberProperty} - the angle of rotation in degrees
       this.rotationProperty = new NumberProperty( 0, {
-        range: new Range( 0, 360 ) // degrees
+        range: new Range( 0, 360 )
       } );
 
       this.properties = [ this.heightProperty, this.rotationProperty ];
