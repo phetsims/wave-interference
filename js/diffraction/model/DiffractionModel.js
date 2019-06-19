@@ -3,7 +3,6 @@
 /**
  * Model for the Diffraction screen.
  *
- * @author Ariel Paul (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( require => {
