@@ -38,6 +38,7 @@ define( require => {
      * Render the aperture shape(s) to the canvas context.
      * @param {CanvasRenderingContext2D} context
      * @protected
+     * @override
      */
     renderToContext( context ) {
 
