@@ -105,7 +105,8 @@ define( require => {
     }
 
     /**
-     * @public - restore initial conditions
+     * Restore initial conditions.
+     * @public
      */
     reset() {
       this.scenes.forEach( scene => scene.reset() );
@@ -126,6 +127,7 @@ define( require => {
   };
 
   /**
+   * REVIEW #376 describe this function
    * @param {Matrix} input - aperture matrix
    * @param {Matrix} output - place to set fft result values
    */
