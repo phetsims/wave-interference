@@ -84,7 +84,7 @@ define( require => {
      * @protected
      */
     renderToContext( context ) {
-      assert && assert( false, 'should be overriden in subclasses' );
+      assert && assert( false, 'should be overridden in subclasses' );
     }
 
     /**
