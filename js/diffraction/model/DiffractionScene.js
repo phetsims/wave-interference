@@ -82,6 +82,7 @@ define( require => {
      * Render the aperture shape(s) to the canvas context.
      * @param {CanvasRenderingContext2D} context
      * @protected
+     * @abstract
      */
     renderToContext( context ) {
       assert && assert( false, 'should be overridden in subclasses' );
