@@ -21,15 +21,16 @@ define( require => {
     constructor() {
 
       const circleDiameterProperty = new NumberProperty( 50 * 1E-3, {
-        range: new Range( 40 * 1E-3, 150 * 1E-3 )
+        range: new Range( 40 * 1E-3, 150 * 1E-3 ),
+        units: 'mm'
       } );
 
       const squareWidthProperty = new NumberProperty( 50 * 1E-3, {
-        range: new Range( 40 * 1E-3, 150 * 1E-3 )
+        range: new Range( 40 * 1E-3, 150 * 1E-3 ),
+        units: 'mm'
       } );
       super( [ circleDiameterProperty, squareWidthProperty ] );
 
-      //REVIEW #376 for NumberProperty throughout, use options.units to specify and document units
       // @public {NumberProperty} - in mm
       this.circleDiameterProperty = circleDiameterProperty;
 

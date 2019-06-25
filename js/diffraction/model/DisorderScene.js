@@ -53,11 +53,13 @@ define( require => {
     constructor() {
 
       const diameterProperty = new NumberProperty( 50E-3, {
-        range: new Range( 10E-3, 100E-3 )
+        range: new Range( 10E-3, 100E-3 ),
+        units: 'mm'
       } );
 
       const latticeSpacingProperty = new NumberProperty( 100 * 1E-3, {
-        range: new Range( 50 * 1E-3, 200 * 1E-3 )
+        range: new Range( 50 * 1E-3, 200 * 1E-3 ),
+        units: 'mm'
       } );
 
       const disorderProperty = new NumberProperty( 0, {
@@ -66,13 +68,13 @@ define( require => {
 
       super( [ diameterProperty, latticeSpacingProperty, disorderProperty ] );
 
-      // @public {NumberProperty}
+      // @public {NumberProperty} - diameter in mm
       this.diameterProperty = diameterProperty;
 
-      // @public {NumberProperty}
+      // @public {NumberProperty} - lattice spacing in mm
       this.latticeSpacingProperty = latticeSpacingProperty;
 
-      // @public {NumberProperty}
+      // @public {NumberProperty} - amount of disorder (unitless)
       this.disorderProperty = disorderProperty;
     }
 

@@ -19,7 +19,8 @@ define( require => {
     constructor() {
 
       const diameterProperty = new NumberProperty( 100E-3, {
-        range: new Range( 40E-3, 400E-3 )
+        range: new Range( 40E-3, 400E-3 ),
+        units: 'mm'
       } );
 
       const eccentricityProperty = new NumberProperty( 0, {
@@ -31,7 +32,7 @@ define( require => {
       // @public {NumberProperty} - in mm
       this.diameterProperty = diameterProperty;
 
-      // @public {NumberProperty}
+      // @public {NumberProperty} - unitless
       this.eccentricityProperty = eccentricityProperty;
     }
 

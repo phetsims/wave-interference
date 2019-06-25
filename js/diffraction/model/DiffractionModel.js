@@ -41,9 +41,10 @@ define( require => {
       // @public - whether the laser is emitting light
       this.onProperty = new BooleanProperty( false );
 
-      // @public - the wavelength of the laser in nm
+      // @public - the wavelength of the laser in mm
       this.wavelengthProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
-        range: new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH )
+        range: new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH ),
+        units: 'mm'
       } );
 
       // @public (read-only) - scenes

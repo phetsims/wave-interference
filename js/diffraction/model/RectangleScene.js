@@ -21,10 +21,12 @@ define( require => {
     constructor() {
 
       const widthProperty = new NumberProperty( 100E-3, {
-        range: new Range( 40E-3, 400E-3 )
+        range: new Range( 40E-3, 400E-3 ),
+        units: 'mm'
       } );
       const heightProperty = new NumberProperty( 100E-3, {
-        range: new Range( 40E-3, 400E-3 )
+        range: new Range( 40E-3, 400E-3 ),
+        units: 'mm'
       } );
       super( [ widthProperty, heightProperty ] );
 

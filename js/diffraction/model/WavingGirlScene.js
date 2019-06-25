@@ -23,10 +23,12 @@ define( require => {
     constructor() {
 
       const heightProperty = new NumberProperty( 100 * 1E-3, {
-        range: new Range( 40 * 1E-3, 400 * 1E-3 )
+        range: new Range( 40 * 1E-3, 400 * 1E-3 ),
+        units: 'mm'
       } );
       const rotationProperty = new NumberProperty( 0, {
-        range: new Range( 0, 360 )
+        range: new Range( 0, 360 ),
+        units: 'degrees'
       } );
       super( [ heightProperty, rotationProperty ] );
 
