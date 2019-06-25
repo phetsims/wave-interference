@@ -216,6 +216,9 @@ define( require => {
       // @public (read-only) {Scene[]} - the Scene instances as an array
       this.scenes = [ this.waterScene, this.soundScene, this.lightScene ];
 
+      // @public (read-only) {number} - number of sources that can emit
+      this.numberOfSources = options.numberOfSources;
+
       // @public - indicates the user selection for side view or top view
       this.viewpointProperty = new Property( WavesModel.Viewpoint.TOP, {
         validValues: WavesModel.Viewpoint.VALUES

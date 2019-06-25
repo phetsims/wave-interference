@@ -497,7 +497,11 @@ define( require => {
       this.addChild( waterSideViewNode );
       if ( options.showSceneSpecificWaveGeneratorNodes ) {
         this.addChild( createWaveGeneratorToggleNode( true ) ); // Primary source
-        this.addChild( createWaveGeneratorToggleNode( false ) ); // Secondary source
+
+        // Secondary source
+        if ( model.numberOfSources === 2 ) {
+          this.addChild( createWaveGeneratorToggleNode( false ) );
+        }
       }
       else {
 
