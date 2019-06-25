@@ -14,12 +14,10 @@ define( require => {
 
   class DiffractionScene {
 
-    constructor() {
+    constructor( properties ) {
 
-      // @protected {Property.<*>[]} - set by subclasses after construction
-      // TODO: to the reviewer, is this pattern for specifying this.properties acceptable?  If not, can you please
-      // TODO: recommend a better pattern?
-      this.properties = null;
+      // @protected {Property.<*>[]} - tunable characteristics of this scene
+      this.properties = properties;
 
       // Render to a canvas and sample points.  Using kite Shape.containsPoint on the SVG shape declaration was much too slow
       // @private

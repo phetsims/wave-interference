@@ -21,19 +21,20 @@ define( require => {
   class WavingGirlScene extends DiffractionScene {
 
     constructor() {
-      super();
 
-      // @public {NumberProperty} - the height of the aperture in mm
-      this.heightProperty = new NumberProperty( 100 * 1E-3, {
+      const heightProperty = new NumberProperty( 100 * 1E-3, {
         range: new Range( 40 * 1E-3, 400 * 1E-3 )
       } );
-
-      // @public {NumberProperty} - the angle of rotation in degrees
-      this.rotationProperty = new NumberProperty( 0, {
+      const rotationProperty = new NumberProperty( 0, {
         range: new Range( 0, 360 )
       } );
+      super( [ heightProperty, rotationProperty ] );
 
-      this.properties = [ this.heightProperty, this.rotationProperty ];
+      // @public {NumberProperty} - the height of the aperture in mm
+      this.heightProperty = heightProperty;
+
+      // @public {NumberProperty} - the angle of rotation in degrees
+      this.rotationProperty = rotationProperty;
     }
 
     /**

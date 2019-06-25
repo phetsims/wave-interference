@@ -51,24 +51,29 @@ define( require => {
   class DisorderScene extends DiffractionScene {
 
     constructor() {
-      super();
 
-      // @public {NumberProperty}
-      this.diameterProperty = new NumberProperty( 50E-3, {
+      const diameterProperty = new NumberProperty( 50E-3, {
         range: new Range( 10E-3, 100E-3 )
       } );
 
-      // @public {NumberProperty}
-      this.latticeSpacingProperty = new NumberProperty( 100 * 1E-3, {
+      const latticeSpacingProperty = new NumberProperty( 100 * 1E-3, {
         range: new Range( 50 * 1E-3, 200 * 1E-3 )
       } );
 
-      // @public {NumberProperty}
-      this.disorderProperty = new NumberProperty( 0, {
+      const disorderProperty = new NumberProperty( 0, {
         range: new Range( 0, 4 )
       } );
 
-      this.properties = [ this.diameterProperty, this.latticeSpacingProperty, this.disorderProperty ];
+      super( [ diameterProperty, latticeSpacingProperty, disorderProperty ] );
+
+      // @public {NumberProperty}
+      this.diameterProperty = diameterProperty;
+
+      // @public {NumberProperty}
+      this.latticeSpacingProperty = latticeSpacingProperty;
+
+      // @public {NumberProperty}
+      this.disorderProperty = disorderProperty;
     }
 
     /**

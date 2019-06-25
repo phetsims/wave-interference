@@ -19,19 +19,20 @@ define( require => {
   class RectangleScene extends DiffractionScene {
 
     constructor() {
-      super();
 
-      // @public {NumberProperty} - in mm
-      this.widthProperty = new NumberProperty( 100E-3, {
+      const widthProperty = new NumberProperty( 100E-3, {
         range: new Range( 40E-3, 400E-3 )
       } );
+      const heightProperty = new NumberProperty( 100E-3, {
+        range: new Range( 40E-3, 400E-3 )
+      } )
+      super( [ widthProperty, heightProperty ] );
 
       // @public {NumberProperty} - in mm
-      this.heightProperty = new NumberProperty( 100E-3, {
-        range: new Range( 40E-3, 400E-3 )
-      } );
+      this.widthProperty = widthProperty;
 
-      this.properties = [ this.widthProperty, this.heightProperty ];
+      // @public {NumberProperty} - in mm
+      this.heightProperty = heightProperty;
     }
 
     /**

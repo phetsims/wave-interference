@@ -17,19 +17,22 @@ define( require => {
 
   class EllipseScene extends DiffractionScene {
     constructor() {
-      super();
 
-      // @public {NumberProperty} - in mm
-      this.diameterProperty = new NumberProperty( 100E-3, {
+      const diameterProperty = new NumberProperty( 100E-3, {
         range: new Range( 40E-3, 400E-3 )
       } );
 
-      // @public {NumberProperty}
-      this.eccentricityProperty = new NumberProperty( 0, {
+      const eccentricityProperty = new NumberProperty( 0, {
         range: new Range( 0, 0.99 )
-      } );
+      } )
 
-      this.properties = [ this.diameterProperty, this.eccentricityProperty ];
+      super( [ diameterProperty, eccentricityProperty ] );
+
+      // @public {NumberProperty} - in mm
+      this.diameterProperty = diameterProperty;
+
+      // @public {NumberProperty}
+      this.eccentricityProperty = eccentricityProperty;
     }
 
     /**
