@@ -157,7 +157,6 @@ define( require => {
         right: this.layoutBounds.right - MARGIN,
         bottom: this.layoutBounds.bottom - MARGIN
       } );
-      this.addChild( resetAllButton );
 
       // Create the canvases to render the lattices
       this.waterCanvasNode = new LatticeCanvasNode( model.waterScene.lattice, { baseColor: WATER_BLUE } );
@@ -496,7 +495,10 @@ define( require => {
       this.addChild( waterDropLayer );
       this.addChild( waterSideViewNode );
       if ( options.showSceneSpecificWaveGeneratorNodes ) {
-        this.addChild( createWaveGeneratorToggleNode( true ) ); // Primary source
+        const primaryWaveGeneratorToggleNode = createWaveGeneratorToggleNode( true );
+        this.addChild( primaryWaveGeneratorToggleNode ); // Primary source
+
+        this.accessibleOrder = [ primaryWaveGeneratorToggleNode, null ];
 
         // Secondary source
         if ( model.numberOfSources === 2 ) {
@@ -523,6 +525,8 @@ define( require => {
       if ( options.supportsSound ) {
         new WavesScreenSoundView( model, this, options ).start();
       }
+
+      this.addChild( resetAllButton );
     }
 
     /**
