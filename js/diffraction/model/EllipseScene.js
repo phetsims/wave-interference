@@ -24,7 +24,7 @@ define( require => {
 
       const eccentricityProperty = new NumberProperty( 0, {
         range: new Range( 0, 0.99 )
-      } )
+      } );
 
       super( [ diameterProperty, eccentricityProperty ] );
 

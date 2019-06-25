@@ -25,7 +25,7 @@ define( require => {
       } );
       const heightProperty = new NumberProperty( 100E-3, {
         range: new Range( 40E-3, 400E-3 )
-      } )
+      } );
       super( [ widthProperty, heightProperty ] );
 
       // @public {NumberProperty} - in mm
