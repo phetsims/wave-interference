@@ -98,7 +98,7 @@ define( require => {
           this.diffractionMatrix.timesEquals( 0 );
         }
       };
-      this.scenes.forEach( scene => scene.link( update ) );
+      this.scenes.forEach( scene => scene.linkToAllProperties( update ) );
       this.sceneProperty.link( update );
       this.wavelengthProperty.link( update );
       this.onProperty.link( update );

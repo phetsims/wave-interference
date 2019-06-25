@@ -99,7 +99,7 @@ define( require => {
      * @param {function} listener
      * @public
      */
-    link( listener ) {
+    linkToAllProperties( listener ) {
       this.properties.forEach( property => property.link( listener ) );
     }
   }

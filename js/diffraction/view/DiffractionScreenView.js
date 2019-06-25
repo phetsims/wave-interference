@@ -197,7 +197,7 @@ define( require => {
       model.sceneProperty.lazyLink( updateCanvases );
 
       this.addChild( sceneRadioButtonGroup );
-      model.scenes.forEach( scene => scene.link( updateCanvases ) );
+      model.scenes.forEach( scene => scene.linkToAllProperties( updateCanvases ) );
       model.onProperty.lazyLink( updateCanvases );
 
       // Nickname so everything fits on one line.
