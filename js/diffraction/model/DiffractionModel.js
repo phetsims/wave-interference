@@ -128,7 +128,11 @@ define( require => {
   };
 
   /**
-   * REVIEW #376 describe this function
+   * Computes the 2D discrete fourier transform of the aperture, which will be displayed as the diffraction pattern.
+   * This method uses a 3rd party library for computing the FFT.  In postprocessing steps, it
+   * (a) it swaps the quadrants to put the low frequencies in the center.
+   * (b) shows the log of the magnitudes instead of the raw frequencies to have better fidelity
+   * see https://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/www/notes/fourier/fourier.pdf
    * @param {Matrix} input - aperture matrix
    * @param {Matrix} output - place to set fft result values
    */
