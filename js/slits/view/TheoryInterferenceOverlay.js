@@ -81,11 +81,13 @@ define( require => {
                 // d sin(θ) = (m + 1/2)λ for minima
                 // see http://electron9.phys.utk.edu/optics421/modules/m1/diffraction_and_interference.htm
 
+                const wavelength = scene.getDesiredWavelength ? scene.getDesiredWavelength() : scene.getWavelength();
                 if ( barrierType === Scene.BarrierType.TWO_SLITS ) {
                   const addition = type === 'maxima' ? 0 : 0.5;
-                  const separation = options.interferenceScreen ? scene.sourceSeparationProperty.value :
+                  const separation = options.interferenceScreen && scene.desiredSourceSeparationProperty ? scene.desiredSourceSeparationProperty.value :
+                                     options.interferenceScreen && !scene.desiredSourceSeparationProperty ? scene.sourceSeparationProperty.value :
                                      scene.slitSeparationProperty.value;
-                  const arg = ( m + addition ) * scene.getWavelength() / separation;
+                  const arg = ( m + addition ) * wavelength / separation;
 
                   // make sure in bounds
                   if ( arg <= 1 ) {
@@ -100,7 +102,7 @@ define( require => {
                 if ( barrierType === Scene.BarrierType.ONE_SLIT ) {
                   const addition = type === 'minima' ? 0 : 0.5;
                   const aperture = scene.slitWidthProperty.value;
-                  const arg = ( m + addition ) * scene.getWavelength() / aperture;
+                  const arg = ( m + addition ) * wavelength / aperture;
 
                   // make sure in bounds.  Single slit begins at m=1
                   if ( arg <= 1 && m > 0 ) {
@@ -133,6 +135,10 @@ define( require => {
         scene.sourceSeparationProperty.link( updateLines );
         scene.barrierLatticeCoordinateProperty.link( updateLines );
         scene.slitWidthProperty.link( updateLines );
+
+        // Wire up to desired values in WaterScene
+        scene.desiredFrequencyProperty && scene.desiredFrequencyProperty.link( updateLines );
+        scene.desiredSourceSeparationProperty && scene.desiredSourceSeparationProperty.link( updateLines );
       } );
     }
   }

@@ -213,6 +213,15 @@ define( require => {
     }
 
     /**
+     * Gets the wavelength specified by the user in the control panel.
+     * @returns {number} in cm/sec
+     * @public
+     */
+    getDesiredWavelength() {
+      return this.waveSpeed / this.desiredFrequencyProperty.get();
+    }
+
+    /**
      * @param {boolean} isPressed
      * @override
      * @protected
