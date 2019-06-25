@@ -17,7 +17,11 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
-  //REVIEW #376 say a bit about this data structure, for benefit of future maintainer.
+  // The disorder is quantized over the following levels.  The perturbations are cumulative, so that level N contains
+  // all the perturbations declared in level N-1 as well as its new perturbations.  Each individual perturbation contains:
+  // cell:          {Vector2} - indicating the position in the grid to perturb
+  // offsetPercent: {Vector2} - indicating the relative percentages to move the point
+  // scalePercent:  {Vector2} - indicating x and y scale factors, or 100% if unscaled in that direction.
   const array = [
 
     // No perturbations at the 1st tick
