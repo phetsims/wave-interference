@@ -19,7 +19,11 @@ define( require => {
       // @protected {Property.<*>[]} - tunable characteristics of this scene
       this.properties = properties;
 
-      // Render to a canvas and sample points.  Using kite Shape.containsPoint on the SVG shape declaration was much too slow
+      // The diffraction pattern is computed as a 2D discrete fourier transform of the aperture pattern, which is
+      // represented as a 2d floating point Matrix.  In order to efficiently compute the aperture pattern, we render the
+      // shapes to a canvas in the model, then sample points from the canvas using canvas.context.getImageData(), see
+      // paintMatrix().  We previously tried other approaches for populating the aperture Matrix (such as using kite
+      // Shape.containsPoint), but they were to inefficient to be practical.
       // @private
       this.canvas = document.createElement( 'canvas' );
       this.canvas.width = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
