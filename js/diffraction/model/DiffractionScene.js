@@ -23,7 +23,7 @@ define( require => {
       // represented as a 2d floating point Matrix.  In order to efficiently compute the aperture pattern, we render the
       // shapes to a canvas in the model, then sample points from the canvas using canvas.context.getImageData(), see
       // paintMatrix().  We previously tried other approaches for populating the aperture Matrix (such as using kite
-      // Shape.containsPoint), but they were to inefficient to be practical.
+      // Shape.containsPoint), but they were too inefficient to be practical.
       // @private
       this.canvas = document.createElement( 'canvas' );
       this.canvas.width = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
