@@ -22,19 +22,14 @@ define( require => {
   const Matrix3 = require( 'DOT/Matrix3' );
   const MatrixCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/MatrixCanvasNode' );
   const Node = require( 'SCENERY/nodes/Node' );
-  const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Path = require( 'SCENERY/nodes/Path' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  const Range = require( 'DOT/Range' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const RectangleSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/RectangleSceneControlPanel' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const SceneCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/SceneCanvasNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
-  const SpectrumSliderThumb = require( 'SCENERY_PHET/SpectrumSliderThumb' );
-  const SpectrumSliderTrack = require( 'SCENERY_PHET/SpectrumSliderTrack' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const VBox = require( 'SCENERY/nodes/VBox' );
@@ -42,6 +37,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
+  const WavelengthNumberControl = require( 'SCENERY_PHET/WavelengthNumberControl' );
   const WavingGirlSceneControlPanel = require( 'WAVE_INTERFERENCE/diffraction/view/WavingGirlSceneControlPanel' );
 
   // images
@@ -49,7 +45,6 @@ define( require => {
 
   // strings
   const mmValueString = require( 'string!WAVE_INTERFERENCE/mmValue' );
-  const wavelengthString = require( 'string!WAVE_INTERFERENCE/wavelength' );
 
   // constants
   const MATRIX_CANVAS_NODE_SCALE = 1.43; // scale factor for showing the large aperture and diffraction patterns
@@ -263,38 +258,8 @@ define( require => {
       model.onProperty.linkAttribute( incidentBeam, 'visible' );
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
-      const wavelengthToColor = VisibleColor.wavelengthToColor;
-      const trackHeight = WaveInterferenceConstants.SPECTRUM_TRACK_HEIGHT;
-      const range = new Range( 380, 780 );
       const wavelengthPanel = new WaveInterferencePanel(
-        new NumberControl( wavelengthString, model.wavelengthProperty, range, {
-          arrowButtonOptions: {
-            scale: 0.63
-          },
-          titleNodeOptions: {
-            font: WaveInterferenceConstants.DEFAULT_FONT,
-            maxWidth: 175
-          },
-          numberDisplayOptions: {
-            font: new PhetFont( 14 ),
-            valuePattern: '{0} nm'
-          },
-          sliderOptions: {
-            trackNode: new SpectrumSliderTrack( model.wavelengthProperty, range, {
-              valueToColor: wavelengthToColor,
-              size: new Dimension2( 160, trackHeight )
-            } ),
-            thumbNode: new SpectrumSliderThumb( model.wavelengthProperty, {
-              valueToColor: wavelengthToColor,
-              width: 25,
-              height: 25,
-              cursorHeight: trackHeight
-            } )
-          },
-          layoutFunction: NumberControl.createLayoutFunction3( {
-            // alignTitle: 'left'
-          } )
-        } ), _.extend( PANEL_OPTIONS, {
+        new WavelengthNumberControl( model.wavelengthProperty ), _.extend( PANEL_OPTIONS, {
           left: laserPointerNode.left,
           top: apertureScaleIndicatorNode.top,
           xMargin: 6
