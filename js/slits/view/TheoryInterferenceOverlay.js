@@ -81,7 +81,10 @@ define( require => {
                 // d sin(θ) = (m + 1/2)λ for minima
                 // see http://electron9.phys.utk.edu/optics421/modules/m1/diffraction_and_interference.htm
 
-                const wavelength = scene.getDesiredWavelength ? scene.getDesiredWavelength() : scene.getWavelength();
+                // Use the desired wavelength when drops are present, so we don't have to wait for the drops to hit the
+                // lattice.  There are no drops on the "slits" screeen.
+                const wavelength = ( scene.getDesiredWavelength && options.interferenceScreen ) ? scene.getDesiredWavelength() :
+                                   scene.getWavelength();
                 if ( barrierType === Scene.BarrierType.TWO_SLITS ) {
                   const addition = type === 'maxima' ? 0 : 0.5;
                   const separation = options.interferenceScreen && scene.desiredSourceSeparationProperty ? scene.desiredSourceSeparationProperty.value :
