@@ -1,4 +1,4 @@
-// Copyright 2018-2019, University of Colorado Boulder
+// Copyright 2019, University of Colorado Boulder
 
 /**
  * Plays a sine wave using an Oscillator Node
