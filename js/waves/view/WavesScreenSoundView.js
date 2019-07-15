@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Property = require( 'AXON/Property' );
   const ResetAllSoundGenerator = require( 'TAMBO/sound-generators/ResetAllSoundGenerator' );
   const SineWaveGenerator = require( 'WAVE_INTERFERENCE/waves/view/SineWaveGenerator' );
@@ -37,7 +38,7 @@ define( require => {
     constructor( model, view, options ) {
 
       // Only wire up for the sound scene
-      if ( options.controlPanelOptions.showPlaySoundButton ) {
+      if ( options.controlPanelOptions.showPlaySoundControl ) {
         const sineWavePlayer = new SineWaveGenerator( model.soundScene.frequencyProperty, model.soundScene.amplitudeProperty, {
           enableControlProperties: [
             model.soundScene.isSoundPlayingProperty,
@@ -50,6 +51,8 @@ define( require => {
         soundManager.addSoundGenerator( sineWavePlayer, {
           associatedViewNode: view
         } );
+        const isSoundSceneProperty = new DerivedProperty( [ model.sceneProperty ], scene => scene === model.soundScene );
+        sineWavePlayer.addEnableControlProperty( isSoundSceneProperty );
       }
 
       if ( WaveInterferenceQueryParameters.fullSonification ) {

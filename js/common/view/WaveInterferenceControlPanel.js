@@ -46,7 +46,7 @@ define( require => {
         maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH,
         yMargin: 4,
         showSceneRadioButtons: true,
-        showPlaySoundButton: false,
+        showPlaySoundControl: false,
         supportsSound: true
       }, options );
 
@@ -147,7 +147,7 @@ define( require => {
       separator.top = sceneRadioButtonGroup ? ( sceneRadioButtonGroup.bottom + 8 ) : y;
       graphCheckbox.top = separator.bottom + HORIZONTAL_SEPARATOR_MARGIN;
       playToneCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
-      soundViewTypeRadioButtonGroup.top = ( options.showPlaySoundButton ? playToneCheckbox.bottom : graphCheckbox.bottom ) + CHECKBOX_SPACING + 2;
+      soundViewTypeRadioButtonGroup.top = ( options.showPlaySoundControl ? playToneCheckbox.bottom : graphCheckbox.bottom ) + CHECKBOX_SPACING + 2;
       screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
       intensityCheckbox.top = screenCheckbox.bottom + CHECKBOX_SPACING;
 
@@ -167,7 +167,7 @@ define( require => {
           separator,
           graphCheckbox,
 
-          ...( scene === model.soundScene && options.showPlaySoundButton ? [ playToneCheckbox ] : [] ),
+          ...( scene === model.soundScene && options.showPlaySoundControl ? [ playToneCheckbox ] : [] ),
 
           // Wave/Particle selection only for Sound scene
           ...( scene === model.soundScene && model.soundScene.showSoundParticles ? [ soundViewTypeRadioButtonGroup ] : [] ),

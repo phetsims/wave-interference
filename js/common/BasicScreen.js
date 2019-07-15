@@ -28,8 +28,8 @@ define( require => {
         showScreenIconFrameForNavigationBarFill: 'black',
         showSceneRadioButtons: true,
         initialScene: null,
-        showPlaySoundButton: false,
-        supportsSound: false
+        showPlaySoundControl: true,
+        supportsSound: true
       }, options );
       super(
         () => new WavesModel( options.initialScene ? { initialScene: options.initialScene } : {} ),
@@ -43,7 +43,7 @@ define( require => {
           controlPanelOptions: {
             showIntensityCheckbox: false,
             showSceneRadioButtons: options.showSceneRadioButtons,
-            showPlaySoundButton: options.showPlaySoundButton
+            showPlaySoundControl: options.showPlaySoundControl
           }
         } ),
         options
