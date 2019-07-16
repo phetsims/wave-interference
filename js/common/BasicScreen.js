@@ -33,8 +33,6 @@ define( require => {
         supportsSound: true
       }, options );
 
-      assert && assert( options.initialScene, 'initial scene should be specified' );
-
       super(
         () => new WavesModel( options.initialScene ? { initialScene: options.initialScene } : {} ),
         model => new WavesScreenView( model, alignGroup, {
