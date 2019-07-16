@@ -22,6 +22,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( alignGroup, options ) {
+
       options = _.extend( {
         backgroundColorProperty: new Property( 'white' ),
         showUnselectedHomeScreenIconFrame: true,
@@ -31,6 +32,9 @@ define( require => {
         showPlaySoundControl: true,
         supportsSound: true
       }, options );
+
+      assert && assert( options.initialScene, 'initial scene should be specified' );
+
       super(
         () => new WavesModel( options.initialScene ? { initialScene: options.initialScene } : {} ),
         model => new WavesScreenView( model, alignGroup, {
@@ -39,8 +43,10 @@ define( require => {
           piecewiseLinearBrightness: true,
           lightScreenAveragingWindowSize: 40,
 
-          // The intensity checkbox is not available in the waves screen because it distracts from the learning goals of the screen
           controlPanelOptions: {
+
+            // The intensity checkbox is not available on BasicScreen instances because it distracts from the other
+            // learning goals of the screen
             showIntensityCheckbox: false,
             showSceneRadioButtons: options.showSceneRadioButtons,
             showPlaySoundControl: options.showPlaySoundControl
