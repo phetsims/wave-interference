@@ -44,7 +44,6 @@ define( require => {
     NUMBER_CONTROL_OPTIONS: {
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 3 } ),
       arrowButtonOptions: {
-        scale: 0.65,
         touchAreaXDilation: 9,
         touchAreaYDilation: 10
       },
