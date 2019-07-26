@@ -10,10 +10,10 @@ define( require => {
   'use strict';
 
   // modules
-  const BasicScreen = require( 'WAVE_INTERFERENCE/common/BasicScreen' );
+  const BaseScreen = require( 'WAVE_INTERFERENCE/common/BaseScreen' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
-  class MediumScreen extends BasicScreen {
+  class MediumScreen extends BaseScreen {
 
     /**
      * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice

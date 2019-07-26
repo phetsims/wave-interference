@@ -15,7 +15,7 @@ define( require => {
   const WavesModel = require( 'WAVE_INTERFERENCE/waves/model/WavesModel' );
   const WavesScreenView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenView' );
 
-  class BasicScreen extends Screen {
+  class BaseScreen extends Screen {
 
     /**
      * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
@@ -43,7 +43,7 @@ define( require => {
 
           controlPanelOptions: {
 
-            // The intensity checkbox is not available on BasicScreen instances because it distracts from the other
+            // The intensity checkbox is not available on BaseScreen instances because it distracts from the other
             // learning goals of the screen
             showIntensityCheckbox: false,
             showSceneRadioButtons: options.showSceneRadioButtons,
@@ -55,5 +55,5 @@ define( require => {
     }
   }
 
-  return waveInterference.register( 'BasicScreen', BasicScreen );
+  return waveInterference.register( 'BaseScreen', BaseScreen );
 } );

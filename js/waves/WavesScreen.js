@@ -9,7 +9,7 @@ define( require => {
   'use strict';
 
   // modules
-  const BasicScreen = require( 'WAVE_INTERFERENCE/common/BasicScreen' );
+  const BaseScreen = require( 'WAVE_INTERFERENCE/common/BaseScreen' );
   const Image = require( 'SCENERY/nodes/Image' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -19,7 +19,7 @@ define( require => {
   // strings
   const screenWavesString = require( 'string!WAVE_INTERFERENCE/screen.waves' );
 
-  class WavesScreen extends BasicScreen {
+  class WavesScreen extends BaseScreen {
 
     /**
      * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
