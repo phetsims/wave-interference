@@ -390,9 +390,9 @@ define( require => {
 
       // Reset frequencyProperty first because it changes the time and phase.  This is done by resetting each of the
       // frequencyProperties in the scenes
-      this.waterScene.reset();
-      this.soundScene.reset();
-      this.lightScene.reset();
+      this.waterScene && this.waterScene.reset();
+      this.soundScene && this.soundScene.reset();
+      this.lightScene && this.lightScene.reset();
 
       this.sceneProperty.reset();
       this.viewpointProperty.reset();
