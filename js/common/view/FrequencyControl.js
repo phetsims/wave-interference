@@ -14,6 +14,7 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const SpectrumSliderThumb = require( 'SCENERY_PHET/SpectrumSliderThumb' );
   const SpectrumSliderTrack = require( 'SCENERY_PHET/SpectrumSliderTrack' );
+  const Vector2 = require( 'DOT/Vector2' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -36,42 +37,61 @@ define( require => {
 
       const frequencyTitle = new WaveInterferenceText( frequencyString );
 
+      const sliderGroupChildren = [];
+      let soundFrequencySlider = null;
+
       // Controls are in the physical coordinate frame
-      const waterFrequencySlider = new WaveInterferenceSlider( model.getWaterFrequencySliderProperty() );
-      const soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty );
+      if ( model.waterScene ) {
+        const waterFrequencySlider = new WaveInterferenceSlider( model.getWaterFrequencySliderProperty() );
+        sliderGroupChildren.push( waterFrequencySlider );
 
-      const lightFrequencyProperty = model.lightScene.frequencyProperty;
-      const trackSize = new Dimension2( 150, WaveInterferenceConstants.SPECTRUM_TRACK_HEIGHT );
-      const lightFrequencySlider = new HSlider( lightFrequencyProperty, lightFrequencyProperty.range, {
-        trackNode: new SpectrumSliderTrack( lightFrequencyProperty, lightFrequencyProperty.range, {
-          valueToColor: f => VisibleColor.frequencyToColor( fromFemto( f ) ),
-          size: trackSize
-        } ),
-        thumbNode: new SpectrumSliderThumb( lightFrequencyProperty, {
-          valueToColor: f => VisibleColor.frequencyToColor( fromFemto( f ) ),
-          width: 14,
-          height: 18,
-          cursorHeight: trackSize.height
-        } )
-      } );
+        // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
+        model.sceneProperty.link( scene => {
+          waterFrequencySlider.visible = scene === model.waterScene;
+        } );
+      }
+      if ( model.soundScene ) {
+        soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty );
+        sliderGroupChildren.push( soundFrequencySlider );
 
-      lightFrequencySlider.centerTop = soundFrequencySlider.centerTop.plusXY( 0, 10 );
+        // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
+        model.sceneProperty.link( scene => {
+          soundFrequencySlider.visible = scene === model.soundScene;
+        } );
+      }
+      if ( model.lightScene ) {
+        const lightFrequencyProperty = model.lightScene.frequencyProperty;
+        const trackSize = new Dimension2( 150, WaveInterferenceConstants.SPECTRUM_TRACK_HEIGHT );
+        const lightFrequencySlider = new HSlider( lightFrequencyProperty, lightFrequencyProperty.range, {
+          trackNode: new SpectrumSliderTrack( lightFrequencyProperty, lightFrequencyProperty.range, {
+            valueToColor: f => VisibleColor.frequencyToColor( fromFemto( f ) ),
+            size: trackSize
+          } ),
+          thumbNode: new SpectrumSliderThumb( lightFrequencyProperty, {
+            valueToColor: f => VisibleColor.frequencyToColor( fromFemto( f ) ),
+            width: 14,
+            height: 18,
+            cursorHeight: trackSize.height
+          } )
+        } );
 
-      // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
-      model.sceneProperty.link( scene => {
-        waterFrequencySlider.visible = scene === model.waterScene;
-        soundFrequencySlider.visible = scene === model.soundScene;
-        lightFrequencySlider.visible = scene === model.lightScene;
-      } );
+        lightFrequencySlider.centerTop = soundFrequencySlider ? soundFrequencySlider.centerTop.plusXY( 0, 10 ) :
+                                         new Vector2( 0, 0 );
 
-      const sliderContainer = new Node( {
-        children: [
-          waterFrequencySlider,
-          soundFrequencySlider,
-          lightFrequencySlider ]
-      } );
+        // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
+        model.sceneProperty.link( scene => {
+          lightFrequencySlider.visible = scene === model.lightScene;
+        } );
+
+        sliderGroupChildren.push( lightFrequencySlider );
+      }
+
+      const sliderContainer = new Node( { children: sliderGroupChildren } );
 
       sliderContainer.top = frequencyTitle.bottom + WaveInterferenceUtils.getSliderTitleSpacing( frequencyTitle );
+      if ( model.lightScene && !model.waterScene && !model.soundScene ) {
+        sliderContainer.top += 10;
+      }
       sliderContainer.centerX = frequencyTitle.centerX;
 
       super( {

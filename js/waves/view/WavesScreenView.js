@@ -159,9 +159,42 @@ define( require => {
       } );
 
       // Create the canvases to render the lattices
-      this.waterCanvasNode = new LatticeCanvasNode( model.waterScene.lattice, { baseColor: WATER_BLUE } );
-      this.soundCanvasNode = new LatticeCanvasNode( model.soundScene.lattice, { baseColor: Color.white } );
-      this.lightCanvasNode = new LatticeCanvasNode( model.lightScene.lattice );
+
+      let waterDropLayer = null;
+      if ( model.waterScene ) {
+        this.waterCanvasNode = new LatticeCanvasNode( model.waterScene.lattice, { baseColor: WATER_BLUE } );
+        waterDropLayer = new WaterDropLayer( model, this.waveAreaNode.bounds );
+      }
+
+      let soundParticleLayer = null;
+      if ( model.soundScene ) {
+        this.soundCanvasNode = new LatticeCanvasNode( model.soundScene.lattice, { baseColor: Color.white } );
+
+        const createSoundParticleLayer = () => {
+
+          // Too much garbage on firefox, so only opt in to WebGL for mobile safari (where it is needed most)
+          // and where the garbage doesn't seem to slow it down much.
+          const useWebgl = phet.chipper.queryParameters.webgl && platform.mobileSafari && Util.isWebGLSupported;
+          const node = useWebgl ?
+                       new SoundParticleImageLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
+                       new SoundParticleCanvasLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } );
+
+          // Don't let the particles appear outside of the wave area.  This works on the canvas layer but not webgl.
+          node.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed( Matrix3.translation( -node.x, -node.y ) );
+
+          // Note: Clipping is not enabled on mobileSafari, see https://github.com/phetsims/wave-interference/issues/322
+          return node;
+        };
+
+        // Show the sound particles for the sound Scene, or a placeholder for the Slits screen, which does not show
+        // SoundParticles
+        soundParticleLayer = model.soundScene.showSoundParticles ? createSoundParticleLayer() : new Node();
+      }
+
+      if ( model.lightScene ) {
+        this.lightCanvasNode = new LatticeCanvasNode( model.lightScene.lattice );
+      }
+
       this.sceneToNode = scene => scene === model.waterScene ? this.waterCanvasNode :
                                   scene === model.soundScene ? this.soundCanvasNode :
                                   this.lightCanvasNode;
@@ -174,53 +207,61 @@ define( require => {
         center: this.waveAreaNode.center
       } );
 
-      const lightScreenNode = new LightScreenNode( model.lightScene.lattice, model.lightScene.intensitySample, {
-        piecewiseLinearBrightness: options.piecewiseLinearBrightness,
-        lightScreenAveragingWindowSize: options.lightScreenAveragingWindowSize,
-        scale: latticeScale,
-        left: this.waveAreaNode.right + 5,
-        y: this.waveAreaNode.top
-      } );
+      let lightScreenNode = null;
 
-      // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-      Property.multilink( [ model.showScreenProperty, model.sceneProperty ], ( showScreen, scene ) => {
-        lightScreenNode.visible = showScreen && scene === model.lightScene;
-      } );
+      if ( model.lightScene ) {
+        lightScreenNode = new LightScreenNode( model.lightScene.lattice, model.lightScene.intensitySample, {
+          piecewiseLinearBrightness: options.piecewiseLinearBrightness,
+          lightScreenAveragingWindowSize: options.lightScreenAveragingWindowSize,
+          scale: latticeScale,
+          left: this.waveAreaNode.right + 5,
+          y: this.waveAreaNode.top
+        } );
 
-      // Set the color of highlight on the screen and lattice
-      model.lightScene.frequencyProperty.link( lightFrequency => {
-        const baseColor = VisibleColor.frequencyToColor( fromFemto( lightFrequency ) );
-        this.lightCanvasNode.setBaseColor( baseColor );
-        this.lightCanvasNode.vacuumColor = Color.black;
-        lightScreenNode.setBaseColor( baseColor );
-      } );
-      model.showScreenProperty.linkAttribute( lightScreenNode, 'visible' );
+        // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
+        Property.multilink( [ model.showScreenProperty, model.sceneProperty ], ( showScreen, scene ) => {
+          lightScreenNode.visible = showScreen && scene === model.lightScene;
+        } );
 
-      this.addChild( lightScreenNode );
+        // Set the color of highlight on the screen and lattice
+        model.lightScene.frequencyProperty.link( lightFrequency => {
+          const baseColor = VisibleColor.frequencyToColor( fromFemto( lightFrequency ) );
+          this.lightCanvasNode.setBaseColor( baseColor );
+          this.lightCanvasNode.vacuumColor = Color.black;
+          lightScreenNode.setBaseColor( baseColor );
+        } );
+        model.showScreenProperty.linkAttribute( lightScreenNode, 'visible' );
+
+        this.addChild( lightScreenNode );
+      }
+
       this.addChild( this.latticeNode );
       this.addChild( borderNode );
 
-      // Match the size of the scale indicator
-      const numberGridLines = model.lightScene.waveAreaWidth / model.lightScene.scaleIndicatorLength;
-      const intensityGraphPanel = new IntensityGraphPanel(
-        this.latticeNode.height,
-        model.lightScene.intensitySample,
-        numberGridLines,
-        model.resetEmitter, {
-          left: lightScreenNode.right + 5
-        } );
-      Property.multilink( [ model.showScreenProperty, model.showIntensityGraphProperty, model.sceneProperty ],
-        ( showScreen, showIntensityGraph, scene ) => {
+      if ( model.lightScene ) {
 
-          // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-          intensityGraphPanel.visible = showScreen && showIntensityGraph && scene === model.lightScene;
-        } );
-      this.addChild( intensityGraphPanel );
+        // Match the size of the scale indicator
+        const numberGridLines = model.lightScene.waveAreaWidth / model.lightScene.scaleIndicatorLength;
+        const intensityGraphPanel = new IntensityGraphPanel(
+          this.latticeNode.height,
+          model.lightScene.intensitySample,
+          numberGridLines,
+          model.resetEmitter, {
+            left: lightScreenNode.right + 5
+          } );
+        Property.multilink( [ model.showScreenProperty, model.showIntensityGraphProperty, model.sceneProperty ],
+          ( showScreen, showIntensityGraph, scene ) => {
 
-      // Make sure the charting area is perfectly aligned with the wave area
-      intensityGraphPanel.translate(
-        0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top
-      );
+            // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
+            intensityGraphPanel.visible = showScreen && showIntensityGraph && scene === model.lightScene;
+          } );
+        this.addChild( intensityGraphPanel );
+
+        // Make sure the charting area is perfectly aligned with the wave area
+        intensityGraphPanel.translate(
+          0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top
+        );
+      }
 
       /**
        * Return the measuring tape Property value for the specified scene.  See MeasuringTapeNode constructor docs.
@@ -391,47 +432,34 @@ define( require => {
         centerX: this.waveAreaNode.centerX
       } );
 
-      // Show a gray background for the water to make it easier to see the dotted line in the middle of the screen,
-      // and visually partition the play area
-      const waterGrayBackground = Rectangle.bounds( this.waveAreaNode.bounds, { fill: '#e2e3e5' } );
-      this.addChild( waterGrayBackground );
+      // @private
+      this.stepAction = null;
 
       // Show the side of the water, when fully rotated and in WATER scene
-      const waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model.waterScene );
-      Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], ( rotationAmount, scene ) => {
-        waterSideViewNode.visible = rotationAmount === 1.0 && scene === model.waterScene;
-        waterGrayBackground.visible = rotationAmount !== 0 && scene === model.waterScene;
-      } );
+      let waterSideViewNode = null;
+      if ( model.waterScene ) {
 
-      // @public
-      this.stepAction = new Action( () => waterDropLayer.step( waterSideViewNode ) );
+        // Show a gray background for the water to make it easier to see the dotted line in the middle of the screen,
+        // and visually partition the play area
+        const waterGrayBackground = Rectangle.bounds( this.waveAreaNode.bounds, { fill: '#e2e3e5' } );
+        this.addChild( waterGrayBackground );
 
-      const createSoundParticleLayer = () => {
-
-        // Too much garbage on firefox, so only opt in to WebGL for mobile safari (where it is needed most)
-        // and where the garbage doesn't seem to slow it down much.
-        const useWebgl = phet.chipper.queryParameters.webgl && platform.mobileSafari && Util.isWebGLSupported;
-        const node = useWebgl ?
-                     new SoundParticleImageLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
-                     new SoundParticleCanvasLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } );
-
-        // Don't let the particles appear outside of the wave area.  This works on the canvas layer but not webgl.
-        node.clipArea = Shape.bounds( this.waveAreaNode.bounds ).transformed( Matrix3.translation( -node.x, -node.y ) );
-
-        // Note: Clipping is not enabled on mobileSafari, see https://github.com/phetsims/wave-interference/issues/322
-        return node;
-      };
-
-      // Show the sound particles for the sound Scene, or a placeholder for the Slits screen, which does not show
-      // SoundParticles
-      const soundParticleLayer = model.soundScene.showSoundParticles ? createSoundParticleLayer() : new Node();
-
-      const waterDropLayer = new WaterDropLayer( model, this.waveAreaNode.bounds );
+        waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model.waterScene );
+        Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], ( rotationAmount, scene ) => {
+          waterSideViewNode.visible = rotationAmount === 1.0 && scene === model.waterScene;
+          waterGrayBackground.visible = rotationAmount !== 0 && scene === model.waterScene;
+        } );
+        this.stepAction = new Action( () => waterDropLayer.step( waterSideViewNode ) );
+      }
 
       // Update the visibility of the waveAreaNode, latticeNode and soundParticleLayer
-      Property.multilink(
-        [ model.rotationAmountProperty, model.isRotatingProperty, model.sceneProperty, model.showWavesProperty,
-          model.soundScene.soundViewTypeProperty ],
+      Property.multilink( [
+          model.rotationAmountProperty,
+          model.isRotatingProperty,
+          model.sceneProperty,
+          model.showWavesProperty,
+          ...( model.soundScene ? [ model.soundScene.soundViewTypeProperty ] : [] )
+        ],
         ( rotationAmount, isRotating, scene, showWaves, soundViewType ) => {
           const isWaterSideView = rotationAmount === 1 && scene === model.waterScene;
           const isVisiblePerspective = !isRotating && !isWaterSideView;
@@ -445,11 +473,14 @@ define( require => {
                               isVisiblePerspective;
           this.latticeNode.visible = showLattice;
 
-          soundParticleLayer.visible = ( soundViewType === SoundScene.SoundViewType.PARTICLES ||
-                                         soundViewType === SoundScene.SoundViewType.BOTH ) &&
-                                       scene === model.soundScene && isVisiblePerspective;
-
-          waterDropLayer.visible = scene === model.waterScene;
+          if ( soundParticleLayer ) {
+            soundParticleLayer.visible = ( soundViewType === SoundScene.SoundViewType.PARTICLES ||
+                                           soundViewType === SoundScene.SoundViewType.BOTH ) &&
+                                         scene === model.soundScene && isVisiblePerspective;
+          }
+          if ( waterDropLayer ) {
+            waterDropLayer.visible = scene === model.waterScene;
+          }
         } );
 
       Property.multilink(
@@ -462,38 +493,54 @@ define( require => {
       const perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty,
         model.isRotatingProperty );
 
-      // Initialize and update the colors based on the scene
-      Property.multilink( [ model.sceneProperty, model.lightScene.frequencyProperty ], ( scene, frequency ) => {
-        perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' :
-                                           scene === model.soundScene ? 'gray' :
-                                           VisibleColor.frequencyToColor( fromFemto( frequency ) ) );
-        perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR :
-                                            scene === model.soundScene ? 'darkGray' :
-                                            VisibleColor.frequencyToColor( fromFemto( frequency ) )
-                                              .colorUtilsDarker( 0.15 ) );
-      } );
+      if ( model.lightScene ) {
+
+        // Initialize and update the colors based on the scene
+        Property.multilink( [
+          model.sceneProperty,
+          model.lightScene.frequencyProperty
+        ], ( scene, frequency ) => {
+          perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' :
+                                             scene === model.soundScene ? 'gray' :
+                                             VisibleColor.frequencyToColor( fromFemto( frequency ) ) );
+          perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR :
+                                              scene === model.soundScene ? 'darkGray' :
+                                              VisibleColor.frequencyToColor( fromFemto( frequency ) )
+                                                .colorUtilsDarker( 0.15 ) );
+        } );
+      }
 
       /**
        * Creates a ToggleNode that shows the primary or secondary source
        * @param {boolean} isPrimarySource - true if it should show the primary source
        */
-      const createWaveGeneratorToggleNode = isPrimarySource => new ToggleNode( model.sceneProperty, [ {
-        value: model.waterScene,
-        node: new WaterWaveGeneratorNode( model.waterScene, this.waveAreaNode, isPrimarySource )
-      }, {
-        value: model.soundScene,
-        node: new SoundWaveGeneratorNode( model.soundScene, this.waveAreaNode, isPrimarySource )
-      }, {
-        value: model.lightScene,
-        node: new LightWaveGeneratorNode( model.lightScene, this.waveAreaNode, isPrimarySource )
-      } ], {
-        alignChildren: ToggleNode.NONE
-      } );
+      const createWaveGeneratorToggleNode = isPrimarySource => {
+        const toggleNodeElements = [];
+        model.waterScene && toggleNodeElements.push( {
+          value: model.waterScene,
+          node: new WaterWaveGeneratorNode( model.waterScene, this.waveAreaNode, isPrimarySource )
+        } );
+
+        model.soundScene && toggleNodeElements.push( {
+          value: model.soundScene,
+          node: new SoundWaveGeneratorNode( model.soundScene, this.waveAreaNode, isPrimarySource )
+        } );
+
+        model.lightScene && toggleNodeElements.push( {
+          value: model.lightScene,
+          node: new LightWaveGeneratorNode( model.lightScene, this.waveAreaNode, isPrimarySource )
+        } );
+        return new ToggleNode( model.sceneProperty, toggleNodeElements, {
+          alignChildren: ToggleNode.NONE
+        } );
+      };
 
       this.addChild( perspective3DNode );
 
-      this.addChild( waterDropLayer );
-      this.addChild( waterSideViewNode );
+      if ( model.waterScene ) {
+        this.addChild( waterDropLayer );
+        this.addChild( waterSideViewNode );
+      }
       if ( options.showSceneSpecificWaveGeneratorNodes ) {
         const primaryWaveGeneratorToggleNode = createWaveGeneratorToggleNode( true );
         this.addChild( primaryWaveGeneratorToggleNode ); // Primary source
@@ -512,7 +559,7 @@ define( require => {
         this.addChild( this.waveGeneratorLayer );
       }
       this.addChild( timeControls );
-      this.addChild( soundParticleLayer );
+      soundParticleLayer && this.addChild( soundParticleLayer );
       this.addChild( dashedLineNode );
       this.addChild( this.afterWaveAreaNode );
       this.addChild( waveAreaGraphNode );
@@ -547,7 +594,7 @@ define( require => {
      * @public
      */
     step( dt ) {
-      this.stepAction.execute();
+      this.stepAction && this.stepAction.execute();
     }
   }
 

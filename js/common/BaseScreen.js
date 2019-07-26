@@ -28,13 +28,12 @@ define( require => {
         showUnselectedHomeScreenIconFrame: true,
         showScreenIconFrameForNavigationBarFill: 'black',
         showSceneRadioButtons: true,
-        scenes: ['waterScene', 'soundScene', 'lightScene'],
         showPlaySoundControl: true,
         supportsSound: true
       }, options );
 
       super(
-        () => new WavesModel( { scenes: options.scenes } ),
+        () => new WavesModel( options.scenes ? { scenes: options.scenes } : {} ),
         model => new WavesScreenView( model, alignGroup, {
           supportsSound: options.supportsSound,
           showViewpointRadioButtonGroup: true,

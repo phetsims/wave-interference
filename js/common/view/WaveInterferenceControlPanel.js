@@ -52,7 +52,11 @@ define( require => {
 
       const frequencyControl = new FrequencyControl( model );
       const amplitudeControl = new AmplitudeControl( model );
-      const soundViewTypeRadioButtonGroup = new SoundViewTypeRadioButtonGroup( model );
+
+      let soundViewTypeRadioButtonGroup = null;
+      if ( model.soundScene && model.soundScene.showSoundParticles ) {
+        soundViewTypeRadioButtonGroup = new SoundViewTypeRadioButtonGroup( model );
+      }
 
       const graphCheckbox = new WaveInterferenceCheckbox(
         new WaveInterferenceText( graphString ),
@@ -74,7 +78,7 @@ define( require => {
       model.showScreenProperty.link( showScreen => intensityCheckbox.setEnabled( showScreen ) );
 
       const maxComponentWidth = _.max( [
-        soundViewTypeRadioButtonGroup.width,
+        ...( soundViewTypeRadioButtonGroup ? [ soundViewTypeRadioButtonGroup.width ] : [] ),
         screenCheckbox.width,
         graphCheckbox.width,
         frequencyControl.width,
@@ -99,10 +103,14 @@ define( require => {
         model.sceneProperty
       ) : null;
 
-      const playToneCheckbox = new WaveInterferenceCheckbox( new WaveInterferenceText( playToneString ),
-        model.soundScene.isSoundPlayingProperty, {
-          audioEnabled: options.supportsSound
-        } );
+      let playToneCheckbox = null;
+      if ( model.soundScene && options.showPlaySoundControl ) {
+        playToneCheckbox = new WaveInterferenceCheckbox( new WaveInterferenceText( playToneString ),
+          model.soundScene.isSoundPlayingProperty, {
+            audioEnabled: options.supportsSound
+          } );
+      }
+
 
       // Horizontal layout
       const centerX = frequencyControl.centerX;
@@ -118,10 +126,14 @@ define( require => {
       ] );
 
       // Align controls to the left
-      soundViewTypeRadioButtonGroup.left = minX;
+      if ( soundViewTypeRadioButtonGroup ) {
+        soundViewTypeRadioButtonGroup.left = minX;
+      }
       graphCheckbox.left = minX;
       screenCheckbox.left = minX;
-      playToneCheckbox.left = minX;
+      if ( playToneCheckbox ) {
+        playToneCheckbox.left = minX;
+      }
 
       // Indent the intensity checkbox
       intensityCheckbox.left = minX + 20;
@@ -146,8 +158,12 @@ define( require => {
       const CHECKBOX_SPACING = 6;
       separator.top = sceneRadioButtonGroup ? ( sceneRadioButtonGroup.bottom + 8 ) : y;
       graphCheckbox.top = separator.bottom + HORIZONTAL_SEPARATOR_MARGIN;
-      playToneCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
-      soundViewTypeRadioButtonGroup.top = ( options.showPlaySoundControl ? playToneCheckbox.bottom : graphCheckbox.bottom ) + CHECKBOX_SPACING + 2;
+      if ( playToneCheckbox ) {
+        playToneCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
+      }
+      if ( soundViewTypeRadioButtonGroup ) {
+        soundViewTypeRadioButtonGroup.top = ( playToneCheckbox ? playToneCheckbox.bottom : graphCheckbox.bottom ) + CHECKBOX_SPACING + 2;
+      }
       screenCheckbox.top = graphCheckbox.bottom + CHECKBOX_SPACING;
       intensityCheckbox.top = screenCheckbox.bottom + CHECKBOX_SPACING;
 
@@ -167,7 +183,7 @@ define( require => {
           separator,
           graphCheckbox,
 
-          ...( scene === model.soundScene && options.showPlaySoundControl ? [ playToneCheckbox ] : [] ),
+          ...( scene === model.soundScene && playToneCheckbox ? [ playToneCheckbox ] : [] ),
 
           // Wave/Particle selection only for Sound scene
           ...( scene === model.soundScene && model.soundScene.showSoundParticles ? [ soundViewTypeRadioButtonGroup ] : [] ),

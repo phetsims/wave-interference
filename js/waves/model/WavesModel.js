@@ -82,8 +82,8 @@ define( require => {
 
         waveSpatialType: Scene.WaveSpatialType.POINT,
 
-        // The property name of the initial scene to display
-        scenes: ['waterScene', 'soundScene', 'lightScene']
+        // Array of scenes to be created
+        scenes: [ 'waterScene', 'soundScene', 'lightScene' ]
       }, options );
 
       assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
@@ -95,126 +95,143 @@ define( require => {
       );
 
       // Instantiate the Scenes.  Parameters are declared here to make it easier to compare options
-      // and see them in the same file.
+      // and see them in the same file.  Scenes are only created if specified in the options.
 
-      // @public - Water scene
-      this.waterScene = new WaterScene( {
-        waveSpatialType: options.waveSpatialType,
+      // @public (read-only) {WaterScene|null}
+      this.waterScene = null;
 
-        positionUnits: 'cm',
-        translatedPositionUnits: centimetersUnitsString,
-        timeUnits: secondsUnitsString,
-        timeScaleString: '',
+      // @public (read-only) {SoundScene|null}
+      this.soundScene = null;
 
-        graphVerticalAxisLabel: waterLevelString,
-        graphTitle: waterLevelAtCenterString,
-        graphHorizontalAxisLabel: positionCMString,
-        waveAreaWidth: 10, // 10 centimeters
-        frequencyRange: new Range( 0.25, 1 ), // cycles per second
-        scaleIndicatorLength: 1, // 1 centimeter
-        numberOfSources: options.numberOfSources,
-
-        // Calibration for water is done by measuring the empirical wave speed, since we want the timeScaleFactor to
-        // remain as 1.0
-        // in position units/time units, measured empirically as 5.4 seconds to cross the 10cm lattice
-        waveSpeed: 1.65,
-
-        timeScaleFactor: 1, // 1 second in real time = 1 second on the simulation timer
-
-        initialSlitWidth: 1.5, // cm
-        initialSlitSeparation: 3, // cm
-
-        sourceSeparationRange: new Range( 1, 5 ), // cm
-        slitSeparationRange: new Range( 1, 5 ), // cm
-        slitWidthRange: new Range( 0.5, 2.5 ), // cm
-
-        initialAmplitude: options.initialAmplitude,
-        linkDesiredAmplitudeToAmplitude: false,
-        planeWaveGeneratorNodeText: waterWaveGeneratorString
-      } );
-
-      // @public - Sound scene
-      this.soundScene = new SoundScene( options.showSoundParticles, {
-        waveSpatialType: options.waveSpatialType,
-        positionUnits: 'cm',
-        translatedPositionUnits: centimetersUnitsString,
-        timeUnits: millisecondsUnitsString,
-        timeScaleString: millisecondConversionString,
-
-        graphVerticalAxisLabel: pressureString,
-        graphTitle: pressureAtCenterString,
-        graphHorizontalAxisLabel: positionCMString,
-        waveAreaWidth: 500, // in cm
-
-        // See https://pages.mtu.edu/~suits/notefreqs.html
-        frequencyRange: new Range(
-          // A3 in cycles per ms, wavelength is 156.8cm
-          220 / 1000,
-
-          // A4 in cycles per ms, wavelength is  78.4cm
-          440 / 1000
-        ),
-        scaleIndicatorLength: 50, // cm
-        numberOfSources: options.numberOfSources,
-        waveSpeed: 34.3, // in cm/ms
-
-        // Determined empirically by setting timeScaleFactor to 1, then checking the displayed wavelength of maximum
-        // frequency sound on the lattice and dividing by the desired wavelength.  ?log can be useful.  Can check/fine
-        // tune by measuring the speed of sound.
-        timeScaleFactor: 244.7 / 103.939 * 35.24 / 34.3,
-
-        initialSlitWidth: 90, // cm
-        initialSlitSeparation: 200, // cm
-        sourceSeparationRange: new Range( 100, 400 ), // cm
-        slitWidthRange: new Range( 20, 160 ), // cm
-        slitSeparationRange: new Range( 40, 320 ), // cm
-
-        initialAmplitude: options.initialAmplitude,
-        linkDesiredAmplitudeToAmplitude: true,
-        planeWaveGeneratorNodeText: soundGeneratorString
-      } );
-
-      // @public - Light scene.
-      this.lightScene = new LightScene( {
-        waveSpatialType: options.waveSpatialType,
-        positionUnits: 'nm',
-        translatedPositionUnits: nanometersUnitsString,
-        timeUnits: femtosecondsUnitsString,
-        timeScaleString: femtosecondConversionString,
-        graphVerticalAxisLabel: electricFieldString,
-        graphTitle: electricFieldAtCenterString,
-        graphHorizontalAxisLabel: positionNMString,
-        waveAreaWidth: 5000, // nm
-
-        // in cycles per femtosecond
-        frequencyRange: new Range( toFemto( VisibleColor.MIN_FREQUENCY ), toFemto( VisibleColor.MAX_FREQUENCY ) ),
-        scaleIndicatorLength: 500, // nm
-
-        numberOfSources: options.numberOfSources,
-
-        // in nm/fs
-        waveSpeed: 299.792458,
-
-        // Determined empirically by setting timeScaleFactor to 1, then checking the displayed wavelength of maximum
-        // frequency wave on the lattice and dividing by the desired wavelength.  Can check by measuring the speed of
-        // light
-        timeScaleFactor: 1416.5 / 511.034,
-
-        // nm - if this value is too high, the light screen will oversaturate,
-        // see https://github.com/phetsims/wave-interference/issues/209
-        initialSlitWidth: 500, // nm
-        initialSlitSeparation: 1500, // nm
-        sourceSeparationRange: new Range( 500, 4000 ), // nm
-        slitWidthRange: new Range( 200, 1600 ), // nm
-        slitSeparationRange: new Range( 400, 3200 ), // nm
-
-        initialAmplitude: options.initialAmplitude,
-        linkDesiredAmplitudeToAmplitude: true,
-        planeWaveGeneratorNodeText: lightGeneratorString
-      } );
+      // @public (read-only) {LightScene|null}
+      this.lightScene = null;
 
       // @public (read-only) {Scene[]} - the Scene instances as an array
-      this.scenes = [this.waterScene, this.soundScene, this.lightScene];
+      this.scenes = [];
+
+      if ( options.scenes.indexOf( 'waterScene' ) >= 0 ) {
+        this.waterScene = new WaterScene( {
+          waveSpatialType: options.waveSpatialType,
+
+          positionUnits: 'cm',
+          translatedPositionUnits: centimetersUnitsString,
+          timeUnits: secondsUnitsString,
+          timeScaleString: '',
+
+          graphVerticalAxisLabel: waterLevelString,
+          graphTitle: waterLevelAtCenterString,
+          graphHorizontalAxisLabel: positionCMString,
+          waveAreaWidth: 10, // 10 centimeters
+          frequencyRange: new Range( 0.25, 1 ), // cycles per second
+          scaleIndicatorLength: 1, // 1 centimeter
+          numberOfSources: options.numberOfSources,
+
+          // Calibration for water is done by measuring the empirical wave speed, since we want the timeScaleFactor to
+          // remain as 1.0
+          // in position units/time units, measured empirically as 5.4 seconds to cross the 10cm lattice
+          waveSpeed: 1.65,
+
+          timeScaleFactor: 1, // 1 second in real time = 1 second on the simulation timer
+
+          initialSlitWidth: 1.5, // cm
+          initialSlitSeparation: 3, // cm
+
+          sourceSeparationRange: new Range( 1, 5 ), // cm
+          slitSeparationRange: new Range( 1, 5 ), // cm
+          slitWidthRange: new Range( 0.5, 2.5 ), // cm
+
+          initialAmplitude: options.initialAmplitude,
+          linkDesiredAmplitudeToAmplitude: false,
+          planeWaveGeneratorNodeText: waterWaveGeneratorString
+        } );
+        this.scenes.push( this.waterScene );
+      }
+
+      // @public - Sound scene
+      if ( options.scenes.indexOf( 'soundScene' ) >= 0 ) {
+        this.soundScene = new SoundScene( options.showSoundParticles, {
+          waveSpatialType: options.waveSpatialType,
+          positionUnits: 'cm',
+          translatedPositionUnits: centimetersUnitsString,
+          timeUnits: millisecondsUnitsString,
+          timeScaleString: millisecondConversionString,
+
+          graphVerticalAxisLabel: pressureString,
+          graphTitle: pressureAtCenterString,
+          graphHorizontalAxisLabel: positionCMString,
+          waveAreaWidth: 500, // in cm
+
+          // See https://pages.mtu.edu/~suits/notefreqs.html
+          frequencyRange: new Range(
+            // A3 in cycles per ms, wavelength is 156.8cm
+            220 / 1000,
+
+            // A4 in cycles per ms, wavelength is  78.4cm
+            440 / 1000
+          ),
+          scaleIndicatorLength: 50, // cm
+          numberOfSources: options.numberOfSources,
+          waveSpeed: 34.3, // in cm/ms
+
+          // Determined empirically by setting timeScaleFactor to 1, then checking the displayed wavelength of maximum
+          // frequency sound on the lattice and dividing by the desired wavelength.  ?log can be useful.  Can check/fine
+          // tune by measuring the speed of sound.
+          timeScaleFactor: 244.7 / 103.939 * 35.24 / 34.3,
+
+          initialSlitWidth: 90, // cm
+          initialSlitSeparation: 200, // cm
+          sourceSeparationRange: new Range( 100, 400 ), // cm
+          slitWidthRange: new Range( 20, 160 ), // cm
+          slitSeparationRange: new Range( 40, 320 ), // cm
+
+          initialAmplitude: options.initialAmplitude,
+          linkDesiredAmplitudeToAmplitude: true,
+          planeWaveGeneratorNodeText: soundGeneratorString
+        } );
+        this.scenes.push( this.soundScene );
+      }
+
+      // @public - Light scene.
+      if ( options.scenes.indexOf( 'lightScene' ) >= 0 ) {
+        this.lightScene = new LightScene( {
+          waveSpatialType: options.waveSpatialType,
+          positionUnits: 'nm',
+          translatedPositionUnits: nanometersUnitsString,
+          timeUnits: femtosecondsUnitsString,
+          timeScaleString: femtosecondConversionString,
+          graphVerticalAxisLabel: electricFieldString,
+          graphTitle: electricFieldAtCenterString,
+          graphHorizontalAxisLabel: positionNMString,
+          waveAreaWidth: 5000, // nm
+
+          // in cycles per femtosecond
+          frequencyRange: new Range( toFemto( VisibleColor.MIN_FREQUENCY ), toFemto( VisibleColor.MAX_FREQUENCY ) ),
+          scaleIndicatorLength: 500, // nm
+
+          numberOfSources: options.numberOfSources,
+
+          // in nm/fs
+          waveSpeed: 299.792458,
+
+          // Determined empirically by setting timeScaleFactor to 1, then checking the displayed wavelength of maximum
+          // frequency wave on the lattice and dividing by the desired wavelength.  Can check by measuring the speed of
+          // light
+          timeScaleFactor: 1416.5 / 511.034,
+
+          // nm - if this value is too high, the light screen will oversaturate,
+          // see https://github.com/phetsims/wave-interference/issues/209
+          initialSlitWidth: 500, // nm
+          initialSlitSeparation: 1500, // nm
+          sourceSeparationRange: new Range( 500, 4000 ), // nm
+          slitWidthRange: new Range( 200, 1600 ), // nm
+          slitSeparationRange: new Range( 400, 3200 ), // nm
+
+          initialAmplitude: options.initialAmplitude,
+          linkDesiredAmplitudeToAmplitude: true,
+          planeWaveGeneratorNodeText: lightGeneratorString
+        } );
+        this.scenes.push( this.lightScene );
+      }
 
       // @public (read-only) {number} - number of sources that can emit
       this.numberOfSources = options.numberOfSources;
@@ -291,7 +308,7 @@ define( require => {
       } );
 
       // @public {DerivedProperty.<boolean>} - true if the system is rotating
-      this.isRotatingProperty = new DerivedProperty( [this.rotationAmountProperty],
+      this.isRotatingProperty = new DerivedProperty( [ this.rotationAmountProperty ],
         rotationAmount => rotationAmount !== rotationAmountRange.min && rotationAmount !== rotationAmountRange.max
       );
 
@@ -419,13 +436,13 @@ define( require => {
    * The simulation can run at normal speed (NORMAL) or slow motion (SLOW).
    * @public
    */
-  WavesModel.PlaySpeed = new Enumeration( ['NORMAL', 'SLOW'] );
+  WavesModel.PlaySpeed = new Enumeration( [ 'NORMAL', 'SLOW' ] );
 
   /**
    * The wave area can be viewed from the TOP or from the SIDE. The view animates between the selections.
    * @public
    */
-  WavesModel.Viewpoint = new Enumeration( ['TOP', 'SIDE'] );
+  WavesModel.Viewpoint = new Enumeration( [ 'TOP', 'SIDE' ] );
 
   return waveInterference.register( 'WavesModel', WavesModel );
 } );

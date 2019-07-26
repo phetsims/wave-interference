@@ -38,7 +38,7 @@ define( require => {
     constructor( model, view, options ) {
 
       // Only wire up for the sound scene
-      if ( options.controlPanelOptions.showPlaySoundControl ) {
+      if ( model.soundScene && options.controlPanelOptions.showPlaySoundControl ) {
         const sineWavePlayer = new SineWaveGenerator( model.soundScene.frequencyProperty, model.soundScene.amplitudeProperty, {
           enableControlProperties: [
             model.soundScene.isSoundPlayingProperty,
