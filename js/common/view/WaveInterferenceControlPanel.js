@@ -19,6 +19,7 @@ define( require => {
   const WaveInterferenceCheckbox = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceCheckbox' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
+  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
   // strings
@@ -169,6 +170,16 @@ define( require => {
 
       const container = new Node();
 
+      const createLightSonificationCheckbox = () => {
+        return new WaveInterferenceCheckbox(
+          new WaveInterferenceText( 'Sound Effect' ),
+          model.lightScene.soundEffectEnabledProperty, {
+            audioEnabled: options.supportsSound,
+            top: screenCheckbox.bottom + CHECKBOX_SPACING,
+            left: screenCheckbox.left
+          } );
+      };
+
       // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
       model.sceneProperty.link( scene => {
 
@@ -190,7 +201,8 @@ define( require => {
 
           // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
           ...( scene === model.lightScene ? [ screenCheckbox ] : [] ),
-          ...( scene === model.lightScene && options.showIntensityCheckbox ? [ intensityCheckbox ] : [] )
+          ...( scene === model.lightScene && options.showIntensityCheckbox ? [ intensityCheckbox ] : [] ),
+          ...( scene === model.lightScene && WaveInterferenceQueryParameters.lightSonificationCheckbox ? [ createLightSonificationCheckbox() ] : [] )
         ];
       } );
 

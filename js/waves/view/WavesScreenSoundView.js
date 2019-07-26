@@ -57,78 +57,96 @@ define( require => {
 
       if ( WaveInterferenceQueryParameters.fullSonification ) {
 
-        const waterDropSoundClip0 = new SoundClip( waterDropSound0 );
-        const waterDropSoundClip1 = new SoundClip( waterDropSound1 );
-        const waterDropSoundClip2 = new SoundClip( waterDropSound2 );
-        const waterDropSoundClip3 = new SoundClip( waterDropSound3 );
-        soundManager.addSoundGenerator( waterDropSoundClip0 );
-        soundManager.addSoundGenerator( waterDropSoundClip1 );
-        soundManager.addSoundGenerator( waterDropSoundClip2 );
-        soundManager.addSoundGenerator( waterDropSoundClip3 );
-        let selectedClip = null;
-        const soundClips = [
-          waterDropSoundClip0,
-          waterDropSoundClip1,
-          waterDropSoundClip2,
-          waterDropSoundClip3
-        ];
-        model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
-          const amp = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
-            1.0, 0.5, waterDrop.amplitude );
-
-          // Select water drop sounds randomly, but do not let the same sound go twice in a row
-          selectedClip = phet.joist.random.sample( _.without( soundClips, selectedClip ) );
-          selectedClip.setPlaybackRate( amp );
-          selectedClip.play();
-        } );
-
         soundManager.addSoundGenerator( new ResetAllSoundGenerator( model.isResettingProperty, {
           initialOutputLevel: 0.7
         } ) );
 
-        const speakerPulseSoundClip = new SoundClip( speakerPulseSound, {
-          trimSilence: false
-        } );
-        soundManager.addSoundGenerator( speakerPulseSoundClip );
-        model.soundScene.oscillator1Property.link( ( value, previousValue ) => {
-          if ( previousValue >= 0 && value < 0 ) {
+        if ( model.waterScene ) {
+          const waterDropSoundClip0 = new SoundClip( waterDropSound0 );
+          const waterDropSoundClip1 = new SoundClip( waterDropSound1 );
+          const waterDropSoundClip2 = new SoundClip( waterDropSound2 );
+          const waterDropSoundClip3 = new SoundClip( waterDropSound3 );
+          soundManager.addSoundGenerator( waterDropSoundClip0 );
+          soundManager.addSoundGenerator( waterDropSoundClip1 );
+          soundManager.addSoundGenerator( waterDropSoundClip2 );
+          soundManager.addSoundGenerator( waterDropSoundClip3 );
+          let selectedClip = null;
+          const soundClips = [
+            waterDropSoundClip0,
+            waterDropSoundClip1,
+            waterDropSoundClip2,
+            waterDropSoundClip3
+          ];
+          model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
+            const amp = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
+              1.0, 0.5, waterDrop.amplitude );
 
-            const amplitude = Util.linear( model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
-              0.0, 0.4, model.soundScene.amplitudeProperty.value );
-            const playbackRate = Util.linear( model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
-              1, 1.4, model.soundScene.frequencyProperty.value );
-            speakerPulseSoundClip.setOutputLevel( amplitude, 0.5 );
-            speakerPulseSoundClip.setPlaybackRate( playbackRate / 2 );
-            speakerPulseSoundClip.play();
-          }
-        } );
+            // Select water drop sounds randomly, but do not let the same sound go twice in a row
+            selectedClip = phet.joist.random.sample( _.without( soundClips, selectedClip ) );
+            selectedClip.setPlaybackRate( amp );
+            selectedClip.play();
+          } );
+        }
 
-        const lightBeamLoopSoundClip = new SoundClip( lightBeamLoopSound, {
-          loop: true
-        } );
-        soundManager.addSoundGenerator( lightBeamLoopSoundClip );
+        if ( model.soundScene ) {
 
-        const lightAmplitudeProperty = model.lightScene.amplitudeProperty;
-        const lightFrequencyProperty = model.lightScene.frequencyProperty;
-        Property.multilink( [ lightAmplitudeProperty, lightFrequencyProperty ], ( amplitude, frequency ) => {
-          const outputLevel = Util.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
-            0.0, 0.4, amplitude );
-          const playbackRate = Util.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
-            1, 1.8, frequency );
-          lightBeamLoopSoundClip.setOutputLevel( outputLevel );
-          lightBeamLoopSoundClip.setPlaybackRate( playbackRate );
-        } );
+          const speakerPulseSoundClip = new SoundClip( speakerPulseSound, {
+            trimSilence: false
+          } );
+          soundManager.addSoundGenerator( speakerPulseSoundClip );
+          model.soundScene.oscillator1Property.link( ( value, previousValue ) => {
+            if ( previousValue >= 0 && value < 0 ) {
 
-        // TODO: starting when the model is unpaused doesn't match the phase
-        Property.multilink( [ model.lightScene.button1PressedProperty, model.isRunningProperty ], ( button1Pressed, isRunning ) => {
-          const shouldPlay = button1Pressed && isRunning;
-          if ( lightBeamLoopSoundClip.isPlaying && !shouldPlay ) {
-            lightBeamLoopSoundClip.stop();
-          }
-          else if ( !lightBeamLoopSoundClip.isPlaying && shouldPlay ) {
-            lightBeamLoopSoundClip.play();
-          }
-        } );
+              const amplitude = Util.linear( model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
+                0.0, 0.4, model.soundScene.amplitudeProperty.value );
+              const playbackRate = Util.linear( model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
+                1, 1.4, model.soundScene.frequencyProperty.value );
+              speakerPulseSoundClip.setOutputLevel( amplitude, 0.5 );
+              speakerPulseSoundClip.setPlaybackRate( playbackRate / 2 );
+              speakerPulseSoundClip.play();
+            }
+          } );
+        }
+
+        if ( model.lightScene ) {
+
+          const lightBeamLoopSoundClip = new SoundClip( lightBeamLoopSound, {
+            loop: true
+          } );
+
+          // TODO: @jbphet: the following line cuts the audio by about half when used instead of using the multilink below
+          // TODO: @jbphet: also note when I added associatedViewNode: view this also cut the volume approximately in half
+          // lightBeamLoopSoundClip.addEnableControlProperty( model.lightScene.soundEffectEnabledProperty );
+          soundManager.addSoundGenerator( lightBeamLoopSoundClip, {
+            associatedViewNode: view
+          } );
+
+          const lightAmplitudeProperty = model.lightScene.amplitudeProperty;
+          const lightFrequencyProperty = model.lightScene.frequencyProperty;
+          Property.multilink( [ lightAmplitudeProperty, lightFrequencyProperty ], ( amplitude, frequency ) => {
+            const outputLevel = Util.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
+              0.0, 0.8, amplitude );
+            const playbackRate = Util.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
+              1, 1.8, frequency );
+            lightBeamLoopSoundClip.setOutputLevel( outputLevel );
+            lightBeamLoopSoundClip.setPlaybackRate( playbackRate );
+          } );
+
+          // TODO: starting when the model is unpaused doesn't match the phase
+          Property.multilink( [
+            model.lightScene.button1PressedProperty,
+            model.isRunningProperty,
+            model.lightScene.soundEffectEnabledProperty
+          ], ( button1Pressed, isRunning, enabled ) => {
+            const shouldPlay = button1Pressed && isRunning && enabled;
+            if ( lightBeamLoopSoundClip.isPlaying && !shouldPlay ) {
+              lightBeamLoopSoundClip.stop();
+            }
+            else if ( !lightBeamLoopSoundClip.isPlaying && shouldPlay ) {
+              lightBeamLoopSoundClip.play();
+            }
+          } );
+        }
       }
     }
 

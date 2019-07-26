@@ -9,9 +9,11 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const IntensitySample = require( 'WAVE_INTERFERENCE/common/model/IntensitySample' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
 
   class LightScene extends Scene {
 
@@ -24,6 +26,9 @@ define( require => {
       // @public (read-only) reads out the intensity on the right hand side of the lattice
       // While this is annotated as 'read-only' for assignment, it can be mutated by clients.
       this.intensitySample = new IntensitySample( this.lattice );
+
+      // @public
+      this.soundEffectEnabledProperty = new BooleanProperty( WaveInterferenceQueryParameters.lightSonification );
     }
 
     /**
