@@ -493,22 +493,21 @@ define( require => {
       const perspective3DNode = new Perspective3DNode( this.waveAreaNode.bounds, model.rotationAmountProperty,
         model.isRotatingProperty );
 
-      if ( model.lightScene ) {
 
-        // Initialize and update the colors based on the scene
-        Property.multilink( [
-          model.sceneProperty,
-          model.lightScene.frequencyProperty
-        ], ( scene, frequency ) => {
-          perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' :
-                                             scene === model.soundScene ? 'gray' :
-                                             VisibleColor.frequencyToColor( fromFemto( frequency ) ) );
-          perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR :
-                                              scene === model.soundScene ? 'darkGray' :
-                                              VisibleColor.frequencyToColor( fromFemto( frequency ) )
-                                                .colorUtilsDarker( 0.15 ) );
-        } );
+      // Initialize and update the colors based on the scene
+      const colorLinkProperties = [ model.sceneProperty ];
+      if ( model.lightScene ) {
+        colorLinkProperties.push( model.lightScene.frequencyProperty );
       }
+      Property.multilink( colorLinkProperties, ( scene, frequency ) => {
+        perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' :
+                                           scene === model.soundScene ? 'gray' :
+                                           VisibleColor.frequencyToColor( fromFemto( frequency ) ) );
+        perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR :
+                                            scene === model.soundScene ? 'darkGray' :
+                                            VisibleColor.frequencyToColor( fromFemto( frequency ) )
+                                              .colorUtilsDarker( 0.15 ) );
+      } );
 
       /**
        * Creates a ToggleNode that shows the primary or secondary source
