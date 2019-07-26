@@ -83,7 +83,7 @@ define( require => {
         waveSpatialType: Scene.WaveSpatialType.POINT,
 
         // The property name of the initial scene to display
-        initialScene: 'waterScene'
+        scenes: ['waterScene', 'soundScene', 'lightScene']
       }, options );
 
       assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
@@ -214,7 +214,7 @@ define( require => {
       } );
 
       // @public (read-only) {Scene[]} - the Scene instances as an array
-      this.scenes = [ this.waterScene, this.soundScene, this.lightScene ];
+      this.scenes = [this.waterScene, this.soundScene, this.lightScene];
 
       // @public (read-only) {number} - number of sources that can emit
       this.numberOfSources = options.numberOfSources;
@@ -246,7 +246,7 @@ define( require => {
       );
 
       // @public {Property.<Scene>} - selected scene
-      this.sceneProperty = new Property( this[ options.initialScene ], {
+      this.sceneProperty = new Property( this[ options.scenes[ 0 ] ], {
         validValues: this.scenes
       } );
 
@@ -291,7 +291,7 @@ define( require => {
       } );
 
       // @public {DerivedProperty.<boolean>} - true if the system is rotating
-      this.isRotatingProperty = new DerivedProperty( [ this.rotationAmountProperty ],
+      this.isRotatingProperty = new DerivedProperty( [this.rotationAmountProperty],
         rotationAmount => rotationAmount !== rotationAmountRange.min && rotationAmount !== rotationAmountRange.max
       );
 
@@ -419,13 +419,13 @@ define( require => {
    * The simulation can run at normal speed (NORMAL) or slow motion (SLOW).
    * @public
    */
-  WavesModel.PlaySpeed = new Enumeration( [ 'NORMAL', 'SLOW' ] );
+  WavesModel.PlaySpeed = new Enumeration( ['NORMAL', 'SLOW'] );
 
   /**
    * The wave area can be viewed from the TOP or from the SIDE. The view animates between the selections.
    * @public
    */
-  WavesModel.Viewpoint = new Enumeration( [ 'TOP', 'SIDE' ] );
+  WavesModel.Viewpoint = new Enumeration( ['TOP', 'SIDE'] );
 
   return waveInterference.register( 'WavesModel', WavesModel );
 } );
