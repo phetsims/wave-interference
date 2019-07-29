@@ -94,8 +94,13 @@ define( require => {
         'Model only supports 1 or 2 sources'
       );
 
-      // Instantiate the Scenes.  Parameters are declared here to make it easier to compare options
-      // and see them in the same file.  Scenes are only created if specified in the options.
+      // Instantiate the Scenes.  Scene options are specified here to make it easier to compare options between scenes.
+      // Scenes are only created if specified in the options.  For example, Wave Interference creates waterScene,
+      // soundScene and lightScene whereas Waves Intro's Water screen only creates the waterScene.  This allows
+      // pieces from different scenes to (such as showing a swappable frequency control in the same control panel)
+      // but unfortunately leads to a lot of checks like if (model.waterScene){...} etc.  If implemented from scratch,
+      // this may have been done differently, but this sim initially developed for Wave Interference only (all scenes)
+      // and was later retrofitted to have a subset of scenes.  More discussion on this point appears in https://github.com/phetsims/wave-interference/issues/414#issuecomment-516079304
 
       // @public (read-only) {WaterScene|null}
       this.waterScene = null;
