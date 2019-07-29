@@ -114,7 +114,7 @@ define( require => {
       // @public (read-only) {Scene[]} - the Scene instances as an array
       this.scenes = [];
 
-      if ( options.scenes.indexOf( 'waterScene' ) >= 0 ) {
+      if ( options.scenes.indexOf( 'waterScene' ) !== -1 ) {
         this.waterScene = new WaterScene( {
           waveSpatialType: options.waveSpatialType,
 
@@ -153,7 +153,7 @@ define( require => {
       }
 
       // @public - Sound scene
-      if ( options.scenes.indexOf( 'soundScene' ) >= 0 ) {
+      if ( options.scenes.indexOf( 'soundScene' ) !== -1 ) {
         this.soundScene = new SoundScene( options.showSoundParticles, {
           waveSpatialType: options.waveSpatialType,
           positionUnits: 'cm',
@@ -197,7 +197,7 @@ define( require => {
       }
 
       // @public - Light scene.
-      if ( options.scenes.indexOf( 'lightScene' ) >= 0 ) {
+      if ( options.scenes.indexOf( 'lightScene' ) !== -1 ) {
         this.lightScene = new LightScene( {
           waveSpatialType: options.waveSpatialType,
           positionUnits: 'nm',
