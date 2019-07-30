@@ -27,6 +27,7 @@ define( require => {
   const intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
   const playToneString = require( 'string!WAVE_INTERFERENCE/playTone' );
   const screenString = require( 'string!WAVE_INTERFERENCE/screen' );
+  const soundEffectString = require( 'string!WAVE_INTERFERENCE/soundEffect' );
 
   class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
@@ -172,7 +173,7 @@ define( require => {
 
       const createLightSonificationCheckbox = () => {
         return new WaveInterferenceCheckbox(
-          new WaveInterferenceText( 'Sound Effect' ),
+          new WaveInterferenceText( soundEffectString ),
           model.lightScene.soundEffectEnabledProperty, {
             audioEnabled: options.supportsSound,
             top: screenCheckbox.bottom + CHECKBOX_SPACING,
@@ -202,7 +203,7 @@ define( require => {
           // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
           ...( scene === model.lightScene ? [ screenCheckbox ] : [] ),
           ...( scene === model.lightScene && options.showIntensityCheckbox ? [ intensityCheckbox ] : [] ),
-          ...( scene === model.lightScene && WaveInterferenceQueryParameters.lightSonificationCheckbox ? [ createLightSonificationCheckbox() ] : [] )
+          ...( scene === model.lightScene && WaveInterferenceQueryParameters.fullSonification && WaveInterferenceQueryParameters.lightSonificationCheckbox ? [ createLightSonificationCheckbox() ] : [] )
         ];
       } );
 

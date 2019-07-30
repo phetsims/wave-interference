@@ -184,5 +184,8 @@
   },
   "lightGenerator": {
     "value": "Light Generator"
+  },
+  "soundEffect": {
+    "value": "Sound Effect"
   }
 }
