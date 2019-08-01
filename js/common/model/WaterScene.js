@@ -26,7 +26,7 @@ define( require => {
       super( config );
 
       // @public - Emits when a water drop hits the y=0 plane
-      this.waterDropAbsorbedEmitter = new Emitter( { validators: [ { valueType: WaterDrop } ] } );
+      this.waterDropAbsorbedEmitter = new Emitter( { parameters: [ { valueType: WaterDrop } ] } );
 
       // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
       // gets propagated to the lattice via the water drops
