@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.5 Fri Jul 26 2019 17:14:41 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# wave-interference 1.0.6-rc.1 Thu Aug 01 2019 03:52:39 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -46,7 +46,7 @@
   },
   "phetcommon": {
     "sha": "04f86418627d1ff4e304757aea47a96ce9de78f8",
-    "branch": "wave-interference-1.0"
+    "branch": "HEAD"
   },
   "phetmarks": {
     "sha": "8decc0216e90f38a005b0d6726ccc2672286628b",
@@ -85,7 +85,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "a1e1b53e9c14866da2a07a865fcfcf06a0a849c2",
+    "sha": "02a44ed8197e3e80eed88853c5ad95c41776d8cf",
     "branch": "1.0"
   }
 }
