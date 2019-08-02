@@ -50,6 +50,8 @@ define( require => {
         this.redSphereImage = canvas;
       } );
 
+      const images = [];
+
       // At the end of each model step, update all of the particles as a batch.
       const update = () => {
         if ( model.sceneProperty.value === model.soundScene ) {
@@ -60,8 +62,6 @@ define( require => {
       };
       model.stepEmitter.addListener( update );
       model.sceneProperty.link( update );
-
-      const images = [];
 
       for ( let i = 0; i < this.model.soundScene.soundParticles.length; i++ ) {
         const soundParticle = this.model.soundScene.soundParticles[ i ];
