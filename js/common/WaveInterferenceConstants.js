@@ -54,11 +54,11 @@ define( require => {
       },
       numberDisplayOptions: {
         font: new PhetFont( 13 ),
-        maxWidth: 65
+        maxWidth: 60
       },
       titleNodeOptions: {
         font: DEFAULT_FONT,
-        maxWidth: 95
+        maxWidth: 85
       }
     },
     THUMB_SIZE: THUMB_SIZE,
