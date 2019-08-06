@@ -58,7 +58,7 @@ define( require => {
       },
       titleNodeOptions: {
         font: DEFAULT_FONT,
-        maxWidth: 85
+        maxWidth: 100
       }
     },
     THUMB_SIZE: THUMB_SIZE,

@@ -47,10 +47,10 @@ define( require => {
           thumbSize: new Dimension2( 13, 24.2 )
         },
         titleNodeOptions: {
-          maxWidth: 120
+          maxWidth: 130
         },
         numberDisplayOptions: {
-          maxWidth: 60
+          maxWidth: 80
         }
       } );
       super( title, property, property.range, expandedOptions );
