@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 2.0.0-dev.9 Tue Aug 06 2019 21:37:13 GMT-0600 (MDT)",
+  "comment": "# wave-interference 2.0.0-dev.10 Tue Aug 06 2019 22:19:19 GMT-0600 (MDT)",
   "assert": {
     "sha": "201c50a840e082354b013f4ab9e9d45006f98cfe",
     "branch": "master"
@@ -85,7 +85,7 @@
     "branch": "master"
   },
   "wave-interference": {
-    "sha": "253c111add3da4fc47f08780e94080bd859e6c04",
+    "sha": "4eb03ef77a84e62d65efe08aa4914c43d0261bf6",
     "branch": "master"
   }
 }
