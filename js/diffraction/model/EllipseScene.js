@@ -49,11 +49,25 @@ define( require => {
       const ry = Math.sqrt( rx * rx * ( 1 - eccentricity * eccentricity ) );
 
       context.beginPath();
-      context.ellipse(
-        WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2,
-        WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2,
-        rx, ry, 0, 0, Math.PI * 2
-      );
+
+      if ( context.ellipse ) {
+        context.ellipse(
+          WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2,
+          WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2,
+          rx, ry, 0, 0, Math.PI * 2
+        );
+      }
+      else {
+
+        // context.ellipse is not supported on IE11, see https://github.com/phetsims/wave-interference/issues/424
+        // In that case, render as a scaled circle
+        context.save();
+        context.translate( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2, WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 );
+        context.scale( rx, ry );
+        context.arc( 0, 0, 1, 0, Math.PI * 2 );
+        context.restore();
+      }
+
       context.fill();
     }
   }
