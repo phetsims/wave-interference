@@ -128,7 +128,20 @@ define( require => {
 
         // Don't connect the ellipses
         context.moveTo( x0, y0 );
-        context.ellipse( x0, y0, Math.sqrt( rx2 ), Math.sqrt( ry2 ), 0, 0, Math.PI * 2 );
+
+        if ( context.ellipse ) {
+          context.ellipse( x0, y0, Math.sqrt( rx2 ), Math.sqrt( ry2 ), 0, 0, Math.PI * 2 );
+        }
+        else {
+
+          // context.ellipse is not supported on IE11, see https://github.com/phetsims/wave-interference/issues/424
+          // In that case, render as a scaled circle.  Similar to EllipticalArc.js
+          context.save();
+          context.translate( x0, y0 );
+          context.scale( Math.sqrt( rx2 ), Math.sqrt( ry2 ) );
+          context.arc( 0, 0, 1, 0, Math.PI * 2 );
+          context.restore();
+        }
       }
       context.fill();
     }
