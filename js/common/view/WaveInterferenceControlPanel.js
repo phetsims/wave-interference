@@ -13,6 +13,7 @@ define( require => {
   const FrequencyControl = require( 'WAVE_INTERFERENCE/common/view/FrequencyControl' );
   const HSeparator = require( 'SUN/HSeparator' );
   const Node = require( 'SCENERY/nodes/Node' );
+  const platform = require( 'PHET_CORE/platform' );
   const SceneRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SceneRadioButtonGroup' );
   const SoundViewTypeRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SoundViewTypeRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -106,13 +107,15 @@ define( require => {
       ) : null;
 
       let playToneCheckbox = null;
-      if ( model.soundScene && options.showPlaySoundControl ) {
+
+      // Only show the Play Tone checkbox for the Sound Scene, if specified.  Not supported on Internet Explorer
+      // due to lack of IE support for tambo, see https://github.com/phetsims/wave-interference/issues/425
+      if ( model.soundScene && options.showPlaySoundControl && !platform.ie ) {
         playToneCheckbox = new WaveInterferenceCheckbox( new WaveInterferenceText( playToneString ),
           model.soundScene.isSoundPlayingProperty, {
             audioEnabled: options.supportsSound
           } );
       }
-
 
       // Horizontal layout
       const centerX = frequencyControl.centerX;
