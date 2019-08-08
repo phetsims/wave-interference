@@ -32,6 +32,7 @@ define( require => {
     constructor( wavingGirlScene, options ) {
       super( new HBox( {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
+        align: 'bottom',
         children: [
           new DiffractionNumberControl( heightString, wavingGirlScene.heightProperty, {
             delta: 10 * 1E-3,

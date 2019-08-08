@@ -30,6 +30,7 @@ define( require => {
     constructor( rectangleScene, options ) {
       super( new HBox( {
         spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
+        align: 'bottom',
         children: [
           new DiffractionNumberControl( widthString, rectangleScene.widthProperty, {
             delta: 10 * 1E-3,
