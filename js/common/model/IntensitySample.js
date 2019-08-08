@@ -12,12 +12,11 @@ define( require => {
   // modules
   const Emitter = require( 'AXON/Emitter' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
   // Number of samples to use for a temporal average.  Higher number means more latency and smoother. Lower number means
   // lower latency, but more bouncy.
-  const HISTORY_LENGTH = 90 * WaveInterferenceConstants.CALIBRATION_SCALE;
+  const HISTORY_LENGTH = 90;
 
   class IntensitySample {
 
