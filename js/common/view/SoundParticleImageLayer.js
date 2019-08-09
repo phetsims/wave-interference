@@ -30,7 +30,9 @@ define( require => {
 
         layerSplit: true, // ensure we're on our own layer
         renderer: 'webgl',
-        children: [ Rectangle.bounds( waveAreaNodeBounds, {} ) ] // TODO: eliminate
+
+        // TODO: document what this child does
+        children: [ Rectangle.bounds( waveAreaNodeBounds, {} ) ]
       }, options );
 
       super( options );
