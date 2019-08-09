@@ -568,7 +568,7 @@ define( require => {
 
       // Only start up the audio system if sound is enabled for this screen
       if ( options.supportsSound ) {
-        new WavesScreenSoundView( model, this, options ).start();
+        WavesScreenSoundView.init( model, this, options );
       }
 
       this.addChild( resetAllButton );

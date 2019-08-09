@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * Sets up sounds for the Waves Screen which are not associated with pre-existing components.
+ * Sets up sounds for the Waves Screen which are not already associated with pre-existing components.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -34,10 +34,11 @@ define( require => {
      * @param {WavesModel} model
      * @param {WavesScreenView} view
      * @param {Object} [options]
+     * @public
      */
-    constructor( model, view, options ) {
+    static init( model, view, options ) {
 
-      // Only wire up for the sound scene
+      // The sound scene generates a sine wave when the "Play Tone" checkbox is checked
       if ( model.soundScene && options.controlPanelOptions.showPlaySoundControl ) {
         const sineWavePlayer = new SineWaveGenerator( model.soundScene.frequencyProperty, model.soundScene.amplitudeProperty, {
           enableControlProperties: [
@@ -55,12 +56,13 @@ define( require => {
         sineWavePlayer.addEnableControlProperty( isSoundSceneProperty );
       }
 
+      // Additional sounds which are enabled in ?fullSonification.  Note once we publish Wave Interference and Waves Intro
+      // with just the sine wave (above), we plan to republish the entire sim with a11y and full sonification.  At that
+      // point, the ?fullSonification query parameter will be removed.
       if ( WaveInterferenceQueryParameters.fullSonification ) {
-
         soundManager.addSoundGenerator( new ResetAllSoundGenerator( model.isResettingProperty, {
           initialOutputLevel: 0.7
         } ) );
-
         if ( model.waterScene ) {
           const waterDropSoundClip0 = new SoundClip( waterDropSound0 );
           const waterDropSoundClip1 = new SoundClip( waterDropSound1 );
@@ -70,33 +72,45 @@ define( require => {
           soundManager.addSoundGenerator( waterDropSoundClip1 );
           soundManager.addSoundGenerator( waterDropSoundClip2 );
           soundManager.addSoundGenerator( waterDropSoundClip3 );
-          let selectedClip = null;
           const soundClips = [
             waterDropSoundClip0,
             waterDropSoundClip1,
             waterDropSoundClip2,
             waterDropSoundClip3
           ];
+
+          // The water drop SoundClip that was most recently played, to avoid repeats
+          let lastPlayedWaterDropSoundClip = null;
+
+          // When a water drop is absorbed, play a water drop sound.
           model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
-            const amp = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
+
+            // The waterDrop.amplitude indicates the size of the water drop and the strength of the resulting wave.
+            // Smaller water drops play with a higher frequency.
+            const amplitude = Util.linear( WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
               1.0, 0.5, waterDrop.amplitude );
 
             // Select water drop sounds randomly, but do not let the same sound go twice in a row
-            selectedClip = phet.joist.random.sample( _.without( soundClips, selectedClip ) );
-            selectedClip.setPlaybackRate( amp );
-            selectedClip.play();
+            lastPlayedWaterDropSoundClip = phet.joist.random.sample( _.without( soundClips, lastPlayedWaterDropSoundClip ) );
+            lastPlayedWaterDropSoundClip.setPlaybackRate( amplitude );
+            lastPlayedWaterDropSoundClip.play();
           } );
         }
 
         if ( model.soundScene ) {
-
           const speakerPulseSoundClip = new SoundClip( speakerPulseSound, {
+
+            // The sound repeats, so the waveform should not be clipped
             trimSilence: false
           } );
           soundManager.addSoundGenerator( speakerPulseSoundClip );
+
+          // When the wave generator completes a full cycle (passing from positive to negative), restart the speaker
+          // clip at the corresponding volume and frequency.  Note this means if the frequency or volume changes, the
+          // user has to wait for the next cycle to hear the change.
+          // TODO (for the reviewer): is that last constraint about having to wait for the next cycle to hear change OK?
           model.soundScene.oscillator1Property.link( ( value, previousValue ) => {
             if ( previousValue >= 0 && value < 0 ) {
-
               const amplitude = Util.linear( model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
                 0.0, 0.4, model.soundScene.amplitudeProperty.value );
               const playbackRate = Util.linear( model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
@@ -132,7 +146,6 @@ define( require => {
             lightBeamLoopSoundClip.setPlaybackRate( playbackRate );
           } );
 
-          // TODO: starting when the model is unpaused doesn't match the phase
           Property.multilink( [
             model.lightScene.button1PressedProperty,
             model.isRunningProperty,
@@ -148,11 +161,6 @@ define( require => {
           } );
         }
       }
-    }
-
-    // TODO: odd workaround for not using statics
-    start() {
-
     }
   }
 
