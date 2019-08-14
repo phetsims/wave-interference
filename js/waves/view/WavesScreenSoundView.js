@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * Sets up sounds for the Waves Screen which are not already associated with pre-existing components.
+ * Sets up sounds for items on the Waves Screen which are not already associated with pre-existing components.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
