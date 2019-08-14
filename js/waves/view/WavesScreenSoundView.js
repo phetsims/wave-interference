@@ -59,6 +59,7 @@ define( require => {
       // Additional sounds which are enabled in ?fullSonification.  Note once we publish Wave Interference and Waves Intro
       // with just the sine wave (above), we plan to republish the entire sim with a11y and full sonification.  At that
       // point, the ?fullSonification query parameter will be removed.
+      // TODO: Remove this once we publish with full sonification
       if ( WaveInterferenceQueryParameters.fullSonification ) {
         soundManager.addSoundGenerator( new ResetAllSoundGenerator( model.isResettingProperty, {
           initialOutputLevel: 0.7
