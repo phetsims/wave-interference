@@ -184,5 +184,11 @@
   },
   "soundEffect": {
     "value": "Sound Effect"
+  },
+  "none": {
+    "value": "None"
+  },
+  "lots": {
+    "value": "Lots"
   }
 }
