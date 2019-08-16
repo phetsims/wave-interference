@@ -131,6 +131,7 @@ define( require => {
     reset() {
       super.reset();
       this.soundViewTypeProperty.reset();
+      this.isSoundPlayingProperty.reset();
     }
   }
 
