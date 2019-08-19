@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.6 Mon Aug 05 2019 16:58:04 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# wave-interference 1.0.6 Mon Aug 19 2019 14:54:02 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -25,8 +25,8 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "606919f3ec2ab0555456be0ea2e9c0f6dd71501d",
-    "branch": "HEAD"
+    "sha": "cefb462378aa1221bff72274509b40d52cda01ff",
+    "branch": "wave-interference-1.0"
   },
   "kite": {
     "sha": "20a875b740cbb9c441c72911e60617cd05a5d4e1",
@@ -57,12 +57,12 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "2cc43f734aa0b40f425c8a84ab2b87adb604634f",
-    "branch": "HEAD"
+    "sha": "8f8fb7e3c32619f829ef5466b001026f612c6201",
+    "branch": "wave-interference-1.0"
   },
   "scenery-phet": {
-    "sha": "69e8cad78b83ff4b3ab2dae4445efc211125c290",
-    "branch": "HEAD"
+    "sha": "b566570ca12d2b8556794303db73372407058b47",
+    "branch": "wave-interference-1.0"
   },
   "sherpa": {
     "sha": "1a34a865759342c8fc440cb3936df8ecd8a460d8",
@@ -85,7 +85,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "96d53257b0bddc40ec0edbd0ab875c26e0ad558b",
+    "sha": "f424e37c3e81b0d4f21767c75a87296ef44fc52b",
     "branch": "1.0"
   }
 }
