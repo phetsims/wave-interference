@@ -294,7 +294,6 @@ define( require => {
         textColor: 'black',
         basePositionProperty: model.measuringTapeBasePositionProperty,
         tipPositionProperty: model.measuringTapeTipPositionProperty,
-        dragBounds: this.visibleBoundsProperty.value,
 
         // Drop in toolbox
         baseDragEnded: () => {
@@ -306,7 +305,7 @@ define( require => {
           }
         }
       } );
-      this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds ) );
+      this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds.eroded( 20 ) ) );
       model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
       const timerNode = new WaveInterferenceTimerNode( model, {
@@ -534,6 +533,7 @@ define( require => {
         } );
       };
 
+      this.addChild( resetAllButton );
       this.addChild( perspective3DNode );
 
       if ( model.waterScene ) {
@@ -570,8 +570,6 @@ define( require => {
       if ( options.supportsSound ) {
         WavesScreenSoundView.init( model, this, options );
       }
-
-      this.addChild( resetAllButton );
     }
 
     /**
