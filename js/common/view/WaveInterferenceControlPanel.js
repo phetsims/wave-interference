@@ -99,6 +99,8 @@ define( require => {
       intensityCheckbox.mouseArea = intensityCheckbox.localBounds.dilated( 2 ).withX( separator.right );
       intensityCheckbox.touchArea = intensityCheckbox.mouseArea;
 
+      // See also playToneCheckbox mouseArea/touchArea set below
+
       const sceneRadioButtonGroup = options.showSceneRadioButtons ? new SceneRadioButtonGroup(
         model.waterScene,
         model.soundScene,
@@ -115,6 +117,9 @@ define( require => {
           model.soundScene.isSoundPlayingProperty, {
             audioEnabled: options.supportsSound
           } );
+
+        playToneCheckbox.mouseArea = playToneCheckbox.localBounds.dilated( 2 ).withX( separator.right );
+        playToneCheckbox.touchArea = playToneCheckbox.mouseArea;
       }
 
       // Horizontal layout
