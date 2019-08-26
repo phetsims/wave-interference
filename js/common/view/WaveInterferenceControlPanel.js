@@ -62,17 +62,17 @@ define( require => {
       }
 
       const graphCheckbox = new WaveInterferenceCheckbox(
-        new WaveInterferenceText( graphString ),
+        new WaveInterferenceText( graphString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
         model.showGraphProperty, {
           audioEnabled: options.supportsSound
         } );
       const screenCheckbox = new WaveInterferenceCheckbox(
-        new WaveInterferenceText( screenString ),
+        new WaveInterferenceText( screenString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
         model.showScreenProperty, {
           audioEnabled: options.supportsSound
         } );
       const intensityCheckbox = new WaveInterferenceCheckbox(
-        new WaveInterferenceText( intensityString ),
+        new WaveInterferenceText( intensityString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
         model.showIntensityGraphProperty, {
           audioEnabled: options.supportsSound
         } );
@@ -113,7 +113,7 @@ define( require => {
       // Only show the Play Tone checkbox for the Sound Scene, if specified.  Not supported on Internet Explorer
       // due to lack of IE support for tambo, see https://github.com/phetsims/wave-interference/issues/425
       if ( model.soundScene && options.showPlaySoundControl && !platform.ie ) {
-        playToneCheckbox = new WaveInterferenceCheckbox( new WaveInterferenceText( playToneString ),
+        playToneCheckbox = new WaveInterferenceCheckbox( new WaveInterferenceText( playToneString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
           model.soundScene.isSoundPlayingProperty, {
             audioEnabled: options.supportsSound
           } );
@@ -181,7 +181,7 @@ define( require => {
 
       const createLightSonificationCheckbox = () => {
         return new WaveInterferenceCheckbox(
-          new WaveInterferenceText( soundEffectString ),
+          new WaveInterferenceText( soundEffectString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
           model.lightScene.soundEffectEnabledProperty, {
             audioEnabled: options.supportsSound,
             top: screenCheckbox.bottom + CHECKBOX_SPACING,
