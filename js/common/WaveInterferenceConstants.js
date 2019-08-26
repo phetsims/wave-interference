@@ -101,6 +101,9 @@ define( require => {
     // maxWidth for slider ticks
     TICK_MAX_WIDTH: 30,
 
+    // Checkboxes and radio buttons in the control panel need extended maxWidth, see https://github.com/phetsims/wave-interference/issues/440
+    CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS: { maxWidth: 140 },
+
     // Use for the time and length scale texts above the wave area, looks best to be a smidge smaller than the
     // rest of the texts
     TIME_AND_LENGTH_SCALE_INDICATOR_FONT: new PhetFont( DEFAULT_FONT_SIZE - 1 ),
