@@ -302,6 +302,7 @@ define( require => {
         this.button1PressedProperty.value = false;
         this.continuousWave1OscillatingProperty.value = false;
         this.continuousWave2OscillatingProperty.value = false;
+        this.pulseFiringProperty.value = false;
       } );
 
       // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
