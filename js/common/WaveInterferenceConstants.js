@@ -30,6 +30,8 @@ define( require => {
   // calibrated behavior for differing lattice sizes.
   const CALIBRATION_SCALE = ( WaveInterferenceQueryParameters.latticeSize - LATTICE_PADDING * 2 ) / ( 101 - 20 * 2 );
 
+  const NUMBER_CONTROL_HORIZONTAL_TOUCH_AREA_DILATION = 9;
+
   const WaveInterferenceConstants = {
     WAVE_AREA_WIDTH: 500,
     MAJOR_TICK_LENGTH: MAJOR_TICK_LENGTH,
@@ -44,7 +46,7 @@ define( require => {
     NUMBER_CONTROL_OPTIONS: {
       layoutFunction: NumberControl.createLayoutFunction4( { verticalSpacing: 3 } ),
       arrowButtonOptions: {
-        touchAreaXDilation: 9,
+        touchAreaXDilation: NUMBER_CONTROL_HORIZONTAL_TOUCH_AREA_DILATION,
         touchAreaYDilation: 10
       },
       sliderOptions: {
@@ -133,7 +135,9 @@ define( require => {
     MARGIN: 8,
 
     // The height of the spectrum track (for frequency or wavelength controls), in view coordinates
-    SPECTRUM_TRACK_HEIGHT: 20
+    SPECTRUM_TRACK_HEIGHT: 20,
+
+    NUMBER_CONTROL_HORIZONTAL_TOUCH_AREA_DILATION: NUMBER_CONTROL_HORIZONTAL_TOUCH_AREA_DILATION
   };
 
   // Derived constants
