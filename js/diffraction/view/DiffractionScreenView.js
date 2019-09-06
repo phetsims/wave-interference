@@ -259,7 +259,12 @@ define( require => {
       model.onProperty.linkAttribute( transmittedBeam, 'visible' );
 
       const wavelengthPanel = new WaveInterferencePanel(
-        new WavelengthNumberControl( model.wavelengthProperty ), _.extend( {}, PANEL_OPTIONS, {
+        new WavelengthNumberControl( model.wavelengthProperty, {
+          arrowButtonOptions: {
+            touchAreaXDilation: WaveInterferenceConstants.NUMBER_CONTROL_HORIZONTAL_TOUCH_AREA_DILATION,
+            touchAreaYDilation: 7
+          }
+        } ), _.extend( {}, PANEL_OPTIONS, {
           left: laserPointerNode.left,
           top: apertureScaleIndicatorNode.top,
           xMargin: 6
