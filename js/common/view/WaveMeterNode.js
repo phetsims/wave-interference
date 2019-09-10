@@ -9,7 +9,9 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Color = require( 'SCENERY/util/Color' );
+  const ContinuousPropertySoundGenerator = require( 'TAMBO/sound-generators/ContinuousPropertySoundGenerator' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DynamicProperty = require( 'AXON/DynamicProperty' );
   const DynamicSeries = require( 'GRIDDLE/DynamicSeries' );
@@ -17,9 +19,13 @@ define( require => {
   const LabeledScrollingChartNode = require( 'GRIDDLE/LabeledScrollingChartNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
+  const Property = require( 'AXON/Property' );
+  const Range = require( 'DOT/Range' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScrollingChartNode = require( 'GRIDDLE/ScrollingChartNode' );
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  const soundManager = require( 'TAMBO/soundManager' );
+  const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
   const Vector2Property = require( 'DOT/Vector2Property' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -29,6 +35,20 @@ define( require => {
 
   // strings
   const timeString = require( 'string!WAVE_INTERFERENCE/time' );
+
+  // sounds
+  const sineSound = require( 'sound!TAMBO/220hz-saturated-sine-loop.mp3' );
+  const stringSound1 = require( 'sound!TAMBO/strings-loop-middle-c-oscilloscope.mp3' );
+  const windSound1 = require( 'sound!TAMBO/winds-loop-middle-c-oscilloscope.mp3' );
+  const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
+
+  const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
+  const filteredXylophoneSound = require( 'sound!WAVE_INTERFERENCE/filtered-xylaphone-example.mp3' );
+  const organSound = require( 'sound!WAVE_INTERFERENCE/organ-for-meter-loop.mp3' );
+  const organ2Sound = require( 'sound!WAVE_INTERFERENCE/organ-v2-for-meter-loop.mp3' );
+  const stringsPizzicatoSound = require( 'sound!WAVE_INTERFERENCE/strings-piizzicato-for-meter-loop.mp3' );
+  const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
+  const xylophoneSound = require( 'sound!WAVE_INTERFERENCE/xylophone-for-meter-loop.mp3' );
 
   // constants
   const SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
@@ -96,7 +116,18 @@ define( require => {
        * @param {Property.<Vector2>} connectionProperty
        * @returns {DynamicSeries}
        */
-      const initializeSeries = ( color, wireColor, dx, dy, connectionProperty ) => {
+      const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sound ) => {
+        const p = new Property( 0 );
+
+        let x = null;
+        if ( sound ) {
+          const continuousPropertySoundGenerator = new ContinuousPropertySoundGenerator( p, sound, new Range( 0.1, 5 ), new BooleanProperty( false ), {
+            pitchRangeInSemitones: 60
+          } );
+          soundManager.addSoundGenerator( continuousPropertySoundGenerator );
+          x = continuousPropertySoundGenerator;
+        }
+
         const snapToCenter = () => {
           if ( model.rotationAmountProperty.value !== 0 && model.sceneProperty.value === model.waterScene ) {
             const point = view.waveAreaNode.center;
@@ -161,8 +192,29 @@ define( require => {
             if ( scene.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
               const value = scene.lattice.getCurrentValue( sampleI, sampleJ );
               dynamicSeries.data.push( new Vector2( scene.timeProperty.value, value ) );
+              // console.log( value );
+              if ( true ) {
+                p.value = value + 5;
+                // const volume = Util.linear( 0, 1.5, 0, 2, Math.abs( value ) ); //TODO: maybe nonlinear mapping here to have more space in the middle
+                const volume = Util.linear( 0, 1.5, 0, 1, Math.abs( value ) ); //TODO: maybe nonlinear mapping here to have more space in the middle
+
+                // TODO: This interferes with the setOutputLevel in the ContinuousPropertySoundGenerator
+                // the power here gives more breathing room
+                // if ( value > 0 ) {
+                if ( true ) {
+                  x.setOutputLevel( volume * volume * volume * 2 );
+                }
+                else {
+                  x.setOutputLevel( 0 );
+                }
+
+              }
+              // else {
+              //   x.setOutputLevel( 0 );
+              // }
             }
             else {
+              p.value = 0;
               dynamicSeries.data.push( new Vector2( scene.timeProperty.value, NaN ) );
             }
           }
@@ -197,8 +249,27 @@ define( require => {
         [ leftBottomProperty ],
         position => position.isFinite() ? position.plusXY( 0, -10 ) : Vector2.ZERO
       );
-      const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1 );
-      const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2 );
+
+      const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, etherealFluteSound );
+      const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2, etherealFluteSound );
+      //
+      // const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, filteredXylophoneSound );
+      // const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2, filteredXylophoneSound );
+      //
+      // const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, organSound );
+      // const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2, organSound );
+      //
+      // const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, organ2Sound );
+      // const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2, organ2Sound );
+      //
+      // const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, stringsPizzicatoSound );
+      // const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2, stringsPizzicatoSound );
+      //
+      // const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, windyToneSound );
+      // const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2, windyToneSound );
+      //
+      // const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, xylophoneSound );
+      // const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2, xylophoneSound );
 
       const verticalAxisTitleNode = new SceneToggleNode(
         model,
