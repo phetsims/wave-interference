@@ -122,7 +122,8 @@ define( require => {
         let x = null;
         if ( sound ) {
           const continuousPropertySoundGenerator = new ContinuousPropertySoundGenerator( p, sound, new Range( 0.1, 5 ), new BooleanProperty( false ), {
-            pitchRangeInSemitones: 60
+            pitchRangeInSemitones: 60,
+            pitchCenterOffset: -10
           } );
           soundManager.addSoundGenerator( continuousPropertySoundGenerator );
           x = continuousPropertySoundGenerator;
