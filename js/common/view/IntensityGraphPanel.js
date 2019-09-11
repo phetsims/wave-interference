@@ -81,6 +81,7 @@ define( require => {
         } ) );
 
       const titleNode = new WaveInterferenceText( intensityString, {
+        maxWidth: CHART_WIDTH,
         centerX: chartRectangle.centerX,
         top: chartRectangle.bottom + TITLE_Y_MARGIN
       } );
