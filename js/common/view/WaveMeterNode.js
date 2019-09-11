@@ -116,7 +116,7 @@ define( require => {
           noiseSoundGenerator = new NoiseGenerator( {
             noiseType: 'pink',
             centerFrequency: 440,
-            qFactor: 1
+            qFactor: 20
           } );
           soundManager.addSoundGenerator( noiseSoundGenerator );
         }
