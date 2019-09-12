@@ -46,7 +46,8 @@ define( require => {
             enableControlProperties: [
               model.soundScene.isSoundPlayingProperty,
               model.soundScene.button1PressedProperty,
-              model.isRunningProperty
+              model.isRunningProperty,
+              new DerivedProperty( [ model.isResettingProperty ], isResetting => !isResetting )
             ]
           } );
 
