@@ -81,6 +81,9 @@ define( require => {
       // @public - emits when the probes should be put in standard relative location to the body
       this.alignProbesEmitter = new Emitter();
 
+      // @private - triggered when the probe is reset
+      this.resetEmitter = new Emitter();
+
       // These do not need to be disposed because there is no connection to the "outside world"
       const leftBottomProperty = new NodeProperty( backgroundNode, 'bounds', 'leftBottom' );
 
@@ -180,6 +183,9 @@ define( require => {
         model.sceneProperty.link( clear );
         model.resetEmitter.addListener( clear );
 
+        // The probe is also reset when dropped back in the toolbox.
+        this.resetEmitter.addListener( clear );
+
         // When the wave is paused and the user is dragging the entire MeterBodyNode with the probes aligned, they
         // need to sample their new locations.
         probeNode.on( 'transform', updateSamples );
@@ -239,6 +245,15 @@ define( require => {
       shadedRectangle.addChild( scrollingChartNode );
       backgroundNode.addChild( shadedRectangle );
 
+      this.alignProbesEmitter.emit();
+    }
+
+    /**
+     * Reset the probe when dropped back in the toolbox.
+     * @public
+     */
+    reset() {
+      this.resetEmitter.emit();
       this.alignProbesEmitter.emit();
     }
 

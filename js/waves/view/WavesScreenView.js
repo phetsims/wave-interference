@@ -322,7 +322,7 @@ define( require => {
       } );
 
       const waveMeterNode = new WaveMeterNode( model, this );
-      model.resetEmitter.addListener( () => waveMeterNode.alignProbesEmitter.emit() );
+      model.resetEmitter.addListener( () => waveMeterNode.reset() );
       model.resetEmitter.addListener( () => measuringTapeNode.reset() );
       model.isWaveMeterInPlayAreaProperty.link( inPlayArea => waveMeterNode.setVisible( inPlayArea ) );
 
@@ -366,7 +366,7 @@ define( require => {
           // Drop in toolbox, using the bounds of the entire waveMeterNode since it cannot be centered over the toolbox
           // (too close to the edge of the screen)
           if ( toolboxIntersects( waveMeterNode.getBackgroundNodeGlobalBounds() ) ) {
-            waveMeterNode.alignProbesEmitter.emit();
+            waveMeterNode.reset();
             model.isWaveMeterInPlayAreaProperty.value = false;
           }
 
