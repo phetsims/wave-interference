@@ -115,9 +115,7 @@ define( require => {
   const initializeIcon = ( node, inPlayAreaProperty, forwardingListener ) => {
     node.cursor = 'pointer';
     inPlayAreaProperty.link( inPlayArea => { node.visible = !inPlayArea; } );
-    node.addInputListener( DragListener.createForwardingListener( forwardingListener, {
-      allowTouchSnag: false //TODO see https://github.com/phetsims/wave-interference/issues/455
-    } ) );
+    node.addInputListener( DragListener.createForwardingListener( forwardingListener ) );
   };
 
   return waveInterference.register( 'ToolboxPanel', ToolboxPanel );
