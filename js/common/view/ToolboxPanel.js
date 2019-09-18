@@ -116,7 +116,7 @@ define( require => {
     node.cursor = 'pointer';
     inPlayAreaProperty.link( inPlayArea => { node.visible = !inPlayArea; } );
     node.addInputListener( DragListener.createForwardingListener( forwardingListener, {
-      allowTouchSnag: false
+      allowTouchSnag: false //TODO see https://github.com/phetsims/wave-interference/issues/455
     } ) );
   };
 
