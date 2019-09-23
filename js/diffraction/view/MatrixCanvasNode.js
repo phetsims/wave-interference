@@ -5,7 +5,7 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => { // eslint-disable-line bad-sim-text
+define( require => {
   'use strict';
 
   // modules
@@ -83,12 +83,11 @@ define( require => { // eslint-disable-line bad-sim-text
           const g = Math.min( value * this.baseColor.green * SCALE_FACTOR, 255 );
           const b = Math.min( value * this.baseColor.blue * SCALE_FACTOR, 255 );
 
-          // ImageData.data is Uint8ClampedArray.  Use Math.round instead of Util.roundSymmetric
-          // because performance is critical and all numbers are non-negative.
+          // ImageData.data is Uint8ClampedArray.  Performance is critical and all numbers are non-negative.
           const offset = 4 * x;
-          this.imageDataRenderer.data[ offset ] = Math.round( r );
-          this.imageDataRenderer.data[ offset + 1 ] = Math.round( g );
-          this.imageDataRenderer.data[ offset + 2 ] = Math.round( b );
+          this.imageDataRenderer.data[ offset ] = Math.round( r ); // eslint-disable-line bad-sim-text
+          this.imageDataRenderer.data[ offset + 1 ] = Math.round( g ); // eslint-disable-line bad-sim-text
+          this.imageDataRenderer.data[ offset + 2 ] = Math.round( b ); // eslint-disable-line bad-sim-text
           this.imageDataRenderer.data[ offset + 3 ] = 255; // Fully opaque
           x++;
         }
