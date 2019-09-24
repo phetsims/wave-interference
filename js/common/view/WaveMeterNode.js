@@ -115,8 +115,8 @@ define( require => {
           // create the noise generator that will be used to create the dragging sound
           noiseSoundGenerator = new NoiseGenerator( {
             noiseType: 'pink',
-            centerFrequency: 440,
-            qFactor: 10
+            centerFrequency: 200,
+            qFactor: 1000
           } );
           soundManager.addSoundGenerator( noiseSoundGenerator );
         }
@@ -188,12 +188,12 @@ define( require => {
 
               noiseSoundGenerator.start();
 
-              const clamped = Util.clamp( value, -2, 2 );
-              const filterFrequency = Util.linear( -2, 2, 220, 880, clamped );
+              // const clamped = Util.clamp( value, -2, 2 );
+              const filterFrequency = value < 0 ? 440 : 880;
 
               noiseSoundGenerator.setBandpassFilterCenterFrequency( filterFrequency );
 
-              const volume = Util.linear( 0, 2, 0, 1, Math.abs( value ) );
+              const volume = Util.linear( 0, 1, 0, 1, Math.abs( value ) );
               noiseSoundGenerator.setOutputLevel( volume * volume * volume * 3 );
             }
             else {
