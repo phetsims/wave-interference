@@ -189,12 +189,13 @@ define( require => {
               noiseSoundGenerator.start();
 
               // const clamped = Util.clamp( value, -2, 2 );
+              // const filterFrequency = value < 0 ? 440 : (880+440)/2;
               const filterFrequency = value < 0 ? 440 : 880;
 
               noiseSoundGenerator.setBandpassFilterCenterFrequency( filterFrequency );
 
               const volume = Util.linear( 0, 1, 0, 1, Math.abs( value ) );
-              noiseSoundGenerator.setOutputLevel( volume * volume * volume * 3 );
+              noiseSoundGenerator.setOutputLevel( Math.min( volume * volume * volume * 20, 20 ) );
             }
             else {
               noiseSoundGenerator.stop();
