@@ -17,10 +17,11 @@ define( require => {
   const LabeledScrollingChartNode = require( 'GRIDDLE/LabeledScrollingChartNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
-  const NoiseGenerator = require( 'TAMBO/sound-generators/NoiseGenerator' );
+  const Property = require( 'AXON/Property' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScrollingChartNode = require( 'GRIDDLE/ScrollingChartNode' );
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
+  const SineWaveGenerator = require( 'WAVE_INTERFERENCE/waves/view/SineWaveGenerator' );
   const soundManager = require( 'TAMBO/soundManager' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -45,6 +46,13 @@ define( require => {
   // For the wires
   const NORMAL_DISTANCE = 25;
   const WIRE_LINE_WIDTH = 3;
+
+  const tops = [];
+  const bottoms = [];
+  window.setFrequencies = function( b, t ) {
+    tops.forEach( top => top.set( t / 1000 ) );
+    bottoms.forEach( bottom => bottom.set( b / 1000 ) );
+  };
 
   class WaveMeterNode extends Node {
 
@@ -101,24 +109,25 @@ define( require => {
        * @returns {DynamicSeries}
        */
       const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sound ) => {
-        // const p = new Property( 0 );
+        const topAmplitudeProperty = new Property( 0 );
+        const topFrequencyProperty = new Property( ( 880 + 440 ) / 2 / 1000 );
+        tops.push( topFrequencyProperty );
 
-        let noiseSoundGenerator = null;
+        const bottomAmplitudeProperty = new Property( 0 );
+        const bottomFrequencyProperty = new Property( 440 / 1000 );
+        bottoms.push( bottomFrequencyProperty );
+
+        // let noiseSoundGenerator = null;
+        // let soundClip = null;
+        let topSineWaveGenerator = null;
+        let bottomSineWaveGenerator = null;
         if ( sound ) {
-          // const continuousPropertySoundGenerator = new ContinuousPropertySoundGenerator( p, sound, new Range( 0.1, 5 ), new BooleanProperty( false ), {
-          //   pitchRangeInSemitones: 60,
-          //   pitchCenterOffset: -10
-          // } );
-          // soundManager.addSoundGenerator( continuousPropertySoundGenerator );
-          // noiseSoundGenerator = continuousPropertySoundGenerator;
 
-          // create the noise generator that will be used to create the dragging sound
-          noiseSoundGenerator = new NoiseGenerator( {
-            noiseType: 'pink',
-            centerFrequency: 200,
-            qFactor: 1000
-          } );
-          soundManager.addSoundGenerator( noiseSoundGenerator );
+          topSineWaveGenerator = new SineWaveGenerator( topFrequencyProperty, topAmplitudeProperty, {} );
+          soundManager.addSoundGenerator( topSineWaveGenerator );
+
+          bottomSineWaveGenerator = new SineWaveGenerator( bottomFrequencyProperty, bottomAmplitudeProperty, {} );
+          soundManager.addSoundGenerator( bottomSineWaveGenerator );
         }
 
         const snapToCenter = () => {
@@ -186,19 +195,13 @@ define( require => {
               const value = scene.lattice.getCurrentValue( sampleI, sampleJ );
               dynamicSeries.data.push( new Vector2( scene.timeProperty.value, value ) );
 
-              noiseSoundGenerator.start();
-
-              // const clamped = Util.clamp( value, -2, 2 );
-              // const filterFrequency = value < 0 ? 440 : (880+440)/2;
-              const filterFrequency = value < 0 ? 440 : 880;
-
-              noiseSoundGenerator.setBandpassFilterCenterFrequency( filterFrequency );
-
-              const volume = Util.linear( 0, 1, 0, 1, Math.abs( value ) );
-              noiseSoundGenerator.setOutputLevel( Math.min( volume * volume * volume * 20, 20 ) );
+              const volume = Math.pow( Util.clamp( Math.abs( value ), 0, 1 ), 6 ) * 2;
+              topAmplitudeProperty.value = value > 0 ? volume : 0;
+              bottomAmplitudeProperty.value = value < 0 ? volume : 0;
             }
             else {
-              noiseSoundGenerator.stop();
+              topAmplitudeProperty.value = 0;
+              bottomAmplitudeProperty.value = 0;
             }
           }
           else {
