@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.8 Thu Sep 19 2019 03:05:38 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# wave-interference 1.0.8 Tue Sep 24 2019 10:13:16 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -57,8 +57,8 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "8f8fb7e3c32619f829ef5466b001026f612c6201",
-    "branch": "HEAD"
+    "sha": "ddd43e32a7a72d150b7a9c28742af0b4d34a5f09",
+    "branch": "wave-interference-1.0"
   },
   "scenery-phet": {
     "sha": "b566570ca12d2b8556794303db73372407058b47",
@@ -85,7 +85,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "db6f6ee77b65a4b5ca4b448f17a8ef9500eb8a87",
+    "sha": "def58eeb95bc367f5bc176b20e4cba34f8d079bf",
     "branch": "1.0"
   }
 }
