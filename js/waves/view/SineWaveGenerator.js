@@ -35,7 +35,11 @@ define( function( require ) {
      * @param {Object} [options]
      */
     constructor( frequencyProperty, amplitudeProperty, options ) {
-      super( _.extend( options, { initialOutputLevel: 0 } ) );
+      options = _.extend( {
+        initialOutputLevel: 0,
+        oscillatorType: 'sine'
+      }, options );
+      super( options );
 
       // @private {OscillatorNode|null} created when sound begins and nullified when sound ends, see #373
       this.oscillator = null;
@@ -48,6 +52,7 @@ define( function( require ) {
       this.fullyEnabledProperty.link( fullyEnabled => {
         if ( fullyEnabled && this.oscillator === null ) {
           this.oscillator = this.audioContext.createOscillator();
+          this.oscillator.type = options.oscillatorType;
           updateFrequency();
           this.oscillator.connect( this.masterGainNode );
           this.oscillator.start();

@@ -110,11 +110,11 @@ define( require => {
        */
       const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sound ) => {
         const topAmplitudeProperty = new Property( 0 );
-        const topFrequencyProperty = new Property( ( 880 + 440 ) / 2 / 1000 );
+        const topFrequencyProperty = new Property( 130 * 4 / 3 / 1000 );
         tops.push( topFrequencyProperty );
 
         const bottomAmplitudeProperty = new Property( 0 );
-        const bottomFrequencyProperty = new Property( 440 / 1000 );
+        const bottomFrequencyProperty = new Property( 130 / 1000 );
         bottoms.push( bottomFrequencyProperty );
 
         // let noiseSoundGenerator = null;
@@ -123,7 +123,9 @@ define( require => {
         let bottomSineWaveGenerator = null;
         if ( sound ) {
 
-          topSineWaveGenerator = new SineWaveGenerator( topFrequencyProperty, topAmplitudeProperty, {} );
+          topSineWaveGenerator = new SineWaveGenerator( topFrequencyProperty, topAmplitudeProperty, {
+            oscillatorType: 'triangle'
+          } );
           soundManager.addSoundGenerator( topSineWaveGenerator );
 
           bottomSineWaveGenerator = new SineWaveGenerator( bottomFrequencyProperty, bottomAmplitudeProperty, {} );
@@ -195,7 +197,10 @@ define( require => {
               const value = scene.lattice.getCurrentValue( sampleI, sampleJ );
               dynamicSeries.data.push( new Vector2( scene.timeProperty.value, value ) );
 
-              const volume = Math.pow( Util.clamp( Math.abs( value ), 0, 1 ), 6 ) * 2;
+              // Linearize based on the sine value
+              const x = Math.asin( Util.clamp( value, -1, 1 ) );
+              const volume = Math.abs( x ) * 2;
+
               topAmplitudeProperty.value = value > 0 ? volume : 0;
               bottomAmplitudeProperty.value = value < 0 ? volume : 0;
             }
