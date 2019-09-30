@@ -211,8 +211,6 @@ define( require => {
               const z = Math.asin( remapped );
               const w = Util.linear( -Math.PI / 2, Math.PI / 2, -1, 1, z );
 
-              console.log( w );
-
               // topAmplitudeProperty.value = value > 0 ? volume : 0;
               // bottomAmplitudeProperty.value = value < 0 ? volume : 0;
               continuousPropertySoundGenerator.play();
