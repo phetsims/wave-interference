@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * Shows a graph of intensity as a function of position at the right-side of the lattice (when selected).
@@ -81,6 +81,7 @@ define( require => {
         } ) );
 
       const titleNode = new WaveInterferenceText( intensityString, {
+        maxWidth: CHART_WIDTH,
         centerX: chartRectangle.centerX,
         top: chartRectangle.bottom + TITLE_Y_MARGIN
       } );
