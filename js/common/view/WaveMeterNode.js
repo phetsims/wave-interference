@@ -17,11 +17,10 @@ define( require => {
   const LabeledScrollingChartNode = require( 'GRIDDLE/LabeledScrollingChartNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
-  const Property = require( 'AXON/Property' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScrollingChartNode = require( 'GRIDDLE/ScrollingChartNode' );
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
-  const SineWaveGenerator = require( 'WAVE_INTERFERENCE/waves/view/SineWaveGenerator' );
+  const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const soundManager = require( 'TAMBO/soundManager' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -33,6 +32,24 @@ define( require => {
 
   // strings
   const timeString = require( 'string!WAVE_INTERFERENCE/time' );
+
+  // sounds
+  const sineSound = require( 'sound!TAMBO/220hz-saturated-sine-loop.mp3' );
+  const stringSound1 = require( 'sound!TAMBO/strings-loop-middle-c-oscilloscope.mp3' );
+  const windSound1 = require( 'sound!TAMBO/winds-loop-middle-c-oscilloscope.mp3' );
+  const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
+
+  const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
+  const filteredXylophoneSound = require( 'sound!WAVE_INTERFERENCE/filtered-xylaphone-example.mp3' );
+  const organ2Sound = require( 'sound!WAVE_INTERFERENCE/organ-v2-for-meter-loop.mp3' );
+  const organSound = require( 'sound!WAVE_INTERFERENCE/organ-for-meter-loop.mp3' );
+  const stringsPizzicatoSound = require( 'sound!WAVE_INTERFERENCE/strings-piizzicato-for-meter-loop.mp3' );
+  const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
+  const xylophoneSound = require( 'sound!WAVE_INTERFERENCE/xylophone-for-meter-loop.mp3' );
+
+  const sounds = [ sineSound, stringSound1, windSound1, windSound2, etherealFluteSound, filteredXylophoneSound, organ2Sound, organSound,
+    stringsPizzicatoSound, windyToneSound, xylophoneSound ];
+  const selectedSound = sounds[ 0 ];
 
   // constants
   const SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
@@ -109,27 +126,14 @@ define( require => {
        * @returns {DynamicSeries}
        */
       const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sound ) => {
-        const topAmplitudeProperty = new Property( 0 );
-        const topFrequencyProperty = new Property( 130 * 4 / 3 / 1000 );
-        tops.push( topFrequencyProperty );
-
-        const bottomAmplitudeProperty = new Property( 0 );
-        const bottomFrequencyProperty = new Property( 130 / 1000 );
-        bottoms.push( bottomFrequencyProperty );
-
-        // let noiseSoundGenerator = null;
-        // let soundClip = null;
-        let topSineWaveGenerator = null;
-        let bottomSineWaveGenerator = null;
+        let continuousPropertySoundGenerator = null;
         if ( sound ) {
-
-          topSineWaveGenerator = new SineWaveGenerator( topFrequencyProperty, topAmplitudeProperty, {
-            oscillatorType: 'triangle'
+          continuousPropertySoundGenerator = new SoundClip( selectedSound, {
+            initialOutputLevel: 0.7,
+            loop: true,
+            trimSilence: false
           } );
-          soundManager.addSoundGenerator( topSineWaveGenerator );
-
-          bottomSineWaveGenerator = new SineWaveGenerator( bottomFrequencyProperty, bottomAmplitudeProperty, {} );
-          soundManager.addSoundGenerator( bottomSineWaveGenerator );
+          soundManager.addSoundGenerator( continuousPropertySoundGenerator );
         }
 
         const snapToCenter = () => {
@@ -198,15 +202,34 @@ define( require => {
               dynamicSeries.data.push( new Vector2( scene.timeProperty.value, value ) );
 
               // Linearize based on the sine value
-              const x = Math.asin( Util.clamp( value, -1, 1 ) );
-              const volume = Math.abs( x ) * 2;
+              const a = Util.clamp( value, -1, 1 );
+              const x = Math.asin( a ); // between -pi/2 and +pi/2
+              const remapped = Util.linear( -Math.PI / 2, Math.PI / 2, -1, 1, x );
+              const z = Math.asin( remapped );
+              const w = Util.linear( -Math.PI / 2, Math.PI / 2, -1, 1, z );
 
-              topAmplitudeProperty.value = value > 0 ? volume : 0;
-              bottomAmplitudeProperty.value = value < 0 ? volume : 0;
+              console.log( w );
+
+              // topAmplitudeProperty.value = value > 0 ? volume : 0;
+              // bottomAmplitudeProperty.value = value < 0 ? volume : 0;
+              continuousPropertySoundGenerator.play();
+              continuousPropertySoundGenerator.setOutputLevel( Math.abs( Math.pow( w, 3 ) ) );
+              if ( value > 0 ) {
+                // valueForFrequencyProperty.value = 1;
+                // continuousPropertySoundGenerator.setPlaybackRate( 277.18/220 ); // maj3 (SR #3 choice)
+                // continuousPropertySoundGenerator.setPlaybackRate( 293.66 / 220 ); // 4th (SR #2 pref)
+                continuousPropertySoundGenerator.setPlaybackRate( 329.63 / 220 ); // 5th  (SR #1 pref)
+              }
+              else {
+                // valueForFrequencyProperty.value = 0;
+                continuousPropertySoundGenerator.setPlaybackRate( 220 / 220 );
+              }
+
+              // valueForFrequencyProperty.value = 0;
             }
             else {
-              topAmplitudeProperty.value = 0;
-              bottomAmplitudeProperty.value = 0;
+              // topAmplitudeProperty.value = 0;
+              // bottomAmplitudeProperty.value = 0;
             }
           }
           else {
