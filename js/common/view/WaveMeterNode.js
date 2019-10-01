@@ -26,6 +26,7 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
   const Vector2Property = require( 'DOT/Vector2Property' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveMeterProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterProbeNode' );
   const WireNode = require( 'SCENERY_PHET/WireNode' );
@@ -49,7 +50,7 @@ define( require => {
 
   const sounds = [ sineSound, stringSound1, windSound1, windSound2, etherealFluteSound, filteredXylophoneSound, organ2Sound, organSound,
     stringsPizzicatoSound, windyToneSound, xylophoneSound ];
-  const selectedSound = sounds[ 0 ];
+  const selectedSound = sounds[ WaveInterferenceQueryParameters.waveMeterSound ];
 
   // constants
   const SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light

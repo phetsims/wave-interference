@@ -21,9 +21,9 @@ define( require => {
     latticeSize: { type: 'number', defaultValue: 151 },
 
     // TODO: eliminate this flag when we are ready for publication with sonification.
-    fullSonification: { type: 'flag' },
     lightSonification: { type: 'boolean', defaultValue: false },
-    lightSonificationCheckbox: { type: 'boolean', defaultValue: true }
+    lightSonificationCheckbox: { type: 'boolean', defaultValue: true },
+    waveMeterSound: { type: 'number', defaultValue: 0 }
   } );
 
   waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );
