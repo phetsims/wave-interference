@@ -177,7 +177,7 @@ define( require => {
           centerFrequency: 440,
           qFactor: 10
         } );
-        soundManager.addSoundGenerator( noiseSoundGenerator );
+        // soundManager.addSoundGenerator( noiseSoundGenerator );
 
         const snapToCenter = () => {
           if ( model.rotationAmountProperty.value !== 0 && model.sceneProperty.value === model.waterScene ) {
@@ -287,7 +287,7 @@ define( require => {
               const arcsin2Mapped = Util.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin2 );
 
               if ( !soundManager.containsSoundGenerator( soundClip ) ) {
-                // soundManager.addSoundGenerator( soundClip );
+                soundManager.addSoundGenerator( soundClip );
               }
               if ( !soundClip.isPlaying ) {
                 soundClip.play();
