@@ -18,6 +18,7 @@ define( require => {
   const LabeledScrollingChartNode = require( 'GRIDDLE/LabeledScrollingChartNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
+  const NoiseGenerator = require( 'TAMBO/sound-generators/NoiseGenerator' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Property = require( 'AXON/Property' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
@@ -170,6 +171,14 @@ define( require => {
        */
       const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty ) => {
 
+        // create the noise generator that will be used to create the dragging sound
+        const noiseSoundGenerator = new NoiseGenerator( {
+          noiseType: 'pink',
+          centerFrequency: 440,
+          qFactor: 10
+        } );
+        soundManager.addSoundGenerator( noiseSoundGenerator );
+
         const snapToCenter = () => {
           if ( model.rotationAmountProperty.value !== 0 && model.sceneProperty.value === model.waterScene ) {
             const point = view.waveAreaNode.center;
@@ -278,7 +287,7 @@ define( require => {
               const arcsin2Mapped = Util.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin2 );
 
               if ( !soundManager.containsSoundGenerator( soundClip ) ) {
-                soundManager.addSoundGenerator( soundClip );
+                // soundManager.addSoundGenerator( soundClip );
               }
               if ( !soundClip.isPlaying ) {
                 soundClip.play();
@@ -292,9 +301,20 @@ define( require => {
               else {
                 soundClip.setPlaybackRate( basePlaybackRate );
               }
+
+              noiseSoundGenerator.start();
+
+              const clamped = Util.clamp( value, -2, 2 );
+              const filterFrequency = Util.linear( -2, 2, 220, 880, clamped );
+
+              noiseSoundGenerator.setBandpassFilterCenterFrequency( filterFrequency );
+
+              const volume = Util.linear( 0, 2, 0, 1, Math.abs( value ) );
+              noiseSoundGenerator.setOutputLevel( volume * volume * volume * 3 );
             }
             else {
               soundClip.stop();
+              noiseSoundGenerator.stop();
             }
           }
           else {
