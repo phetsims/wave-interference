@@ -102,6 +102,14 @@
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris"
+  },
+  "harpsichord-loop.mp3": {
+    "text": [
+      "Adapted from MidiJS Soundfonts FatBoy harpsichord"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "Adapted from MidiJS Soundfonts FatBoy harpsichord"
   }
 }
 

@@ -14,16 +14,23 @@ define( require => {
   const DynamicProperty = require( 'AXON/DynamicProperty' );
   const DynamicSeries = require( 'GRIDDLE/DynamicSeries' );
   const Emitter = require( 'AXON/Emitter' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
   const LabeledScrollingChartNode = require( 'GRIDDLE/LabeledScrollingChartNode' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
+  const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Property = require( 'AXON/Property' );
+  const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  const Range = require( 'DOT/Range' );
+  const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScrollingChartNode = require( 'GRIDDLE/ScrollingChartNode' );
   const ShadedRectangle = require( 'SCENERY_PHET/ShadedRectangle' );
   const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const soundManager = require( 'TAMBO/soundManager' );
+  const Text = require( 'SCENERY/nodes/Text' );
   const Util = require( 'DOT/Util' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
   const Vector2 = require( 'DOT/Vector2' );
   const Vector2Property = require( 'DOT/Vector2Property' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -43,6 +50,7 @@ define( require => {
 
   const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
   const filteredXylophoneSound = require( 'sound!WAVE_INTERFERENCE/filtered-xylaphone-example.mp3' );
+  const harpsichordLoopSound = require( 'sound!WAVE_INTERFERENCE/harpsichord-loop.mp3' );
   const organ2Sound = require( 'sound!WAVE_INTERFERENCE/organ-v2-for-meter-loop.mp3' );
   const organSound = require( 'sound!WAVE_INTERFERENCE/organ-for-meter-loop.mp3' );
   const stringsPizzicatoSound = require( 'sound!WAVE_INTERFERENCE/strings-piizzicato-for-meter-loop.mp3' );
@@ -50,7 +58,7 @@ define( require => {
   const xylophoneSound = require( 'sound!WAVE_INTERFERENCE/xylophone-for-meter-loop.mp3' );
 
   const sounds = [ sineSound, stringSound1, windSound1, windSound2, etherealFluteSound, filteredXylophoneSound, organ2Sound, organSound,
-    stringsPizzicatoSound, windyToneSound, xylophoneSound ];
+    stringsPizzicatoSound, windyToneSound, xylophoneSound, harpsichordLoopSound ];
 
   const sounds1 = sounds.map( sound => {
     return new SoundClip( sound, {
@@ -70,7 +78,7 @@ define( require => {
   window.waveMeterSound2Property = new Property( WaveInterferenceQueryParameters.waveMeterSound );
   window.waveMeterSound1Property.link( ( newSoundIndex, oldSoundIndex ) => {
     if ( typeof oldSoundIndex === 'number' ) {
-      sounds2[ oldSoundIndex ].stop();
+      sounds1[ oldSoundIndex ].stop();
     }
 
     // new sound plays in step
@@ -174,6 +182,38 @@ define( require => {
           color: color,
           drag: snapToCenter
         } );
+        const intervalProperty = new Property( 5 );
+        const lowProperty = new Property( 1 );
+        if ( phet.chipper.queryParameters.dev ) {
+          probeNode.addChild( new VBox( {
+            centerX: 0,
+            top: 100,
+            children: [
+              new HBox( {
+                spacing: 5,
+                children: [
+                  new RectangularPushButton( {
+                    content: new Text( '-', { fontSize: 20 } ),
+                    listener: () => {soundIndexProperty.value = Math.max( soundIndexProperty.value - 1, 0 );}
+                  } ),
+                  new RectangularPushButton( {
+                    content: new Text( '+', { fontSize: 20 } ),
+                    listener: () => {soundIndexProperty.value = Math.min( soundIndexProperty.value + 1, sounds.length - 1 );}
+                  } )
+                ]
+              } ),
+              new RadioButtonGroup( intervalProperty, [ { value: 3, node: new Text( '3', { fontSize: 20 } ) },
+                { value: 4, node: new Text( '4', { fontSize: 20 } ) }, {
+                  value: 5,
+                  node: new Text( '5', { fontSize: 20 } )
+                } ], {
+                spacing: 1,
+                orientation: 'horizontal'
+              } ),
+              new NumberControl( 'low', lowProperty, new Range( 0.25, 2.5 ), { delta: 0.05 } )
+            ]
+          } ) );
+        }
 
         // Move probes to centerline when the meter body is dropped
         droppedEmitter.addListener( snapToCenter );
@@ -245,13 +285,12 @@ define( require => {
               }
               const outputLevel = Math.abs( Math.pow( arcsin2Mapped, 3 ) );
               soundClip.setOutputLevel( outputLevel );
+              const basePlaybackRate = lowProperty.value;
               if ( value > 0 ) {
-                // continuousPropertySoundGenerator.setPlaybackRate( 277.18/220 ); // maj3 (SR #3 choice)
-                // continuousPropertySoundGenerator.setPlaybackRate( 293.66 / 220 ); // 4th (SR #2 pref)
-                soundClip.setPlaybackRate( 329.63 / 220 ); // 5th  (SR #1 pref)
+                soundClip.setPlaybackRate( basePlaybackRate * ( intervalProperty.value === 5 ? 329.63 / 220 : intervalProperty.value === 4 ? 293.66 / 220 : 277.18 / 220 ) ); // 5th  (SR #1 pref)
               }
               else {
-                soundClip.setPlaybackRate( 220 / 220 );
+                soundClip.setPlaybackRate( basePlaybackRate );
               }
             }
             else {
