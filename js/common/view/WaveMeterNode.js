@@ -48,18 +48,12 @@ define( require => {
   const stringSound1 = require( 'sound!TAMBO/strings-loop-middle-c-oscilloscope.mp3' );
   const windSound1 = require( 'sound!TAMBO/winds-loop-middle-c-oscilloscope.mp3' );
   const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
-
   const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
-  const filteredXylophoneSound = require( 'sound!WAVE_INTERFERENCE/filtered-xylaphone-example.mp3' );
-  const harpsichordLoopSound = require( 'sound!WAVE_INTERFERENCE/harpsichord-loop.mp3' );
   const organ2Sound = require( 'sound!WAVE_INTERFERENCE/organ-v2-for-meter-loop.mp3' );
   const organSound = require( 'sound!WAVE_INTERFERENCE/organ-for-meter-loop.mp3' );
-  const stringsPizzicatoSound = require( 'sound!WAVE_INTERFERENCE/strings-piizzicato-for-meter-loop.mp3' );
   const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
-  const xylophoneSound = require( 'sound!WAVE_INTERFERENCE/xylophone-for-meter-loop.mp3' );
 
-  const sounds = [ sineSound, stringSound1, windSound1, windSound2, etherealFluteSound, filteredXylophoneSound, organ2Sound, organSound,
-    stringsPizzicatoSound, windyToneSound, xylophoneSound, harpsichordLoopSound ];
+  const sounds = [ sineSound, stringSound1, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
 
   const sounds1 = sounds.map( sound => {
     return new SoundClip( sound, {
@@ -77,6 +71,9 @@ define( require => {
 
   window.waveMeterSound1Property = new Property( WaveInterferenceQueryParameters.waveMeterSound );
   window.waveMeterSound2Property = new Property( WaveInterferenceQueryParameters.waveMeterSound );
+
+  window.waveMeterSound1Property.debug( 'waveMeterSound1Property' );
+  window.waveMeterSound2Property.debug( 'waveMeterSound2Property' );
   window.waveMeterSound1Property.link( ( newSoundIndex, oldSoundIndex ) => {
     if ( typeof oldSoundIndex === 'number' ) {
       sounds1[ oldSoundIndex ].stop();
@@ -193,6 +190,7 @@ define( require => {
         } );
         const intervalProperty = new Property( 5 );
         const lowProperty = new Property( 1 );
+        lowProperty.debug( 'lowProperty' );
         if ( phet.chipper.queryParameters.dev ) {
           probeNode.addChild( new VBox( {
             centerX: 0,
@@ -292,7 +290,9 @@ define( require => {
               if ( !soundClip.isPlaying ) {
                 soundClip.play();
               }
-              const outputLevel = Math.abs( Math.pow( arcsin2Mapped, 3 ) );
+              const x = Math.pow( arcsin2Mapped, 4 ) * 0.8 + 0.2;
+              // console.log( Math.pow( arcsin2Mapped, 4 ), x );
+              const outputLevel = Math.abs( x );
               soundClip.setOutputLevel( outputLevel );
               const basePlaybackRate = lowProperty.value;
               if ( value > 0 ) {
