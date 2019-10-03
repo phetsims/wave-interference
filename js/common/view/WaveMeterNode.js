@@ -284,7 +284,7 @@ define( require => {
               const arcsin2 = Math.asin( arcsin1Mapped );
               const arcsin2Mapped = Util.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin2 );
 
-              if ( !soundManager.containsSoundGenerator( soundClip ) ) {
+              if ( !soundManager.hasSoundGenerator( soundClip ) ) {
                 soundManager.addSoundGenerator( soundClip );
               }
               if ( !soundClip.isPlaying ) {
