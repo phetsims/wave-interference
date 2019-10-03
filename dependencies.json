@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 1.0.9-rc.1 Tue Sep 24 2019 13:01:42 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# wave-interference 1.0.9 Thu Oct 03 2019 13:04:36 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -85,7 +85,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "dafaded6daf78b08c43fad6f93dbd1e5e51d7e4b",
+    "sha": "aa937c92f1e393c515452bfc7ef3c66d9e5430a1",
     "branch": "1.0"
   }
 }
