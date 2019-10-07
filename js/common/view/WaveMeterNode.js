@@ -44,8 +44,8 @@ define( require => {
   const timeString = require( 'string!WAVE_INTERFERENCE/time' );
 
   // sounds
-  const sineSound = require( 'sound!TAMBO/220hz-saturated-sine-loop.mp3' );
   const stringSound1 = require( 'sound!TAMBO/strings-loop-middle-c-oscilloscope.mp3' );
+  const sineSound = require( 'sound!TAMBO/220hz-saturated-sine-loop.mp3' );
   const windSound1 = require( 'sound!TAMBO/winds-loop-middle-c-oscilloscope.mp3' );
   const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
   const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
@@ -53,7 +53,7 @@ define( require => {
   const organSound = require( 'sound!WAVE_INTERFERENCE/organ-for-meter-loop.mp3' );
   const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
 
-  const sounds = [ sineSound, stringSound1, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
+  const sounds = [ stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
 
   const sounds1 = sounds.map( sound => {
     return new SoundClip( sound, {
@@ -188,8 +188,8 @@ define( require => {
           color: color,
           drag: snapToCenter
         } );
-        const intervalProperty = new Property( 5 );
-        const lowProperty = new Property( 1 );
+        const intervalProperty = new Property( 4 );
+        const lowProperty = new Property( 0.75 );
         lowProperty.debug( 'lowProperty' );
         if ( phet.chipper.queryParameters.dev ) {
           probeNode.addChild( new VBox( {
