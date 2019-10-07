@@ -19,6 +19,7 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
+  const PiecewiseLinearFunction = require( 'DOT/PiecewiseLinearFunction' );
   const Property = require( 'AXON/Property' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const Range = require( 'DOT/Range' );
@@ -43,13 +44,13 @@ define( require => {
   const timeString = require( 'string!WAVE_INTERFERENCE/time' );
 
   // sounds
-  const stringSound1 = require( 'sound!TAMBO/strings-loop-middle-c-oscilloscope.mp3' );
-  const sineSound = require( 'sound!TAMBO/220hz-saturated-sine-loop.mp3' );
-  const windSound1 = require( 'sound!TAMBO/winds-loop-middle-c-oscilloscope.mp3' );
-  const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
   const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
   const organ2Sound = require( 'sound!WAVE_INTERFERENCE/organ-v2-for-meter-loop.mp3' );
   const organSound = require( 'sound!WAVE_INTERFERENCE/organ-for-meter-loop.mp3' );
+  const sineSound = require( 'sound!TAMBO/220hz-saturated-sine-loop.mp3' );
+  const stringSound1 = require( 'sound!TAMBO/strings-loop-middle-c-oscilloscope.mp3' );
+  const windSound1 = require( 'sound!TAMBO/winds-loop-middle-c-oscilloscope.mp3' );
+  const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
   const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
 
   const sounds = [ stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
@@ -281,9 +282,24 @@ define( require => {
               if ( !soundClip.isPlaying ) {
                 soundClip.play();
               }
-              const x = Math.pow( arcsin2Mapped, 4 ) * 0.8 + 0.2;
-              // console.log( Math.pow( arcsin2Mapped, 4 ), x );
-              const outputLevel = Math.abs( x );
+              let outputLevel = Math.abs( arcsin2Mapped );
+              // console.log( outputLevel );
+
+              if ( outputLevel < 0.05 ) {
+                outputLevel = 0.05;
+              }
+              if ( outputLevel > 0.4 ) {
+                outputLevel = 0.4;
+              }
+
+              // Roughly quadratic
+              outputLevel = PiecewiseLinearFunction.evaluate( [
+                0.05, 0,
+                0.1, 0.05,
+                0.2, 0.2,
+                0.3, 0.5,
+                0.4, 1
+              ], outputLevel );
               soundClip.setOutputLevel( outputLevel );
               const basePlaybackRate = lowProperty.value;
               if ( value > 0 ) {
