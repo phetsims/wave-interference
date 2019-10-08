@@ -279,9 +279,7 @@ define( require => {
               if ( !soundManager.hasSoundGenerator( soundClip ) ) {
                 soundManager.addSoundGenerator( soundClip );
               }
-              if ( !soundClip.isPlaying ) {
-                soundClip.play();
-              }
+
               let outputLevel = Math.abs( arcsin2Mapped );
               // console.log( outputLevel );
 
@@ -300,7 +298,13 @@ define( require => {
                 0.3, 0.5,
                 0.4, 1
               ], outputLevel );
-              soundClip.setOutputLevel( outputLevel );
+              soundClip.setOutputLevel( outputLevel, 0 );
+
+              // Work around a bug in Tambo that results in audio played even when outputLevel is 0.0
+              if ( !soundClip.isPlaying ) { // TODO: playing a soundclip with outputLevel 0 plays something
+                soundClip.play();
+              }
+
               const basePlaybackRate = lowProperty.value;
               if ( value > 0 ) {
                 soundClip.setPlaybackRate( basePlaybackRate * ( intervalProperty.value === 5 ? 329.63 / 220 : intervalProperty.value === 4 ? 293.66 / 220 : 277.18 / 220 ) ); // 5th  (SR #1 pref)
