@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 2.0.0 Tue Sep 24 2019 10:14:11 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# wave-interference 2.0.0 Mon Oct 14 2019 15:45:30 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "201c50a840e082354b013f4ab9e9d45006f98cfe",
     "branch": "HEAD"
@@ -33,8 +33,8 @@
     "branch": "HEAD"
   },
   "phet-core": {
-    "sha": "dc1124848d9f2aca6bf40eb357fcfa3e24ad8084",
-    "branch": "HEAD"
+    "sha": "3594871472bfef7c444f9f63aa845ce566d01cbf",
+    "branch": "wave-interference-2.0"
   },
   "phet-io": {
     "sha": "3e2819bcb98e1fe3ef10cc272ea432bb3e091aa9",
@@ -58,7 +58,7 @@
   },
   "scenery": {
     "sha": "af9b323bb4485777a7cc6523e8eae5a23c8d15f7",
-    "branch": "wave-interference-2.0"
+    "branch": "HEAD"
   },
   "scenery-phet": {
     "sha": "441f7609a5eb69d9def891b3ff3184df1fc5a91f",
@@ -85,7 +85,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "dfb793d6b91faaed51b3380fd65e3c744eb82b5e",
+    "sha": "71902724f4a84dbc3988bae739726969ab1d32f1",
     "branch": "2.0"
   }
 }
