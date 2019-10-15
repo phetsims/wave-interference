@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 2.0.0 Mon Oct 14 2019 15:45:30 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# wave-interference 2.0.0 Tue Oct 15 2019 16:21:16 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "201c50a840e082354b013f4ab9e9d45006f98cfe",
     "branch": "HEAD"
@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "phet-core": {
-    "sha": "3594871472bfef7c444f9f63aa845ce566d01cbf",
+    "sha": "c45ad1a746e393037ca1e75dc5b236749d2ca683",
     "branch": "wave-interference-2.0"
   },
   "phet-io": {
@@ -85,7 +85,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "71902724f4a84dbc3988bae739726969ab1d32f1",
+    "sha": "5d008e881ca46b6799a3dfc3f8a1b08ff8cdd09f",
     "branch": "2.0"
   }
 }
