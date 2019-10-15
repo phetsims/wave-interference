@@ -291,7 +291,7 @@ define( require => {
               const arcsin2Mapped = Util.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin2 );
 
               if ( !soundManager.hasSoundGenerator( soundClip ) ) {
-                soundManager.addSoundGenerator( soundClip );
+                soundManager.addSoundGenerator( soundClip, { associatedViewNode: this } );
               }
 
               let outputLevel = Math.abs( arcsin2Mapped );
