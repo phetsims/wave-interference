@@ -62,10 +62,10 @@ define( require => {
         initialOutputLevel: 0.7
       } ) );
       if ( model.waterScene ) {
-        const waterDropSoundClip0 = new SoundClip( waterDropSound0 );
-        const waterDropSoundClip1 = new SoundClip( waterDropSound1 );
-        const waterDropSoundClip2 = new SoundClip( waterDropSound2 );
-        const waterDropSoundClip3 = new SoundClip( waterDropSound3 );
+        const waterDropSoundClip0 = new SoundClip( waterDropSound0, { initialOutputLevel: 0.22 } );
+        const waterDropSoundClip1 = new SoundClip( waterDropSound1, { initialOutputLevel: 0.22 } );
+        const waterDropSoundClip2 = new SoundClip( waterDropSound2, { initialOutputLevel: 0.22 } );
+        const waterDropSoundClip3 = new SoundClip( waterDropSound3, { initialOutputLevel: 0.22 } );
         soundManager.addSoundGenerator( waterDropSoundClip0 );
         soundManager.addSoundGenerator( waterDropSoundClip1 );
         soundManager.addSoundGenerator( waterDropSoundClip2 );

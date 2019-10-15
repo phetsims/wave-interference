@@ -1,4 +1,12 @@
 {
+  "220hz-saturated-sine-playback-rate-75.mp3": {
+    "text": [
+      "Copyright 2019 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris"
+  },
   "light-beam-loop-v5-eq-out-bass.mp3": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
@@ -94,6 +102,14 @@
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris"
+  },
+  "windy-tone-for-meter-loop-rate-75-pitch-matched-fixed.mp3": {
+    "text": [
+      "Copyright 2019 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "Adapted from MidiJS Soundfonts FatBoy harpsichord"
   },
   "xylophone-for-meter-loop.mp3": {
     "text": [

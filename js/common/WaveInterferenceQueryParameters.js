@@ -22,8 +22,7 @@ define( require => {
 
     // TODO: eliminate this flag when we are ready for publication with sonification.
     lightSonification: { type: 'boolean', defaultValue: false },
-    lightSonificationCheckbox: { type: 'boolean', defaultValue: true },
-    waveMeterSound: { type: 'number', defaultValue: 0 }
+    lightSonificationCheckbox: { type: 'boolean', defaultValue: true }
   } );
 
   waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );

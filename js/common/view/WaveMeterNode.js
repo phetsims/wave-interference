@@ -35,7 +35,6 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
   const Vector2Property = require( 'DOT/Vector2Property' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveMeterProbeNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterProbeNode' );
   const WireNode = require( 'SCENERY_PHET/WireNode' );
@@ -52,8 +51,10 @@ define( require => {
   const windSound1 = require( 'sound!TAMBO/winds-loop-middle-c-oscilloscope.mp3' );
   const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
   const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
+  const sineSound2 = require( 'sound!WAVE_INTERFERENCE/220hz-saturated-sine-playback-rate-75.mp3' );
+  const windyTone4 = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop-rate-75-pitch-matched-fixed.mp3' );
 
-  const sounds = [ stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
+  const sounds = [ sineSound2, windyTone4, stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
 
   const sounds1 = sounds.map( sound => {
     return new SoundClip( sound, {
@@ -69,8 +70,20 @@ define( require => {
     } );
   } );
 
-  window.waveMeterSound1Property = new Property( WaveInterferenceQueryParameters.waveMeterSound );
-  window.waveMeterSound2Property = new Property( WaveInterferenceQueryParameters.waveMeterSound );
+  window.waveMeterSound1Property = new Property( 0 );
+  window.waveMeterSound2Property = new Property( 1 );
+
+  window.waveMeterSound1PlaybackRateProperty = new Property( 1 );
+  window.waveMeterSound2PlaybackRateProperty = new Property( 1.01 );
+
+  window.waveMeterSound1VolumeProperty = new Property( 0.4 );
+  window.waveMeterSound2VolumeProperty = new Property( 0.13 );
+
+  window.waveMeterSound1VolumeProperty.debug( 'waveMeterSound1VolumeProperty' );
+  window.waveMeterSound2VolumeProperty.debug( 'waveMeterSound2VolumeProperty' );
+
+  window.waveMeterSound1PlaybackRateProperty.debug( 'waveMeterSound1PlaybackRateProperty' );
+  window.waveMeterSound2PlaybackRateProperty.debug( 'waveMeterSound2PlaybackRateProperty' );
 
   window.waveMeterSound1Property.debug( 'waveMeterSound1Property' );
   window.waveMeterSound2Property.debug( 'waveMeterSound2Property' );
@@ -166,7 +179,7 @@ define( require => {
        * @param {boolean} sound - whether to use sound
        * @returns {DynamicSeries}
        */
-      const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty ) => {
+      const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty, playbackRateProperty, volumeProperty ) => {
 
         const snapToCenter = () => {
           if ( model.rotationAmountProperty.value !== 0 && model.sceneProperty.value === model.waterScene ) {
@@ -298,14 +311,18 @@ define( require => {
                 0.3, 0.5,
                 0.4, 1
               ], outputLevel );
-              soundClip.setOutputLevel( outputLevel, 0 );
+
+              // Set the main volume.  If the sound clip wasn't playing, set the sound immediately to correct an audio
+              // blip when the probe enters the play area.  If the sound clip was playing, use a longer time constant
+              // to eliminate clipping, scratching sounds when dragging the probes quickly
+              soundClip.setOutputLevel( outputLevel * volumeProperty.value, soundClip.isPlaying ? 0.03 : 0.0 );
 
               // Work around a bug in Tambo that results in audio played even when outputLevel is 0.0
               if ( !soundClip.isPlaying ) { // TODO: playing a soundclip with outputLevel 0 plays something
                 soundClip.play();
               }
 
-              const basePlaybackRate = lowProperty.value;
+              const basePlaybackRate = lowProperty.value * playbackRateProperty.value;
               if ( value > 0 ) {
                 soundClip.setPlaybackRate( basePlaybackRate * ( intervalProperty.value === 5 ? 329.63 / 220 : intervalProperty.value === 4 ? 293.66 / 220 : 277.18 / 220 ) ); // 5th  (SR #1 pref)
               }
@@ -356,8 +373,8 @@ define( require => {
         position => position.isFinite() ? position.plusXY( 0, -10 ) : Vector2.ZERO
       );
 
-      const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, sounds1, window.waveMeterSound1Property );
-      const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2, sounds2, window.waveMeterSound2Property );
+      const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, sounds1, window.waveMeterSound1Property, window.waveMeterSound1PlaybackRateProperty, window.waveMeterSound1VolumeProperty );
+      const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2, sounds2, window.waveMeterSound2Property, window.waveMeterSound2PlaybackRateProperty, window.waveMeterSound2VolumeProperty );
 
       const verticalAxisTitleNode = new SceneToggleNode(
         model,
