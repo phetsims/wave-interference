@@ -130,8 +130,8 @@ define( require => {
       this.topFacePath.visible = this.isRotatingProperty.get();
       this.sideFacePath.visible = this.isRotatingProperty.get();
 
-      // Only show the "top" indicator while rotating
-      this.upNode.visible = this.isRotatingProperty.get();
+      // Only show the "top" indicator while rotating, but not while it is exactly at 0 degrees
+      this.upNode.visible = this.isRotatingProperty.get() && rotationAmount !== 0;
 
       // Position the arrow and text
       if ( this.upNode.visible ) {
