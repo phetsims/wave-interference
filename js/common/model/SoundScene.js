@@ -46,7 +46,7 @@ define( require => {
       this.soundParticles = [];
 
       // @public - indicates whether the user has selected to hear the sine wave
-      this.isSoundPlayingProperty = new BooleanProperty( false );
+      this.isSineWavePlayingProperty = new BooleanProperty( false );
 
       if ( this.showSoundParticles ) {
 
@@ -131,7 +131,7 @@ define( require => {
     reset() {
       super.reset();
       this.soundViewTypeProperty.reset();
-      this.isSoundPlayingProperty.reset();
+      this.isSineWavePlayingProperty.reset();
     }
   }
 

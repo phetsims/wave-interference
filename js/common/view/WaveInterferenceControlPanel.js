@@ -114,7 +114,7 @@ define( require => {
       // due to lack of IE support for tambo, see https://github.com/phetsims/wave-interference/issues/425
       if ( model.soundScene && options.showPlaySoundControl && !platform.ie ) {
         playToneCheckbox = new WaveInterferenceCheckbox( new WaveInterferenceText( playToneString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
-          model.soundScene.isSoundPlayingProperty, {
+          model.soundScene.isSineWavePlayingProperty, {
             audioEnabled: options.supportsSound
           } );
 

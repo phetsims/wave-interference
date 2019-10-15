@@ -43,7 +43,7 @@ define( require => {
           model.soundScene.frequencyProperty,
           model.soundScene.amplitudeProperty, {
             enableControlProperties: [
-              model.soundScene.isSoundPlayingProperty,
+              model.soundScene.isSineWavePlayingProperty,
               model.soundScene.button1PressedProperty,
               model.isRunningProperty,
               new DerivedProperty( [ model.isResettingProperty ], isResetting => !isResetting )
@@ -111,20 +111,27 @@ define( require => {
         // clip at the corresponding volume and frequency.  Note this means if the frequency or volume changes, the
         // user has to wait for the next cycle to hear the change.
         // TODO (for the reviewer): is that last constraint about having to wait for the next cycle to hear change OK?
-        model.soundScene.oscillator1Property.link( ( value, previousValue ) => {
-          if ( previousValue >= 0 && value < 0 ) {
+        let previousOscillatorValue = null;
+        Property.multilink( [
+          model.soundScene.oscillator1Property,
+          model.soundScene.isSineWavePlayingProperty
+        ], ( oscillatorValue, isSineWavePlayingProperty ) => {
+          if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
+            const maxVolumeWithDucking = isSineWavePlayingProperty ? 0.08 : 0.2;
             const amplitude = Util.linear(
               model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
-              0.0, 0.2, model.soundScene.amplitudeProperty.value
+              0.0, maxVolumeWithDucking, model.soundScene.amplitudeProperty.value
             );
             const playbackRate = Util.linear(
               model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
               1, 1.4, model.soundScene.frequencyProperty.value
             );
-            speakerPulseSoundClip.setOutputLevel( amplitude, 0.5 );
+            speakerPulseSoundClip.setOutputLevel( amplitude, 0.2 ); // Time constant must work for amplitude changes and ducking
             speakerPulseSoundClip.setPlaybackRate( playbackRate / 2 );
             speakerPulseSoundClip.play();
           }
+
+          previousOscillatorValue = oscillatorValue;
         } );
       }
 
