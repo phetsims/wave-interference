@@ -134,7 +134,7 @@ define( require => {
       this.upNode.visible = this.isRotatingProperty.get();
 
       // Position the arrow and text
-      if ( this.upNode.visible > 0 ) {
+      if ( this.upNode.visible ) {
         this.upNode.setMatrix( Matrix3.scaling( 1, rotationAmount ) );
         this.upNode.centerY = this.sideFacePath.shape.bounds.centerY;
         this.upNode.right = this.sideFacePath.shape.bounds.right - 80;
