@@ -16,7 +16,7 @@ define( require => {
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
   // constants
-  const MAX_OUTPUT_LEVEL = 0.4; // valid range is from 0 to 1
+  const MAX_OUTPUT_LEVEL = 0.07; // valid range is from 0 to 1
 
   // function to map amplitude to output level
   // TODO: Ashton - set output level to mix well with other sounds
@@ -67,9 +67,7 @@ define( require => {
       } );
 
       // wire up volume to amplitude
-      amplitudeProperty.link( amplitude => {
-        this.setOutputLevel( mapAmplitudeToOutputLevel( amplitude ) );
-      } );
+      amplitudeProperty.link( amplitude => this.setOutputLevel( mapAmplitudeToOutputLevel( amplitude ) ) );
     }
   }
 

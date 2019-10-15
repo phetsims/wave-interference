@@ -102,7 +102,8 @@ define( require => {
         const speakerPulseSoundClip = new SoundClip( speakerPulseSound, {
 
           // The sound repeats, so the waveform should not be clipped
-          trimSilence: false
+          trimSilence: false,
+          initialOutputLevel: 0
         } );
         soundManager.addSoundGenerator( speakerPulseSoundClip );
 
@@ -114,7 +115,7 @@ define( require => {
           if ( previousValue >= 0 && value < 0 ) {
             const amplitude = Util.linear(
               model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
-              0.0, 0.4, model.soundScene.amplitudeProperty.value
+              0.0, 0.2, model.soundScene.amplitudeProperty.value
             );
             const playbackRate = Util.linear(
               model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
@@ -144,7 +145,7 @@ define( require => {
         const lightFrequencyProperty = model.lightScene.frequencyProperty;
         Property.multilink( [ lightAmplitudeProperty, lightFrequencyProperty ], ( amplitude, frequency ) => {
           const outputLevel = Util.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
-            0.0, 0.8, amplitude );
+            0.0, 0.4, amplitude );
           const playbackRate = Util.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
             1, 1.8, frequency );
           lightBeamLoopSoundClip.setOutputLevel( outputLevel );
