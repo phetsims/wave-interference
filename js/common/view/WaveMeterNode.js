@@ -70,6 +70,7 @@ define( require => {
     } );
   } );
 
+  // Hooks for customization in the dev tools
   window.waveMeterSound1Property = new Property( 0 );
   window.waveMeterSound2Property = new Property( 1 );
 
@@ -315,7 +316,7 @@ define( require => {
               // Set the main volume.  If the sound clip wasn't playing, set the sound immediately to correct an audio
               // blip when the probe enters the play area.  If the sound clip was playing, use a longer time constant
               // to eliminate clipping, scratching sounds when dragging the probes quickly
-              soundClip.setOutputLevel( outputLevel * volumeProperty.value, soundClip.isPlaying ? 0.03 : 0.0 );
+              soundClip.setOutputLevel( model.isRunningProperty.value ? outputLevel * volumeProperty.value : 0, soundClip.isPlaying ? 0.03 : 0.0 );
 
               // Work around a bug in Tambo that results in audio played even when outputLevel is 0.0
               if ( !soundClip.isPlaying ) { // TODO: playing a soundclip with outputLevel 0 plays something
@@ -358,6 +359,8 @@ define( require => {
         // When the wave is paused and the user is dragging the entire MeterBodyNode with the probes aligned, they
         // need to sample their new locations.
         probeNode.on( 'transform', updateSamples );
+
+        model.isRunningProperty.link( updateSamples );
 
         // When a Scene's lattice changes, update the samples
         model.scenes.forEach( scene => scene.lattice.changedEmitter.addListener( updateSamples ) );
