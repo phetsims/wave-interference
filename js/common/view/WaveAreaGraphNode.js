@@ -25,6 +25,7 @@ define( require => {
   // constants
   const TEXT_MARGIN_X = 8;
   const TEXT_MARGIN_Y = 6;
+  const getWaterSideShape = WaveInterferenceUtils.getWaterSideShape;
 
   // Curve radius for the roundings on corners and tabs
   const RADIUS = 5;
@@ -206,7 +207,6 @@ define( require => {
       const dx = -options.x;
       const dy = -options.centerY / 2 + 7.5;
 
-      const getWaterSideShape = WaveInterferenceUtils.getWaterSideShape;
       const updateShape = () => {
         const shape = getWaterSideShape( sampleArray, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy );
         return path.setShape( shape );
