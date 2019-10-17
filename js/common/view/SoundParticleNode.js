@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -18,7 +19,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( options ) {
-      options = _.extend( {
+      options = merge( {
         stroke: 'black',
         scale: 2
       }, options );

@@ -12,6 +12,7 @@ define( require => {
   const Bounds2 = require( 'DOT/Bounds2' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
+  const merge = require( 'PHET_CORE/merge' );
   const TimerNode = require( 'SCENERY_PHET/TimerNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -30,7 +31,7 @@ define( require => {
         maxWidth: 40
       } );
 
-      config = _.extend( {
+      config = merge( {
         maxValue: 999.99,
         timerReadoutNodeOptions: {
           unitsNode: unitsNode

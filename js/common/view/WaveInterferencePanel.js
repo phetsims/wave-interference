@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const Panel = require( 'SUN/Panel' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -19,7 +20,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( content, options ) {
-      options = _.extend( {
+      options = merge( {
         yMargin: 7,
         xMargin: 10,
         stroke: 'gray',

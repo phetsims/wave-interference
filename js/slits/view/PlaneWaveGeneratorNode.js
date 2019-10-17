@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const Image = require( 'SCENERY/nodes/Image' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
@@ -48,7 +49,7 @@ define( require => {
         } );
 
       assert && assert( !options || !options.children, 'children would be overwritten in PlaneWaveGeneratorNode' );
-      options = _.extend( { children: [ verticalCylinderImageNode, button ] }, options );
+      options = merge( { children: [ verticalCylinderImageNode, button ] }, options );
 
       this.mutate( options );
 

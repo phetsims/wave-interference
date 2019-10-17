@@ -16,6 +16,7 @@ define( require => {
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Enumeration = require( 'PHET_CORE/Enumeration' );
   const Lattice = require( 'WAVE_INTERFERENCE/common/model/Lattice' );
+  const merge = require( 'PHET_CORE/merge' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
@@ -56,7 +57,7 @@ define( require => {
      */
     constructor( config ) {
 
-      config = _.extend( {
+      config = merge( {
 
         // Wave type
         numberOfSources: null, // {number} - 1 or 2

@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const LinearFunction = require( 'DOT/LinearFunction' );
+  const merge = require( 'PHET_CORE/merge' );
   const soundConstants = require( 'TAMBO/soundConstants' );
   const SoundGenerator = require( 'TAMBO/sound-generators/SoundGenerator' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -35,7 +36,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( frequencyProperty, amplitudeProperty, options ) {
-      options = _.extend( {
+      options = merge( {
         initialOutputLevel: 0,
         oscillatorType: 'sine'
       }, options );

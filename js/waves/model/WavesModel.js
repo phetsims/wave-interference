@@ -18,6 +18,7 @@ define( require => {
   const Enumeration = require( 'PHET_CORE/Enumeration' );
   const EventTimer = require( 'PHET_CORE/EventTimer' );
   const LightScene = require( 'WAVE_INTERFERENCE/common/model/LightScene' );
+  const merge = require( 'PHET_CORE/merge' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Property = require( 'AXON/Property' );
   const Range = require( 'DOT/Range' );
@@ -65,7 +66,7 @@ define( require => {
      */
     constructor( options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // This model supports one or two sources.  If the sources are initially separated, there are two sources
         numberOfSources: 1,

@@ -12,6 +12,7 @@ define( require => {
   const Dimension2 = require( 'DOT/Dimension2' );
   const LaserPointerNode = require( 'SCENERY_PHET/LaserPointerNode' );
   const LightScene = require( 'WAVE_INTERFERENCE/common/model/LightScene' );
+  const merge = require( 'PHET_CORE/merge' );
   const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -32,7 +33,7 @@ define( require => {
      */
     constructor( lightScene, waveAreaNode, isPrimarySource ) {
       assert && assert( lightScene instanceof LightScene, 'lightScene should be an instance of SoundScene' );
-      const laserPointerNode = new LaserPointerNode( lightScene.button1PressedProperty, _.extend( {
+      const laserPointerNode = new LaserPointerNode( lightScene.button1PressedProperty, merge( {
         rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 )
       }, DEFAULT_OPTIONS ) );
       super( lightScene, waveAreaNode, 70, isPrimarySource, laserPointerNode );

@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -20,7 +21,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( property, items, options ) {
-      options = _.extend( { spacing: 8 }, options );
+      options = merge( { spacing: 8 }, options );
       super( property, items, options );
     }
   }

@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const Checkbox = require( 'SUN/Checkbox' );
+  const merge = require( 'PHET_CORE/merge' );
   const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const soundManager = require( 'TAMBO/soundManager' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -26,7 +27,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( content, property, options ) {
-      options = _.extend( { boxWidth: 14, supportsSound: false }, options );
+      options = merge( { boxWidth: 14, supportsSound: false }, options );
       super( content, property, options );
 
       if ( options.audioEnabled ) {

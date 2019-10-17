@@ -21,6 +21,7 @@ define( require => {
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const MatrixCanvasNode = require( 'WAVE_INTERFERENCE/diffraction/view/MatrixCanvasNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
@@ -264,7 +265,7 @@ define( require => {
             touchAreaXDilation: WaveInterferenceConstants.NUMBER_CONTROL_HORIZONTAL_TOUCH_AREA_DILATION,
             touchAreaYDilation: 7
           }
-        } ), _.extend( {}, PANEL_OPTIONS, {
+        } ), merge( {}, PANEL_OPTIONS, {
           left: laserPointerNode.left,
           top: apertureScaleIndicatorNode.top,
           xMargin: 6

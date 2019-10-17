@@ -16,6 +16,7 @@ define( require => {
   const Emitter = require( 'AXON/Emitter' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const LabeledScrollingChartNode = require( 'GRIDDLE/LabeledScrollingChartNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
@@ -47,12 +48,12 @@ define( require => {
   const organ2Sound = require( 'sound!WAVE_INTERFERENCE/organ-v2-for-meter-loop.mp3' );
   const organSound = require( 'sound!WAVE_INTERFERENCE/organ-for-meter-loop.mp3' );
   const sineSound = require( 'sound!TAMBO/220hz-saturated-sine-loop.mp3' );
+  const sineSound2 = require( 'sound!WAVE_INTERFERENCE/220hz-saturated-sine-playback-rate-75.mp3' );
   const stringSound1 = require( 'sound!TAMBO/strings-loop-middle-c-oscilloscope.mp3' );
   const windSound1 = require( 'sound!TAMBO/winds-loop-middle-c-oscilloscope.mp3' );
   const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
-  const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
-  const sineSound2 = require( 'sound!WAVE_INTERFERENCE/220hz-saturated-sine-playback-rate-75.mp3' );
   const windyTone4 = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop-rate-75-pitch-matched-fixed.mp3' );
+  const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
 
   const sounds = [ sineSound2, windyTone4, stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
 
@@ -131,7 +132,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( model, view, options ) {
-      options = _.extend( {
+      options = merge( {
         timeDivisions: NUMBER_OF_TIME_DIVISIONS,
 
         // Prevent adjustment of the control panel rendering while dragging,

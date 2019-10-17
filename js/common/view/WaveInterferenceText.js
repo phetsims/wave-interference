@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const Text = require( 'SCENERY/nodes/Text' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -20,7 +21,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( string, options ) {
-      super( string, _.extend( {
+      super( string, merge( {
         font: WaveInterferenceConstants.DEFAULT_FONT,
 
         // This addresses numerous cases where `maxWidth: 120` would have to otherwise be set in client code.

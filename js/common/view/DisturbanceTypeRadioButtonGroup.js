@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const DisturbanceTypeIconNode = require( 'WAVE_INTERFERENCE/common/view/DisturbanceTypeIconNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -27,7 +28,7 @@ define( require => {
       }, {
         value: Scene.DisturbanceType.PULSE,
         node: new DisturbanceTypeIconNode( Scene.DisturbanceType.PULSE )
-      } ], _.extend( {
+      } ], merge( {
         orientation: 'vertical',
         buttonContentXMargin: 1,
         buttonContentYMargin: 8,

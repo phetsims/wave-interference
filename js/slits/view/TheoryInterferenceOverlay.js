@@ -11,6 +11,7 @@ define( require => {
 
   // modules
   const Line = require( 'SCENERY/nodes/Line' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
@@ -32,7 +33,7 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( sceneProperty, scenes, viewBounds, options ) {
-      options = _.extend( {
+      options = merge( {
 
         // On the interference screen, the theory pattern is always shown for 2 sources even though 0, 1 or 2 sources
         // may be oscillating

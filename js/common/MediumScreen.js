@@ -11,6 +11,7 @@ define( require => {
 
   // modules
   const BaseScreen = require( 'WAVE_INTERFERENCE/common/BaseScreen' );
+  const merge = require( 'PHET_CORE/merge' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   class MediumScreen extends BaseScreen {
@@ -20,7 +21,7 @@ define( require => {
      * @param {Object} options
      */
     constructor( alignGroup, options ) {
-      options = _.extend( {
+      options = merge( {
         showSceneRadioButtons: false
       }, options );
       super( alignGroup, options );

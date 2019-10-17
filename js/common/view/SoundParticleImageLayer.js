@@ -11,6 +11,7 @@ define( require => {
 
   // modules
   const Image = require( 'SCENERY/nodes/Image' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const SoundParticleNode = require( 'WAVE_INTERFERENCE/common/view/SoundParticleNode' );
@@ -26,7 +27,7 @@ define( require => {
      */
     constructor( model, waveAreaNodeBounds, options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         layerSplit: true, // ensure we're on our own layer
         renderer: 'webgl',

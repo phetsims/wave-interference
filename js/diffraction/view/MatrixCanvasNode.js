@@ -13,6 +13,7 @@ define( require => {
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   const Color = require( 'SCENERY/util/Color' );
   const ImageDataRenderer = require( 'WAVE_INTERFERENCE/common/view/ImageDataRenderer' );
+  const merge = require( 'PHET_CORE/merge' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
@@ -27,7 +28,7 @@ define( require => {
      */
     constructor( matrix, options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // only use the visible part for the bounds (not the damping regions)
         canvasBounds: new Bounds2( 0, 0,

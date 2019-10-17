@@ -12,6 +12,7 @@ define( require => {
   // modules
   const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   const Line = require( 'SCENERY/nodes/Line' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -41,7 +42,7 @@ define( require => {
       } );
       text.leftCenter = rightBar.rightCenter.plusXY( 5, 0 );
 
-      super( _.extend( {
+      super( merge( {
         children: [ arrowNode, leftBar, rightBar, text ]
       }, options ) );
     }

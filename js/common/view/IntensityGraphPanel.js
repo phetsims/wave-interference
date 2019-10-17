@@ -12,6 +12,7 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const ColorConstants = require( 'SUN/ColorConstants' );
   const Line = require( 'SCENERY/nodes/Line' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -113,14 +114,14 @@ define( require => {
       };
 
       // Zoom out button on the left
-      const zoomOutButton = new ZoomButton( _.extend( {
+      const zoomOutButton = new ZoomButton( merge( {
         in: false,
         left: chartRectangle.left,
         listener: () => zoomLevelProperty.value--
       }, zoomButtonOptions ) );
 
       // Zoom in button on the right
-      const zoomInButton = new ZoomButton( _.extend( {
+      const zoomInButton = new ZoomButton( merge( {
         in: true,
         right: chartRectangle.right,
         listener: () => zoomLevelProperty.value++

@@ -11,6 +11,7 @@ define( require => {
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
@@ -22,7 +23,7 @@ define( require => {
      */
     constructor( sceneProperty, options ) {
 
-      super( _.extend( {
+      super( merge( {
         // only use the visible part for the bounds (not the damping regions)
         canvasBounds: new Bounds2( 0, 0,
           WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION,

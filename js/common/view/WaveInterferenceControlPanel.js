@@ -12,6 +12,7 @@ define( require => {
   const AmplitudeControl = require( 'WAVE_INTERFERENCE/common/view/AmplitudeControl' );
   const FrequencyControl = require( 'WAVE_INTERFERENCE/common/view/FrequencyControl' );
   const HSeparator = require( 'SUN/HSeparator' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const platform = require( 'PHET_CORE/platform' );
   const SceneRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/SceneRadioButtonGroup' );
@@ -39,7 +40,7 @@ define( require => {
      */
     constructor( model, alignGroup, options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // {Node|null} This additional control (if present) will be shown beneath the Amplitude slider in the
         // WaveInterferenceControlPanel

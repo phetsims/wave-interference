@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const DragListener = require( 'SCENERY/listeners/DragListener' );
+  const merge = require( 'PHET_CORE/merge' );
   const ProbeNode = require( 'SCENERY_PHET/ProbeNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -21,7 +22,7 @@ define( require => {
      */
     constructor( visibleBoundsProperty, options ) {
 
-      options = _.extend( {
+      options = merge( {
         cursor: 'pointer',
         sensorTypeFunction: ProbeNode.crosshairs( { stroke: 'white' } ),
         scale: 0.4,

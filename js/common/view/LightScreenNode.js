@@ -14,6 +14,7 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const ImageDataRenderer = require( 'WAVE_INTERFERENCE/common/view/ImageDataRenderer' );
   const Matrix3 = require( 'DOT/Matrix3' );
+  const merge = require( 'PHET_CORE/merge' );
   const PiecewiseLinearFunction = require( 'DOT/PiecewiseLinearFunction' );
   const Util = require( 'DOT/Util' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -55,7 +56,7 @@ define( require => {
      */
     constructor( lattice, intensitySample, options ) {
       const latticeCanvasBounds = WaveInterferenceUtils.getCanvasBounds( lattice );
-      options = _.extend( {
+      options = merge( {
 
         // only use the visible part for the bounds (not the damping regions)
         canvasBounds: new Bounds2( 0, 0, CANVAS_WIDTH, latticeCanvasBounds.height ),

@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const LineStyles = require( 'KITE/util/LineStyles' );
+  const merge = require( 'PHET_CORE/merge' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Shape = require( 'KITE/Shape' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -29,7 +30,7 @@ define( require => {
         lineCap: 'round'
       } ) );
 
-      super( strokedShape, _.extend( {
+      super( strokedShape, merge( {
         fill: 'white',
         stroke: 'black',
         lineWidth: 1

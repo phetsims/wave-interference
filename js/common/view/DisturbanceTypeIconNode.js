@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const LineStyles = require( 'KITE/util/LineStyles' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
@@ -32,7 +33,7 @@ define( require => {
      */
     constructor( disturbanceType, options ) {
 
-      options = _.extend( {
+      options = merge( {
         stroked: false
       }, options );
       super();

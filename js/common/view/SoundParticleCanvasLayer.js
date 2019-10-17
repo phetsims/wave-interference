@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const SoundParticleNode = require( 'WAVE_INTERFERENCE/common/view/SoundParticleNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -28,7 +29,7 @@ define( require => {
      */
     constructor( model, waveAreaNodeBounds, options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // only use the visible part for the bounds (not the damping regions).  Additionally erode so the particles
         // don't leak over the edge of the wave area

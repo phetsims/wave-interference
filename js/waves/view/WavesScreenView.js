@@ -24,6 +24,7 @@ define( require => {
   const LightWaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/LightWaveGeneratorNode' );
   const Matrix3 = require( 'DOT/Matrix3' );
   const MeasuringTapeNode = require( 'SCENERY_PHET/MeasuringTapeNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Perspective3DNode = require( 'WAVE_INTERFERENCE/common/view/Perspective3DNode' );
   const platform = require( 'PHET_CORE/platform' );
@@ -73,7 +74,7 @@ define( require => {
      */
     constructor( model, alignGroup, options ) {
 
-      options = _.extend( {
+      options = merge( {
 
         // Only allow side view in single source/no slits context
         showViewpointRadioButtonGroup: false,

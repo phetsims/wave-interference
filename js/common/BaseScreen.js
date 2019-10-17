@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -23,7 +24,7 @@ define( require => {
      */
     constructor( alignGroup, options ) {
 
-      options = _.extend( {
+      options = merge( {
         backgroundColorProperty: new Property( 'white' ),
         showUnselectedHomeScreenIconFrame: true,
         showScreenIconFrameForNavigationBarFill: 'black',

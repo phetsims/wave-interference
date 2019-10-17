@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const HBox = require( 'SCENERY/nodes/HBox' );
+  const merge = require( 'PHET_CORE/merge' );
   const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   const StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -57,7 +58,7 @@ define( require => {
         listener: () => model.advanceTime( 1 / WavesModel.EVENT_RATE, true )
       } );
 
-      super( _.extend( {
+      super( merge( {
         spacing: 20,
         children: [ new HBox( {
           spacing: 6,
