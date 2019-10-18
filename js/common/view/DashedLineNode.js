@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * When the graph is selected, this dashed line is shown in the center of the WaveAreaNode and in the graph's center.
