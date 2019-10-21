@@ -16,8 +16,8 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // sounds
-  const checkboxCheckedSound = require( 'sound!TAMBO/check-box-checked.mp3' );
-  const checkboxUncheckedSound = require( 'sound!TAMBO/check-box-unchecked.mp3' );
+  const checkboxCheckedSound = require( 'sound!TAMBO/checkbox-checked.mp3' );
+  const checkboxUncheckedSound = require( 'sound!TAMBO/checkbox-unchecked.mp3' );
 
   class WaveInterferenceCheckbox extends Checkbox {
 
