@@ -378,7 +378,7 @@ define( require => {
       );
 
       const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, sounds1, window.waveMeterSound1Property, window.waveMeterSound1PlaybackRateProperty, window.waveMeterSound1VolumeProperty );
-      const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 36, 54, aboveBottomLeft2, sounds2, window.waveMeterSound2Property, window.waveMeterSound2PlaybackRateProperty, window.waveMeterSound2VolumeProperty );
+      const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 42, 54, aboveBottomLeft2, sounds2, window.waveMeterSound2Property, window.waveMeterSound2PlaybackRateProperty, window.waveMeterSound2VolumeProperty );
 
       const verticalAxisTitleNode = new SceneToggleNode(
         model,
