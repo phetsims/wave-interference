@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 2.0.1-rc.2 Wed Oct 23 2019 16:25:39 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# wave-interference 2.0.1-rc.3 Thu Oct 24 2019 02:11:24 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "201c50a840e082354b013f4ab9e9d45006f98cfe",
     "branch": "HEAD"
@@ -26,7 +26,7 @@
   },
   "joist": {
     "sha": "887b0bb168695e74699cc796df5dbc6efb1479af",
-    "branch": "wave-interference-2.0"
+    "branch": "HEAD"
   },
   "kite": {
     "sha": "34e7bdb4379b8faab55c728fdd462d4477f77fe7",
@@ -85,7 +85,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "3f5e5c632cfd9aa925e5040464a80b5948bd3c74",
+    "sha": "6c6fcf6c4064830614f5939676fd16739902209e",
     "branch": "2.0"
   }
 }
