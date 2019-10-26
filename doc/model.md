@@ -34,7 +34,7 @@ For single slit (where `a` is the width of the aperture):
 
 see http://hyperphysics.phy-astr.gsu.edu/hbase/phyopt/sinslit.html
 
-## Diffraction Screen (under development)
+## Diffraction Screen
 
 Please see https://en.wikipedia.org/wiki/Diffraction for general information about wave diffraction.  In this screen,
 the diffraction pattern is computed as the discrete Fast Fourier Transform of the input pattern.
