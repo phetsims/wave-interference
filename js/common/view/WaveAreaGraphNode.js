@@ -9,18 +9,46 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
+  const PeakToneGenerator = require( 'WAVE_INTERFERENCE/common/view/PeakToneGenerator' );
   const DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
   const Line = require( 'SCENERY/nodes/Line' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
+  const Property = require( 'AXON/Property' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const Shape = require( 'KITE/Shape' );
+  const soundManager = require( 'TAMBO/soundManager' );
   const Util = require( 'DOT/Util' );
+  const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
+
+  // sounds
+  // const sineSound = require( 'sound!TAMBO/ethereal-flute-for-meter-loop.mp3' );
+
+  // sounds
+  const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
+  // const organ2Sound = require( 'sound!WAVE_INTERFERENCE/organ-v2-for-meter-loop.mp3' );
+  // const organSound = require( 'sound!WAVE_INTERFERENCE/organ-for-meter-loop.mp3' );
+  // const sineSound = require( 'sound!TAMBO/220hz-saturated-sine-loop.mp3' );
+  // const sineSound2 = require( 'sound!WAVE_INTERFERENCE/220hz-saturated-sine-playback-rate-75.mp3' );
+  // const stringSound1 = require( 'sound!TAMBO/strings-loop-middle-c-oscilloscope.mp3' );
+  // const windSound1 = require( 'sound!TAMBO/winds-loop-middle-c-oscilloscope.mp3' );
+  // const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
+  // const windyTone4 = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop-rate-75-pitch-matched-fixed.mp3' );
+  // const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
+
+  // const sounds = [ sineSound2, windyTone4, stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
+  // const selectedSound=windyTone4;
+  // const selectedSound=stringSound1;
+  // const selectedSound=windSound1;
+  // const selectedSound=etherealFluteSound;// several votes!  :)  EM says it is a bit harsh,
+  // const selectedSound=organSound;
+  const selectedSound = etherealFluteSound;
 
   // constants
   const TEXT_MARGIN_X = 8;
@@ -200,8 +228,33 @@ define( require => {
       } );
       this.addChild( path );
 
+      // For debugging, show the peaks
+      const derivativePath = new Path( new Shape(), {
+        stroke: 'red',
+        lineWidth: 2,
+        lineJoin: WaveInterferenceConstants.CHART_LINE_JOIN, // Prevents artifacts at the wave source
+
+        // prevent the shape from going outside of the chart area
+        clipArea: pathClipArea,
+
+        // prevent bounds computations during main loop
+        boundsMethod: 'none',
+        localBounds: pathClipArea.bounds
+      } );
+      this.addChild( derivativePath );
+
       // Created once and reused to avoid allocations
       const sampleArray = [];
+
+      const peakToneGenerators = [];
+      for ( let i = 0; i < 20; i++ ) {
+        const p = new Property( 0 );
+        const peakToneGenerator = new PeakToneGenerator( p, selectedSound, new BooleanProperty( false ), {} );
+        soundManager.addSoundGenerator( peakToneGenerator, {
+          associatedViewNode: this
+        } );
+        peakToneGenerators.push( peakToneGenerator );
+      }
 
       // Manually tuned to center the line in the graph, dy must be synchronized with graphHeight
       const dx = -options.x;
@@ -209,7 +262,47 @@ define( require => {
 
       const updateShape = () => {
         const shape = getWaterSideShape( sampleArray, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy );
-        return path.setShape( shape );
+
+        let selectedIndex = 0;
+        const makeDerivative = s => {
+          const points = s.subpaths[ 0 ].points;
+          const derivative = new Shape();
+          for ( let i = 0; i < points.length - 2; i++ ) {
+            const a = points[ i ];
+            const b = points[ i + 1 ];
+            const c = points[ i + 2 ];
+
+            let y = 100;
+            const x = ( a.x + b.x + c.x ) / 3;
+            if ( b.y < a.y && b.y < c.y && x > 30 ) {
+              y = 200;
+              assert && assert( !isNaN( x ) );
+              const soundPropertyGenerator = peakToneGenerators[ selectedIndex ];
+
+              // const outputLevel = Util.linear( 30, 500, 0.2, -0.1, x );
+              // https://saylordotorg.github.io/text_intermediate-algebra/s10-03-logarithmic-functions-and-thei.html
+              // fast exponential decay
+              const outputLevel = 2 * Math.pow( 0.4, x / 20 );
+              soundPropertyGenerator.setOutputLevel( outputLevel, 10 );
+              soundPropertyGenerator.property.value = Util.linear( 30, 500, 1, 0.1, x );
+              selectedIndex++;
+            }
+
+            const p = new Vector2( x, y );
+            derivative.lineToPoint( p );
+          }
+          return derivative;
+        };
+
+        const derivative = makeDerivative( shape );
+
+        path.setShape( shape );
+        derivativePath.setShape( derivative );
+
+        // Clear the remaining tones
+        for ( let i = selectedIndex; i < peakToneGenerators.length; i++ ) {
+          peakToneGenerators[ i ].setOutputLevel( 0, 0 );
+        }
       };
       model.scenes.forEach( scene => scene.lattice.changedEmitter.addListener( updateShape ) );
 
