@@ -282,9 +282,9 @@ define( require => {
               // const outputLevel = Util.linear( 30, 500, 0.2, -0.1, x );
               // https://saylordotorg.github.io/text_intermediate-algebra/s10-03-logarithmic-functions-and-thei.html
               // fast exponential decay
-              const outputLevel = 2 * Math.pow( 0.6, x / 40 );
-              soundPropertyGenerator.setOutputLevel( outputLevel, 10 );
-              soundPropertyGenerator.property.value = Util.linear( 30, 500, 1, 0.1, x );
+              const outputLevel = 2 * Math.exp( -0.02 * x ); // larger coefficient means faster decay
+              soundPropertyGenerator.setOutputLevel( outputLevel, 1 );
+              soundPropertyGenerator.property.value = Util.linear( 30, 500, 1.1, 0.7, x );
               selectedIndex++;
             }
 
