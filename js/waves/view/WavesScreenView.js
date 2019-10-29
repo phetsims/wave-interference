@@ -545,7 +545,7 @@ define( require => {
         const primaryWaveGeneratorToggleNode = createWaveGeneratorToggleNode( true );
         this.addChild( primaryWaveGeneratorToggleNode ); // Primary source
 
-        this.playAreaNode.accessibleOrder = [ primaryWaveGeneratorToggleNode, null ];
+        this.pdomPlayAreaNode.accessibleOrder = [ primaryWaveGeneratorToggleNode, null ];
 
         // Secondary source
         if ( model.numberOfSources === 2 ) {
