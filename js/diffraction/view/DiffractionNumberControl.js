@@ -25,10 +25,7 @@ define( require => {
      */
     constructor( title, property, options ) {
 
-      // Normally we would like to specify options last, however, at the time of writing, there is a problem that
-      // https://github.com/phetsims/phet-info/issues/91#issuecomment-474008231 where all merge arguments are mutated
-      // except the last one, hence we specify the shared value last.
-      const mergedOptions = merge( {
+      const mergedOptions = merge( {}, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS, {
         sliderOptions: {
           majorTicks: [ {
             value: property.range.min,
@@ -38,7 +35,7 @@ define( require => {
             label: new WaveInterferenceText( property.range.max.toFixed( 2 ) )
           } ]
         }
-      }, options, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS );
+      }, options );
 
       // make wider to give more room for layout and breathing room for i18n
       const expandedOptions = merge( mergedOptions, {
