@@ -7,3 +7,4 @@ node_modules/
 *.sublime-project
 *.sublime-workspace
 .eslintcache
+/sounds/bright_acoustic_piano-mp3/*.mp3
