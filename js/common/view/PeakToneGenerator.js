@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const phetAudioContext = require( 'TAMBO/phetAudioContext' );
   const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
@@ -22,10 +23,17 @@ define( require => {
      */
     constructor( property, sound, resetInProgressProperty ) {
 
+      const lowPassFilter = phetAudioContext.createBiquadFilter();
+      lowPassFilter.type = 'lowpass';
+      lowPassFilter.frequency.setValueAtTime( 200, 0 );
+
       super( sound, {
         loop: true,
-        trimSilence: false
+        trimSilence: false,
+        additionalNodes: [ lowPassFilter ]
       } );
+
+      this.filter = lowPassFilter;
 
       this.property = property;
 
