@@ -41,7 +41,11 @@ define( require => {
   // const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
   // const windyTone4 = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop-rate-75-pitch-matched-fixed.mp3' );
   // const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
-  const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
+  // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
+
+  // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-pitch-fall.mp3' );
+  const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-pitch-fall-less.mp3' );
+  // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-single-notes.mp3' );
 
   // const sounds = [ sineSound2, windyTone4, stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
   // const selectedSound=windyTone4;
@@ -265,9 +269,8 @@ define( require => {
         const shape = getWaterSideShape( sampleArray, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy );
 
         let selectedIndex = 0;
-        const makeDerivative = s => {
-          const points = s.subpaths[ 0 ].points;
-          const derivative = new Shape();
+        const makeDerivative = points => {
+          const derivative = [];
           for ( let i = 0; i < points.length - 2; i++ ) {
             const a = points[ i ];
             const b = points[ i + 1 ];
@@ -286,27 +289,27 @@ define( require => {
               const outputLevel = 0.2 * Math.exp( -0.01 * x ); // larger coefficient means faster decay
               soundPropertyGenerator.setOutputLevel( outputLevel, 1 );
 
-
               // Pixel coordinate maps to playback rate.
-              const linear = Util.linear( 30, 500, 1.2, 0.2, x );
+              // const linear = Util.linear( 30, 500, 1.2, 0.2, x );
               // const choices = [ 0.2, 0.4, 0.6, 0.8, 1.0, 1.2 ];
               // _.minBy(choices,);
-              soundPropertyGenerator.property.value = linear;
+              soundPropertyGenerator.property.value = 0.8;
 
-              soundPropertyGenerator.filter.frequency.setValueAtTime( Util.linear( 30, 500, 100, 400, x ), phetAudioContext.currentTime + 0.01 );
+              soundPropertyGenerator.filter.frequency.setValueAtTime( Util.linear( 30, 500, 400, 100, x ), phetAudioContext.currentTime + 0.01 );
               selectedIndex++;
             }
-
-            const p = new Vector2( x, y );
-            derivative.lineToPoint( p );
+            derivative.push( new Vector2( x, y ) );
           }
           return derivative;
         };
 
-        const derivative = makeDerivative( shape );
+        const smoothed = smooth( shape.subpaths[ 0 ].points );
+        const derivative = makeDerivative( smoothed );
 
         path.setShape( shape );
-        derivativePath.setShape( derivative );
+        const derivativeShape = new Shape();
+        derivative.forEach( p => derivativeShape.lineToPoint( p ) );
+        derivativePath.setShape( derivativeShape );
 
         // Clear the remaining tones
         for ( let i = selectedIndex; i < peakToneGenerators.length; i++ ) {
@@ -321,6 +324,30 @@ define( require => {
       this.mutate( options );
     }
   }
+
+  const averagePoints = points => {
+    let sumX = 0;
+    let sumY = 0;
+    for ( let i = 0; i < points.length; i++ ) {
+      const point = points[ i ];
+      sumX += point.x;
+      sumY += point.y;
+    }
+    return new Vector2( sumX / points.length, sumY / points.length );
+  };
+
+  const smooth = points => {
+    const smoothedArray = [];
+    const radius = 2;
+    for ( let i = 0; i < points.length; i++ ) {
+      const neighbors = [];
+      for ( let r = -radius; r <= radius; r++ ) {
+        points[ i + r ] && neighbors.push( points[ i + r ] );
+      }
+      smoothedArray.push( averagePoints( neighbors ) );
+    }
+    return smoothedArray;
+  };
 
   return waveInterference.register( 'WaveAreaGraphNode', WaveAreaGraphNode );
 } );
