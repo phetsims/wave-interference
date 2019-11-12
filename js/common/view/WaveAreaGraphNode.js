@@ -11,11 +11,12 @@ define( require => {
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
-  const PeakToneGenerator = require( 'WAVE_INTERFERENCE/common/view/PeakToneGenerator' );
   const DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
   const Line = require( 'SCENERY/nodes/Line' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
+  const PeakToneGenerator = require( 'WAVE_INTERFERENCE/common/view/PeakToneGenerator' );
+  const phetAudioContext = require( 'TAMBO/phetAudioContext' );
   const Property = require( 'AXON/Property' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const Shape = require( 'KITE/Shape' );
@@ -31,7 +32,6 @@ define( require => {
   // const sineSound = require( 'sound!TAMBO/ethereal-flute-for-meter-loop.mp3' );
 
   // sounds
-  const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
   // const organ2Sound = require( 'sound!WAVE_INTERFERENCE/organ-v2-for-meter-loop.mp3' );
   // const organSound = require( 'sound!WAVE_INTERFERENCE/organ-for-meter-loop.mp3' );
   // const sineSound = require( 'sound!TAMBO/220hz-saturated-sine-loop.mp3' );
@@ -41,6 +41,7 @@ define( require => {
   // const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
   // const windyTone4 = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop-rate-75-pitch-matched-fixed.mp3' );
   // const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
+  const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
 
   // const sounds = [ sineSound2, windyTone4, stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
   // const selectedSound=windyTone4;
@@ -291,6 +292,8 @@ define( require => {
               // const choices = [ 0.2, 0.4, 0.6, 0.8, 1.0, 1.2 ];
               // _.minBy(choices,);
               soundPropertyGenerator.property.value = linear;
+
+              soundPropertyGenerator.filter.frequency.setValueAtTime( Util.linear( 30, 500, 100, 400, x ), phetAudioContext.currentTime + 0.01 );
               selectedIndex++;
             }
 
