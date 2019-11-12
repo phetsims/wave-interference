@@ -32,8 +32,7 @@ define( require => {
               '1548924. Any opinions, findings, and conclusions or recommendations expressed in this material are those ' +
               'of the author(s) and do not necessarily reflect the views of the National Science Foundation.'
     },
-    webgl: platform.mobileSafari,
-    supportsSound: true
+    webgl: platform.mobileSafari
   };
 
   SimLauncher.launch( () => {
