@@ -16,13 +16,13 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PeakToneGenerator = require( 'WAVE_INTERFERENCE/common/view/PeakToneGenerator' );
-  // const phetAudioContext = require( 'TAMBO/phetAudioContext' );
+  const phetAudioContext = require( 'TAMBO/phetAudioContext' );
   const Property = require( 'AXON/Property' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const Shape = require( 'KITE/Shape' );
   const soundManager = require( 'TAMBO/soundManager' );
   const Util = require( 'DOT/Util' );
-  // const Vector2 = require( 'DOT/Vector2' );
+  const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -268,53 +268,53 @@ define( require => {
       const updateShape = () => {
         const shape = getWaterSideShape( sampleArray, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy );
 
-        // let selectedIndex = 0;
-        // const makeDerivative = points => {
-        //   const derivative = [];
-        //   for ( let i = 0; i < points.length - 2; i++ ) {
-        //     const a = points[ i ];
-        //     const b = points[ i + 1 ];
-        //     const c = points[ i + 2 ];
-        //
-        //     let y = 100;
-        //     const x = ( a.x + b.x + c.x ) / 3;
-        //     if ( b.y < a.y && b.y < c.y && x > 30 ) {
-        //       y = 200;
-        //       assert && assert( !isNaN( x ) );
-        //       // const soundPropertyGenerator = peakToneGenerators[ selectedIndex ];
-        //       //
-        //       // // const outputLevel = Util.linear( 30, 500, 0.2, -0.1, x );
-        //       // // https://saylordotorg.github.io/text_intermediate-algebra/s10-03-logarithmic-functions-and-thei.html
-        //       // // fast exponential decay
-        //       // const outputLevel = 0.2 * Math.exp( -0.01 * x ); // larger coefficient means faster decay
-        //       // soundPropertyGenerator.setOutputLevel( outputLevel, 1 );
-        //       //
-        //       // // Pixel coordinate maps to playback rate.
-        //       // // const linear = Util.linear( 30, 500, 1.2, 0.2, x );
-        //       // // const choices = [ 0.2, 0.4, 0.6, 0.8, 1.0, 1.2 ];
-        //       // // _.minBy(choices,);
-        //       // soundPropertyGenerator.property.value = 0.8;
-        //       //
-        //       // soundPropertyGenerator.filter.frequency.setValueAtTime( Util.linear( 30, 500, 400, 100, x ), phetAudioContext.currentTime + 0.01 );
-        //       // selectedIndex++;
-        //     }
-        //     derivative.push( new Vector2( x, y ) );
-        //   }
-        //   return derivative;
-        // };
+        let selectedIndex = 0;
+        const makeDerivative = points => {
+          const derivative = [];
+          for ( let i = 0; i < points.length - 2; i++ ) {
+            const a = points[ i ];
+            const b = points[ i + 1 ];
+            const c = points[ i + 2 ];
 
-        // const smoothed = smooth( shape.subpaths[ 0 ].points );
-        // const derivative = makeDerivative( smoothed );
+            let y = 100;
+            const x = ( a.x + b.x + c.x ) / 3;
+            if ( b.y < a.y && b.y < c.y && x > 30 ) {
+              y = 200;
+              assert && assert( !isNaN( x ) );
+              const soundPropertyGenerator = peakToneGenerators[ selectedIndex ];
+
+              // const outputLevel = Util.linear( 30, 500, 0.2, -0.1, x );
+              // https://saylordotorg.github.io/text_intermediate-algebra/s10-03-logarithmic-functions-and-thei.html
+              // fast exponential decay
+              const outputLevel = 0.2 * Math.exp( -0.01 * x ); // larger coefficient means faster decay
+              soundPropertyGenerator.setOutputLevel( outputLevel, 1 );
+
+              // Pixel coordinate maps to playback rate.
+              // const linear = Util.linear( 30, 500, 1.2, 0.2, x );
+              // const choices = [ 0.2, 0.4, 0.6, 0.8, 1.0, 1.2 ];
+              // _.minBy(choices,);
+              soundPropertyGenerator.property.value = 0.8;
+
+              soundPropertyGenerator.filter.frequency.setValueAtTime( Util.linear( 30, 500, 400, 100, x ), phetAudioContext.currentTime + 0.01 );
+              selectedIndex++;
+            }
+            derivative.push( new Vector2( x, y ) );
+          }
+          return derivative;
+        };
+
+        const smoothed = smooth( shape.subpaths[ 0 ].points );
+        const derivative = makeDerivative( smoothed );
 
         path.setShape( shape );
-        // const derivativeShape = new Shape();
-        // derivative.forEach( p => derivativeShape.lineToPoint( p ) );
-        // derivativePath.setShape( derivativeShape );
+        const derivativeShape = new Shape();
+        derivative.forEach( p => derivativeShape.lineToPoint( p ) );
+        derivativePath.setShape( derivativeShape );
 
         // Clear the remaining tones
-        // for ( let i = selectedIndex; i < peakToneGenerators.length; i++ ) {
-        //   peakToneGenerators[ i ].setOutputLevel( 0, 0 );
-        // }
+        for ( let i = selectedIndex; i < peakToneGenerators.length; i++ ) {
+          peakToneGenerators[ i ].setOutputLevel( 0, 0 );
+        }
       };
       model.scenes.forEach( scene => scene.lattice.changedEmitter.addListener( updateShape ) );
 
@@ -325,29 +325,29 @@ define( require => {
     }
   }
 
-  // const averagePoints = points => {
-  //   let sumX = 0;
-  //   let sumY = 0;
-  //   for ( let i = 0; i < points.length; i++ ) {
-  //     const point = points[ i ];
-  //     sumX += point.x;
-  //     sumY += point.y;
-  //   }
-  //   return new Vector2( sumX / points.length, sumY / points.length );
-  // };
+  const averagePoints = points => {
+    let sumX = 0;
+    let sumY = 0;
+    for ( let i = 0; i < points.length; i++ ) {
+      const point = points[ i ];
+      sumX += point.x;
+      sumY += point.y;
+    }
+    return new Vector2( sumX / points.length, sumY / points.length );
+  };
 
-  // const smooth = points => {
-  //   const smoothedArray = [];
-  //   const radius = 2;
-  //   for ( let i = 0; i < points.length; i++ ) {
-  //     const neighbors = [];
-  //     for ( let r = -radius; r <= radius; r++ ) {
-  //       points[ i + r ] && neighbors.push( points[ i + r ] );
-  //     }
-  //     smoothedArray.push( averagePoints( neighbors ) );
-  //   }
-  //   return smoothedArray;
-  // };
+  const smooth = points => {
+    const smoothedArray = [];
+    const radius = 2;
+    for ( let i = 0; i < points.length; i++ ) {
+      const neighbors = [];
+      for ( let r = -radius; r <= radius; r++ ) {
+        points[ i + r ] && neighbors.push( points[ i + r ] );
+      }
+      smoothedArray.push( averagePoints( neighbors ) );
+    }
+    return smoothedArray;
+  };
 
   return waveInterference.register( 'WaveAreaGraphNode', WaveAreaGraphNode );
 } );
