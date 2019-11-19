@@ -26,6 +26,7 @@ define( require => {
       const lowPassFilter = phetAudioContext.createBiquadFilter();
       lowPassFilter.type = 'lowpass';
       lowPassFilter.frequency.setValueAtTime( 200, 0 );
+      lowPassFilter.Q.setValueAtTime( 10, 0 );
 
       super( sound, {
         loop: true,
