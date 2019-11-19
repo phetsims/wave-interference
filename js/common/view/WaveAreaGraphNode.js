@@ -309,7 +309,7 @@ define( require => {
 
         const outputLevel = isOscillating ? 0.1 / 8 * amplitude : 0;
         singlePeakToneGenerator.setOutputLevel( outputLevel, 0.1 );
-        singlePeakToneGenerator.property.value = 0.8 + phet.joist.random.nextDouble() * 0.0001; // eslint-disable-line // TODO: Decide how to proceed here
+        singlePeakToneGenerator.property.value = 0.8 + phet.joist.random.nextDouble() * 0.0001;
 
         const smoothed = smooth( shape.subpaths[ 0 ].points );
         const derivative = makeDerivative( smoothed );
