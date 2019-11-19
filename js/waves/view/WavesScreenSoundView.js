@@ -11,7 +11,6 @@ define( require => {
   // modules
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Property = require( 'AXON/Property' );
-  const ResetAllSoundGenerator = require( 'TAMBO/sound-generators/ResetAllSoundGenerator' );
   const SineWaveGenerator = require( 'WAVE_INTERFERENCE/waves/view/SineWaveGenerator' );
   const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const soundManager = require( 'TAMBO/soundManager' );
@@ -58,9 +57,6 @@ define( require => {
         sineWavePlayer.addEnableControlProperty( isSoundSceneProperty );
       }
 
-      soundManager.addSoundGenerator( new ResetAllSoundGenerator( model.isResettingProperty, {
-        initialOutputLevel: 0.7
-      } ) );
       if ( model.waterScene ) {
         const waterDropSoundClip0 = new SoundClip( waterDropSound0, { initialOutputLevel: 0.22 } );
         const waterDropSoundClip1 = new SoundClip( waterDropSound1, { initialOutputLevel: 0.22 } );
