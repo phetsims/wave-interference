@@ -388,6 +388,10 @@ define( require => {
           fill: AXIS_LABEL_FILL
         } )
       );
+      const horizontalAxisTitleNode = new WaveInterferenceText( timeString, {
+        fontSize: LABEL_FONT_SIZE,
+        fill: AXIS_LABEL_FILL
+      } );
       const scaleIndicatorText = new SceneToggleNode(
         model,
         scene => new WaveInterferenceText( scene.oneTimerUnit, {
@@ -412,7 +416,7 @@ define( require => {
         } ),
         verticalAxisTitleNode,
         scaleIndicatorText,
-        timeString,
+        horizontalAxisTitleNode,
         _.omit( options, 'scale' ) // Don't apply the scale to both parent and children
       );
       const shadedRectangle = new ShadedRectangle( scrollingChartNode.bounds.dilated( 7 ) );
