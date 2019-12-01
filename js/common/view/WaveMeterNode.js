@@ -15,7 +15,6 @@ define( require => {
   const DynamicSeries = require( 'GRIDDLE/DynamicSeries' );
   const Emitter = require( 'AXON/Emitter' );
   const HBox = require( 'SCENERY/nodes/HBox' );
-  const LabeledScrollingChartNode = require( 'GRIDDLE/LabeledScrollingChartNode' );
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NodeProperty = require( 'SCENERY/util/NodeProperty' );
@@ -409,16 +408,14 @@ define( require => {
         derive: 'timeProperty'
       } );
 
-      const scrollingChartNode = new LabeledScrollingChartNode(
-        new ScrollingChartNode( timeProperty, [ series1, series2 ], {
-          width: 150,
-          height: 110
-        } ),
-        verticalAxisTitleNode,
-        scaleIndicatorText,
-        horizontalAxisTitleNode,
-        _.omit( options, 'scale' ) // Don't apply the scale to both parent and children
-      );
+      const scrollingChartNode = new ScrollingChartNode( timeProperty, [ series1, series2 ], {
+        width: 150,
+        height: 110,
+        verticalAxisLabelNode: verticalAxisTitleNode,
+        horizontalAxisLabelNode: horizontalAxisTitleNode,
+        spanLabelNode: scaleIndicatorText,
+        showVerticalGridLabels: false
+      } );
       const shadedRectangle = new ShadedRectangle( scrollingChartNode.bounds.dilated( 7 ) );
       shadedRectangle.addChild( scrollingChartNode );
       backgroundNode.addChild( shadedRectangle );
