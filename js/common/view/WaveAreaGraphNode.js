@@ -251,11 +251,15 @@ define( require => {
       // Created once and reused to avoid allocations
       const sampleArray = [];
 
-      const singlePeakToneGenerator = new PeakToneGenerator( new Property( 1 ), selectedSound, new BooleanProperty( false ), {} );
-      soundManager.addSoundGenerator( singlePeakToneGenerator, {
-        associatedViewNode: this
-      } );
-      singlePeakToneGenerator.play();
+      const peakToneGenerators = [];
+      for ( let i = 0; i < 20; i++ ) {
+        const p = new Property( 0 );
+        const peakToneGenerator = new PeakToneGenerator( p, selectedSound, new BooleanProperty( false ), {} );
+        soundManager.addSoundGenerator( peakToneGenerator, {
+          associatedViewNode: this
+        } );
+        peakToneGenerators.push( peakToneGenerator );
+      }
 
       // Manually tuned to center the line in the graph, dy must be synchronized with graphHeight
       const dx = -options.x;
@@ -264,7 +268,7 @@ define( require => {
       const updateShape = () => {
         const shape = getWaterSideShape( sampleArray, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy );
 
-        // let selectedIndex = 0;
+        let selectedIndex = 0;
         const makeDerivative = points => {
           const derivative = [];
           for ( let i = 0; i < points.length - 2; i++ ) {
@@ -277,39 +281,39 @@ define( require => {
             if ( b.y < a.y && b.y < c.y && x > 30 ) {
               y = 200;
               assert && assert( !isNaN( x ) );
-              // const soundPropertyGenerator = peakToneGenerators[ selectedIndex ];
+              const soundPropertyGenerator = peakToneGenerators[ selectedIndex ];
 
               // const outputLevel = Util.linear( 30, 500, 0.2, -0.1, x );
               // https://saylordotorg.github.io/text_intermediate-algebra/s10-03-logarithmic-functions-and-thei.html
               // fast exponential decay
-              // const outputLevel = 0.2 * Math.exp( -0.01 * x ); // larger coefficient means faster decay
-              // soundPropertyGenerator.setOutputLevel( outputLevel, 1 );
+              const outputLevel = 0.2 * Math.exp( -0.01 * x ); // larger coefficient means faster decay
+              soundPropertyGenerator.setOutputLevel( outputLevel, 1 );
 
               // Pixel coordinate maps to playback rate.
               // const linear = Util.linear( 30, 500, 1.2, 0.2, x );
               // const choices = [ 0.2, 0.4, 0.6, 0.8, 1.0, 1.2 ];
               // _.minBy(choices,);
-              // soundPropertyGenerator.property.value = 0.8;
-              //
-              // soundPropertyGenerator.filter.frequency.setValueAtTime( Util.linear( 30, 500, 400, 100, x ), phetAudioContext.currentTime + 0.01 );
-              // selectedIndex++;
+              soundPropertyGenerator.property.value = 0.8;
+
+              soundPropertyGenerator.filter.frequency.setValueAtTime( Util.linear( 30, 500, 400, 100, x ), phetAudioContext.currentTime + 0.01 );
+              selectedIndex++;
             }
             derivative.push( new Vector2( x, y ) );
           }
           return derivative;
         };
 
-        const value = model.sceneProperty.value.oscillator1Property.value;
-        const amplitude = model.sceneProperty.value.amplitudeProperty.value;
-        const isOscillating = model.sceneProperty.value.continuousWave1OscillatingProperty.value;
-        // console.log( amplitude, isOscillating );
-        const z = Util.linear( -10, 10, 50, 1000, value );
-        // z < 500 ? 100 : 700
-        singlePeakToneGenerator.filter.frequency.setValueAtTime( z, phetAudioContext.currentTime + 0.01 );
-
-        const outputLevel = isOscillating ? 0.1 / 8 * amplitude : 0;
-        singlePeakToneGenerator.setOutputLevel( outputLevel, 0.1 );
-        singlePeakToneGenerator.property.value = 0.8 + phet.joist.random.nextDouble() * 0.0001;
+        // const value = model.sceneProperty.value.oscillator1Property.value;
+        // const amplitude = model.sceneProperty.value.amplitudeProperty.value;
+        // const isOscillating = model.sceneProperty.value.continuousWave1OscillatingProperty.value;
+        // // console.log( amplitude, isOscillating );
+        // const z = Util.linear( -10, 10, 50, 1000, value );
+        // // z < 500 ? 100 : 700
+        // singlePeakToneGenerator.filter.frequency.setValueAtTime( z, phetAudioContext.currentTime + 0.01 );
+        //
+        // const outputLevel = isOscillating ? 0.1 / 8 * amplitude : 0;
+        // singlePeakToneGenerator.setOutputLevel( outputLevel, 0.1 );
+        // singlePeakToneGenerator.property.value = 0.8 + phet.joist.random.nextDouble() * 0.0001;
 
         const smoothed = smooth( shape.subpaths[ 0 ].points );
         const derivative = makeDerivative( smoothed );
@@ -320,9 +324,9 @@ define( require => {
         derivativePath.setShape( derivativeShape );
 
         // Clear the remaining tones
-        // for ( let i = selectedIndex; i < peakToneGenerators.length; i++ ) {
-        //   peakToneGenerators[ i ].setOutputLevel( 0, 0 );
-        // }
+        for ( let i = selectedIndex; i < peakToneGenerators.length; i++ ) {
+          peakToneGenerators[ i ].setOutputLevel( 0, 0 );
+        }
       };
       model.scenes.forEach( scene => scene.lattice.changedEmitter.addListener( updateShape ) );
 
