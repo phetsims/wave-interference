@@ -258,6 +258,7 @@ define( require => {
         soundManager.addSoundGenerator( peakToneGenerator, {
           associatedViewNode: this
         } );
+        peakToneGenerator.play();
         peakToneGenerators.push( peakToneGenerator );
       }
 
@@ -295,7 +296,15 @@ define( require => {
               // _.minBy(choices,);
               soundPropertyGenerator.property.value = 0.8;
 
-              soundPropertyGenerator.filter.frequency.setValueAtTime( Util.linear( 30, 500, 400, 100, x ), phetAudioContext.currentTime + 0.01 );
+              // soundPropertyGenerator.filter.frequency.setValueAtTime( Util.linear( 30, 500, 400, 100, x ), phetAudioContext.currentTime + 0.01 );
+
+              const value = model.sceneProperty.value.oscillator1Property.value;
+              // const amplitude = model.sceneProperty.value.amplitudeProperty.value;
+              // const isOscillating = model.sceneProperty.value.continuousWave1OscillatingProperty.value;
+              // console.log( amplitude, isOscillating, value, z );
+              const z = Util.linear( -10, 10, 50, 1000, value );
+              // // z < 500 ? 100 : 700
+              soundPropertyGenerator.filter.frequency.setValueAtTime( z, phetAudioContext.currentTime + 0.01 );
               selectedIndex++;
             }
             derivative.push( new Vector2( x, y ) );
@@ -303,13 +312,7 @@ define( require => {
           return derivative;
         };
 
-        // const value = model.sceneProperty.value.oscillator1Property.value;
-        // const amplitude = model.sceneProperty.value.amplitudeProperty.value;
-        // const isOscillating = model.sceneProperty.value.continuousWave1OscillatingProperty.value;
-        // // console.log( amplitude, isOscillating );
-        // const z = Util.linear( -10, 10, 50, 1000, value );
-        // // z < 500 ? 100 : 700
-        // singlePeakToneGenerator.filter.frequency.setValueAtTime( z, phetAudioContext.currentTime + 0.01 );
+
         //
         // const outputLevel = isOscillating ? 0.1 / 8 * amplitude : 0;
         // singlePeakToneGenerator.setOutputLevel( outputLevel, 0.1 );
