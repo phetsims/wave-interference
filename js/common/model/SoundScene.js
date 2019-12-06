@@ -138,7 +138,7 @@ define( require => {
   /**
    * @public
    */
-  SoundScene.SoundViewType = new Enumeration( [ 'WAVES', 'PARTICLES', 'BOTH' ] );
+  SoundScene.SoundViewType = Enumeration.byKeys( [ 'WAVES', 'PARTICLES', 'BOTH' ] );
 
   return waveInterference.register( 'SoundScene', SoundScene );
 } );

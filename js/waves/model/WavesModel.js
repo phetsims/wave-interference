@@ -442,13 +442,13 @@ define( require => {
    * The simulation can run at normal speed (NORMAL) or slow motion (SLOW).
    * @public
    */
-  WavesModel.PlaySpeed = new Enumeration( [ 'NORMAL', 'SLOW' ] );
+  WavesModel.PlaySpeed = Enumeration.byKeys( [ 'NORMAL', 'SLOW' ] );
 
   /**
    * The wave area can be viewed from the TOP or from the SIDE. The view animates between the selections.
    * @public
    */
-  WavesModel.Viewpoint = new Enumeration( [ 'TOP', 'SIDE' ] );
+  WavesModel.Viewpoint = Enumeration.byKeys( [ 'TOP', 'SIDE' ] );
 
   return waveInterference.register( 'WavesModel', WavesModel );
 } );
