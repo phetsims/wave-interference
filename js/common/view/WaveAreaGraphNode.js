@@ -9,29 +9,28 @@ define( require => {
   'use strict';
 
   // modules
-  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Bounds2 = require( 'DOT/Bounds2' );
   const DashedLineNode = require( 'WAVE_INTERFERENCE/common/view/DashedLineNode' );
   const Line = require( 'SCENERY/nodes/Line' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
-  const PeakToneGenerator = require( 'WAVE_INTERFERENCE/common/view/PeakToneGenerator' );
-  const phetAudioContext = require( 'TAMBO/phetAudioContext' );
-  const Property = require( 'AXON/Property' );
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const Shape = require( 'KITE/Shape' );
+  const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const soundManager = require( 'TAMBO/soundManager' );
   const Util = require( 'DOT/Util' );
-  const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
+  const arrayRemove = require( 'PHET_CORE/arrayRemove' );
+  const phetAudioContext = require( 'TAMBO/phetAudioContext' );
 
   // sounds
   // const sineSound = require( 'sound!TAMBO/ethereal-flute-for-meter-loop.mp3' );
 
   // sounds
+  // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
   // const organ2Sound = require( 'sound!WAVE_INTERFERENCE/organ-v2-for-meter-loop.mp3' );
   // const organSound = require( 'sound!WAVE_INTERFERENCE/organ-for-meter-loop.mp3' );
   // const sineSound = require( 'sound!TAMBO/220hz-saturated-sine-loop.mp3' );
@@ -41,11 +40,11 @@ define( require => {
   // const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
   // const windyTone4 = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop-rate-75-pitch-matched-fixed.mp3' );
   // const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
-  // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
 
   // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-pitch-fall.mp3' );
-  const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-pitch-fall-less.mp3' );
   // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-single-notes.mp3' );
+  // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/melodic-graph-falling-tones-001.mp3' );
+  const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/melodic-graph-falling-tones-001.mp3' );
 
   // const sounds = [ sineSound2, windyTone4, stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
   // const selectedSound=windyTone4;
@@ -53,7 +52,6 @@ define( require => {
   // const selectedSound=windSound1;
   // const selectedSound=etherealFluteSound;// several votes!  :)  EM says it is a bit harsh,
   // const selectedSound=organSound;
-  const selectedSound = etherealFluteSound;
 
   // constants
   const TEXT_MARGIN_X = 8;
@@ -251,85 +249,13 @@ define( require => {
       // Created once and reused to avoid allocations
       const sampleArray = [];
 
-      const peakToneGenerators = [];
-      for ( let i = 0; i < 20; i++ ) {
-        const p = new Property( 0 );
-        const peakToneGenerator = new PeakToneGenerator( p, selectedSound, new BooleanProperty( false ), {} );
-        soundManager.addSoundGenerator( peakToneGenerator, {
-          associatedViewNode: this
-        } );
-        peakToneGenerator.play();
-        peakToneGenerators.push( peakToneGenerator );
-      }
-
       // Manually tuned to center the line in the graph, dy must be synchronized with graphHeight
       const dx = -options.x;
       const dy = -options.centerY / 2 + 7.5;
 
       const updateShape = () => {
         const shape = getWaterSideShape( sampleArray, model.sceneProperty.value.lattice, waveAreaBounds, dx, dy );
-
-        let selectedIndex = 0;
-        const makeDerivative = points => {
-          const derivative = [];
-          for ( let i = 0; i < points.length - 2; i++ ) {
-            const a = points[ i ];
-            const b = points[ i + 1 ];
-            const c = points[ i + 2 ];
-
-            let y = 100;
-            const x = ( a.x + b.x + c.x ) / 3;
-            if ( b.y < a.y && b.y < c.y && x > 30 ) {
-              y = 200;
-              assert && assert( !isNaN( x ) );
-              const soundPropertyGenerator = peakToneGenerators[ selectedIndex ];
-
-              // const outputLevel = Util.linear( 30, 500, 0.2, -0.1, x );
-              // https://saylordotorg.github.io/text_intermediate-algebra/s10-03-logarithmic-functions-and-thei.html
-              // fast exponential decay
-              const outputLevel = 0.2 * Math.exp( -0.01 * x ); // larger coefficient means faster decay
-              soundPropertyGenerator.setOutputLevel( outputLevel, 1 );
-
-              // Pixel coordinate maps to playback rate.
-              // const linear = Util.linear( 30, 500, 1.2, 0.2, x );
-              // const choices = [ 0.2, 0.4, 0.6, 0.8, 1.0, 1.2 ];
-              // _.minBy(choices,);
-              soundPropertyGenerator.property.value = 0.8;
-
-              // soundPropertyGenerator.filter.frequency.setValueAtTime( Util.linear( 30, 500, 400, 100, x ), phetAudioContext.currentTime + 0.01 );
-
-              const value = model.sceneProperty.value.oscillator1Property.value;
-              // const amplitude = model.sceneProperty.value.amplitudeProperty.value;
-              // const isOscillating = model.sceneProperty.value.continuousWave1OscillatingProperty.value;
-              // console.log( amplitude, isOscillating, value, z );
-              const z = Util.linear( -10, 10, 50, 1000, value );
-              // // z < 500 ? 100 : 700
-              soundPropertyGenerator.filter.frequency.setValueAtTime( z, phetAudioContext.currentTime + 0.01 );
-              selectedIndex++;
-            }
-            derivative.push( new Vector2( x, y ) );
-          }
-          return derivative;
-        };
-
-
-        //
-        // const outputLevel = isOscillating ? 0.1 / 8 * amplitude : 0;
-        // singlePeakToneGenerator.setOutputLevel( outputLevel, 0.1 );
-        // singlePeakToneGenerator.property.value = 0.8 + phet.joist.random.nextDouble() * 0.0001;
-
-        const smoothed = smooth( shape.subpaths[ 0 ].points );
-        const derivative = makeDerivative( smoothed );
-
         path.setShape( shape );
-        const derivativeShape = new Shape();
-        derivative.forEach( p => derivativeShape.lineToPoint( p ) );
-        derivativePath.setShape( derivativeShape );
-
-        // Clear the remaining tones
-        for ( let i = selectedIndex; i < peakToneGenerators.length; i++ ) {
-          peakToneGenerators[ i ].setOutputLevel( 0, 0 );
-        }
       };
       model.scenes.forEach( scene => scene.lattice.changedEmitter.addListener( updateShape ) );
 
@@ -337,32 +263,50 @@ define( require => {
       model.sceneProperty.link( updateShape );
 
       this.mutate( options );
+
+      const melodicClips = [];
+
+      model.stepEmitter.addListener( () => {
+        melodicClips.forEach( soundClip => {
+          const value = model.sceneProperty.value.oscillator1Property.value;
+          const z = Util.linear( -10, 10, 250, 1000, value );
+          soundClip.lowPassFilter.frequency.setValueAtTime( z, phetAudioContext.currentTime + 0.01 );
+        } );
+      } );
+
+      // When a water drop is absorbed, play a water drop sound.
+      if ( model.waterScene ) {
+        model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
+
+          const lowPassFilter = phetAudioContext.createBiquadFilter();
+          lowPassFilter.type = 'lowpass';
+          lowPassFilter.frequency.setValueAtTime( 200, 0 );
+          lowPassFilter.Q.setValueAtTime( 10, 0 );
+
+          const soundClip = new SoundClip( melodicGraphFallingTones, {
+            initialOutputLevel: 0.25,
+            additionalNodes: [ lowPassFilter ]
+          } );
+          soundManager.addSoundGenerator( soundClip, {
+            associatedViewNode: this
+          } );
+
+          soundClip.play();
+          soundClip.lowPassFilter = lowPassFilter;
+          melodicClips.push( soundClip );
+
+          // TODO: can this use const?
+          const listener = isPlaying => {
+            if ( !isPlaying ) {
+              soundClip.isPlayingProperty.unlink( listener );
+              arrayRemove( melodicClips, soundClip );
+            }
+          };
+          soundClip.isPlayingProperty.lazyLink( listener );
+        } );
+      }
     }
   }
-
-  const averagePoints = points => {
-    let sumX = 0;
-    let sumY = 0;
-    for ( let i = 0; i < points.length; i++ ) {
-      const point = points[ i ];
-      sumX += point.x;
-      sumY += point.y;
-    }
-    return new Vector2( sumX / points.length, sumY / points.length );
-  };
-
-  const smooth = points => {
-    const smoothedArray = [];
-    const radius = 2;
-    for ( let i = 0; i < points.length; i++ ) {
-      const neighbors = [];
-      for ( let r = -radius; r <= radius; r++ ) {
-        points[ i + r ] && neighbors.push( points[ i + r ] );
-      }
-      smoothedArray.push( averagePoints( neighbors ) );
-    }
-    return smoothedArray;
-  };
 
   return waveInterference.register( 'WaveAreaGraphNode', WaveAreaGraphNode );
 } );
