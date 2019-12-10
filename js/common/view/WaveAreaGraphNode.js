@@ -44,7 +44,9 @@ define( require => {
   // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-pitch-fall.mp3' );
   // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-single-notes.mp3' );
   // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/melodic-graph-falling-tones-001.mp3' );
-  const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/melodic-graph-falling-tones-001.mp3' );
+  // const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/melodic-graph-falling-tones-001-fade1.mp3' );
+  // const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/oceanwave.mp3' );
+  const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/noise-single.mp3' );
 
   // const sounds = [ sineSound2, windyTone4, stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
   // const selectedSound=windyTone4;
@@ -269,8 +271,15 @@ define( require => {
       model.stepEmitter.addListener( () => {
         melodicClips.forEach( soundClip => {
           const value = model.sceneProperty.value.oscillator1Property.value;
-          const z = Util.linear( -10, 10, 250, 1000, value );
+          const z = Util.linear( -10, 10, 500, 2000, value );
           soundClip.lowPassFilter.frequency.setValueAtTime( z, phetAudioContext.currentTime + 0.01 );
+          // const elapsedTime = Date.now() - soundClip.startTime;
+          // let outputLevel = Util.linear( 0, 5000, 1, 0, elapsedTime );
+          // // console.log( outputLevel );
+          // if ( outputLevel < 0 ) {
+          //   outputLevel = 0;
+          // }
+          // // soundClip.setOutputLevel( outputLevel, 0 );
         } );
       } );
 
@@ -279,12 +288,12 @@ define( require => {
         model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
 
           const lowPassFilter = phetAudioContext.createBiquadFilter();
-          lowPassFilter.type = 'lowpass';
+          lowPassFilter.type = 'bandpass';
           lowPassFilter.frequency.setValueAtTime( 200, 0 );
-          lowPassFilter.Q.setValueAtTime( 10, 0 );
+          lowPassFilter.Q.setValueAtTime( 2.5, 0 );
 
           const soundClip = new SoundClip( melodicGraphFallingTones, {
-            initialOutputLevel: 0.25,
+            initialOutputLevel: 0.45,
             additionalNodes: [ lowPassFilter ]
           } );
           soundManager.addSoundGenerator( soundClip, {
@@ -292,6 +301,7 @@ define( require => {
           } );
 
           soundClip.play();
+          soundClip.startTime = Date.now();
           soundClip.lowPassFilter = lowPassFilter;
           melodicClips.push( soundClip );
 
