@@ -45,8 +45,8 @@ define( require => {
   // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-single-notes.mp3' );
   // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/melodic-graph-falling-tones-001.mp3' );
   // const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/melodic-graph-falling-tones-001-fade1.mp3' );
-  // const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/oceanwave.mp3' );
-  const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/noise-single.mp3' );
+  const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/oceanwave.mp3' );
+  // const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/noise-single.mp3' );
 
   // const sounds = [ sineSound2, windyTone4, stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
   // const selectedSound=windyTone4;
@@ -293,8 +293,8 @@ define( require => {
           lowPassFilter.Q.setValueAtTime( 2.5, 0 );
 
           const soundClip = new SoundClip( melodicGraphFallingTones, {
-            initialOutputLevel: 0.45,
-            additionalNodes: [ lowPassFilter ]
+            initialOutputLevel: 0.4,
+            // additionalNodes: [ lowPassFilter ]
           } );
           soundManager.addSoundGenerator( soundClip, {
             associatedViewNode: this
