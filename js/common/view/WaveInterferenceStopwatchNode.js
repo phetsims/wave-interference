@@ -30,7 +30,7 @@ define( require => {
 
       config = merge( {
         maxValue: 999.99,
-        timerReadoutNodeOptions: {
+        stopwatchReadoutNodeOptions: {
           unitsNode: unitsNode
         }
       }, config );
