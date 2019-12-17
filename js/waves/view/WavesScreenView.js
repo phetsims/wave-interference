@@ -53,7 +53,7 @@ define( require => {
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceControlPanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceControlPanel' );
-  const WaveInterferenceTimerNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceTimerNode' );
+  const WaveInterferenceStopwatchNode = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceStopwatchNode' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
   const WaveMeterNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterNode' );
   const WavesScreenSoundView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenSoundView' );
@@ -309,15 +309,13 @@ define( require => {
       this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds.eroded( 20 ) ) );
       model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
-      const timerNode = new WaveInterferenceTimerNode( model, {
+      const stopwatchNode = new WaveInterferenceStopwatchNode( model, {
         visibleBoundsProperty: this.visibleBoundsProperty,
 
         // Drop in toolbox
-        end: () => {
-          if ( toolboxIntersects( timerNode.parentToGlobalBounds( timerNode.bounds ) ) ) {
-            model.isTimerInPlayAreaProperty.value = false;
-            model.timerElapsedTimeProperty.value = 0;
-            model.isTimerRunningProperty.value = false;
+        dragEndListener: () => {
+          if ( toolboxIntersects( stopwatchNode.parentToGlobalBounds( stopwatchNode.bounds ) ) ) {
+            model.stopwatch.reset();
           }
         }
       } );
@@ -377,9 +375,9 @@ define( require => {
         }
       } ) );
 
-      const toolboxPanel = new ToolboxPanel( measuringTapeNode, timerNode, waveMeterNode, alignGroup,
+      const toolboxPanel = new ToolboxPanel( measuringTapeNode, stopwatchNode, waveMeterNode, alignGroup,
         model.isMeasuringTapeInPlayAreaProperty, model.measuringTapeTipPositionProperty,
-        model.isTimerInPlayAreaProperty, model.isWaveMeterInPlayAreaProperty
+        model.stopwatch.isVisibleProperty, model.isWaveMeterInPlayAreaProperty
       );
       const updateToolboxPosition = () => {
         toolboxPanel.mutate( {
@@ -564,7 +562,7 @@ define( require => {
       this.addChild( this.afterWaveAreaNode );
       this.addChild( waveAreaGraphNode );
       this.addChild( measuringTapeNode );
-      this.addChild( timerNode );
+      this.addChild( stopwatchNode );
       this.addChild( waveMeterNode );
 
       // Only start up the audio system if sound is enabled for this screen

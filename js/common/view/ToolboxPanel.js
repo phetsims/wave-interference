@@ -20,16 +20,16 @@ define( require => {
 
     /**
      * @param {MeasuringTapeNode} measuringTapeNode
-     * @param {WaveInterferenceTimerNode} timerNode
+     * @param {WaveInterferenceStopwatchNode} stopwatchNode
      * @param {WaveMeterNode} waveMeterNode
      * @param {AlignGroup} alignGroup - to align with neighbors
      * @param {Property.<Boolean>} isMeasuringTapeInPlayAreaProperty
      * @param {Property.<Vector2>} measuringTapeTipPositionProperty
-     * @param {Property.<Boolean>} isTimerInPlayAreaProperty
+     * @param {Property.<Boolean>} isStopwatchVisibleProperty
      * @param {Property.<Boolean>} isWaveMeterInPlayAreaProperty
      */
-    constructor( measuringTapeNode, timerNode, waveMeterNode, alignGroup, isMeasuringTapeInPlayAreaProperty,
-                 measuringTapeTipPositionProperty, isTimerInPlayAreaProperty, isWaveMeterInPlayAreaProperty ) {
+    constructor( measuringTapeNode, stopwatchNode, waveMeterNode, alignGroup, isMeasuringTapeInPlayAreaProperty,
+                 measuringTapeTipPositionProperty, isStopwatchVisibleProperty, isWaveMeterInPlayAreaProperty ) {
 
       // Capture image for icon
       isMeasuringTapeInPlayAreaProperty.value = true;
@@ -53,17 +53,17 @@ define( require => {
       } );
 
       // Node used to create the icon
-      isTimerInPlayAreaProperty.value = true;
-      const timerNodeIcon = timerNode.rasterized().mutate( { scale: 0.45 } );
-      isTimerInPlayAreaProperty.value = false;
+      isStopwatchVisibleProperty.value = true;
+      const stopwatchNodeIcon = stopwatchNode.rasterized().mutate( { scale: 0.45 } );
+      isStopwatchVisibleProperty.value = false;
 
       // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
-      initializeIcon( timerNodeIcon, isTimerInPlayAreaProperty, event => {
-        timerNode.center = this.globalToParentPoint( event.pointer.point );
+      initializeIcon( stopwatchNodeIcon, isStopwatchVisibleProperty, event => {
+        stopwatchNode.center = this.globalToParentPoint( event.pointer.point );
 
-        // timerNode provided as targetNode in the DragListener constructor, so this press will target it
-        timerNode.timerNodeDragListener.press( event );
-        isTimerInPlayAreaProperty.value = true;
+        // stopwatchNode provided as targetNode in the DragListener constructor, so this press will target it
+        stopwatchNode.dragListener.press( event );
+        isStopwatchVisibleProperty.value = true;
       } );
 
       // Make sure the probes have enough breathing room so they don't get shoved into the WaveMeterNode icon.  Anything
@@ -93,7 +93,7 @@ define( require => {
           spacing: 10,
           children: [
             measuringTapeIcon,
-            timerNodeIcon,
+            stopwatchNodeIcon,
             waveMeterIcon
           ]
         } ) ), {

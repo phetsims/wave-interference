@@ -24,6 +24,7 @@ define( require => {
   const Range = require( 'DOT/Range' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
+  const Stopwatch = require( 'SCENERY_PHET/Stopwatch' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
   const Vector2Property = require( 'DOT/Vector2Property' );
@@ -291,16 +292,8 @@ define( require => {
       // @public - whether the measuring tape has been dragged out of the toolbox into the play area
       this.isMeasuringTapeInPlayAreaProperty = new BooleanProperty( false );
 
-      // @public - true if the timer is running
-      this.isTimerRunningProperty = new BooleanProperty( false );
-
-      // @public - time elapsed on the timer since it was last restarted
-      this.timerElapsedTimeProperty = new NumberProperty( 0, {
-        units: 'seconds'
-      } );
-
-      // @public - true if the timer has been dragged out of the toolbox into the play area
-      this.isTimerInPlayAreaProperty = new BooleanProperty( false );
+      // @public {Stopwatch}
+      this.stopwatch = new Stopwatch();
 
       // @public
       this.isWaveMeterInPlayAreaProperty = new BooleanProperty( false );
@@ -337,8 +330,8 @@ define( require => {
 
       // Reset the stopwatch time when changing scenes, and pause it.
       this.sceneProperty.link( () => {
-        this.isTimerRunningProperty.reset();
-        this.timerElapsedTimeProperty.reset();
+        this.stopwatch.isRunningProperty.reset();
+        this.stopwatch.isVisibleProperty.reset();
       } );
     }
 
@@ -376,9 +369,7 @@ define( require => {
 
       if ( this.isRunningProperty.get() || manualStep ) {
         const dt = wallDT * this.sceneProperty.value.timeScaleFactor;
-        if ( this.isTimerRunningProperty.get() ) {
-          this.timerElapsedTimeProperty.set( this.timerElapsedTimeProperty.get() + dt );
-        }
+        this.stopwatch.step( dt );
 
         // Notify listeners that a frame has advanced
         this.stepEmitter.emit();
@@ -407,8 +398,7 @@ define( require => {
       this.isRunningProperty.reset();
       this.showScreenProperty.reset();
       this.rotationAmountProperty.reset();
-      this.timerElapsedTimeProperty.reset();
-      this.isTimerInPlayAreaProperty.reset();
+      this.stopwatch.reset();
       this.showIntensityGraphProperty.reset();
       this.isWaveMeterInPlayAreaProperty.reset();
       this.measuringTapeTipPositionProperty.reset();
