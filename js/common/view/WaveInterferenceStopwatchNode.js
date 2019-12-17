@@ -34,7 +34,7 @@ define( require => {
           unitsNode: unitsNode
         }
       }, config );
-      assert && assert( !!config.dragEndListener, 'end is a required argument' );
+      assert && assert( !!config.dragListenerOptions, 'end is a required argument' );
       assert && assert( !!config.visibleBoundsProperty, 'visibleBoundsProperty is a required argument' );
 
       super( model.stopwatch, config );

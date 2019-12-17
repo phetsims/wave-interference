@@ -312,10 +312,11 @@ define( require => {
       const stopwatchNode = new WaveInterferenceStopwatchNode( model, {
         visibleBoundsProperty: this.visibleBoundsProperty,
 
-        // Drop in toolbox
-        dragEndListener: () => {
-          if ( toolboxIntersects( stopwatchNode.parentToGlobalBounds( stopwatchNode.bounds ) ) ) {
-            model.stopwatch.reset();
+        dragListenerOptions: {
+          end: () => {
+            if ( toolboxIntersects( stopwatchNode.parentToGlobalBounds( stopwatchNode.bounds ) ) ) {
+              model.stopwatch.reset();
+            }
           }
         }
       } );
