@@ -280,7 +280,7 @@ define( require => {
 
             if ( scene.lattice.visibleBoundsContains( sampleI, sampleJ ) ) {
               const value = scene.lattice.getCurrentValue( sampleI, sampleJ );
-              dynamicSeries.data.push( new Vector2( scene.timeProperty.value, value ) );
+              dynamicSeries.addXYDataPoint( scene.timeProperty.value, value );
 
               // Linearize based on the sine value
               const clampedValue = Util.clamp( value, -1.6, 1.6 );
@@ -336,18 +336,16 @@ define( require => {
             }
           }
           else {
-            // p.value = 0;
-            dynamicSeries.data.push( new Vector2( scene.timeProperty.value, NaN ) );
+            dynamicSeries.addXYDataPoint( scene.timeProperty.value, NaN );
           }
-          while ( dynamicSeries.data.length > 0 && dynamicSeries.data[ 0 ].x < scene.timeProperty.value - maxSeconds ) {
-            dynamicSeries.data.shift();
+          while ( dynamicSeries.hasData() && dynamicSeries.getDataPoint( 0 ).x < scene.timeProperty.value - maxSeconds ) {
+            dynamicSeries.shiftData();
           }
-          dynamicSeries.emitter.emit();
         };
 
         // Redraw the probe data when the scene changes
         const clear = () => {
-          dynamicSeries.data.length = 0;
+          dynamicSeries.clear();
           updateSamples();
         };
         model.sceneProperty.link( clear );
