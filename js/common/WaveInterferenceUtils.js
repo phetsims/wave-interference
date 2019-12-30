@@ -11,7 +11,7 @@ define( require => {
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
   const Shape = require( 'KITE/Shape' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
@@ -42,7 +42,7 @@ define( require => {
 
         // Map the center of the cell to the same point on the graph,
         // see https://github.com/phetsims/wave-interference/issues/143
-        const x = Util.linear( -0.5, array.length - 1 + 0.5, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
+        const x = Utils.linear( -0.5, array.length - 1 + 0.5, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
         const y = WaveInterferenceUtils.getWaterSideY( waveAreaBounds, value ) + dy;
         shape.lineTo( x, y );
       }
@@ -64,7 +64,7 @@ define( require => {
       // desired distance amplitude.  A wave value of 0 appears in the center of the wave area. A value of 5 appears 47
       // screen view coordinates above the center line.  This was tuned to prevent the water from going higher than the
       // faucet.
-      return Util.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 47, waveValue );
+      return Utils.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 47, waveValue );
     }
 
     /**
@@ -116,7 +116,7 @@ define( require => {
       const tallTextSpacing = -2;
       const shortTextSpacing = 5;
 
-      return Util.linear( tallTextHeight, shortTextHeight, tallTextSpacing, shortTextSpacing, titleNode.height );
+      return Utils.linear( tallTextHeight, shortTextHeight, tallTextSpacing, shortTextSpacing, titleNode.height );
     }
   }
 

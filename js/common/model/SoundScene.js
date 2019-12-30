@@ -17,7 +17,7 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SoundParticle = require( 'WAVE_INTERFERENCE/common/model/SoundParticle' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
@@ -79,7 +79,7 @@ define( require => {
         const lattice = this.lattice;
 
         // Increase the gradient force at low frequencies so we can still see the waves clearly.
-        const k = Util.linear(
+        const k = Utils.linear(
           this.frequencyProperty.range.min,
           this.frequencyProperty.range.max,
           130,
@@ -93,8 +93,8 @@ define( require => {
           // Find the lattice coordinate of the current location of the particle.  Use rounding for consistency with
           // other quantization
           const latticeCoordinate = this.modelToLatticeTransform.modelToViewXY( soundParticle.x, soundParticle.y );
-          const latticeX = Util.roundSymmetric( latticeCoordinate.x );
-          const latticeY = Util.roundSymmetric( latticeCoordinate.y );
+          const latticeX = Utils.roundSymmetric( latticeCoordinate.x );
+          const latticeY = Utils.roundSymmetric( latticeCoordinate.y );
 
           // Estimate the numerical gradient in the neighborhood of the particle
           // https://en.wikipedia.org/wiki/Pressure-gradient_force

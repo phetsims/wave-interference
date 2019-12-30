@@ -16,7 +16,7 @@ define( require => {
   const Matrix3 = require( 'DOT/Matrix3' );
   const merge = require( 'PHET_CORE/merge' );
   const PiecewiseLinearFunction = require( 'DOT/PiecewiseLinearFunction' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
@@ -38,13 +38,13 @@ define( require => {
       0.2096934692889395, 0.8,
       1, 1
     ], intensity );
-    return Util.clamp( brightness, 0, 1 );
+    return Utils.clamp( brightness, 0, 1 );
   };
 
   // Linear brightness function optimized for showing interference patterns in the Interference and Slits screens
   const linearBrightnessFunction = intensity => {
-    const brightness = Util.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
-    return Util.clamp( brightness * BRIGHTNESS_SCALE_FACTOR, 0, 1 );
+    const brightness = Utils.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
+    return Utils.clamp( brightness * BRIGHTNESS_SCALE_FACTOR, 0, 1 );
   };
 
   class LightScreenNode extends CanvasNode {

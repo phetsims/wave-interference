@@ -9,7 +9,7 @@ define( require => {
   'use strict';
 
   // modules
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -74,7 +74,7 @@ define( require => {
       fy += ( phet.joist.random.nextDouble() - 0.5 ) * 2 * RANDOMNESS;
 
       // use the airK as the magnitude and the forceCenter for direction only.
-      const restorationSpringConstant = Util.linear(
+      const restorationSpringConstant = Utils.linear(
         soundScene.frequencyProperty.range.min, soundScene.frequencyProperty.range.max,
         ( 2 * 1.05 ), ( 6.5 * 0.8 ),
         soundScene.frequencyProperty.value

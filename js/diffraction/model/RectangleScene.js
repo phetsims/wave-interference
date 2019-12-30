@@ -12,7 +12,7 @@ define( require => {
   const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
@@ -45,8 +45,8 @@ define( require => {
      */
     renderToContext( context ) {
       const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
-      const columnRadius = Util.roundSymmetric( this.widthProperty.value * modelToMatrixScale / 2 );
-      const rowRadius = Util.roundSymmetric( this.heightProperty.value * modelToMatrixScale / 2 );
+      const columnRadius = Utils.roundSymmetric( this.widthProperty.value * modelToMatrixScale / 2 );
+      const rowRadius = Utils.roundSymmetric( this.heightProperty.value * modelToMatrixScale / 2 );
 
       context.fillRect(
         WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 - columnRadius,

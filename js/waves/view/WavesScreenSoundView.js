@@ -14,7 +14,7 @@ define( require => {
   const SineWaveGenerator = require( 'WAVE_INTERFERENCE/waves/view/SineWaveGenerator' );
   const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const soundManager = require( 'TAMBO/soundManager' );
-  const Util = require( 'DOT/Util' ); // eslint-disable-line
+  const Utils = require( 'DOT/Utils' ); // eslint-disable-line
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
 
@@ -81,7 +81,7 @@ define( require => {
 
           // The waterDrop.amplitude indicates the size of the water drop and the strength of the resulting wave.
           // Smaller water drops play with a higher frequency.
-          const amplitude = Util.linear(
+          const amplitude = Utils.linear(
             WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
             1.0, 0.5, waterDrop.amplitude
           );
@@ -114,11 +114,11 @@ define( require => {
         ], ( oscillatorValue, isSineWavePlayingProperty ) => {
           if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
             const maxVolumeWithDucking = isSineWavePlayingProperty ? 0.08 : 0.2;
-            const amplitude = Util.linear(
+            const amplitude = Utils.linear(
               model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
               0.0, maxVolumeWithDucking, model.soundScene.amplitudeProperty.value
             );
-            const playbackRate = Util.linear(
+            const playbackRate = Utils.linear(
               model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
               1, 1.4, model.soundScene.frequencyProperty.value
             );
@@ -147,9 +147,9 @@ define( require => {
         const lightAmplitudeProperty = model.lightScene.amplitudeProperty;
         const lightFrequencyProperty = model.lightScene.frequencyProperty;
         Property.multilink( [ lightAmplitudeProperty, lightFrequencyProperty ], ( amplitude, frequency ) => {
-          const outputLevel = Util.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
+          const outputLevel = Utils.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
             0.0, 0.4, amplitude );
-          const playbackRate = Util.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
+          const playbackRate = Utils.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
             1, 1.8, frequency );
           lightBeamLoopSoundClip.setOutputLevel( outputLevel );
           lightBeamLoopSoundClip.setPlaybackRate( playbackRate );

@@ -12,7 +12,7 @@ define( require => {
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
   const HSlider = require( 'SUN/HSlider' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -42,7 +42,7 @@ define( require => {
       const maxLabel = new WaveInterferenceText( maxString, LABEL_OPTIONS );
       const ticks = _.range( 0, MAX_TICK_INDEX + 1 ).map( index => {
         return {
-          value: Util.linear( 0, MAX_TICK_INDEX, min, max, index ),
+          value: Utils.linear( 0, MAX_TICK_INDEX, min, max, index ),
           type: index % MAJOR_TICK_MODULUS === 0 ? 'major' : 'minor',
           label: index === 0 ? minLabel :
                  index === MAX_TICK_INDEX ? maxLabel :

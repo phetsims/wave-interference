@@ -18,7 +18,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const soundManager = require( 'TAMBO/soundManager' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -99,12 +99,12 @@ define( require => {
       const horizontalAxisTickLabels = [];
       const verticalGridLines = [];
       for ( let i = 0; i <= 10; i++ ) {
-        const x = Util.linear( 0, 10, 0, graphWidth, i );
+        const x = Utils.linear( 0, 10, 0, graphWidth, i );
 
         // Find the position of the tick mark in the units of the scene
         const horizontalAxisTickLabel = new SceneToggleNode(
           model,
-          scene => new WaveInterferenceText( Util.toFixed( scene.waveAreaWidth * x / graphWidth, 0 ), {
+          scene => new WaveInterferenceText( Utils.toFixed( scene.waveAreaWidth * x / graphWidth, 0 ), {
             centerX: x,
             top: horizontalLineY + HORIZONTAL_LABEL_VERTICAL_MARGIN
           } )
@@ -271,10 +271,10 @@ define( require => {
       model.stepEmitter.addListener( () => {
         melodicClips.forEach( soundClip => {
           const value = model.sceneProperty.value.oscillator1Property.value;
-          const z = Util.linear( -10, 10, 200, 750, value );
+          const z = Utils.linear( -10, 10, 200, 750, value );
           soundClip.lowPassFilter.frequency.setValueAtTime( z, phetAudioContext.currentTime + 0.01 );
           const elapsedTime = Date.now() - soundClip.startTime;
-          let outputLevel = Util.linear( 0, 5000, 1, 0, elapsedTime );
+          let outputLevel = Utils.linear( 0, 5000, 1, 0, elapsedTime );
           // console.log( outputLevel );
           if ( outputLevel < 0 ) {
             outputLevel = 0;

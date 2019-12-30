@@ -12,7 +12,7 @@ define( require => {
   const DiffractionScene = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionScene' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -120,8 +120,8 @@ define( require => {
         const scalePercent = point.scalePercent;
 
         // 2.5 is the center of 1,2,3,4 and 3.5 is one cell over.
-        const x0 = Util.roundSymmetric( Util.linear( 2.5, 3.5, WIDTH / 2, WIDTH / 2 + matrixSpacing, point.center.x ) );
-        const y0 = Util.roundSymmetric( Util.linear( 2.5, 3.5, WIDTH / 2, WIDTH / 2 + matrixSpacing, point.center.y ) );
+        const x0 = Utils.roundSymmetric( Utils.linear( 2.5, 3.5, WIDTH / 2, WIDTH / 2 + matrixSpacing, point.center.x ) );
+        const y0 = Utils.roundSymmetric( Utils.linear( 2.5, 3.5, WIDTH / 2, WIDTH / 2 + matrixSpacing, point.center.y ) );
 
         const rx2 = radius * radius * scalePercent.x / 100;
         const ry2 = radius * radius * scalePercent.y / 100;

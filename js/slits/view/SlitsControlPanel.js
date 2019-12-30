@@ -17,7 +17,7 @@ define( require => {
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const ToggleNode = require( 'SUN/ToggleNode' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
@@ -87,7 +87,7 @@ define( require => {
         slitWidthString, soundScene.slitWidthProperty, soundScene.slitWidthProperty.range, merge( {
           delta: 1, // cm
           sliderOptions: {
-            constrainValue: value => Util.roundToInterval( value, 10 ),
+            constrainValue: value => Utils.roundToInterval( value, 10 ),
             majorTicks: createTicks( soundScene.slitWidthProperty )
           },
           numberDisplayOptions: {
@@ -99,7 +99,7 @@ define( require => {
         slitWidthString, lightScene.slitWidthProperty, lightScene.slitWidthProperty.range, merge( {
           delta: 10, // nm
           sliderOptions: {
-            constrainValue: value => Util.roundToInterval( value, 50 ),
+            constrainValue: value => Utils.roundToInterval( value, 50 ),
             majorTicks: createTicks( lightScene.slitWidthProperty )
           },
           numberDisplayOptions: {
@@ -145,7 +145,7 @@ define( require => {
             valuePattern: cmValueString
           },
           sliderOptions: {
-            constrainValue: value => Util.roundToInterval( value, 10 ),
+            constrainValue: value => Utils.roundToInterval( value, 10 ),
             majorTicks: createTicks( soundScene.slitSeparationProperty )
           }
         }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
@@ -157,7 +157,7 @@ define( require => {
         merge( {
           delta: 10, // nm
           sliderOptions: {
-            constrainValue: value => Util.roundToInterval( value, 50 ),
+            constrainValue: value => Utils.roundToInterval( value, 50 ),
             majorTicks: createTicks( lightScene.slitSeparationProperty )
           },
           numberDisplayOptions: { valuePattern: nmValueString }

@@ -11,7 +11,7 @@ define( require => {
   // modules
   const DiffractionNumberControl = require( 'WAVE_INTERFERENCE/diffraction/view/DiffractionNumberControl' );
   const HBox = require( 'SCENERY/nodes/HBox' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
@@ -39,7 +39,7 @@ define( require => {
               decimalPlaces: 2
             },
             sliderOptions: {
-              constrainValue: value => Util.roundToInterval( value, 10 * 1E-3 )
+              constrainValue: value => Utils.roundToInterval( value, 10 * 1E-3 )
             }
           } ),
           new DiffractionNumberControl( squareWidthString, circleSquareScene.squareWidthProperty, {
@@ -49,7 +49,7 @@ define( require => {
               decimalPlaces: 2
             },
             sliderOptions: {
-              constrainValue: value => Util.roundToInterval( value, 10 * 1E-3 )
+              constrainValue: value => Utils.roundToInterval( value, 10 * 1E-3 )
             }
           } )
         ]

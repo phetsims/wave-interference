@@ -19,7 +19,7 @@ define( require => {
   const RangeWithValue = require( 'DOT/RangeWithValue' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
@@ -64,8 +64,8 @@ define( require => {
       } );
 
       for ( let i = 0; i < numberGridLines; i++ ) {
-        const yTop = Util.linear( 0, numberGridLines, chartRectangle.centerY, chartRectangle.top, i );
-        const yBottom = Util.linear( 0, numberGridLines, chartRectangle.centerY, chartRectangle.bottom, i );
+        const yTop = Utils.linear( 0, numberGridLines, chartRectangle.centerY, chartRectangle.top, i );
+        const yBottom = Utils.linear( 0, numberGridLines, chartRectangle.centerY, chartRectangle.bottom, i );
         chartRectangle.addChild( createLine( i, yTop ) );
         if ( i !== 0 ) {
           chartRectangle.addChild( createLine( i, yBottom ) );
@@ -148,13 +148,13 @@ define( require => {
         for ( let i = 0; i < intensityValues.length; i++ ) {
 
           // default scaling is 2
-          const SCALING = Util.linear( zoomRange.min, zoomRange.max, 0.5, 3.5, zoomLevelProperty.value );
-          const intensityPlotValue = Util.linear(
+          const SCALING = Utils.linear( zoomRange.min, zoomRange.max, 0.5, 3.5, zoomLevelProperty.value );
+          const intensityPlotValue = Utils.linear(
             0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT,
             0, CHART_WIDTH * SCALING,
             intensityValues[ i ]
           );
-          const positionPlotValue = Util.linear(
+          const positionPlotValue = Utils.linear(
             0, intensityValues.length - 1,
             chartRectangle.top, chartRectangle.bottom,
             i

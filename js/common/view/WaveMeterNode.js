@@ -30,7 +30,7 @@ define( require => {
   const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const soundManager = require( 'TAMBO/soundManager' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const VBox = require( 'SCENERY/nodes/VBox' );
   const Vector2 = require( 'DOT/Vector2' );
   const Vector2Property = require( 'DOT/Vector2Property' );
@@ -283,12 +283,12 @@ define( require => {
               dynamicSeries.addXYDataPoint( scene.timeProperty.value, value );
 
               // Linearize based on the sine value
-              const clampedValue = Util.clamp( value, -1.6, 1.6 );
-              const normalized = Util.linear( -1.6, 1.6, -1, 1, clampedValue );
+              const clampedValue = Utils.clamp( value, -1.6, 1.6 );
+              const normalized = Utils.linear( -1.6, 1.6, -1, 1, clampedValue );
               const arcsin1 = Math.asin( normalized ); // between -pi/2 and +pi/2
-              const arcsin1Mapped = Util.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin1 );
+              const arcsin1Mapped = Utils.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin1 );
               const arcsin2 = Math.asin( arcsin1Mapped );
-              const arcsin2Mapped = Util.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin2 );
+              const arcsin2Mapped = Utils.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin2 );
 
               if ( !soundManager.hasSoundGenerator( soundClip ) ) {
                 soundManager.addSoundGenerator( soundClip, { associatedViewNode: this } );

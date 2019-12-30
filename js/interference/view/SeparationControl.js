@@ -13,7 +13,7 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const ToggleNode = require( 'SUN/ToggleNode' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
@@ -58,7 +58,7 @@ define( require => {
             decimalPlaces: 1
           },
           sliderOptions: {
-            constrainValue: value => Util.roundToInterval( value, 0.5 ),
+            constrainValue: value => Utils.roundToInterval( value, 0.5 ),
             majorTicks: createTicks( waterSceneRange, allRanges )
           }
         }, createMuteOptions( model.waterScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
@@ -68,7 +68,7 @@ define( require => {
           delta: 1,
           numberDisplayOptions: { valuePattern: cmValueString },
           sliderOptions: {
-            constrainValue: value => Util.roundToInterval( value, 10 ),
+            constrainValue: value => Utils.roundToInterval( value, 10 ),
             majorTicks: createTicks( soundSceneRange, allRanges )
           }
         }, createMuteOptions( model.soundScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
@@ -78,7 +78,7 @@ define( require => {
           delta: 10,
           numberDisplayOptions: { valuePattern: nmValueString },
           sliderOptions: {
-            constrainValue: value => Util.roundToInterval( value, 100 ),
+            constrainValue: value => Utils.roundToInterval( value, 100 ),
             majorTicks: createTicks( lightSceneRange, allRanges )
           }
         }, createMuteOptions( model.lightScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )

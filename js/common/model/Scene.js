@@ -24,7 +24,7 @@ define( require => {
   const Rectangle = require( 'DOT/Rectangle' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const TemporalMask = require( 'WAVE_INTERFERENCE/common/model/TemporalMask' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const validate = require( 'AXON/validate' );
   const Vector2 = require( 'DOT/Vector2' );
   const Vector2Property = require( 'DOT/Vector2Property' );
@@ -231,14 +231,14 @@ define( require => {
 
       // @public - horizontal location of the barrier in lattice coordinates (includes damping region)
       // note: this is a floating point representation in 2D to work seamlessly with DragListener
-      // lattice computations using this floating point value should use Util.roundSymmetric()
+      // lattice computations using this floating point value should use Utils.roundSymmetric()
       // start slightly left of 50.5 so it will round to 50 instead of 51
       this.barrierLocationProperty = new Vector2Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ) );
 
       // @public {DerivedProperty.<number>} - lattice cell index of the continuous barrier location (x coordinate only)
       this.barrierLatticeCoordinateProperty = new DerivedProperty(
         [ this.barrierLocationProperty ],
-        barrierLocation => Util.roundSymmetric( barrierLocation.x )
+        barrierLocation => Utils.roundSymmetric( barrierLocation.x )
       );
 
       // @public - pulse or continuous
@@ -434,7 +434,7 @@ define( require => {
 
         // assumes a square lattice
         const separationInLatticeUnits = this.modelToLatticeTransform.modelToViewDeltaY( sourceSeparation / 2 );
-        const distanceFromCenter = Util.roundSymmetric( separationInLatticeUnits );
+        const distanceFromCenter = Utils.roundSymmetric( separationInLatticeUnits );
 
         // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
         // Use floor to get 50.5 => 50 instead of 51
@@ -492,7 +492,7 @@ define( require => {
       const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime ); // in lattice coordinates
 
       const slitWidthModel = this.slitWidthProperty.get();
-      const slitWidth = Util.roundSymmetric( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
+      const slitWidth = Utils.roundSymmetric( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
       const latticeCenterY = this.lattice.height / 2;
 
       // Take the desired frequency for the water scene, or the specified frequency of any other scene

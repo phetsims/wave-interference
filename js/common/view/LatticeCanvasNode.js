@@ -13,7 +13,7 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const ImageDataRenderer = require( 'WAVE_INTERFERENCE/common/view/ImageDataRenderer' );
   const merge = require( 'PHET_CORE/merge' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Vector2 = require( 'DOT/Vector2' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -65,8 +65,8 @@ define( require => {
      */
     static localPointToLatticePoint( point ) {
       return new Vector2(
-        Util.roundSymmetric( point.x / WaveInterferenceConstants.CELL_WIDTH ),
-        Util.roundSymmetric( point.y / WaveInterferenceConstants.CELL_WIDTH )
+        Utils.roundSymmetric( point.x / WaveInterferenceConstants.CELL_WIDTH ),
+        Utils.roundSymmetric( point.y / WaveInterferenceConstants.CELL_WIDTH )
       );
     }
 
@@ -102,13 +102,13 @@ define( require => {
           const waveValue = this.lattice.getInterpolatedValue( k, i );
 
           if ( waveValue > 0 ) {
-            intensity = Util.linear( 0, 2, CUTOFF, 1, waveValue );
-            intensity = Util.clamp( intensity, CUTOFF, 1 );
+            intensity = Utils.linear( 0, 2, CUTOFF, 1, waveValue );
+            intensity = Utils.clamp( intensity, CUTOFF, 1 );
           }
           else {
             const MIN_SHADE = 0.03; // Stop before 0 because 0 is too jarring
-            intensity = Util.linear( -1.5, 0, MIN_SHADE, CUTOFF, waveValue );
-            intensity = Util.clamp( intensity, MIN_SHADE, CUTOFF );
+            intensity = Utils.linear( -1.5, 0, MIN_SHADE, CUTOFF, waveValue );
+            intensity = Utils.clamp( intensity, MIN_SHADE, CUTOFF );
           }
 
           // Note this interpolation doesn't include the gamma factor that Color.blend does

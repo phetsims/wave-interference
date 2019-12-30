@@ -25,7 +25,7 @@ define( require => {
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
   const Stopwatch = require( 'SCENERY_PHET/Stopwatch' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Vector2 = require( 'DOT/Vector2' );
   const Vector2Property = require( 'DOT/Vector2Property' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
@@ -365,7 +365,7 @@ define( require => {
       // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
       // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
       const sign = this.viewpointProperty.get() === WavesModel.Viewpoint.TOP ? -1 : +1;
-      this.rotationAmountProperty.value = Util.clamp( this.rotationAmountProperty.value + wallDT * sign * 1.4, 0, 1 );
+      this.rotationAmountProperty.value = Utils.clamp( this.rotationAmountProperty.value + wallDT * sign * 1.4, 0, 1 );
 
       if ( this.isRunningProperty.get() || manualStep ) {
         const dt = wallDT * this.sceneProperty.value.timeScaleFactor;

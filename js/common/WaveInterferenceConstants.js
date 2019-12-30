@@ -13,7 +13,7 @@ define( require => {
   const NumberControl = require( 'SCENERY_PHET/NumberControl' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Range = require( 'DOT/Range' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceQueryParameters = require( 'WAVE_INTERFERENCE/common/WaveInterferenceQueryParameters' );
@@ -74,7 +74,7 @@ define( require => {
     MAX_AMPLITUDE_TO_PLOT_ON_RIGHT: 2.14,
 
     // Size of a cell in view coordinates
-    CELL_WIDTH: Util.roundSymmetric( 10 / CALIBRATION_SCALE ),
+    CELL_WIDTH: Utils.roundSymmetric( 10 / CALIBRATION_SCALE ),
 
     // lineJoin for the graph and the surface of the water
     CHART_LINE_JOIN: 'round',
@@ -87,7 +87,7 @@ define( require => {
     FEMTO: 1E-15,
 
     // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).
-    POINT_SOURCE_HORIZONTAL_COORDINATE: Util.roundSymmetric( 3 * CALIBRATION_SCALE ) + LATTICE_PADDING,
+    POINT_SOURCE_HORIZONTAL_COORDINATE: Utils.roundSymmetric( 3 * CALIBRATION_SCALE ) + LATTICE_PADDING,
 
     // The lattice must have an odd dimension, so that there can be a cell exactly in the middle (for a single-cell
     // oscillator), symmetry for the two oscillator screen, and so the 1-cell wide barrier can appear directly in the

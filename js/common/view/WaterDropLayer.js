@@ -10,7 +10,7 @@ define( require => {
 
   // modules
   const Node = require( 'SCENERY/nodes/Node' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Vector2 = require( 'DOT/Vector2' );
   const WaterDropImage = require( 'WAVE_INTERFERENCE/common/view/WaterDropImage' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
@@ -46,7 +46,7 @@ define( require => {
             waterDropNodes[ i ].waterDrop = waterDrop;
 
             waterDropNodes[ i ].visible = waterDrop.amplitude > 0 && !waterDrop.absorbed && waterDrop.startsOscillation;
-            waterDropNodes[ i ].setScaleMagnitude( Util.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
+            waterDropNodes[ i ].setScaleMagnitude( Utils.linear( 0, 8, 0.1, 0.3, waterDrop.amplitude ) );
             const dy = waterDrop.sign * model.waterScene.modelViewTransform.modelToViewDeltaY( waterDrop.sourceSeparation / 2 );
             waterDropNodes[ i ].center = new Vector2( waterDropX, waveAreaNodeBounds.centerY - waterDrop.y + dy );
           }

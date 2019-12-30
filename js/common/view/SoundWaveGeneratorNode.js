@@ -11,7 +11,7 @@ define( require => {
   // modules
   const Image = require( 'SCENERY/nodes/Image' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const WaveGeneratorNode = require( 'WAVE_INTERFERENCE/common/view/WaveGeneratorNode' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
@@ -86,8 +86,8 @@ define( require => {
 
         // Sign is chosen so that the membrane forward corresponds to a high pressure outside the speaker,
         // see https://github.com/phetsims/wave-interference/issues/178
-        const interpolated = Util.linear( -max, max, 0, speakers.length - 1, oscillator1 );
-        const index = Util.roundSymmetric( interpolated );
+        const interpolated = Utils.linear( -max, max, 0, speakers.length - 1, oscillator1 );
+        const index = Utils.roundSymmetric( interpolated );
         image.image = speakers[ index ];
       } );
     }

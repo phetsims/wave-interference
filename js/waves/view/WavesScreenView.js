@@ -42,7 +42,7 @@ define( require => {
   const TimeControls = require( 'WAVE_INTERFERENCE/common/view/TimeControls' );
   const ToggleNode = require( 'SUN/ToggleNode' );
   const ToolboxPanel = require( 'WAVE_INTERFERENCE/common/view/ToolboxPanel' );
-  const Util = require( 'SCENERY/util/Util' );
+  const Utils = require( 'SCENERY/util/Utils' );
   const ViewpointRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/ViewpointRadioButtonGroup' );
   const VisibleColor = require( 'SCENERY_PHET/VisibleColor' );
   const WaterDropLayer = require( 'WAVE_INTERFERENCE/common/view/WaterDropLayer' );
@@ -175,7 +175,7 @@ define( require => {
 
           // Too much garbage on firefox, so only opt in to WebGL for mobile safari (where it is needed most)
           // and where the garbage doesn't seem to slow it down much.
-          const useWebgl = phet.chipper.queryParameters.webgl && platform.mobileSafari && Util.isWebGLSupported;
+          const useWebgl = phet.chipper.queryParameters.webgl && platform.mobileSafari && Utils.isWebGLSupported;
           const node = useWebgl ?
                        new SoundParticleImageLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } ) :
                        new SoundParticleCanvasLayer( model, this.waveAreaNode.bounds, { center: this.waveAreaNode.center } );

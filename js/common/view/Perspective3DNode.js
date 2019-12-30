@@ -16,7 +16,7 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Shape = require( 'KITE/Shape' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
 
@@ -118,10 +118,10 @@ define( require => {
       const bounds = this.waveAreaBounds;
       const perspectiveWidth = bounds.width * 0.2;
 
-      const topFaceTopY = Util.linear( 0, 1, bounds.top, bounds.centerY, rotationAmount );
-      const topReduction = Util.linear( 0, 1, 0, perspectiveWidth, rotationAmount );
-      const sideFaceBottomY = Util.linear( 0, 1, bounds.centerY, bounds.bottom, rotationAmount );
-      const bottomReduction = Util.linear( 0, 1, perspectiveWidth, 0, rotationAmount );
+      const topFaceTopY = Utils.linear( 0, 1, bounds.top, bounds.centerY, rotationAmount );
+      const topReduction = Utils.linear( 0, 1, 0, perspectiveWidth, rotationAmount );
+      const sideFaceBottomY = Utils.linear( 0, 1, bounds.centerY, bounds.bottom, rotationAmount );
+      const bottomReduction = Utils.linear( 0, 1, perspectiveWidth, 0, rotationAmount );
 
       this.topFacePath.shape = this.createFaceShape( topReduction, topFaceTopY );
       this.sideFacePath.shape = this.createFaceShape( bottomReduction, sideFaceBottomY );

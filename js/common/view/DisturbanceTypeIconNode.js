@@ -15,7 +15,7 @@ define( require => {
   const Path = require( 'SCENERY/nodes/Path' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const Shape = require( 'KITE/Shape' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
 
   // constants
@@ -44,9 +44,9 @@ define( require => {
 
       const shape = new Shape();
       for ( let i = 0; i < NUMBER_OF_SAMPLES; i++ ) {
-        const angle = Util.linear( 0, NUMBER_OF_SAMPLES - 1, minAngle, MAX_ANGLE, i );
+        const angle = Utils.linear( 0, NUMBER_OF_SAMPLES - 1, minAngle, MAX_ANGLE, i );
         const y = -Math.cos( angle ) * WAVE_HEIGHT;
-        const x = Util.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
+        const x = Utils.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
         if ( i === 0 ) {
           if ( disturbanceType === Scene.DisturbanceType.PULSE ) {
             shape.moveTo( x - MARGIN, y );
