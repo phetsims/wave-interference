@@ -78,7 +78,7 @@ define( require => {
         },
 
         // Use continuous value for drag handler
-        locationProperty: scene.barrierLocationProperty,
+        positionProperty: scene.barrierLocationProperty,
         transform: scene.latticeToViewTransform
       } ) );
 
