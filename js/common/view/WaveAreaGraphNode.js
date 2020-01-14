@@ -44,9 +44,14 @@ define( require => {
   // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-pitch-fall.mp3' );
   // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-single-notes.mp3' );
   // const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/melodic-graph-falling-tones-001.mp3' );
-  const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/melodic-graph-falling-tones-001-fade1.mp3' );
+  // const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/melodic-graph-falling-tones-001-fade1.mp3' );
   // const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/oceanwave.mp3' );
   // const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/noise-single.mp3' );
+
+  const atonalSound = require( 'sound!WAVE_INTERFERENCE/fan-loop.wav' );
+  // const atonalSound = require( 'sound!WAVE_INTERFERENCE/ocean-wave-loop.wav' );
+  // const atonalSound = require( 'sound!WAVE_INTERFERENCE/rain-loop.wav' );
+  // const atonalSound = require( 'sound!WAVE_INTERFERENCE/shhhh-loop.wav' );
 
   // const sounds = [ sineSound2, windyTone4, stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
   // const selectedSound=windyTone4;
@@ -289,12 +294,19 @@ define( require => {
 
           const lowPassFilter = phetAudioContext.createBiquadFilter();
           lowPassFilter.type = 'lowpass';
-          lowPassFilter.frequency.setValueAtTime( 200, 0 );
-          lowPassFilter.Q.setValueAtTime( 10, 0 );
+          lowPassFilter.frequency.setValueAtTime( 200, 0 ); // The cutoff frequency.
+          lowPassFilter.Q.setValueAtTime( 10, 0 ); // Indicates how peaked the frequency is around the cutoff. The greater the value is, the greater is the peak.
 
-          const soundClip = new SoundClip( melodicGraphFallingTones, {
+          const bandpassFilter = phetAudioContext.createBiquadFilter();
+          bandpassFilter.type = 'bandpass';
+          bandpassFilter.frequency.setValueAtTime( 700, phetAudioContext.currentTime ); // The center of the range of frequencies.
+          bandpassFilter.frequency.linearRampToValueAtTime( 400, phetAudioContext.currentTime + 4 ); // The center of the range of frequencies.
+          bandpassFilter.Q.setValueAtTime( 4, 0 ); // Controls the width of the frequency band. The greater the Q value, the smaller the frequency band.
+
+          const soundClip = new SoundClip( atonalSound, {
             initialOutputLevel: 0.3,
-            additionalNodes: [ lowPassFilter ]
+            // additionalNodes: [ lowPassFilter ]
+            additionalNodes: [ bandpassFilter ]
           } );
           soundManager.addSoundGenerator( soundClip, {
             associatedViewNode: this
