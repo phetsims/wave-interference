@@ -43,6 +43,7 @@ define( require => {
   const timeString = require( 'string!WAVE_INTERFERENCE/time' );
 
   // sounds
+  // TODO: remove unused sounds
   const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
   const organ2Sound = require( 'sound!WAVE_INTERFERENCE/organ-v2-for-meter-loop.mp3' );
   const organSound = require( 'sound!WAVE_INTERFERENCE/organ-for-meter-loop.mp3' );
@@ -55,53 +56,6 @@ define( require => {
   const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
 
   const sounds = [ sineSound2, windyTone4, stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
-
-  const sounds1 = sounds.map( sound => {
-    return new SoundClip( sound, {
-      loop: true,
-      trimSilence: false
-    } );
-  } );
-
-  const sounds2 = sounds.map( sound => {
-    return new SoundClip( sound, {
-      loop: true,
-      trimSilence: false
-    } );
-  } );
-
-  // Hooks for customization in the dev tools
-  window.waveMeterSound1Property = new Property( 0 );
-  window.waveMeterSound2Property = new Property( 1 );
-
-  window.waveMeterSound1PlaybackRateProperty = new Property( 1 );
-  window.waveMeterSound2PlaybackRateProperty = new Property( 1.01 );
-
-  window.waveMeterSound1VolumeProperty = new Property( 0.4 );
-  window.waveMeterSound2VolumeProperty = new Property( 0.13 );
-
-  window.waveMeterSound1VolumeProperty.debug( 'waveMeterSound1VolumeProperty' );
-  window.waveMeterSound2VolumeProperty.debug( 'waveMeterSound2VolumeProperty' );
-
-  window.waveMeterSound1PlaybackRateProperty.debug( 'waveMeterSound1PlaybackRateProperty' );
-  window.waveMeterSound2PlaybackRateProperty.debug( 'waveMeterSound2PlaybackRateProperty' );
-
-  window.waveMeterSound1Property.debug( 'waveMeterSound1Property' );
-  window.waveMeterSound2Property.debug( 'waveMeterSound2Property' );
-  window.waveMeterSound1Property.link( ( newSoundIndex, oldSoundIndex ) => {
-    if ( typeof oldSoundIndex === 'number' ) {
-      sounds1[ oldSoundIndex ].stop();
-    }
-
-    // new sound plays in step
-  } );
-  window.waveMeterSound2Property.link( ( newSoundIndex, oldSoundIndex ) => {
-    if ( typeof oldSoundIndex === 'number' ) {
-      sounds2[ oldSoundIndex ].stop();
-    }
-
-    // new sound plays in step
-  } );
 
   // constants
   const SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
@@ -177,11 +131,12 @@ define( require => {
        * @param {number} dx - initial relative x coordinate for the probe
        * @param {number} dy - initial relative y coordinate for the probe
        * @param {Property.<Vector2>} connectionProperty
-       * @param {boolean} sound - whether to use sound
+       * @param {SoundInfo[]} sounds
+       * @param {Property.<number>>} soundIndexProperty
+       * TODO: JSDOC
        * @returns {DynamicSeries}
        */
       const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty, playbackRateProperty, volumeProperty ) => {
-
         const snapToCenter = () => {
           if ( model.rotationAmountProperty.value !== 0 && model.sceneProperty.value === model.waterScene ) {
             const point = view.waveAreaNode.center;
@@ -374,8 +329,34 @@ define( require => {
         position => position.isFinite() ? position.plusXY( 0, -10 ) : Vector2.ZERO
       );
 
-      const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, sounds1, window.waveMeterSound1Property, window.waveMeterSound1PlaybackRateProperty, window.waveMeterSound1VolumeProperty );
-      const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 42, 54, aboveBottomLeft2, sounds2, window.waveMeterSound2Property, window.waveMeterSound2PlaybackRateProperty, window.waveMeterSound2VolumeProperty );
+      // Hooks for customization in the dev tools
+      const waveMeterSound1Property = new Property( 0 );
+      const waveMeterSound2Property = new Property( 1 );
+
+      const waveMeterSound1PlaybackRateProperty = new Property( 1 );
+      const waveMeterSound2PlaybackRateProperty = new Property( 1.01 );
+
+      const waveMeterSound1VolumeProperty = new Property( 0.4 );
+      const waveMeterSound2VolumeProperty = new Property( 0.13 );
+
+      const sounds1 = sounds.map( sound => {
+        return new SoundClip( sound, {
+          loop: true,
+          trimSilence: false
+        } );
+      } );
+
+      const sounds2 = sounds.map( sound => {
+        return new SoundClip( sound, {
+          loop: true,
+          trimSilence: false
+        } );
+      } );
+
+      const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, sounds1,
+        waveMeterSound1Property, waveMeterSound1PlaybackRateProperty, waveMeterSound1VolumeProperty );
+      const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 42, 54, aboveBottomLeft2, sounds2,
+        waveMeterSound2Property, waveMeterSound2PlaybackRateProperty, waveMeterSound2VolumeProperty );
 
       const verticalAxisTitleNode = new SceneToggleNode(
         model,
