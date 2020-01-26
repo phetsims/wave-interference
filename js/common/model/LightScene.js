@@ -61,6 +61,15 @@ define( require => {
       super.advanceTime( wallDT, manualStep );
       this.intensitySample.step();
     }
+
+    /**
+     * @public
+     * @override
+     */
+    reset() {
+      super.reset();
+      this.soundEffectEnabledProperty.reset();
+    }
   }
 
   return waveInterference.register( 'LightScene', LightScene );
