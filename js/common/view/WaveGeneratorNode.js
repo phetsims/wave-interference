@@ -14,8 +14,13 @@ define( require => {
   const RoundStickyToggleButton = require( 'SUN/buttons/RoundStickyToggleButton' );
   const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
   const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
+  const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
+  const soundManager = require( 'TAMBO/soundManager' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+
+  // sounds
+  const buttonSound = require( 'sound!TAMBO/general-button-v3.mp3' );
 
   class WaveGeneratorNode extends Node {
 
@@ -47,10 +52,18 @@ define( require => {
         baseColor: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_COLOR
       };
 
+      const soundClip = new SoundClip( buttonSound );
+      soundManager.addSoundGenerator( soundClip );
+
+      const buttonPressedProperty = isPrimarySource ? scene.button1PressedProperty : scene.button2PressedProperty;
+
+      // TODO: Will this move into RoundStickyToggleButton button options?
+      // TODO: don't play this on reset
+      buttonPressedProperty.lazyLink( pressed => soundClip.play() );
       const button = new RoundStickyToggleButton(
         false,
         true,
-        isPrimarySource ? scene.button1PressedProperty : scene.button2PressedProperty,
+        buttonPressedProperty,
         buttonOptions
       );
       const children = [ sourceNode ];
@@ -80,7 +93,7 @@ define( require => {
       // When changing between PULSE and CONTINUOUS, update the buttons.
       scene.disturbanceTypeProperty.link( disturbanceType => {
         pulseIcon.visible = disturbanceType === Scene.DisturbanceType.PULSE;
-          updateEnabled();
+        updateEnabled();
         }
       );
       scene.pulseFiringProperty.link( updateEnabled );
