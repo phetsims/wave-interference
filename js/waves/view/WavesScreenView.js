@@ -35,6 +35,8 @@ define( require => {
   const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Shape = require( 'KITE/Shape' );
+  const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
+  const soundManager = require( 'TAMBO/soundManager' );
   const SoundParticleCanvasLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleCanvasLayer' );
   const SoundParticleImageLayer = require( 'WAVE_INTERFERENCE/common/view/SoundParticleImageLayer' );
   const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
@@ -57,6 +59,10 @@ define( require => {
   const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
   const WaveMeterNode = require( 'WAVE_INTERFERENCE/common/view/WaveMeterNode' );
   const WavesScreenSoundView = require( 'WAVE_INTERFERENCE/waves/view/WavesScreenSoundView' );
+
+  // sounds
+  const commonGrabSoundInfo = require( 'sound!TAMBO/grab.mp3' );
+  const commonReleaseSoundInfo = require( 'sound!TAMBO/release.mp3' );
 
   // constants
   const MARGIN = WaveInterferenceConstants.MARGIN;
@@ -98,6 +104,12 @@ define( require => {
         supportsSound: false
       }, options );
       super();
+
+      const grabSound = new SoundClip( commonGrabSoundInfo );
+      soundManager.addSoundGenerator( grabSound );
+
+      const releaseSound = new SoundClip( commonReleaseSoundInfo );
+      soundManager.addSoundGenerator( releaseSound );
 
       // @private
       this.model = model;
@@ -296,8 +308,13 @@ define( require => {
         basePositionProperty: model.measuringTapeBasePositionProperty,
         tipPositionProperty: model.measuringTapeTipPositionProperty,
 
+        baseDragStarted: () => {
+          grabSound.play();
+        },
+
         // Drop in toolbox
         baseDragEnded: () => {
+          releaseSound.play();
           if ( toolboxIntersects( measuringTapeNode.localToGlobalBounds( measuringTapeNode.baseImage.bounds ) ) ) {
             model.isMeasuringTapeInPlayAreaProperty.value = false;
 
@@ -313,7 +330,11 @@ define( require => {
         visibleBoundsProperty: this.visibleBoundsProperty,
 
         dragListenerOptions: {
+          start: () => {
+            grabSound.play();
+          },
           end: () => {
+            releaseSound.play();
             if ( toolboxIntersects( stopwatchNode.parentToGlobalBounds( stopwatchNode.bounds ) ) ) {
               model.stopwatch.reset();
             }
@@ -347,6 +368,7 @@ define( require => {
         dragBoundsProperty: waveMeterBoundsProperty,
         translateNode: true,
         start: () => {
+          grabSound.play();
           if ( waveMeterNode.synchronizeProbeLocations ) {
 
             // Align the probes each time the MeterBodyNode translates, so they will stay in sync
@@ -354,7 +376,6 @@ define( require => {
           }
         },
         drag: () => {
-
           if ( waveMeterNode.synchronizeProbeLocations ) {
 
             // Align the probes each time the MeterBodyNode translates, so they will stay in sync
@@ -362,7 +383,7 @@ define( require => {
           }
         },
         end: () => {
-
+          releaseSound.play();
           // Drop in toolbox, using the bounds of the entire waveMeterNode since it cannot be centered over the toolbox
           // (too close to the edge of the screen)
           if ( toolboxIntersects( waveMeterNode.getBackgroundNodeGlobalBounds() ) ) {
