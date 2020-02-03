@@ -10,7 +10,6 @@ define( require => {
 
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
-  const HSlider = require( 'SUN/HSlider' );
   const Node = require( 'SCENERY/nodes/Node' );
   const SpectrumSliderThumb = require( 'SCENERY_PHET/SpectrumSliderThumb' );
   const SpectrumSliderTrack = require( 'SCENERY_PHET/SpectrumSliderTrack' );
