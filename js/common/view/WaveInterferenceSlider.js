@@ -12,6 +12,7 @@ define( require => {
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
   const HSlider = require( 'SUN/HSlider' );
+  const merge = require( 'PHET_CORE/merge' );
   const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const soundManager = require( 'TAMBO/soundManager' );
   const Utils = require( 'DOT/Utils' );
@@ -39,8 +40,9 @@ define( require => {
 
     /**
      * @param {NumberProperty} property
+     * @param {Object} [options]
      */
-    constructor( property ) {
+    constructor( property, options ) {
 
       // add sound generators that will play a sound when the value controlled by the slider changes
       const sliderIncreaseClickSoundClip = new SoundClip( sliderIncreaseClickSound );
@@ -66,14 +68,10 @@ define( require => {
       // Keep track of the previous value on slider drag for playing sounds
       let lastValue = property.value;
 
-      super( property, property.range, {
-        thumbSize: WaveInterferenceConstants.THUMB_SIZE,
-        trackSize: new Dimension2( 150, 1 ),
+      options = merge( {
 
-        // ticks
-        tickLabelSpacing: 2,
-        majorTickLength: WaveInterferenceConstants.MAJOR_TICK_LENGTH,
-        minorTickLength: 8,
+        // Ticks are created for all sliders for sonification, but not shown for the Light Frequency slider
+        showTicks: true,
 
         drag: event => {
           const value = property.value;
@@ -92,9 +90,29 @@ define( require => {
 
           lastValue = value;
         }
-      } );
+      }, options );
 
-      ticks.forEach( tick => {
+      // ticks
+      if ( options.showTicks ) {
+        options = merge( {
+          tickLabelSpacing: 2,
+          majorTickLength: WaveInterferenceConstants.MAJOR_TICK_LENGTH,
+          minorTickLength: 8
+
+        }, options );
+      }
+
+      if ( !options.thumbNode ) {
+        options.thumbSize = WaveInterferenceConstants.THUMB_SIZE;
+      }
+
+      if ( !options.trackNode ) {
+        options.trackSize = new Dimension2( 150, 1 );
+      }
+
+      super( property, property.range, options );
+
+      options.showTicks && ticks.forEach( tick => {
         if ( tick.type === 'major' ) {
           this.addMajorTick( tick.value, tick.label );
         }

@@ -62,7 +62,8 @@ define( require => {
       if ( model.lightScene ) {
         const lightFrequencyProperty = model.lightScene.frequencyProperty;
         const trackSize = new Dimension2( 150, WaveInterferenceConstants.SPECTRUM_TRACK_HEIGHT );
-        const lightFrequencySlider = new HSlider( lightFrequencyProperty, lightFrequencyProperty.range, {
+        const lightFrequencySlider = new WaveInterferenceSlider( lightFrequencyProperty, {
+          showTicks: false,
           trackNode: new SpectrumSliderTrack( lightFrequencyProperty, lightFrequencyProperty.range, {
             valueToColor: f => VisibleColor.frequencyToColor( fromFemto( f ) ),
             size: trackSize
