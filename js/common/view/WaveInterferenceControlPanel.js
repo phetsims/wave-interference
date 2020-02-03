@@ -181,11 +181,13 @@ define( require => {
       const container = new Node();
 
       const createLightSonificationCheckbox = () => {
+
+        const lastCheckbox = options.showIntensityCheckbox ? intensityCheckbox : screenCheckbox;
         return new WaveInterferenceCheckbox(
           new WaveInterferenceText( soundEffectString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
           model.lightScene.soundEffectEnabledProperty, {
             audioEnabled: options.supportsSound,
-            top: screenCheckbox.bottom + CHECKBOX_SPACING,
+            top: lastCheckbox.bottom + CHECKBOX_SPACING,
             left: screenCheckbox.left
           } );
       };
