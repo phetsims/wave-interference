@@ -273,6 +273,10 @@ define( require => {
               // to eliminate clipping, scratching sounds when dragging the probes quickly
               soundClip.setOutputLevel( model.isRunningProperty.value ? outputLevel * volumeProperty.value : 0, soundClip.isPlaying ? 0.03 : 0.0 );
 
+              // Apply ducking when the soundScene.isTonePlayingProperty is true
+              const duckFactor = ( model.sceneProperty.value === model.soundScene && model.soundScene.isTonePlayingProperty.value ) ? 0.2 : 1;
+              soundClip.setOutputLevel( duckFactor * ( model.isRunningProperty.value ? outputLevel * volumeProperty.value : 0 ), soundClip.isPlaying ? 0.03 : 0.0 );
+
               // Work around a bug in Tambo that results in audio played even when outputLevel is 0.0
               if ( !soundClip.isPlaying ) { // TODO: playing a soundclip with outputLevel 0 plays something
                 soundClip.play();
