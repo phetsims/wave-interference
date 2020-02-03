@@ -113,10 +113,10 @@ define( require => {
           model.soundScene.isSineWavePlayingProperty
         ], ( oscillatorValue, isSineWavePlayingProperty ) => {
           if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
-            const maxVolumeWithDucking = isSineWavePlayingProperty ? 0.08 : 0.2;
+            const maxVolume = isSineWavePlayingProperty ? 0.04 : 0.2;
             const amplitude = Utils.linear(
               model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
-              0.0, maxVolumeWithDucking, model.soundScene.amplitudeProperty.value
+              0.0, maxVolume, model.soundScene.amplitudeProperty.value
             );
             const playbackRate = Utils.linear(
               model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
