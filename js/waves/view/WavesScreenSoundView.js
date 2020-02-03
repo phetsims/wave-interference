@@ -42,7 +42,7 @@ define( require => {
           model.soundScene.frequencyProperty,
           model.soundScene.amplitudeProperty, {
             enableControlProperties: [
-              model.soundScene.isSineWavePlayingProperty,
+              model.soundScene.isTonePlayingProperty,
               model.soundScene.button1PressedProperty,
               model.isRunningProperty,
               new DerivedProperty( [ model.isResettingProperty ], isResetting => !isResetting )
@@ -110,10 +110,10 @@ define( require => {
         let previousOscillatorValue = null;
         Property.multilink( [
           model.soundScene.oscillator1Property,
-          model.soundScene.isSineWavePlayingProperty
-        ], ( oscillatorValue, isSineWavePlayingProperty ) => {
+          model.soundScene.isTonePlayingProperty
+        ], ( oscillatorValue, isTonePlaying ) => {
           if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
-            const maxVolume = isSineWavePlayingProperty ? 0.04 : 0.2;
+            const maxVolume = isTonePlaying ? 0.04 : 0.2;
             const amplitude = Utils.linear(
               model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
               0.0, maxVolume, model.soundScene.amplitudeProperty.value
