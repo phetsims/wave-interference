@@ -18,7 +18,7 @@ define( require => {
 
     /**
      * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( alignGroup, options ) {
       options = merge( {
