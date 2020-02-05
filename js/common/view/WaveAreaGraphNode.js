@@ -64,6 +64,7 @@ define( require => {
   const TEXT_MARGIN_X = 8;
   const TEXT_MARGIN_Y = 6;
   const getWaterSideShape = WaveInterferenceUtils.getWaterSideShape;
+  const SONIFICATION = false;
 
   // Curve radius for the roundings on corners and tabs
   const RADIUS = 5;
@@ -303,28 +304,30 @@ define( require => {
           bandpassFilter.frequency.linearRampToValueAtTime( 400, phetAudioContext.currentTime + 4 ); // The center of the range of frequencies.
           bandpassFilter.Q.setValueAtTime( 4, 0 ); // Controls the width of the frequency band. The greater the Q value, the smaller the frequency band.
 
-          const soundClip = new SoundClip( atonalSound, {
-            initialOutputLevel: 0.3,
-            // additionalNodes: [ lowPassFilter ]
-            additionalNodes: [ bandpassFilter ]
-          } );
-          soundManager.addSoundGenerator( soundClip, {
-            associatedViewNode: this
-          } );
+          if ( SONIFICATION ) { // TODO: https://github.com/phetsims/wave-interference/issues/465 will this be deleted?
+            const soundClip = new SoundClip( atonalSound, {
+              initialOutputLevel: 0.3,
+              // additionalNodes: [ lowPassFilter ]
+              additionalNodes: [ bandpassFilter ]
+            } );
+            soundManager.addSoundGenerator( soundClip, {
+              associatedViewNode: this
+            } );
 
-          soundClip.play();
-          soundClip.startTime = Date.now();
-          soundClip.lowPassFilter = lowPassFilter;
-          melodicClips.push( soundClip );
+            soundClip.play();
+            soundClip.startTime = Date.now();
+            soundClip.lowPassFilter = lowPassFilter;
+            melodicClips.push( soundClip );
 
-          // TODO: can this use const?
-          const listener = isPlaying => {
-            if ( !isPlaying ) {
-              soundClip.isPlayingProperty.unlink( listener );
-              arrayRemove( melodicClips, soundClip );
-            }
-          };
-          soundClip.isPlayingProperty.lazyLink( listener );
+            // TODO: can this use const?
+            const listener = isPlaying => {
+              if ( !isPlaying ) {
+                soundClip.isPlayingProperty.unlink( listener );
+                arrayRemove( melodicClips, soundClip );
+              }
+            };
+            soundClip.isPlayingProperty.lazyLink( listener );
+          }
         } );
       }
     }
