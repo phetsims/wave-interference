@@ -105,10 +105,14 @@ define( require => {
       }, options );
       super();
 
-      const grabSound = new SoundClip( commonGrabSoundInfo );
+      const grabSound = new SoundClip( commonGrabSoundInfo ,{
+        initialOutputLevel: 0.8
+      });
       soundManager.addSoundGenerator( grabSound );
 
-      const releaseSound = new SoundClip( commonReleaseSoundInfo );
+      const releaseSound = new SoundClip( commonReleaseSoundInfo ,{
+        initialOutputLevel: 0.8
+      });
       soundManager.addSoundGenerator( releaseSound );
 
       // @private

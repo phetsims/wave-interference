@@ -52,7 +52,9 @@ define( require => {
         baseColor: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_COLOR
       };
 
-      const soundClip = new SoundClip( buttonSound );
+      const soundClip = new SoundClip( buttonSound ,{
+        initialOutputLevel: 0.8
+      });
       soundManager.addSoundGenerator( soundClip );
 
       const buttonPressedProperty = isPrimarySource ? scene.button1PressedProperty : scene.button2PressedProperty;
