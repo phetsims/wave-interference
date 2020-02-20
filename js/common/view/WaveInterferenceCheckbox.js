@@ -11,13 +11,7 @@ define( require => {
   // modules
   const Checkbox = require( 'SUN/Checkbox' );
   const merge = require( 'PHET_CORE/merge' );
-  const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
-  const soundManager = require( 'TAMBO/soundManager' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-
-  // sounds
-  const checkboxCheckedSound = require( 'sound!TAMBO/checkbox-checked.mp3' );
-  const checkboxUncheckedSound = require( 'sound!TAMBO/checkbox-unchecked.mp3' );
 
   class WaveInterferenceCheckbox extends Checkbox {
 
