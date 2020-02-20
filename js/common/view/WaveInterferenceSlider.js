@@ -33,7 +33,6 @@ define( require => {
     fontSize: WaveInterferenceConstants.TICK_FONT_SIZE,
     maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH
   };
-  const MAX_TICK_INDEX = 10;
   const MAJOR_TICK_MODULUS = 5;
 
   class WaveInterferenceSlider extends HSlider {
@@ -43,6 +42,8 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( property, options ) {
+
+      const maxTickIndex = ( options && options.maxTickIndex ) ? options.maxTickIndex : 10;
 
       const addSoundOptions = { categoryName: 'user-interface' };
       const soundClipOptions = { initialOutputLevel: 0.4 };
@@ -59,12 +60,12 @@ define( require => {
       const max = property.range.max;
       const minLabel = new WaveInterferenceText( min === 0 ? '0' : minString, LABEL_OPTIONS );
       const maxLabel = new WaveInterferenceText( maxString, LABEL_OPTIONS );
-      const ticks = _.range( 0, MAX_TICK_INDEX + 1 ).map( index => {
+      const ticks = _.range( 0, maxTickIndex + 1 ).map( index => {
         return {
-          value: Utils.linear( 0, MAX_TICK_INDEX, min, max, index ),
+          value: Utils.linear( 0, maxTickIndex, min, max, index ),
           type: index % MAJOR_TICK_MODULUS === 0 ? 'major' : 'minor',
           label: index === 0 ? minLabel :
-                 index === MAX_TICK_INDEX ? maxLabel :
+                 index === maxTickIndex ? maxLabel :
                  null
         };
       } );

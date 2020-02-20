@@ -62,6 +62,7 @@ define( require => {
         const lightFrequencyProperty = model.lightScene.frequencyProperty;
         const trackSize = new Dimension2( 150, WaveInterferenceConstants.SPECTRUM_TRACK_HEIGHT );
         const lightFrequencySlider = new WaveInterferenceSlider( lightFrequencyProperty, {
+          maxTickIndex: 25,// for audio clicks ratchet sounds
           showTicks: false,
           trackNode: new SpectrumSliderTrack( lightFrequencyProperty, lightFrequencyProperty.range, {
             valueToColor: f => VisibleColor.frequencyToColor( fromFemto( f ) ),
