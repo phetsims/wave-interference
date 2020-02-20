@@ -12,7 +12,7 @@ define( require => {
   const HBox = require( 'SCENERY/nodes/HBox' );
   const merge = require( 'PHET_CORE/merge' );
   const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
-  const StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
+  const StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
   const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
   const WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
@@ -45,7 +45,7 @@ define( require => {
         value: WavesModel.PlaySpeed.SLOW
       } ] );
 
-      const stepButton = new StepButton( {
+      const stepButton = new StepForwardButton( {
         scale: BUTTON_SCALE,
 
         // Only enable the step button when the model is paused.
