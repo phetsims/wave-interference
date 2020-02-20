@@ -27,24 +27,8 @@ define( require => {
      * @param {Object} [options]
      */
     constructor( content, property, options ) {
-      options = merge( { boxWidth: 14, supportsSound: false }, options );
+      options = merge( { boxWidth: 14, supportsSound: options && options.audioEnabled }, options );
       super( content, property, options );
-
-      if ( options.audioEnabled ) {
-        const uncheckedClip = new SoundClip( checkboxUncheckedSound );
-        soundManager.addSoundGenerator( uncheckedClip );
-        const checkedClip = new SoundClip( checkboxCheckedSound );
-        soundManager.addSoundGenerator( checkedClip );
-
-        property.lazyLink( value => {
-          if ( value ) {
-            checkedClip.play();
-          }
-          else {
-            uncheckedClip.play();
-          }
-        } );
-      }
     }
   }
 

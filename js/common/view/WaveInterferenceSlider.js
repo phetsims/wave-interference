@@ -44,15 +44,15 @@ define( require => {
      */
     constructor( property, options ) {
 
+      const addSoundOptions = { categoryName: 'user-interface' };
+      const soundClipOptions = { initialOutputLevel: 0.4 };
+
       // add sound generators that will play a sound when the value controlled by the slider changes
-      const sliderIncreaseClickSoundClip = new SoundClip( sliderIncreaseClickSound ,{
-        initialOutputLevel: 0.4
-      });
-      soundManager.addSoundGenerator( sliderIncreaseClickSoundClip );
-      const sliderDecreaseClickSoundClip = new SoundClip( sliderDecreaseClickSound ,{
-        initialOutputLevel: 0.4
-      });
-      soundManager.addSoundGenerator( sliderDecreaseClickSoundClip );
+      const sliderIncreaseClickSoundClip = new SoundClip( sliderIncreaseClickSound, soundClipOptions );
+      soundManager.addSoundGenerator( sliderIncreaseClickSoundClip, addSoundOptions );
+
+      const sliderDecreaseClickSoundClip = new SoundClip( sliderDecreaseClickSound, soundClipOptions );
+      soundManager.addSoundGenerator( sliderDecreaseClickSoundClip, addSoundOptions );
 
       assert && assert( property.range, 'WaveInterferenceSlider.property requires range' );
       const min = property.range.min;
