@@ -59,9 +59,6 @@ define( require => {
 
       const buttonPressedProperty = isPrimarySource ? scene.button1PressedProperty : scene.button2PressedProperty;
 
-      // TODO: Will this move into RoundStickyToggleButton button options?
-      // TODO: don't play this on reset
-      buttonPressedProperty.lazyLink( pressed => soundClip.play() );
       const button = new RoundStickyToggleButton(
         false,
         true,
