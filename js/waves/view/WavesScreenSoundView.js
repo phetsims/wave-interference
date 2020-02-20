@@ -110,8 +110,9 @@ define( require => {
         let previousOscillatorValue = null;
         Property.multilink( [
           model.soundScene.oscillator1Property,
-          model.soundScene.isTonePlayingProperty
-        ], ( oscillatorValue, isTonePlaying ) => {
+          model.soundScene.isTonePlayingProperty,
+          view.waveMeterNode.duckingProperty
+        ], ( oscillatorValue, isTonePlaying, ducking ) => {
           if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
             const maxVolume = isTonePlaying ? 0.04 : 0.2;
             const amplitude = Utils.linear(
@@ -122,7 +123,7 @@ define( require => {
               model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
               1, 1.4, model.soundScene.frequencyProperty.value
             );
-            speakerPulseSoundClip.setOutputLevel( amplitude, 0.2 ); // Time constant must work for amplitude changes and ducking
+            speakerPulseSoundClip.setOutputLevel( amplitude * ducking, 0.2 ); // Time constant must work for amplitude changes and ducking
             speakerPulseSoundClip.setPlaybackRate( playbackRate / 2 );
             speakerPulseSoundClip.play();
           }
@@ -146,12 +147,12 @@ define( require => {
 
         const lightAmplitudeProperty = model.lightScene.amplitudeProperty;
         const lightFrequencyProperty = model.lightScene.frequencyProperty;
-        Property.multilink( [ lightAmplitudeProperty, lightFrequencyProperty ], ( amplitude, frequency ) => {
+        Property.multilink( [ lightAmplitudeProperty, lightFrequencyProperty, view.waveMeterNode.duckingProperty ], ( amplitude, frequency, ducking ) => {
           const outputLevel = Utils.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
             0.0, 0.4, amplitude );
           const playbackRate = Utils.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
             1, 1.8, frequency );
-          lightBeamLoopSoundClip.setOutputLevel( outputLevel );
+          lightBeamLoopSoundClip.setOutputLevel( outputLevel * ducking );
           lightBeamLoopSoundClip.setPlaybackRate( playbackRate );
         } );
 

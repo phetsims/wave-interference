@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Color = require( 'SCENERY/util/Color' );
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const DynamicProperty = require( 'AXON/DynamicProperty' );
@@ -125,6 +126,8 @@ define( require => {
       this.droppedEmitter = new Emitter();
       const droppedEmitter = this.droppedEmitter;
 
+      this.mainSoundDucking = 1.0;
+
       /**
        * @param {Color|string} color
        * @param {Color|string} wireColor
@@ -133,10 +136,11 @@ define( require => {
        * @param {Property.<Vector2>} connectionProperty
        * @param {SoundInfo[]} sounds
        * @param {Property.<number>>} soundIndexProperty
+       * @param {Property.<boolean>>} isPlayingProperty
        * TODO: JSDOC
        * @returns {DynamicSeries}
        */
-      const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty, playbackRateProperty, volumeProperty ) => {
+      const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty, playbackRateProperty, volumeProperty, isPlayingProperty ) => {
         const snapToCenter = () => {
           if ( model.rotationAmountProperty.value !== 0 && model.sceneProperty.value === model.waterScene ) {
             const point = view.waveAreaNode.center;
@@ -280,6 +284,7 @@ define( require => {
               // Work around a bug in Tambo that results in audio played even when outputLevel is 0.0
               if ( !soundClip.isPlaying ) { // TODO: playing a soundclip with outputLevel 0 plays something
                 soundClip.play();
+                isPlayingProperty.value = true;
               }
 
               const basePlaybackRate = lowProperty.value * playbackRateProperty.value;
@@ -292,6 +297,7 @@ define( require => {
             }
             else {
               soundClip.stop();
+              isPlayingProperty.value = false;
             }
           }
           else {
@@ -357,10 +363,21 @@ define( require => {
         } );
       } );
 
+      const series1PlayingProperty = new BooleanProperty( false );
+      const series2PlayingProperty = new BooleanProperty( false );
+
       const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, sounds1,
-        waveMeterSound1Property, waveMeterSound1PlaybackRateProperty, waveMeterSound1VolumeProperty );
+        waveMeterSound1Property, waveMeterSound1PlaybackRateProperty, waveMeterSound1VolumeProperty, series1PlayingProperty );
       const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 42, 54, aboveBottomLeft2, sounds2,
-        waveMeterSound2Property, waveMeterSound2PlaybackRateProperty, waveMeterSound2VolumeProperty );
+        waveMeterSound2Property, waveMeterSound2PlaybackRateProperty, waveMeterSound2VolumeProperty, series2PlayingProperty );
+
+      // Turn down the speaker or light sound when the wave meter is being used.
+      this.duckingProperty = new DerivedProperty( [ series1PlayingProperty, series2PlayingProperty ], ( a, b ) => {
+        if ( a || b ) {
+          return 0.3;
+        }
+        return 1;
+      } );
 
       const verticalAxisTitleNode = new SceneToggleNode(
         model,

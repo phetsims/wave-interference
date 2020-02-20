@@ -367,6 +367,7 @@ define( require => {
         const closestPointInBounds = bounds.closestPointTo( waveMeterNode.backgroundNode.translation );
         return waveMeterNode.backgroundNode.setTranslation( closestPointInBounds );
       } );
+      this.waveMeterNode = waveMeterNode;
       waveMeterNode.setDragListener( new DragListener( {
         dragBoundsProperty: waveMeterBoundsProperty,
         translateNode: true,
