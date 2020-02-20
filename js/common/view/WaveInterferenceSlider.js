@@ -46,7 +46,7 @@ define( require => {
       const maxTickIndex = ( options && options.maxTickIndex ) ? options.maxTickIndex : 10;
 
       const addSoundOptions = { categoryName: 'user-interface' };
-      const soundClipOptions = { initialOutputLevel: 0.4 };
+      const soundClipOptions = { initialOutputLevel: 0.2 };
 
       // add sound generators that will play a sound when the value controlled by the slider changes
       const sliderIncreaseClickSoundClip = new SoundClip( sliderIncreaseClickSound, soundClipOptions );
