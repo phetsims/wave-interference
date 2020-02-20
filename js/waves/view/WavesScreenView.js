@@ -105,15 +105,14 @@ define( require => {
       }, options );
       super();
 
-      const grabSound = new SoundClip( commonGrabSoundInfo ,{
+      const soundClipOptions = {
         initialOutputLevel: 0.8
-      });
-      soundManager.addSoundGenerator( grabSound );
+      };
+      const grabSound = new SoundClip( commonGrabSoundInfo, soundClipOptions );
+      soundManager.addSoundGenerator( grabSound, { categoryName: 'user-interface' } );
 
-      const releaseSound = new SoundClip( commonReleaseSoundInfo ,{
-        initialOutputLevel: 0.8
-      });
-      soundManager.addSoundGenerator( releaseSound );
+      const releaseSound = new SoundClip( commonReleaseSoundInfo, soundClipOptions );
+      soundManager.addSoundGenerator( releaseSound, { categoryName: 'user-interface' } );
 
       // @private
       this.model = model;
