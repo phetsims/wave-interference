@@ -28,7 +28,7 @@ define( require => {
   const graphString = require( 'string!WAVE_INTERFERENCE/graph' );
   const intensityString = require( 'string!WAVE_INTERFERENCE/intensity' );
   const playToneString = require( 'string!WAVE_INTERFERENCE/playTone' );
-  const screenString = require( 'string!WAVE_INTERFERENCE/screen' );
+  const screenLabelString = require( 'string!WAVE_INTERFERENCE/screenLabel' );
   const soundEffectString = require( 'string!WAVE_INTERFERENCE/soundEffect' );
 
   class WaveInterferenceControlPanel extends WaveInterferencePanel {
@@ -68,7 +68,7 @@ define( require => {
           audioEnabled: options.supportsSound
         } );
       const screenCheckbox = new WaveInterferenceCheckbox(
-        new WaveInterferenceText( screenString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
+        new WaveInterferenceText( screenLabelString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
         model.showScreenProperty, {
           audioEnabled: options.supportsSound
         } );

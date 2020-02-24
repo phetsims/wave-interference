@@ -95,7 +95,7 @@
   "femtosecondConversion": {
     "value": "1 fs = 10<sup>-15</sup> s"
   },
-  "screen": {
+  "screenLabel": {
     "value": "Screen"
   },
   "intensity": {
