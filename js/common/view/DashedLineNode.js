@@ -5,38 +5,35 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const LineStyles = require( 'KITE/util/LineStyles' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Path = require( 'SCENERY/nodes/Path' );
-  const Shape = require( 'KITE/Shape' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+import Shape from '../../../../kite/js/Shape.js';
+import LineStyles from '../../../../kite/js/util/LineStyles.js';
+import merge from '../../../../phet-core/js/merge.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
+import waveInterference from '../../waveInterference.js';
+import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 
-  class DashedLineNode extends Path {
+class DashedLineNode extends Path {
 
-    /**
-     * @param {Object} [options]
-     */
-    constructor( options ) {
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-      const line = Shape.lineSegment( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, 0 );
-      const dashedShape = line.getDashedShape( [ 16 ], 0 );
-      const strokedShape = dashedShape.getStrokedShape( new LineStyles( {
-        lineWidth: 4,
-        lineCap: 'round'
-      } ) );
+    const line = Shape.lineSegment( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, 0 );
+    const dashedShape = line.getDashedShape( [ 16 ], 0 );
+    const strokedShape = dashedShape.getStrokedShape( new LineStyles( {
+      lineWidth: 4,
+      lineCap: 'round'
+    } ) );
 
-      super( strokedShape, merge( {
-        fill: 'white',
-        stroke: 'black',
-        lineWidth: 1
-      }, options ) );
-    }
+    super( strokedShape, merge( {
+      fill: 'white',
+      stroke: 'black',
+      lineWidth: 1
+    }, options ) );
   }
+}
 
-  return waveInterference.register( 'DashedLineNode', DashedLineNode );
-} );
+waveInterference.register( 'DashedLineNode', DashedLineNode );
+export default DashedLineNode;

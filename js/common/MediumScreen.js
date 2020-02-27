@@ -6,27 +6,24 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const BaseScreen = require( 'WAVE_INTERFERENCE/common/BaseScreen' );
-  const merge = require( 'PHET_CORE/merge' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+import merge from '../../../phet-core/js/merge.js';
+import waveInterference from '../waveInterference.js';
+import BaseScreen from './BaseScreen.js';
 
-  class MediumScreen extends BaseScreen {
+class MediumScreen extends BaseScreen {
 
-    /**
-     * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-     * @param {Object} [options]
-     */
-    constructor( alignGroup, options ) {
-      options = merge( {
-        showSceneRadioButtons: false
-      }, options );
-      super( alignGroup, options );
-    }
+  /**
+   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
+   * @param {Object} [options]
+   */
+  constructor( alignGroup, options ) {
+    options = merge( {
+      showSceneRadioButtons: false
+    }, options );
+    super( alignGroup, options );
   }
+}
 
-  return waveInterference.register( 'MediumScreen', MediumScreen );
-} );
+waveInterference.register( 'MediumScreen', MediumScreen );
+export default MediumScreen;

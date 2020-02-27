@@ -5,33 +5,28 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const BaseScreen = require( 'WAVE_INTERFERENCE/common/BaseScreen' );
-  const Image = require( 'SCENERY/nodes/Image' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+import Image from '../../../scenery/js/nodes/Image.js';
+import wavesScreenIcon from '../../images/waves_screen_icon_png.js';
+import BaseScreen from '../common/BaseScreen.js';
+import waveInterferenceStrings from '../wave-interference-strings.js';
+import waveInterference from '../waveInterference.js';
 
-  // images
-  const wavesScreenIcon = require( 'image!WAVE_INTERFERENCE/waves_screen_icon.png' );
+const screenWavesString = waveInterferenceStrings.screen.waves;
 
-  // strings
-  const screenWavesString = require( 'string!WAVE_INTERFERENCE/screen.waves' );
+class WavesScreen extends BaseScreen {
 
-  class WavesScreen extends BaseScreen {
-
-    /**
-     * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-     */
-    constructor( alignGroup ) {
-      const options = {
-        homeScreenIcon: new Image( wavesScreenIcon ),
-        name: screenWavesString
-      };
-      super( alignGroup, options );
-    }
+  /**
+   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
+   */
+  constructor( alignGroup ) {
+    const options = {
+      homeScreenIcon: new Image( wavesScreenIcon ),
+      name: screenWavesString
+    };
+    super( alignGroup, options );
   }
+}
 
-  return waveInterference.register( 'WavesScreen', WavesScreen );
-} );
+waveInterference.register( 'WavesScreen', WavesScreen );
+export default WavesScreen;

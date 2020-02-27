@@ -5,76 +5,73 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const DiffractionNumberControl = require( 'WAVE_INTERFERENCE/diffraction/view/DiffractionNumberControl' );
-  const HBox = require( 'SCENERY/nodes/HBox' );
-  const Utils = require( 'DOT/Utils' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
-  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+import Utils from '../../../../dot/js/Utils.js';
+import HBox from '../../../../scenery/js/nodes/HBox.js';
+import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
+import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
+import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
+import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterference from '../../waveInterference.js';
+import DiffractionNumberControl from './DiffractionNumberControl.js';
 
-  // strings
-  const circleDiameterString = require( 'string!WAVE_INTERFERENCE/circleDiameter' );
-  const disorderString = require( 'string!WAVE_INTERFERENCE/disorder' );
-  const latticeSpacingString = require( 'string!WAVE_INTERFERENCE/latticeSpacing' );
-  const lotsString = require( 'string!WAVE_INTERFERENCE/lots' );
-  const mmValueString = require( 'string!WAVE_INTERFERENCE/mmValue' );
-  const noneString = require( 'string!WAVE_INTERFERENCE/none' );
+const circleDiameterString = waveInterferenceStrings.circleDiameter;
+const disorderString = waveInterferenceStrings.disorder;
+const latticeSpacingString = waveInterferenceStrings.latticeSpacing;
+const lotsString = waveInterferenceStrings.lots;
+const mmValueString = waveInterferenceStrings.mmValue;
+const noneString = waveInterferenceStrings.none;
 
-  class DisorderSceneControlPanel extends WaveInterferencePanel {
+class DisorderSceneControlPanel extends WaveInterferencePanel {
 
-    /**
-     * @param {DisorderScene} disorderScene
-     * @param {Object} [options]
-     */
-    constructor( disorderScene, options ) {
-      super( new HBox( {
-        spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
-        align: 'bottom',
-        children: [
-          new DiffractionNumberControl( circleDiameterString, disorderScene.diameterProperty, {
-            delta: 10E-3,
-            numberDisplayOptions: {
-              valuePattern: mmValueString,
-              decimalPlaces: 2
-            },
-            sliderOptions: {
-              constrainValue: value => Utils.roundToInterval( value, 10E-3 )
-            }
-          } ),
-          new DiffractionNumberControl( latticeSpacingString, disorderScene.latticeSpacingProperty, {
-            delta: 10E-3,
-            numberDisplayOptions: {
-              valuePattern: mmValueString,
-              decimalPlaces: 2
-            },
-            sliderOptions: {
-              constrainValue: value => Utils.roundToInterval( value, 10E-3 )
-            }
-          } ),
-          new DiffractionNumberControl( disorderString, disorderScene.disorderProperty, {
-            numberDisplayOptions: {
-              visible: false
-            },
-            sliderOptions: {
-              majorTicks: [ {
-                value: disorderScene.disorderProperty.range.min,
-                label: new WaveInterferenceText( noneString, { maxWidth: 60 } )
-              }, {
-                value: disorderScene.disorderProperty.range.max,
-                label: new WaveInterferenceText( lotsString, { maxWidth: 60 } )
-              } ],
-              minorTickSpacing: 1
-            }
-          } )
-        ]
-      } ), options );
-    }
+  /**
+   * @param {DisorderScene} disorderScene
+   * @param {Object} [options]
+   */
+  constructor( disorderScene, options ) {
+    super( new HBox( {
+      spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
+      align: 'bottom',
+      children: [
+        new DiffractionNumberControl( circleDiameterString, disorderScene.diameterProperty, {
+          delta: 10E-3,
+          numberDisplayOptions: {
+            valuePattern: mmValueString,
+            decimalPlaces: 2
+          },
+          sliderOptions: {
+            constrainValue: value => Utils.roundToInterval( value, 10E-3 )
+          }
+        } ),
+        new DiffractionNumberControl( latticeSpacingString, disorderScene.latticeSpacingProperty, {
+          delta: 10E-3,
+          numberDisplayOptions: {
+            valuePattern: mmValueString,
+            decimalPlaces: 2
+          },
+          sliderOptions: {
+            constrainValue: value => Utils.roundToInterval( value, 10E-3 )
+          }
+        } ),
+        new DiffractionNumberControl( disorderString, disorderScene.disorderProperty, {
+          numberDisplayOptions: {
+            visible: false
+          },
+          sliderOptions: {
+            majorTicks: [ {
+              value: disorderScene.disorderProperty.range.min,
+              label: new WaveInterferenceText( noneString, { maxWidth: 60 } )
+            }, {
+              value: disorderScene.disorderProperty.range.max,
+              label: new WaveInterferenceText( lotsString, { maxWidth: 60 } )
+            } ],
+            minorTickSpacing: 1
+          }
+        } )
+      ]
+    } ), options );
   }
+}
 
-  return waveInterference.register( 'DisorderSceneControlPanel', DisorderSceneControlPanel );
-} );
+waveInterference.register( 'DisorderSceneControlPanel', DisorderSceneControlPanel );
+export default DisorderSceneControlPanel;

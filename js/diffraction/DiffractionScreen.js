@@ -5,41 +5,36 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const DiffractionModel = require( 'WAVE_INTERFERENCE/diffraction/model/DiffractionModel' );
-  const DiffractionScreenView = require( 'WAVE_INTERFERENCE/diffraction/view/DiffractionScreenView' );
-  const Image = require( 'SCENERY/nodes/Image' );
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+import Property from '../../../axon/js/Property.js';
+import Screen from '../../../joist/js/Screen.js';
+import Image from '../../../scenery/js/nodes/Image.js';
+import diffractionScreenIcon from '../../images/diffraction_screen_icon_png.js';
+import waveInterferenceStrings from '../wave-interference-strings.js';
+import waveInterference from '../waveInterference.js';
+import DiffractionModel from './model/DiffractionModel.js';
+import DiffractionScreenView from './view/DiffractionScreenView.js';
 
-  // images
-  const diffractionScreenIcon = require( 'image!WAVE_INTERFERENCE/diffraction_screen_icon.png' );
+const screenDiffractionString = waveInterferenceStrings.screen.diffraction;
 
-  // strings
-  const screenDiffractionString = require( 'string!WAVE_INTERFERENCE/screen.diffraction' );
+class DiffractionScreen extends Screen {
 
-  class DiffractionScreen extends Screen {
+  constructor() {
+    const options = {
+      backgroundColorProperty: new Property( 'white' ),
+      name: screenDiffractionString,
+      homeScreenIcon: new Image( diffractionScreenIcon ),
+      showUnselectedHomeScreenIconFrame: true,
+      showScreenIconFrameForNavigationBarFill: 'black'
+    };
 
-    constructor() {
-      const options = {
-        backgroundColorProperty: new Property( 'white' ),
-        name: screenDiffractionString,
-        homeScreenIcon: new Image( diffractionScreenIcon ),
-        showUnselectedHomeScreenIconFrame: true,
-        showScreenIconFrameForNavigationBarFill: 'black'
-      };
-
-      super(
-        () => new DiffractionModel(),
-        model => new DiffractionScreenView( model ),
-        options
-      );
-    }
+    super(
+      () => new DiffractionModel(),
+      model => new DiffractionScreenView( model ),
+      options
+    );
   }
+}
 
-  return waveInterference.register( 'DiffractionScreen', DiffractionScreen );
-} );
+waveInterference.register( 'DiffractionScreen', DiffractionScreen );
+export default DiffractionScreen;

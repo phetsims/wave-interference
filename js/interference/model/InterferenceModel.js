@@ -5,22 +5,19 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  const WavesModel = require( 'WAVE_INTERFERENCE/waves/model/WavesModel' );
+import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
+import waveInterference from '../../waveInterference.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 
-  class InterferenceModel extends WavesModel {
-    constructor() {
-      super( {
-        numberOfSources: 2,
-        initialAmplitude: WaveInterferenceConstants.AMPLITUDE_RANGE.max
-      } );
-    }
+class InterferenceModel extends WavesModel {
+  constructor() {
+    super( {
+      numberOfSources: 2,
+      initialAmplitude: WaveInterferenceConstants.AMPLITUDE_RANGE.max
+    } );
   }
+}
 
-  return waveInterference.register( 'InterferenceModel', InterferenceModel );
-} );
+waveInterference.register( 'InterferenceModel', InterferenceModel );
+export default InterferenceModel;

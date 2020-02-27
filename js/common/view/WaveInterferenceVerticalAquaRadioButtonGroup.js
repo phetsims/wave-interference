@@ -5,26 +5,23 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const merge = require( 'PHET_CORE/merge' );
-  const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+import merge from '../../../../phet-core/js/merge.js';
+import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
+import waveInterference from '../../waveInterference.js';
 
-  class WaveInterferenceVerticalAquaRadioButtonGroup extends VerticalAquaRadioButtonGroup {
+class WaveInterferenceVerticalAquaRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
-    /**
-     * @param {Property} property
-     * @param {Object[]} items - see VerticalAquaRadioButtonGroup
-     * @param {Object} [options]
-     */
-    constructor( property, items, options ) {
-      options = merge( { spacing: 8 }, options );
-      super( property, items, options );
-    }
+  /**
+   * @param {Property} property
+   * @param {Object[]} items - see VerticalAquaRadioButtonGroup
+   * @param {Object} [options]
+   */
+  constructor( property, items, options ) {
+    options = merge( { spacing: 8 }, options );
+    super( property, items, options );
   }
+}
 
-  return waveInterference.register( 'WaveInterferenceVerticalAquaRadioButtonGroup', WaveInterferenceVerticalAquaRadioButtonGroup );
-} );
+waveInterference.register( 'WaveInterferenceVerticalAquaRadioButtonGroup', WaveInterferenceVerticalAquaRadioButtonGroup );
+export default WaveInterferenceVerticalAquaRadioButtonGroup;

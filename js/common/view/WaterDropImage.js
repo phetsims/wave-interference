@@ -6,30 +6,25 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Image = require( 'SCENERY/nodes/Image' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+import Image from '../../../../scenery/js/nodes/Image.js';
+import waterDropImage from '../../../images/water_drop_png.js';
+import waveInterference from '../../waveInterference.js';
 
-  // images
-  const waterDropImage = require( 'image!WAVE_INTERFERENCE/water_drop.png' );
+class WaterDropImage extends Image {
 
-  class WaterDropImage extends Image {
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
+    super( waterDropImage, options );
 
-    /**
-     * @param {Object} [options]
-     */
-    constructor( options ) {
-      super( waterDropImage, options );
-
-      // @public {WaterDrop|null} - Link to the corresponding WaterDrop (if any), so that when the view goes underwater,
-      // we can mark the corresponding model as absorbed.  These nodes are recycled--created with null instead of a
-      // specific WaterDrop and assigned to null when the associated WaterDrop has been absorbed.
-      this.waterDrop = null;
-    }
+    // @public {WaterDrop|null} - Link to the corresponding WaterDrop (if any), so that when the view goes underwater,
+    // we can mark the corresponding model as absorbed.  These nodes are recycled--created with null instead of a
+    // specific WaterDrop and assigned to null when the associated WaterDrop has been absorbed.
+    this.waterDrop = null;
   }
+}
 
-  return waveInterference.register( 'WaterDropImage', WaterDropImage );
-} );
+waveInterference.register( 'WaterDropImage', WaterDropImage );
+export default WaterDropImage;

@@ -5,81 +5,78 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const LineStyles = require( 'KITE/util/LineStyles' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const Path = require( 'SCENERY/nodes/Path' );
-  const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
-  const Shape = require( 'KITE/Shape' );
-  const Utils = require( 'DOT/Utils' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+import Utils from '../../../../dot/js/Utils.js';
+import Shape from '../../../../kite/js/Shape.js';
+import LineStyles from '../../../../kite/js/util/LineStyles.js';
+import merge from '../../../../phet-core/js/merge.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
+import waveInterference from '../../waveInterference.js';
+import Scene from '../model/Scene.js';
 
-  // constants
-  const NUMBER_OF_SAMPLES = 100;           // Number of samples to take along the curve
-  const WAVE_HEIGHT = 10;                  // Amplitude of the wave for the icon
-  const MAX_ANGLE = Math.PI * 2 + Math.PI; // Angle at which the wave ends, in radians
-  const MARGIN = 10;                       // Width of the pulse side segments, in pixels
-  const WIDTH = 50;                        // Size of wave, in pixels
+// constants
+const NUMBER_OF_SAMPLES = 100;           // Number of samples to take along the curve
+const WAVE_HEIGHT = 10;                  // Amplitude of the wave for the icon
+const MAX_ANGLE = Math.PI * 2 + Math.PI; // Angle at which the wave ends, in radians
+const MARGIN = 10;                       // Width of the pulse side segments, in pixels
+const WIDTH = 50;                        // Size of wave, in pixels
 
-  class DisturbanceTypeIconNode extends Node {
+class DisturbanceTypeIconNode extends Node {
 
-    /**
-     * @param {Scene.DisturbanceType} disturbanceType
-     * @param {Object} [options]
-     */
-    constructor( disturbanceType, options ) {
+  /**
+   * @param {Scene.DisturbanceType} disturbanceType
+   * @param {Object} [options]
+   */
+  constructor( disturbanceType, options ) {
 
-      options = merge( {
-        stroked: false
-      }, options );
-      super();
+    options = merge( {
+      stroked: false
+    }, options );
+    super();
 
-      const minAngle = disturbanceType === Scene.DisturbanceType.PULSE ? Math.PI : 0;
-      const minX = disturbanceType === Scene.DisturbanceType.PULSE ? MARGIN : 0;
-      const maxX = disturbanceType === Scene.DisturbanceType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
+    const minAngle = disturbanceType === Scene.DisturbanceType.PULSE ? Math.PI : 0;
+    const minX = disturbanceType === Scene.DisturbanceType.PULSE ? MARGIN : 0;
+    const maxX = disturbanceType === Scene.DisturbanceType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
 
-      const shape = new Shape();
-      for ( let i = 0; i < NUMBER_OF_SAMPLES; i++ ) {
-        const angle = Utils.linear( 0, NUMBER_OF_SAMPLES - 1, minAngle, MAX_ANGLE, i );
-        const y = -Math.cos( angle ) * WAVE_HEIGHT;
-        const x = Utils.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
-        if ( i === 0 ) {
-          if ( disturbanceType === Scene.DisturbanceType.PULSE ) {
-            shape.moveTo( x - MARGIN, y );
-            shape.lineTo( x, y );
-          }
-          else {
-            shape.moveTo( x, y );
-          }
-        }
-        else {
+    const shape = new Shape();
+    for ( let i = 0; i < NUMBER_OF_SAMPLES; i++ ) {
+      const angle = Utils.linear( 0, NUMBER_OF_SAMPLES - 1, minAngle, MAX_ANGLE, i );
+      const y = -Math.cos( angle ) * WAVE_HEIGHT;
+      const x = Utils.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
+      if ( i === 0 ) {
+        if ( disturbanceType === Scene.DisturbanceType.PULSE ) {
+          shape.moveTo( x - MARGIN, y );
           shape.lineTo( x, y );
         }
+        else {
+          shape.moveTo( x, y );
+        }
       }
-      if ( disturbanceType === Scene.DisturbanceType.PULSE ) {
-        shape.lineToRelative( MARGIN, 0 );
+      else {
+        shape.lineTo( x, y );
       }
-
-      // In the pulse button, there is a white stroke
-      const child = options.stroked ?
-                    new Path( shape.getStrokedShape( new LineStyles( { lineWidth: 6 } ) ), {
-                      fill: 'black',
-                      stroke: 'white',
-                      lineWidth: 2.5
-                    } ) :
-                    new Path( shape, {
-                      stroke: 'black',
-                      lineWidth: 2
-                    } );
-      this.addChild( child );
-
-      this.mutate( options );
     }
-  }
+    if ( disturbanceType === Scene.DisturbanceType.PULSE ) {
+      shape.lineToRelative( MARGIN, 0 );
+    }
 
-  return waveInterference.register( 'DisturbanceTypeIconNode', DisturbanceTypeIconNode );
-} );
+    // In the pulse button, there is a white stroke
+    const child = options.stroked ?
+                  new Path( shape.getStrokedShape( new LineStyles( { lineWidth: 6 } ) ), {
+                    fill: 'black',
+                    stroke: 'white',
+                    lineWidth: 2.5
+                  } ) :
+                  new Path( shape, {
+                    stroke: 'black',
+                    lineWidth: 2
+                  } );
+    this.addChild( child );
+
+    this.mutate( options );
+  }
+}
+
+waveInterference.register( 'DisturbanceTypeIconNode', DisturbanceTypeIconNode );
+export default DisturbanceTypeIconNode;

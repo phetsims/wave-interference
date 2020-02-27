@@ -5,46 +5,43 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const SoundScene = require( 'WAVE_INTERFERENCE/common/model/SoundScene' );
-  const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
+import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
+import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterference from '../../waveInterference.js';
+import SoundScene from '../model/SoundScene.js';
+import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
+import WaveInterferenceText from './WaveInterferenceText.js';
 
-  // strings
-  const bothString = require( 'string!WAVE_INTERFERENCE/both' );
-  const particlesString = require( 'string!WAVE_INTERFERENCE/particles' );
-  const wavesString = require( 'string!WAVE_INTERFERENCE/waves' );
+const bothString = waveInterferenceStrings.both;
+const particlesString = waveInterferenceStrings.particles;
+const wavesString = waveInterferenceStrings.waves;
 
-  class SoundViewTypeRadioButtonGroup extends VerticalAquaRadioButtonGroup {
+class SoundViewTypeRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
-    /**
-     * @param {WavesModel} model
-     */
-    constructor( model ) {
-      super( model.soundScene.soundViewTypeProperty, [ {
-        node: new WaveInterferenceText( wavesString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
-        value: SoundScene.SoundViewType.WAVES
-      }, {
-        node: new WaveInterferenceText( particlesString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
-        value: SoundScene.SoundViewType.PARTICLES
-      }, {
-        node: new WaveInterferenceText( bothString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
-        value: SoundScene.SoundViewType.BOTH
-      } ], {
-        spacing: 4,
-        radioButtonOptions: {
+  /**
+   * @param {WavesModel} model
+   */
+  constructor( model ) {
+    super( model.soundScene.soundViewTypeProperty, [ {
+      node: new WaveInterferenceText( wavesString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
+      value: SoundScene.SoundViewType.WAVES
+    }, {
+      node: new WaveInterferenceText( particlesString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
+      value: SoundScene.SoundViewType.PARTICLES
+    }, {
+      node: new WaveInterferenceText( bothString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
+      value: SoundScene.SoundViewType.BOTH
+    } ], {
+      spacing: 4,
+      radioButtonOptions: {
 
-          // Manually tuned so the radio buttons have the same width as the "Graph" checkbox
-          radius: 6.5
-        }
-      } );
-    }
+        // Manually tuned so the radio buttons have the same width as the "Graph" checkbox
+        radius: 6.5
+      }
+    } );
   }
+}
 
-  return waveInterference.register( 'SoundViewTypeRadioButtonGroup', SoundViewTypeRadioButtonGroup );
-} );
+waveInterference.register( 'SoundViewTypeRadioButtonGroup', SoundViewTypeRadioButtonGroup );
+export default SoundViewTypeRadioButtonGroup;

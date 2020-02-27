@@ -5,43 +5,38 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Image = require( 'SCENERY/nodes/Image' );
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
-  const SlitsModel = require( 'WAVE_INTERFERENCE/slits/model/SlitsModel' );
-  const SlitsScreenView = require( 'WAVE_INTERFERENCE/slits/view/SlitsScreenView' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+import Property from '../../../axon/js/Property.js';
+import Screen from '../../../joist/js/Screen.js';
+import Image from '../../../scenery/js/nodes/Image.js';
+import slitsScreenIcon from '../../images/slits_screen_icon_png.js';
+import waveInterferenceStrings from '../wave-interference-strings.js';
+import waveInterference from '../waveInterference.js';
+import SlitsModel from './model/SlitsModel.js';
+import SlitsScreenView from './view/SlitsScreenView.js';
 
-  // images
-  const slitsScreenIcon = require( 'image!WAVE_INTERFERENCE/slits_screen_icon.png' );
+const screenSlitsString = waveInterferenceStrings.screen.slits;
 
-  // strings
-  const screenSlitsString = require( 'string!WAVE_INTERFERENCE/screen.slits' );
+class SlitsScreen extends Screen {
 
-  class SlitsScreen extends Screen {
-
-    /**
-     * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-     */
-    constructor( alignGroup ) {
-      const options = {
-        backgroundColorProperty: new Property( 'white' ),
-        name: screenSlitsString,
-        homeScreenIcon: new Image( slitsScreenIcon ),
-        showUnselectedHomeScreenIconFrame: true,
-        showScreenIconFrameForNavigationBarFill: 'black'
-      };
-      super(
-        () => new SlitsModel(),
-        model => new SlitsScreenView( model, alignGroup ),
-        options
-      );
-    }
+  /**
+   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
+   */
+  constructor( alignGroup ) {
+    const options = {
+      backgroundColorProperty: new Property( 'white' ),
+      name: screenSlitsString,
+      homeScreenIcon: new Image( slitsScreenIcon ),
+      showUnselectedHomeScreenIconFrame: true,
+      showScreenIconFrameForNavigationBarFill: 'black'
+    };
+    super(
+      () => new SlitsModel(),
+      model => new SlitsScreenView( model, alignGroup ),
+      options
+    );
   }
+}
 
-  return waveInterference.register( 'SlitsScreen', SlitsScreen );
-} );
+waveInterference.register( 'SlitsScreen', SlitsScreen );
+export default SlitsScreen;

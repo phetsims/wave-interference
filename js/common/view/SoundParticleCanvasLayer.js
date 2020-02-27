@@ -5,88 +5,85 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
-  const merge = require( 'PHET_CORE/merge' );
-  const SoundParticleNode = require( 'WAVE_INTERFERENCE/common/view/SoundParticleNode' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
+import merge from '../../../../phet-core/js/merge.js';
+import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
+import waveInterference from '../../waveInterference.js';
+import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
+import SoundParticleNode from './SoundParticleNode.js';
 
-  // constants
-  // Render at increased resolution so particles don't appear pixellated on a large screen.  See Node.rasterized's
-  // resolution option for details about this value.
-  const RESOLUTION = 2;
+// constants
+// Render at increased resolution so particles don't appear pixellated on a large screen.  See Node.rasterized's
+// resolution option for details about this value.
+const RESOLUTION = 2;
 
-  class SoundParticleCanvasLayer extends CanvasNode {
+class SoundParticleCanvasLayer extends CanvasNode {
 
-    /**
-     * @param {WavesModel} model
-     * @param {Bounds2} waveAreaNodeBounds
-     * @param {Object} [options]
-     */
-    constructor( model, waveAreaNodeBounds, options ) {
+  /**
+   * @param {WavesModel} model
+   * @param {Bounds2} waveAreaNodeBounds
+   * @param {Object} [options]
+   */
+  constructor( model, waveAreaNodeBounds, options ) {
 
-      options = merge( {
+    options = merge( {
 
-        // only use the visible part for the bounds (not the damping regions).  Additionally erode so the particles
-        // don't leak over the edge of the wave area
-        canvasBounds: waveAreaNodeBounds.eroded( 5 ),
-        layerSplit: true // ensure we're on our own layer
-      }, options );
+      // only use the visible part for the bounds (not the damping regions).  Additionally erode so the particles
+      // don't leak over the edge of the wave area
+      canvasBounds: waveAreaNodeBounds.eroded( 5 ),
+      layerSplit: true // ensure we're on our own layer
+    }, options );
 
-      super( options );
+    super( options );
 
-      // @private
-      this.model = model;
+    // @private
+    this.model = model;
 
-      SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_GRAY_COLOR, canvas => {
+    SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_GRAY_COLOR, canvas => {
 
-        // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
-        this.whiteSphereImage = canvas;
-      } );
+      // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
+      this.whiteSphereImage = canvas;
+    } );
 
-      SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_RED_COLOR, canvas => {
+    SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_RED_COLOR, canvas => {
 
-        // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
-        this.redSphereImage = canvas;
-      } );
+      // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
+      this.redSphereImage = canvas;
+    } );
 
-      // At the end of each model step, update all of the particles as a batch.
-      const update = () => {
-        if ( model.sceneProperty.value === model.soundScene ) {
-          this.invalidatePaint();
-        }
-      };
-      model.stepEmitter.addListener( update );
-      model.sceneProperty.link( update );
-    }
-
-    /**
-     * Draws into the canvas.
-     * @param {CanvasRenderingContext2D} context
-     * @public
-     * @override
-     */
-    paintCanvas( context ) {
-      context.transform( 1 / RESOLUTION, 0, 0, 1 / RESOLUTION, 0, 0 );
-      for ( let i = 0; i < this.model.soundScene.soundParticles.length; i++ ) {
-        const soundParticle = this.model.soundScene.soundParticles[ i ];
-
-        // Red particles are shown on a grid
-        const isRed = ( soundParticle.i % 4 === 2 && soundParticle.j % 4 === 2 );
-        const sphereImage = isRed ? this.redSphereImage : this.whiteSphereImage;
-
-        context.drawImage(
-          sphereImage,
-          RESOLUTION * ( this.model.soundScene.modelViewTransform.modelToViewX( soundParticle.x ) ) - sphereImage.width / 2,
-          RESOLUTION * ( this.model.soundScene.modelViewTransform.modelToViewY( soundParticle.y ) ) - sphereImage.height / 2
-        );
+    // At the end of each model step, update all of the particles as a batch.
+    const update = () => {
+      if ( model.sceneProperty.value === model.soundScene ) {
+        this.invalidatePaint();
       }
-    }
+    };
+    model.stepEmitter.addListener( update );
+    model.sceneProperty.link( update );
   }
 
-  return waveInterference.register( 'SoundParticleCanvasLayer', SoundParticleCanvasLayer );
-} );
+  /**
+   * Draws into the canvas.
+   * @param {CanvasRenderingContext2D} context
+   * @public
+   * @override
+   */
+  paintCanvas( context ) {
+    context.transform( 1 / RESOLUTION, 0, 0, 1 / RESOLUTION, 0, 0 );
+    for ( let i = 0; i < this.model.soundScene.soundParticles.length; i++ ) {
+      const soundParticle = this.model.soundScene.soundParticles[ i ];
+
+      // Red particles are shown on a grid
+      const isRed = ( soundParticle.i % 4 === 2 && soundParticle.j % 4 === 2 );
+      const sphereImage = isRed ? this.redSphereImage : this.whiteSphereImage;
+
+      context.drawImage(
+        sphereImage,
+        RESOLUTION * ( this.model.soundScene.modelViewTransform.modelToViewX( soundParticle.x ) ) - sphereImage.width / 2,
+        RESOLUTION * ( this.model.soundScene.modelViewTransform.modelToViewY( soundParticle.y ) ) - sphereImage.height / 2
+      );
+    }
+  }
+}
+
+waveInterference.register( 'SoundParticleCanvasLayer', SoundParticleCanvasLayer );
+export default SoundParticleCanvasLayer;

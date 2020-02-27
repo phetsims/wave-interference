@@ -5,44 +5,41 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Node = require( 'SCENERY/nodes/Node' );
-  const SceneToggleNode = require( 'WAVE_INTERFERENCE/common/view/SceneToggleNode' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceSlider = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceSlider' );
-  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  const WaveInterferenceUtils = require( 'WAVE_INTERFERENCE/common/WaveInterferenceUtils' );
+import Node from '../../../../scenery/js/nodes/Node.js';
+import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterference from '../../waveInterference.js';
+import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
+import SceneToggleNode from './SceneToggleNode.js';
+import WaveInterferenceSlider from './WaveInterferenceSlider.js';
+import WaveInterferenceText from './WaveInterferenceText.js';
 
-  // strings
-  const amplitudeString = require( 'string!WAVE_INTERFERENCE/amplitude' );
+const amplitudeString = waveInterferenceStrings.amplitude;
 
-  class AmplitudeControl extends Node {
+class AmplitudeControl extends Node {
 
-    /**
-     * @param {WavesModel} model
-     */
-    constructor( model ) {
+  /**
+   * @param {WavesModel} model
+   */
+  constructor( model ) {
 
-      const amplitudeTitle = new WaveInterferenceText( amplitudeString );
+    const amplitudeTitle = new WaveInterferenceText( amplitudeString );
 
-      const sliderContainer = new SceneToggleNode( model, scene => {
+    const sliderContainer = new SceneToggleNode( model, scene => {
 
-        // For water scene, control the desiredAmplitude (which determines the size of the water drops)
-        // For other scenes, control the amplitude directly.
-        return new WaveInterferenceSlider( scene.desiredAmplitudeProperty || scene.amplitudeProperty );
-      } );
+      // For water scene, control the desiredAmplitude (which determines the size of the water drops)
+      // For other scenes, control the amplitude directly.
+      return new WaveInterferenceSlider( scene.desiredAmplitudeProperty || scene.amplitudeProperty );
+    } );
 
-      sliderContainer.centerX = amplitudeTitle.centerX;
-      sliderContainer.top = amplitudeTitle.bottom + WaveInterferenceUtils.getSliderTitleSpacing( amplitudeTitle );
+    sliderContainer.centerX = amplitudeTitle.centerX;
+    sliderContainer.top = amplitudeTitle.bottom + WaveInterferenceUtils.getSliderTitleSpacing( amplitudeTitle );
 
-      super( {
-        children: [ amplitudeTitle, sliderContainer ]
-      } );
-    }
+    super( {
+      children: [ amplitudeTitle, sliderContainer ]
+    } );
   }
+}
 
-  return waveInterference.register( 'AmplitudeControl', AmplitudeControl );
-} );
+waveInterference.register( 'AmplitudeControl', AmplitudeControl );
+export default AmplitudeControl;

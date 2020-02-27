@@ -5,58 +5,55 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const DiffractionNumberControl = require( 'WAVE_INTERFERENCE/diffraction/view/DiffractionNumberControl' );
-  const HBox = require( 'SCENERY/nodes/HBox' );
-  const Utils = require( 'DOT/Utils' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  const WaveInterferencePanel = require( 'WAVE_INTERFERENCE/common/view/WaveInterferencePanel' );
+import Utils from '../../../../dot/js/Utils.js';
+import HBox from '../../../../scenery/js/nodes/HBox.js';
+import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
+import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
+import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterference from '../../waveInterference.js';
+import DiffractionNumberControl from './DiffractionNumberControl.js';
 
-  // strings
-  const diameterString = require( 'string!WAVE_INTERFERENCE/diameter' );
-  const eccentricityString = require( 'string!WAVE_INTERFERENCE/eccentricity' );
-  const mmValueString = require( 'string!WAVE_INTERFERENCE/mmValue' );
+const diameterString = waveInterferenceStrings.diameter;
+const eccentricityString = waveInterferenceStrings.eccentricity;
+const mmValueString = waveInterferenceStrings.mmValue;
 
-  class EllipseSceneControlPanel extends WaveInterferencePanel {
+class EllipseSceneControlPanel extends WaveInterferencePanel {
 
-    /**
-     * @param {EllipseScene} ellipseScene
-     * @param {Object} [options]
-     */
-    constructor( ellipseScene, options ) {
-      super( new HBox( {
-        spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
-        align: 'bottom',
-        children: [
-          new DiffractionNumberControl( diameterString, ellipseScene.diameterProperty, {
-            delta: 10 * 1E-3,
-            numberDisplayOptions: {
-              valuePattern: mmValueString,
-              decimalPlaces: 2
-            },
-            sliderOptions: {
-              constrainValue: value => Utils.roundToInterval( value, 20E-3 )
-            }
-          } ),
-          new DiffractionNumberControl( eccentricityString, ellipseScene.eccentricityProperty, {
-            delta: 0.01,
-            numberDisplayOptions: {
-              decimalPlaces: 2
-            },
-            sliderOptions: {
+  /**
+   * @param {EllipseScene} ellipseScene
+   * @param {Object} [options]
+   */
+  constructor( ellipseScene, options ) {
+    super( new HBox( {
+      spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
+      align: 'bottom',
+      children: [
+        new DiffractionNumberControl( diameterString, ellipseScene.diameterProperty, {
+          delta: 10 * 1E-3,
+          numberDisplayOptions: {
+            valuePattern: mmValueString,
+            decimalPlaces: 2
+          },
+          sliderOptions: {
+            constrainValue: value => Utils.roundToInterval( value, 20E-3 )
+          }
+        } ),
+        new DiffractionNumberControl( eccentricityString, ellipseScene.eccentricityProperty, {
+          delta: 0.01,
+          numberDisplayOptions: {
+            decimalPlaces: 2
+          },
+          sliderOptions: {
 
-              // Constrain by 0.05 but do not exceed the max
-              constrainValue: value => Math.min( Utils.roundToInterval( value, 0.05 ), ellipseScene.eccentricityProperty.range.max )
-            }
-          } )
-        ]
-      } ), options );
-    }
+            // Constrain by 0.05 but do not exceed the max
+            constrainValue: value => Math.min( Utils.roundToInterval( value, 0.05 ), ellipseScene.eccentricityProperty.range.max )
+          }
+        } )
+      ]
+    } ), options );
   }
+}
 
-  return waveInterference.register( 'EllipseSceneControlPanel', EllipseSceneControlPanel );
-} );
+waveInterference.register( 'EllipseSceneControlPanel', EllipseSceneControlPanel );
+export default EllipseSceneControlPanel;

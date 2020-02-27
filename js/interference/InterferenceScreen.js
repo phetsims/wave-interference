@@ -5,43 +5,38 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Image = require( 'SCENERY/nodes/Image' );
-  const InterferenceModel = require( 'WAVE_INTERFERENCE/interference/model/InterferenceModel' );
-  const InterferenceScreenView = require( 'WAVE_INTERFERENCE/interference/view/InterferenceScreenView' );
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+import Property from '../../../axon/js/Property.js';
+import Screen from '../../../joist/js/Screen.js';
+import Image from '../../../scenery/js/nodes/Image.js';
+import interferenceScreenIcon from '../../images/interference_screen_icon_png.js';
+import waveInterferenceStrings from '../wave-interference-strings.js';
+import waveInterference from '../waveInterference.js';
+import InterferenceModel from './model/InterferenceModel.js';
+import InterferenceScreenView from './view/InterferenceScreenView.js';
 
-  // images
-  const interferenceScreenIcon = require( 'image!WAVE_INTERFERENCE/interference_screen_icon.png' );
+const screenInterferenceString = waveInterferenceStrings.screen.interference;
 
-  // strings
-  const screenInterferenceString = require( 'string!WAVE_INTERFERENCE/screen.interference' );
+class InterferenceScreen extends Screen {
 
-  class InterferenceScreen extends Screen {
-
-    /**
-     * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-     */
-    constructor( alignGroup ) {
-      const options = {
-        backgroundColorProperty: new Property( 'white' ),
-        name: screenInterferenceString,
-        homeScreenIcon: new Image( interferenceScreenIcon ),
-        showUnselectedHomeScreenIconFrame: true,
-        showScreenIconFrameForNavigationBarFill: 'black'
-      };
-      super(
-        () => new InterferenceModel(),
-        model => new InterferenceScreenView( model, alignGroup ),
-        options
-      );
-    }
+  /**
+   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
+   */
+  constructor( alignGroup ) {
+    const options = {
+      backgroundColorProperty: new Property( 'white' ),
+      name: screenInterferenceString,
+      homeScreenIcon: new Image( interferenceScreenIcon ),
+      showUnselectedHomeScreenIconFrame: true,
+      showScreenIconFrameForNavigationBarFill: 'black'
+    };
+    super(
+      () => new InterferenceModel(),
+      model => new InterferenceScreenView( model, alignGroup ),
+      options
+    );
   }
+}
 
-  return waveInterference.register( 'InterferenceScreen', InterferenceScreen );
-} );
+waveInterference.register( 'InterferenceScreen', InterferenceScreen );
+export default InterferenceScreen;

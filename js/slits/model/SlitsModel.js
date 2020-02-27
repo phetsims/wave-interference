@@ -5,38 +5,35 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Scene = require( 'WAVE_INTERFERENCE/common/model/Scene' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceConstants = require( 'WAVE_INTERFERENCE/common/WaveInterferenceConstants' );
-  const WavesModel = require( 'WAVE_INTERFERENCE/waves/model/WavesModel' );
+import Scene from '../../common/model/Scene.js';
+import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
+import waveInterference from '../../waveInterference.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 
-  class SlitsModel extends WavesModel {
+class SlitsModel extends WavesModel {
 
-    constructor() {
-      super( {
+  constructor() {
+    super( {
 
-        initialAmplitude: WaveInterferenceConstants.AMPLITUDE_RANGE.max,
-        waveSpatialType: Scene.WaveSpatialType.PLANE,
+      initialAmplitude: WaveInterferenceConstants.AMPLITUDE_RANGE.max,
+      waveSpatialType: Scene.WaveSpatialType.PLANE,
 
-        // SoundParticles are not displayed on the Slits screen,
-        // see https://github.com/phetsims/wave-interference/issues/109
-        showSoundParticles: false
-      } );
-    }
-
-    /**
-     * There are no water drops in this scene, and hence the slider controls the frequency directly.
-     * @override
-     * @public
-     */
-    getWaterFrequencySliderProperty() {
-      return this.waterScene.frequencyProperty;
-    }
+      // SoundParticles are not displayed on the Slits screen,
+      // see https://github.com/phetsims/wave-interference/issues/109
+      showSoundParticles: false
+    } );
   }
 
-  return waveInterference.register( 'SlitsModel', SlitsModel );
-} );
+  /**
+   * There are no water drops in this scene, and hence the slider controls the frequency directly.
+   * @override
+   * @public
+   */
+  getWaterFrequencySliderProperty() {
+    return this.waterScene.frequencyProperty;
+  }
+}
+
+waveInterference.register( 'SlitsModel', SlitsModel );
+export default SlitsModel;

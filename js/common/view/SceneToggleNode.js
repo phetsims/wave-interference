@@ -6,25 +6,22 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const ToggleNode = require( 'SUN/ToggleNode' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+import ToggleNode from '../../../../sun/js/ToggleNode.js';
+import waveInterference from '../../waveInterference.js';
 
-  class SceneToggleNode extends ToggleNode {
+class SceneToggleNode extends ToggleNode {
 
-    /**
-     * @param {WavesModel} model
-     * @param {function} sceneToNode given a {Scene}, create a corresponding {Node}
-     * @param {Object} [options]
-     */
-    constructor( model, sceneToNode, options ) {
-      const toElement = scene => ( { value: scene, node: sceneToNode( scene ) } );
-      super( model.sceneProperty, model.scenes.map( toElement ), options );
-    }
+  /**
+   * @param {WavesModel} model
+   * @param {function} sceneToNode given a {Scene}, create a corresponding {Node}
+   * @param {Object} [options]
+   */
+  constructor( model, sceneToNode, options ) {
+    const toElement = scene => ( { value: scene, node: sceneToNode( scene ) } );
+    super( model.sceneProperty, model.scenes.map( toElement ), options );
   }
+}
 
-  return waveInterference.register( 'SceneToggleNode', SceneToggleNode );
-} );
+waveInterference.register( 'SceneToggleNode', SceneToggleNode );
+export default SceneToggleNode;

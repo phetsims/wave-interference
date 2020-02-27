@@ -5,39 +5,36 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
-  const WaveInterferenceText = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceText' );
-  const WaveInterferenceVerticalAquaRadioButtonGroup = require( 'WAVE_INTERFERENCE/common/view/WaveInterferenceVerticalAquaRadioButtonGroup' );
-  const WavesModel = require( 'WAVE_INTERFERENCE/waves/model/WavesModel' );
+import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterference from '../../waveInterference.js';
+import WavesModel from '../../waves/model/WavesModel.js';
+import WaveInterferenceText from './WaveInterferenceText.js';
+import WaveInterferenceVerticalAquaRadioButtonGroup from './WaveInterferenceVerticalAquaRadioButtonGroup.js';
 
-  // strings
-  const sideViewString = require( 'string!WAVE_INTERFERENCE/sideView' );
-  const topViewString = require( 'string!WAVE_INTERFERENCE/topView' );
+const sideViewString = waveInterferenceStrings.sideView;
+const topViewString = waveInterferenceStrings.topView;
 
-  // constants
-  const TEXT_OPTIONS = { maxWidth: 90 }; // Prevent from overlapping the play/pause button
+// constants
+const TEXT_OPTIONS = { maxWidth: 90 }; // Prevent from overlapping the play/pause button
 
-  class ViewpointRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonGroup {
+class ViewpointRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonGroup {
 
-    /**
-     * @param {Property.<Viewpoint>} viewpointProperty
-     * @param {Object} [options]
-     */
-    constructor( viewpointProperty, options ) {
+  /**
+   * @param {Property.<Viewpoint>} viewpointProperty
+   * @param {Object} [options]
+   */
+  constructor( viewpointProperty, options ) {
 
-      super( viewpointProperty, [ {
-        node: new WaveInterferenceText( topViewString, TEXT_OPTIONS ),
-        value: WavesModel.Viewpoint.TOP
-      }, {
-        node: new WaveInterferenceText( sideViewString, TEXT_OPTIONS ),
-        value: WavesModel.Viewpoint.SIDE
-      } ], options );
-    }
+    super( viewpointProperty, [ {
+      node: new WaveInterferenceText( topViewString, TEXT_OPTIONS ),
+      value: WavesModel.Viewpoint.TOP
+    }, {
+      node: new WaveInterferenceText( sideViewString, TEXT_OPTIONS ),
+      value: WavesModel.Viewpoint.SIDE
+    } ], options );
   }
+}
 
-  return waveInterference.register( 'ViewpointRadioButtonGroup', ViewpointRadioButtonGroup );
-} );
+waveInterference.register( 'ViewpointRadioButtonGroup', ViewpointRadioButtonGroup );
+export default ViewpointRadioButtonGroup;

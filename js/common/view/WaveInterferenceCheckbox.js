@@ -5,26 +5,23 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Checkbox = require( 'SUN/Checkbox' );
-  const merge = require( 'PHET_CORE/merge' );
-  const waveInterference = require( 'WAVE_INTERFERENCE/waveInterference' );
+import merge from '../../../../phet-core/js/merge.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
+import waveInterference from '../../waveInterference.js';
 
-  class WaveInterferenceCheckbox extends Checkbox {
+class WaveInterferenceCheckbox extends Checkbox {
 
-    /**
-     * @param {Node} content
-     * @param {Property.<boolean>} property
-     * @param {Object} [options]
-     */
-    constructor( content, property, options ) {
-      options = merge( { boxWidth: 14, supportsSound: options && options.audioEnabled }, options );
-      super( content, property, options );
-    }
+  /**
+   * @param {Node} content
+   * @param {Property.<boolean>} property
+   * @param {Object} [options]
+   */
+  constructor( content, property, options ) {
+    options = merge( { boxWidth: 14, supportsSound: options && options.audioEnabled }, options );
+    super( content, property, options );
   }
+}
 
-  return waveInterference.register( 'WaveInterferenceCheckbox', WaveInterferenceCheckbox );
-} );
+waveInterference.register( 'WaveInterferenceCheckbox', WaveInterferenceCheckbox );
+export default WaveInterferenceCheckbox;
