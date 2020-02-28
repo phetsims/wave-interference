@@ -1,4 +1,4 @@
-// Copyright 2017-2019, University of Colorado Boulder
+// Copyright 2017-2020, University of Colorado Boulder
 
 /**
  * The lattice is a 2D grid with a value in each cell that represents the wave amplitude at that point.

@@ -1,4 +1,4 @@
-// Copyright 2018-2019, University of Colorado Boulder
+// Copyright 2018-2020, University of Colorado Boulder
 
 /**
  * The scene determines the medium and wave generator types, coordinate frames, relative scale, etc.  For a description

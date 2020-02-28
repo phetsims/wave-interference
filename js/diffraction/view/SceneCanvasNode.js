@@ -1,4 +1,4 @@
-// Copyright 2019, University of Colorado Boulder
+// Copyright 2019-2020, University of Colorado Boulder
 
 /**
  * Uses the model's renderToContext function to draw directly to the view canvas, so the aperture views are anti-aliased
