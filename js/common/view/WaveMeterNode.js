@@ -11,13 +11,12 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
-import PiecewiseLinearFunction from '../../../../dot/js/PiecewiseLinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import DynamicSeries from '../../../../griddle/js/DynamicSeries.js';
 import ScrollingChartNode from '../../../../griddle/js/ScrollingChartNode.js';
+import isHMR from '../../../../phet-core/js/isHMR.js';
 import merge from '../../../../phet-core/js/merge.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
@@ -45,8 +44,11 @@ import windyToneSound from '../../../sounds/windy-tone-for-meter-loop_mp3.js';
 import waveInterferenceStrings from '../../wave-interference-strings.js';
 import waveInterference from '../../waveInterference.js';
 import SceneToggleNode from './SceneToggleNode.js';
+import toOutputLevel from './toOutputLevel.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 import WaveMeterProbeNode from './WaveMeterProbeNode.js';
+
+isHMR && module.hot.accept( './toOutputLevel.js', () => {} );
 
 const timeString = waveInterferenceStrings.time;
 
@@ -238,36 +240,11 @@ class WaveMeterNode extends Node {
             const value = scene.lattice.getCurrentValue( sampleI, sampleJ );
             dynamicSeries.addXYDataPoint( scene.timeProperty.value, value );
 
-            // Linearize based on the sine value
-            const clampedValue = Utils.clamp( value, -1.6, 1.6 );
-            const normalized = Utils.linear( -1.6, 1.6, -1, 1, clampedValue );
-            const arcsin1 = Math.asin( normalized ); // between -pi/2 and +pi/2
-            const arcsin1Mapped = Utils.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin1 );
-            const arcsin2 = Math.asin( arcsin1Mapped );
-            const arcsin2Mapped = Utils.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin2 );
-
             if ( !soundManager.hasSoundGenerator( soundClip ) ) {
               soundManager.addSoundGenerator( soundClip, { associatedViewNode: this } );
             }
 
-            let outputLevel = Math.abs( arcsin2Mapped );
-            // console.log( outputLevel );
-
-            if ( outputLevel < 0.05 ) {
-              outputLevel = 0.05;
-            }
-            if ( outputLevel > 0.4 ) {
-              outputLevel = 0.4;
-            }
-
-            // Roughly quadratic
-            outputLevel = PiecewiseLinearFunction.evaluate( [
-              0.05, 0,
-              0.1, 0.05,
-              0.2, 0.2,
-              0.3, 0.5,
-              0.4, 1
-            ], outputLevel );
+            const outputLevel = toOutputLevel( value );
 
             // Set the main volume.  If the sound clip wasn't playing, set the sound immediately to correct an audio
             // blip when the probe enters the play area.  If the sound clip was playing, use a longer time constant
