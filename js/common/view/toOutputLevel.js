@@ -7,6 +7,7 @@ import Utils from '../../../../dot/js/Utils.js';
  * Converts a wave value to a volume for the WaveMeterNode
  * @param {number} value
  * @returns {number}
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 const toOutputLevel = value => {
 
