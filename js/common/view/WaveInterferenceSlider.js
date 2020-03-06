@@ -20,12 +20,11 @@ import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-// sounds
+// constants
 
 const maxString = waveInterferenceStrings.max;
 const minString = waveInterferenceStrings.min;
 
-// constants
 const LABEL_OPTIONS = {
   fontSize: WaveInterferenceConstants.TICK_FONT_SIZE,
   maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH
