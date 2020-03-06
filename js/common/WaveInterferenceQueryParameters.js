@@ -19,7 +19,8 @@ const WaveInterferenceQueryParameters = QueryStringMachine.getAll( {
 
   // TODO: eliminate this flag when we are ready for publication with sonification.
   lightSonification: { type: 'boolean', defaultValue: false },
-  lightSonificationCheckbox: { type: 'boolean', defaultValue: true }
+  lightSonificationCheckbox: { type: 'boolean', defaultValue: true },
+  waveMeterNodeVolume: { type: 'number', defaultValue: 1 }
 } );
 
 waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );

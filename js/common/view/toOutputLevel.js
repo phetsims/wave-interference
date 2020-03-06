@@ -2,6 +2,7 @@
 
 import PiecewiseLinearFunction from '../../../../dot/js/PiecewiseLinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';
+import WaveInterferenceQueryParameters from '../WaveInterferenceQueryParameters.js';
 
 /**
  * Converts a wave value to a volume for the WaveMeterNode
@@ -42,6 +43,6 @@ const toOutputLevel = value => {
 
   // console.log(outputLevel);
 
-  return outputLevel / 0.15;
+  return outputLevel / 0.15 * WaveInterferenceQueryParameters.waveMeterNodeVolume;
 };
 export default toOutputLevel;
