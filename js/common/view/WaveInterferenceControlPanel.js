@@ -61,19 +61,13 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
     const graphCheckbox = new WaveInterferenceCheckbox(
       new WaveInterferenceText( graphString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
-      model.showGraphProperty, {
-        audioEnabled: options.supportsSound
-      } );
+      model.showGraphProperty );
     const screenCheckbox = new WaveInterferenceCheckbox(
       new WaveInterferenceText( screenLabelString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
-      model.showScreenProperty, {
-        audioEnabled: options.supportsSound
-      } );
+      model.showScreenProperty );
     const intensityCheckbox = new WaveInterferenceCheckbox(
       new WaveInterferenceText( intensityString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
-      model.showIntensityGraphProperty, {
-        audioEnabled: options.supportsSound
-      } );
+      model.showIntensityGraphProperty );
 
     // Only enable the intensity checkbox when the screen is selected
     model.showScreenProperty.link( showScreen => intensityCheckbox.setEnabled( showScreen ) );

@@ -18,7 +18,7 @@ class WaveInterferenceCheckbox extends Checkbox {
    * @param {Object} [options]
    */
   constructor( content, property, options ) {
-    options = merge( { boxWidth: 14, supportsSound: options && options.audioEnabled }, options );
+    options = merge( { boxWidth: 14 }, options );
     super( content, property, options );
   }
 }
