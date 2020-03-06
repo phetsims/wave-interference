@@ -50,7 +50,7 @@ class WaveGeneratorNode extends Node {
     };
 
     const soundClip = new SoundClip( buttonSound, {
-      initialOutputLevel: 0.8
+      initialOutputLevel: 5.33
     } );
     soundManager.addSoundGenerator( soundClip );
 

@@ -277,7 +277,7 @@ class WaveAreaGraphNode extends Node {
         const z = Utils.linear( -10, 10, 200, 750, value );
         soundClip.lowPassFilter.frequency.setValueAtTime( z, phetAudioContext.currentTime + 0.01 );
         const elapsedTime = Date.now() - soundClip.startTime;
-        let outputLevel = Utils.linear( 0, 5000, 1, 0, elapsedTime );
+        let outputLevel = Utils.linear( 0, 5000, 6.66, 0, elapsedTime );
         // console.log( outputLevel );
         if ( outputLevel < 0 ) {
           outputLevel = 0;
@@ -303,7 +303,7 @@ class WaveAreaGraphNode extends Node {
 
         if ( SONIFICATION ) { // TODO: https://github.com/phetsims/wave-interference/issues/465 will this be deleted?
           const soundClip = new SoundClip( atonalSound, {
-            initialOutputLevel: 0.3,
+            initialOutputLevel: 2,
             // additionalNodes: [ lowPassFilter ]
             additionalNodes: [ bandpassFilter ]
           } );

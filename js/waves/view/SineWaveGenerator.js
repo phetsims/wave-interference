@@ -14,7 +14,7 @@ import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js
 import waveInterference from '../../waveInterference.js';
 
 // constants
-const MAX_OUTPUT_LEVEL = 0.07; // valid range is from 0 to 1
+const MAX_OUTPUT_LEVEL = 0.5; // valid range is from 0 to 1
 
 // function to map amplitude to output level
 // TODO: Ashton - set output level to mix well with other sounds

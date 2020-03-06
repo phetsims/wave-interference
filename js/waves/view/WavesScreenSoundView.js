@@ -55,10 +55,10 @@ class WavesScreenSoundView {
     }
 
     if ( model.waterScene ) {
-      const waterDropSoundClip0 = new SoundClip( waterDropSound0, { initialOutputLevel: 0.22 } );
-      const waterDropSoundClip1 = new SoundClip( waterDropSound1, { initialOutputLevel: 0.22 } );
-      const waterDropSoundClip2 = new SoundClip( waterDropSound2, { initialOutputLevel: 0.22 } );
-      const waterDropSoundClip3 = new SoundClip( waterDropSound3, { initialOutputLevel: 0.22 } );
+      const waterDropSoundClip0 = new SoundClip( waterDropSound0, { initialOutputLevel: 1.5 } );
+      const waterDropSoundClip1 = new SoundClip( waterDropSound1, { initialOutputLevel: 1.5 } );
+      const waterDropSoundClip2 = new SoundClip( waterDropSound2, { initialOutputLevel: 1.5 } );
+      const waterDropSoundClip3 = new SoundClip( waterDropSound3, { initialOutputLevel: 1.5 } );
       soundManager.addSoundGenerator( waterDropSoundClip0 );
       soundManager.addSoundGenerator( waterDropSoundClip1 );
       soundManager.addSoundGenerator( waterDropSoundClip2 );
@@ -111,7 +111,7 @@ class WavesScreenSoundView {
         view.waveMeterNode.duckingProperty
       ], ( oscillatorValue, isTonePlaying, ducking ) => {
         if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
-          const maxVolume = isTonePlaying ? 0.04 : 0.2;
+          const maxVolume = isTonePlaying ? 0.266 : 1.33;
           const amplitude = Utils.linear(
             model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
             0.0, maxVolume, model.soundScene.amplitudeProperty.value
@@ -146,7 +146,7 @@ class WavesScreenSoundView {
       const lightFrequencyProperty = model.lightScene.frequencyProperty;
       Property.multilink( [ lightAmplitudeProperty, lightFrequencyProperty, view.waveMeterNode.duckingProperty ], ( amplitude, frequency, ducking ) => {
         const outputLevel = Utils.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
-          0.0, 0.4, amplitude );
+          0.0, 2.66, amplitude );
         const playbackRate = Utils.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
           1, 1.8, frequency );
         lightBeamLoopSoundClip.setOutputLevel( outputLevel * ducking );

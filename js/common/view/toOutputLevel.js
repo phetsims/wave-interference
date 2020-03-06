@@ -42,6 +42,6 @@ const toOutputLevel = value => {
 
   // console.log(outputLevel);
 
-  return outputLevel;
+  return outputLevel / 0.15;
 };
 export default toOutputLevel;
