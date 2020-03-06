@@ -1,0 +1,5 @@
+/* eslint-disable */
+export default {
+  name: 'slider-click-v2-right.mp3',
+  base64: 'data:audio/mpeg;base64,//swxAAABkgZTTSRgDE4FC53MJADAAAoaagJ21AoCAIEjlxQKEByCAPn36z+AAQBCXB8P9YPwICAY/+CDv0A+D4Pg+BAQ/pIKTcibcFuu2w+AAAAASPNrXxMSnZL9hG1IF4qcOx7/5UrcatKJ9Oyrk5ltMsTf9AUAw61utV/1htDKajUfcb/ElJ69SVah+f//m8dXGmVAAr9pSIm//syxAMAB8w1N12zADB9gqd0ZhhOBkQKAjACk1aRPI8TtEcywlMaEzCAMu8nVAz/RqmpqbICciGJEiRIPnaPBrU+sNfWy7+j/5D+r1VghJKCjAWgMA00J0OQpC4zCIDz5bf7v/z3rO////loabf9d+AEpAP0QGiS4JRJHE4jEh9lrO0qTEFNRTMuOTkuNaqqqqqqqqqqqqqqqqqqqv/7MsQYA8LMIvCGMSK4AAA0gAAABKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqo='
+};
