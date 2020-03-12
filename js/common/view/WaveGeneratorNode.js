@@ -11,7 +11,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import RoundStickyToggleButton from '../../../../sun/js/buttons/RoundStickyToggleButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import buttonSound from '../../../../tambo/sounds/general-button-v3_mp3.js';
+import buttonSound from '../../../sounds/squishier-button-007_mp3.js';
 import waveInterference from '../../waveInterference.js';
 import Scene from '../model/Scene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
@@ -40,19 +40,20 @@ class WaveGeneratorNode extends Node {
       stroked: true
     } );
 
+    const soundClip = new SoundClip( buttonSound, {
+      initialOutputLevel: 5.33
+    } );
+    soundManager.addSoundGenerator( soundClip );
+
     const buttonOptions = {
       centerY: sourceNode.centerY + buttonOffset,
       left: buttonPosition,
       radius: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_RADIUS,
       content: pulseIcon,
       touchAreaDilation: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_TOUCH_AREA_DILATION,
-      baseColor: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_COLOR
+      baseColor: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_COLOR,
+      soundPlayer: soundClip
     };
-
-    const soundClip = new SoundClip( buttonSound, {
-      initialOutputLevel: 5.33
-    } );
-    soundManager.addSoundGenerator( soundClip );
 
     const buttonPressedProperty = isPrimarySource ? scene.button1PressedProperty : scene.button2PressedProperty;
 
