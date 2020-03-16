@@ -15,97 +15,9 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris"
   },
-  "fan-loop.wav": {
-    "text": [
-      "Copyright 2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
-  "filtered-xylaphone-example.mp3": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
-  "harpsichord-loop.mp3": {
-    "text": [
-      "Adapted from MidiJS Soundfonts FatBoy harpsichord"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "Adapted from MidiJS Soundfonts FatBoy harpsichord"
-  },
   "light-beam-loop-v5-eq-out-bass.mp3": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
-  "melodic-graph-falling-tones-001-fade1.mp3": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
-  "melodic-graph-falling-tones-001.mp3": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
-  "noise-shephards-tone.wav": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
-  "noise-single.mp3": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
-  "oceanwave.mp3": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "downloaded from http://soundbible.com/tags-ocean.html"
-  },
-  "ocean-wave-loop.wav": {
-    "text": [
-      "Copyright 2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
-  "rain-loop.wav": {
-    "text": [
-      "Copyright 2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
-  "shhhh-loop.wav": {
-    "text": [
-      "Copyright 2020 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -167,7 +79,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris"
   },
-  "strings-piizzicato-for-meter-loop.mp3": {
+  "organ-for-meter-loop.mp3": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
     ],
@@ -176,30 +88,6 @@
     "notes": "created by Ashton Morris"
   },
   "organ-v2-for-meter-loop.mp3": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
-  "shepherds-tone-loop-pitch-fall.mp3": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
-  "shepherds-tone-loop-pitch-fall-less.mp3": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
-  "shepherds-tone-loop-single-notes.mp3": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
     ],
@@ -223,14 +111,6 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris"
   },
-  "organ-for-meter-loop.mp3": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
   "windy-tone-for-meter-loop-rate-75-pitch-matched-fixed.mp3": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
@@ -238,14 +118,6 @@
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": "Adapted from MidiJS Soundfonts FatBoy harpsichord"
-  },
-  "xylophone-for-meter-loop.mp3": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
   }
 }
 
