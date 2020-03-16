@@ -249,7 +249,7 @@ class WaveMeterNode extends Node {
             // to eliminate clipping, scratching sounds when dragging the probes quickly
             soundClip.setOutputLevel( model.isRunningProperty.value ? outputLevel * volumeProperty.value : 0, soundClip.isPlaying ? 0.03 : 0.0 );
 
-            // Apply ducking when the soundScene.isTonePlayingProperty is true
+            // "Play Tone" takes precedence over the wave meter node sounds, because it is meant to be used briefly
             const duckFactor = ( model.sceneProperty.value === model.soundScene && model.soundScene.isTonePlayingProperty.value ) ? 0.2 : 1;
             soundClip.setOutputLevel( duckFactor * ( model.isRunningProperty.value ? outputLevel * volumeProperty.value : 0 ), soundClip.isPlaying ? 0.03 : 0.0 );
 
