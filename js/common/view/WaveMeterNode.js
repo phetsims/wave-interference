@@ -125,8 +125,6 @@ class WaveMeterNode extends Node {
     this.droppedEmitter = new Emitter();
     const droppedEmitter = this.droppedEmitter;
 
-    this.mainSoundDucking = 1.0;
-
     /**
      * @param {Color|string} color
      * @param {Color|string} wireColor
