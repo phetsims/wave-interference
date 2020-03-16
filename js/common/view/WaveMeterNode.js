@@ -342,7 +342,7 @@ class WaveMeterNode extends Node {
     const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 42, 54, aboveBottomLeft2, sounds2,
       waveMeterSound2Property, waveMeterSound2PlaybackRateProperty, waveMeterSound2VolumeProperty, series2PlayingProperty );
 
-    // Turn down the speaker or light sound when the wave meter is being used.
+    // Turn down the water drops, speaker or light sound when the wave meter is being used.
     this.duckingProperty = new DerivedProperty( [ series1PlayingProperty, series2PlayingProperty ], ( a, b ) => {
       if ( a || b ) {
         return 0.3;

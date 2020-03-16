@@ -55,7 +55,7 @@ class WavesScreenSoundView {
     }
 
     if ( model.waterScene ) {
-      let waterDropOptions = { initialOutputLevel: 1.5 };
+      const waterDropOptions = { initialOutputLevel: 1.5 };
       const waterDropSoundClip0 = new SoundClip( waterDropSound0, waterDropOptions );
       const waterDropSoundClip1 = new SoundClip( waterDropSound1, waterDropOptions );
       const waterDropSoundClip2 = new SoundClip( waterDropSound2, waterDropOptions );
