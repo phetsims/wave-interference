@@ -9,14 +9,9 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Shape from '../../../../kite/js/Shape.js';
-import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
-import atonalSound from '../../../sounds/fan-loop_wav.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
@@ -24,44 +19,10 @@ import DashedLineNode from './DashedLineNode.js';
 import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-// sounds
-// const sineSound = require( 'sound!TAMBO/ethereal-flute-for-meter-loop.mp3' );
-
-// sounds
-// const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/ethereal-flute-for-meter-loop.mp3' );
-// const organ2Sound = require( 'sound!WAVE_INTERFERENCE/organ-v2-for-meter-loop.mp3' );
-// const organSound = require( 'sound!WAVE_INTERFERENCE/organ-for-meter-loop.mp3' );
-// const sineSound = require( 'sound!TAMBO/220hz-saturated-sine-loop.mp3' );
-// const sineSound2 = require( 'sound!WAVE_INTERFERENCE/220hz-saturated-sine-playback-rate-75.mp3' );
-// const stringSound1 = require( 'sound!TAMBO/strings-loop-middle-c-oscilloscope.mp3' );
-// const windSound1 = require( 'sound!TAMBO/winds-loop-middle-c-oscilloscope.mp3' );
-// const windSound2 = require( 'sound!TAMBO/winds-loop-c3-oscilloscope.mp3' );
-// const windyTone4 = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop-rate-75-pitch-matched-fixed.mp3' );
-// const windyToneSound = require( 'sound!WAVE_INTERFERENCE/windy-tone-for-meter-loop.mp3' );
-
-// const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-pitch-fall.mp3' );
-// const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/shepherds-tone-loop-single-notes.mp3' );
-// const etherealFluteSound = require( 'sound!WAVE_INTERFERENCE/melodic-graph-falling-tones-001.mp3' );
-// const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/melodic-graph-falling-tones-001-fade1.mp3' );
-// const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/oceanwave.mp3' );
-// const melodicGraphFallingTones = require( 'sound!WAVE_INTERFERENCE/noise-single.mp3' );
-
-// const atonalSound = require( 'sound!WAVE_INTERFERENCE/ocean-wave-loop.wav' );
-// const atonalSound = require( 'sound!WAVE_INTERFERENCE/rain-loop.wav' );
-// const atonalSound = require( 'sound!WAVE_INTERFERENCE/shhhh-loop.wav' );
-
-// const sounds = [ sineSound2, windyTone4, stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
-// const selectedSound=windyTone4;
-// const selectedSound=stringSound1;
-// const selectedSound=windSound1;
-// const selectedSound=etherealFluteSound;// several votes!  :)  EM says it is a bit harsh,
-// const selectedSound=organSound;
-
 // constants
 const TEXT_MARGIN_X = 8;
 const TEXT_MARGIN_Y = 6;
 const getWaterSideShape = WaveInterferenceUtils.getWaterSideShape;
-const SONIFICATION = false;
 
 // Curve radius for the roundings on corners and tabs
 const RADIUS = 5;
@@ -268,65 +229,6 @@ class WaveAreaGraphNode extends Node {
     model.sceneProperty.link( updateShape );
 
     this.mutate( options );
-
-    const melodicClips = [];
-
-    model.stepEmitter.addListener( () => {
-      melodicClips.forEach( soundClip => {
-        const value = model.sceneProperty.value.oscillator1Property.value;
-        const z = Utils.linear( -10, 10, 200, 750, value );
-        soundClip.lowPassFilter.frequency.setValueAtTime( z, phetAudioContext.currentTime + 0.01 );
-        const elapsedTime = Date.now() - soundClip.startTime;
-        let outputLevel = Utils.linear( 0, 5000, 6.66, 0, elapsedTime );
-        // console.log( outputLevel );
-        if ( outputLevel < 0 ) {
-          outputLevel = 0;
-        }
-        soundClip.setOutputLevel( outputLevel, 0 );
-      } );
-    } );
-
-    // When a water drop is absorbed, play a water drop sound.
-    if ( model.waterScene ) {
-      model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
-
-        const lowPassFilter = phetAudioContext.createBiquadFilter();
-        lowPassFilter.type = 'lowpass';
-        lowPassFilter.frequency.setValueAtTime( 200, 0 ); // The cutoff frequency.
-        lowPassFilter.Q.setValueAtTime( 10, 0 ); // Indicates how peaked the frequency is around the cutoff. The greater the value is, the greater is the peak.
-
-        const bandpassFilter = phetAudioContext.createBiquadFilter();
-        bandpassFilter.type = 'bandpass';
-        bandpassFilter.frequency.setValueAtTime( 700, phetAudioContext.currentTime ); // The center of the range of frequencies.
-        bandpassFilter.frequency.linearRampToValueAtTime( 400, phetAudioContext.currentTime + 4 ); // The center of the range of frequencies.
-        bandpassFilter.Q.setValueAtTime( 4, 0 ); // Controls the width of the frequency band. The greater the Q value, the smaller the frequency band.
-
-        if ( SONIFICATION ) { // TODO: https://github.com/phetsims/wave-interference/issues/465 will this be deleted?
-          const soundClip = new SoundClip( atonalSound, {
-            initialOutputLevel: 2,
-            // additionalNodes: [ lowPassFilter ]
-            additionalNodes: [ bandpassFilter ]
-          } );
-          soundManager.addSoundGenerator( soundClip, {
-            associatedViewNode: this
-          } );
-
-          soundClip.play();
-          soundClip.startTime = Date.now();
-          soundClip.lowPassFilter = lowPassFilter;
-          melodicClips.push( soundClip );
-
-          // TODO: can this use const?
-          const listener = isPlaying => {
-            if ( !isPlaying ) {
-              soundClip.isPlayingProperty.unlink( listener );
-              arrayRemove( melodicClips, soundClip );
-            }
-          };
-          soundClip.isPlayingProperty.lazyLink( listener );
-        }
-      } );
-    }
   }
 }
 
