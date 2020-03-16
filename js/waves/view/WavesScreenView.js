@@ -102,9 +102,8 @@ class WavesScreenView extends ScreenView {
     }, options );
     super();
 
-    const soundClipOptions = {
-      initialOutputLevel: 0.8
-    };
+    // Sounds for grab and release
+    const soundClipOptions = { initialOutputLevel: 0.8 };
     const grabSound = new SoundClip( commonGrabSoundInfo, soundClipOptions );
     soundManager.addSoundGenerator( grabSound, { categoryName: 'user-interface' } );
 

@@ -32,6 +32,7 @@ import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Lattice from './Lattice.js';
 import TemporalMask from './TemporalMask.js';
 
+// Plays a sound when the wave generator button is pressed (unless another sound would be started or stopped)
 const waveGeneratorSoundClip = new SoundClip( buttonSound, {
   initialOutputLevel: 5.33
 } );

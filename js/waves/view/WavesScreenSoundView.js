@@ -55,10 +55,11 @@ class WavesScreenSoundView {
     }
 
     if ( model.waterScene ) {
-      const waterDropSoundClip0 = new SoundClip( waterDropSound0, { initialOutputLevel: 1.5 } );
-      const waterDropSoundClip1 = new SoundClip( waterDropSound1, { initialOutputLevel: 1.5 } );
-      const waterDropSoundClip2 = new SoundClip( waterDropSound2, { initialOutputLevel: 1.5 } );
-      const waterDropSoundClip3 = new SoundClip( waterDropSound3, { initialOutputLevel: 1.5 } );
+      let waterDropOptions = { initialOutputLevel: 1.5 };
+      const waterDropSoundClip0 = new SoundClip( waterDropSound0, waterDropOptions );
+      const waterDropSoundClip1 = new SoundClip( waterDropSound1, waterDropOptions );
+      const waterDropSoundClip2 = new SoundClip( waterDropSound2, waterDropOptions );
+      const waterDropSoundClip3 = new SoundClip( waterDropSound3, waterDropOptions );
       soundManager.addSoundGenerator( waterDropSoundClip0 );
       soundManager.addSoundGenerator( waterDropSoundClip1 );
       soundManager.addSoundGenerator( waterDropSoundClip2 );
@@ -96,13 +97,13 @@ class WavesScreenSoundView {
     }
 
     if ( model.soundScene ) {
-      const speakerPulseSoundClip = new SoundClip( speakerPulseSound, {
+      const speakerMembraneSoundClip = new SoundClip( speakerPulseSound, {
 
         // The sound repeats, so the waveform should not be clipped
         trimSilence: false,
-        initialOutputLevel: 0
+        initialOutputLevel: 0 // The speaker pulse plays when the speaker membrane oscillates.  The outputLevel is set below.
       } );
-      soundManager.addSoundGenerator( speakerPulseSoundClip );
+      soundManager.addSoundGenerator( speakerMembraneSoundClip );
 
       // When the wave generator completes a full cycle (passing from positive to negative), restart the speaker
       // clip at the corresponding volume and frequency.  Note this means if the frequency or volume changes, the
@@ -116,7 +117,7 @@ class WavesScreenSoundView {
       ], ( oscillatorValue, isTonePlaying, ducking ) => {
         if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
           const maxVolume = isTonePlaying ? 0.266 : 1.33;
-          const amplitude = Utils.linear(
+          const outputLevel = Utils.linear(
             model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
             0.0, maxVolume, model.soundScene.amplitudeProperty.value
           );
@@ -124,9 +125,9 @@ class WavesScreenSoundView {
             model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
             1, 1.4, model.soundScene.frequencyProperty.value
           );
-          speakerPulseSoundClip.setOutputLevel( amplitude * ducking, 0.2 ); // Time constant must work for amplitude changes and ducking
-          speakerPulseSoundClip.setPlaybackRate( playbackRate / 2 );
-          speakerPulseSoundClip.play();
+          speakerMembraneSoundClip.setOutputLevel( outputLevel * ducking, 0.2 ); // Time constant must work for amplitude changes and ducking
+          speakerMembraneSoundClip.setPlaybackRate( playbackRate / 2 );
+          speakerMembraneSoundClip.play();
         }
 
         previousOscillatorValue = oscillatorValue;
@@ -149,6 +150,8 @@ class WavesScreenSoundView {
       const lightAmplitudeProperty = model.lightScene.amplitudeProperty;
       const lightFrequencyProperty = model.lightScene.frequencyProperty;
       Property.multilink( [ lightAmplitudeProperty, lightFrequencyProperty, view.waveMeterNode.duckingProperty ], ( amplitude, frequency, ducking ) => {
+
+        // Sound for "Sound Effect" on the light scene.
         const outputLevel = Utils.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
           0.0, 2.66, amplitude );
         const playbackRate = Utils.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,

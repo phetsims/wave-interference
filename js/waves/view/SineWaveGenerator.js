@@ -13,16 +13,12 @@ import soundConstants from '../../../../tambo/js/soundConstants.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
 
-// constants
-const MAX_OUTPUT_LEVEL = 0.5; // valid range is from 0 to 1
-
-// function to map amplitude to output level
-// TODO: Ashton - set output level to mix well with other sounds
+// For the sound scene, map the amplitude to the output level for the "Play Tone"
 const mapAmplitudeToOutputLevel = new LinearFunction(
   WaveInterferenceConstants.AMPLITUDE_RANGE.min,
   WaveInterferenceConstants.AMPLITUDE_RANGE.max,
   0,
-  MAX_OUTPUT_LEVEL
+  0.5 // Max output level
 );
 
 class SineWaveGenerator extends SoundGenerator {
@@ -34,7 +30,7 @@ class SineWaveGenerator extends SoundGenerator {
    */
   constructor( frequencyProperty, amplitudeProperty, options ) {
     options = merge( {
-      initialOutputLevel: 0,
+      initialOutputLevel: 0, // Starts silent, see elsewhere in this file for where the outputLevel is set as a function of amplitude
       oscillatorType: 'sine'
     }, options );
     super( options );

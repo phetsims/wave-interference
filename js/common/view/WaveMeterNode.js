@@ -43,12 +43,12 @@ import windyTone4 from '../../../sounds/windy-tone-for-meter-loop-rate-75-pitch-
 import windyToneSound from '../../../sounds/windy-tone-for-meter-loop_mp3.js';
 import waveInterferenceStrings from '../../wave-interference-strings.js';
 import waveInterference from '../../waveInterference.js';
+import getWaveMeterNodeOutputLevel from './getWaveMeterNodeOutputLevel.js';
 import SceneToggleNode from './SceneToggleNode.js';
-import toOutputLevel from './toOutputLevel.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 import WaveMeterProbeNode from './WaveMeterProbeNode.js';
 
-isHMR && module.hot.accept( './toOutputLevel.js', () => {} );
+isHMR && module.hot.accept( './getWaveMeterNodeOutputLevel.js', () => {} );
 
 const timeString = waveInterferenceStrings.time;
 
@@ -242,15 +242,14 @@ class WaveMeterNode extends Node {
               soundManager.addSoundGenerator( soundClip, { associatedViewNode: this } );
             }
 
-            const outputLevel = toOutputLevel( value );
+            const outputLevel = getWaveMeterNodeOutputLevel( value );
+
+            // "Play Tone" takes precedence over the wave meter node sounds, because it is meant to be used briefly
+            const duckFactor = ( model.sceneProperty.value === model.soundScene && model.soundScene.isTonePlayingProperty.value ) ? 0.2 : 1;
 
             // Set the main volume.  If the sound clip wasn't playing, set the sound immediately to correct an audio
             // blip when the probe enters the play area.  If the sound clip was playing, use a longer time constant
             // to eliminate clipping, scratching sounds when dragging the probes quickly
-            soundClip.setOutputLevel( model.isRunningProperty.value ? outputLevel * volumeProperty.value : 0, soundClip.isPlaying ? 0.03 : 0.0 );
-
-            // "Play Tone" takes precedence over the wave meter node sounds, because it is meant to be used briefly
-            const duckFactor = ( model.sceneProperty.value === model.soundScene && model.soundScene.isTonePlayingProperty.value ) ? 0.2 : 1;
             soundClip.setOutputLevel( duckFactor * ( model.isRunningProperty.value ? outputLevel * volumeProperty.value : 0 ), soundClip.isPlaying ? 0.03 : 0.0 );
 
             // Work around a bug in Tambo that results in audio played even when outputLevel is 0.0

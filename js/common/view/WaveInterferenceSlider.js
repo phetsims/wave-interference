@@ -41,6 +41,7 @@ class WaveInterferenceSlider extends HSlider {
 
     const maxTickIndex = ( options && options.maxTickIndex ) ? options.maxTickIndex : 10;
 
+    // Sound for the wave slider clicks
     const addSoundOptions = { categoryName: 'user-interface' };
     const soundClipOptions = { initialOutputLevel: 0.2 };
 

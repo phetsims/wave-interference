@@ -10,20 +10,18 @@ import WaveInterferenceQueryParameters from '../WaveInterferenceQueryParameters.
  * @returns {number}
  * @author Sam Reid (PhET Interactive Simulations)
  */
-const toOutputLevel = value => {
+const getWaveMeterNodeOutputLevel = value => {
 
   // Linearize based on the sine value
   const clampedValue = Utils.clamp( value, -1.6, 1.6 );
   const normalized = Utils.linear( -1.6, 1.6, -1, 1, clampedValue );
 
-  // const outputLevel = normalized;
   const arcsin1 = Math.asin( normalized ); // between -pi/2 and +pi/2
   const arcsin1Mapped = Utils.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin1 );
   const arcsin2 = Math.asin( arcsin1Mapped );
   const arcsin2Mapped = Utils.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin2 );
 
   let outputLevel = Math.abs( arcsin2Mapped );
-  // console.log( outputLevel );
 
   if ( outputLevel < 0.05 ) {
     outputLevel = 0.05;
@@ -41,8 +39,6 @@ const toOutputLevel = value => {
     0.4, 1
   ], outputLevel );
 
-  // console.log(outputLevel);
-
   return outputLevel / 0.15 * WaveInterferenceQueryParameters.waveMeterNodeVolume;
 };
-export default toOutputLevel;
+export default getWaveMeterNodeOutputLevel;
