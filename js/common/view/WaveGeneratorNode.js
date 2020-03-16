@@ -17,8 +17,6 @@ import Scene from '../model/Scene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import DisturbanceTypeIconNode from './DisturbanceTypeIconNode.js';
 
-// sounds
-
 class WaveGeneratorNode extends Node {
 
   /**
