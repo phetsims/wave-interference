@@ -29,6 +29,18 @@ class LightScene extends Scene {
   }
 
   /**
+   * Don't play the wave generator button sound if another sound would be generated, or if another sound is ending due
+   * to the button press.
+   * @public
+   * @override
+   */
+  waveGeneratorButtonPressedSound() {
+    if ( !this.soundEffectEnabledProperty.value ) {
+      super.waveGeneratorButtonPressedSound();
+    }
+  }
+
+  /**
    * The wave area resets when the wavelength changes in the light scene
    * @protected
    */

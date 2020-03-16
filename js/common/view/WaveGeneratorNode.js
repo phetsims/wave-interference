@@ -9,9 +9,6 @@
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RoundStickyToggleButton from '../../../../sun/js/buttons/RoundStickyToggleButton.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
-import buttonSound from '../../../sounds/squishier-button-007_mp3.js';
 import waveInterference from '../../waveInterference.js';
 import Scene from '../model/Scene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
@@ -38,10 +35,12 @@ class WaveGeneratorNode extends Node {
       stroked: true
     } );
 
-    const soundClip = new SoundClip( buttonSound, {
-      initialOutputLevel: 5.33
-    } );
-    soundManager.addSoundGenerator( soundClip );
+    // Adapter to play the waveGeneratorButtonPressedSound for the scene.
+    const soundPlayer = {
+      play() {
+        scene.waveGeneratorButtonPressedSound();
+      }
+    };
 
     const buttonOptions = {
       centerY: sourceNode.centerY + buttonOffset,
@@ -50,7 +49,7 @@ class WaveGeneratorNode extends Node {
       content: pulseIcon,
       touchAreaDilation: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_TOUCH_AREA_DILATION,
       baseColor: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_COLOR,
-      soundPlayer: soundClip
+      soundPlayer: soundPlayer
     };
 
     const buttonPressedProperty = isPrimarySource ? scene.button1PressedProperty : scene.button2PressedProperty;

@@ -63,6 +63,17 @@ class SoundScene extends Scene {
   }
 
   /**
+   * The SoundScene always generates the speaker membrane sound, so no sound should be played when the wave generator
+   * button is pressed.
+   * @public
+   * @override
+   */
+  waveGeneratorButtonPressedSound() {
+
+    // no-op
+  }
+
+  /**
    * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
    * @param {number} dt - amount of time to move forward, in the units of the scene
    * @override

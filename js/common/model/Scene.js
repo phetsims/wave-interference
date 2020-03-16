@@ -23,11 +23,19 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
+import buttonSound from '../../../sounds/squishier-button-007_mp3.js';
 import waveInterferenceStrings from '../../wave-interference-strings.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Lattice from './Lattice.js';
 import TemporalMask from './TemporalMask.js';
+
+const waveGeneratorSoundClip = new SoundClip( buttonSound, {
+  initialOutputLevel: 5.33
+} );
+soundManager.addSoundGenerator( waveGeneratorSoundClip );
 
 const distanceUnitsString = waveInterferenceStrings.distanceUnits;
 const timeUnitsString = waveInterferenceStrings.timeUnits;
@@ -393,6 +401,15 @@ class Scene {
         }
       } );
     }
+  }
+
+  /**
+   * The user pressed the wave generator button. The default is to always play a sound, but this can be overridden
+   * for scenes than have their own sound generation.
+   * @public
+   */
+  waveGeneratorButtonPressedSound() {
+    waveGeneratorSoundClip.play();
   }
 
   /**
