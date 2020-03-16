@@ -347,7 +347,9 @@ class WaveMeterNode extends Node {
       if ( a || b ) {
         return 0.3;
       }
-      return 1;
+      else {
+        return 1;
+      }
     } );
 
     const verticalAxisTitleNode = new SceneToggleNode(

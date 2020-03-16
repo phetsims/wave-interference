@@ -125,6 +125,8 @@ class WavesScreenSoundView {
             model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
             1, 1.4, model.soundScene.frequencyProperty.value
           );
+
+          // Wave meter node takes precedence over the sound speaker membrane sound
           speakerMembraneSoundClip.setOutputLevel( outputLevel * ducking, 0.2 ); // Time constant must work for amplitude changes and ducking
           speakerMembraneSoundClip.setPlaybackRate( playbackRate / 2 );
           speakerMembraneSoundClip.play();
@@ -156,6 +158,8 @@ class WavesScreenSoundView {
           0.0, 2.66, amplitude );
         const playbackRate = Utils.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
           1, 1.8, frequency );
+
+        // Wave meter node takes precedence over the light beam sound effect
         lightBeamLoopSoundClip.setOutputLevel( outputLevel * ducking );
         lightBeamLoopSoundClip.setPlaybackRate( playbackRate );
       } );
