@@ -53,7 +53,9 @@ const WaveInterferenceConstants = {
       majorTickLength: MAJOR_TICK_LENGTH
     },
     numberDisplayOptions: {
-      font: new PhetFont( 13 ),
+      textOptions: {
+        font: new PhetFont( 13 )
+      },
       maxWidth: 60
     },
     titleNodeOptions: {
