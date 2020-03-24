@@ -116,8 +116,9 @@ class WavesScreenSoundView {
         view.waveMeterNode.duckingProperty
       ], ( oscillatorValue, isTonePlaying, ducking ) => {
         if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
-          const maxVolume = isTonePlaying ? 0.266 : 1.33;
+          const maxVolume = isTonePlaying ? 0.266 : 0.5;
           const outputLevel = Utils.linear(
+              // The tone takes precedence over the membrane sound, another level of ducking
             model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
             0.0, maxVolume, model.soundScene.amplitudeProperty.value
           );
@@ -155,7 +156,7 @@ class WavesScreenSoundView {
 
         // Sound for "Sound Effect" on the light scene.
         const outputLevel = Utils.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
-          0.0, 2.66, amplitude );
+          0.0, 2.5, amplitude );
         const playbackRate = Utils.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
           1, 1.8, frequency );
 

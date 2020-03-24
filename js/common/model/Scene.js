@@ -34,7 +34,7 @@ import TemporalMask from './TemporalMask.js';
 
 // Plays a sound when the wave generator button is pressed (unless another sound would be started or stopped)
 const waveGeneratorSoundClip = new SoundClip( buttonSound, {
-  initialOutputLevel: 0.8
+  initialOutputLevel: 0.3
 } );
 soundManager.addSoundGenerator( waveGeneratorSoundClip );
 

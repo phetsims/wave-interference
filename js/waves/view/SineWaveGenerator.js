@@ -18,7 +18,7 @@ const mapAmplitudeToOutputLevel = new LinearFunction(
   WaveInterferenceConstants.AMPLITUDE_RANGE.min,
   WaveInterferenceConstants.AMPLITUDE_RANGE.max,
   0,
-  0.5 // Max output level
+  0.3 // Max output level
 );
 
 class SineWaveGenerator extends SoundGenerator {

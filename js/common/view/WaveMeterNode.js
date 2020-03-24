@@ -317,8 +317,8 @@ class WaveMeterNode extends Node {
     const waveMeterSound1PlaybackRateProperty = new Property( 1 );
     const waveMeterSound2PlaybackRateProperty = new Property( 1.01 );
 
-    const waveMeterSound1VolumeProperty = new Property( 0.4 );
-    const waveMeterSound2VolumeProperty = new Property( 0.13 );
+    const waveMeterSound1VolumeProperty = new Property( 0.1 );
+    const waveMeterSound2VolumeProperty = new Property( 0.05 );
 
     const sounds1 = sounds.map( sound => {
       return new SoundClip( sound, {
