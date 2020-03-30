@@ -26,6 +26,9 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import buttonSound from '../../../sounds/squishier-button-007_mp3.js';
+import squisherButton005 from '../../../sounds/squishier-button-v3-005_mp3.js';
+import squisherButton007 from '../../../sounds/squishier-button-v3-007_mp3.js';
+import squisherButton008 from '../../../sounds/squishier-button-v3-008_mp3.js';
 import waveInterferenceStrings from '../../wave-interference-strings.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
@@ -33,10 +36,21 @@ import Lattice from './Lattice.js';
 import TemporalMask from './TemporalMask.js';
 
 // Plays a sound when the wave generator button is pressed (unless another sound would be started or stopped)
-const waveGeneratorSoundClip = new SoundClip( buttonSound, {
-  initialOutputLevel: 0.3
-} );
-soundManager.addSoundGenerator( waveGeneratorSoundClip );
+const waveGeneratorSoundClips = [
+  new SoundClip( buttonSound, {
+    initialOutputLevel: 0.3
+  } ),
+  new SoundClip( squisherButton005, {
+    initialOutputLevel: 0.3
+  } ),
+  new SoundClip( squisherButton007, {
+    initialOutputLevel: 0.3
+  } ),
+  new SoundClip( squisherButton008, {
+    initialOutputLevel: 0.3
+  } )
+];
+waveGeneratorSoundClips.forEach( soundClip => { soundManager.addSoundGenerator( soundClip ); } );
 
 const distanceUnitsString = waveInterferenceStrings.distanceUnits;
 const timeUnitsString = waveInterferenceStrings.timeUnits;
@@ -410,7 +424,7 @@ class Scene {
    * @public
    */
   waveGeneratorButtonPressedSound() {
-    waveGeneratorSoundClip.play();
+    waveGeneratorSoundClips[ window.phet.wavesIntro.buttonSoundSelectionProperty.value ].play();
   }
 
   /**
