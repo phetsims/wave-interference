@@ -35,10 +35,12 @@ class WaveGeneratorNode extends Node {
       stroked: true
     } );
 
-    // Adapter to play the waveGeneratorButtonPressedSound for the scene.
+    const buttonPressedProperty = isPrimarySource ? scene.button1PressedProperty : scene.button2PressedProperty;
+
+    // Adapter to play the waveGeneratorButtonSound for the scene.
     const soundPlayer = {
       play() {
-        scene.waveGeneratorButtonPressedSound();
+        scene.waveGeneratorButtonSound( buttonPressedProperty.value );
       }
     };
 
@@ -51,8 +53,6 @@ class WaveGeneratorNode extends Node {
       baseColor: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_COLOR,
       soundPlayer: soundPlayer
     };
-
-    const buttonPressedProperty = isPrimarySource ? scene.button1PressedProperty : scene.button2PressedProperty;
 
     const button = new RoundStickyToggleButton(
       false,

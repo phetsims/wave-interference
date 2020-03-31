@@ -36,21 +36,17 @@ import Lattice from './Lattice.js';
 import TemporalMask from './TemporalMask.js';
 
 // Plays a sound when the wave generator button is pressed (unless another sound would be started or stopped)
-const waveGeneratorSoundClips = [
-  new SoundClip( buttonSound, {
-    initialOutputLevel: 0.3
-  } ),
-  new SoundClip( squisherButton005, {
-    initialOutputLevel: 0.3
-  } ),
-  new SoundClip( squisherButton007, {
-    initialOutputLevel: 0.3
-  } ),
-  new SoundClip( squisherButton008, {
-    initialOutputLevel: 0.3
-  } )
+const BUTTON_SOUND_OPTIONS = {
+  initialOutputLevel: 0.3,
+  rateChangesAffectPlayingSounds: false
+};
+const WAVE_GENERATOR_SOUND_CLIPS = [
+  new SoundClip( buttonSound, BUTTON_SOUND_OPTIONS ),
+  new SoundClip( squisherButton005, BUTTON_SOUND_OPTIONS ),
+  new SoundClip( squisherButton007, BUTTON_SOUND_OPTIONS ),
+  new SoundClip( squisherButton008, BUTTON_SOUND_OPTIONS )
 ];
-waveGeneratorSoundClips.forEach( soundClip => { soundManager.addSoundGenerator( soundClip ); } );
+WAVE_GENERATOR_SOUND_CLIPS.forEach( soundClip => { soundManager.addSoundGenerator( soundClip ); } );
 
 const distanceUnitsString = waveInterferenceStrings.distanceUnits;
 const timeUnitsString = waveInterferenceStrings.timeUnits;
@@ -421,10 +417,17 @@ class Scene {
   /**
    * The user pressed the wave generator button. The default is to always play a sound, but this can be overridden
    * for scenes than have their own sound generation.
+   * @param {boolean} [pressed] - true if button pressed, false if released
    * @public
    */
-  waveGeneratorButtonPressedSound() {
-    waveGeneratorSoundClips[ window.phet.wavesIntro.buttonSoundSelectionProperty.value ].play();
+  waveGeneratorButtonSound( pressed = true ) {
+    const clipIndex = window.phet.wavesIntro ?
+                      window.phet.wavesIntro.buttonSoundSelectionProperty.value :
+                      0;
+    const soundClip = WAVE_GENERATOR_SOUND_CLIPS[ clipIndex ];
+    const playbackRate = pressed ? 1 : 0.89089871813;  // one whole step lower for the released sound
+    soundClip.setPlaybackRate( playbackRate );
+    soundClip.play();
   }
 
   /**

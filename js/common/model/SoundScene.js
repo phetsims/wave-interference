@@ -68,7 +68,7 @@ class SoundScene extends Scene {
    * @public
    * @override
    */
-  waveGeneratorButtonPressedSound() {
+  waveGeneratorButtonSound( pressed ) {
 
     // no-op
   }

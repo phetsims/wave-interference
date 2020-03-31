@@ -34,9 +34,9 @@ class LightScene extends Scene {
    * @public
    * @override
    */
-  waveGeneratorButtonPressedSound() {
+  waveGeneratorButtonSound( pressed ) {
     if ( !this.soundEffectEnabledProperty.value ) {
-      super.waveGeneratorButtonPressedSound();
+      super.waveGeneratorButtonSound( this.button1PressedProperty.value );
     }
   }
 
