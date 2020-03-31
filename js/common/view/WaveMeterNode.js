@@ -41,7 +41,7 @@ import organSound from '../../../sounds/organ-for-meter-loop_mp3.js';
 import organ2Sound from '../../../sounds/organ-v2-for-meter-loop_mp3.js';
 import windyTone4 from '../../../sounds/windy-tone-for-meter-loop-rate-75-pitch-matched-fixed_mp3.js';
 import windyToneSound from '../../../sounds/windy-tone-for-meter-loop_mp3.js';
-import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 import getWaveMeterNodeOutputLevel from './getWaveMeterNodeOutputLevel.js';
 import SceneToggleNode from './SceneToggleNode.js';

@@ -15,7 +15,7 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import sliderDecreaseClickSound from '../../../sounds/slider-click-v2-left_mp3.js';
 import sliderIncreaseClickSound from '../../../sounds/slider-click-v2-right_mp3.js';
-import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';

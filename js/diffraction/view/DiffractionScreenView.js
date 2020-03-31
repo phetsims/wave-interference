@@ -30,7 +30,7 @@ import wavingGirlIconImage from '../../../images/waving_girl_icon_png.js';
 import LengthScaleIndicatorNode from '../../common/view/LengthScaleIndicatorNode.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 import CircleSquareSceneControlPanel from './CircleSquareSceneControlPanel.js';
 import DisorderSceneControlPanel from './DisorderSceneControlPanel.js';

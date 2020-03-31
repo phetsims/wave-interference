@@ -14,7 +14,7 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Easing from '../../../../twixt/js/Easing.js';
-import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 

@@ -29,7 +29,7 @@ import buttonSound from '../../../sounds/squishier-button-007_mp3.js';
 import squisherButton005 from '../../../sounds/squishier-button-v3-005_mp3.js';
 import squisherButton007 from '../../../sounds/squishier-button-v3-007_mp3.js';
 import squisherButton008 from '../../../sounds/squishier-button-v3-008_mp3.js';
-import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Lattice from './Lattice.js';

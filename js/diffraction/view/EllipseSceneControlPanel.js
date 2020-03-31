@@ -10,7 +10,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 

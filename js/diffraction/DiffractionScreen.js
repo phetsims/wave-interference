@@ -10,7 +10,7 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import diffractionScreenIcon from '../../images/diffraction_screen_icon_png.js';
-import waveInterferenceStrings from '../wave-interference-strings.js';
+import waveInterferenceStrings from '../waveInterferenceStrings.js';
 import waveInterference from '../waveInterference.js';
 import DiffractionModel from './model/DiffractionModel.js';
 import DiffractionScreenView from './view/DiffractionScreenView.js';

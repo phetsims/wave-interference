@@ -10,7 +10,7 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import slitsScreenIcon from '../../images/slits_screen_icon_png.js';
-import waveInterferenceStrings from '../wave-interference-strings.js';
+import waveInterferenceStrings from '../waveInterferenceStrings.js';
 import waveInterference from '../waveInterference.js';
 import SlitsModel from './model/SlitsModel.js';
 import SlitsScreenView from './view/SlitsScreenView.js';

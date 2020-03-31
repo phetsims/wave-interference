@@ -10,7 +10,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import platform from '../../../../phet-core/js/platform.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
-import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceQueryParameters from '../WaveInterferenceQueryParameters.js';

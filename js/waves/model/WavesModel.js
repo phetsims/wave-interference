@@ -29,7 +29,7 @@ import SoundScene from '../../common/model/SoundScene.js';
 import WaterScene from '../../common/model/WaterScene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
-import waveInterferenceStrings from '../../wave-interference-strings.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 
 const centimetersUnitsString = waveInterferenceStrings.centimetersUnits;

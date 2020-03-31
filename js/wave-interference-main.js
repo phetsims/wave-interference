@@ -13,7 +13,7 @@ import AlignGroup from '../../scenery/js/nodes/AlignGroup.js';
 import DiffractionScreen from './diffraction/DiffractionScreen.js';
 import InterferenceScreen from './interference/InterferenceScreen.js';
 import SlitsScreen from './slits/SlitsScreen.js';
-import waveInterferenceStrings from './wave-interference-strings.js';
+import waveInterferenceStrings from './waveInterferenceStrings.js';
 import WavesScreen from './waves/WavesScreen.js';
 
 const waveInterferenceTitleString = waveInterferenceStrings[ 'wave-interference' ].title;
