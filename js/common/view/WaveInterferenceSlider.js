@@ -14,6 +14,7 @@ import HSlider from '../../../../sun/js/HSlider.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import sliderDecreaseClickSound from '../../../sounds/slider-clicks-idea-c-example-left_mp3.js';
+import sliderBoundaryClickSound from '../../../sounds/slider-clicks-idea-c-boundary_mp3.js';
 import sliderIncreaseClickSound from '../../../sounds/slider-clicks-idea-c-example_mp3.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
@@ -52,6 +53,9 @@ class WaveInterferenceSlider extends HSlider {
     const sliderDecreaseClickSoundClip = new SoundClip( sliderDecreaseClickSound, soundClipOptions );
     soundManager.addSoundGenerator( sliderDecreaseClickSoundClip, addSoundOptions );
 
+    const sliderBoundaryClickSoundClip = new SoundClip( sliderBoundaryClickSound, soundClipOptions );
+    soundManager.addSoundGenerator( sliderBoundaryClickSoundClip, addSoundOptions );
+
     assert && assert( property.range, 'WaveInterferenceSlider.property requires range' );
     const min = property.range.min;
     const max = property.range.max;
@@ -80,7 +84,11 @@ class WaveInterferenceSlider extends HSlider {
 
         for ( let i = 0; i < ticks.length; i++ ) {
           const tick = ticks[ i ];
-          if ( lastValue < tick.value && value >= tick.value ) {
+          if ( lastValue !== value && ( value === property.range.min || value === property.range.max ) ) {
+            sliderBoundaryClickSoundClip.play();
+            break;
+          }
+          else if ( lastValue < tick.value && value >= tick.value ) {
             sliderIncreaseClickSoundClip.play();
             break;
           }
