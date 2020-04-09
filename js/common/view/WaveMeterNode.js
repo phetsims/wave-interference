@@ -119,7 +119,7 @@ class WaveMeterNode extends Node {
     this.resetEmitter = new Emitter();
 
     // These do not need to be disposed because there is no connection to the "outside world"
-    const leftBottomProperty = new NodeProperty( backgroundNode, 'bounds', 'leftBottom' );
+    const leftBottomProperty = new NodeProperty( backgroundNode, backgroundNode.boundsProperty, 'leftBottom' );
 
     // @public - emits when the WaveMeterNode has been dropped
     this.droppedEmitter = new Emitter();
@@ -192,7 +192,7 @@ class WaveMeterNode extends Node {
 
       // Add the wire behind the probe.
       this.addChild( new WireNode( connectionProperty, new Vector2Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
-        new NodeProperty( probeNode, 'bounds', 'centerBottom' ), new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
+        new NodeProperty( probeNode, probeNode.boundsProperty, 'centerBottom' ), new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
           lineWidth: WIRE_LINE_WIDTH,
           stroke: wireColor
         }
@@ -209,7 +209,7 @@ class WaveMeterNode extends Node {
         // Prevent the probes from going out of the visible bounds when tagging along with the dragged WaveMeterNode
         probeNode.translation = view.visibleBoundsProperty.value.closestPointTo( probeNode.translation );
       };
-      this.on( 'visibility', alignProbes );
+      this.visibleProperty.lazyLink( alignProbes );
       this.alignProbesEmitter.addListener( alignProbes );
 
       const dynamicSeries = new DynamicSeries( { color: color } );
@@ -292,7 +292,7 @@ class WaveMeterNode extends Node {
 
       // When the wave is paused and the user is dragging the entire MeterBodyNode with the probes aligned, they
       // need to sample their new locations.
-      probeNode.on( 'transform', updateSamples );
+      probeNode.transformEmitter.addListener( updateSamples );
 
       model.isRunningProperty.link( updateSamples );
 

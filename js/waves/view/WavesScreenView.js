@@ -410,7 +410,7 @@ class WavesScreenView extends ScreenView {
     updateToolboxPosition();
 
     // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.
-    toolboxPanel.on( 'bounds', updateToolboxPosition );
+    toolboxPanel.boundsProperty.lazyLink( updateToolboxPosition );
     this.addChild( toolboxPanel );
 
     // @protected {WaveInterferenceControlPanel} for subtype layout
@@ -427,7 +427,7 @@ class WavesScreenView extends ScreenView {
     updateControlPanelPosition();
 
     // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.
-    this.controlPanel.on( 'bounds', updateControlPanelPosition );
+    this.controlPanel.boundsProperty.lazyLink( updateControlPanelPosition );
     this.addChild( this.controlPanel );
 
     if ( options.showPulseContinuousRadioButtons ) {

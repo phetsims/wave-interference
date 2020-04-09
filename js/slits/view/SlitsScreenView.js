@@ -45,8 +45,8 @@ class SlitsScreenView extends WavesScreenView {
       } );
     };
     updateSlitControlPanel();
-    slitControlPanel.on( 'bounds', updateSlitControlPanel );
-    this.controlPanel.on( 'bounds', updateSlitControlPanel );
+    slitControlPanel.boundsProperty.lazyLink( updateSlitControlPanel );
+    this.controlPanel.boundsProperty.lazyLink( updateSlitControlPanel );
     this.addChild( slitControlPanel );
 
     // Make sure tools go in front of this control panel, see https://github.com/phetsims/wave-interference/issues/218
