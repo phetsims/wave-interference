@@ -92,7 +92,8 @@ class ToolboxPanel extends WaveInterferencePanel {
           measuringTapeIcon,
           stopwatchNodeIcon,
           waveMeterIcon
-        ]
+        ],
+        excludeInvisibleChildrenFromBounds: false
       } ) ), {
 
         // Panel options
