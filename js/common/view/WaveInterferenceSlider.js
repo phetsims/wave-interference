@@ -21,6 +21,7 @@ import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
 // constants
+const MIN_INTER_CLICK_TIME = 1 / 60 * 1000; // minimum time between click sounds, in milliseconds
 
 const maxString = waveInterferenceStrings.max;
 const minString = waveInterferenceStrings.min;
@@ -70,6 +71,9 @@ class WaveInterferenceSlider extends HSlider {
     // Keep track of the previous value on slider drag for playing sounds
     let lastValue = property.value;
 
+    // Keep track of the last time a sound was played so that we don't play too often
+    let timeOfLastClick = 0;
+
     options = merge( {
 
       // Ticks are created for all sliders for sonification, but not shown for the Light Frequency slider
@@ -85,7 +89,10 @@ class WaveInterferenceSlider extends HSlider {
             break;
           }
           else if ( lastValue < tick.value && value >= tick.value || lastValue > tick.value && value <= tick.value ) {
-            sliderClickSoundClip.play();
+            if ( phet.joist.elapsedTime - timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
+              sliderClickSoundClip.play();
+              timeOfLastClick = phet.joist.elapsedTime;
+            }
             break;
           }
         }
