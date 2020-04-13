@@ -13,9 +13,8 @@ import merge from '../../../../phet-core/js/merge.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import sliderDecreaseClickSound from '../../../sounds/slider-clicks-idea-c-example-left_mp3.js';
-import sliderBoundaryClickSound from '../../../sounds/slider-clicks-idea-c-boundary_mp3.js';
-import sliderIncreaseClickSound from '../../../sounds/slider-clicks-idea-c-example_mp3.js';
+import sliderBoundaryClickSound from '../../../sounds/slider-clicks-idea-c-lower-end-click_mp3.js';
+import sliderClickSound from '../../../sounds/slider-clicks-idea-c-example_mp3.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
@@ -47,11 +46,8 @@ class WaveInterferenceSlider extends HSlider {
     const soundClipOptions = { initialOutputLevel: 0.2 };
 
     // add sound generators that will play a sound when the value controlled by the slider changes
-    const sliderIncreaseClickSoundClip = new SoundClip( sliderIncreaseClickSound, soundClipOptions );
-    soundManager.addSoundGenerator( sliderIncreaseClickSoundClip, addSoundOptions );
-
-    const sliderDecreaseClickSoundClip = new SoundClip( sliderDecreaseClickSound, soundClipOptions );
-    soundManager.addSoundGenerator( sliderDecreaseClickSoundClip, addSoundOptions );
+    const sliderClickSoundClip = new SoundClip( sliderClickSound, soundClipOptions );
+    soundManager.addSoundGenerator( sliderClickSoundClip, addSoundOptions );
 
     const sliderBoundaryClickSoundClip = new SoundClip( sliderBoundaryClickSound, soundClipOptions );
     soundManager.addSoundGenerator( sliderBoundaryClickSoundClip, addSoundOptions );
@@ -88,12 +84,8 @@ class WaveInterferenceSlider extends HSlider {
             sliderBoundaryClickSoundClip.play();
             break;
           }
-          else if ( lastValue < tick.value && value >= tick.value ) {
-            sliderIncreaseClickSoundClip.play();
-            break;
-          }
-          else if ( lastValue > tick.value && value <= tick.value ) {
-            sliderDecreaseClickSoundClip.play();
+          else if ( lastValue < tick.value && value >= tick.value || lastValue > tick.value && value <= tick.value ) {
+            sliderClickSoundClip.play();
             break;
           }
         }
