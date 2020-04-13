@@ -25,28 +25,19 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import buttonSound from '../../../sounds/squishier-button-007_mp3.js';
-import squisherButton005 from '../../../sounds/squishier-button-v3-005_mp3.js';
-import squisherButton007 from '../../../sounds/squishier-button-v3-007_mp3.js';
-import squisherButton008 from '../../../sounds/squishier-button-v3-008_mp3.js';
+import buttonSoundInfo from '../../../sounds/squishier-button-v3-007_mp3.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Lattice from './Lattice.js';
 import TemporalMask from './TemporalMask.js';
 
-// Plays a sound when the wave generator button is pressed (unless another sound would be started or stopped)
-const BUTTON_SOUND_OPTIONS = {
+// sound clip to use for the wave generator button
+const WAVE_GENERATOR_BUTTON_SOUND_CLIP = new SoundClip( buttonSoundInfo, {
   initialOutputLevel: 0.3,
   rateChangesAffectPlayingSounds: false
-};
-const WAVE_GENERATOR_SOUND_CLIPS = [
-  new SoundClip( buttonSound, BUTTON_SOUND_OPTIONS ),
-  new SoundClip( squisherButton005, BUTTON_SOUND_OPTIONS ),
-  new SoundClip( squisherButton007, BUTTON_SOUND_OPTIONS ),
-  new SoundClip( squisherButton008, BUTTON_SOUND_OPTIONS )
-];
-WAVE_GENERATOR_SOUND_CLIPS.forEach( soundClip => { soundManager.addSoundGenerator( soundClip ); } );
+} );
+soundManager.addSoundGenerator( WAVE_GENERATOR_BUTTON_SOUND_CLIP );
 
 const distanceUnitsString = waveInterferenceStrings.distanceUnits;
 const timeUnitsString = waveInterferenceStrings.timeUnits;
@@ -421,13 +412,9 @@ class Scene {
    * @public
    */
   waveGeneratorButtonSound( pressed = true ) {
-    const clipIndex = window.phet.wavesIntro ?
-                      window.phet.wavesIntro.buttonSoundSelectionProperty.value :
-                      0;
-    const soundClip = WAVE_GENERATOR_SOUND_CLIPS[ clipIndex ];
-    const playbackRate = pressed ? 1 : 0.89089871813;  // one whole step lower for the released sound
-    soundClip.setPlaybackRate( playbackRate );
-    soundClip.play();
+    const playbackRate = pressed ? 1 : 0.891;  // one whole step lower for the released sound
+    WAVE_GENERATOR_BUTTON_SOUND_CLIP.setPlaybackRate( playbackRate );
+    WAVE_GENERATOR_BUTTON_SOUND_CLIP.play();
   }
 
   /**
