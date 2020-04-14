@@ -118,7 +118,7 @@ class WavesScreenSoundView {
         if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
           const maxVolume = isTonePlaying ? 0.266 : 0.5;
           const outputLevel = Utils.linear(
-              // The tone takes precedence over the membrane sound, another level of ducking
+            // The tone takes precedence over the membrane sound, another level of ducking
             model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
             0.0, maxVolume, model.soundScene.amplitudeProperty.value
           );
@@ -143,8 +143,8 @@ class WavesScreenSoundView {
         loop: true
       } );
 
-      // TODO: @jbphet: the following line cuts the audio by about half when used instead of using the multilink
-      // TODO: below also note when I added associatedViewNode: view this also cut the volume approximately in half
+      // TODO: the following line was causing odd audio volume behavior, but this should now be addressed.  @samreid -
+      // TODO: please try using it again, and report findings in https://github.com/phetsims/tambo/issues/74.
       // lightBeamLoopSoundClip.addEnableControlProperty( model.lightScene.soundEffectEnabledProperty );
       soundManager.addSoundGenerator( lightBeamLoopSoundClip, {
         associatedViewNode: view
