@@ -156,7 +156,7 @@ class WavesScreenSoundView {
 
         // Sound for "Sound Effect" on the light scene.
         const outputLevel = Utils.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
-          0.0, 2.5, amplitude );
+          0.0, 0.67, amplitude );
         const playbackRate = Utils.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
           1, 1.8, frequency );
 
