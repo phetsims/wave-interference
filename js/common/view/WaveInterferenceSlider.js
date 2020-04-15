@@ -88,12 +88,10 @@ class WaveInterferenceSlider extends HSlider {
 
           // Generate a sound once per event from alternative input, but wait for the event to complete so we can know
           // the final property value
+
           timer.setTimeout( () => {
 
-            if ( event && event.domEvent &&
-                 ( event.domEvent.code === 'ArrowRight' && value >= property.range.max - 1E-6 ||
-                   event.domEvent.code === 'ArrowLeft' && value <= property.range.min + 1E-6 )
-            ) {
+            if ( Math.abs( value - property.value ) <= 1E-6 ) {
               sliderBoundaryClickSoundClip.play();
             }
             else {
