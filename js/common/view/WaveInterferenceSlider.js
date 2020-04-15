@@ -91,6 +91,7 @@ class WaveInterferenceSlider extends HSlider {
 
           timer.setTimeout( () => {
 
+            // Also account for roundoff error, since 0.99999 seems like close enough to the end of the input.
             if ( Math.abs( value - property.value ) <= 1E-6 ) {
               sliderBoundaryClickSoundClip.play();
             }
