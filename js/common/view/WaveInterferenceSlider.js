@@ -7,16 +7,17 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import timer from '../../../../axon/js/timer.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import sliderBoundaryClickSound from '../../../sounds/slider-clicks-idea-c-lower-end-click_mp3.js';
 import sliderClickSound from '../../../sounds/slider-clicks-idea-c-example_mp3.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import sliderBoundaryClickSound from '../../../sounds/slider-clicks-idea-c-lower-end-click_mp3.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
@@ -80,20 +81,42 @@ class WaveInterferenceSlider extends HSlider {
       showTicks: true,
 
       drag: event => {
+
         const value = property.value;
 
-        for ( let i = 0; i < ticks.length; i++ ) {
-          const tick = ticks[ i ];
-          if ( lastValue !== value && ( value === property.range.min || value === property.range.max ) ) {
-            sliderBoundaryClickSoundClip.play();
-            break;
-          }
-          else if ( lastValue < tick.value && value >= tick.value || lastValue > tick.value && value <= tick.value ) {
-            if ( phet.joist.elapsedTime - timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
-              sliderClickSoundClip.play();
-              timeOfLastClick = phet.joist.elapsedTime;
+        if ( event.isFromPDOM() ) {
+
+          // Generate a sound once per event from alternative input, but wait for the event to complete so we can know
+          // the final property value
+          timer.setTimeout( () => {
+
+            if ( event && event.domEvent &&
+                 ( event.domEvent.code === 'ArrowRight' && value >= property.range.max - 1E-6 ||
+                   event.domEvent.code === 'ArrowLeft' && value <= property.range.min + 1E-6 )
+            ) {
+              sliderBoundaryClickSoundClip.play();
             }
-            break;
+            else {
+              sliderClickSoundClip.play();
+            }
+          }, 0 );
+        }
+        else {
+
+          // handle the sound as desired for mouse/touch style input
+          for ( let i = 0; i < ticks.length; i++ ) {
+            const tick = ticks[ i ];
+            if ( lastValue !== value && ( value === property.range.min || value === property.range.max ) ) {
+              sliderBoundaryClickSoundClip.play();
+              break;
+            }
+            else if ( lastValue < tick.value && value >= tick.value || lastValue > tick.value && value <= tick.value ) {
+              if ( phet.joist.elapsedTime - timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
+                sliderClickSoundClip.play();
+                timeOfLastClick = phet.joist.elapsedTime;
+              }
+              break;
+            }
           }
         }
 
