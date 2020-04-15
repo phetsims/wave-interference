@@ -71,14 +71,6 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris"
   },
-  "windy-tone-for-meter-loop.mp3": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris"
-  },
   "organ-for-meter-loop.mp3": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
@@ -135,9 +127,9 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris"
   },
-  "windy-tone-for-meter-loop-rate-75-pitch-matched-fixed.mp3": {
+  "windy-tone-for-meter-loop-rate-75-pitch-matched-fixed-less-high-end.mp3": {
     "text": [
-      "Copyright 2019 University of Colorado Boulder"
+      "Copyright 2020 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",

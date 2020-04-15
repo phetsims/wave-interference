@@ -31,18 +31,10 @@ import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import sineSound from '../../../../tambo/sounds/220hz-saturated-sine-loop_mp3.js';
-import stringSound1 from '../../../../tambo/sounds/strings-loop-middle-c-oscilloscope_mp3.js';
-import windSound2 from '../../../../tambo/sounds/winds-loop-c3-oscilloscope_mp3.js';
-import windSound1 from '../../../../tambo/sounds/winds-loop-middle-c-oscilloscope_mp3.js';
 import sineSound2 from '../../../sounds/220hz-saturated-sine-playback-rate-75_mp3.js';
-import etherealFluteSound from '../../../sounds/ethereal-flute-for-meter-loop_mp3.js';
-import organSound from '../../../sounds/organ-for-meter-loop_mp3.js';
-import organ2Sound from '../../../sounds/organ-v2-for-meter-loop_mp3.js';
-import windyTone4 from '../../../sounds/windy-tone-for-meter-loop-rate-75-pitch-matched-fixed_mp3.js';
-import windyToneSound from '../../../sounds/windy-tone-for-meter-loop_mp3.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import windyTone from '../../../sounds/windy-tone-for-meter-loop-rate-75-pitch-matched-fixed-less-high-end_mp3.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import getWaveMeterNodeOutputLevel from './getWaveMeterNodeOutputLevel.js';
 import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
@@ -55,7 +47,7 @@ const timeString = waveInterferenceStrings.time;
 // sounds
 // TODO: remove unused sounds
 
-const sounds = [ sineSound2, windyTone4, stringSound1, sineSound, windSound1, windSound2, etherealFluteSound, organ2Sound, organSound, windyToneSound ];
+const sounds = [ windyTone, sineSound2 ];
 
 // constants
 const SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
