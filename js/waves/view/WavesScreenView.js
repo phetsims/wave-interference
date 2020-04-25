@@ -18,6 +18,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import platform from '../../../../phet-core/js/platform.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
+import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -43,7 +44,6 @@ import SceneToggleNode from '../../common/view/SceneToggleNode.js';
 import SoundParticleCanvasLayer from '../../common/view/SoundParticleCanvasLayer.js';
 import SoundParticleImageLayer from '../../common/view/SoundParticleImageLayer.js';
 import SoundWaveGeneratorNode from '../../common/view/SoundWaveGeneratorNode.js';
-import TimeControls from '../../common/view/TimeControls.js';
 import ToolboxPanel from '../../common/view/ToolboxPanel.js';
 import ViewpointRadioButtonGroup from '../../common/view/ViewpointRadioButtonGroup.js';
 import WaterDropLayer from '../../common/view/WaterDropLayer.js';
@@ -57,6 +57,7 @@ import WaveMeterNode from '../../common/view/WaveMeterNode.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
 import waveInterference from '../../waveInterference.js';
+import WavesModel from '../model/WavesModel.js';
 import WavesScreenSoundView from './WavesScreenSoundView.js';
 
 // sounds
@@ -447,9 +448,20 @@ class WavesScreenView extends ScreenView {
       } ) );
     }
 
-    const timeControls = new TimeControls( model, {
+    const timeControlNode = new TimeControlNode( model.isRunningProperty, {
+      timeControlSpeedProperty: model.playSpeedProperty,
       bottom: this.layoutBounds.bottom - MARGIN,
-      centerX: this.waveAreaNode.centerX
+      centerX: this.waveAreaNode.centerX,
+      playPauseStepButtonOptions: {
+        stepForwardButtonOptions: {
+
+          // If we need to move forward further than one frame, call advanceTime several times rather than increasing the
+          // dt, so the model will behave the same,
+          // see https://github.com/phetsims/wave-interference/issues/254
+          // and https://github.com/phetsims/wave-interference/issues/226
+          listener: () => model.advanceTime( 1 / WavesModel.EVENT_RATE, true )
+        }
+      }
     } );
 
     // @private
@@ -578,7 +590,7 @@ class WavesScreenView extends ScreenView {
       this.waveGeneratorLayer = new Node();
       this.addChild( this.waveGeneratorLayer );
     }
-    this.addChild( timeControls );
+    this.addChild( timeControlNode );
     soundParticleLayer && this.addChild( soundParticleLayer );
     this.addChild( dashedLineNode );
     this.addChild( this.afterWaveAreaNode );

@@ -22,6 +22,7 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EventTimer from '../../../../phet-core/js/EventTimer.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Stopwatch from '../../../../scenery-phet/js/Stopwatch.js';
+import TimeControlSpeed from '../../../../scenery-phet/js/TimeControlSpeed.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import LightScene from '../../common/model/LightScene.js';
 import Scene from '../../common/model/Scene.js';
@@ -246,15 +247,15 @@ class WavesModel {
     } );
 
     // @public - the speed at which the simulation is playing
-    this.playSpeedProperty = new Property( WavesModel.PlaySpeed.NORMAL, {
-      validValues: WavesModel.PlaySpeed.VALUES
+    this.playSpeedProperty = new Property( TimeControlSpeed.NORMAL, {
+      validValues: TimeControlSpeed.VALUES
     } );
 
     const eventTimerModel = {
 
       // @public
       getPeriodBeforeNextEvent: () => {
-        const scaleFactor = this.playSpeedProperty.value === WavesModel.PlaySpeed.NORMAL ? 1.0 : 0.5;
+        const scaleFactor = this.playSpeedProperty.value === TimeControlSpeed.NORMAL ? 1.0 : 0.5;
         return 1 / EVENT_RATE / scaleFactor;
       }
     };
@@ -424,12 +425,6 @@ class WavesModel {
  * @public
  */
 WavesModel.EVENT_RATE = EVENT_RATE;
-
-/**
- * The simulation can run at normal speed (NORMAL) or slow motion (SLOW).
- * @public
- */
-WavesModel.PlaySpeed = Enumeration.byKeys( [ 'NORMAL', 'SLOW' ] );
 
 /**
  * The wave area can be viewed from the TOP or from the SIDE. The view animates between the selections.
