@@ -7,7 +7,7 @@
  */
 
 import Sim from '../../joist/js/Sim.js';
-import SimLauncher from '../../joist/js/SimLauncher.js';
+import simLauncher from '../../joist/js/simLauncher.js';
 import platform from '../../phet-core/js/platform.js';
 import AlignGroup from '../../scenery/js/nodes/AlignGroup.js';
 import DiffractionScreen from './diffraction/DiffractionScreen.js';
@@ -32,7 +32,7 @@ const simOptions = {
   webgl: platform.mobileSafari
 };
 
-SimLauncher.launch( () => {
+simLauncher.launch( () => {
 
   // Panels on the right side of the lattice (in the first three screens) have matching widths, within each screen and
   // across screens.
