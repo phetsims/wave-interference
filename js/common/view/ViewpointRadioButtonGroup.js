@@ -6,8 +6,8 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 import WaveInterferenceVerticalAquaRadioButtonGroup from './WaveInterferenceVerticalAquaRadioButtonGroup.js';

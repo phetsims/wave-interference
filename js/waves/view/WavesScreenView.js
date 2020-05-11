@@ -24,6 +24,7 @@ import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import Utils from '../../../../scenery/js/util/Utils.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
@@ -59,8 +60,6 @@ import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
 import waveInterference from '../../waveInterference.js';
 import WavesModel from '../model/WavesModel.js';
 import WavesScreenSoundView from './WavesScreenSoundView.js';
-
-// sounds
 
 // constants
 const MARGIN = WaveInterferenceConstants.MARGIN;
@@ -442,8 +441,17 @@ class WavesScreenView extends ScreenView {
     }
 
     if ( options.showViewpointRadioButtonGroup ) {
+
+      const OFFSET_TO_ALIGN_WITH_TIME_CONTROL_RADIO_BUTTONS = 1.8;
       this.addChild( new ViewpointRadioButtonGroup( model.viewpointProperty, {
-        bottom: this.layoutBounds.bottom - MARGIN,
+
+        // Match size with TimeControlNode
+        radioButtonOptions: {
+          radius: new Text( 'test', {
+            font: WaveInterferenceConstants.DEFAULT_FONT
+          } ).height / 2
+        },
+        bottom: this.layoutBounds.bottom - MARGIN - OFFSET_TO_ALIGN_WITH_TIME_CONTROL_RADIO_BUTTONS,
         left: this.waveAreaNode.left
       } ) );
     }
@@ -452,6 +460,11 @@ class WavesScreenView extends ScreenView {
       timeControlSpeedProperty: model.playSpeedProperty,
       bottom: this.layoutBounds.bottom - MARGIN,
       centerX: this.waveAreaNode.centerX,
+      speedRadioButtonGroupOptions: {
+        labelOptions: {
+          font: WaveInterferenceConstants.DEFAULT_FONT
+        }
+      },
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
 
