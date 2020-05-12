@@ -7,7 +7,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import timer from '../../../../axon/js/timer.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -23,6 +22,7 @@ import WaveInterferenceText from './WaveInterferenceText.js';
 
 // constants
 const MIN_INTER_CLICK_TIME = ( 1 / 60 * 1000 ) * 2; // min time between clicks, in milliseconds, empirically determined
+const TOLERANCE = 1E-6;
 
 const maxString = waveInterferenceStrings.max;
 const minString = waveInterferenceStrings.min;
@@ -79,6 +79,17 @@ class WaveInterferenceSlider extends HSlider {
 
       // Ticks are created for all sliders for sonification, but not shown for the Light Frequency slider
       showTicks: true,
+      constrainValue: value => {
+        if ( Math.abs( value - property.range.min ) <= TOLERANCE ) {
+          return property.range.min;
+        }
+        else if ( Math.abs( value - property.range.max ) <= TOLERANCE ) {
+          return property.range.max;
+        }
+        else {
+          return value;
+        }
+      },
 
       drag: event => {
 
@@ -86,19 +97,13 @@ class WaveInterferenceSlider extends HSlider {
 
         if ( event.isFromPDOM() ) {
 
-          // Generate a sound once per event from alternative input, but wait for the event to complete so we can know
-          // the final property value
-
-          timer.setTimeout( () => {
-
-            // Also account for roundoff error, since 0.99999 seems like close enough to the end of the input.
-            if ( Math.abs( value - property.value ) <= 1E-6 ) {
-              sliderBoundaryClickSoundClip.play();
-            }
-            else {
-              sliderClickSoundClip.play();
-            }
-          }, 0 );
+          if ( Math.abs( value - property.range.max ) <= TOLERANCE ||
+               Math.abs( value - property.range.min ) <= TOLERANCE ) {
+            sliderBoundaryClickSoundClip.play();
+          }
+          else {
+            sliderClickSoundClip.play();
+          }
         }
         else {
 

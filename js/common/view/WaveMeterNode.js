@@ -144,7 +144,6 @@ class WaveMeterNode extends Node {
       } );
       const intervalProperty = new Property( 4 );
       const lowProperty = new Property( 0.75 );
-      lowProperty.debug( 'lowProperty' );
       if ( phet.chipper.queryParameters.dev ) {
         probeNode.addChild( new VBox( {
           centerX: 0,
