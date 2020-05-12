@@ -579,7 +579,7 @@ class WavesScreenView extends ScreenView {
       } );
     };
 
-    this.addChild( resetAllButton );
+
     this.addChild( perspective3DNode );
 
     if ( model.waterScene ) {
@@ -604,6 +604,7 @@ class WavesScreenView extends ScreenView {
       this.addChild( this.waveGeneratorLayer );
     }
     this.addChild( timeControlNode );
+    this.addChild( resetAllButton );
     soundParticleLayer && this.addChild( soundParticleLayer );
     this.addChild( dashedLineNode );
     this.addChild( this.afterWaveAreaNode );
