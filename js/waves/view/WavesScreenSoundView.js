@@ -116,7 +116,7 @@ class WavesScreenSoundView {
         view.waveMeterNode.duckingProperty
       ], ( oscillatorValue, isTonePlaying, ducking ) => {
         if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
-          const maxVolume = isTonePlaying ? 0.21 : 0.30;
+          const maxVolume = isTonePlaying ? 0 : 0.3;
           const outputLevel = Utils.linear(
             // The tone takes precedence over the membrane sound, another level of ducking
             model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
