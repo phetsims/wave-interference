@@ -25,7 +25,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import buttonSoundInfo from '../../../sounds/squishier-button-v3-007_mp3.js';
+import buttonSound from '../../../sounds/squishier-button-v3-007_mp3.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
@@ -33,7 +33,7 @@ import Lattice from './Lattice.js';
 import TemporalMask from './TemporalMask.js';
 
 // sound clip to use for the wave generator button
-const WAVE_GENERATOR_BUTTON_SOUND_CLIP = new SoundClip( buttonSoundInfo, {
+const WAVE_GENERATOR_BUTTON_SOUND_CLIP = new SoundClip( buttonSound, {
   initialOutputLevel: 0.3,
   rateChangesAffectPlayingSounds: false
 } );

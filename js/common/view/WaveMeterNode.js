@@ -123,7 +123,7 @@ class WaveMeterNode extends Node {
      * @param {number} dx - initial relative x coordinate for the probe
      * @param {number} dy - initial relative y coordinate for the probe
      * @param {Property<Vector2>} connectionProperty
-     * @param {SoundInfo[]} sounds
+     * @param {SoundClip[]} sounds
      * @param {Property<number>} soundIndexProperty
      * @param {Property<boolean>} isPlayingProperty
      * TODO: JSDOC

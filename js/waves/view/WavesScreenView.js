@@ -30,8 +30,8 @@ import Utils from '../../../../scenery/js/util/Utils.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import commonGrabSoundInfo from '../../../../tambo/sounds/grab_mp3.js';
-import commonReleaseSoundInfo from '../../../../tambo/sounds/release_mp3.js';
+import commonGrabSound from '../../../../tambo/sounds/grab_mp3.js';
+import commonReleaseSound from '../../../../tambo/sounds/release_mp3.js';
 import SoundScene from '../../common/model/SoundScene.js';
 import DashedLineNode from '../../common/view/DashedLineNode.js';
 import DisturbanceTypeRadioButtonGroup from '../../common/view/DisturbanceTypeRadioButtonGroup.js';
@@ -104,10 +104,10 @@ class WavesScreenView extends ScreenView {
 
     // Sounds for grab and release
     const soundClipOptions = { initialOutputLevel: 0.4 };
-    const grabSound = new SoundClip( commonGrabSoundInfo, soundClipOptions );
+    const grabSound = new SoundClip( commonGrabSound, soundClipOptions );
     soundManager.addSoundGenerator( grabSound, { categoryName: 'user-interface' } );
 
-    const releaseSound = new SoundClip( commonReleaseSoundInfo, soundClipOptions );
+    const releaseSound = new SoundClip( commonReleaseSound, soundClipOptions );
     soundManager.addSoundGenerator( releaseSound, { categoryName: 'user-interface' } );
 
     // @private
@@ -457,7 +457,7 @@ class WavesScreenView extends ScreenView {
     }
 
     const timeControlNode = new TimeControlNode( model.isRunningProperty, {
-      timeControlSpeedProperty: model.playSpeedProperty,
+      timeSpeedProperty: model.playSpeedProperty,
       bottom: this.layoutBounds.bottom - MARGIN,
       centerX: this.waveAreaNode.centerX,
       speedRadioButtonGroupOptions: {
