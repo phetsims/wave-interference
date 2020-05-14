@@ -90,7 +90,7 @@ class WavesScreenSoundView {
         lastPlayedWaterDropSoundClip.setPlaybackRate( amplitude );
 
         // The wave meter node takes precedence over the water drop sounds
-        lastPlayedWaterDropSoundClip.setOutputLevel( view.waveMeterNode.duckingProperty.value, 0 );
+        lastPlayedWaterDropSoundClip.setOutputLevel( view.waveMeterNode.duckingProperty.value * 0.9, 0 );
 
         lastPlayedWaterDropSoundClip.play();
       } );
