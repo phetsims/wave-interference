@@ -247,7 +247,7 @@ class WavesModel {
     } );
 
     // @public - the speed at which the simulation is playing
-    this.playSpeedProperty = new Property( TimeSpeed.NORMAL, {
+    this.timeSpeedProperty = new Property( TimeSpeed.NORMAL, {
       validValues: TimeSpeed.VALUES
     } );
 
@@ -255,7 +255,7 @@ class WavesModel {
 
       // @public
       getPeriodBeforeNextEvent: () => {
-        const scaleFactor = this.playSpeedProperty.value === TimeSpeed.NORMAL ? 1.0 : 0.5;
+        const scaleFactor = this.timeSpeedProperty.value === TimeSpeed.NORMAL ? 1.0 : 0.5;
         return 1 / EVENT_RATE / scaleFactor;
       }
     };
@@ -392,7 +392,7 @@ class WavesModel {
     this.sceneProperty.reset();
     this.viewpointProperty.reset();
     this.showGraphProperty.reset();
-    this.playSpeedProperty.reset();
+    this.timeSpeedProperty.reset();
     this.isRunningProperty.reset();
     this.showScreenProperty.reset();
     this.rotationAmountProperty.reset();
