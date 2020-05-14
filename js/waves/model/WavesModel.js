@@ -22,7 +22,7 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EventTimer from '../../../../phet-core/js/EventTimer.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Stopwatch from '../../../../scenery-phet/js/Stopwatch.js';
-import TimeControlSpeed from '../../../../scenery-phet/js/TimeControlSpeed.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import LightScene from '../../common/model/LightScene.js';
 import Scene from '../../common/model/Scene.js';
@@ -30,8 +30,8 @@ import SoundScene from '../../common/model/SoundScene.js';
 import WaterScene from '../../common/model/WaterScene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 
 const centimetersUnitsString = waveInterferenceStrings.centimetersUnits;
 const electricFieldAtCenterString = waveInterferenceStrings.electricFieldAtCenter;
@@ -247,15 +247,15 @@ class WavesModel {
     } );
 
     // @public - the speed at which the simulation is playing
-    this.playSpeedProperty = new Property( TimeControlSpeed.NORMAL, {
-      validValues: TimeControlSpeed.VALUES
+    this.playSpeedProperty = new Property( TimeSpeed.NORMAL, {
+      validValues: TimeSpeed.VALUES
     } );
 
     const eventTimerModel = {
 
       // @public
       getPeriodBeforeNextEvent: () => {
-        const scaleFactor = this.playSpeedProperty.value === TimeControlSpeed.NORMAL ? 1.0 : 0.5;
+        const scaleFactor = this.playSpeedProperty.value === TimeSpeed.NORMAL ? 1.0 : 0.5;
         return 1 / EVENT_RATE / scaleFactor;
       }
     };

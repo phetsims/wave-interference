@@ -457,7 +457,7 @@ class WavesScreenView extends ScreenView {
     }
 
     const timeControlNode = new TimeControlNode( model.isRunningProperty, {
-      timeControlSpeedProperty: model.playSpeedProperty,
+      timeSpeedProperty: model.playSpeedProperty,
       bottom: this.layoutBounds.bottom - MARGIN,
       centerX: this.waveAreaNode.centerX,
       speedRadioButtonGroupOptions: {
