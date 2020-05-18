@@ -1,5 +1,5 @@
 {
-  "220hz-saturated-sine-playback-rate-75.mp3": {
+  "wave-meter-smooth-tone.mp3": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
     ],
@@ -127,7 +127,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris"
   },
-  "windy-tone-for-meter-loop-rate-75-pitch-matched-fixed-less-high-end.mp3": {
+  "wave-meter-saw-tone.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],

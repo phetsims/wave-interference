@@ -31,8 +31,8 @@ import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import sineSound2 from '../../../sounds/220hz-saturated-sine-playback-rate-75_mp3.js';
-import windyTone from '../../../sounds/windy-tone-for-meter-loop-rate-75-pitch-matched-fixed-less-high-end_mp3.js';
+import sawTone from '../../../sounds/wave-meter-saw-tone_mp3.js';
+import smoothTone from '../../../sounds/wave-meter-smooth-tone_mp3.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import getWaveMeterNodeOutputLevel from './getWaveMeterNodeOutputLevel.js';
@@ -45,9 +45,7 @@ isHMR && module.hot.accept( './getWaveMeterNodeOutputLevel.js', () => {} );
 const timeString = waveInterferenceStrings.time;
 
 // sounds
-// TODO: remove unused sounds
-
-const sounds = [ windyTone, sineSound2 ];
+const sounds = [ sawTone, smoothTone ];
 
 // constants
 const SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
