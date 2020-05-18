@@ -236,16 +236,16 @@ class Scene {
     // the view area is initialized, see setViewBounds
     this.latticeToViewTransform = null;
 
-    // @public - horizontal location of the barrier in lattice coordinates (includes damping region)
+    // @public - horizontal position of the barrier in lattice coordinates (includes damping region)
     // note: this is a floating point representation in 2D to work seamlessly with DragListener
     // lattice computations using this floating point value should use Utils.roundSymmetric()
     // start slightly left of 50.5 so it will round to 50 instead of 51
-    this.barrierLocationProperty = new Vector2Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ) );
+    this.barrierPositionProperty = new Vector2Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ) );
 
-    // @public {DerivedProperty.<number>} - lattice cell index of the continuous barrier location (x coordinate only)
+    // @public {DerivedProperty.<number>} - lattice cell index of the continuous barrier position (x coordinate only)
     this.barrierLatticeCoordinateProperty = new DerivedProperty(
-      [ this.barrierLocationProperty ],
-      barrierLocation => Utils.roundSymmetric( barrierLocation.x )
+      [ this.barrierPositionProperty ],
+      barrierPosition => Utils.roundSymmetric( barrierPosition.x )
     );
 
     // @public - pulse or continuous
@@ -789,7 +789,7 @@ class Scene {
     this.muted = false;
     this.frequencyProperty.reset();
     this.slitWidthProperty.reset();
-    this.barrierLocationProperty.reset();
+    this.barrierPositionProperty.reset();
     this.slitSeparationProperty.reset();
     this.sourceSeparationProperty.reset();
     this.amplitudeProperty.reset();

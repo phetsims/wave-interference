@@ -369,14 +369,14 @@ class WavesScreenView extends ScreenView {
       translateNode: true,
       start: () => {
         grabSound.play();
-        if ( waveMeterNode.synchronizeProbeLocations ) {
+        if ( waveMeterNode.synchronizeProbePositions ) {
 
           // Align the probes each time the MeterBodyNode translates, so they will stay in sync
           waveMeterNode.alignProbesEmitter.emit();
         }
       },
       drag: () => {
-        if ( waveMeterNode.synchronizeProbeLocations ) {
+        if ( waveMeterNode.synchronizeProbePositions ) {
 
           // Align the probes each time the MeterBodyNode translates, so they will stay in sync
           waveMeterNode.alignProbesEmitter.emit();
@@ -393,7 +393,7 @@ class WavesScreenView extends ScreenView {
 
         // Move probes to center line (if water side view model)
         waveMeterNode.droppedEmitter.emit();
-        waveMeterNode.synchronizeProbeLocations = false;
+        waveMeterNode.synchronizeProbePositions = false;
       }
     } ) );
 

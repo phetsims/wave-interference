@@ -98,7 +98,7 @@ class SoundScene extends Scene {
       for ( let i = 0; i < this.soundParticles.length; i++ ) {
         const soundParticle = this.soundParticles[ i ];
 
-        // Find the lattice coordinate of the current location of the particle.  Use rounding for consistency with
+        // Find the lattice coordinate of the current position of the particle.  Use rounding for consistency with
         // other quantization
         const latticeCoordinate = this.modelToLatticeTransform.modelToViewXY( soundParticle.x, soundParticle.y );
         const latticeX = Utils.roundSymmetric( latticeCoordinate.x );

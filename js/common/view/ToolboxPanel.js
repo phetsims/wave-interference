@@ -80,7 +80,7 @@ class ToolboxPanel extends WaveInterferencePanel {
       waveMeterNode.backgroundNode.setTranslation( this.globalToParentPoint( event.pointer.point ).plusXY( -60, -66 ) );
 
       // Set the internal flag that indicates the probes should remain in alignment during the drag
-      waveMeterNode.synchronizeProbeLocations = true;
+      waveMeterNode.synchronizeProbePositions = true;
       waveMeterNode.startDrag( event );
       isWaveMeterInPlayAreaProperty.value = true;
     } );

@@ -12,7 +12,7 @@ import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 
 // constants
-// the location in the un-padded lattice array where the source appears
+// the index in the un-padded lattice array where the source appears
 const SOURCE_INDEX = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE -
                      WaveInterferenceConstants.LATTICE_PADDING;
 

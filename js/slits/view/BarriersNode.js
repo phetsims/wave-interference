@@ -67,7 +67,7 @@ class BarriersNode extends Node {
     this.barrierWidth = scene.latticeToViewTransform.modelToViewDeltaX( WaveInterferenceConstants.CALIBRATION_SCALE );
 
     this.addInputListener( new DragListener( {
-      mapLocation: modelPosition => {
+      mapPosition: modelPosition => {
 
         // Constrain to lie within 80% of the wave area
         const erodedBounds = scene.lattice.visibleBounds.erodedX( scene.lattice.visibleBounds.width / 10 );
@@ -75,7 +75,7 @@ class BarriersNode extends Node {
       },
 
       // Use continuous value for drag handler
-      positionProperty: scene.barrierLocationProperty,
+      positionProperty: scene.barrierPositionProperty,
       transform: scene.latticeToViewTransform
     } ) );
 
@@ -113,7 +113,7 @@ class BarriersNode extends Node {
     const slitWidth = scene.slitWidthProperty.get();
     const slitSeparation = scene.slitSeparationProperty.get();
 
-    // Barrier origin in view coordinates, sets the parent node location for compatibility with DragListener,
+    // Barrier origin in view coordinates, sets the parent node position for compatibility with DragListener,
     // see https://github.com/phetsims/wave-interference/issues/75
     this.x = scene.latticeToViewTransform.modelToViewX( scene.barrierLatticeCoordinateProperty.value );
 

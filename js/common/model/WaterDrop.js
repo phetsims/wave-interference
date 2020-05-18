@@ -43,7 +43,7 @@ class WaterDrop {
     this.onAbsorption = onAbsorption;
 
     // @public (read-only) - the distance between the sources when this drop was released, used to show the
-    // correct location of the water drop
+    // correct position of the water drop
     this.sourceSeparation = sourceSeparation;
 
     // @public (read-only) {string}

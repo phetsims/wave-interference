@@ -42,7 +42,7 @@ class WaterWaveGeneratorNode extends WaveGeneratorNode {
       new BooleanProperty( true ), {
         interactiveProperty: new BooleanProperty( false ),
 
-        // Adjusted based on the dimension of the faucet image to align with the horizontal water drop location.
+        // Adjusted based on the dimension of the faucet image to align with the horizontal water drop position.
         // The vertical offset is adjusted with FAUCET_VERTICAL_OFFSET
         x: waterScene.getWaterDropX(),
         scale: 0.25,

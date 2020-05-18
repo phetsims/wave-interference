@@ -100,9 +100,9 @@ class WaveMeterNode extends Node {
 
     // @public {boolean} - true if dragging the MeterBodyNode also causes attached probes to translate.
     // This is accomplished by calling alignProbes() on drag start and each drag event.
-    this.synchronizeProbeLocations = false;
+    this.synchronizeProbePositions = false;
 
-    // @public - emits when the probes should be put in standard relative location to the body
+    // @public - emits when the probes should be put in standard relative position to the body
     this.alignProbesEmitter = new Emitter();
 
     // @private - triggered when the probe is reset
@@ -188,7 +188,7 @@ class WaveMeterNode extends Node {
       ) );
       this.addChild( probeNode );
 
-      // Standard location in toolbox and when dragging out of toolbox.
+      // Standard position in toolbox and when dragging out of toolbox.
       const alignProbes = () => {
         probeNode.mutate( {
           right: backgroundNode.left - dx,
@@ -212,7 +212,7 @@ class WaveMeterNode extends Node {
         const scene = model.sceneProperty.value;
         if ( model.isWaveMeterInPlayAreaProperty.get() ) {
 
-          // Look up the location of the cell. The probe node has the cross-hairs at 0,0, so we can use the
+          // Look up the coordinates of the cell. The probe node has the cross-hairs at 0,0, so we can use the
           // translation itself as the sensor hot spot.  This doesn't include the damping regions
           const latticeCoordinates = view.globalToLatticeCoordinate(
             probeNode.parentToGlobalPoint( probeNode.getTranslation() )
@@ -280,7 +280,7 @@ class WaveMeterNode extends Node {
       this.resetEmitter.addListener( clear );
 
       // When the wave is paused and the user is dragging the entire MeterBodyNode with the probes aligned, they
-      // need to sample their new locations.
+      // need to sample their new positions.
       probeNode.transformEmitter.addListener( updateSamples );
 
       model.isRunningProperty.link( updateSamples );
