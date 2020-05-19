@@ -13,7 +13,6 @@ import HSeparator from '../../../../sun/js/HSeparator.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
-import WaveInterferenceQueryParameters from '../WaveInterferenceQueryParameters.js';
 import AmplitudeControl from './AmplitudeControl.js';
 import FrequencyControl from './FrequencyControl.js';
 import SceneRadioButtonGroup from './SceneRadioButtonGroup.js';
@@ -205,7 +204,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
         // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
         ...( scene === model.lightScene ? [ screenCheckbox ] : [] ),
         ...( scene === model.lightScene && options.showIntensityCheckbox ? [ intensityCheckbox ] : [] ),
-        ...( scene === model.lightScene && WaveInterferenceQueryParameters.lightSonificationCheckbox ? [ createLightSonificationCheckbox() ] : [] )
+        ...( scene === model.lightScene ? [ createLightSonificationCheckbox() ] : [] )
       ];
     } );
 

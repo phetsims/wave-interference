@@ -8,7 +8,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import waveInterference from '../../waveInterference.js';
-import WaveInterferenceQueryParameters from '../WaveInterferenceQueryParameters.js';
 import IntensitySample from './IntensitySample.js';
 import Scene from './Scene.js';
 
@@ -25,7 +24,7 @@ class LightScene extends Scene {
     this.intensitySample = new IntensitySample( this.lattice );
 
     // @public
-    this.soundEffectEnabledProperty = new BooleanProperty( WaveInterferenceQueryParameters.lightSonification );
+    this.soundEffectEnabledProperty = new BooleanProperty( false );
   }
 
   /**
