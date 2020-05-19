@@ -108,8 +108,6 @@ class WavesScreenSoundView {
       // When the wave generator completes a full cycle (passing from positive to negative), restart the speaker
       // clip at the corresponding volume and frequency.  Note this means if the frequency or volume changes, the
       // user has to wait for the next cycle to hear the change.
-      // TODO (for the reviewer): is that last constraint about having to wait for the next cycle to hear change OK?
-      // TODO: See https://github.com/phetsims/wave-interference/issues/497
       let previousOscillatorValue = null;
       Property.multilink( [
         model.soundScene.oscillator1Property,
