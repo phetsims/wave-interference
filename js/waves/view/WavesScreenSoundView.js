@@ -114,24 +114,31 @@ class WavesScreenSoundView {
       Property.multilink( [
         model.soundScene.oscillator1Property,
         model.soundScene.isTonePlayingProperty,
-        view.waveMeterNode.duckingProperty
-      ], ( oscillatorValue, isTonePlaying, ducking ) => {
-        if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
-          const maxVolume = isTonePlaying ? 0 : 0.3;
-          const outputLevel = Utils.linear(
-            // The tone takes precedence over the membrane sound, another level of ducking
-            model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
-            0.0, maxVolume, model.soundScene.amplitudeProperty.value
-          );
-          const playbackRate = Utils.linear(
-            model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
-            1, 1.4, model.soundScene.frequencyProperty.value
-          );
+        view.waveMeterNode.duckingProperty,
+        model.isRunningProperty
+      ], ( oscillatorValue, isTonePlaying, ducking, isRunning ) => {
 
-          // Wave meter node takes precedence over the sound speaker membrane sound
-          speakerMembraneSoundClip.setOutputLevel( outputLevel * ducking, 0.2 ); // Time constant must work for amplitude changes and ducking
-          speakerMembraneSoundClip.setPlaybackRate( playbackRate / 2 );
+        const maxVolume = isTonePlaying ? 0 : 0.3;
+        const outputLevel = Utils.linear(
+          // The tone takes precedence over the membrane sound, another level of ducking
+          model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
+          0.0, maxVolume, model.soundScene.amplitudeProperty.value
+        );
+        const playbackRate = Utils.linear(
+          model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
+          1, 1.4, model.soundScene.frequencyProperty.value
+        );
+
+        // Wave meter node takes precedence over the sound speaker membrane sound
+        speakerMembraneSoundClip.setOutputLevel( outputLevel * ducking, 0.2 ); // Time constant must work for amplitude changes and ducking
+        speakerMembraneSoundClip.setPlaybackRate( playbackRate / 2 );
+
+        if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
           speakerMembraneSoundClip.play();
+        }
+
+        if ( oscillatorValue === 0 || !isRunning ) {
+          speakerMembraneSoundClip.stop();
         }
 
         previousOscillatorValue = oscillatorValue;
