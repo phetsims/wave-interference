@@ -323,8 +323,8 @@ class WavesModel {
     // @public - Notifies listeners when the model reset is complete
     this.resetEmitter = new Emitter();
 
-    // @public - Notifies when reset in in progress
-    this.isResettingProperty = new BooleanProperty( false ); // TODO: reconcile with resetEmitter.
+    // @public - Notifies when reset in in progress, used to mute sounds while reset is in progress
+    this.isResettingProperty = new BooleanProperty( false );
 
     // Reset the stopwatch time when changing scenes, and pause it.
     this.sceneProperty.link( () => {
