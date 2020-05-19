@@ -123,8 +123,9 @@ class WaveMeterNode extends Node {
      * @param {Property<Vector2>} connectionProperty
      * @param {SoundClip[]} sounds
      * @param {Property<number>} soundIndexProperty
+     * @param {Property<boolean>} playbackRateProperty
+     * @param {Property<boolean>} volumeProperty
      * @param {Property<boolean>} isPlayingProperty
-     * TODO: JSDOC
      * @returns {DynamicSeries}
      */
     const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty, playbackRateProperty, volumeProperty, isPlayingProperty ) => {
@@ -241,8 +242,7 @@ class WaveMeterNode extends Node {
             // to eliminate clipping, scratching sounds when dragging the probes quickly
             soundClip.setOutputLevel( duckFactor * ( model.isRunningProperty.value ? outputLevel * volumeProperty.value : 0 ), soundClip.isPlaying ? 0.03 : 0.0 );
 
-            // Work around a bug in Tambo that results in audio played even when outputLevel is 0.0
-            if ( !soundClip.isPlaying ) { // TODO: playing a soundclip with outputLevel 0 plays something
+            if ( !soundClip.isPlaying ) {
               soundClip.play();
               isPlayingProperty.value = true;
             }
