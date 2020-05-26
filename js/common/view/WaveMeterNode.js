@@ -48,8 +48,8 @@ const timeString = waveInterferenceStrings.time;
 const sounds = [ sawTone, smoothTone ];
 
 // constants
-const SERIES_1_COLOR = '#5c5d5f'; // same as in Bending Light
-const SERIES_2_COLOR = '#ccced0'; // same as in Bending Light
+const SERIES_1_COLOR = '#191919';
+const SERIES_2_COLOR = '#808080';
 const WIRE_1_COLOR = SERIES_1_COLOR;
 const WIRE_2_COLOR = new Color( SERIES_2_COLOR ).darkerColor( 0.7 );
 const NUMBER_OF_TIME_DIVISIONS = 4;
