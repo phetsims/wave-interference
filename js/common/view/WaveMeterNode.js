@@ -232,7 +232,7 @@ class WaveMeterNode extends Node {
               soundManager.addSoundGenerator( soundClip, { associatedViewNode: this } );
             }
 
-            const outputLevel = getWaveMeterNodeOutputLevel( value );
+            const outputLevel = getWaveMeterNodeOutputLevel( value ) * 8.912509381337454;
 
             // "Play Tone" takes precedence over the wave meter node sounds, because it is meant to be used briefly
             const duckFactor = ( model.sceneProperty.value === model.soundScene && model.soundScene.isTonePlayingProperty.value ) ? 0.2 : 1;
