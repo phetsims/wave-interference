@@ -28,6 +28,7 @@ class SoundParticleNode extends ShadedSphereNode {
    * @param {ColorDef} color
    * @param {function} callback, see Node.toCanvas for signature
    * @returns {HTMLCanvasElement}
+   * @public
    */
   static createForCanvas( color, callback ) {
     return new SoundParticleNode( { mainColor: color } ).toCanvas( callback );

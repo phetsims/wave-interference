@@ -36,6 +36,7 @@ class ImageDataRenderer {
    * Paints image data onto the canvas.
    * @param {number} x
    * @param {number} y
+   * @public
    */
   putImageData( x = 0, y = 0 ) {
     this.context.putImageData( this.imageData, x, y );

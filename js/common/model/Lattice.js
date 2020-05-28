@@ -80,6 +80,7 @@ class Lattice {
   /**
    * Gets a Bounds2 representing the full region of the lattice, including damping regions.
    * @returns {Bounds2}
+   * @public
    */
   getBounds() {
     return new Bounds2( 0, 0, this.width, this.height );

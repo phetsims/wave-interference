@@ -82,6 +82,9 @@ class SoundParticleImage extends Image {
     this.modelViewTransform = modelViewTransform;
   }
 
+  /**
+   * @public
+   */
   update() {
     const x = ( this.modelViewTransform.modelToViewX( this.soundParticle.x ) ) - this.width / 2;
     const y = ( this.modelViewTransform.modelToViewY( this.soundParticle.y ) ) - this.height / 2;
