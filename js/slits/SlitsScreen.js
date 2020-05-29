@@ -8,6 +8,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
+import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import slitsScreenIcon from '../../images/slits_screen_icon_png.js';
 import waveInterferenceStrings from '../waveInterferenceStrings.js';
@@ -26,7 +27,10 @@ class SlitsScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       name: screenSlitsString,
-      homeScreenIcon: new Image( slitsScreenIcon ),
+      homeScreenIcon: new ScreenIcon( new Image( slitsScreenIcon ), {
+        maxIconWidthProportion: 1,
+        maxIconHeightProportion: 1
+      } ),
       showUnselectedHomeScreenIconFrame: true,
       showScreenIconFrameForNavigationBarFill: 'black'
     };

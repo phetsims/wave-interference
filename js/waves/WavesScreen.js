@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import wavesScreenIcon from '../../images/waves_screen_icon_png.js';
 import BaseScreen from '../common/BaseScreen.js';
@@ -21,7 +22,10 @@ class WavesScreen extends BaseScreen {
    */
   constructor( alignGroup ) {
     const options = {
-      homeScreenIcon: new Image( wavesScreenIcon ),
+      homeScreenIcon: new ScreenIcon( new Image( wavesScreenIcon ), {
+        maxIconWidthProportion: 1,
+        maxIconHeightProportion: 1
+      } ),
       name: screenWavesString
     };
     super( alignGroup, options );
