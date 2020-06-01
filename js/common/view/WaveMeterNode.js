@@ -35,6 +35,7 @@ import sawTone from '../../../sounds/wave-meter-saw-tone_mp3.js';
 import smoothTone from '../../../sounds/wave-meter-smooth-tone_mp3.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceQueryParameters from '../WaveInterferenceQueryParameters.js';
 import getWaveMeterNodeOutputLevel from './getWaveMeterNodeOutputLevel.js';
 import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
@@ -119,9 +120,10 @@ class WaveMeterNode extends Node {
      * @param {Property<boolean>} playbackRateProperty
      * @param {Property<boolean>} volumeProperty
      * @param {Property<boolean>} isPlayingProperty
+     * @param {number} seriesVolume
      * @returns {DynamicSeries}
      */
-    const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty, playbackRateProperty, volumeProperty, isPlayingProperty ) => {
+    const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty, playbackRateProperty, volumeProperty, isPlayingProperty, seriesVolume ) => {
       const snapToCenter = () => {
         if ( model.rotationAmountProperty.value !== 0 && model.sceneProperty.value === model.waterScene ) {
           const point = view.waveAreaNode.center;
@@ -225,7 +227,7 @@ class WaveMeterNode extends Node {
               soundManager.addSoundGenerator( soundClip, { associatedViewNode: this } );
             }
 
-            const outputLevel = getWaveMeterNodeOutputLevel( value ) * 8.912509381337454;
+            const outputLevel = getWaveMeterNodeOutputLevel( value ) * 8.912509381337454 * seriesVolume;
 
             // "Play Tone" takes precedence over the wave meter node sounds, because it is meant to be used briefly
             const duckFactor = ( model.sceneProperty.value === model.soundScene && model.soundScene.isTonePlayingProperty.value ) ? 0.2 : 1;
@@ -320,9 +322,11 @@ class WaveMeterNode extends Node {
     const series2PlayingProperty = new BooleanProperty( false );
 
     const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, sounds1,
-      waveMeterSound1Property, waveMeterSound1PlaybackRateProperty, waveMeterSound1VolumeProperty, series1PlayingProperty );
+      waveMeterSound1Property, waveMeterSound1PlaybackRateProperty, waveMeterSound1VolumeProperty, series1PlayingProperty, 1.0 );
+
     const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 42, 54, aboveBottomLeft2, sounds2,
-      waveMeterSound2Property, waveMeterSound2PlaybackRateProperty, waveMeterSound2VolumeProperty, series2PlayingProperty );
+      waveMeterSound2Property, waveMeterSound2PlaybackRateProperty, waveMeterSound2VolumeProperty, series2PlayingProperty,
+      WaveInterferenceQueryParameters.lightProbeVolumeAmplitude );
 
     // Turn down the water drops, speaker or light sound when the wave meter is being used.
     this.duckingProperty = new DerivedProperty( [ series1PlayingProperty, series2PlayingProperty ], ( a, b ) => {

@@ -15,7 +15,9 @@ const WaveInterferenceQueryParameters = QueryStringMachine.getAll( {
   // See https://github.com/phetsims/wave-interference/issues/196
   theory: { type: 'flag' },
 
-  latticeSize: { type: 'number', defaultValue: 151 }
+  latticeSize: { type: 'number', defaultValue: 151 },
+
+  lightProbeVolumeAmplitude: { type: 'number', defaultValue: 0.42, isValidValue: x => x <= 1 }
 } );
 
 waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );
