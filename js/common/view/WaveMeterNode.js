@@ -35,7 +35,6 @@ import sawTone from '../../../sounds/wave-meter-saw-tone_mp3.js';
 import smoothTone from '../../../sounds/wave-meter-smooth-tone_mp3.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
-import WaveInterferenceQueryParameters from '../WaveInterferenceQueryParameters.js';
 import getWaveMeterNodeOutputLevel from './getWaveMeterNodeOutputLevel.js';
 import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
@@ -326,7 +325,7 @@ class WaveMeterNode extends Node {
 
     const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 42, 54, aboveBottomLeft2, sounds2,
       waveMeterSound2Property, waveMeterSound2PlaybackRateProperty, waveMeterSound2VolumeProperty, series2PlayingProperty,
-      WaveInterferenceQueryParameters.lightProbeVolumeAmplitude );
+      0.42 );
 
     // Turn down the water drops, speaker or light sound when the wave meter is being used.
     this.duckingProperty = new DerivedProperty( [ series1PlayingProperty, series2PlayingProperty ], ( a, b ) => {
