@@ -60,13 +60,6 @@ const LABEL_FONT_SIZE = 14;
 const NORMAL_DISTANCE = 25;
 const WIRE_LINE_WIDTH = 3;
 
-const tops = [];
-const bottoms = [];
-window.setFrequencies = function( b, t ) {
-  tops.forEach( top => top.set( t / 1000 ) );
-  bottoms.forEach( bottom => bottom.set( b / 1000 ) );
-};
-
 class WaveMeterNode extends Node {
 
   /**
