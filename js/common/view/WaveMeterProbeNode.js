@@ -23,6 +23,7 @@ class WaveMeterProbeNode extends ProbeNode {
       cursor: 'pointer',
       sensorTypeFunction: ProbeNode.crosshairs( { stroke: 'white' } ),
       scale: 0.4,
+      dragStart: () => {},
       drag: () => {}
     }, options );
 
@@ -33,6 +34,7 @@ class WaveMeterProbeNode extends ProbeNode {
     this.addInputListener( new DragListener( {
       translateNode: true,
       dragBoundsProperty: visibleBoundsProperty,
+      start: () => options.dragStart(),
       drag: () => options.drag()
     } ) );
   }

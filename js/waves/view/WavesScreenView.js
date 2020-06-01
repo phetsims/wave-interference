@@ -369,6 +369,7 @@ class WavesScreenView extends ScreenView {
       translateNode: true,
       start: () => {
         grabSound.play();
+        waveMeterNode.moveToFront();
         if ( waveMeterNode.synchronizeProbePositions ) {
 
           // Align the probes each time the MeterBodyNode translates, so they will stay in sync

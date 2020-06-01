@@ -133,6 +133,7 @@ class WaveMeterNode extends Node {
       };
       const probeNode = new WaveMeterProbeNode( view.visibleBoundsProperty, {
         color: color,
+        dragStart: () => this.moveToFront(),
         drag: snapToCenter
       } );
       const intervalProperty = new Property( 4 );
