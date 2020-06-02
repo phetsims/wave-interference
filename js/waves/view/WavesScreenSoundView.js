@@ -42,11 +42,13 @@ class WavesScreenSoundView {
             model.soundScene.isTonePlayingProperty,
             model.soundScene.button1PressedProperty,
             model.isRunningProperty,
+            //REVIEW: There is a BooleanInvertedProperty for the case below in tambo (and perhaps it should go in axon)
             new DerivedProperty( [ model.isResettingProperty ], isResetting => !isResetting )
           ]
         } );
 
       // Suppress the tone when another screen is selected
+      //REVIEW - Are both of the below really needed?  Seems like they would have the same effect.
       soundManager.addSoundGenerator( sineWavePlayer, {
         associatedViewNode: view
       } );
@@ -56,6 +58,7 @@ class WavesScreenSoundView {
 
     if ( model.waterScene ) {
       const waterDropOptions = { initialOutputLevel: 1.5 };
+      //REVIEW - consider putting the sounds (e.g. waterDropSound0) and having a loop here to do all of this to avoid code duplication
       const waterDropSoundClip0 = new SoundClip( waterDropSound0, waterDropOptions );
       const waterDropSoundClip1 = new SoundClip( waterDropSound1, waterDropOptions );
       const waterDropSoundClip2 = new SoundClip( waterDropSound2, waterDropOptions );
@@ -99,7 +102,7 @@ class WavesScreenSoundView {
     if ( model.soundScene ) {
       const speakerMembraneSoundClip = new SoundClip( speakerPulseSound, {
 
-        // The sound repeats, so the waveform should not be clipped
+        // The sound repeats, so the waveform should not be trimmed
         trimSilence: false,
         initialOutputLevel: 0 // The speaker pulse plays when the speaker membrane oscillates.  The outputLevel is set below.
       } );
@@ -149,6 +152,7 @@ class WavesScreenSoundView {
         loop: true
       } );
 
+      //REVIEW - Do we still want this TODO here?  It's on the radar to work on initial audio volume issues, but will likely be a while.
       // TODO: the following line was causing odd audio volume behavior, but this should now be addressed.  @samreid -
       // TODO: please try using it again, and report findings in https://github.com/phetsims/tambo/issues/74.
       // lightBeamLoopSoundClip.addEnableControlProperty( model.lightScene.soundEffectEnabledProperty );

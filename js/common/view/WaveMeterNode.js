@@ -227,7 +227,10 @@ class WaveMeterNode extends Node {
               soundManager.addSoundGenerator( soundClip, { associatedViewNode: this } );
             }
 
+            //REVIEW - why such a precise number for the multiplier?
             const outputLevel = getWaveMeterNodeOutputLevel( value ) * 8.912509381337454 * seriesVolume;
+
+            //REVIEW - lots of lines wider than 120 that go off of my screen, suggest breaking up
 
             // "Play Tone" takes precedence over the wave meter node sounds, because it is meant to be used briefly
             const duckFactor = ( model.sceneProperty.value === model.soundScene && model.soundScene.isTonePlayingProperty.value ) ? 0.2 : 1;
@@ -244,6 +247,7 @@ class WaveMeterNode extends Node {
 
             const basePlaybackRate = lowProperty.value * playbackRateProperty.value;
             if ( value > 0 ) {
+              //REVIEW - This is a fairly complex calculation with lots of unexplained number, and could use some documentation.
               soundClip.setPlaybackRate( basePlaybackRate * ( intervalProperty.value === 5 ? 329.63 / 220 : intervalProperty.value === 4 ? 293.66 / 220 : 277.18 / 220 ) ); // 5th  (SR #1 pref)
             }
             else {

@@ -47,6 +47,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       yMargin: 4,
       showSceneRadioButtons: true,
       showPlaySoundControl: false,
+      //REVIEW - consider another name, perhaps audioEnabled (used elsewhere in this code) to avoid confusion with Sim options
       supportsSound: true
     }, options );
 
