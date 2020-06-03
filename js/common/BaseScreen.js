@@ -27,13 +27,13 @@ class BaseScreen extends Screen {
       showScreenIconFrameForNavigationBarFill: 'black',
       showSceneRadioButtons: true,
       showPlaySoundControl: true,
-      supportsSound: true
+      audioEnabled: true
     }, options );
 
     super(
       () => new WavesModel( options.scenes ? { scenes: options.scenes } : {} ),
       model => new WavesScreenView( model, alignGroup, {
-        supportsSound: options.supportsSound,
+        audioEnabled: options.audioEnabled,
         showViewpointRadioButtonGroup: true,
         piecewiseLinearBrightness: true,
         lightScreenAveragingWindowSize: 40,

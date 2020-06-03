@@ -98,7 +98,7 @@ class WavesScreenView extends ScreenView {
       // see WaveInterferenceControlPanel for keys/values
       controlPanelOptions: {},
 
-      supportsSound: false
+      audioEnabled: false
     }, options );
     super();
 
@@ -416,7 +416,7 @@ class WavesScreenView extends ScreenView {
 
     // @protected {WaveInterferenceControlPanel} for subtype layout
     this.controlPanel = new WaveInterferenceControlPanel( model, alignGroup, options.controlPanelOptions, {
-      supportsSound: options.supportsSound
+      audioEnabled: options.audioEnabled
     } );
 
     const updateControlPanelPosition = () => {
@@ -615,7 +615,7 @@ class WavesScreenView extends ScreenView {
     this.addChild( waveMeterNode );
 
     // Only start up the audio system if sound is enabled for this screen
-    if ( options.supportsSound ) {
+    if ( options.audioEnabled ) {
       WavesScreenSoundView.init( model, this, options );
     }
   }

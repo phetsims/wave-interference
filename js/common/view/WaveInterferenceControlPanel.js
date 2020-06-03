@@ -47,8 +47,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       yMargin: 4,
       showSceneRadioButtons: true,
       showPlaySoundControl: false,
-      //REVIEW - consider another name, perhaps audioEnabled (used elsewhere in this code) to avoid confusion with Sim options
-      supportsSound: true
+      audioEnabled: true
     }, options );
 
     const frequencyControl = new FrequencyControl( model );
@@ -107,7 +106,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
     if ( model.soundScene && options.showPlaySoundControl && !platform.ie ) {
       playToneCheckbox = new WaveInterferenceCheckbox( new WaveInterferenceText( playToneString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
         model.soundScene.isTonePlayingProperty, {
-          audioEnabled: options.supportsSound
+          audioEnabled: options.audioEnabled
         } );
 
       playToneCheckbox.mouseArea = playToneCheckbox.localBounds.dilated( 2 ).withX( separator.right );
@@ -177,7 +176,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       return new WaveInterferenceCheckbox(
         new WaveInterferenceText( soundEffectString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
         model.lightScene.soundEffectEnabledProperty, {
-          audioEnabled: options.supportsSound,
+          audioEnabled: options.audioEnabled,
           top: lastCheckbox.bottom + CHECKBOX_SPACING,
           left: screenCheckbox.left
         } );
