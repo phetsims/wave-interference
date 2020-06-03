@@ -6,10 +6,9 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Utils from '../../../../dot/js/Utils.js';
-import InvertedBooleanProperty from '../../../../tambo/js/InvertedBooleanProperty.js'; // eslint-disable-line
+import InvertedBooleanProperty from '../../../../tambo/js/InvertedBooleanProperty.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import lightBeamLoopSound from '../../../sounds/light-beam-loop-v5-eq-out-bass_mp3.js';
@@ -49,12 +48,9 @@ class WavesScreenSoundView {
         } );
 
       // Suppress the tone when another screen is selected
-      //REVIEW - Are both of the below really needed?  Seems like they would have the same effect.
       soundManager.addSoundGenerator( sineWavePlayer, {
         associatedViewNode: view
       } );
-      const isSoundSceneProperty = new DerivedProperty( [ model.sceneProperty ], scene => scene === model.soundScene );
-      sineWavePlayer.addEnableControlProperty( isSoundSceneProperty );
     }
 
     if ( model.waterScene ) {
