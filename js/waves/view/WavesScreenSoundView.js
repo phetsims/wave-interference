@@ -23,6 +23,7 @@ import waveInterference from '../../waveInterference.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
 
 // sounds
+const waterDropSounds = [ waterDropSound0, waterDropSound1, waterDropSound2, waterDropSound3 ];
 
 class WavesScreenSoundView {
 
@@ -58,21 +59,9 @@ class WavesScreenSoundView {
 
     if ( model.waterScene ) {
       const waterDropOptions = { initialOutputLevel: 1.5 };
-      //REVIEW - consider putting the sounds (e.g. waterDropSound0) and having a loop here to do all of this to avoid code duplication
-      const waterDropSoundClip0 = new SoundClip( waterDropSound0, waterDropOptions );
-      const waterDropSoundClip1 = new SoundClip( waterDropSound1, waterDropOptions );
-      const waterDropSoundClip2 = new SoundClip( waterDropSound2, waterDropOptions );
-      const waterDropSoundClip3 = new SoundClip( waterDropSound3, waterDropOptions );
-      soundManager.addSoundGenerator( waterDropSoundClip0 );
-      soundManager.addSoundGenerator( waterDropSoundClip1 );
-      soundManager.addSoundGenerator( waterDropSoundClip2 );
-      soundManager.addSoundGenerator( waterDropSoundClip3 );
-      const soundClips = [
-        waterDropSoundClip0,
-        waterDropSoundClip1,
-        waterDropSoundClip2,
-        waterDropSoundClip3
-      ];
+
+      const soundClips = waterDropSounds.map( sound => new SoundClip( sound, waterDropOptions ) );
+      soundClips.forEach( soundClip => soundManager.addSoundGenerator( soundClip ) );
 
       // The water drop SoundClip that was most recently played, to avoid repeats
       let lastPlayedWaterDropSoundClip = null;
