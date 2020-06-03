@@ -227,19 +227,20 @@ class WaveMeterNode extends Node {
               soundManager.addSoundGenerator( soundClip, { associatedViewNode: this } );
             }
 
-            // 19dB (the amount the audio file was decreased by) corresponds to this amplitude scale, see https://github.com/phetsims/wave-interference/issues/485#issuecomment-634295284
+            // 19dB (the amount the audio file was decreased by) corresponds to this amplitude scale, see
+            // https://github.com/phetsims/wave-interference/issues/485#issuecomment-634295284
             const amplitudeScale = 8.912509381337454;
             const outputLevel = getWaveMeterNodeOutputLevel( value ) * amplitudeScale * seriesVolume;
 
-            //REVIEW - lots of lines wider than 120 that go off of my screen, suggest breaking up
-
             // "Play Tone" takes precedence over the wave meter node sounds, because it is meant to be used briefly
-            const duckFactor = ( model.sceneProperty.value === model.soundScene && model.soundScene.isTonePlayingProperty.value ) ? 0.2 : 1;
+            const isDucking = model.sceneProperty.value === model.soundScene && model.soundScene.isTonePlayingProperty.value;
+            const duckFactor = isDucking ? 0.2 : 1;
 
             // Set the main volume.  If the sound clip wasn't playing, set the sound immediately to correct an audio
             // blip when the probe enters the play area.  If the sound clip was playing, use a longer time constant
             // to eliminate clipping, scratching sounds when dragging the probes quickly
-            soundClip.setOutputLevel( duckFactor * ( model.isRunningProperty.value ? outputLevel * volumeProperty.value : 0 ), soundClip.isPlaying ? 0.03 : 0.0 );
+            const amplitudeValue = model.isRunningProperty.value ? outputLevel * volumeProperty.value : 0;
+            soundClip.setOutputLevel( duckFactor * amplitudeValue, soundClip.isPlaying ? 0.03 : 0.0 );
 
             if ( !soundClip.isPlaying ) {
               soundClip.play();
@@ -249,7 +250,10 @@ class WaveMeterNode extends Node {
             const basePlaybackRate = lowProperty.value * playbackRateProperty.value;
             if ( value > 0 ) {
               //REVIEW - This is a fairly complex calculation with lots of unexplained number, and could use some documentation.
-              soundClip.setPlaybackRate( basePlaybackRate * ( intervalProperty.value === 5 ? 329.63 / 220 : intervalProperty.value === 4 ? 293.66 / 220 : 277.18 / 220 ) ); // 5th  (SR #1 pref)
+              const amount = intervalProperty.value === 5 ? 329.63 / 220 :
+                             intervalProperty.value === 4 ? 293.66 / 220 :
+                             277.18 / 220;
+              soundClip.setPlaybackRate( basePlaybackRate * amount ); // 5th  (SR #1 pref)
             }
             else {
               soundClip.setPlaybackRate( basePlaybackRate );
@@ -327,7 +331,8 @@ class WaveMeterNode extends Node {
     const series2PlayingProperty = new BooleanProperty( false );
 
     const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, sounds1,
-      waveMeterSound1Property, waveMeterSound1PlaybackRateProperty, waveMeterSound1VolumeProperty, series1PlayingProperty, 1.0 );
+      waveMeterSound1Property, waveMeterSound1PlaybackRateProperty, waveMeterSound1VolumeProperty, series1PlayingProperty,
+      1.0 );
 
     const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 42, 54, aboveBottomLeft2, sounds2,
       waveMeterSound2Property, waveMeterSound2PlaybackRateProperty, waveMeterSound2VolumeProperty, series2PlayingProperty,
