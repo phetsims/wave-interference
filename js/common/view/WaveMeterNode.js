@@ -27,7 +27,6 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import NodeProperty from '../../../../scenery/js/util/NodeProperty.js';
-import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -136,7 +135,6 @@ class WaveMeterNode extends Node {
         dragStart: () => this.moveToFront(),
         drag: snapToCenter
       } );
-      const intervalProperty = new Property( 4 );
       const lowProperty = new Property( 0.75 );
       if ( phet.chipper.queryParameters.dev ) {
         probeNode.addChild( new VBox( {
@@ -155,14 +153,6 @@ class WaveMeterNode extends Node {
                   listener: () => {soundIndexProperty.value = Math.min( soundIndexProperty.value + 1, sounds.length - 1 );}
                 } )
               ]
-            } ),
-            new RadioButtonGroup( intervalProperty, [ { value: 3, node: new Text( '3', { fontSize: 20 } ) },
-              { value: 4, node: new Text( '4', { fontSize: 20 } ) }, {
-                value: 5,
-                node: new Text( '5', { fontSize: 20 } )
-              } ], {
-              spacing: 1,
-              orientation: 'horizontal'
             } ),
             new NumberControl( 'low', lowProperty, new Range( 0.25, 2.5 ), { delta: 0.05 } )
           ]
@@ -249,11 +239,7 @@ class WaveMeterNode extends Node {
 
             const basePlaybackRate = lowProperty.value * playbackRateProperty.value;
             if ( value > 0 ) {
-              //REVIEW - This is a fairly complex calculation with lots of unexplained number, and could use some documentation.
-              const amount = intervalProperty.value === 5 ? 329.63 / 220 :
-                             intervalProperty.value === 4 ? 293.66 / 220 :
-                             277.18 / 220;
-              soundClip.setPlaybackRate( basePlaybackRate * amount ); // 5th  (SR #1 pref)
+              soundClip.setPlaybackRate( basePlaybackRate * 4 / 3 ); // Perfect 4th
             }
             else {
               soundClip.setPlaybackRate( basePlaybackRate );
