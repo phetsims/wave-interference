@@ -227,8 +227,9 @@ class WaveMeterNode extends Node {
               soundManager.addSoundGenerator( soundClip, { associatedViewNode: this } );
             }
 
-            //REVIEW - why such a precise number for the multiplier?
-            const outputLevel = getWaveMeterNodeOutputLevel( value ) * 8.912509381337454 * seriesVolume;
+            // 19dB (the amount the audio file was decreased by) corresponds to this amplitude scale, see https://github.com/phetsims/wave-interference/issues/485#issuecomment-634295284
+            const amplitudeScale = 8.912509381337454;
+            const outputLevel = getWaveMeterNodeOutputLevel( value ) * amplitudeScale * seriesVolume;
 
             //REVIEW - lots of lines wider than 120 that go off of my screen, suggest breaking up
 
