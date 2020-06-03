@@ -53,11 +53,9 @@ class SineWaveGenerator extends SoundGenerator {
       }
       else if ( !fullyEnabled && this.oscillator !== null ) {
 
-        //REVIEW - The comment below seems a little out of context.  Cut and paste error?  If not, please explain what's fading out and how this matches the timing.
-        // The parent fades out, we schedule a stop to coincide with the end of the fade out time.
+        // Turn off the audio, note that there is no need to disconnect the oscillator - this happens automatically
         this.oscillator.stop( this.audioContext.currentTime + soundConstants.DEFAULT_LINEAR_GAIN_CHANGE_TIME );
         this.oscillator = null;
-        // note that there is no need to disconnect the oscillator - this happens automatically
       }
     } );
 
