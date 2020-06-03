@@ -141,10 +141,6 @@ class WavesScreenSoundView {
         loop: true
       } );
 
-      //REVIEW - Do we still want this TODO here?  It's on the radar to work on initial audio volume issues, but will likely be a while.
-      // TODO: the following line was causing odd audio volume behavior, but this should now be addressed.  @samreid -
-      // TODO: please try using it again, and report findings in https://github.com/phetsims/tambo/issues/74.
-      // lightBeamLoopSoundClip.addEnableControlProperty( model.lightScene.soundEffectEnabledProperty );
       soundManager.addSoundGenerator( lightBeamLoopSoundClip, {
         associatedViewNode: view
       } );
