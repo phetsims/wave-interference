@@ -6,9 +6,9 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Utils from '../../../../dot/js/Utils.js';
-import InvertedBooleanProperty from '../../../../tambo/js/InvertedBooleanProperty.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import lightBeamLoopSound from '../../../sounds/light-beam-loop-v5-eq-out-bass_mp3.js';
@@ -43,7 +43,7 @@ class WavesScreenSoundView {
             model.soundScene.isTonePlayingProperty,
             model.soundScene.button1PressedProperty,
             model.isRunningProperty,
-            new InvertedBooleanProperty( model.isResettingProperty )
+            DerivedProperty.not( model.isResettingProperty )
           ]
         } );
 
