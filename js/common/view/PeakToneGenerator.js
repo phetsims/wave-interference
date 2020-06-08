@@ -28,7 +28,7 @@ class PeakToneGenerator extends SoundClip {
     super( sound, {
       loop: true,
       trimSilence: false,
-      additionalNodes: [ lowPassFilter ]
+      additionalAudioNodes: [ lowPassFilter ]
     } );
 
     this.filter = lowPassFilter;
