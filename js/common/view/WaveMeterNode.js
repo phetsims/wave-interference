@@ -1,7 +1,7 @@
 // Copyright 2018-2020, University of Colorado Boulder
 
 /**
- * Provides simulation-specific values and customizations to display a ScrollingChartNode in a MeterBodyNode.
+ * Provides simulation-specific values and customizations to display a SeismographNode in a MeterBodyNode.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -15,7 +15,7 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import DynamicSeries from '../../../../griddle/js/DynamicSeries.js';
-import ScrollingChartNode from '../../../../griddle/js/ScrollingChartNode.js';
+import SeismographNode from '../../../../griddle/js/SeismographNode.js';
 import isHMR from '../../../../phet-core/js/isHMR.js';
 import merge from '../../../../phet-core/js/merge.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
@@ -363,14 +363,14 @@ class WaveMeterNode extends Node {
       derive: 'timeProperty'
     } );
 
-    const scrollingChartNode = new ScrollingChartNode( timeProperty, [ series1, series2 ], verticalAxisTitleNode,
+    const seismographNode = new SeismographNode( timeProperty, [ series1, series2 ], verticalAxisTitleNode,
       horizontalAxisTitleNode, scaleIndicatorText, {
         width: 150,
         height: 110,
         showVerticalGridLabels: false
       } );
-    const shadedRectangle = new ShadedRectangle( scrollingChartNode.bounds.dilated( 7 ) );
-    shadedRectangle.addChild( scrollingChartNode );
+    const shadedRectangle = new ShadedRectangle( seismographNode.bounds.dilated( 7 ) );
+    shadedRectangle.addChild( seismographNode );
     backgroundNode.addChild( shadedRectangle );
 
     this.alignProbesEmitter.emit();
