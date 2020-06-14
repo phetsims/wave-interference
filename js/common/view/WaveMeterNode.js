@@ -363,12 +363,13 @@ class WaveMeterNode extends Node {
       derive: 'timeProperty'
     } );
 
-    const seismographNode = new SeismographNode( timeProperty, [ series1, series2 ], verticalAxisTitleNode,
-      horizontalAxisTitleNode, scaleIndicatorText, {
-        width: 150,
-        height: 110,
-        showVerticalGridLabels: false
-      } );
+    const seismographNode = new SeismographNode( timeProperty, [ series1, series2 ], scaleIndicatorText, {
+      width: 150,
+      height: 110,
+      verticalAxisLabelNode: verticalAxisTitleNode,
+      horizontalAxisLabelNode: horizontalAxisTitleNode,
+      showVerticalGridLabels: false
+    } );
     const shadedRectangle = new ShadedRectangle( seismographNode.bounds.dilated( 7 ) );
     shadedRectangle.addChild( seismographNode );
     backgroundNode.addChild( shadedRectangle );
