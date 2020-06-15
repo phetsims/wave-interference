@@ -48,7 +48,7 @@ class SineWaveGenerator extends SoundGenerator {
         this.oscillator = this.audioContext.createOscillator();
         this.oscillator.type = options.oscillatorType;
         updateFrequency();
-        this.oscillator.connect( this.masterGainNode );
+        this.oscillator.connect( this.soundSourceDestination );
         this.oscillator.start();
       }
       else if ( !fullyEnabled && this.oscillator !== null ) {
