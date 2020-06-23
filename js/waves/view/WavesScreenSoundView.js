@@ -32,7 +32,7 @@ class WavesScreenSoundView {
    * @param {Object} [options]
    * @public
    */
-  static init( model, view, options ) {
+  constructor( model, view, options ) {
 
     // The sound scene generates a sine wave when the "Play Tone" checkbox is checked
     if ( model.soundScene && options.controlPanelOptions.showPlaySoundControl ) {

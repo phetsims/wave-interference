@@ -616,7 +616,9 @@ class WavesScreenView extends ScreenView {
 
     // Only start up the audio system if sound is enabled for this screen
     if ( options.audioEnabled ) {
-      WavesScreenSoundView.init( model, this, options );
+
+      // @private
+      this.wavesScreenSoundView = new WavesScreenSoundView( model, this, options );
     }
   }
 
