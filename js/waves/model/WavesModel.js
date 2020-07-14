@@ -291,7 +291,11 @@ class WavesModel {
     this.isMeasuringTapeInPlayAreaProperty = new BooleanProperty( false );
 
     // @public {Stopwatch}
-    this.stopwatch = new Stopwatch();
+    this.stopwatch = new Stopwatch( {
+      timePropertyOptions: {
+        range: new Range( 0, 999.99 )
+      }
+    } );
 
     // @public
     this.isWaveMeterInPlayAreaProperty = new BooleanProperty( false );
