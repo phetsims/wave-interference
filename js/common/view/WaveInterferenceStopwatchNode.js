@@ -28,7 +28,7 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
 
     config = merge( {
       numberDisplayRange: new Range( 0, 999.99 ),
-      stopwatchNumberDisplayOptions: {
+      numberDisplayOptions: {
         numberFormatter: StopwatchNode.getRichNumberFormatter( {
           showAsDecimal: true,
           unitsProperty: unitsProperty
