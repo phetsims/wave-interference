@@ -98,56 +98,79 @@ class Scene {
       graphHorizontalAxisLabel: null // {string} - text that describes the horizontal spatial axis
     }, config );
 
+    // Validation
+    validate( config.waveSpatialType, { validValues: Scene.WaveSpatialType.VALUES } );
+    validate( config.translatedPositionUnits, VALID_STRING );
+    validate( config.waveAreaWidth, POSITIVE_NUMBER );
+    validate( config.graphHorizontalAxisLabel, VALID_STRING );
+    validate( config.scaleIndicatorLength, POSITIVE_NUMBER );
+    validate( config.positionUnits, VALID_STRING );
+    validate( config.timeScaleFactor, POSITIVE_NUMBER );
+    validate( config.timeUnits, VALID_STRING );
+    validate( config.graphVerticalAxisLabel, VALID_STRING );
+    validate( config.graphTitle, VALID_STRING );
+    validate( config.numberOfSources, { validValues: [ 1, 2 ] } );
+    validate( config.waveSpeed, POSITIVE_NUMBER );
+    validate( config.timeScaleString, { valueType: 'string' } );
+    validate( config.planeWaveGeneratorNodeText, VALID_STRING );
+    validate( config.frequencyRange, VALID_RANGE );
+    validate( config.initialSlitSeparation, POSITIVE_NUMBER );
+    validate( config.sourceSeparationRange, VALID_RANGE );
+    validate( config.initialSlitWidth, POSITIVE_NUMBER );
+    validate( config.slitWidthRange, VALID_RANGE );
+    validate( config.slitSeparationRange, VALID_RANGE );
+    validate( config.initialAmplitude, POSITIVE_NUMBER );
+
     // @public (read-only) {WaveSpatialType}
-    this.waveSpatialType = validate( config.waveSpatialType, { validValues: Scene.WaveSpatialType.VALUES } );
+    this.waveSpatialType = config.waveSpatialType;
 
     // @public (read-only) {string} - units for this scene
-    this.translatedPositionUnits = validate( config.translatedPositionUnits, VALID_STRING );
+    this.translatedPositionUnits = config.translatedPositionUnits;
 
     // @public (read-only) {number} - width of the visible part of the lattice in the scene's units
-    this.waveAreaWidth = validate( config.waveAreaWidth, POSITIVE_NUMBER );
+    this.waveAreaWidth = config.waveAreaWidth;
 
     // @public (read-only) {string} - text that describes the horizontal spatial axis
-    this.graphHorizontalAxisLabel = validate( config.graphHorizontalAxisLabel, VALID_STRING );
+    this.graphHorizontalAxisLabel = config.graphHorizontalAxisLabel;
 
     // @public (read-only) {number} - length that depicts indicate relative scale, see LengthScaleIndicatorNode
-    this.scaleIndicatorLength = validate( config.scaleIndicatorLength, POSITIVE_NUMBER );
+    this.scaleIndicatorLength = config.scaleIndicatorLength;
 
     // @public (read-only) {string} - the units (in English and for the PhET-iO data stream)
-    this.positionUnits = validate( config.positionUnits, VALID_STRING );
+    this.positionUnits = config.positionUnits;
 
     // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
-    this.timeScaleFactor = validate( config.timeScaleFactor, POSITIVE_NUMBER );
+    this.timeScaleFactor = config.timeScaleFactor;
 
     // @public (read-only) {string} - units for time, shown in the timer and optionally top right of the lattice
-    this.timeUnits = validate( config.timeUnits, VALID_STRING );
+    this.timeUnits = config.timeUnits;
 
     // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
-    this.graphVerticalAxisLabel = validate( config.graphVerticalAxisLabel, VALID_STRING );
+    this.graphVerticalAxisLabel = config.graphVerticalAxisLabel;
 
     // @public (read-only) {string} - the title to the shown on the wave-area graph
-    this.graphTitle = validate( config.graphTitle, VALID_STRING );
+    this.graphTitle = config.graphTitle;
 
     // @public (read-only) {number}
-    this.numberOfSources = validate( config.numberOfSources, { validValues: [ 1, 2 ] } );
+    this.numberOfSources = config.numberOfSources;
 
     // @public (read-only) {number}
-    this.waveSpeed = validate( config.waveSpeed, POSITIVE_NUMBER );
+    this.waveSpeed = config.waveSpeed;
 
     // @public (read-only) {string} - displayed at the top right of the wave area
-    this.timeScaleString = validate( config.timeScaleString, { valueType: 'string' } );
+    this.timeScaleString = config.timeScaleString;
 
     // @public (read-only) {string} - shown on the PlaneWaveGeneratorNode
-    this.planeWaveGeneratorNodeText = validate( config.planeWaveGeneratorNodeText, VALID_STRING );
+    this.planeWaveGeneratorNodeText = config.planeWaveGeneratorNodeText;
 
     // These config values are used to create Property instances.
-    const frequencyRange = validate( config.frequencyRange, VALID_RANGE );
-    const initialSlitSeparation = validate( config.initialSlitSeparation, POSITIVE_NUMBER );
-    const sourceSeparationRange = validate( config.sourceSeparationRange, VALID_RANGE );
-    const initialSlitWidth = validate( config.initialSlitWidth, POSITIVE_NUMBER );
-    const slitWidthRange = validate( config.slitWidthRange, VALID_RANGE );
-    const slitSeparationRange = validate( config.slitSeparationRange, VALID_RANGE );
-    const initialAmplitude = validate( config.initialAmplitude, POSITIVE_NUMBER );
+    const frequencyRange = config.frequencyRange;
+    const initialSlitSeparation = config.initialSlitSeparation;
+    const sourceSeparationRange = config.sourceSeparationRange;
+    const initialSlitWidth = config.initialSlitWidth;
+    const slitWidthRange = config.slitWidthRange;
+    const slitSeparationRange = config.slitSeparationRange;
+    const initialAmplitude = config.initialAmplitude;
 
     // @public the frequency in the appropriate units for the scene
     this.frequencyProperty = new NumberProperty( frequencyRange.getCenter(), { range: frequencyRange } );
