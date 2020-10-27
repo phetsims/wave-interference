@@ -7,12 +7,12 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import waveInterference from '../../waveInterference.js';
 import Scene from '../model/Scene.js';
 import DisturbanceTypeIconNode from './DisturbanceTypeIconNode.js';
 
-class DisturbanceTypeRadioButtonGroup extends RadioButtonGroup {
+class DisturbanceTypeRadioButtonGroup extends RectangularRadioButtonGroup {
 
   /**
    * @param {Property.<Scene.DisturbanceType>} disturbanceTypeProperty

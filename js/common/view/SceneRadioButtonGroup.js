@@ -6,11 +6,11 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceSceneIcons from './WaveInterferenceSceneIcons.js';
 
-class SceneRadioButtonGroup extends RadioButtonGroup {
+class SceneRadioButtonGroup extends RectangularRadioButtonGroup {
 
   /**
    * @param {Scene} waterScene
