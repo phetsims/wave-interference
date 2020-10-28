@@ -31,7 +31,6 @@ class DisturbanceTypeRadioButtonGroup extends RectangularRadioButtonGroup {
       buttonContentYMargin: 8,
       selectedLineWidth: 2,
       baseColor: 'white',
-      disabledBaseColor: 'white',
       selectedStroke: 'blue',
       deselectedContentOpacity: 0.4
     }, options ) );
