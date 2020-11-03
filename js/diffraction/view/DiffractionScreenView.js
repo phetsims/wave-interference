@@ -24,7 +24,7 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
-import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import wavingGirlIconImage from '../../../images/waving_girl_icon_png.js';
 import LengthScaleIndicatorNode from '../../common/view/LengthScaleIndicatorNode.js';
@@ -147,7 +147,7 @@ class DiffractionScreenView extends ScreenView {
     } );
     this.addChild( diffractionScaleIndicatorNode );
 
-    const sceneRadioButtonGroup = new RadioButtonGroup( model.sceneProperty, sceneRadioButtonContent, {
+    const sceneRadioButtonGroup = new RectangularRadioButtonGroup( model.sceneProperty, sceneRadioButtonContent, {
       baseColor: 'white',
       selectedStroke: '#419ac9',
       selectedLineWidth: 2,

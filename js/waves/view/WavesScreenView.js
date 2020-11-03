@@ -12,6 +12,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -460,7 +461,7 @@ class WavesScreenView extends ScreenView {
     const timeControlNode = new TimeControlNode( model.isRunningProperty, {
       timeSpeedProperty: model.timeSpeedProperty,
       bottom: this.layoutBounds.bottom - MARGIN,
-      centerX: this.waveAreaNode.centerX,
+      left: this.waveAreaNode.centerX,
       speedRadioButtonGroupOptions: {
         labelOptions: {
           font: WaveInterferenceConstants.DEFAULT_FONT
@@ -477,6 +478,9 @@ class WavesScreenView extends ScreenView {
         }
       }
     } );
+
+    // Center in the play area
+    timeControlNode.setPlayPauseButtonCenter( new Vector2( this.waveAreaNode.centerX, timeControlNode.centerY ) );
 
     // @private
     this.stepAction = null;
