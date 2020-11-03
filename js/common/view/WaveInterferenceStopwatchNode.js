@@ -26,14 +26,14 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
 
     const unitsProperty = new StringProperty( widestScene.timeUnits );
 
-    const createFormatter = units => StopwatchNode.getRichNumberFormatter( {
-      showAsDecimal: true,
+    const createNumberFormatter = units => StopwatchNode.createRichTextNumberFormatter( {
+      showAsMinutesAndSeconds: false,
       units: units
     } );
     config = merge( {
       numberDisplayRange: new Range( 0, 999.99 ),
       numberDisplayOptions: {
-        numberFormatter: createFormatter( unitsProperty.value ),
+        numberFormatter: createNumberFormatter( unitsProperty.value ),
         maxWidth: 120
       }
     }, config );
@@ -43,7 +43,7 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
 
     super( model.stopwatch, config );
 
-    unitsProperty.link( units => this.setNumberFormatter( createFormatter( units ) ) );
+    unitsProperty.link( units => this.setNumberFormatter( createNumberFormatter( units ) ) );
 
     // After the StopwatchNode is initialized with the maximal layout, use the correct initial value for the current
     // timeUnits
