@@ -70,7 +70,8 @@ class SoundWaveGeneratorNode extends WaveGeneratorNode {
     assert && assert( soundScene instanceof SoundScene, 'soundScene should be an instance of SoundScene' );
     const image = new Image( speakerImageMID, {
       rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 ),
-      scale: 0.75
+      scale: 0.75,
+      renderer: 'canvas'
     } );
     super( soundScene, waveAreaNode, 42, isPrimarySource, image );
     const modelProperty = isPrimarySource ? soundScene.oscillator1Property :
