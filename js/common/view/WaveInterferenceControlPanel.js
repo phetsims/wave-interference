@@ -81,14 +81,14 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
     const separator = new HSeparator( maxComponentWidth );
 
     // Set pointer areas for the checkboxes, now that we have the separator dimensions.
-    graphCheckbox.mouseArea = graphCheckbox.localBounds.dilated( 2 ).withX( separator.right );
-    graphCheckbox.touchArea = graphCheckbox.mouseArea;
+    const updatePointerAreas = checkbox => {
+      checkbox.mouseArea = checkbox.localBounds.dilated( 2 ).withX( maxComponentWidth );
+      checkbox.touchArea = checkbox.mouseArea;
+    };
 
-    screenCheckbox.mouseArea = screenCheckbox.localBounds.dilated( 2 ).withX( separator.right );
-    screenCheckbox.touchArea = screenCheckbox.mouseArea;
-
-    intensityCheckbox.mouseArea = intensityCheckbox.localBounds.dilated( 2 ).withX( separator.right );
-    intensityCheckbox.touchArea = intensityCheckbox.mouseArea;
+    updatePointerAreas( graphCheckbox );
+    updatePointerAreas( screenCheckbox );
+    updatePointerAreas( intensityCheckbox );
 
     // See also playToneCheckbox mouseArea/touchArea set below
 
@@ -109,8 +109,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
           audioEnabled: options.audioEnabled
         } );
 
-      playToneCheckbox.mouseArea = playToneCheckbox.localBounds.dilated( 2 ).withX( separator.right );
-      playToneCheckbox.touchArea = playToneCheckbox.mouseArea;
+      updatePointerAreas( playToneCheckbox );
     }
 
     // Horizontal layout
@@ -173,13 +172,16 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
     const createLightSonificationCheckbox = () => {
 
       const lastCheckbox = options.showIntensityCheckbox ? intensityCheckbox : screenCheckbox;
-      return new WaveInterferenceCheckbox(
+      const soundEffectCheckbox = new WaveInterferenceCheckbox(
         new WaveInterferenceText( soundEffectString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
         model.lightScene.soundEffectEnabledProperty, {
           audioEnabled: options.audioEnabled,
           top: lastCheckbox.bottom + CHECKBOX_SPACING,
           left: screenCheckbox.left
         } );
+      updatePointerAreas( soundEffectCheckbox );
+
+      return soundEffectCheckbox;
     };
 
     // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
