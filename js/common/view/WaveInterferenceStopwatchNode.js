@@ -33,7 +33,8 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
     config = merge( {
       numberDisplayRange: new Range( 0, 999.99 ),
       numberDisplayOptions: {
-        numberFormatter: createFormatter( unitsProperty.value )
+        numberFormatter: createFormatter( unitsProperty.value ),
+        maxWidth: 120
       }
     }, config );
 
