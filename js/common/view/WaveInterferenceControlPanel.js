@@ -10,6 +10,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import platform from '../../../../phet-core/js/platform.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
@@ -109,6 +110,10 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
           audioEnabled: options.audioEnabled
         } );
 
+      soundManager.enabledProperty.link( enabled => {
+        playToneCheckbox.enabled = enabled;
+      } );
+
       updatePointerAreas( playToneCheckbox );
     }
 
@@ -179,6 +184,9 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
           top: lastCheckbox.bottom + CHECKBOX_SPACING,
           left: screenCheckbox.left
         } );
+      soundManager.enabledProperty.link( enabled => {
+        soundEffectCheckbox.enabled = enabled;
+      } );
       updatePointerAreas( soundEffectCheckbox );
 
       return soundEffectCheckbox;
