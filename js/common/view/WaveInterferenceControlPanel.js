@@ -110,6 +110,10 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
           audioEnabled: options.audioEnabled
         } );
 
+      // In terms of PhET-iO, there could be a situation where a client wants to control the enabledProperty of the
+      // sound-related checkboxes, and toggling the mute button in the navbar will override their customization. There
+      // is precedent for handling this sort of situation in other sims, such as the neutralIndicatorNode in ph-scale
+      // (phetsims/ph-scale#102) and the phaseDiagramContainer in states-of-matter (phetsims/states-of-matter#332).
       soundManager.enabledProperty.link( enabled => {
         playToneCheckbox.enabled = enabled;
       } );
@@ -184,6 +188,11 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
           top: lastCheckbox.bottom + CHECKBOX_SPACING,
           left: screenCheckbox.left
         } );
+
+      // In terms of PhET-iO, there could be a situation where a client wants to control the enabledProperty of the
+      // sound-related checkboxes, and toggling the mute button in the navbar will override their customization. There
+      // is precedent for handling this sort of situation in other sims, such as the neutralIndicatorNode in ph-scale
+      // (phetsims/ph-scale#102) and the phaseDiagramContainer in states-of-matter (phetsims/states-of-matter#332).
       soundManager.enabledProperty.link( enabled => {
         soundEffectCheckbox.enabled = enabled;
       } );
