@@ -464,7 +464,8 @@ class WavesScreenView extends ScreenView {
       left: this.waveAreaNode.centerX,
       speedRadioButtonGroupOptions: {
         labelOptions: {
-          font: WaveInterferenceConstants.DEFAULT_FONT
+          font: WaveInterferenceConstants.DEFAULT_FONT,
+          maxWidth: WaveInterferenceConstants.MAX_WIDTH_VIEWPORT_BUTTON_TEXT
         }
       },
       playPauseStepButtonOptions: {
@@ -480,7 +481,7 @@ class WavesScreenView extends ScreenView {
     } );
 
     // Center in the play area
-    timeControlNode.setPlayPauseButtonCenter( new Vector2( this.waveAreaNode.centerX, timeControlNode.centerY ) );
+    timeControlNode.center = new Vector2( this.waveAreaNode.centerX, timeControlNode.centerY );
 
     // @private
     this.stepAction = null;

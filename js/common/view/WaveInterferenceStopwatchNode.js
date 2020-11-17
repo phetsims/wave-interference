@@ -11,6 +11,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import Range from '../../../../dot/js/Range.js';
 import StopwatchNode from '../../../../scenery-phet/js/StopwatchNode.js';
 import waveInterference from '../../waveInterference.js';
+import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
 class WaveInterferenceStopwatchNode extends StopwatchNode {
@@ -34,7 +35,7 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
       numberDisplayRange: new Range( 0, 999.99 ),
       numberDisplayOptions: {
         numberFormatter: createNumberFormatter( unitsProperty.value ),
-        maxWidth: 120
+        maxWidth: WaveInterferenceConstants.MAX_WIDTH
       }
     }, config );
 

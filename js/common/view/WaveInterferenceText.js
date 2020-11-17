@@ -20,9 +20,7 @@ class WaveInterferenceText extends Text {
   constructor( string, options ) {
     super( string, merge( {
       font: WaveInterferenceConstants.DEFAULT_FONT,
-
-      // This addresses numerous cases where `maxWidth: 120` would have to otherwise be set in client code.
-      maxWidth: 120
+      maxWidth: WaveInterferenceConstants.MAX_WIDTH
     }, options ) );
   }
 }

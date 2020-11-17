@@ -137,7 +137,11 @@ const WaveInterferenceConstants = {
   // The height of the spectrum track (for frequency or wavelength controls), in view coordinates
   SPECTRUM_TRACK_HEIGHT: 20,
 
-  NUMBER_CONTROL_HORIZONTAL_TOUCH_AREA_DILATION: NUMBER_CONTROL_HORIZONTAL_TOUCH_AREA_DILATION
+  NUMBER_CONTROL_HORIZONTAL_TOUCH_AREA_DILATION: NUMBER_CONTROL_HORIZONTAL_TOUCH_AREA_DILATION,
+
+  MAX_WIDTH: 120,
+
+  MAX_WIDTH_VIEWPORT_BUTTON_TEXT: 90
 };
 
 // Derived constants
