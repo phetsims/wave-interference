@@ -101,8 +101,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
     let playToneCheckbox = null;
 
-    // Only show the Play Tone checkbox for the Sound Scene, if specified.  Not supported on Internet Explorer
-    // due to lack of IE support for tambo, see https://github.com/phetsims/wave-interference/issues/425
+    // Only show the Play Tone checkbox for the Sound Scene, if specified.
     if ( model.soundScene && options.showPlaySoundControl ) {
       playToneCheckbox = new WaveInterferenceCheckbox( new WaveInterferenceText( playToneString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
         model.soundScene.isTonePlayingProperty, {
