@@ -7,7 +7,6 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import platform from '../../../../phet-core/js/platform.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -104,7 +103,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
     // Only show the Play Tone checkbox for the Sound Scene, if specified.  Not supported on Internet Explorer
     // due to lack of IE support for tambo, see https://github.com/phetsims/wave-interference/issues/425
-    if ( model.soundScene && options.showPlaySoundControl && !platform.ie ) {
+    if ( model.soundScene && options.showPlaySoundControl ) {
       playToneCheckbox = new WaveInterferenceCheckbox( new WaveInterferenceText( playToneString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
         model.soundScene.isTonePlayingProperty, {
           audioEnabled: options.audioEnabled
