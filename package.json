@@ -16,7 +16,8 @@
     ],
     "phetLibs": [
       "twixt",
-      "griddle"
+      "griddle",
+      "bamboo"
     ],
     "runnable": true,
     "supportedBrands": [
