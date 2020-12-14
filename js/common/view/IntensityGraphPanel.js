@@ -105,7 +105,9 @@ class IntensityGraphPanel extends WaveInterferencePanel {
     resetEmitter.addListener( () => zoomLevelProperty.reset() );
 
     const zoomButtonOptions = {
-      magnifyingGlassRadius: 6,
+      magnifyingGlassOptions: {
+        glassRadius: 6
+      },
       baseColor: ColorConstants.LIGHT_BLUE,
       top: titleNode.bottom + 13
     };
