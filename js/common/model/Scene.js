@@ -178,6 +178,9 @@ class Scene {
     // @private - point source wave generation is suppressed when changing the source separation
     this.muted = false;
 
+    // @private - the model must be updated once more at the end of a cycle
+    this.pulseJustCompleted = false;
+
     // @public distance between the sources in the units of the scene, or 0 if there is only one
     // source initialized to match the initial slit separation,
     // see https://github.com/phetsims/wave-interference/issues/87
@@ -460,7 +463,7 @@ class Scene {
     let temporalMask1Empty = true;
     let temporalMask2Empty = true;
 
-    if ( continuous1 || continuous2 || this.pulseFiringProperty.get() ) {
+    if ( continuous1 || continuous2 || this.pulseFiringProperty.get() || this.pulseJustCompleted ) {
 
       // The simulation is designed to start with a downward wave, corresponding to water splashing in
       const frequency = this.frequencyProperty.value;
@@ -483,7 +486,7 @@ class Scene {
       const latticeCenterJ = Math.floor( this.lattice.height / 2 );
 
       // Point source
-      if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() ) {
+      if ( this.continuousWave1OscillatingProperty.get() || this.pulseFiringProperty.get() || this.pulseJustCompleted ) {
         const j = latticeCenterJ + distanceFromCenter;
         lattice.setCurrentValue( WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE, j, waveValue );
         this.oscillator1Property.value = waveValue;
@@ -492,6 +495,7 @@ class Scene {
           temporalMask1Empty = false;
         }
       }
+      this.pulseJustCompleted = false;
 
       // Secondary source (note if there is only one source, this sets the same value as above)
       if ( this.continuousWave2OscillatingProperty.get() ) {
@@ -638,17 +642,23 @@ class Scene {
     const frequency = this.frequencyProperty.get();
     const period = 1 / frequency;
 
-    const dt = wallDT * this.timeScaleFactor;
+    // Compute a standard dt
+    let dt = wallDT * this.timeScaleFactor;
+
+    // Truncate dt if a pulse would end partway through a timestep
+    const exceededPulse = this.pulseFiringProperty.get() && ( this.timeProperty.value + dt - this.pulseStartTime >= period );
+    if ( exceededPulse ) {
+      dt = this.pulseStartTime + period - this.timeProperty.value;
+    }
+
+    // Update the time
     this.timeProperty.value += dt;
 
     // If the pulse is running, end the pulse after one period
-    if ( this.pulseFiringProperty.get() ) {
-      const timeSincePulseStarted = this.timeProperty.value - this.pulseStartTime;
-
-      if ( timeSincePulseStarted > period ) {
-        this.pulseFiringProperty.set( false );
-        this.pulseStartTime = 0;
-      }
+    if ( exceededPulse ) {
+      this.pulseFiringProperty.set( false );
+      this.pulseStartTime = 0;
+      this.pulseJustCompleted = true;
     }
     if ( !this.muted ) {
 
