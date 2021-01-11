@@ -96,7 +96,7 @@ class WavesScreenSoundView {
       // When the wave generator completes a full cycle (passing from positive to negative), restart the speaker
       // clip at the corresponding volume and frequency.  Note this means if the frequency or volume changes, the
       // user has to wait for the next cycle to hear the change.
-      let previousOscillatorValue = null;
+      let previousOscillatorValue = model.soundScene.oscillator1Property.value;
       Property.multilink( [
         model.soundScene.oscillator1Property,
         model.soundScene.isTonePlayingProperty,
@@ -119,7 +119,10 @@ class WavesScreenSoundView {
         speakerMembraneSoundClip.setOutputLevel( outputLevel * ducking, 0.2 ); // Time constant must work for amplitude changes and ducking
         speakerMembraneSoundClip.setPlaybackRate( playbackRate / 2 );
 
-        if ( previousOscillatorValue >= 0 && oscillatorValue < 0 ) {
+        // Sometimes a cycle ends at 2.0698762975327177e-13, and sometimes a cycle ends at -6.58607807786067e-14
+        // To tolerate both kinds of stopping, we detect a cycle a little below zero
+        const TRIGGER = -1E-6;
+        if ( previousOscillatorValue >= TRIGGER && oscillatorValue < TRIGGER ) {
           speakerMembraneSoundClip.play();
         }
 
