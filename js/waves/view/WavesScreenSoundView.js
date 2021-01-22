@@ -8,6 +8,7 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -74,7 +75,7 @@ class WavesScreenSoundView {
 
         // Select water drop sounds randomly, but do not let the same sound go twice in a row
         const availableClips = _.without( soundClips, lastPlayedWaterDropSoundClip );
-        lastPlayedWaterDropSoundClip = phet.joist.random.sample( availableClips );
+        lastPlayedWaterDropSoundClip = dotRandom.sample( availableClips );
         lastPlayedWaterDropSoundClip.setPlaybackRate( amplitude );
 
         // The wave meter node takes precedence over the water drop sounds

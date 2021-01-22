@@ -11,6 +11,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import waveInterference from '../../waveInterference.js';
@@ -54,8 +55,8 @@ class SoundScene extends Scene {
         for ( let k = 0; k <= SOUND_PARTICLE_COLUMNS; k++ ) {
           this.soundParticles.push( new SoundParticle(
             i, k,
-            i * this.waveAreaWidth / SOUND_PARTICLE_ROWS + phet.joist.random.nextGaussian() * RANDOM_RADIUS,
-            k * this.waveAreaWidth / SOUND_PARTICLE_COLUMNS + phet.joist.random.nextGaussian() * RANDOM_RADIUS
+            i * this.waveAreaWidth / SOUND_PARTICLE_ROWS + dotRandom.nextGaussian() * RANDOM_RADIUS,
+            k * this.waveAreaWidth / SOUND_PARTICLE_COLUMNS + dotRandom.nextGaussian() * RANDOM_RADIUS
           ) );
         }
       }

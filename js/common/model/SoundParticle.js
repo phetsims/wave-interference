@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
 import waveInterference from '../../waveInterference.js';
 
@@ -67,8 +68,8 @@ class SoundParticle {
 
     // the particles move randomly even when there are no waves, because they are not at absolute zero
     // see https://github.com/phetsims/wave-interference/issues/123
-    fx += ( phet.joist.random.nextDouble() - 0.5 ) * 2 * RANDOMNESS;
-    fy += ( phet.joist.random.nextDouble() - 0.5 ) * 2 * RANDOMNESS;
+    fx += ( dotRandom.nextDouble() - 0.5 ) * 2 * RANDOMNESS;
+    fy += ( dotRandom.nextDouble() - 0.5 ) * 2 * RANDOMNESS;
 
     // use the airK as the magnitude and the forceCenter for direction only.
     const restorationSpringConstant = Utils.linear(
