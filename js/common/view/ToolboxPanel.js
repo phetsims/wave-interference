@@ -7,6 +7,7 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Shape from '../../../../kite/js/Shape.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import waveInterference from '../../waveInterference.js';
@@ -52,6 +53,9 @@ class ToolboxPanel extends WaveInterferencePanel {
     // Node used to create the icon
     isStopwatchVisibleProperty.value = true;
     const stopwatchNodeIcon = stopwatchNode.rasterized().mutate( { scale: 0.45 } );
+
+    // Prevent long strings from leaking out of the touch/mouse area, workaround for https://github.com/phetsims/wave-interference/issues/513
+    stopwatchNodeIcon.clipArea = Shape.bounds( stopwatchNodeIcon.localBounds.dilated( 2 ) );
     isStopwatchVisibleProperty.value = false;
 
     // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
