@@ -112,12 +112,12 @@ class WaveMeterNode extends Node {
      * @param {Color|string} wireColor
      * @param {number} dx - initial relative x coordinate for the probe
      * @param {number} dy - initial relative y coordinate for the probe
-     * @param {Property<Vector2>} connectionProperty
+     * @param {Property.<Vector2>} connectionProperty
      * @param {SoundClip[]} sounds
-     * @param {Property<number>} soundIndexProperty
-     * @param {Property<boolean>} playbackRateProperty
-     * @param {Property<boolean>} volumeProperty
-     * @param {Property<boolean>} isPlayingProperty
+     * @param {Property.<number>} soundIndexProperty
+     * @param {Property.<boolean>} playbackRateProperty
+     * @param {Property.<boolean>} volumeProperty
+     * @param {Property.<boolean>} isPlayingProperty
      * @param {number} seriesVolume
      * @returns {DynamicSeries}
      */
