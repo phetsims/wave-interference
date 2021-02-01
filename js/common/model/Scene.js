@@ -776,7 +776,7 @@ class Scene {
   }
 
   /**
-   * Called when the primary button is toggled.  Can be overriden for scene-specific behavior.
+   * Called when the primary button is toggled.  Can be overridden for scene-specific behavior.
    * @param {boolean} isPressed
    * @protected
    */
@@ -795,7 +795,7 @@ class Scene {
   }
 
   /**
-   * Called when the secondary button is toggled.  Can be overriden for scene-specific behavior.
+   * Called when the secondary button is toggled.  Can be overridden for scene-specific behavior.
    * @param {boolean} isPressed
    * @protected
    */
@@ -807,7 +807,7 @@ class Scene {
   }
 
   /**
-   * No-op which may be overriden for scene-specific behavior.  Called when the phase changes.
+   * No-op which may be overridden for scene-specific behavior.  Called when the phase changes.
    * @protected
    */
   handlePhaseChanged() {
