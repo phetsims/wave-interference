@@ -596,7 +596,7 @@ class WavesScreenView extends ScreenView {
       const primaryWaveGeneratorToggleNode = createWaveGeneratorToggleNode( true );
       this.addChild( primaryWaveGeneratorToggleNode ); // Primary source
 
-      this.pdomPlayAreaNode.accessibleOrder = [ primaryWaveGeneratorToggleNode, null ];
+      this.pdomPlayAreaNode.pdomOrder = [ primaryWaveGeneratorToggleNode, null ];
 
       // Secondary source
       if ( model.numberOfSources === 2 ) {
