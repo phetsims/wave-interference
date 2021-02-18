@@ -10,8 +10,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Shape from '../../../../kite/js/Shape.js';
-import merge from '../../../../phet-core/js/merge.js';
-import ZoomButton from '../../../../scenery-phet/js/buttons/ZoomButton.js';
+import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
@@ -104,36 +103,19 @@ class IntensityGraphPanel extends WaveInterferencePanel {
     // Reset zoom level when sim is reset
     resetEmitter.addListener( () => zoomLevelProperty.reset() );
 
-    const zoomButtonOptions = {
-      magnifyingGlassOptions: {
-        glassRadius: 6
+    const zoomButtonGroup = new MagnifyingGlassZoomButtonGroup( zoomLevelProperty, {
+      spacing: 35,
+      top: titleNode.bottom + 13,
+      buttonOptions: {
+        baseColor: ColorConstants.LIGHT_BLUE
       },
-      baseColor: ColorConstants.LIGHT_BLUE,
-      top: titleNode.bottom + 13
-    };
-
-    // Zoom out button on the left
-    const zoomOutButton = new ZoomButton( merge( {
-      in: false,
-      left: chartRectangle.left,
-      listener: () => zoomLevelProperty.value--
-    }, zoomButtonOptions ) );
-
-    // Zoom in button on the right
-    const zoomInButton = new ZoomButton( merge( {
-      in: true,
-      right: chartRectangle.right,
-      listener: () => zoomLevelProperty.value++
-    }, zoomButtonOptions ) );
-
-    // Disable zoom buttons at the extrema
-    zoomLevelProperty.link( zoomLevel => {
-      zoomOutButton.enabled = zoomLevel > zoomRange.min;
-      zoomInButton.enabled = zoomLevel < zoomRange.max;
+      magnifyingGlassNodeOptions: {
+        glassRadius: 6
+      }
     } );
 
     const chartNode = new Node( {
-      children: [ chartRectangle, curve, titleNode, zoomOutButton, zoomInButton ]
+      children: [ chartRectangle, curve, titleNode, zoomButtonGroup ]
     } );
 
     super( chartNode, options );
