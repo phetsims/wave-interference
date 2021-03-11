@@ -23,7 +23,7 @@ class WavingGirlScene extends DiffractionScene {
     } );
     const rotationProperty = new NumberProperty( 0, {
       range: new Range( 0, 360 ),
-      units: 'degrees'
+      units: '\u00B0' // degrees
     } );
     super( [ heightProperty, rotationProperty ] );
 
