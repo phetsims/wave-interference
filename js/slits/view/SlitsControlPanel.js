@@ -62,8 +62,8 @@ class SlitsControlPanel extends WaveInterferencePanel {
     } );
 
     const createTicks = property => [
-      { value: property.range.min, label: createLabel( '' + property.range.min ) },
-      { value: property.range.max, label: createLabel( '' + property.range.max ) }
+      { value: property.range.min, label: createLabel( `${property.range.min}` ) },
+      { value: property.range.max, label: createLabel( `${property.range.max}` ) }
     ];
 
     // Slit width controls.  Ranges, values and deltas specified in

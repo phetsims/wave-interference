@@ -87,7 +87,7 @@ class WavesModel {
     }, options );
 
     assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
-      'initialAmplitude is out of range: ' + options.initialAmplitude );
+      `initialAmplitude is out of range: ${options.initialAmplitude}` );
 
     assert && assert(
       options.numberOfSources === 1 || options.numberOfSources === 2,
