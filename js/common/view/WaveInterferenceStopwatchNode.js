@@ -40,7 +40,7 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
     }, config );
 
     assert && assert( !!config.dragListenerOptions, 'end is a required argument' );
-    assert && assert( !!config.visibleBoundsProperty, 'visibleBoundsProperty is a required argument' );
+    assert && assert( !!config.dragBoundsProperty, 'dragBoundsProperty is a required argument' );
 
     super( model.stopwatch, config );
 

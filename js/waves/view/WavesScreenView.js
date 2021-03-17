@@ -327,7 +327,7 @@ class WavesScreenView extends ScreenView {
     model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
 
     const stopwatchNode = new WaveInterferenceStopwatchNode( model, {
-      visibleBoundsProperty: this.visibleBoundsProperty,
+      dragBoundsProperty: this.visibleBoundsProperty,
 
       dragListenerOptions: {
         start: () => {
