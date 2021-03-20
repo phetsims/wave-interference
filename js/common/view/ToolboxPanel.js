@@ -108,12 +108,12 @@ class ToolboxPanel extends WaveInterferencePanel {
  * Initialize the icon for use in the toolbox.
  * @param {Node} node
  * @param {Property.<boolean>} inPlayAreaProperty
- * @param {Object} forwardingListener
+ * @param {function} down
  */
-const initializeIcon = ( node, inPlayAreaProperty, forwardingListener ) => {
+const initializeIcon = ( node, inPlayAreaProperty, down ) => {
   node.cursor = 'pointer';
   inPlayAreaProperty.link( inPlayArea => { node.visible = !inPlayArea; } );
-  node.addInputListener( DragListener.createForwardingListener( forwardingListener ) );
+  node.addInputListener( DragListener.createForwardingListener( down ) );
 };
 
 waveInterference.register( 'ToolboxPanel', ToolboxPanel );
