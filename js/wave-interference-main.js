@@ -22,8 +22,8 @@ const simOptions = {
   credits: {
     leadDesign: 'Amy Rouinfar, Noah Podolefsky',
     softwareDevelopment: 'Sam Reid',
-    team: 'Wendy Adams, Diana L\u00f3pez Tavares, Ariel Paul, Kathy Perkins, Katie Woessner',
-    qualityAssurance: 'Steele Dalton, Megan Lai, Liam Mulhall, Laura Rea, Jacob Romero, Katie Woessner, Kelly Wurtz',
+    team: 'Wendy Adams, Diana L\u00f3pez Tavares, Ariel Paul, Kathy Perkins, Kathryn Woessner',
+    qualityAssurance: 'Steele Dalton, Megan Lai, Liam Mulhall, Laura Rea, Jacob Romero, Kathryn Woessner, Kelly Wurtz',
     graphicArts: 'Cheryl McCutchan',
     thanks: 'This material is based upon work supported by the National Science Foundation under STROBE Grant No. DMR ' +
             '1548924. Any opinions, findings, and conclusions or recommendations expressed in this material are those ' +
