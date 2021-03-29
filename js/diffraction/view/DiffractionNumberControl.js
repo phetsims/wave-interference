@@ -7,6 +7,7 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
@@ -26,10 +27,10 @@ class DiffractionNumberControl extends NumberControl {
       sliderOptions: {
         majorTicks: [ {
           value: property.range.min,
-          label: new WaveInterferenceText( property.range.min.toFixed( 2 ) )
+          label: new WaveInterferenceText( Utils.toFixed( property.range.min, 2 ) )
         }, {
           value: property.range.max,
-          label: new WaveInterferenceText( property.range.max.toFixed( 2 ) )
+          label: new WaveInterferenceText( Utils.toFixed( property.range.max, 2 ) )
         } ]
       }
     }, options );
