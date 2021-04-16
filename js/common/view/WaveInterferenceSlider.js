@@ -19,7 +19,7 @@ import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
 // constants
-const MIN_INTER_CLICK_TIME = ( 1 / 60 * 1000 ) * 2; // min time between clicks, in milliseconds, empirically determined
+const MIN_INTER_CLICK_TIME = ( 1 / 60 * 1000 ) * 2; // min time between clicking sounds, in milliseconds, empirically determined
 const TOLERANCE = 1E-6;
 
 const maxString = waveInterferenceStrings.max;
