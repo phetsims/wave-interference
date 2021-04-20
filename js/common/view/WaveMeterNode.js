@@ -324,7 +324,7 @@ class WaveMeterNode extends Node {
       waveMeterSound2Property, waveMeterSound2PlaybackRateProperty, waveMeterSound2VolumeProperty, series2PlayingProperty,
       0.42 );
 
-    // Turn down the water drops, speaker or light sound when the wave meter is being used.
+    // @public {DerivedProperty.<number>} - Turn down the water drops, speaker or light sound when the wave meter is being used.
     this.duckingProperty = new DerivedProperty( [ series1PlayingProperty, series2PlayingProperty ], ( a, b ) => {
       if ( a || b ) {
         return 0.3;
