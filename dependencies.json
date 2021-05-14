@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 2.0.3-rc.1 Mon May 10 2021 12:39:29 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# wave-interference 2.0.3-rc.2 Fri May 14 2021 08:46:09 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "201c50a840e082354b013f4ab9e9d45006f98cfe",
     "branch": "HEAD"
@@ -50,7 +50,7 @@
   },
   "phetmarks": {
     "sha": "1dcdf67f09932ff86941f4f765b12dd20d7f18c0",
-    "branch": "wave-interference-2.0"
+    "branch": "HEAD"
   },
   "query-string-machine": {
     "sha": "c4c6d494b474aeb14d700a8142da81776f62a2ba",
@@ -85,7 +85,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "5410eb859ae7735bc836e3fd2aaa95ffff7e7f84",
+    "sha": "6aaca4aee9684af37b222b45da030e83098789d2",
     "branch": "2.0"
   }
 }
