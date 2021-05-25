@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+// Copyright 2018-2021, University of Colorado Boulder
 
 /**
  * When the sound wave generator is selected, shows discrete, moving particles for the sound scene.

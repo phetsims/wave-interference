@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+// Copyright 2018-2021, University of Colorado Boulder
 
 /**
  * Model for the "Waves" screen and other derivative screens.  This model supports two sources, even though the waves

@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+// Copyright 2018-2021, University of Colorado Boulder
 
 /**
  * Shows a graph of intensity as a function of position at the right-side of the lattice (when selected).
