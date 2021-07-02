@@ -24,7 +24,9 @@
       "phet",
       "adapted-from-phet"
     ],
-    "supportsSound": true,
+    "features": {
+      "supportsSound": true
+    },
     "simulation": true
   },
   "eslintConfig": {
