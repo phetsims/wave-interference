@@ -30,8 +30,8 @@ import NodeProperty from '../../../../scenery/js/util/NodeProperty.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import sawTone from '../../../sounds/wave-meter-saw-tone_mp3.js';
-import smoothTone from '../../../sounds/wave-meter-smooth-tone_mp3.js';
+import sawToneSound from '../../../sounds/wave-meter-saw-tone_mp3.js';
+import smoothToneSound from '../../../sounds/wave-meter-smooth-tone_mp3.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import getWaveMeterNodeOutputLevel from './getWaveMeterNodeOutputLevel.js';
@@ -44,7 +44,7 @@ isHMR && module.hot.accept( './getWaveMeterNodeOutputLevel.js', () => {} );
 const timeString = waveInterferenceStrings.time;
 
 // sounds
-const sounds = [ sawTone, smoothTone ];
+const sounds = [ sawToneSound, smoothToneSound ];
 
 // constants
 const SERIES_1_COLOR = '#191919';

@@ -14,16 +14,16 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import lightBeamLoopSound from '../../../sounds/light-beam-loop-v5-eq-out-bass_mp3.js';
 import speakerPulseSound from '../../../sounds/speaker-pulse-v4_mp3.js';
-import waterDropSound1 from '../../../sounds/water-drop-v5-001_mp3.js';
-import waterDropSound2 from '../../../sounds/water-drop-v5-002_mp3.js';
-import waterDropSound3 from '../../../sounds/water-drop-v5-003_mp3.js';
-import waterDropSound0 from '../../../sounds/water-drop-v5_mp3.js';
+import waterDrop1Sound from '../../../sounds/water-drop-v5-001_mp3.js';
+import waterDrop2Sound from '../../../sounds/water-drop-v5-002_mp3.js';
+import waterDrop3Sound from '../../../sounds/water-drop-v5-003_mp3.js';
+import waterDrop0Sound from '../../../sounds/water-drop-v5_mp3.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
 import SineWaveGenerator from './SineWaveGenerator.js';
 
 // sounds
-const waterDropSounds = [ waterDropSound0, waterDropSound1, waterDropSound2, waterDropSound3 ];
+const waterDropSounds = [ waterDrop0Sound, waterDrop1Sound, waterDrop2Sound, waterDrop3Sound ];
 
 class WavesScreenSoundView {
 
