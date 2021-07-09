@@ -224,7 +224,7 @@ class WaveMeterNode extends Node {
 
             // "Play Tone" takes precedence over the wave meter node sounds, because it is meant to be used briefly
             const isDucking = model.sceneProperty.value === model.soundScene && model.soundScene.isTonePlayingProperty.value;
-            const duckFactor = isDucking ? 0.2 : 1;
+            const duckFactor = isDucking ? 0.1 : 1;
 
             // Set the main volume.  If the sound clip wasn't playing, set the sound immediately to correct an audio
             // blip when the probe enters the play area.  If the sound clip was playing, use a longer time constant
