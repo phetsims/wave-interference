@@ -373,14 +373,14 @@ class WavesScreenView extends ScreenView {
         waveMeterNode.moveToFront();
         if ( waveMeterNode.synchronizeProbePositions ) {
 
-          // Align the probes each time the MeterBodyNode translates, so they will stay in sync
+          // Align the probes each time the waveMeterNode translates, so they will stay in sync
           waveMeterNode.alignProbesEmitter.emit();
         }
       },
       drag: () => {
         if ( waveMeterNode.synchronizeProbePositions ) {
 
-          // Align the probes each time the MeterBodyNode translates, so they will stay in sync
+          // Align the probes each time the waveMeterNode translates, so they will stay in sync
           waveMeterNode.alignProbesEmitter.emit();
         }
       },
