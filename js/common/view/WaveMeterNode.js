@@ -1,7 +1,7 @@
 // Copyright 2018-2021, University of Colorado Boulder
 
 /**
- * Provides simulation-specific values and customizations to display a SeismographNode in a MeterBodyNode.
+ * Provides simulation-specific values and customizations to display a SeismographNode in a chart.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -78,7 +78,7 @@ class WaveMeterNode extends Node {
 
     super();
 
-    // @public (read-only) {Node} - shows the background for the MeterBodyNode.  Any attached probes or other
+    // @public (read-only) {Node} - shows the background for the chart.  Any attached probes or other
     // supplemental nodes should not be children of the backgroundNode if they need to translate independently.
     this.backgroundNode = backgroundNode;
 
@@ -90,7 +90,7 @@ class WaveMeterNode extends Node {
     // Mutate after backgroundNode is added as a child
     this.mutate( options );
 
-    // @public {boolean} - true if dragging the MeterBodyNode also causes attached probes to translate.
+    // @public {boolean} - true if dragging the chart also causes attached probes to translate.
     // This is accomplished by calling alignProbes() on drag start and each drag event.
     this.synchronizeProbePositions = false;
 
@@ -269,7 +269,7 @@ class WaveMeterNode extends Node {
       // The probe is also reset when dropped back in the toolbox.
       this.resetEmitter.addListener( clear );
 
-      // When the wave is paused and the user is dragging the entire MeterBodyNode with the probes aligned, they
+      // When the wave is paused and the user is dragging the entire chart with the probes aligned, they
       // need to sample their new positions.
       probeNode.transformEmitter.addListener( updateSamples );
 
@@ -387,7 +387,7 @@ class WaveMeterNode extends Node {
   }
 
   /**
-   * Gets the region of the background in global coordinates.  This can be used to determine if the MeterBodyNode
+   * Gets the region of the background in global coordinates.  This can be used to determine if the chart
    * should be dropped back in a toolbox.
    * @returns {Bounds2}
    * @public
@@ -398,7 +398,7 @@ class WaveMeterNode extends Node {
 
   /**
    * Forward an event from the toolbox to start dragging the node in the play area.  This triggers the probes (if any)
-   * to drag together with the MeterBodyNode.  This is accomplished by calling this.alignProbes() at each drag event.
+   * to drag together with the chart.  This is accomplished by calling this.alignProbes() at each drag event.
    * @param {Object} event
    * @public
    */
