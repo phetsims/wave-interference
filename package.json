@@ -24,7 +24,7 @@
       "phet",
       "adapted-from-phet"
     ],
-    "features": {
+    "simFeatures": {
       "supportsSound": true
     },
     "simulation": true
