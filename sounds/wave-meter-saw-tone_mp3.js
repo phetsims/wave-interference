@@ -14,8 +14,9 @@ const onDecodeSuccess = decodedAudio => {
 };
 const onDecodeError = decodeError => {
   console.warn( 'decode of audio data failed, using stubbed sound, error: ' + decodeError );
-  wrappedAudioBuffer.audioBufferProperty.set( phetAudioContext.createBuffer( 1, 0, phetAudioContext.sampleRate ) );
+  wrappedAudioBuffer.audioBufferProperty.set( phetAudioContext.createBuffer( 1, 1, phetAudioContext.sampleRate ) );
   unlock();
 };
-phetAudioContext.decodeAudioData( soundByteArray.buffer, onDecodeSuccess, onDecodeError );
+phetAudioContext.decodeAudioData( soundByteArray.buffer, onDecodeSuccess, onDecodeError )
+  .catch( e => { console.warn( 'promise rejection caught for audio decode, error = ' + e ) } );
 export default wrappedAudioBuffer;
