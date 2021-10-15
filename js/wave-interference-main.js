@@ -28,9 +28,9 @@ define( require => {
       team: 'Wendy Adams, Diana L\u00f3pez Tavares, Ariel Paul, Kathy Perkins, Katie Woessner',
       qualityAssurance: 'Logan Bray, Steele Dalton, Megan Lai, Liam Mulhall, Laura Rea, Jacob Romero, Katie Woessner, Kelly Wurtz',
       graphicArts: 'Cheryl McCutchan',
-      thanks: 'This material is based upon work supported by the National Science Foundation under STROBE Grant No. DMR ' +
-              '1548924. Any opinions, findings, and conclusions or recommendations expressed in this material are those ' +
-              'of the author(s) and do not necessarily reflect the views of the National Science Foundation.'
+      thanks: 'We gratefully acknowledge support from STROBE NSF Science & Technology Center Grant DMR-1548924. Any ' +
+              'opinions, findings, and conclusions or recommendations expressed in this material are those of the authors ' +
+              'and do not necessarily reflect the views of the National Science Foundation.'
     },
     webgl: platform.mobileSafari,
     supportsSound: true
