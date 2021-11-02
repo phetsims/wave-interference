@@ -60,7 +60,7 @@ class SineWaveGenerator extends SoundGenerator {
     } );
 
     // wire up volume to amplitude
-    amplitudeProperty.link( amplitude => this.setOutputLevel( mapAmplitudeToOutputLevel( amplitude ) ) );
+    amplitudeProperty.link( amplitude => this.setOutputLevel( mapAmplitudeToOutputLevel.evaluate( amplitude ) ) );
   }
 }
 
