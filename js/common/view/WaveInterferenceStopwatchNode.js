@@ -7,8 +7,8 @@
  */
 
 import StringProperty from '../../../../axon/js/StringProperty.js';
-import merge from '../../../../phet-core/js/merge.js';
 import Range from '../../../../dot/js/Range.js';
+import merge from '../../../../phet-core/js/merge.js';
 import StopwatchNode from '../../../../scenery-phet/js/StopwatchNode.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
@@ -43,6 +43,8 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
     assert && assert( !!config.dragBoundsProperty, 'dragBoundsProperty is a required argument' );
 
     super( model.stopwatch, config );
+
+    this.stopwatch = model.stopwatch;
 
     unitsProperty.link( units => this.setNumberFormatter( createNumberFormatter( units ) ) );
 

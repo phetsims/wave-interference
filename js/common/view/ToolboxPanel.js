@@ -51,7 +51,10 @@ class ToolboxPanel extends WaveInterferencePanel {
 
     // Node used to create the icon
     isStopwatchVisibleProperty.value = true;
-    const stopwatchNodeIcon = stopwatchNode.rasterized().mutate( { scale: 0.45 } );
+    const stopwatchNodeIcon = stopwatchNode.rasterized().mutate( {
+      scale: 0.45,
+      tagName: 'button'
+    } );
     isStopwatchVisibleProperty.value = false;
 
     // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
@@ -61,6 +64,12 @@ class ToolboxPanel extends WaveInterferencePanel {
       // stopwatchNode provided as targetNode in the DragListener constructor, so this press will target it
       stopwatchNode.dragListener.press( event );
       isStopwatchVisibleProperty.value = true;
+    }, () => {
+      stopwatchNode.stopwatch.positionProperty.value = this.localToParentPoint( stopwatchNodeIcon.leftTop );
+
+      // stopwatchNode provided as targetNode in the DragListener constructor, so this press will target it
+      isStopwatchVisibleProperty.value = true;
+      stopwatchNode.focus();
     } );
 
     // Make sure the probes have enough breathing room so they don't get shoved into the WaveMeterNode icon.  Anything
@@ -101,6 +110,9 @@ class ToolboxPanel extends WaveInterferencePanel {
         maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH
       }
     );
+
+    // @public
+    this.stopwatchNodeIcon = stopwatchNodeIcon;
   }
 }
 
@@ -109,11 +121,13 @@ class ToolboxPanel extends WaveInterferencePanel {
  * @param {Node} node
  * @param {Property.<boolean>} inPlayAreaProperty
  * @param {function} down
+ * @param {function} [click]
  */
-const initializeIcon = ( node, inPlayAreaProperty, down ) => {
+const initializeIcon = ( node, inPlayAreaProperty, down, click ) => {
   node.cursor = 'pointer';
   inPlayAreaProperty.link( inPlayArea => { node.visible = !inPlayArea; } );
   node.addInputListener( DragListener.createForwardingListener( down ) );
+  click && node.addInputListener( { click: click } );
 };
 
 waveInterference.register( 'ToolboxPanel', ToolboxPanel );

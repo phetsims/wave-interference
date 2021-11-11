@@ -339,6 +339,14 @@ class WavesScreenView extends ScreenView {
             model.stopwatch.reset();
           }
         }
+      },
+      keyboardDragListenerOptions: {
+        end: () => {
+          if ( toolboxIntersects( stopwatchNode.parentToGlobalBounds( stopwatchNode.bounds ) ) ) {
+            model.stopwatch.reset();
+            toolboxPanel.stopwatchNodeIcon.focus();
+          }
+        }
       }
     } );
 
