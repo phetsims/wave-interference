@@ -2,7 +2,7 @@
   "extends": "../chipper/tsconfig-core.json",
   "references": [
     {
-      "path": "../twixt"
+      "path": "../twixt/tsconfig-module.json"
     },
     {
       "path": "../griddle"
