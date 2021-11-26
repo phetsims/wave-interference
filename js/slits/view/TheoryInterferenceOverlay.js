@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+// Copyright 2018-2021, University of Colorado Boulder
 
 /**
  * Shows the theoretical/ideal (far field) pattern for interference, when ?theory is specified, see

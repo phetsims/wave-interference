@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+// Copyright 2018-2021, University of Colorado Boulder
 
 /**
  * Shows the partially rotated wave view in a pseudo-3D view.  Ported from RotationGlyph.java

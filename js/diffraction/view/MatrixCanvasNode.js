@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2019-2021, University of Colorado Boulder
 
 /**
  * Renders data from a Matrix into a canvas.  Shows the apertures and diffraction regions.
