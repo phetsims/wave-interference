@@ -9,7 +9,7 @@
 import Shape from '../../../../kite/js/Shape.js';
 import LineStyles from '../../../../kite/js/util/LineStyles.js';
 import merge from '../../../../phet-core/js/merge.js';
-import Path from '../../../../scenery/js/nodes/Path.js';
+import { Path } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 

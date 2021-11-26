@@ -7,7 +7,7 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';

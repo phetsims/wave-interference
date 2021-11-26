@@ -7,8 +7,8 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import DragListener from '../../../../scenery/js/listeners/DragListener.js';
-import HBox from '../../../../scenery/js/nodes/HBox.js';
+import { DragListener } from '../../../../scenery/js/imports.js';
+import { HBox } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';

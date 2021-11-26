@@ -7,7 +7,7 @@
  */
 
 import Utils from '../../../../dot/js/Utils.js';
-import HBox from '../../../../scenery/js/nodes/HBox.js';
+import { HBox } from '../../../../scenery/js/imports.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';

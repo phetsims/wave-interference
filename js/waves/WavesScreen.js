@@ -7,7 +7,7 @@
  */
 
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import Image from '../../../scenery/js/nodes/Image.js';
+import { Image } from '../../../scenery/js/imports.js';
 import wavesScreenIcon from '../../images/waves_screen_icon_png.js';
 import BaseScreen from '../common/BaseScreen.js';
 import waveInterferenceStrings from '../waveInterferenceStrings.js';

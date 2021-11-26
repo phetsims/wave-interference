@@ -8,7 +8,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import ProbeNode from '../../../../scenery-phet/js/ProbeNode.js';
-import DragListener from '../../../../scenery/js/listeners/DragListener.js';
+import { DragListener } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 
 class WaveMeterProbeNode extends ProbeNode {

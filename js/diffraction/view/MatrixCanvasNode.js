@@ -8,8 +8,8 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import { CanvasNode } from '../../../../scenery/js/imports.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import ImageDataRenderer from '../../common/view/ImageDataRenderer.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';

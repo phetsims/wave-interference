@@ -7,7 +7,7 @@
  */
 
 import Utils from '../../../../dot/js/Utils.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
+import { Image } from '../../../../scenery/js/imports.js';
 import speakerL10Image from '../../../images/speaker/speaker_L10_png.js';
 import speakerL1Image from '../../../images/speaker/speaker_L1_png.js';
 import speakerL2Image from '../../../images/speaker/speaker_L2_png.js';

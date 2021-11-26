@@ -7,7 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Image from '../../../../scenery/js/nodes/Image.js';
+import { Image } from '../../../../scenery/js/imports.js';
 import waterDropImage from '../../../images/water_drop_png.js';
 import waveInterference from '../../waveInterference.js';
 

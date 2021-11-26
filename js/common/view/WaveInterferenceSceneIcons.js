@@ -10,7 +10,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import FaucetNode from '../../../../scenery-phet/js/FaucetNode.js';
 import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
+import { Image } from '../../../../scenery/js/imports.js';
 import speakerImage from '../../../images/speaker/speaker_MID_png.js';
 import waveInterference from '../../waveInterference.js';
 import LightWaveGeneratorNode from './LightWaveGeneratorNode.js';

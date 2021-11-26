@@ -7,7 +7,7 @@
  */
 
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import RoundStickyToggleButton from '../../../../sun/js/buttons/RoundStickyToggleButton.js';
 import waveInterference from '../../waveInterference.js';
 import Scene from '../model/Scene.js';
