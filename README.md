@@ -31,6 +31,8 @@ git clone https://github.com/phetsims/dot.git
 git clone https://github.com/phetsims/griddle.git
 git clone https://github.com/phetsims/joist.git
 git clone https://github.com/phetsims/kite.git
+git clone https://github.com/phetsims/perennial.git
+git clone https://github.com/phetsims/perennial.git perennial-alias
 git clone https://github.com/phetsims/perennial.git perennial-alias
 git clone https://github.com/phetsims/phet-core.git
 git clone https://github.com/phetsims/phetcommon.git
@@ -47,9 +49,19 @@ git clone https://github.com/phetsims/utterance-queue.git
 git clone https://github.com/phetsims/wave-interference.git
 ```
 
-(2) Change directory to `chipper/`, and install dependencies by running `npm install`
+(2) Install dev dependencies:
+```
+cd chipper
+npm install
+cd ../perennial
+npm install
+cd ../perennial-alias
+npm install
+cd ../wave-interference
+npm install
+```
 
-(3) Still in directory `chipper/`, transpile the code to JavaScript by running `node js/scripts/transpile.js` (or add `--watch` to enable a file watching process)
+(3) Change directory to chipper `cd ../chipper/`, then transpile the code to JavaScript by running `node js/scripts/transpile.js --watch`
 
 (4) Start an http-server
 
@@ -57,7 +69,7 @@ git clone https://github.com/phetsims/wave-interference.git
 
 #### Optional: Build the simulation into a single file
 
-(1) Change directory to the simulation directory: `cd wave-interference`
+(1) Change directory to the simulation directory: `cd ../wave-interference`
 
 (2) Build the sim: `grunt --brands=adapted-from-phet`
 
