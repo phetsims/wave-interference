@@ -8,7 +8,7 @@
  */
 
 import { Image } from '../../../../scenery/js/imports.js';
-import waterDropImage from '../../../images/water_drop_png.js';
+import water_drop_png from '../../../images/water_drop_png.js';
 import waveInterference from '../../waveInterference.js';
 
 class WaterDropImage extends Image {
@@ -17,7 +17,7 @@ class WaterDropImage extends Image {
    * @param {Object} [options]
    */
   constructor( options ) {
-    super( waterDropImage, options );
+    super( water_drop_png, options );
 
     // @public {WaterDrop|null} - Link to the corresponding WaterDrop (if any), so that when the view goes underwater,
     // we can mark the corresponding model as absorbed.  These nodes are recycled--created with null instead of a

@@ -26,7 +26,7 @@ import { VBox } from '../../../../scenery/js/imports.js';
 import { LinearGradient } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
-import wavingGirlIconImage from '../../../images/waving_girl_icon_png.js';
+import waving_girl_icon_png from '../../../images/waving_girl_icon_png.js';
 import LengthScaleIndicatorNode from '../../common/view/LengthScaleIndicatorNode.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
@@ -112,7 +112,7 @@ class DiffractionScreenView extends ScreenView {
       node: disorderSceneIcon
     }, {
       value: model.wavingGirlScene,
-      node: new Image( wavingGirlIconImage, { maxHeight: 25 } )
+      node: new Image( waving_girl_icon_png, { maxHeight: 25 } )
     } ];
 
     // @private - Main (large) aperture node

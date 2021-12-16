@@ -11,7 +11,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import FaucetNode from '../../../../scenery-phet/js/FaucetNode.js';
 import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
 import { Image } from '../../../../scenery/js/imports.js';
-import speakerImage from '../../../images/speaker/speaker_MID_png.js';
+import speaker_MID_png from '../../../images/speaker/speaker_MID_png.js';
 import waveInterference from '../../waveInterference.js';
 import LightWaveGeneratorNode from './LightWaveGeneratorNode.js';
 
@@ -24,7 +24,7 @@ class WaveInterferenceSceneIcons {
     } ).rasterized();
 
     // @public
-    this.soundIcon = new Image( speakerImage );
+    this.soundIcon = new Image( speaker_MID_png );
 
     // @public
     this.lightIcon = new LaserPointerNode( new BooleanProperty( false ), LightWaveGeneratorNode.DEFAULT_OPTIONS );

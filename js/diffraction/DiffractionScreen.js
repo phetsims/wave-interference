@@ -10,7 +10,7 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
-import diffractionScreenIcon from '../../images/diffraction_screen_icon_png.js';
+import diffraction_screen_icon_png from '../../images/diffraction_screen_icon_png.js';
 import waveInterferenceStrings from '../waveInterferenceStrings.js';
 import waveInterference from '../waveInterference.js';
 import DiffractionModel from './model/DiffractionModel.js';
@@ -24,7 +24,7 @@ class DiffractionScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       name: screenDiffractionString,
-      homeScreenIcon: new ScreenIcon( new Image( diffractionScreenIcon ), {
+      homeScreenIcon: new ScreenIcon( new Image( diffraction_screen_icon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),

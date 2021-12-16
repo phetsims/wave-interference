@@ -12,7 +12,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import RoundStickyToggleButton from '../../../../sun/js/buttons/RoundStickyToggleButton.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
-import planeWaveSourceImage from '../../../images/plane_wave_source_png.js';
+import plane_wave_source_png from '../../../images/plane_wave_source_png.js';
 import SceneToggleNode from '../../common/view/SceneToggleNode.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
@@ -27,8 +27,8 @@ class PlaneWaveGeneratorNode extends Node {
    */
   constructor( model, waveAreaBounds, options ) {
     super();
-    const verticalCylinderImageNode = new Image( planeWaveSourceImage, {
-      scale: waveAreaBounds.height / ( planeWaveSourceImage.height - 52 ),
+    const verticalCylinderImageNode = new Image( plane_wave_source_png, {
+      scale: waveAreaBounds.height / ( plane_wave_source_png.height - 52 ),
       rightCenter: waveAreaBounds.leftCenter.plusXY( 2, 0 )
     } );
 

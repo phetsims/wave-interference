@@ -10,7 +10,7 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
-import interferenceScreenIcon from '../../images/interference_screen_icon_png.js';
+import interference_screen_icon_png from '../../images/interference_screen_icon_png.js';
 import waveInterferenceStrings from '../waveInterferenceStrings.js';
 import waveInterference from '../waveInterference.js';
 import InterferenceModel from './model/InterferenceModel.js';
@@ -27,7 +27,7 @@ class InterferenceScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       name: screenInterferenceString,
-      homeScreenIcon: new ScreenIcon( new Image( interferenceScreenIcon ), {
+      homeScreenIcon: new ScreenIcon( new Image( interference_screen_icon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),

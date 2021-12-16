@@ -8,7 +8,7 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import wavingGirlApertureImage from '../../../images/waving_girl_aperture_png.js';
+import waving_girl_aperture_png from '../../../images/waving_girl_aperture_png.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
 import DiffractionScene from './DiffractionScene.js';
@@ -42,13 +42,13 @@ class WavingGirlScene extends DiffractionScene {
    */
   renderToContext( context ) {
     const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
-    context.translate( wavingGirlApertureImage.width / 2, wavingGirlApertureImage.height * 0.1 );
-    context.translate( wavingGirlApertureImage.width / 2, wavingGirlApertureImage.height / 2 );
+    context.translate( waving_girl_aperture_png.width / 2, waving_girl_aperture_png.height * 0.1 );
+    context.translate( waving_girl_aperture_png.width / 2, waving_girl_aperture_png.height / 2 );
     context.rotate( this.rotationProperty.value / 360 * 2 * Math.PI );
-    const scale = modelToMatrixScale / wavingGirlApertureImage.height * this.heightProperty.value;
+    const scale = modelToMatrixScale / waving_girl_aperture_png.height * this.heightProperty.value;
     context.scale( scale, scale );
-    context.translate( -wavingGirlApertureImage.width / 2, -wavingGirlApertureImage.height / 2 );
-    context.drawImage( wavingGirlApertureImage, 0, 0 );
+    context.translate( -waving_girl_aperture_png.width / 2, -waving_girl_aperture_png.height / 2 );
+    context.drawImage( waving_girl_aperture_png, 0, 0 );
   }
 }
 
