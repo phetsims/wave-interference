@@ -13,7 +13,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Scene from './Scene.js';
@@ -147,7 +147,7 @@ class SoundScene extends Scene {
 /**
  * @public
  */
-SoundScene.SoundViewType = Enumeration.byKeys( [ 'WAVES', 'PARTICLES', 'BOTH' ] );
+SoundScene.SoundViewType = EnumerationDeprecated.byKeys( [ 'WAVES', 'PARTICLES', 'BOTH' ] );
 
 waveInterference.register( 'SoundScene', SoundScene );
 export default SoundScene;

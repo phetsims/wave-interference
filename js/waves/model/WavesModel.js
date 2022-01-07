@@ -18,7 +18,7 @@ import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import EventTimer from '../../../../phet-core/js/EventTimer.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Stopwatch from '../../../../scenery-phet/js/Stopwatch.js';
@@ -434,7 +434,7 @@ WavesModel.EVENT_RATE = EVENT_RATE;
  * The wave area can be viewed from the TOP or from the SIDE. The view animates between the selections.
  * @public
  */
-WavesModel.Viewpoint = Enumeration.byKeys( [ 'TOP', 'SIDE' ] );
+WavesModel.Viewpoint = EnumerationDeprecated.byKeys( [ 'TOP', 'SIDE' ] );
 
 waveInterference.register( 'WavesModel', WavesModel );
 export default WavesModel;
