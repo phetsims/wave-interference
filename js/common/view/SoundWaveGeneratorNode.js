@@ -18,7 +18,6 @@ import speaker_L6_png from '../../../images/speaker/speaker_L6_png.js';
 import speaker_L7_png from '../../../images/speaker/speaker_L7_png.js';
 import speaker_L8_png from '../../../images/speaker/speaker_L8_png.js';
 import speaker_L9_png from '../../../images/speaker/speaker_L9_png.js';
-import Speaker_MID_png from '../../../images/speaker/speaker_MID_png.js';
 import speaker_MID_png from '../../../images/speaker/speaker_MID_png.js';
 import speaker_R10_png from '../../../images/speaker/speaker_R10_png.js';
 import speaker_R1_png from '../../../images/speaker/speaker_R1_png.js';
@@ -69,7 +68,7 @@ class SoundWaveGeneratorNode extends WaveGeneratorNode {
    */
   constructor( soundScene, waveAreaNode, isPrimarySource ) {
     assert && assert( soundScene instanceof SoundScene, 'soundScene should be an instance of SoundScene' );
-    const image = new Image( Speaker_MID_png, {
+    const image = new Image( speaker_MID_png, {
       rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 ),
       scale: 0.75,
       renderer: 'canvas'
