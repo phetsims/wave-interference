@@ -1,4 +1,4 @@
-// Copyright 2018-2021, University of Colorado Boulder
+// Copyright 2018-2022, University of Colorado Boulder
 
 /**
  * Renders the screen at right hand side of the wave area, showing the time-averaged intensity (for the light scene).
