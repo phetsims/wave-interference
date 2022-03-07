@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Action from '../../../../axon/js/Action.js';
+import PhetioAction from '../../../../tandem/js/PhetioAction.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -500,7 +500,7 @@ class WavesScreenView extends ScreenView {
         waterSideViewNode.visible = rotationAmount === 1.0 && scene === model.waterScene;
         waterGrayBackground.visible = rotationAmount !== 0 && scene === model.waterScene;
       } );
-      this.stepAction = new Action( () => waterDropLayer.step( waterSideViewNode ) );
+      this.stepAction = new PhetioAction( () => waterDropLayer.step( waterSideViewNode ) );
     }
 
     // Update the visibility of the waveAreaNode, latticeNode and soundParticleLayer
