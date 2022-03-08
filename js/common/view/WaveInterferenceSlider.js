@@ -13,7 +13,6 @@ import merge from '../../../../phet-core/js/merge.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import generalBoundaryBoopSoundPlayer from '../../../../tambo/js/shared-sound-players/generalBoundaryBoopSoundPlayer.js';
 import generalSoftClickSoundPlayer from '../../../../tambo/js/shared-sound-players/generalSoftClickSoundPlayer.js';
-import ValueChangeSoundGenerator from '../../../../tambo/js/sound-generators/ValueChangeSoundGenerator.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
@@ -66,7 +65,7 @@ class WaveInterferenceSlider extends HSlider {
     options = merge( {
 
       // Turn off default sound generation, since this does its own in a somewhat customized way.
-      soundGenerator: ValueChangeSoundGenerator.NO_SOUND,
+      soundGenerator: null,
 
       // Ticks are created for all sliders for sonification, but not shown for the Light Frequency slider
       showTicks: true,
