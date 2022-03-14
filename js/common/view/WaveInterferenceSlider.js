@@ -11,15 +11,12 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import HSlider from '../../../../sun/js/HSlider.js';
-import generalBoundaryBoopSoundPlayer from '../../../../tambo/js/shared-sound-players/generalBoundaryBoopSoundPlayer.js';
-import generalSoftClickSoundPlayer from '../../../../tambo/js/shared-sound-players/generalSoftClickSoundPlayer.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
 // constants
-const MIN_INTER_CLICK_TIME = 33.3; // min time between clicking sounds, in milliseconds, empirically determined
 const TOLERANCE = 1E-6;
 
 const maxString = waveInterferenceStrings.max;
@@ -56,16 +53,11 @@ class WaveInterferenceSlider extends HSlider {
       };
     } );
 
-    // Keep track of the previous value on slider drag for playing sounds
-    let lastValue = property.value;
-
-    // Keep track of the last time a sound was played so that we don't play too often
-    let timeOfLastClick = 0;
-
     options = merge( {
 
-      // Turn off default sound generation, since this does its own in a somewhat customized way.
-      soundGenerator: null,
+      // Match the number of sounds generated to the number of tickmarks.  The count is reduced by two to account for
+      // the first and last ticks.
+      soundGeneratorOptions: { numberOfMiddleThresholds: ticks.length - 2 },
 
       // Ticks are created for all sliders for sonification, but not shown for the Light Frequency slider
       showTicks: true,
@@ -79,42 +71,6 @@ class WaveInterferenceSlider extends HSlider {
         else {
           return value;
         }
-      },
-
-      drag: event => {
-
-        const value = property.value;
-
-        if ( event.isFromPDOM() ) {
-
-          if ( Math.abs( value - property.range.max ) <= TOLERANCE ||
-               Math.abs( value - property.range.min ) <= TOLERANCE ) {
-            generalBoundaryBoopSoundPlayer.play();
-          }
-          else {
-            generalSoftClickSoundPlayer.play();
-          }
-        }
-        else {
-
-          // handle the sound as desired for mouse/touch style input
-          for ( let i = 0; i < ticks.length; i++ ) {
-            const tick = ticks[ i ];
-            if ( lastValue !== value && ( value === property.range.min || value === property.range.max ) ) {
-              generalBoundaryBoopSoundPlayer.play();
-              break;
-            }
-            else if ( lastValue < tick.value && value >= tick.value || lastValue > tick.value && value <= tick.value ) {
-              if ( phet.joist.elapsedTime - timeOfLastClick >= MIN_INTER_CLICK_TIME ) {
-                generalSoftClickSoundPlayer.play();
-                timeOfLastClick = phet.joist.elapsedTime;
-              }
-              break;
-            }
-          }
-        }
-
-        lastValue = value;
       }
     }, options );
 
