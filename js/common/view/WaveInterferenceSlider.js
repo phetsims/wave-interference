@@ -57,7 +57,7 @@ class WaveInterferenceSlider extends HSlider {
 
       // Match the number of sounds generated to the number of tickmarks.  The count is reduced by two to account for
       // the first and last ticks.
-      soundGeneratorOptions: { numberOfMiddleThresholds: ticks.length - 2 },
+      valueChangeSoundGeneratorOptions: { numberOfMiddleThresholds: ticks.length - 2 },
 
       // Ticks are created for all sliders for sonification, but not shown for the Light Frequency slider
       showTicks: true,
