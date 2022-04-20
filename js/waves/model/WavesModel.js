@@ -12,6 +12,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
@@ -247,9 +248,7 @@ class WavesModel {
     } );
 
     // @public - the speed at which the simulation is playing
-    this.timeSpeedProperty = new Property( TimeSpeed.NORMAL, {
-      validValues: TimeSpeed.VALUES
-    } );
+    this.timeSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL );
 
     const eventTimerModel = {
 
