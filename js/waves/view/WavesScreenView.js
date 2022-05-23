@@ -8,6 +8,7 @@
 
 import PhetioAction from '../../../../tandem/js/PhetioAction.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -232,7 +233,7 @@ class WavesScreenView extends ScreenView {
       } );
 
       // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-      Property.multilink( [ model.showScreenProperty, model.sceneProperty ], ( showScreen, scene ) => {
+      Multilink.multilink( [ model.showScreenProperty, model.sceneProperty ], ( showScreen, scene ) => {
         lightScreenNode.visible = showScreen && scene === model.lightScene;
       } );
 
@@ -262,7 +263,7 @@ class WavesScreenView extends ScreenView {
         model.resetEmitter, {
           left: lightScreenNode.right + 5
         } );
-      Property.multilink( [ model.showScreenProperty, model.showIntensityGraphProperty, model.sceneProperty ],
+      Multilink.multilink( [ model.showScreenProperty, model.showIntensityGraphProperty, model.sceneProperty ],
         ( showScreen, showIntensityGraph, scene ) => {
 
           // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
@@ -496,7 +497,7 @@ class WavesScreenView extends ScreenView {
       this.addChild( waterGrayBackground );
 
       waterSideViewNode = new WaterSideViewNode( this.waveAreaNode.bounds, model.waterScene );
-      Property.multilink( [ model.rotationAmountProperty, model.sceneProperty ], ( rotationAmount, scene ) => {
+      Multilink.multilink( [ model.rotationAmountProperty, model.sceneProperty ], ( rotationAmount, scene ) => {
         waterSideViewNode.visible = rotationAmount === 1.0 && scene === model.waterScene;
         waterGrayBackground.visible = rotationAmount !== 0 && scene === model.waterScene;
       } );
@@ -504,7 +505,7 @@ class WavesScreenView extends ScreenView {
     }
 
     // Update the visibility of the waveAreaNode, latticeNode and soundParticleLayer
-    Property.multilink( [
+    Multilink.multilink( [
         model.rotationAmountProperty,
         model.isRotatingProperty,
         model.sceneProperty,
@@ -534,7 +535,7 @@ class WavesScreenView extends ScreenView {
         }
       } );
 
-    Property.multilink(
+    Multilink.multilink(
       [ model.rotationAmountProperty, model.isRotatingProperty, model.showGraphProperty ],
       ( rotationAmount, isRotating, showGraph ) => {
         waveAreaGraphNode.visible = !isRotating && showGraph;
@@ -550,7 +551,7 @@ class WavesScreenView extends ScreenView {
     if ( model.lightScene ) {
       colorLinkProperties.push( model.lightScene.frequencyProperty );
     }
-    Property.multilink( colorLinkProperties, ( scene, frequency ) => {
+    Multilink.multilink( colorLinkProperties, ( scene, frequency ) => {
       perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' :
                                          scene === model.soundScene ? 'gray' :
                                          VisibleColor.frequencyToColor( fromFemto( frequency ) ) );

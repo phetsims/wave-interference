@@ -7,7 +7,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
@@ -98,7 +98,7 @@ class WavesScreenSoundView {
       // clip at the corresponding volume and frequency.  Note this means if the frequency or volume changes, the
       // user has to wait for the next cycle to hear the change.
       let previousOscillatorValue = model.soundScene.oscillator1Property.value;
-      Property.multilink( [
+      Multilink.multilink( [
         model.soundScene.oscillator1Property,
         model.soundScene.isTonePlayingProperty,
         view.waveMeterNode.duckingProperty,
@@ -147,7 +147,7 @@ class WavesScreenSoundView {
 
       const lightAmplitudeProperty = model.lightScene.amplitudeProperty;
       const lightFrequencyProperty = model.lightScene.frequencyProperty;
-      Property.multilink( [ lightAmplitudeProperty, lightFrequencyProperty, view.waveMeterNode.duckingProperty ], ( amplitude, frequency, ducking ) => {
+      Multilink.multilink( [ lightAmplitudeProperty, lightFrequencyProperty, view.waveMeterNode.duckingProperty ], ( amplitude, frequency, ducking ) => {
 
         // Sound for "Sound Effect" on the light scene.
         const outputLevel = Utils.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
@@ -160,7 +160,7 @@ class WavesScreenSoundView {
         lightBeamLoopSoundClip.setPlaybackRate( playbackRate );
       } );
 
-      Property.multilink( [
+      Multilink.multilink( [
         model.lightScene.button1PressedProperty,
         model.isRunningProperty,
         model.lightScene.soundEffectEnabledProperty

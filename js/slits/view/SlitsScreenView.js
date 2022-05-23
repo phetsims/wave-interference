@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import WaveInterferenceQueryParameters from '../../common/WaveInterferenceQueryParameters.js';
 import waveInterference from '../../waveInterference.js';
@@ -56,7 +56,7 @@ class SlitsScreenView extends WavesScreenView {
     const waterBarriersNode = new BarriersNode( model, model.waterScene, this.waveAreaNode.bounds );
     const soundBarriersNode = new BarriersNode( model, model.soundScene, this.waveAreaNode.bounds );
     const lightBarriersNode = new BarriersNode( model, model.lightScene, this.waveAreaNode.bounds );
-    Property.multilink(
+    Multilink.multilink(
       [ model.sceneProperty, model.rotationAmountProperty, model.isRotatingProperty, model.viewpointProperty ],
       ( scene, rotationAmount, isRotating, viewpoint ) => {
 
