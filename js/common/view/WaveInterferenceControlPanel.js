@@ -58,15 +58,9 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       soundViewTypeRadioButtonGroup = new SoundViewTypeRadioButtonGroup( model );
     }
 
-    const graphCheckbox = new WaveInterferenceCheckbox(
-      new WaveInterferenceText( graphString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
-      model.showGraphProperty );
-    const screenCheckbox = new WaveInterferenceCheckbox(
-      new WaveInterferenceText( screenLabelString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
-      model.showScreenProperty );
-    const intensityCheckbox = new WaveInterferenceCheckbox(
-      new WaveInterferenceText( intensityString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
-      model.showIntensityGraphProperty );
+    const graphCheckbox = new WaveInterferenceCheckbox( model.showGraphProperty, new WaveInterferenceText( graphString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ) );
+    const screenCheckbox = new WaveInterferenceCheckbox( model.showScreenProperty, new WaveInterferenceText( screenLabelString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ) );
+    const intensityCheckbox = new WaveInterferenceCheckbox( model.showIntensityGraphProperty, new WaveInterferenceText( intensityString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ) );
 
     // Only enable the intensity checkbox when the screen is selected
     model.showScreenProperty.link( showScreen => intensityCheckbox.setEnabled( showScreen ) );
@@ -103,10 +97,9 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
     // Only show the Play Tone checkbox for the Sound Scene, if specified.
     if ( model.soundScene && options.showPlaySoundControl ) {
-      playToneCheckbox = new WaveInterferenceCheckbox( new WaveInterferenceText( playToneString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
-        model.soundScene.isTonePlayingProperty, {
-          audioEnabled: options.audioEnabled
-        } );
+      playToneCheckbox = new WaveInterferenceCheckbox( model.soundScene.isTonePlayingProperty, new WaveInterferenceText( playToneString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ), {
+        audioEnabled: options.audioEnabled
+      } );
 
       // In terms of PhET-iO, there could be a situation where a client wants to control the enabledProperty of the
       // sound-related checkboxes, and toggling the mute button in the navbar will override their customization. There
@@ -179,13 +172,11 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
     const createLightSonificationCheckbox = () => {
 
       const lastCheckbox = options.showIntensityCheckbox ? intensityCheckbox : screenCheckbox;
-      const soundEffectCheckbox = new WaveInterferenceCheckbox(
-        new WaveInterferenceText( soundEffectString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
-        model.lightScene.soundEffectEnabledProperty, {
-          audioEnabled: options.audioEnabled,
-          top: lastCheckbox.bottom + CHECKBOX_SPACING,
-          left: screenCheckbox.left
-        } );
+      const soundEffectCheckbox = new WaveInterferenceCheckbox( model.lightScene.soundEffectEnabledProperty, new WaveInterferenceText( soundEffectString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ), {
+        audioEnabled: options.audioEnabled,
+        top: lastCheckbox.bottom + CHECKBOX_SPACING,
+        left: screenCheckbox.left
+      } );
 
       // In terms of PhET-iO, there could be a situation where a client wants to control the enabledProperty of the
       // sound-related checkboxes, and toggling the mute button in the navbar will override their customization. There
