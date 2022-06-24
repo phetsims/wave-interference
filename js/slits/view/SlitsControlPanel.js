@@ -46,11 +46,11 @@ class SlitsControlPanel extends WaveInterferencePanel {
       bidirectional: true
     } );
 
-    const comboBox = new ComboBox( [
+    const comboBox = new ComboBox( barrierTypeDynamicProperty, [
       new ComboBoxItem( new WaveInterferenceText( oneSlitString ), Scene.BarrierType.ONE_SLIT ),
       new ComboBoxItem( new WaveInterferenceText( twoSlitsString ), Scene.BarrierType.TWO_SLITS ),
       new ComboBoxItem( new WaveInterferenceText( noBarrierString ), Scene.BarrierType.NO_BARRIER )
-    ], barrierTypeDynamicProperty, comboBoxParent, {
+    ], comboBoxParent, {
       xMargin: 13,
       yMargin: 6,
       cornerRadius: 4
