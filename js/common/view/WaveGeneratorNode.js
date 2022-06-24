@@ -54,12 +54,7 @@ class WaveGeneratorNode extends Node {
       soundPlayer: soundPlayer
     };
 
-    const button = new RoundStickyToggleButton(
-      false,
-      true,
-      buttonPressedProperty,
-      buttonOptions
-    );
+    const button = new RoundStickyToggleButton( buttonPressedProperty, false, true, buttonOptions );
     const children = [ sourceNode ];
     if ( showButtonBackground ) {
       const diameter = button.width * 1.3;

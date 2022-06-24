@@ -34,7 +34,7 @@ class PlaneWaveGeneratorNode extends Node {
 
     const button = new SceneToggleNode(
       model,
-      scene => new RoundStickyToggleButton( false, true, scene.button1PressedProperty, {
+      scene => new RoundStickyToggleButton( scene.button1PressedProperty, false, true, {
         scale: 1.2,
         baseColor: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_COLOR,
         radius: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_RADIUS,
