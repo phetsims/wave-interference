@@ -12,14 +12,13 @@ import merge from '../../../../phet-core/js/merge.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
-import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import Scene from '../../common/model/Scene.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 
 const cmValueString = waveInterferenceStrings.cmValue;
 const nmValueString = waveInterferenceStrings.nmValue;
@@ -47,9 +46,9 @@ class SlitsControlPanel extends WaveInterferencePanel {
     } );
 
     const comboBox = new ComboBox( barrierTypeDynamicProperty, [
-      new ComboBoxItem( new WaveInterferenceText( oneSlitString ), Scene.BarrierType.ONE_SLIT ),
-      new ComboBoxItem( new WaveInterferenceText( twoSlitsString ), Scene.BarrierType.TWO_SLITS ),
-      new ComboBoxItem( new WaveInterferenceText( noBarrierString ), Scene.BarrierType.NO_BARRIER )
+      { value: Scene.BarrierType.ONE_SLIT, node: new WaveInterferenceText( oneSlitString ) },
+      { value: Scene.BarrierType.TWO_SLITS, node: new WaveInterferenceText( twoSlitsString ) },
+      { value: Scene.BarrierType.NO_BARRIER, node: new WaveInterferenceText( noBarrierString ) }
     ], comboBoxParent, {
       xMargin: 13,
       yMargin: 6,
