@@ -6,9 +6,8 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Vector2 from '../../../../dot/js/Vector2.js';
-import { DragListener } from '../../../../scenery/js/imports.js';
-import { HBox } from '../../../../scenery/js/imports.js';
+import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
+import { DragListener, HBox } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
@@ -28,14 +27,11 @@ class ToolboxPanel extends WaveInterferencePanel {
   constructor( measuringTapeNode, stopwatchNode, waveMeterNode, alignGroup, isMeasuringTapeInPlayAreaProperty,
                measuringTapeTipPositionProperty, isStopwatchVisibleProperty, isWaveMeterInPlayAreaProperty ) {
 
-    // Capture image for icon
-    isMeasuringTapeInPlayAreaProperty.value = true;
-    measuringTapeNode.setTextVisible( false );
-    measuringTapeTipPositionProperty.value = new Vector2( 220, 200 ); // Shorter tape for icon
-    const measuringTapeIcon = measuringTapeNode.rasterized( { wrap: true } ).mutate( { scale: 0.65 } );
-    measuringTapeTipPositionProperty.reset();
-    isMeasuringTapeInPlayAreaProperty.value = false;
-    measuringTapeNode.setTextVisible( true );
+    // icon for the measuring tape
+    const measuringTapeIcon = MeasuringTapeNode.createIcon( {
+      scale: 0.65,
+      tapeLength: 20
+    } );
 
     initializeIcon( measuringTapeIcon, isMeasuringTapeInPlayAreaProperty, event => {
 

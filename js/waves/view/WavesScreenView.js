@@ -6,10 +6,8 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import PhetioAction from '../../../../tandem/js/PhetioAction.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
@@ -22,18 +20,13 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
-import { DragListener } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { RichText } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
-import { Utils } from '../../../../scenery/js/imports.js';
+import { Color, DragListener, Node, Rectangle, RichText, Text, Utils } from '../../../../scenery/js/imports.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import grab_mp3 from '../../../../tambo/sounds/grab_mp3.js';
 import release_mp3 from '../../../../tambo/sounds/release_mp3.js';
+import PhetioAction from '../../../../tandem/js/PhetioAction.js';
 import SoundScene from '../../common/model/SoundScene.js';
 import DashedLineNode from '../../common/view/DashedLineNode.js';
 import DisturbanceTypeRadioButtonGroup from '../../common/view/DisturbanceTypeRadioButtonGroup.js';
@@ -301,7 +294,7 @@ class WavesScreenView extends ScreenView {
      */
     const toolboxIntersects = b => toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).intersectsBounds( b );
 
-    const measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, new BooleanProperty( true ), {
+    const measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, {
 
       // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
       textBackgroundColor: 'rgba( 255, 255, 255, 0.6 )',
@@ -316,7 +309,7 @@ class WavesScreenView extends ScreenView {
       // Drop in toolbox
       baseDragEnded: () => {
         releaseSound.play();
-        if ( toolboxIntersects( measuringTapeNode.localToGlobalBounds( measuringTapeNode.baseImage.bounds ) ) ) {
+        if ( toolboxIntersects( measuringTapeNode.localToGlobalBounds( measuringTapeNode.getLocalBaseBounds() ) ) ) {
           model.isMeasuringTapeInPlayAreaProperty.value = false;
 
           // Reset the rotation and length of the Measuring Tape when it is returned to the toolbox.
