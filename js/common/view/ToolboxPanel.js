@@ -1,4 +1,4 @@
-// Copyright 2018-2021, University of Colorado Boulder
+// Copyright 2018-2022, University of Colorado Boulder
 
 /**
  * Shows the toolbox from whence tools (measuring tape, timer, probe) can be dragged.
