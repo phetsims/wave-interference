@@ -29,9 +29,11 @@ class SceneRadioButtonGroup extends RectangularRadioButtonGroup {
     ], {
       orientation: 'horizontal',
       spacing: 15,
-      selectedStroke: '#73bce1',
-      baseColor: 'white',
-      selectedLineWidth: 2
+      radioButtonOptions: {
+        selectedStroke: '#73bce1',
+        baseColor: 'white',
+        selectedLineWidth: 2
+      }
     } );
   }
 }

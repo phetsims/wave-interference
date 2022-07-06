@@ -27,12 +27,14 @@ class DisturbanceTypeRadioButtonGroup extends RectangularRadioButtonGroup {
       node: new DisturbanceTypeIconNode( Scene.DisturbanceType.PULSE )
     } ], merge( {
       orientation: 'vertical',
-      buttonContentXMargin: 1,
-      buttonContentYMargin: 8,
-      selectedLineWidth: 2,
-      baseColor: 'white',
-      selectedStroke: 'blue',
-      deselectedContentOpacity: 0.4
+      radioButtonOptions: {
+        xMargin: 1,
+        yMargin: 8,
+        selectedLineWidth: 2,
+        baseColor: 'white',
+        selectedStroke: 'blue',
+        deselectedContentOpacity: 0.4
+      }
     }, options ) );
   }
 }
