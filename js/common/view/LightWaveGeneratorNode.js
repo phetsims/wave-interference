@@ -41,7 +41,7 @@ class LightWaveGeneratorNode extends WaveGeneratorNode {
  * @static
  * @public
  */
-LightWaveGeneratorNode.DEFAULT_OPTIONS = DEFAULT_OPTIONS;
+LightWaveGeneratorNode.DEFAULT_NODE_OPTIONS = DEFAULT_OPTIONS;
 
 waveInterference.register( 'LightWaveGeneratorNode', LightWaveGeneratorNode );
 export default LightWaveGeneratorNode;

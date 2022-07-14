@@ -27,7 +27,7 @@ class WaveInterferenceSceneIcons {
     this.soundIcon = new Image( speaker_MID_png );
 
     // @public
-    this.lightIcon = new LaserPointerNode( new BooleanProperty( false ), LightWaveGeneratorNode.DEFAULT_OPTIONS );
+    this.lightIcon = new LaserPointerNode( new BooleanProperty( false ), LightWaveGeneratorNode.DEFAULT_NODE_OPTIONS );
 
     // Icon sizes
     const waterIconWidth = 20.3;
