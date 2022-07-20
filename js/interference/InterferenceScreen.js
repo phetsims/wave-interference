@@ -11,8 +11,8 @@ import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
 import interference_screen_icon_png from '../../images/interference_screen_icon_png.js';
-import waveInterferenceStrings from '../waveInterferenceStrings.js';
 import waveInterference from '../waveInterference.js';
+import waveInterferenceStrings from '../waveInterferenceStrings.js';
 import InterferenceModel from './model/InterferenceModel.js';
 import InterferenceScreenView from './view/InterferenceScreenView.js';
 

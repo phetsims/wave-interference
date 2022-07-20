@@ -10,12 +10,10 @@ import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
-import { HBox } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
+import { HBox, Node, Path } from '../../../../scenery/js/imports.js';
 import Easing from '../../../../twixt/js/Easing.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
 const topString = waveInterferenceStrings.top;

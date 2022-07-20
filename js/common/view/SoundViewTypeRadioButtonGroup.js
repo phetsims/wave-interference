@@ -7,8 +7,8 @@
  */
 
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import SoundScene from '../model/SoundScene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';

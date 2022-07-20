@@ -11,8 +11,8 @@ import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
 import diffraction_screen_icon_png from '../../images/diffraction_screen_icon_png.js';
-import waveInterferenceStrings from '../waveInterferenceStrings.js';
 import waveInterference from '../waveInterference.js';
+import waveInterferenceStrings from '../waveInterferenceStrings.js';
 import DiffractionModel from './model/DiffractionModel.js';
 import DiffractionScreenView from './view/DiffractionScreenView.js';
 

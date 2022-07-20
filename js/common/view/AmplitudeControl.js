@@ -7,8 +7,8 @@
  */
 
 import { Node } from '../../../../scenery/js/imports.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceSlider from './WaveInterferenceSlider.js';

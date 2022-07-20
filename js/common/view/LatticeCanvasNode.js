@@ -9,8 +9,7 @@
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { CanvasNode } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { CanvasNode, Color } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';

@@ -7,9 +7,7 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import { Image } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
+import { Image, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import RoundStickyToggleButton from '../../../../sun/js/buttons/RoundStickyToggleButton.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import plane_wave_source_png from '../../../images/plane_wave_source_png.js';

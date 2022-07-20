@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import { Shape, LineStyles } from '../../../../kite/js/imports.js';
+import { LineStyles, Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { Path } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';

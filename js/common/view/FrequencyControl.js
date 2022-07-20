@@ -12,8 +12,8 @@ import SpectrumSliderThumb from '../../../../scenery-phet/js/SpectrumSliderThumb
 import SpectrumSliderTrack from '../../../../scenery-phet/js/SpectrumSliderTrack.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 import WaveInterferenceSlider from './WaveInterferenceSlider.js';

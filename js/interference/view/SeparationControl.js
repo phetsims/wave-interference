@@ -13,8 +13,8 @@ import { Node } from '../../../../scenery/js/imports.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 
 const cmValueString = waveInterferenceStrings.cmValue;
 const nmValueString = waveInterferenceStrings.nmValue;

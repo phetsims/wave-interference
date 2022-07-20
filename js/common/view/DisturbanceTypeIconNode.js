@@ -7,10 +7,9 @@
  */
 
 import Utils from '../../../../dot/js/Utils.js';
-import { Shape, LineStyles } from '../../../../kite/js/imports.js';
+import { LineStyles, Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
+import { Node, Path } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import Scene from '../model/Scene.js';
 

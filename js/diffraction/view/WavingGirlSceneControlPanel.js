@@ -11,8 +11,8 @@ import { HBox } from '../../../../scenery/js/imports.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
 const degreesValueString = waveInterferenceStrings.degreesValue;

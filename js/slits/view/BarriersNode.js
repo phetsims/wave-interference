@@ -8,9 +8,7 @@
 
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
-import { DragListener } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import Scene from '../../common/model/Scene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';

@@ -9,8 +9,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
-import { Line } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { Line, Node } from '../../../../scenery/js/imports.js';
 import Scene from '../../common/model/Scene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';

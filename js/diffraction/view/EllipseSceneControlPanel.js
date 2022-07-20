@@ -10,8 +10,8 @@ import Utils from '../../../../dot/js/Utils.js';
 import { HBox } from '../../../../scenery/js/imports.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
 const diameterString = waveInterferenceStrings.diameter;

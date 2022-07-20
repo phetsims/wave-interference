@@ -26,8 +26,8 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import squishierButtonV3_007_mp3 from '../../../sounds/squishierButtonV3_007_mp3.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import waveInterference from '../../waveInterference.js';
+import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Lattice from './Lattice.js';
 import TemporalMask from './TemporalMask.js';

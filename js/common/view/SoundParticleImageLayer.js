@@ -8,8 +8,7 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import { Image } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { Image, Node } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import SoundParticleNode from './SoundParticleNode.js';

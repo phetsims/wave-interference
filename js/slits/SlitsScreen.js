@@ -11,8 +11,8 @@ import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
 import slits_screen_icon_png from '../../images/slits_screen_icon_png.js';
-import waveInterferenceStrings from '../waveInterferenceStrings.js';
 import waveInterference from '../waveInterference.js';
+import waveInterferenceStrings from '../waveInterferenceStrings.js';
 import SlitsModel from './model/SlitsModel.js';
 import SlitsScreenView from './view/SlitsScreenView.js';
 
