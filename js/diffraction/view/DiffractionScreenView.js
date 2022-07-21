@@ -143,8 +143,10 @@ class DiffractionScreenView extends ScreenView {
     const sceneRadioButtonGroup = new RectangularRadioButtonGroup( model.sceneProperty, sceneRadioButtonContent, {
       radioButtonOptions: {
         baseColor: 'white',
-        selectedStroke: '#419ac9',
-        selectedLineWidth: 2
+        buttonAppearanceStrategyOptions: {
+          selectedStroke: '#419ac9',
+          selectedLineWidth: 2
+        }
       },
       right: this.apertureNode.left - 20,
       bottom: this.apertureNode.bottom

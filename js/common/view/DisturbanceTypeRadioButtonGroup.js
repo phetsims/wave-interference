@@ -28,12 +28,14 @@ class DisturbanceTypeRadioButtonGroup extends RectangularRadioButtonGroup {
     } ], merge( {
       orientation: 'vertical',
       radioButtonOptions: {
+        baseColor: 'white',
         xMargin: 1,
         yMargin: 8,
-        selectedLineWidth: 2,
-        baseColor: 'white',
-        selectedStroke: 'blue',
-        deselectedContentOpacity: 0.4
+        buttonAppearanceStrategyOptions: {
+          selectedLineWidth: 2,
+          selectedStroke: 'blue',
+          deselectedContentOpacity: 0.4
+        }
       }
     }, options ) );
   }
