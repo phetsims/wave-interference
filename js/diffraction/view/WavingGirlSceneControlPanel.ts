@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Control panel for the WavingGirlScene.
  *
@@ -23,8 +23,8 @@ const rotationString = waveInterferenceStrings.rotation;
 class WavingGirlSceneControlPanel extends WaveInterferencePanel {
 
   /**
-   * @param {WavingGirlScene} wavingGirlScene
-   * @param {Object} [options]
+   * @param wavingGirlScene
+   * @param [options]
    */
   constructor( wavingGirlScene, options ) {
     super( new HBox( {

@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * For the sound scene, shows one speaker for each wave generator, each with its own on/off button.
  *
@@ -62,9 +62,9 @@ const speakers = [
 class SoundWaveGeneratorNode extends WaveGeneratorNode {
 
   /**
-   * @param {SoundScene} soundScene
-   * @param {Node} waveAreaNode - for bounds
-   * @param {boolean} isPrimarySource
+   * @param soundScene
+   * @param waveAreaNode - for bounds
+   * @param isPrimarySource
    */
   constructor( soundScene, waveAreaNode, isPrimarySource ) {
     assert && assert( soundScene instanceof SoundScene, 'soundScene should be an instance of SoundScene' );

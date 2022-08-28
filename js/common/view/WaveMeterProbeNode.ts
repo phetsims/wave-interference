@@ -1,5 +1,5 @@
 // Copyright 2018-2021, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * One probe for the WaveMeterNode
  *
@@ -14,8 +14,8 @@ import waveInterference from '../../waveInterference.js';
 class WaveMeterProbeNode extends ProbeNode {
 
   /**
-   * @param {Property.<Bounds2>} visibleBoundsProperty - visible bounds of the ScreenView
-   * @param {Object} [options]
+   * @param visibleBoundsProperty - visible bounds of the ScreenView
+   * @param [options]
    */
   constructor( visibleBoundsProperty, options ) {
 

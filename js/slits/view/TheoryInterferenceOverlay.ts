@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Shows the theoretical/ideal (far field) pattern for interference, when ?theory is specified, see
  * https://github.com/phetsims/wave-interference/issues/136
@@ -23,10 +23,10 @@ const LINE_WIDTH = 1;
 class TheoryInterferenceOverlay extends Node {
 
   /**
-   * @param {Property.<Scene>} sceneProperty
-   * @param {Scene[]} scenes
-   * @param {Bounds2} viewBounds - the area where the lattice appears
-   * @param {Object} [options]
+   * @param sceneProperty
+   * @param scenes
+   * @param viewBounds - the area where the lattice appears
+   * @param [options]
    */
   constructor( sceneProperty, scenes, viewBounds, options ) {
     options = merge( {
@@ -56,7 +56,7 @@ class TheoryInterferenceOverlay extends Node {
 
             /**
              * Adds a line for the given maximum or minimum
-             * @param {number} arg - argument to the arcsin
+             * @param arg - argument to the arcsin
              */
             const addLine = arg => {
               const theta = sign * Math.asin( arg );

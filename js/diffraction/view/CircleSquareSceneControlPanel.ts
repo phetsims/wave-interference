@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Control panel for the CircleSquareScene.
  *
@@ -21,8 +21,8 @@ const squareWidthString = waveInterferenceStrings.squareWidth;
 class CircleSquareSceneControlPanel extends WaveInterferencePanel {
 
   /**
-   * @param {CircleSquareScene} circleSquareScene
-   * @param {Object} [options]
+   * @param circleSquareScene
+   * @param [options]
    */
   constructor( circleSquareScene, options ) {
     super( new HBox( {

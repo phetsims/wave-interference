@@ -9,6 +9,7 @@
 
 import Emitter from '../../../../axon/js/Emitter.js';
 import waveInterference from '../../waveInterference.js';
+import Lattice from './Lattice.js';
 
 // constants
 // Number of samples to use for a temporal average.  Higher number means more latency and smoother. Lower number means
@@ -17,29 +18,20 @@ const HISTORY_LENGTH = 90;
 
 class IntensitySample {
 
-  /**
-   * @param {Lattice} lattice
-   */
-  constructor( lattice ) {
+  // signifies when the intensitySample has changed values.
+  public readonly changedEmitter = new Emitter();
 
-    // @private {Lattice}
-    this.lattice = lattice;
+  // each element is one output column
+  public readonly history: number[][] = [];
 
-    // @public - signifies when the intensitySample has changed values.
-    this.changedEmitter = new Emitter();
-
-    // @private {Array.<Array.<number>>} - each element is one output column
-    this.history = [];
-
+  public constructor( private readonly lattice: Lattice ) {
     this.clear();
   }
 
   /**
    * Gets the intensity values of the rightmost column in the visible wave area.
-   * @returns {number[]}
-   * @public
    */
-  getIntensityValues() {
+  public getIntensityValues(): number[] {
     const intensities = [];
     for ( let i = 0; i < this.history[ 0 ].length; i++ ) {
       let sum = 0;
@@ -68,18 +60,16 @@ class IntensitySample {
 
   /**
    * Removes all data, used when resetting or changing scenes.
-   * @public
    */
-  clear() {
+  public clear(): void {
     this.history.length = 0;
     this.step(); // populate with one column
   }
 
   /**
    * Update the intensity samples when the lattice has updated.
-   * @public
    */
-  step() {
+  public step(): void {
     this.history.push( this.lattice.getOutputColumn() );
     if ( this.history.length > HISTORY_LENGTH ) {
       this.history.shift();

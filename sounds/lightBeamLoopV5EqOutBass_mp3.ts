@@ -1,4 +1,5 @@
 /* eslint-disable */
+// @ts-nocheck
 import asyncLoader from '../../phet-core/js/asyncLoader.js';
 import base64SoundToByteArray from '../../tambo/js/base64SoundToByteArray.js';
 import WrappedAudioBuffer from '../../tambo/js/WrappedAudioBuffer.js';

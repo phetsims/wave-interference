@@ -1,5 +1,5 @@
 // Copyright 2019-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * This scene shows a single elliptical aperture.
  *
@@ -35,11 +35,11 @@ class EllipseScene extends DiffractionScene {
 
   /**
    * Render the aperture shape(s) to the canvas context.
-   * @param {CanvasRenderingContext2D} context
+   * @param context
    * @protected
    * @override
    */
-  renderToContext( context ) {
+  renderToContext( context ): void {
     const eccentricity = this.eccentricityProperty.value;
     const diameter = this.diameterProperty.value;
     const rx = diameter / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;

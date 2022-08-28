@@ -1,5 +1,5 @@
 // Copyright 2019-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Base type for Scenes in the diffraction screen.
  *
@@ -35,11 +35,11 @@ class DiffractionScene {
   /**
    * Add our pattern to the matrix.
    *
-   * @param {Matrix} matrix
-   * @param {number} scaleFactor - zoom factor to account for frequency difference
+   * @param matrix
+   * @param scaleFactor - zoom factor to account for frequency difference
    * @public
    */
-  paintMatrix( matrix, scaleFactor ) {
+  paintMatrix( matrix, scaleFactor ): void {
 
     // clear canvas
     this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
@@ -79,11 +79,11 @@ class DiffractionScene {
 
   /**
    * Render the aperture shape(s) to the canvas context.
-   * @param {CanvasRenderingContext2D} context
+   * @param context
    * @protected
    * @abstract
    */
-  renderToContext( context ) {
+  renderToContext( context ): void {
     assert && assert( false, 'should be overridden in subclasses' );
   }
 
@@ -91,16 +91,16 @@ class DiffractionScene {
    * Restore the initial values for all Property instances.
    * @public
    */
-  reset() {
+  reset(): void {
     this.properties.forEach( property => property.reset() );
   }
 
   /**
    * Link to each Property instance
-   * @param {function} listener
+   * @param listener
    * @public
    */
-  linkToAllProperties( listener ) {
+  linkToAllProperties( listener ): void {
     this.properties.forEach( property => property.link( listener ) );
   }
 }

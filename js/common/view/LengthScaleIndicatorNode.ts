@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Appears above the lattice and shows the scale, like this:
  * |<------>| 500 nm
@@ -17,9 +17,9 @@ import WaveInterferenceText from './WaveInterferenceText.js';
 class LengthScaleIndicatorNode extends Node {
 
   /**
-   * @param {number} width - width of the indicator
-   * @param {string} string - text to display to the right of the indicator
-   * @param {Object} [options]
+   * @param width - width of the indicator
+   * @param string - text to display to the right of the indicator
+   * @param [options]
    */
   constructor( width, string, options ) {
 

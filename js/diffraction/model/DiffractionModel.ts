@@ -1,5 +1,5 @@
 // Copyright 2017-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Model for the Diffraction screen.
  *
@@ -106,7 +106,7 @@ class DiffractionModel {
    * Restore initial conditions.
    * @public
    */
-  reset() {
+  reset(): void {
     this.scenes.forEach( scene => scene.reset() );
     this.onProperty.reset();
     this.sceneProperty.reset();
@@ -116,11 +116,10 @@ class DiffractionModel {
 
 /**
  * Given row/column indices, find the index in the flattened array.  Uses the same strategy as DOT/Matrix.
- * @param {number} i - row index
- * @param {number} j - column index
- * @returns {number} - array index
+ * @param i - row index
+ * @param j - column index
  */
-const getIndex = ( i, j ) => {
+const getIndex = ( i: number, j: number ): number => {
   return i * MATRIX_DIMENSION + j;
 };
 
@@ -130,8 +129,8 @@ const getIndex = ( i, j ) => {
  * (a) it swaps the quadrants to put the low frequencies in the center.
  * (b) shows the log of the magnitudes instead of the raw frequencies to have better fidelity
  * see https://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/www/notes/fourier/fourier.pdf
- * @param {Matrix} input - aperture matrix
- * @param {Matrix} output - place to set fft result values
+ * @param input - aperture matrix
+ * @param output - place to set fft result values
  */
 const fftImageProcessingLabs = ( input, output ) => {
 

@@ -1,5 +1,5 @@
 // Copyright 2018-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Factors out commonality between VerticalAquaRadioButtonGroups used in this sim.
  *
@@ -13,9 +13,9 @@ import waveInterference from '../../waveInterference.js';
 class WaveInterferenceVerticalAquaRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
   /**
-   * @param {Property} property
-   * @param {Object[]} items - see VerticalAquaRadioButtonGroup
-   * @param {Object} [options]
+   * @param property
+   * @param items - see VerticalAquaRadioButtonGroup
+   * @param [options]
    */
   constructor( property, items, options ) {
     options = merge( { spacing: 8 }, options );

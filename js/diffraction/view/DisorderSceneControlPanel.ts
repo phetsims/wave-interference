@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Control panel for the DisorderScene.
  *
@@ -25,8 +25,8 @@ const noneString = waveInterferenceStrings.none;
 class DisorderSceneControlPanel extends WaveInterferencePanel {
 
   /**
-   * @param {DisorderScene} disorderScene
-   * @param {Object} [options]
+   * @param disorderScene
+   * @param [options]
    */
   constructor( disorderScene, options ) {
     super( new HBox( {

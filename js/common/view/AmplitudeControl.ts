@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Controls the amplitude for each Scene.
  *
@@ -9,6 +9,7 @@
 import { Node } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceSlider from './WaveInterferenceSlider.js';
@@ -18,10 +19,7 @@ const amplitudeString = waveInterferenceStrings.amplitude;
 
 class AmplitudeControl extends Node {
 
-  /**
-   * @param {WavesModel} model
-   */
-  constructor( model ) {
+  public constructor( model: WavesModel ) {
 
     const amplitudeTitle = new WaveInterferenceText( amplitudeString );
 

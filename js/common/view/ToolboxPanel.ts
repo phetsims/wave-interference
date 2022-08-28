@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Shows the toolbox from whence tools (measuring tape, timer, probe) can be dragged.
  *
@@ -15,14 +15,14 @@ import WaveInterferencePanel from './WaveInterferencePanel.js';
 class ToolboxPanel extends WaveInterferencePanel {
 
   /**
-   * @param {MeasuringTapeNode} measuringTapeNode
-   * @param {WaveInterferenceStopwatchNode} stopwatchNode
-   * @param {WaveMeterNode} waveMeterNode
-   * @param {AlignGroup} alignGroup - to align with neighbors
-   * @param {Property.<Boolean>} isMeasuringTapeInPlayAreaProperty
-   * @param {Property.<Vector2>} measuringTapeTipPositionProperty
-   * @param {Property.<Boolean>} isStopwatchVisibleProperty
-   * @param {Property.<Boolean>} isWaveMeterInPlayAreaProperty
+   * @param measuringTapeNode
+   * @param stopwatchNode
+   * @param waveMeterNode
+   * @param alignGroup - to align with neighbors
+   * @param isMeasuringTapeInPlayAreaProperty
+   * @param measuringTapeTipPositionProperty
+   * @param isStopwatchVisibleProperty
+   * @param isWaveMeterInPlayAreaProperty
    */
   constructor( measuringTapeNode, stopwatchNode, waveMeterNode, alignGroup, isMeasuringTapeInPlayAreaProperty,
                measuringTapeTipPositionProperty, isStopwatchVisibleProperty, isWaveMeterInPlayAreaProperty ) {
@@ -102,9 +102,9 @@ class ToolboxPanel extends WaveInterferencePanel {
 
 /**
  * Initialize the icon for use in the toolbox.
- * @param {Node} node
- * @param {Property.<boolean>} inPlayAreaProperty
- * @param {function} down
+ * @param node
+ * @param inPlayAreaProperty
+ * @param down
  */
 const initializeIcon = ( node, inPlayAreaProperty, down ) => {
   node.cursor = 'pointer';

@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Shows the partially rotated wave view in a pseudo-3D view.  Ported from RotationGlyph.java
  *
@@ -21,9 +21,9 @@ const topString = waveInterferenceStrings.top;
 class Perspective3DNode extends Node {
 
   /**
-   * @param {Bounds2} waveAreaBounds
-   * @param {NumberProperty} rotationAmountProperty
-   * @param {DerivedProperty.<boolean>} isRotatingProperty
+   * @param waveAreaBounds
+   * @param rotationAmountProperty
+   * @param isRotatingProperty
    */
   constructor( waveAreaBounds, rotationAmountProperty, isRotatingProperty ) {
 
@@ -71,30 +71,28 @@ class Perspective3DNode extends Node {
 
   /**
    * Sets the top face color, when the scene changes.
-   * @param {Color|string} color - the top face color
+   * @param color - the top face color
    * @public
    */
-  setTopFaceColor( color ) {
+  setTopFaceColor( color ): void {
     this.topFacePath.fill = color;
   }
 
   /**
    * Sets the side face color, when the scene changes.
-   * @param {Color|string} color - the side face color
+   * @param color - the side face color
    * @public
    */
-  setSideFaceColor( color ) {
+  setSideFaceColor( color ): void {
     this.sideFacePath.fill = color;
   }
 
   /**
    * Creates a shape for the top or side Face, at the correct perspective angle.
-   * @param {number} reduction - amount to reduce the width at the furthest point from the center
-   * @param {number} y - vertical coordinate of the Face
-   * @returns {Shape}
-   * @private
+   * @param reduction - amount to reduce the width at the furthest point from the center
+   * @param y - vertical coordinate of the Face
    */
-  createFaceShape( reduction, y ) {
+  private createFaceShape( reduction: number, y: number ): Shape {
     return new Shape()
       .moveTo( this.waveAreaBounds.left, this.waveAreaBounds.centerY )
       .lineTo( this.waveAreaBounds.left + reduction, y )
@@ -106,7 +104,7 @@ class Perspective3DNode extends Node {
    * Update the shapes and text when the rotationAmount has changed
    * @private
    */
-  update() {
+  update(): void {
 
     // Apply easing to make the transition look visually nicer
     const rotationAmount = Easing.CUBIC_IN_OUT.value( this.rotationAmountProperty.get() );

@@ -1,5 +1,5 @@
 // Copyright 2019-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * This scene shows a controllable discrete amount of disorder in the aperture.
  *
@@ -81,11 +81,11 @@ class DisorderScene extends DiffractionScene {
 
   /**
    * Render the aperture shape(s) to the canvas context.
-   * @param {CanvasRenderingContext2D} context
+   * @param context
    * @protected
    * @override
    */
-  renderToContext( context ) {
+  renderToContext( context ): void {
     const points = [];
     for ( let i = 0; i < array.length; i++ ) {
       const arrayElement = array[ i ];

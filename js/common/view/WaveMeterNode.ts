@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Provides simulation-specific values and customizations to display a SeismographNode in a chart.
  *
@@ -11,6 +11,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
@@ -57,9 +58,9 @@ const WIRE_LINE_WIDTH = 3;
 class WaveMeterNode extends Node {
 
   /**
-   * @param {WavesModel} model - model for reading values
-   * @param {WavesScreenView} view - for getting coordinates for model
-   * @param {Object} [options]
+   * @param model - model for reading values
+   * @param view - for getting coordinates for model
+   * @param [options]
    */
   constructor( model, view, options ) {
     options = merge( {
@@ -103,20 +104,19 @@ class WaveMeterNode extends Node {
     const droppedEmitter = this.droppedEmitter;
 
     /**
-     * @param {Color|string} color
-     * @param {Color|string} wireColor
-     * @param {number} dx - initial relative x coordinate for the probe
-     * @param {number} dy - initial relative y coordinate for the probe
-     * @param {Property.<Vector2>} connectionProperty
-     * @param {SoundClip[]} sounds
-     * @param {Property.<number>} soundIndexProperty
-     * @param {Property.<boolean>} playbackRateProperty
-     * @param {Property.<boolean>} volumeProperty
-     * @param {Property.<boolean>} isPlayingProperty
-     * @param {number} seriesVolume
-     * @returns {DynamicSeries}
+     * @param color
+     * @param wireColor
+     * @param dx - initial relative x coordinate for the probe
+     * @param dy - initial relative y coordinate for the probe
+     * @param connectionProperty
+     * @param sounds
+     * @param soundIndexProperty
+     * @param playbackRateProperty
+     * @param volumeProperty
+     * @param isPlayingProperty
+     * @param seriesVolume
      */
-    const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty, playbackRateProperty, volumeProperty, isPlayingProperty, seriesVolume ) => {
+    const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty, playbackRateProperty, volumeProperty, isPlayingProperty, seriesVolume ):DynamicSeries => {
       const snapToCenter = () => {
         if ( model.rotationAmountProperty.value !== 0 && model.sceneProperty.value === model.waterScene ) {
           const point = view.waveAreaNode.center;
@@ -376,7 +376,7 @@ class WaveMeterNode extends Node {
    * Reset the probe when dropped back in the toolbox.
    * @public
    */
-  reset() {
+  reset(): void {
     this.resetEmitter.emit();
     this.alignProbesEmitter.emit();
   }
@@ -384,20 +384,16 @@ class WaveMeterNode extends Node {
   /**
    * Gets the region of the background in global coordinates.  This can be used to determine if the chart
    * should be dropped back in a toolbox.
-   * @returns {Bounds2}
-   * @public
    */
-  getBackgroundNodeGlobalBounds() {
+  public getBackgroundNodeGlobalBounds(): Bounds2 {
     return this.localToGlobalBounds( this.backgroundNode.bounds );
   }
 
   /**
    * Forward an event from the toolbox to start dragging the node in the play area.  This triggers the probes (if any)
    * to drag together with the chart.  This is accomplished by calling this.alignProbes() at each drag event.
-   * @param {Object} event
-   * @public
    */
-  startDrag( event ) {
+  public startDrag( event ): void {
 
     // Forward the event to the drag listener
     this.backgroundDragListener.press( event, this.backgroundNode );
@@ -405,10 +401,10 @@ class WaveMeterNode extends Node {
 
   /**
    * Set the drag listener, wires it up and uses it for forwarding events from the toolbox icon.
-   * @param {DragListener} dragListener
+   * @param dragListener
    * @public
    */
-  setDragListener( dragListener ) {
+  setDragListener( dragListener ): void {
     assert && assert( this.backgroundDragListener === null, 'setDragListener must be called no more than once' );
     this.backgroundDragListener = dragListener;
     this.backgroundNode.addInputListener( dragListener );

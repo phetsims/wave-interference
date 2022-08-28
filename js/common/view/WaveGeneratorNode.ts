@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * For each scene, shows one node for each wave generator, each with its own on/off button.
  *
@@ -17,14 +17,14 @@ import DisturbanceTypeIconNode from './DisturbanceTypeIconNode.js';
 class WaveGeneratorNode extends Node {
 
   /**
-   * @param {Scene} scene
-   * @param {Node} waveAreaNode - for bounds
-   * @param {number} buttonPosition - x offset
-   * @param {boolean} isPrimarySource
-   * @param {Node} sourceNode - for the wave generators, shared with scenery DAG
-   * @param {number} [verticalOffset] - offset for the hose, so the water has some distance to fall
-   * @param {number} [buttonOffset] - offset for the button, so it can be positioned on the pipe
-   * @param {boolean} [showButtonBackground] - true if a new background for the button should be added
+   * @param scene
+   * @param waveAreaNode - for bounds
+   * @param buttonPosition - x offset
+   * @param isPrimarySource
+   * @param sourceNode - for the wave generators, shared with scenery DAG
+   * @param [verticalOffset] - offset for the hose, so the water has some distance to fall
+   * @param [buttonOffset] - offset for the button, so it can be positioned on the pipe
+   * @param [showButtonBackground] - true if a new background for the button should be added
    */
   constructor( scene, waveAreaNode, buttonPosition, isPrimarySource, sourceNode,
                verticalOffset = 0,

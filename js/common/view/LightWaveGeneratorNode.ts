@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * For the light scene, shows one laser pointer for each wave generator, each with its own on/off button.
  *
@@ -24,9 +24,9 @@ const DEFAULT_OPTIONS = {
 class LightWaveGeneratorNode extends WaveGeneratorNode {
 
   /**
-   * @param {LightScene} lightScene
-   * @param {Node} waveAreaNode - for bounds
-   * @param {boolean} isPrimarySource
+   * @param lightScene
+   * @param waveAreaNode - for bounds
+   * @param isPrimarySource
    */
   constructor( lightScene, waveAreaNode, isPrimarySource ) {
     assert && assert( lightScene instanceof LightScene, 'lightScene should be an instance of SoundScene' );

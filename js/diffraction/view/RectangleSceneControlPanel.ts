@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Control panel for the RectangleScene.
  *
@@ -21,8 +21,8 @@ const widthString = waveInterferenceStrings.width;
 class RectangleSceneControlPanel extends WaveInterferencePanel {
 
   /**
-   * @param {RectangleScene} rectangleScene
-   * @param {Object} [options]
+   * @param rectangleScene
+   * @param [options]
    */
   constructor( rectangleScene, options ) {
     super( new HBox( {

@@ -1,5 +1,5 @@
 // Copyright 2018-2021, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Factors out common way of rendering text within the sim.
  *
@@ -7,17 +7,12 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Text, TextOptions } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 
 class WaveInterferenceText extends Text {
-
-  /**
-   * @param {string} string
-   * @param {Object} [options]
-   */
-  constructor( string, options ) {
+  public constructor( string: string, options?: TextOptions ) {
     super( string, merge( {
       font: WaveInterferenceConstants.DEFAULT_FONT,
       maxWidth: WaveInterferenceConstants.MAX_WIDTH

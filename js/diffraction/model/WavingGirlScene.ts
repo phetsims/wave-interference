@@ -1,5 +1,5 @@
 // Copyright 2019-2021, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * This scene shows a the iconic "waving girl" aperture shape.
  *
@@ -36,11 +36,11 @@ class WavingGirlScene extends DiffractionScene {
 
   /**
    * Render the aperture shape(s) to the canvas context.
-   * @param {CanvasRenderingContext2D} context
+   * @param context
    * @protected
    * @override
    */
-  renderToContext( context ) {
+  renderToContext( context ): void {
     const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
     context.translate( waving_girl_aperture_png.width / 2, waving_girl_aperture_png.height * 0.1 );
     context.translate( waving_girl_aperture_png.width / 2, waving_girl_aperture_png.height / 2 );

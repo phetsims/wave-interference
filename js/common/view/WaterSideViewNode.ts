@@ -1,5 +1,5 @@
 // Copyright 2018-2021, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Shows the water from the side view.
  *
@@ -19,8 +19,8 @@ const SOURCE_INDEX = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINAT
 class WaterSideViewNode extends Path {
 
   /**
-   * @param {Bounds2} waveAreaBounds
-   * @param {WaterScene} waterScene
+   * @param waveAreaBounds
+   * @param waterScene
    */
   constructor( waveAreaBounds, waterScene ) {
 
@@ -44,7 +44,7 @@ class WaterSideViewNode extends Path {
   /**
    * @private - update the shape when the rotationAmount or lattice has changed
    */
-  update() {
+  update(): void {
     const bounds = this.waveAreaBounds;
     const waterSideShape = WaveInterferenceUtils.getWaterSideShape( this.array, this.waterScene.lattice, bounds, 0, 0 );
     this.shape = waterSideShape

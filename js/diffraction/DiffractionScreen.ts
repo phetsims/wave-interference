@@ -1,5 +1,5 @@
 // Copyright 2017-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Screen for the Diffraction screen.
  *

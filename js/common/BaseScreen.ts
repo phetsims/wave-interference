@@ -7,28 +7,37 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import Screen from '../../../joist/js/Screen.js';
-import merge from '../../../phet-core/js/merge.js';
+import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { AlignGroup } from '../../../scenery/js/imports.js';
 import waveInterference from '../waveInterference.js';
 import WavesModel from '../waves/model/WavesModel.js';
 import WavesScreenView from '../waves/view/WavesScreenView.js';
 
+type SelfOptions = {
+  showSceneRadioButtons?: boolean;
+  showPlaySoundControl?: boolean;
+  audioEnabled?: boolean;
+  scenes: ( 'waterScene' | 'soundScene' | 'lightScene' )[];
+};
+export type BaseScreenOptions = SelfOptions & ScreenOptions;
+
 class BaseScreen extends Screen {
 
   /**
-   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-   * @param {Object} [options]
+   * @param alignGroup - for aligning the control panels on the right side of the lattice
+   * @param [providedOptions]
    */
-  constructor( alignGroup, options ) {
+  public constructor( alignGroup: AlignGroup, providedOptions?: BaseScreenOptions ) {
 
-    options = merge( {
+    const options = optionize<BaseScreenOptions, SelfOptions, ScreenOptions>()( {
       backgroundColorProperty: new Property( 'white' ),
       showUnselectedHomeScreenIconFrame: true,
       showScreenIconFrameForNavigationBarFill: 'black',
       showSceneRadioButtons: true,
       showPlaySoundControl: true,
       audioEnabled: true
-    }, options );
+    }, providedOptions );
 
     super(
       () => new WavesModel( options.scenes ? { scenes: options.scenes } : {} ),

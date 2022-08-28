@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Control panel for the EllipseScene.
  *
@@ -21,8 +21,8 @@ const mmValueString = waveInterferenceStrings.mmValue;
 class EllipseSceneControlPanel extends WaveInterferencePanel {
 
   /**
-   * @param {EllipseScene} ellipseScene
-   * @param {Object} [options]
+   * @param ellipseScene
+   * @param [options]
    */
   constructor( ellipseScene, options ) {
     super( new HBox( {

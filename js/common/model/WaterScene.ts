@@ -1,5 +1,5 @@
 // Copyright 2018-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * The model for the Water scene, which adds WaterDrop instances.
  *
@@ -9,17 +9,21 @@
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
-import Scene from './Scene.js';
+import Scene, { SceneOptions } from './Scene.js';
 import WaterDrop from './WaterDrop.js';
+
+type SelfOptions = EmptySelfOptions;
+type WaterSceneOptions = SelfOptions & SceneOptions;
 
 class WaterScene extends Scene {
 
   /**
-   * @param {Object} config - see Scene for required properties
+   * @param config - see Scene for required properties
    */
-  constructor( config ) {
+  public constructor( config: WaterSceneOptions ) {
     super( config );
 
     // @public - Emits when a water drop hits the y=0 plane
@@ -71,12 +75,12 @@ class WaterScene extends Scene {
   /**
    * Fire another water drop if one is warranted for the specified faucet.  We already determined that the timing
    * is right (for the period), now we need to know if a drop should fire.
-   * @param {BooleanProperty} buttonProperty - indicates whether the corresponding button is pressed
-   * @param {BooleanProperty} oscillatingProperty - indicates whether the wave source is oscillating
-   * @param {number} sign - -1 for top faucet, +1 for bottom faucet
+   * @param buttonProperty - indicates whether the corresponding button is pressed
+   * @param oscillatingProperty - indicates whether the wave source is oscillating
+   * @param sign - -1 for top faucet, +1 for bottom faucet
    * @private
    */
-  launchWaterDrop( buttonProperty, oscillatingProperty, sign ) {
+  launchWaterDrop( buttonProperty, oscillatingProperty, sign ): void {
 
     const time = this.timeProperty.value;
 
@@ -132,7 +136,7 @@ class WaterScene extends Scene {
    * @public
    * @override
    */
-  setMuted( muted ) {
+  setMuted( muted ): void {
     super.setMuted( muted );
     muted && this.removeAllDrops();
     this.continuousWave1OscillatingProperty.value = false;
@@ -141,11 +145,11 @@ class WaterScene extends Scene {
 
   /**
    * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
-   * @param {number} dt - amount of time to move forward, in the units of the scene
+   * @param dt - amount of time to move forward, in the units of the scene
    * @override
    * @public
    */
-  step( dt ) {
+  step( dt ): void {
 
     super.step( dt );
 
@@ -193,7 +197,7 @@ class WaterScene extends Scene {
    * we mark the isAboutToFireProperty as true.
    * @private
    */
-  updateIsAboutToFire() {
+  updateIsAboutToFire(): void {
     let isAboutToFire = false;
 
     // Called every frame, do not allocate closures.
@@ -211,37 +215,34 @@ class WaterScene extends Scene {
 
   /**
    * Gets the wavelength specified by the user in the control panel.
-   * @returns {number} in cm/sec
-   * @public
+   * @returns in cm/sec
    */
-  getDesiredWavelength() {
+  public getDesiredWavelength(): number {
     return this.waveSpeed / this.desiredFrequencyProperty.get();
   }
 
   /**
-   * @param {boolean} isPressed
+   * @param isPressed
    * @override
    * @protected
    */
-  handleButton1Toggled( isPressed ) {
+  handleButton1Toggled( isPressed ): void {
     // Override as a no-op, since water controls the source via WaterDrops hitting the surface
   }
 
   /**
-   * @param {boolean} isPressed
+   * @param isPressed
    * @override
    * @protected
    */
-  handleButton2Toggled( isPressed ) {
+  handleButton2Toggled( isPressed ): void {
     // Override as a no-op, since water controls the source via WaterDrops hitting the surface
   }
 
   /**
    * Gets the horizontal coordinate where water drops come out--aligned with the oscillation cell.
-   * @returns {number}
-   * @public
    */
-  getWaterDropX() {
+  public getWaterDropX(): number {
 
     // Note this is nudged over 1/2 a cell so it will appear in the center of the cell rather than
     // at the left edge of the cell.  See also WaveInterferenceUtils.getWaterSideShape.
@@ -254,7 +255,7 @@ class WaterScene extends Scene {
    * Clear all of the water drops.
    * @public
    */
-  removeAllDrops() {
+  removeAllDrops(): void {
     while ( this.waterDrops.length > 0 ) {
       arrayRemove( this.waterDrops, this.waterDrops[ 0 ] );
     }
@@ -265,7 +266,7 @@ class WaterScene extends Scene {
    * @public
    * @override
    */
-  reset() {
+  reset(): void {
     super.reset();
     this.desiredFrequencyProperty.reset();
     this.desiredSourceSeparationProperty.reset();

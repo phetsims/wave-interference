@@ -5,11 +5,9 @@ import Utils from '../../../../dot/js/Utils.js';
 
 /**
  * Converts a wave value to a volume for the WaveMeterNode
- * @param {number} value
- * @returns {number}
  * @author Sam Reid (PhET Interactive Simulations)
  */
-const getWaveMeterNodeOutputLevel = value => {
+const getWaveMeterNodeOutputLevel = ( value: number ): number => {
 
   // Linearize based on the sine value
   const clampedValue = Utils.clamp( value, -1.6, 1.6 );

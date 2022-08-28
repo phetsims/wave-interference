@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * The scene determines the medium and wave generator types, coordinate frames, relative scale, etc.  For a description
  * of which features are independent or shared across scenes, please see
@@ -21,6 +21,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../../../phet-core/js/merge.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
@@ -54,15 +55,18 @@ const VALID_STRING = {
 };
 const VALID_RANGE = {
   valueType: Range,
-  isValidValue: range => range.min > 0 && range.max > 0
+  isValidValue: ( range: Range ) => range.min > 0 && range.max > 0
 };
+
+type SelfOptions = EmptySelfOptions;
+export type SceneOptions = SelfOptions;
 
 class Scene {
 
   /**
-   * @param {Object} config - see below for required properties
+   * @param config - see below for required properties
    */
-  constructor( config ) {
+  protected constructor( config: SceneOptions ) {
 
     config = merge( {
 
@@ -434,10 +438,10 @@ class Scene {
   /**
    * The user pressed the wave generator button. The default is to always play a sound, but this can be overridden
    * for scenes than have their own sound generation.
-   * @param {boolean} [pressed] - true if button pressed, false if released
+   * @param [pressed] - true if button pressed, false if released
    * @public
    */
-  waveGeneratorButtonSound( pressed = true ) {
+  waveGeneratorButtonSound( pressed = true ): void {
     const playbackRate = pressed ? 1 : 0.891;  // one whole step lower for the released sound
     WAVE_GENERATOR_BUTTON_SOUND_CLIP.setPlaybackRate( playbackRate );
     WAVE_GENERATOR_BUTTON_SOUND_CLIP.play();
@@ -445,11 +449,11 @@ class Scene {
 
   /**
    * Generate a wave from a point source
-   * @param {number} amplitude
-   * @param {number} time
+   * @param amplitude
+   * @param time
    * @private
    */
-  setPointSourceValues( amplitude, time ) {
+  setPointSourceValues( amplitude, time ): void {
 
     const frequency = this.frequencyProperty.get();
     const period = 1 / frequency;
@@ -515,11 +519,11 @@ class Scene {
 
   /**
    * Generate a plane wave
-   * @param {number} amplitude
-   * @param {number} time
+   * @param amplitude
+   * @param time
    * @private
    */
-  setPlaneSourceValues( amplitude, time ) {
+  setPlaneSourceValues( amplitude, time ): void {
 
     // When the plane wave frequency is changed, don't update the wave area for a few frames so there is no flicker,
     // see https://github.com/phetsims/wave-interference/issues/309
@@ -617,7 +621,7 @@ class Scene {
    * the damping region).
    * @private
    */
-  setSourceValues() {
+  setSourceValues(): void {
 
     // Get the desired amplitude.  For water, this is set through the desiredAmplitudeProperty.  For other
     // scenes, this is set through the amplitudeProperty.
@@ -633,11 +637,11 @@ class Scene {
 
   /**
    * Additionally called from the "step" button
-   * @param {number} wallDT - amount of wall time that passed, will be scaled by time scaling value
-   * @param {boolean} manualStep - true if the step button is being pressed
+   * @param wallDT - amount of wall time that passed, will be scaled by time scaling value
+   * @param manualStep - true if the step button is being pressed
    * @public
    */
-  advanceTime( wallDT, manualStep ) {
+  advanceTime( wallDT, manualStep ): void {
 
     const frequency = this.frequencyProperty.get();
     const period = 1 / frequency;
@@ -695,7 +699,7 @@ class Scene {
    *
    * @private
    */
-  applyTemporalMask() {
+  applyTemporalMask(): void {
 
     // zero out values that are outside of the mask
     for ( let i = 0; i < this.lattice.width; i++ ) {
@@ -718,7 +722,7 @@ class Scene {
    * Clears the wave values
    * @public
    */
-  clear() {
+  clear(): void {
     this.lattice.clear();
     this.temporalMask1.clear();
     this.temporalMask2.clear();
@@ -728,7 +732,7 @@ class Scene {
    * Start the sine argument at 0 so it will smoothly form the first wave.
    * @private
    */
-  resetPhase() {
+  resetPhase(): void {
     const frequency = this.frequencyProperty.get();
     const angularFrequency = Math.PI * 2 * frequency;
 
@@ -738,28 +742,25 @@ class Scene {
 
   /**
    * Returns the wavelength in the units of the scene
-   * @returns {number}
-   * @public
    */
-  getWavelength() {
+  public getWavelength(): number {
     return this.waveSpeed / this.frequencyProperty.get();
   }
 
   /**
    * Returns a Bounds2 for the visible part of the wave area, in the coordinates of the scene.
-   * @returns {Bounds2} the lattice model bounds, in the coordinates of this scene.
-   * @public
+   * @returns the lattice model bounds, in the coordinates of this scene.
    */
-  getWaveAreaBounds() {
+  public getWaveAreaBounds(): Bounds2 {
     return new Bounds2( 0, 0, this.waveAreaWidth, this.waveAreaWidth );
   }
 
   /**
    * Mute or unmute the model.
-   * @param {boolean} muted
+   * @param muted
    * @public
    */
-  setMuted( muted ) {
+  setMuted( muted ): void {
     this.muted = muted;
     muted && this.clear();
   }
@@ -768,7 +769,7 @@ class Scene {
    * The user has initiated a single pulse.
    * @public
    */
-  startPulse() {
+  startPulse(): void {
     assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
     this.resetPhase();
     this.pulseFiringProperty.value = true;
@@ -777,10 +778,10 @@ class Scene {
 
   /**
    * Called when the primary button is toggled.  Can be overridden for scene-specific behavior.
-   * @param {boolean} isPressed
+   * @param isPressed
    * @protected
    */
-  handleButton1Toggled( isPressed ) {
+  handleButton1Toggled( isPressed ): void {
     if ( isPressed && !this.button2PressedProperty.value ) {
       this.resetPhase();
     }
@@ -796,28 +797,25 @@ class Scene {
 
   /**
    * Called when the secondary button is toggled.  Can be overridden for scene-specific behavior.
-   * @param {boolean} isPressed
+   * @param isPressed
    * @protected
    */
-  handleButton2Toggled( isPressed ) {
+  handleButton2Toggled( isPressed ): void {
     if ( isPressed && !this.button1PressedProperty.value ) {
       this.resetPhase();
     }
     this.continuousWave2OscillatingProperty.value = isPressed;
   }
 
-  /**
-   * No-op which may be overridden for scene-specific behavior.  Called when the phase changes.
-   * @protected
-   */
-  handlePhaseChanged() {
+  protected handlePhaseChanged(): void {
+
+    // No-op which may be overridden for scene-specific behavior.  Called when the phase changes.
   }
 
   /**
    * Restores the initial conditions of this scene.
-   * @public
    */
-  reset() {
+  public reset(): void {
     this.clear();
     this.muted = false;
     this.frequencyProperty.reset();
@@ -840,20 +838,20 @@ class Scene {
 
   /**
    * Move forward in time by the specified amount
-   * @param {number} dt - amount of time to move forward, in the units of the scene
+   * @param dt - amount of time to move forward, in the units of the scene
    * @public
    */
-  step( dt ) {
+  step( dt ): void {
 
     // No-op here, subclasses can override to provide behavior.
   }
 
   /**
    * After the view is initialized, determine the coordinate transformations that map to view coordinates.
-   * @param {Bounds2} viewBounds
+   * @param viewBounds
    * @public
    */
-  setViewBounds( viewBounds ) {
+  setViewBounds( viewBounds ): void {
     assert && assert( this.modelViewTransform === null, 'setViewBounds cannot be called twice' );
 
     this.modelViewTransform = ModelViewTransform2.createRectangleMapping(

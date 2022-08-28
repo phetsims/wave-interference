@@ -1,5 +1,5 @@
 // Copyright 2018-2021, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * This node is used for layout only.
  *
@@ -14,7 +14,7 @@ import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 class WaveAreaNode extends Rectangle {
 
   /**
-   * @param {Object} [options]
+   * @param [options]
    */
   constructor( options ) {
     super( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, merge( {

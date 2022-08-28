@@ -1,5 +1,5 @@
 // Copyright 2018-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Panel subclass that applies styling specific to the Wave Interference simulation.
  *
@@ -13,8 +13,8 @@ import waveInterference from '../../waveInterference.js';
 class WaveInterferencePanel extends Panel {
 
   /**
-   * @param {Node} content
-   * @param {Object} [options]
+   * @param content
+   * @param [options]
    */
   constructor( content, options ) {
     options = merge( {

@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Renders the screen at right hand side of the wave area, showing the time-averaged intensity (for the light scene).
  *
@@ -46,9 +46,9 @@ const linearBrightnessFunction = intensity => {
 class LightScreenNode extends CanvasNode {
 
   /**
-   * @param {Lattice} lattice
-   * @param {IntensitySample} intensitySample
-   * @param {Object} [options]
+   * @param lattice
+   * @param intensitySample
+   * @param [options]
    */
   constructor( lattice, intensitySample, options ) {
     const latticeCanvasBounds = WaveInterferenceUtils.getCanvasBounds( lattice );
@@ -103,21 +103,21 @@ class LightScreenNode extends CanvasNode {
 
   /**
    * Sets the color of the peaks of the wave.
-   * @param {Color} color
+   * @param color
    * @public
    */
-  setBaseColor( color ) {
+  setBaseColor( color ): void {
     this.baseColor = color;
     this.invalidatePaint();
   }
 
   /**
    * Draws into the canvas.
-   * @param {CanvasRenderingContext2D} context
+   * @param context
    * @public
    * @override
    */
-  paintCanvas( context ) {
+  paintCanvas( context ): void {
 
     const intensityValues = this.intensitySample.getIntensityValues();
 

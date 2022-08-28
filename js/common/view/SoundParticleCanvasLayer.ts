@@ -1,5 +1,5 @@
 // Copyright 2018-2021, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * When selected, shows discrete and moving particles for the sound view.
  *
@@ -20,9 +20,9 @@ const RESOLUTION = 2;
 class SoundParticleCanvasLayer extends CanvasNode {
 
   /**
-   * @param {WavesModel} model
-   * @param {Bounds2} waveAreaNodeBounds
-   * @param {Object} [options]
+   * @param model
+   * @param waveAreaNodeBounds
+   * @param [options]
    */
   constructor( model, waveAreaNodeBounds, options ) {
 
@@ -63,11 +63,11 @@ class SoundParticleCanvasLayer extends CanvasNode {
 
   /**
    * Draws into the canvas.
-   * @param {CanvasRenderingContext2D} context
+   * @param context
    * @public
    * @override
    */
-  paintCanvas( context ) {
+  paintCanvas( context ): void {
     context.transform( 1 / RESOLUTION, 0, 0, 1 / RESOLUTION, 0, 0 );
     for ( let i = 0; i < this.model.soundScene.soundParticles.length; i++ ) {
       const soundParticle = this.model.soundScene.soundParticles[ i ];

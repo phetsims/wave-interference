@@ -1,5 +1,5 @@
 // Copyright 2017-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * "Waves" screen in the Wave Interference simulation.
  *
@@ -18,7 +18,7 @@ const screenWavesString = waveInterferenceStrings.screen.waves;
 class WavesScreen extends BaseScreen {
 
   /**
-   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
+   * @param alignGroup - for aligning the control panels on the right side of the lattice
    */
   constructor( alignGroup ) {
     const options = {

@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Renders data from a Matrix into a canvas.  Shows the apertures and diffraction regions.
  *
@@ -19,8 +19,8 @@ const SCALE_FACTOR = 2.5;
 class MatrixCanvasNode extends CanvasNode {
 
   /**
-   * @param {Matrix} matrix
-   * @param {Object} [options]
+   * @param matrix
+   * @param [options]
    */
   constructor( matrix, options ) {
 
@@ -49,21 +49,21 @@ class MatrixCanvasNode extends CanvasNode {
 
   /**
    * Sets the color of the peaks of the wave.
-   * @param {Color} color
+   * @param color
    * @public
    */
-  setBaseColor( color ) {
+  setBaseColor( color ): void {
     this.baseColor = color;
     this.invalidatePaint();
   }
 
   /**
    * Draws into the canvas.
-   * @param {CanvasRenderingContext2D} context
+   * @param context
    * @public
    * @override
    */
-  paintCanvas( context ) {
+  paintCanvas( context ): void {
 
     let x = 0;
 

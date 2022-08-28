@@ -29,71 +29,63 @@ const LIGHT_VISIT_THRESHOLD = 1E-3;
 
 class Lattice {
 
+  // matrices for current value, previous value and value before previous
+  private readonly matrices: Matrix[] = [];
+
+  // keeps track of which cells have been visited by the wave
+  private readonly visitedMatrix: Matrix;
+
+  // tracks which cells could have been activated by an source disturbance, as opposed to a numerical
+  // artifact or reflection.  See TemporalMask.  Initialize to 1 to support plane waves, which is never masked.
+  private readonly allowedMask: Matrix;
+
+  // indicates the current matrix. Previous matrix is one higher (with correct modulus)
+  private currentMatrixIndex = 0;
+
+  // sends a notification each time the lattice updates.
+  public readonly changedEmitter = new Emitter();
+
+  // Determines how far we have animated between the "last" and "current" matrices, so that we
+  // can use getInterpolatedValue to update the view at 60fps even though the model is running at a slower rate.
+  // See EventTimer.getRatio for more about this value.
+  public interpolationRatio = 0;
+
+  // a Bounds2 representing the visible (non-damping) region of the lattice.
+  public readonly visibleBounds: Bounds2;
+
+  public static WAVE_SPEED = WAVE_SPEED;
+
   /**
-   * @param {number} width - width of the lattice
-   * @param {number} height - height of the lattice
-   * @param {number} dampX - number of cells on the left and again on the right to use for damping
-   * @param {number} dampY - number of cells on the top and again on the bottom to use for damping
+   * @param width - width of the lattice (includes damping regions)
+   * @param height - height of the lattice (includes damping regions)
+   * @param dampX - number of cells on the left and again on the right to use for damping
+   * @param dampY - number of cells on the top and again on the bottom to use for damping
    */
-  constructor( width, height, dampX, dampY ) {
+  public constructor( public readonly width: number, public readonly height: number, public readonly dampX: number, public readonly dampY: number ) {
 
-    // @public (read-only) {number} - number of cells on the left and again on the right to use for damping
-    this.dampX = dampX;
-
-    // @public (read-only) {number} - number of cells on the top and again on the bottom to use for damping
-    this.dampY = dampY;
-
-    // @private {Matrix[]} - matrices for current value, previous value and value before previous
-    this.matrices = [];
     for ( let i = 0; i < NUMBER_OF_MATRICES; i++ ) {
       this.matrices.push( new Matrix( width, height ) );
     }
-
-    // @private - keeps track of which cells have been visited by the wave
     this.visitedMatrix = new Matrix( width, height );
-
-    // @private - tracks which cells could have been activated by an source disturbance, as opposed to a numerical
-    // artifact or reflection.  See TemporalMask.  Initialize to 1 to support plane waves, which is never masked.
     this.allowedMask = new Matrix( width, height, 1 );
-
-    // @private {number} - indicates the current matrix. Previous matrix is one higher (with correct modulus)
-    this.currentMatrixIndex = 0;
-
-    // @public - sends a notification each time the lattice updates.
-    this.changedEmitter = new Emitter();
-
-    // @public (read-only) {number} - width of the lattice (includes damping regions)
     this.width = width;
-
-    // @public (read-only) {number} - height of the lattice (includes damping regions)
     this.height = height;
-
-    // @public {number} - Determines how far we have animated between the "last" and "current" matrices, so that we
-    // can use getInterpolatedValue to update the view at 60fps even though the model is running at a slower rate.
-    // See EventTimer.getRatio for more about this value.
-    this.interpolationRatio = 0;
-
-    // @public (read-only) - a Bounds2 representing the visible (non-damping) region of the lattice.
     this.visibleBounds = new Bounds2( this.dampX, this.dampY, this.width - this.dampX, this.height - this.dampY );
   }
 
   /**
    * Gets a Bounds2 representing the full region of the lattice, including damping regions.
-   * @returns {Bounds2}
-   * @public
    */
-  getBounds() {
+  public getBounds(): Bounds2 {
     return new Bounds2( 0, 0, this.width, this.height );
   }
 
   /**
    * Returns true if the visible bounds contains the lattice coordinate
-   * @param {number} i - integer for the horizontal coordinate
-   * @param {number} j - integer for the vertical coordinate
-   * @returns {boolean}
-   * @public
+   * @param i - integer for the horizontal coordinate
+   * @param j - integer for the vertical coordinate
    */
-  visibleBoundsContains( i, j ) {
+  public visibleBoundsContains( i: number, j: number ): boolean {
     const b = this.visibleBounds;
 
     // Note this differs from the standard Bounds2.containsCoordinate because we must exclude right and bottom edge
@@ -103,22 +95,19 @@ class Lattice {
 
   /**
    * Returns true if the given coordinate is within the lattice
-   * @param {number} i - integer for the horizontal coordinate
-   * @param {number} j - integer for the vertical coordinate
-   * @returns {boolean}
-   * @public
+   * @param i - integer for the horizontal coordinate
+   * @param j - integer for the vertical coordinate
    */
-  contains( i, j ) {
+  public contains( i: number, j: number ): boolean {
     return i >= 0 && i < this.width && j >= 0 && j < this.height;
   }
 
   /**
    * Read the values on the center line of the lattice (omits the out-of-bounds damping regions), for display in the
    * WaveAreaGraphNode
-   * @param {number[]} array - array to fill with the values for performance/memory, will be resized if necessary
-   * @public
+   * @param array - array to fill with the values for performance/memory, will be resized if necessary
    */
-  getCenterLineValues( array ) {
+  public getCenterLineValues( array: number[] ): void {
     const samplingWidth = this.width - this.dampX * 2;
 
     // Resize array if necessary
@@ -133,23 +122,19 @@ class Lattice {
 
   /**
    * Returns the current value in the given cell, masked by the allowedMask.
-   * @param {number} i - horizontal integer coordinate
-   * @param {number} j - vertical integer coordinate
-   * @returns {number}
-   * @public
+   * @param i - horizontal integer coordinate
+   * @param j - vertical integer coordinate
    */
-  getCurrentValue( i, j ) {
+  public getCurrentValue( i: number, j: number ): number {
     return this.allowedMask.get( i, j ) === 1 ? this.matrices[ this.currentMatrixIndex ].get( i, j ) : 0;
   }
 
   /**
    * Returns the interpolated value of the given cell, masked by the allowedMask.
-   * @param {number} i - horizontal integer coordinate
-   * @param {number} j - vertical integer coordinate
-   * @returns {number}
-   * @public
+   * @param i - horizontal integer coordinate
+   * @param j - vertical integer coordinate
    */
-  getInterpolatedValue( i, j ) {
+  public getInterpolatedValue( i: number, j: number ): number {
     if ( this.allowedMask.get( i, j ) === 1 ) {
       const currentValue = this.getCurrentValue( i, j );
       const lastValue = this.getLastValue( i, j );
@@ -162,74 +147,65 @@ class Lattice {
 
   /**
    * Sets the current value in the given cell
-   * @param {number} i - horizontal integer coordinate
-   * @param {number} j - vertical integer coordinate
-   * @param {number} value
-   * @public
+   * @param i - horizontal integer coordinate
+   * @param j - vertical integer coordinate
+   * @param value
    */
-  setCurrentValue( i, j, value ) {
+  public setCurrentValue( i: number, j: number, value: number ): void {
     this.matrices[ this.currentMatrixIndex ].set( i, j, value );
   }
 
   /**
    * Returns the previous value in the given cell
-   * @param {number} i - horizontal integer coordinate
-   * @param {number} j - vertical integer coordinate
-   * @returns {number}
-   * @private
+   * @param i - horizontal integer coordinate
+   * @param j - vertical integer coordinate
    */
-  getLastValue( i, j ) {
+  private getLastValue( i: number, j: number ): number {
     return this.matrices[ ( this.currentMatrixIndex + 1 ) % this.matrices.length ].get( i, j );
   }
 
   /**
    * Sets the previous value in the given cell
-   * @param {number} i - horizontal integer coordinate
-   * @param {number} j - vertical integer coordinate
-   * @param {number} value
-   * @private
+   * @param i - horizontal integer coordinate
+   * @param j - vertical integer coordinate
+   * @param value
    */
-  setLastValue( i, j, value ) {
+  private setLastValue( i: number, j: number, value: number ): void {
     this.matrices[ ( this.currentMatrixIndex + 1 ) % this.matrices.length ].set( i, j, value );
   }
 
   /**
    * In order to prevent numerical artifacts in the point source scenes, we use TemporalMask to identify which cells
    * have a value because of the source oscillation.
-   * @param {number} i
-   * @param {number} j
-   * @param {boolean} allowed - true if the temporal mask indicates that the value could have been caused by sources
-   * @public
+   * @param i
+   * @param j
+   * @param allowed - true if the temporal mask indicates that the value could have been caused by sources
    */
-  setAllowed( i, j, allowed ) {
+  public setAllowed( i: number, j: number, allowed: boolean ): void {
     this.allowedMask.set( i, j, allowed ? 1 : 0 );
   }
 
   /**
    * Determines whether the incoming wave has reached the cell.
-   * @param {number} i - horizontal coordinate to check
-   * @param {number} j - vertical coordinate to check
-   * @returns {boolean}
-   * @public
+   * @param i - horizontal coordinate to check
+   * @param j - vertical coordinate to check
    */
-  hasCellBeenVisited( i, j ) {
+  public hasCellBeenVisited( i: number, j: number ): boolean {
     return this.visitedMatrix.get( i, j ) === 1 && this.allowedMask.get( i, j ) === 1;
   }
 
   /**
    * Resets all of the wave values to 0.
-   * @public
    */
-  clear() {
+  public clear(): void {
     this.clearRight( 0 );
   }
 
   /**
    * Clear everything at and to the right of the specified column.
-   * @param {number} column - integer index of the column to start clearing at.
-   * @public
+   * @param column - integer index of the column to start clearing at.
    */
-  clearRight( column ) {
+  public clearRight( column: number ): void {
     for ( let i = column; i < this.width; i++ ) {
       for ( let j = 0; j < this.height; j++ ) {
         for ( let k = 0; k < this.matrices.length; k++ ) {
@@ -244,10 +220,8 @@ class Lattice {
 
   /**
    * Gets the values on the right hand side of the wave (before the damping region), for determining intensity.
-   * @returns {number[]}
-   * @public
    */
-  getOutputColumn() {
+  public getOutputColumn(): number[] {
 
     // This could be implemented in garbage-free from by require preallocating the entire intensitySample matrix and
     // using an index pointer like a circular array.  However, profiling in Mac Chrome did not show a significant
@@ -264,9 +238,8 @@ class Lattice {
 
   /**
    * Propagates the wave by one step.  This is a discrete algorithm and cannot use dt.
-   * @public
    */
-  step() {
+  public step(): void {
 
     // Move to the next matrix
     this.currentMatrixIndex = ( this.currentMatrixIndex - 1 + this.matrices.length ) % this.matrices.length;
@@ -335,9 +308,6 @@ class Lattice {
     }
   }
 }
-
-// @public {number} - see docs above
-Lattice.WAVE_SPEED = WAVE_SPEED;
 
 waveInterference.register( 'Lattice', Lattice );
 export default Lattice;

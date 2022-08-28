@@ -1,5 +1,5 @@
 // Copyright 2019-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * This scene shows an aperture with an adjustable circle and square.
  *
@@ -14,8 +14,10 @@ import waveInterference from '../../waveInterference.js';
 import DiffractionScene from './DiffractionScene.js';
 
 class CircleSquareScene extends DiffractionScene {
+  public readonly circleDiameterProperty: NumberProperty; // mm
+  public readonly squareWidthProperty: NumberProperty; // mm
 
-  constructor() {
+  public constructor() {
 
     const circleDiameterProperty = new NumberProperty( 50 * 1E-3, {
       range: new Range( 40 * 1E-3, 150 * 1E-3 ),
@@ -28,20 +30,14 @@ class CircleSquareScene extends DiffractionScene {
     } );
     super( [ circleDiameterProperty, squareWidthProperty ] );
 
-    // @public {NumberProperty} - in mm
     this.circleDiameterProperty = circleDiameterProperty;
-
-    // @public {NumberProperty} - in mm
     this.squareWidthProperty = squareWidthProperty;
   }
 
   /**
    * Render the aperture shape(s) to the canvas context.
-   * @param {CanvasRenderingContext2D} context
-   * @protected
-   * @override
    */
-  renderToContext( context ) {
+  protected override renderToContext( context ): void {
 
     const delta = 0.1;
 

@@ -1,5 +1,5 @@
 // Copyright 2019-2021, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Number controls for each scene in the diffraction screen.
  *
@@ -17,9 +17,9 @@ import waveInterference from '../../waveInterference.js';
 class DiffractionNumberControl extends NumberControl {
 
   /**
-   * @param {string} title
-   * @param {Property.<number>} property
-   * @param {Object} [options]
+   * @param title
+   * @param property
+   * @param [options]
    */
   constructor( title, property, options ) {
 

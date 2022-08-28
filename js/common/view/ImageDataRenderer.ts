@@ -9,36 +9,29 @@
 import waveInterference from '../../waveInterference.js';
 
 class ImageDataRenderer {
+  public readonly canvas: HTMLCanvasElement;
+  private readonly context: CanvasRenderingContext2D;
+  private readonly imageData: ImageData;
+  public readonly data: Uint8ClampedArray;
 
-  /**
-   * @param {number} width
-   * @param {number} height
-   */
-  constructor( width, height ) {
+  public constructor( width: number, height: number ) {
 
-    // @public {HTMLCanvasElement}
     this.canvas = document.createElement( 'canvas' );
     this.canvas.width = width;
     this.canvas.height = height;
 
-    // @private
-    this.context = this.canvas.getContext( '2d' );
-
-    // @private
+    this.context = this.canvas.getContext( '2d' )!;
     this.imageData = this.context.createImageData( width, height );
 
-    // @public {Uint8ClampedArray} - One-dimensional array containing the data in the RGBA order, with integer values
+    // One-dimensional array containing the data in the RGBA order, with integer values
     // between 0 and 255 (inclusive).
     this.data = this.imageData.data;
   }
 
   /**
    * Paints image data onto the canvas.
-   * @param {number} x
-   * @param {number} y
-   * @public
    */
-  putImageData( x = 0, y = 0 ) {
+  public putImageData( x = 0, y = 0 ): void {
     this.context.putImageData( this.imageData, x, y );
   }
 }

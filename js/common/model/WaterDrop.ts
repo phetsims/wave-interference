@@ -1,5 +1,5 @@
 // Copyright 2018-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Model for a single water drop, which conveys a new value for amplitude and frequency to the model.
  * For water, the controls set desiredAmplitude, desiredFrequency.  Those values are transmitted by a water drop.
@@ -18,11 +18,11 @@ const INITIAL_DISTANCE_ABOVE_LATTICE = 100; // in view coordinates
 class WaterDrop {
 
   /**
-   * @param {number} amplitude - strength of the wave
-   * @param {boolean} startsOscillation - false if this is a fake water drop to shut off the oscillation at one cycle
-   * @param {number} sourceSeparation - the vertical coordinate of the cell that the water drop is falling to
-   * @param {number} sign - -1 for top faucet, +1 for bottom faucet
-   * @param {function} onAbsorption - called when the water drop is absorbed by the lattice
+   * @param amplitude - strength of the wave
+   * @param startsOscillation - false if this is a fake water drop to shut off the oscillation at one cycle
+   * @param sourceSeparation - the vertical coordinate of the cell that the water drop is falling to
+   * @param sign - -1 for top faucet, +1 for bottom faucet
+   * @param onAbsorption - called when the water drop is absorbed by the lattice
    */
   constructor( amplitude, startsOscillation, sourceSeparation, sign, onAbsorption ) {
 
@@ -52,10 +52,10 @@ class WaterDrop {
 
   /**
    * Animate the water drop at a constant velocity toward the point at which it hits the water surface.
-   * @param {number} dt - time in seconds
+   * @param dt - time in seconds
    * @public
    */
-  step( dt ) {
+  step( dt ): void {
 
     this.y -= dt * WATER_DROP_SPEED;
 

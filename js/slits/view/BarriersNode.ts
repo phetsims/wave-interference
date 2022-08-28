@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Renders the draggable barrier with one or two slits.
  *
@@ -20,9 +20,9 @@ const CORNER_RADIUS = 2;
 class BarriersNode extends Node {
 
   /**
-   * @param {SlitsModel} model
-   * @param {Scene} scene
-   * @param {Bounds2} viewBounds
+   * @param model
+   * @param scene
+   * @param viewBounds
    */
   constructor( model, scene, viewBounds ) {
 
@@ -105,7 +105,7 @@ class BarriersNode extends Node {
    * Update the shapes and text when the rotationAmount has changed
    * @private
    */
-  update() {
+  update(): void {
     const barrierType = this.scene.barrierTypeProperty.get();
     const scene = this.scene;
     const slitWidth = scene.slitWidthProperty.get();

@@ -1,5 +1,5 @@
 // Copyright 2019-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Renders a sound particle.
  *
@@ -13,7 +13,7 @@ import waveInterference from '../../waveInterference.js';
 class SoundParticleNode extends ShadedSphereNode {
 
   /**
-   * @param {Object} [options]
+   * @param [options]
    */
   constructor( options ) {
     options = merge( {
@@ -25,12 +25,10 @@ class SoundParticleNode extends ShadedSphereNode {
 
   /**
    * Create an image of a SoundParticleNode for the given color.
-   * @param {ColorDef} color
-   * @param {function} callback, see Node.toCanvas for signature
-   * @returns {HTMLCanvasElement}
-   * @public
+   * @param color
+   * @param callback, see Node.toCanvas for signature
    */
-  static createForCanvas( color, callback ) {
+  public static createForCanvas( color, callback ): HTMLCanvasElement {
     return new SoundParticleNode( { mainColor: color } ).toCanvas( callback );
   }
 }

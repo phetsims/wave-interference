@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Controls the frequency for the selected Scene.
  *
@@ -14,6 +14,7 @@ import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 import WaveInterferenceSlider from './WaveInterferenceSlider.js';
@@ -26,15 +27,12 @@ const fromFemto = WaveInterferenceUtils.fromFemto;
 
 class FrequencyControl extends Node {
 
-  /**
-   * @param {WavesModel} model
-   */
-  constructor( model ) {
+  constructor( model: WavesModel ) {
 
     const frequencyTitle = new WaveInterferenceText( frequencyString );
 
     const sliderGroupChildren = [];
-    let soundFrequencySlider = null;
+    let soundFrequencySlider: WaveInterferenceSlider | null = null;
 
     // Controls are in the physical coordinate frame
     if ( model.waterScene ) {

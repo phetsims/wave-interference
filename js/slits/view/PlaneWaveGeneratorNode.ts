@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Vertical cylinder with a button that produces the plane wave along the left edge of the wave area.
  *
@@ -19,9 +19,9 @@ import waveInterference from '../../waveInterference.js';
 class PlaneWaveGeneratorNode extends Node {
 
   /**
-   * @param {WavesModel} model
-   * @param {Bounds2} waveAreaBounds
-   * @param {Object} [options]
+   * @param model
+   * @param waveAreaBounds
+   * @param [options]
    */
   constructor( model, waveAreaBounds, options ) {
     super();

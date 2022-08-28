@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * View for the "Waves" screen.  Extended for the Interference and Slits screens.
  *
@@ -66,9 +66,9 @@ const fromFemto = WaveInterferenceUtils.fromFemto;
 class WavesScreenView extends ScreenView {
 
   /**
-   * @param {WavesModel} model
-   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-   * @param {Object} [options]
+   * @param model
+   * @param alignGroup - for aligning the control panels on the right side of the lattice
+   * @param [options]
    */
   constructor( model, alignGroup, options ) {
 
@@ -272,7 +272,7 @@ class WavesScreenView extends ScreenView {
 
     /**
      * Return the measuring tape Property value for the specified scene.  See MeasuringTapeNode constructor docs.
-     * @param {Scene} scene
+     * @param scene
      */
     const getMeasuringTapeValue = scene => {
       return {
@@ -289,8 +289,6 @@ class WavesScreenView extends ScreenView {
 
     /**
      * Checks if the toolbox intersects the given bounds, to see if a tool can be dropped back into the toolbox.
-     * @param {Bounds2} b
-     * @returns {boolean}
      */
     const toolboxIntersects = b => toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).intersectsBounds( b );
 
@@ -556,7 +554,7 @@ class WavesScreenView extends ScreenView {
 
     /**
      * Creates a ToggleNode that shows the primary or secondary source
-     * @param {boolean} isPrimarySource - true if it should show the primary source
+     * @param isPrimarySource - true if it should show the primary source
      */
     const createWaveGeneratorToggleNode = isPrimarySource => {
       const toggleNodeElements = [];
@@ -621,12 +619,7 @@ class WavesScreenView extends ScreenView {
     }
   }
 
-  /**
-   * @param {Vector2} point
-   * @returns {Vector2}
-   * @public
-   */
-  globalToLatticeCoordinate( point ) {
+  public globalToLatticeCoordinate( point: Vector2 ): Vector2 {
     const latticeNode = this.sceneToNode( this.model.sceneProperty.value );
 
     const localPoint = latticeNode.globalToLocalPoint( point );
@@ -635,10 +628,10 @@ class WavesScreenView extends ScreenView {
 
   /**
    * Notify listeners of the step phase.
-   * @param {number} dt - in seconds
+   * @param dt - in seconds
    * @public
    */
-  step( dt ) {
+  step( dt ): void {
     this.stepAction && this.stepAction.execute();
   }
 }

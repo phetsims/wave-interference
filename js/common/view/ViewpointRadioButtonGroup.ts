@@ -1,5 +1,5 @@
 // Copyright 2018-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Selects between Top View and Side View.
  *
@@ -22,8 +22,8 @@ const TEXT_OPTIONS = { maxWidth: WaveInterferenceConstants.MAX_WIDTH_VIEWPORT_BU
 class ViewpointRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonGroup {
 
   /**
-   * @param {Property.<Viewpoint>} viewpointProperty
-   * @param {Object} [options]
+   * @param viewpointProperty
+   * @param [options]
    */
   constructor( viewpointProperty, options ) {
 

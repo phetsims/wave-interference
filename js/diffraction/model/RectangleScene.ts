@@ -1,5 +1,5 @@
 // Copyright 2019-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * This scene shows a single rectangular aperture with an adjustable width and height.
  *
@@ -36,11 +36,11 @@ class RectangleScene extends DiffractionScene {
 
   /**
    * Render the aperture shape(s) to the canvas context.
-   * @param {CanvasRenderingContext2D} context
+   * @param context
    * @protected
    * @override
    */
-  renderToContext( context ) {
+  renderToContext( context ): void {
     const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
     const columnRadius = Utils.roundSymmetric( this.widthProperty.value * modelToMatrixScale / 2 );
     const rowRadius = Utils.roundSymmetric( this.heightProperty.value * modelToMatrixScale / 2 );

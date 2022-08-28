@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Shows the icons for the radio buttons that choose between pulse and continuous waves.
  *
@@ -23,8 +23,8 @@ const WIDTH = 50;                        // Size of wave, in pixels
 class DisturbanceTypeIconNode extends Node {
 
   /**
-   * @param {Scene.DisturbanceType} disturbanceType
-   * @param {Object} [options]
+   * @param disturbanceType
+   * @param [options]
    */
   constructor( disturbanceType, options ) {
 

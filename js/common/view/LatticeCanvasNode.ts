@@ -1,5 +1,5 @@
 // Copyright 2017-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Renders the main area of the lattice (doesn't include the damping regions) using 2d canvas.
  *
@@ -9,8 +9,9 @@
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { CanvasNode, Color } from '../../../../scenery/js/imports.js';
+import { CanvasNode, CanvasNodeOptions, Color } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
+import Lattice from '../model/Lattice.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 import ImageDataRenderer from './ImageDataRenderer.js';
@@ -21,10 +22,10 @@ const CUTOFF = 0.4;
 class LatticeCanvasNode extends CanvasNode {
 
   /**
-   * @param {Lattice} lattice
-   * @param {Object} [options]
+   * @param lattice
+   * @param [options]
    */
-  constructor( lattice, options ) {
+  public constructor( lattice: Lattice, options: CanvasNodeOptions ) {
 
     options = merge( {
 
@@ -55,11 +56,9 @@ class LatticeCanvasNode extends CanvasNode {
 
   /**
    * Convert the given point in the local coordinate frame to the corresponding i,j (integral) lattice coordinates.
-   * @param {Vector2} point - point in the local coordinate frame
-   * @returns {Vector2}
-   * @public
+   * @param point - point in the local coordinate frame
    */
-  static localPointToLatticePoint( point ) {
+  public static localPointToLatticePoint( point: Vector2 ): Vector2 {
     return new Vector2(
       Utils.roundSymmetric( point.x / WaveInterferenceConstants.CELL_WIDTH ),
       Utils.roundSymmetric( point.y / WaveInterferenceConstants.CELL_WIDTH )
@@ -68,21 +67,21 @@ class LatticeCanvasNode extends CanvasNode {
 
   /**
    * Sets the color of the peaks of the wave.
-   * @param {Color} color
+   * @param color
    * @public
    */
-  setBaseColor( color ) {
+  setBaseColor( color ): void {
     this.baseColor = color;
     this.invalidatePaint();
   }
 
   /**
    * Draws into the canvas.
-   * @param {CanvasRenderingContext2D} context
+   * @param context
    * @public
    * @override
    */
-  paintCanvas( context ) {
+  paintCanvas( context ): void {
 
     let m = 0;
     const data = this.imageDataRenderer.data;

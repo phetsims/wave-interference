@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * A Checkbox customized for the Wave Interference simulation.
  *
@@ -13,9 +13,9 @@ import waveInterference from '../../waveInterference.js';
 class WaveInterferenceCheckbox extends Checkbox {
 
   /**
-   * @param {Property.<boolean>} property
-   * @param {Node} content
-   * @param {Object} [options]
+   * @param property
+   * @param content
+   * @param [options]
    */
   constructor( property, content, options ) {
     options = merge( { boxWidth: 14 }, options );

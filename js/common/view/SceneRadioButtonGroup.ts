@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Horizontal radio button group that selects Scene instances.
  *
@@ -13,10 +13,10 @@ import WaveInterferenceSceneIcons from './WaveInterferenceSceneIcons.js';
 class SceneRadioButtonGroup extends RectangularRadioButtonGroup {
 
   /**
-   * @param {Scene} waterScene
-   * @param {Scene} soundScene
-   * @param {Scene} lightScene
-   * @param {Property.<Scene>} sceneProperty
+   * @param waterScene
+   * @param soundScene
+   * @param lightScene
+   * @param sceneProperty
    */
   constructor( waterScene, soundScene, lightScene, sceneProperty ) {
 

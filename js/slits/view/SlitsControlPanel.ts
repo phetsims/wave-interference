@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Controls for the barrier/slits.
  *
@@ -31,12 +31,12 @@ const twoSlitsString = waveInterferenceStrings.twoSlits;
 class SlitsControlPanel extends WaveInterferencePanel {
 
   /**
-   * @param {AlignGroup} alignGroup
-   * @param {Property.<Scene>} sceneProperty
-   * @param {Scene} waterScene
-   * @param {Scene} soundScene
-   * @param {Scene} lightScene
-   * @param {Node} comboBoxParent
+   * @param alignGroup
+   * @param sceneProperty
+   * @param waterScene
+   * @param soundScene
+   * @param lightScene
+   * @param comboBoxParent
    */
   constructor( alignGroup, sceneProperty, waterScene, soundScene, lightScene, comboBoxParent ) {
 

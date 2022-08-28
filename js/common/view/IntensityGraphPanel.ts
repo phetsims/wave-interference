@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Shows a graph of intensity as a function of position at the right-side of the lattice (when selected).
  *
@@ -7,6 +7,7 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { Shape } from '../../../../kite/js/imports.js';
@@ -30,11 +31,11 @@ const CHART_WIDTH = 100;
 class IntensityGraphPanel extends WaveInterferencePanel {
 
   /**
-   * @param {number} graphHeight - the height of the graph in view coordinates
-   * @param {IntensitySample} intensitySample - values for the intensity
-   * @param {number} numberGridLines - how many vertical grid lines to show
-   * @param {Emitter} resetEmitter - emits when the sim is reset
-   * @param {Object} [options]
+   * @param graphHeight - the height of the graph in view coordinates
+   * @param intensitySample - values for the intensity
+   * @param numberGridLines - how many vertical grid lines to show
+   * @param resetEmitter - emits when the sim is reset
+   * @param [options]
    */
   constructor( graphHeight, intensitySample, numberGridLines, resetEmitter, options ) {
 
@@ -46,9 +47,6 @@ class IntensityGraphPanel extends WaveInterferencePanel {
 
     /**
      * Creates a line on the given y-coordinate.
-     * @param {number} index
-     * @param {number} y
-     * @returns {Line}
      */
     const createLine = ( index, y ) => new Line( chartRectangle.left, y, chartRectangle.right, y, {
       stroke: index % 2 === 0 ? DARK_GRAY : 'lightGray',
@@ -153,10 +151,8 @@ class IntensityGraphPanel extends WaveInterferencePanel {
 
   /**
    * Returns the bounds of the chart background in the global coordinate frame, used to align the LightScreenNode
-   * @returns {Bounds2}
-   * @public
    */
-  getChartGlobalBounds() {
+  public getChartGlobalBounds(): Bounds2 {
     return this.chartRectangle.globalBounds;
   }
 }

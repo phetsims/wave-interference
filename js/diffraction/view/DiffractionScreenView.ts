@@ -1,5 +1,5 @@
 // Copyright 2017-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Shows the Diffraction Screen
  *
@@ -50,7 +50,7 @@ const PANEL_OPTIONS = {
 class DiffractionScreenView extends ScreenView {
 
   /**
-   * @param {DiffractionModel} model
+   * @param model
    */
   constructor( model ) {
     super();
@@ -278,7 +278,7 @@ class DiffractionScreenView extends ScreenView {
   /**
    * @private - update the main/mini aperture/diffraction patterns.
    */
-  updateCanvases() {
+  updateCanvases(): void {
     this.apertureNode.invalidatePaint();
     this.miniApertureNode.invalidatePaint();
     this.diffractionNode.invalidatePaint();

@@ -1,5 +1,5 @@
 // Copyright 2019-2021, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Plays a sine wave using an Oscillator Node
  *
@@ -24,9 +24,9 @@ const mapAmplitudeToOutputLevel = new LinearFunction(
 class SineWaveGenerator extends SoundGenerator {
 
   /**
-   * @param {Property.<number>} frequencyProperty
-   * @param {Property.<number>} amplitudeProperty
-   * @param {Object} [options]
+   * @param frequencyProperty
+   * @param amplitudeProperty
+   * @param [options]
    */
   constructor( frequencyProperty, amplitudeProperty, options ) {
     options = merge( {

@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Shows the "pulse" vs "continuous" radio buttons.
  *
@@ -15,8 +15,8 @@ import DisturbanceTypeIconNode from './DisturbanceTypeIconNode.js';
 class DisturbanceTypeRadioButtonGroup extends RectangularRadioButtonGroup {
 
   /**
-   * @param {Property.<Scene.DisturbanceType>} disturbanceTypeProperty
-   * @param {Object} [options]
+   * @param disturbanceTypeProperty
+   * @param [options]
    */
   constructor( disturbanceTypeProperty, options ) {
     super( disturbanceTypeProperty, [ {

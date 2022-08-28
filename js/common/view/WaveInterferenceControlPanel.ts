@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Shows the main controls, including frequency/wavelength and amplitude.
  *
@@ -30,9 +30,9 @@ const soundEffectString = waveInterferenceStrings.soundEffect;
 class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
   /**
-   * @param {WavesModel} model
-   * @param {AlignGroup} alignGroup
-   * @param {Object} [options]
+   * @param model
+   * @param alignGroup
+   * @param [options]
    */
   constructor( model, alignGroup, options ) {
 

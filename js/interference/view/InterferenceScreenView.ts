@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * ScreenView for the "Interference" screen.
  *
@@ -16,8 +16,8 @@ import SeparationControl from './SeparationControl.js';
 class InterferenceScreenView extends WavesScreenView {
 
   /**
-   * @param {WavesModel} model
-   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
+   * @param model
+   * @param alignGroup - for aligning the control panels on the right side of the lattice
    */
   constructor( model, alignGroup ) {
 

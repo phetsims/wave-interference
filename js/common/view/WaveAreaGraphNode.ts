@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Shows the semi-transparent graph over the lattice area (when selected).
  *
@@ -30,9 +30,9 @@ const GRID_LINE_OPTIONS = { stroke: 'gray', lineWidth: 1, lineDash: [ 4, 4 ] };
 class WaveAreaGraphNode extends Node {
 
   /**
-   * @param {WavesModel} model
-   * @param {Bounds2} waveAreaBounds
-   * @param {Object} [options]
+   * @param model
+   * @param waveAreaBounds
+   * @param [options]
    */
   constructor( model, waveAreaBounds, options ) {
     super();

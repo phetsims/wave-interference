@@ -1,5 +1,5 @@
 // Copyright 2018-2021, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Reusable Image nodes that show WaterDrops.  Each WaterDropImage can be repurposed for different waterDrops (like
  * pooling) so they aren't dynamically created or garbage collected at all.
@@ -14,7 +14,7 @@ import waveInterference from '../../waveInterference.js';
 class WaterDropImage extends Image {
 
   /**
-   * @param {Object} [options]
+   * @param [options]
    */
   constructor( options ) {
     super( water_drop_png, options );

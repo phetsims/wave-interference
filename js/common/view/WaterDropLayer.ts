@@ -1,5 +1,5 @@
 // Copyright 2018-2021, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Shows the WaterDrop instances.
  *
@@ -15,9 +15,9 @@ import WaterDropImage from './WaterDropImage.js';
 class WaterDropLayer extends Node {
 
   /**
-   * @param {WavesModel} model
-   * @param {Bounds2} waveAreaNodeBounds
-   * @param {Object} [options]
+   * @param model
+   * @param waveAreaNodeBounds
+   * @param [options]
    */
   constructor( model, waveAreaNodeBounds, options ) {
     super();
@@ -76,10 +76,10 @@ class WaterDropLayer extends Node {
 
   /**
    * Pass-through for the closure.
-   * @param {WaterSideViewNode} waterSideViewNode
+   * @param waterSideViewNode
    * @public
    */
-  step( waterSideViewNode ) {
+  step( waterSideViewNode ): void {
 
     // if in side view and the drop is submerged, mark it as absorbed so it won't show any longer.
     this.stepWaterDropLayer( waterSideViewNode );

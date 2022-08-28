@@ -7,18 +7,19 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import merge from '../../../phet-core/js/merge.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
+import { AlignGroup } from '../../../scenery/js/imports.js';
 import waveInterference from '../waveInterference.js';
-import BaseScreen from './BaseScreen.js';
+import BaseScreen, { BaseScreenOptions } from './BaseScreen.js';
 
 class MediumScreen extends BaseScreen {
 
   /**
-   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
-   * @param {Object} [options]
+   * @param alignGroup - for aligning the control panels on the right side of the lattice
+   * @param [options]
    */
-  constructor( alignGroup, options ) {
-    options = merge( {
+  public constructor( alignGroup: AlignGroup, options?: BaseScreenOptions ) {
+    options = combineOptions<BaseScreenOptions>( {
       showSceneRadioButtons: false
     }, options );
     super( alignGroup, options );

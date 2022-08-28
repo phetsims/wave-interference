@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * ScreenView for the Slits screen
  *
@@ -20,8 +20,8 @@ import TheoryInterferenceOverlay from './TheoryInterferenceOverlay.js';
 class SlitsScreenView extends WavesScreenView {
 
   /**
-   * @param {SlitsModel} model
-   * @param {AlignGroup} alignGroup - for aligning the control panels on the right side of the lattice
+   * @param model
+   * @param alignGroup - for aligning the control panels on the right side of the lattice
    */
   constructor( model, alignGroup ) {
     super( model, alignGroup, {

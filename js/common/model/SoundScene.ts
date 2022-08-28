@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * The model for the Sound scene, which adds SoundParticle instances.  See the following pages for visualizations
  * and physics of wave transmission
@@ -25,8 +25,8 @@ const SOUND_PARTICLE_GRADIENT_FORCE_SCALE = 0.67; // Additional scaling for the 
 class SoundScene extends Scene {
 
   /**
-   * @param {boolean} showSoundParticles - true if SoundParticles should be created and displayed
-   * @param {Object} config - see Scene for required properties
+   * @param showSoundParticles - true if SoundParticles should be created and displayed
+   * @param config - see Scene for required properties
    */
   constructor( showSoundParticles, config ) {
     super( config );
@@ -69,18 +69,18 @@ class SoundScene extends Scene {
    * @public
    * @override
    */
-  waveGeneratorButtonSound( pressed ) {
+  waveGeneratorButtonSound( pressed ): void {
 
     // no-op
   }
 
   /**
    * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
-   * @param {number} dt - amount of time to move forward, in the units of the scene
+   * @param dt - amount of time to move forward, in the units of the scene
    * @override
    * @public
    */
-  step( dt ) {
+  step( dt ): void {
 
     super.step( dt );
 
@@ -137,7 +137,7 @@ class SoundScene extends Scene {
    * Restores the initial conditions of this scene.
    * @public
    */
-  reset() {
+  reset(): void {
     super.reset();
     this.soundViewTypeProperty.reset();
     this.isTonePlayingProperty.reset();

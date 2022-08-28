@@ -1,5 +1,5 @@
 // Copyright 2018-2021, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * When the sound wave generator is selected, shows discrete, moving particles for the sound scene.
  *
@@ -9,6 +9,7 @@
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
 import waveInterference from '../../waveInterference.js';
+import SoundScene from './SoundScene.js';
 
 // constants
 // At each time step, a random force is applied in both the x and y directions.  The magnitude of the force
@@ -22,49 +23,32 @@ const FRICTION_SCALE = 0.732;
 const RESTORATION_FORCE_SCALE = 0.5; // Additional scaling for the home force
 
 class SoundParticle {
+  private readonly initialX: number;
+  private readonly initialY: number;
+  private vx: number;
+  private vy: number;
 
   /**
-   * @param {number} i - horizontal lattice coordinate of the particle
-   * @param {number} j - vertical lattice coordinate of the particle
-   * @param {number} x - initial x coordinate of the particle, in model coordinates
-   * @param {number} y - initial y coordinate of the particle, in model coordinates
+   * @param i - horizontal lattice coordinate of the particle
+   * @param j - vertical lattice coordinate of the particle
+   * @param x - initial x coordinate of the particle, in model coordinates
+   * @param y - initial y coordinate of the particle, in model coordinates
    */
-  constructor( i, j, x, y ) {
-
-    // @public (read-only) {number} - horizontal lattice coordinate of the particle
-    this.i = i;
-
-    // @public (read-only) {number} - vertical lattice coordinate of the particle
-    this.j = j;
-
-    // @public (read-only) {number} - x coordinate
-    this.x = x;
-
-    // @public (read-only) {number} - y coordinate
-    this.y = y;
-
-    // @private (read-only)
+  public constructor( public readonly i: number, public readonly j: number, public readonly x: number, public readonly y: number ) {
     this.initialX = x;
-
-    // @private (read-only)
     this.initialY = y;
-
-    // @private
     this.vx = 0;
-
-    // @private
     this.vy = 0;
   }
 
   /**
    * Applies a force toward the given point with the given strength;
-   * @param {number} fx - sum of applied forces in the x direction
-   * @param {number} fy - sum of applied forces in the y direction
-   * @param {number} dt - time to integrate
-   * @param {SoundScene} soundScene - to get the frequency range and value
-   * @public
+   * @param fx - sum of applied forces in the x direction
+   * @param fy - sum of applied forces in the y direction
+   * @param dt - time to integrate
+   * @param soundScene - to get the frequency range and value
    */
-  applyForce( fx, fy, dt, soundScene ) {
+  public applyForce( fx: number, fy: number, dt: number, soundScene: SoundScene ): void {
 
     // the particles move randomly even when there are no waves, because they are not at absolute zero
     // see https://github.com/phetsims/wave-interference/issues/123

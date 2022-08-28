@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * A StopwatchNode customized for Wave Interference
  *
@@ -17,8 +17,8 @@ import WaveInterferenceText from './WaveInterferenceText.js';
 class WaveInterferenceStopwatchNode extends StopwatchNode {
 
   /**
-   * @param {WavesModel} model
-   * @param {Object} config
+   * @param model
+   * @param config
    */
   constructor( model, config ) {
 

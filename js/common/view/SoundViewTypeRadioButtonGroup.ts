@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Convenience class for the radio button group that chooses between SoundScene.SoundViewType.VALUES.
  *
@@ -20,7 +20,7 @@ const wavesString = waveInterferenceStrings.waves;
 class SoundViewTypeRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
   /**
-   * @param {WavesModel} model
+   * @param model
    */
   constructor( model ) {
     super( model.soundScene.soundViewTypeProperty, [ {

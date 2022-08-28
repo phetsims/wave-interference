@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * When the graph is selected, this dashed line is shown in the center of the WaveAreaNode and in the graph's center.
  *
@@ -8,16 +8,13 @@
 
 import { LineStyles, Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { Path } from '../../../../scenery/js/imports.js';
+import { Path, PathOptions } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 
 class DashedLineNode extends Path {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  public constructor( options?: PathOptions ) {
 
     const line = Shape.lineSegment( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, 0 );
     const dashedShape = line.getDashedShape( [ 16 ], 0 );

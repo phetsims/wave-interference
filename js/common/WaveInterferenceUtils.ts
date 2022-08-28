@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Utilities for Wave Interference
  *
@@ -21,15 +21,13 @@ class WaveInterferenceUtils {
 
   /**
    * Gets a Shape representing the top of the water in water side view from left to right, also used for the chart.
-   * @param {number[]} array - reused to avoid allocations
-   * @param {Lattice} lattice
-   * @param {Bounds2} waveAreaBounds
-   * @param {number} dx
-   * @param {number} dy
-   * @returns {Shape}
-   * @public
+   * @param array - reused to avoid allocations
+   * @param lattice
+   * @param waveAreaBounds
+   * @param dx
+   * @param dy
    */
-  static getWaterSideShape( array, lattice, waveAreaBounds, dx, dy ) {
+  public static getWaterSideShape( array, lattice, waveAreaBounds, dx, dy ): Shape {
     lattice.getCenterLineValues( array );
     const shape = new Shape();
 
@@ -49,12 +47,10 @@ class WaveInterferenceUtils {
   /**
    * Finds the y-value at a specific point on the side wave.  This is used to see if a water drop has entered the
    * water in the side view.
-   * @param {Bounds2} waveAreaBounds
-   * @param {number} waveValue
-   * @returns {number}
-   * @public
+   * @param waveAreaBounds
+   * @param waveValue
    */
-  static getWaterSideY( waveAreaBounds, waveValue ) {
+  public static getWaterSideY( waveAreaBounds, waveValue ): number {
 
     // Typical values for the propagating wave can be between -5 and 5 (though values can exceed this range very close
     // to the oscillating cell.  We choose to map a value of 0 to the center of the wave area, and the max (5) to the
@@ -66,12 +62,8 @@ class WaveInterferenceUtils {
 
   /**
    * Gets the bounds to use for a canvas, in view coordinates
-   * @param {Lattice} lattice
-   * @returns {Bounds2}
-   * @public
-   * @static
    */
-  static getCanvasBounds( lattice ) {
+  public static getCanvasBounds( lattice ): Bounds2 {
     return new Bounds2(
       0, 0,
       ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH
@@ -80,32 +72,23 @@ class WaveInterferenceUtils {
 
   /**
    * Convert a value to femto.
-   * @param {number} value
-   * @returns {number}
-   * @public
    */
-  static toFemto( value ) {
+  static toFemto( value ): number {
     return value * WaveInterferenceConstants.FEMTO;
   }
 
   /**
    * Convert a value from femto.
-   * @param {number} value
-   * @returns {number}
-   * @public
    */
-  static fromFemto( value ) {
+  public static fromFemto( value ): number {
     return value / WaveInterferenceConstants.FEMTO;
   }
 
   /**
    * At the default size, the text should "nestle" into the slider.  But when the text is too small, it must be spaced
    * further away.  See https://github.com/phetsims/wave-interference/issues/194
-   * @param {Node} titleNode
-   * @returns {number}
-   * @public
    */
-  static getSliderTitleSpacing( titleNode ) {
+  public static getSliderTitleSpacing( titleNode ): number {
 
     const tallTextHeight = 17;
     const shortTextHeight = 4;

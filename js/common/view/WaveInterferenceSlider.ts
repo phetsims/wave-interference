@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Slider abstraction for the frequency and amplitude sliders--but note that light frequency slider uses spectrum for
  * track and thumb.  All instances exist for the lifetime of the sim and do not require disposal.
@@ -7,10 +7,11 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import TProperty from '../../../../axon/js/TProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
-import HSlider from '../../../../sun/js/HSlider.js';
+import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
@@ -30,11 +31,7 @@ const MAJOR_TICK_MODULUS = 5;
 
 class WaveInterferenceSlider extends HSlider {
 
-  /**
-   * @param {NumberProperty} property
-   * @param {Object} [options]
-   */
-  constructor( property, options ) {
+  public constructor( property: TProperty<number>, options?: HSliderOptions ) {
 
     const maxTickIndex = ( options && options.maxTickIndex ) ? options.maxTickIndex : 10;
 

@@ -1,5 +1,5 @@
 // Copyright 2019-2021, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Uses the model's renderToContext function to draw directly to the view canvas, so the aperture views are anti-aliased
  *
@@ -15,8 +15,8 @@ import waveInterference from '../../waveInterference.js';
 class SceneCanvasNode extends CanvasNode {
 
   /**
-   * @param {Property.<DiffractionScene>} sceneProperty - the selected scene
-   * @param {Object} [options]
+   * @param sceneProperty - the selected scene
+   * @param [options]
    */
   constructor( sceneProperty, options ) {
 
@@ -34,11 +34,11 @@ class SceneCanvasNode extends CanvasNode {
 
   /**
    * Redraws the aperture
-   * @param {CanvasRenderingContext2D} context
+   * @param context
    * @public
    * @override
    */
-  paintCanvas( context ) {
+  paintCanvas( context ): void {
     context.save();
 
     // Fill the background

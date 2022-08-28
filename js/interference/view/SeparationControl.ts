@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Controls the separation of the sources for each Scene.
  *
@@ -23,7 +23,7 @@ const separationString = waveInterferenceStrings.separation;
 class SeparationControl extends ToggleNode {
 
   /**
-   * @param {InterferenceModel} model
+   * @param model
    */
   constructor( model ) {
 
@@ -87,11 +87,10 @@ class SeparationControl extends ToggleNode {
 /**
  * Create a label for a NumberControl tick.  The labels have the same bounds for each slider so
  * they don't jitter when changing scenes, see https://github.com/phetsims/wave-interference/issues/214
- * @param {string} string - the string to display
- * @param {string[]} allStrings - the strings for each scene, for layout
- * @returns {Node}
+ * @param string - the string to display
+ * @param allStrings - the strings for each scene, for layout
  */
-const createTickMarkLabel = ( string, allStrings ) => {
+const createTickMarkLabel = ( string: string, allStrings: string[] ): Node => {
   const textNodes = allStrings.map( s => new WaveInterferenceText( s, {
       fontSize: WaveInterferenceConstants.TICK_FONT_SIZE,
       maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH,
@@ -104,11 +103,11 @@ const createTickMarkLabel = ( string, allStrings ) => {
 
 /**
  * Create the min and max ticks for a NumberControl
- * @param {Range} range
- * @param {Range[]} allRanges - to ensure consistent layout across scenes
- * @returns {Object} to be used with numberTicks option of NumberControl
+ * @param range
+ * @param allRanges - to ensure consistent layout across scenes
+ * @returns to be used with numberTicks option of NumberControl
  */
-const createTicks = ( range, allRanges ) => [
+const createTicks = ( range, allRanges ): object => [
   { value: range.min, label: createTickMarkLabel( range.min, allRanges.map( r => r.min ) ) },
   { value: range.max, label: createTickMarkLabel( range.max, allRanges.map( r => r.max ) ) }
 ];

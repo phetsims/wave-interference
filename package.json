@@ -34,6 +34,23 @@
     "extends": "../chipper/eslint/sim_eslintrc.js",
     "globals": {
       "FFT": "readonly"
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts"
+        ],
+        "rules": {
+          "@typescript-eslint/ban-types": "off",
+          "@typescript-eslint/explicit-member-accessibility": "off",
+          "@typescript-eslint/explicit-module-boundary-types": "off",
+          "@typescript-eslint/member-delimiter-style": "off",
+          "@typescript-eslint/no-empty-function": "off",
+          "bad-typescript-text": "off",
+          "explicit-method-return-type": "off",
+          "no-simple-type-checking-assertions": "off"
+        }
+      }
+    ]
   }
 }

@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * When selected, shows discrete and moving particles for the sound view.
  * Note: Clipping is not enabled on mobileSafari, see https://github.com/phetsims/wave-interference/issues/322
@@ -16,9 +16,9 @@ import SoundParticleNode from './SoundParticleNode.js';
 class SoundParticleImageLayer extends Node {
 
   /**
-   * @param {WavesModel} model
-   * @param {Bounds2} waveAreaNodeBounds
-   * @param {Object} [options]
+   * @param model
+   * @param waveAreaNodeBounds
+   * @param [options]
    */
   constructor( model, waveAreaNodeBounds, options ) {
 
@@ -84,7 +84,7 @@ class SoundParticleImage extends Image {
   /**
    * @public
    */
-  update() {
+  update(): void {
     const x = ( this.modelViewTransform.modelToViewX( this.soundParticle.x ) ) - this.width / 2;
     const y = ( this.modelViewTransform.modelToViewY( this.soundParticle.y ) ) - this.height / 2;
     this.setTranslation( x, y );

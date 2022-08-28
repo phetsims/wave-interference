@@ -1,5 +1,5 @@
 // Copyright 2018-2020, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * For the water scene, shows one hose for each wave generator, each with its own on/off button. This implementation is
  * trivial and doesn't add state or methods, it simplifies readability at the call site, so we keep it as a convenience
@@ -23,9 +23,9 @@ const FAUCET_VERTICAL_OFFSET = -110;
 class WaterWaveGeneratorNode extends WaveGeneratorNode {
 
   /**
-   * @param {WaterScene} waterScene
-   * @param {Node} waveAreaNode - for bounds
-   * @param {boolean} isPrimarySource
+   * @param waterScene
+   * @param waveAreaNode - for bounds
+   * @param isPrimarySource
    */
   constructor( waterScene, waveAreaNode, isPrimarySource ) {
     assert && assert( waterScene instanceof WaterScene, 'waterScene should be an instance of WaterScene' );

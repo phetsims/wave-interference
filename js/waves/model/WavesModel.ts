@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Model for the "Waves" screen and other derivative screens.  This model supports two sources, even though the waves
  * screen only uses one.  The controls are in a metric coordinate frame, and there is a transformation to convert
@@ -59,12 +59,14 @@ const waterWaveGeneratorString = waveInterferenceStrings.waterWaveGenerator;
 const EVENT_RATE = 20 * WaveInterferenceConstants.CALIBRATION_SCALE;
 const toFemto = WaveInterferenceUtils.toFemto;
 
+type WavesModelOptions = {};
+
 class WavesModel {
 
   /**
-   * @param {Object} [options]
+   * @param [options]
    */
-  constructor( options ) {
+  public constructor( options?: WavesModelOptions ) {
 
     options = merge( {
 
@@ -340,16 +342,16 @@ class WavesModel {
    * Clears the wave and the Intensity Sample
    * @public
    */
-  clear() {
+  clear(): void {
     this.sceneProperty.value.clear();
   }
 
   /**
    * Advance time by the specified amount
-   * @param {number} dt - amount of time in seconds to move the model forward
+   * @param dt - amount of time in seconds to move the model forward
    * @public
    */
-  step( dt ) {
+  step( dt ): void {
 
     // Feed the real time to the eventTimer and it will trigger advanceTime at the appropriate rate
     this.eventTimer.step( dt );
@@ -357,11 +359,11 @@ class WavesModel {
 
   /**
    * Additionally called from the "step" button
-   * @param {number} wallDT - amount of wall time that passed, will be scaled by time scaling value
-   * @param {boolean} manualStep - true if the step button is being pressed
+   * @param wallDT - amount of wall time that passed, will be scaled by time scaling value
+   * @param manualStep - true if the step button is being pressed
    * @public
    */
-  advanceTime( wallDT, manualStep ) {
+  advanceTime( wallDT, manualStep ): void {
 
     // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
     // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
@@ -383,7 +385,7 @@ class WavesModel {
    * Restores the initial conditions
    * @public
    */
-  reset() {
+  reset(): void {
     this.isResettingProperty.value = true;
 
     // Reset frequencyProperty first because it changes the time and phase.  This is done by resetting each of the
@@ -415,10 +417,8 @@ class WavesModel {
   /**
    * When using water drops, the slider controls the desired frequency.  The actual frequency on the lattice is not
    * set until the water drop hits.
-   * @returns {number}
-   * @public
    */
-  getWaterFrequencySliderProperty() {
+  public getWaterFrequencySliderProperty(): number {
     return this.waterScene.desiredFrequencyProperty;
   }
 }

@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-
+// @ts-nocheck
 /**
  * Sets up sounds for items on the Waves Screen which are not already associated with pre-existing components.
  *
@@ -28,9 +28,9 @@ const waterDropSounds = [ waterDropV5_mp3, waterDropV5_001_mp3, waterDropV5_002_
 class WavesScreenSoundView {
 
   /**
-   * @param {WavesModel} model
-   * @param {WavesScreenView} view
-   * @param {Object} [options]
+   * @param model
+   * @param view
+   * @param [options]
    * @public
    */
   constructor( model, view, options ) {
