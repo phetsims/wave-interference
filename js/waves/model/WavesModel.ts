@@ -33,7 +33,6 @@ import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js
 import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 const centimetersUnitsString = waveInterferenceStrings.centimetersUnits;
 const electricFieldAtCenterString = waveInterferenceStrings.electricFieldAtCenter;
@@ -60,7 +59,9 @@ const waterWaveGeneratorString = waveInterferenceStrings.waterWaveGenerator;
 const EVENT_RATE = 20 * WaveInterferenceConstants.CALIBRATION_SCALE;
 const toFemto = WaveInterferenceUtils.toFemto;
 
-type WavesModelOptions = EmptySelfOptions;
+type WavesModelOptions = {
+  scenes?: ( 'waterScene' | 'soundScene' | 'lightScene' )[];
+};
 
 class WavesModel {
 
@@ -118,7 +119,7 @@ class WavesModel {
     // @public (read-only) {Scene[]} - the Scene instances as an array
     this.scenes = [];
 
-    if ( options.scenes.indexOf( 'waterScene' ) !== -1 ) {
+    if ( options.scenes.includes( 'waterScene' ) ) {
       this.waterScene = new WaterScene( {
         waveSpatialType: options.waveSpatialType,
 
@@ -157,7 +158,7 @@ class WavesModel {
     }
 
     // @public - Sound scene
-    if ( options.scenes.indexOf( 'soundScene' ) !== -1 ) {
+    if ( options.scenes.includes( 'soundScene' ) ) {
       this.soundScene = new SoundScene( options.showSoundParticles, {
         waveSpatialType: options.waveSpatialType,
         positionUnits: 'cm',
@@ -201,7 +202,7 @@ class WavesModel {
     }
 
     // @public - Light scene.
-    if ( options.scenes.indexOf( 'lightScene' ) !== -1 ) {
+    if ( options.scenes.includes( 'lightScene' ) ) {
       this.lightScene = new LightScene( {
         waveSpatialType: options.waveSpatialType,
         positionUnits: 'nm',
