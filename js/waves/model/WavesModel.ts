@@ -33,6 +33,7 @@ import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js
 import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 const centimetersUnitsString = waveInterferenceStrings.centimetersUnits;
 const electricFieldAtCenterString = waveInterferenceStrings.electricFieldAtCenter;
@@ -59,7 +60,7 @@ const waterWaveGeneratorString = waveInterferenceStrings.waterWaveGenerator;
 const EVENT_RATE = 20 * WaveInterferenceConstants.CALIBRATION_SCALE;
 const toFemto = WaveInterferenceUtils.toFemto;
 
-type WavesModelOptions = {};
+type WavesModelOptions = EmptySelfOptions;
 
 class WavesModel {
 
