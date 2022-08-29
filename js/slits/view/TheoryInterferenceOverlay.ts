@@ -28,7 +28,7 @@ class TheoryInterferenceOverlay extends Node {
    * @param viewBounds - the area where the lattice appears
    * @param [options]
    */
-  constructor( sceneProperty, scenes, viewBounds, options ) {
+  public constructor( sceneProperty, scenes, viewBounds, options ) {
     options = merge( {
 
       // On the interference screen, the theory pattern is always shown for 2 sources even though 0, 1 or 2 sources

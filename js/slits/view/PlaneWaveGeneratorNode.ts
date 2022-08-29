@@ -18,12 +18,7 @@ import waveInterference from '../../waveInterference.js';
 
 class PlaneWaveGeneratorNode extends Node {
 
-  /**
-   * @param model
-   * @param waveAreaBounds
-   * @param [options]
-   */
-  constructor( model, waveAreaBounds, options ) {
+  public constructor( model, waveAreaBounds, options ) {
     super();
     const verticalCylinderImageNode = new Image( plane_wave_source_png, {
       scale: waveAreaBounds.height / ( plane_wave_source_png.height - 52 ),

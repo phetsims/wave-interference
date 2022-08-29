@@ -23,7 +23,7 @@ class InterferenceScreen extends Screen {
   /**
    * @param alignGroup - for aligning the control panels on the right side of the lattice
    */
-  constructor( alignGroup ) {
+  public constructor( alignGroup ) {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       name: screenInterferenceString,

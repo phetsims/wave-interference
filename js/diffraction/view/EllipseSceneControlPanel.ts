@@ -20,11 +20,7 @@ const mmValueString = waveInterferenceStrings.mmValue;
 
 class EllipseSceneControlPanel extends WaveInterferencePanel {
 
-  /**
-   * @param ellipseScene
-   * @param [options]
-   */
-  constructor( ellipseScene, options ) {
+  public constructor( ellipseScene, options ) {
     super( new HBox( {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',

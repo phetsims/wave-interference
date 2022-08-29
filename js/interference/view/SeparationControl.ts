@@ -22,10 +22,7 @@ const separationString = waveInterferenceStrings.separation;
 
 class SeparationControl extends ToggleNode {
 
-  /**
-   * @param model
-   */
-  constructor( model ) {
+  public constructor( model ) {
 
     // Ranges, deltas, etc specified in https://github.com/phetsims/wave-interference/issues/177
     const waterSeparationProperty = model.waterScene.desiredSourceSeparationProperty;

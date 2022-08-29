@@ -16,12 +16,7 @@ import waveInterference from '../../waveInterference.js';
 
 class DiffractionNumberControl extends NumberControl {
 
-  /**
-   * @param title
-   * @param property
-   * @param [options]
-   */
-  constructor( title, property, options ) {
+  public constructor( title, property, options ) {
 
     const mergedOptions = merge( {}, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS, {
       sliderOptions: {

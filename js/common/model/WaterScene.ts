@@ -78,9 +78,8 @@ class WaterScene extends Scene {
    * @param buttonProperty - indicates whether the corresponding button is pressed
    * @param oscillatingProperty - indicates whether the wave source is oscillating
    * @param sign - -1 for top faucet, +1 for bottom faucet
-   * @private
    */
-  launchWaterDrop( buttonProperty, oscillatingProperty, sign ): void {
+  private launchWaterDrop( buttonProperty, oscillatingProperty, sign ): void {
 
     const time = this.timeProperty.value;
 
@@ -133,10 +132,8 @@ class WaterScene extends Scene {
 
   /**
    * Override to clear water drops when muted.
-   * @public
-   * @override
    */
-  setMuted( muted ): void {
+  public override setMuted( muted ): void {
     super.setMuted( muted );
     muted && this.removeAllDrops();
     this.continuousWave1OscillatingProperty.value = false;
@@ -146,10 +143,8 @@ class WaterScene extends Scene {
   /**
    * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
    * @param dt - amount of time to move forward, in the units of the scene
-   * @override
-   * @public
    */
-  step( dt ): void {
+  public override step( dt ): void {
 
     super.step( dt );
 
@@ -195,9 +190,8 @@ class WaterScene extends Scene {
   /**
    * When any water drop with a nonzero amplitude that is a trigger to start oscillation exists,
    * we mark the isAboutToFireProperty as true.
-   * @private
    */
-  updateIsAboutToFire(): void {
+  private updateIsAboutToFire(): void {
     let isAboutToFire = false;
 
     // Called every frame, do not allocate closures.
@@ -221,21 +215,11 @@ class WaterScene extends Scene {
     return this.waveSpeed / this.desiredFrequencyProperty.get();
   }
 
-  /**
-   * @param isPressed
-   * @override
-   * @protected
-   */
-  handleButton1Toggled( isPressed ): void {
+  protected override handleButton1Toggled( isPressed ): void {
     // Override as a no-op, since water controls the source via WaterDrops hitting the surface
   }
 
-  /**
-   * @param isPressed
-   * @override
-   * @protected
-   */
-  handleButton2Toggled( isPressed ): void {
+  protected override handleButton2Toggled( isPressed ): void {
     // Override as a no-op, since water controls the source via WaterDrops hitting the surface
   }
 
@@ -253,9 +237,8 @@ class WaterScene extends Scene {
 
   /**
    * Clear all of the water drops.
-   * @public
    */
-  removeAllDrops(): void {
+  public removeAllDrops(): void {
     while ( this.waterDrops.length > 0 ) {
       arrayRemove( this.waterDrops, this.waterDrops[ 0 ] );
     }
@@ -263,10 +246,8 @@ class WaterScene extends Scene {
 
   /**
    * Reset additional features.
-   * @public
-   * @override
    */
-  reset(): void {
+  public override reset(): void {
     super.reset();
     this.desiredFrequencyProperty.reset();
     this.desiredSourceSeparationProperty.reset();

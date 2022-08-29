@@ -24,11 +24,7 @@ const noneString = waveInterferenceStrings.none;
 
 class DisorderSceneControlPanel extends WaveInterferencePanel {
 
-  /**
-   * @param disorderScene
-   * @param [options]
-   */
-  constructor( disorderScene, options ) {
+  public constructor( disorderScene, options ) {
     super( new HBox( {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',

@@ -67,21 +67,16 @@ class LatticeCanvasNode extends CanvasNode {
 
   /**
    * Sets the color of the peaks of the wave.
-   * @param color
-   * @public
    */
-  setBaseColor( color ): void {
+  public setBaseColor( color ): void {
     this.baseColor = color;
     this.invalidatePaint();
   }
 
   /**
    * Draws into the canvas.
-   * @param context
-   * @public
-   * @override
    */
-  paintCanvas( context ): void {
+  public override paintCanvas( context ): void {
 
     let m = 0;
     const data = this.imageDataRenderer.data;

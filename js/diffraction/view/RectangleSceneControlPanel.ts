@@ -20,11 +20,7 @@ const widthString = waveInterferenceStrings.width;
 
 class RectangleSceneControlPanel extends WaveInterferencePanel {
 
-  /**
-   * @param rectangleScene
-   * @param [options]
-   */
-  constructor( rectangleScene, options ) {
+  public constructor( rectangleScene, options ) {
     super( new HBox( {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',

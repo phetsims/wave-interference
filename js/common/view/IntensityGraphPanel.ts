@@ -37,7 +37,7 @@ class IntensityGraphPanel extends WaveInterferencePanel {
    * @param resetEmitter - emits when the sim is reset
    * @param [options]
    */
-  constructor( graphHeight, intensitySample, numberGridLines, resetEmitter, options ) {
+  public constructor( graphHeight, intensitySample, numberGridLines, resetEmitter, options ) {
 
     const chartRectangle = new Rectangle( 0, 0, CHART_WIDTH, graphHeight, {
       fill: 'white',

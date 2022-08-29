@@ -11,7 +11,7 @@ import waveInterference from '../../waveInterference.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 
 class InterferenceModel extends WavesModel {
-  constructor() {
+  public constructor() {
     super( {
       numberOfSources: 2,
       initialAmplitude: WaveInterferenceConstants.AMPLITUDE_RANGE.max

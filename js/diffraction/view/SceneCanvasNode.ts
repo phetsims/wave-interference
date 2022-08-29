@@ -14,11 +14,7 @@ import waveInterference from '../../waveInterference.js';
 
 class SceneCanvasNode extends CanvasNode {
 
-  /**
-   * @param sceneProperty - the selected scene
-   * @param [options]
-   */
-  constructor( sceneProperty, options ) {
+  public constructor( sceneProperty, options ) {
 
     super( merge( {
       // only use the visible part for the bounds (not the damping regions)
@@ -34,11 +30,8 @@ class SceneCanvasNode extends CanvasNode {
 
   /**
    * Redraws the aperture
-   * @param context
-   * @public
-   * @override
    */
-  paintCanvas( context ): void {
+  public override paintCanvas( context: CanvasRenderingContext2D ): void {
     context.save();
 
     // Fill the background

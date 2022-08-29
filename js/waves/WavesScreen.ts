@@ -20,7 +20,7 @@ class WavesScreen extends BaseScreen {
   /**
    * @param alignGroup - for aligning the control panels on the right side of the lattice
    */
-  constructor( alignGroup ) {
+  public constructor( alignGroup ) {
     const options = {
       homeScreenIcon: new ScreenIcon( new Image( waves_screen_icon_png ), {
         maxIconWidthProportion: 1,

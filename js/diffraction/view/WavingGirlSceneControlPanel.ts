@@ -22,11 +22,7 @@ const rotationString = waveInterferenceStrings.rotation;
 
 class WavingGirlSceneControlPanel extends WaveInterferencePanel {
 
-  /**
-   * @param wavingGirlScene
-   * @param [options]
-   */
-  constructor( wavingGirlScene, options ) {
+  public constructor( wavingGirlScene, options ) {
     super( new HBox( {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',

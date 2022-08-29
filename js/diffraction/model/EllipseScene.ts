@@ -13,7 +13,7 @@ import waveInterference from '../../waveInterference.js';
 import DiffractionScene from './DiffractionScene.js';
 
 class EllipseScene extends DiffractionScene {
-  constructor() {
+  public constructor() {
 
     const diameterProperty = new NumberProperty( 100E-3, {
       range: new Range( 40E-3, 400E-3 ),
@@ -35,11 +35,8 @@ class EllipseScene extends DiffractionScene {
 
   /**
    * Render the aperture shape(s) to the canvas context.
-   * @param context
-   * @protected
-   * @override
    */
-  renderToContext( context ): void {
+  protected override renderToContext( context ): void {
     const eccentricity = this.eccentricityProperty.value;
     const diameter = this.diameterProperty.value;
     const rx = diameter / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;

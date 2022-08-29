@@ -16,11 +16,7 @@ import WaveInterferenceText from './WaveInterferenceText.js';
 
 class WaveInterferenceStopwatchNode extends StopwatchNode {
 
-  /**
-   * @param model
-   * @param config
-   */
-  constructor( model, config ) {
+  public constructor( model, config ) {
 
     // Construct the StopwatchNode with the unitsNode reserving the max amount of space it will need
     const widestScene = _.maxBy( model.scenes, scene => new WaveInterferenceText( scene.timeUnits ).width );

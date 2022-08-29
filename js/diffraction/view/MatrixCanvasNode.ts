@@ -18,11 +18,7 @@ const SCALE_FACTOR = 2.5;
 
 class MatrixCanvasNode extends CanvasNode {
 
-  /**
-   * @param matrix
-   * @param [options]
-   */
-  constructor( matrix, options ) {
+  public constructor( matrix, options ) {
 
     options = merge( {
 
@@ -49,21 +45,16 @@ class MatrixCanvasNode extends CanvasNode {
 
   /**
    * Sets the color of the peaks of the wave.
-   * @param color
-   * @public
    */
-  setBaseColor( color ): void {
+  public setBaseColor( color: Color ): void {
     this.baseColor = color;
     this.invalidatePaint();
   }
 
   /**
    * Draws into the canvas.
-   * @param context
-   * @public
-   * @override
    */
-  paintCanvas( context ): void {
+  public override paintCanvas( context: CanvasRenderingContext2D ): void {
 
     let x = 0;
 

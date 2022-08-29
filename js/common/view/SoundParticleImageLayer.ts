@@ -15,12 +15,7 @@ import SoundParticleNode from './SoundParticleNode.js';
 
 class SoundParticleImageLayer extends Node {
 
-  /**
-   * @param model
-   * @param waveAreaNodeBounds
-   * @param [options]
-   */
-  constructor( model, waveAreaNodeBounds, options ) {
+  public constructor( model, waveAreaNodeBounds, options ) {
 
     options = merge( {
 
@@ -74,17 +69,14 @@ class SoundParticleImageLayer extends Node {
 }
 
 class SoundParticleImage extends Image {
-  constructor( soundParticle, image, modelViewTransform ) {
+  public constructor( soundParticle, image, modelViewTransform ) {
     super( image, { scale: 0.5 } );
     this.soundParticle = soundParticle;
     this.image = image;
     this.modelViewTransform = modelViewTransform;
   }
 
-  /**
-   * @public
-   */
-  update(): void {
+  public update(): void {
     const x = ( this.modelViewTransform.modelToViewX( this.soundParticle.x ) ) - this.width / 2;
     const y = ( this.modelViewTransform.modelToViewY( this.soundParticle.y ) ) - this.height / 2;
     this.setTranslation( x, y );

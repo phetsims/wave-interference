@@ -27,7 +27,7 @@ const fromFemto = WaveInterferenceUtils.fromFemto;
 
 class FrequencyControl extends Node {
 
-  constructor( model: WavesModel ) {
+  public constructor( model: WavesModel ) {
 
     const frequencyTitle = new WaveInterferenceText( frequencyString );
 

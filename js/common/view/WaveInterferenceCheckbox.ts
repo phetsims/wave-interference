@@ -12,12 +12,7 @@ import waveInterference from '../../waveInterference.js';
 
 class WaveInterferenceCheckbox extends Checkbox {
 
-  /**
-   * @param property
-   * @param content
-   * @param [options]
-   */
-  constructor( property, content, options ) {
+  public constructor( property, content, options ) {
     options = merge( { boxWidth: 14 }, options );
     super( property, content, options );
   }

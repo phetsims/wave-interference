@@ -49,10 +49,7 @@ const PANEL_OPTIONS = {
 
 class DiffractionScreenView extends ScreenView {
 
-  /**
-   * @param model
-   */
-  constructor( model ) {
+  public constructor( model ) {
     super();
 
     // @private
@@ -276,9 +273,9 @@ class DiffractionScreenView extends ScreenView {
   }
 
   /**
-   * @private - update the main/mini aperture/diffraction patterns.
+   * update the main/mini aperture/diffraction patterns.
    */
-  updateCanvases(): void {
+  private updateCanvases(): void {
     this.apertureNode.invalidatePaint();
     this.miniApertureNode.invalidatePaint();
     this.diffractionNode.invalidatePaint();

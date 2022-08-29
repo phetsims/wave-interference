@@ -439,9 +439,8 @@ class Scene {
    * The user pressed the wave generator button. The default is to always play a sound, but this can be overridden
    * for scenes than have their own sound generation.
    * @param [pressed] - true if button pressed, false if released
-   * @public
    */
-  waveGeneratorButtonSound( pressed = true ): void {
+  public waveGeneratorButtonSound( pressed = true ): void {
     const playbackRate = pressed ? 1 : 0.891;  // one whole step lower for the released sound
     WAVE_GENERATOR_BUTTON_SOUND_CLIP.setPlaybackRate( playbackRate );
     WAVE_GENERATOR_BUTTON_SOUND_CLIP.play();
@@ -451,9 +450,8 @@ class Scene {
    * Generate a wave from a point source
    * @param amplitude
    * @param time
-   * @private
    */
-  setPointSourceValues( amplitude, time ): void {
+  private setPointSourceValues( amplitude, time ): void {
 
     const frequency = this.frequencyProperty.get();
     const period = 1 / frequency;
@@ -521,9 +519,8 @@ class Scene {
    * Generate a plane wave
    * @param amplitude
    * @param time
-   * @private
    */
-  setPlaneSourceValues( amplitude, time ): void {
+  private setPlaneSourceValues( amplitude, time ): void {
 
     // When the plane wave frequency is changed, don't update the wave area for a few frames so there is no flicker,
     // see https://github.com/phetsims/wave-interference/issues/309
@@ -619,9 +616,8 @@ class Scene {
   /**
    * Set the incoming source values, in this case it is a point source near the left side of the lattice (outside of
    * the damping region).
-   * @private
    */
-  setSourceValues(): void {
+  private setSourceValues(): void {
 
     // Get the desired amplitude.  For water, this is set through the desiredAmplitudeProperty.  For other
     // scenes, this is set through the amplitudeProperty.
@@ -639,9 +635,8 @@ class Scene {
    * Additionally called from the "step" button
    * @param wallDT - amount of wall time that passed, will be scaled by time scaling value
    * @param manualStep - true if the step button is being pressed
-   * @public
    */
-  advanceTime( wallDT, manualStep ): void {
+  public advanceTime( wallDT, manualStep ): void {
 
     const frequency = this.frequencyProperty.get();
     const period = 1 / frequency;
@@ -696,10 +691,8 @@ class Scene {
    * By recording the times and positions of the wave disturbances, and knowing the wave propagation speed,
    * we can apply a masking function across the wave area, zeroing out any cell that could note have been generated
    * from the source disturbance.  This filters out spurious noise and restores "black" for the light scene.
-   *
-   * @private
    */
-  applyTemporalMask(): void {
+  private applyTemporalMask(): void {
 
     // zero out values that are outside of the mask
     for ( let i = 0; i < this.lattice.width; i++ ) {
@@ -720,9 +713,8 @@ class Scene {
 
   /**
    * Clears the wave values
-   * @public
    */
-  clear(): void {
+  private clear(): void {
     this.lattice.clear();
     this.temporalMask1.clear();
     this.temporalMask2.clear();
@@ -730,9 +722,8 @@ class Scene {
 
   /**
    * Start the sine argument at 0 so it will smoothly form the first wave.
-   * @private
    */
-  resetPhase(): void {
+  private resetPhase(): void {
     const frequency = this.frequencyProperty.get();
     const angularFrequency = Math.PI * 2 * frequency;
 
@@ -758,9 +749,8 @@ class Scene {
   /**
    * Mute or unmute the model.
    * @param muted
-   * @public
    */
-  setMuted( muted ): void {
+  private setMuted( muted ): void {
     this.muted = muted;
     muted && this.clear();
   }
@@ -769,7 +759,7 @@ class Scene {
    * The user has initiated a single pulse.
    * @public
    */
-  startPulse(): void {
+  public startPulse(): void {
     assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
     this.resetPhase();
     this.pulseFiringProperty.value = true;
@@ -779,9 +769,8 @@ class Scene {
   /**
    * Called when the primary button is toggled.  Can be overridden for scene-specific behavior.
    * @param isPressed
-   * @protected
    */
-  handleButton1Toggled( isPressed ): void {
+  protected handleButton1Toggled( isPressed ): void {
     if ( isPressed && !this.button2PressedProperty.value ) {
       this.resetPhase();
     }
@@ -797,10 +786,8 @@ class Scene {
 
   /**
    * Called when the secondary button is toggled.  Can be overridden for scene-specific behavior.
-   * @param isPressed
-   * @protected
    */
-  handleButton2Toggled( isPressed ): void {
+  protected handleButton2Toggled( isPressed ): void {
     if ( isPressed && !this.button1PressedProperty.value ) {
       this.resetPhase();
     }
@@ -839,19 +826,16 @@ class Scene {
   /**
    * Move forward in time by the specified amount
    * @param dt - amount of time to move forward, in the units of the scene
-   * @public
    */
-  step( dt ): void {
+  public step( dt ): void {
 
     // No-op here, subclasses can override to provide behavior.
   }
 
   /**
    * After the view is initialized, determine the coordinate transformations that map to view coordinates.
-   * @param viewBounds
-   * @public
    */
-  setViewBounds( viewBounds ): void {
+  public setViewBounds( viewBounds ): void {
     assert && assert( this.modelViewTransform === null, 'setViewBounds cannot be called twice' );
 
     this.modelViewTransform = ModelViewTransform2.createRectangleMapping(

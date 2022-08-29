@@ -45,12 +45,7 @@ const linearBrightnessFunction = intensity => {
 
 class LightScreenNode extends CanvasNode {
 
-  /**
-   * @param lattice
-   * @param intensitySample
-   * @param [options]
-   */
-  constructor( lattice, intensitySample, options ) {
+  public constructor( lattice, intensitySample, options ) {
     const latticeCanvasBounds = WaveInterferenceUtils.getCanvasBounds( lattice );
     options = merge( {
 
@@ -103,21 +98,16 @@ class LightScreenNode extends CanvasNode {
 
   /**
    * Sets the color of the peaks of the wave.
-   * @param color
-   * @public
    */
-  setBaseColor( color ): void {
+  public setBaseColor( color ): void {
     this.baseColor = color;
     this.invalidatePaint();
   }
 
   /**
    * Draws into the canvas.
-   * @param context
-   * @public
-   * @override
    */
-  paintCanvas( context ): void {
+  public override paintCanvas( context ): void {
 
     const intensityValues = this.intensitySample.getIntensityValues();
 

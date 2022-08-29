@@ -23,12 +23,7 @@ const mapAmplitudeToOutputLevel = new LinearFunction(
 
 class SineWaveGenerator extends SoundGenerator {
 
-  /**
-   * @param frequencyProperty
-   * @param amplitudeProperty
-   * @param [options]
-   */
-  constructor( frequencyProperty, amplitudeProperty, options ) {
+  public constructor( frequencyProperty, amplitudeProperty, options ) {
     options = merge( {
       initialOutputLevel: 0, // Starts silent, see elsewhere in this file for where the outputLevel is set as a function of amplitude
       oscillatorType: 'sine'

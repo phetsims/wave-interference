@@ -22,11 +22,7 @@ const WIDTH = 50;                        // Size of wave, in pixels
 
 class DisturbanceTypeIconNode extends Node {
 
-  /**
-   * @param disturbanceType
-   * @param [options]
-   */
-  constructor( disturbanceType, options ) {
+  public constructor( disturbanceType, options ) {
 
     options = merge( {
       stroked: false

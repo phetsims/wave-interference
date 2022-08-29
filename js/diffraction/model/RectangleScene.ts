@@ -15,7 +15,7 @@ import DiffractionScene from './DiffractionScene.js';
 
 class RectangleScene extends DiffractionScene {
 
-  constructor() {
+  public constructor() {
 
     const widthProperty = new NumberProperty( 100E-3, {
       range: new Range( 40E-3, 400E-3 ),
@@ -36,11 +36,8 @@ class RectangleScene extends DiffractionScene {
 
   /**
    * Render the aperture shape(s) to the canvas context.
-   * @param context
-   * @protected
-   * @override
    */
-  renderToContext( context ): void {
+  protected override renderToContext( context ): void {
     const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
     const columnRadius = Utils.roundSymmetric( this.widthProperty.value * modelToMatrixScale / 2 );
     const rowRadius = Utils.roundSymmetric( this.heightProperty.value * modelToMatrixScale / 2 );

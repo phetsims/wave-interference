@@ -12,11 +12,7 @@ import waveInterference from '../../waveInterference.js';
 
 class WaveInterferencePanel extends Panel {
 
-  /**
-   * @param content
-   * @param [options]
-   */
-  constructor( content, options ) {
+  public constructor( content, options ) {
     options = merge( {
       yMargin: 7,
       xMargin: 10,

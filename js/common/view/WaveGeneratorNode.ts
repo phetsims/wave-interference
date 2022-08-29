@@ -26,7 +26,7 @@ class WaveGeneratorNode extends Node {
    * @param [buttonOffset] - offset for the button, so it can be positioned on the pipe
    * @param [showButtonBackground] - true if a new background for the button should be added
    */
-  constructor( scene, waveAreaNode, buttonPosition, isPrimarySource, sourceNode,
+  public constructor( scene, waveAreaNode, buttonPosition, isPrimarySource, sourceNode,
                verticalOffset = 0,
                buttonOffset = 0,
                showButtonBackground = false ) {

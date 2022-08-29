@@ -19,7 +19,7 @@ class InterferenceScreenView extends WavesScreenView {
    * @param model
    * @param alignGroup - for aligning the control panels on the right side of the lattice
    */
-  constructor( model, alignGroup ) {
+  public constructor( model, alignGroup ) {
 
     super( model, alignGroup, {
 

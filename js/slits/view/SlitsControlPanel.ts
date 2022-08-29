@@ -29,16 +29,8 @@ const slitWidthString = waveInterferenceStrings.slitWidth;
 const twoSlitsString = waveInterferenceStrings.twoSlits;
 
 class SlitsControlPanel extends WaveInterferencePanel {
-
-  /**
-   * @param alignGroup
-   * @param sceneProperty
-   * @param waterScene
-   * @param soundScene
-   * @param lightScene
-   * @param comboBoxParent
-   */
-  constructor( alignGroup, sceneProperty, waterScene, soundScene, lightScene, comboBoxParent ) {
+  
+  public constructor( alignGroup, sceneProperty, waterScene, soundScene, lightScene, comboBoxParent ) {
 
     const barrierTypeDynamicProperty = new DynamicProperty( sceneProperty, {
       derive: 'barrierTypeProperty',

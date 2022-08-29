@@ -13,7 +13,7 @@ import WavesModel from '../../waves/model/WavesModel.js';
 
 class SlitsModel extends WavesModel {
 
-  constructor() {
+  public constructor() {
     super( {
 
       initialAmplitude: WaveInterferenceConstants.AMPLITUDE_RANGE.max,
@@ -27,10 +27,8 @@ class SlitsModel extends WavesModel {
 
   /**
    * There are no water drops in this scene, and hence the slider controls the frequency directly.
-   * @override
-   * @public
    */
-  getWaterFrequencySliderProperty() {
+  public override getWaterFrequencySliderProperty() {
     return this.waterScene.frequencyProperty;
   }
 }

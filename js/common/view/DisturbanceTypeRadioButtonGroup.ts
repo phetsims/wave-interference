@@ -14,11 +14,7 @@ import DisturbanceTypeIconNode from './DisturbanceTypeIconNode.js';
 
 class DisturbanceTypeRadioButtonGroup extends RectangularRadioButtonGroup {
 
-  /**
-   * @param disturbanceTypeProperty
-   * @param [options]
-   */
-  constructor( disturbanceTypeProperty, options ) {
+  public constructor( disturbanceTypeProperty, options ) {
     super( disturbanceTypeProperty, [ {
       value: Scene.DisturbanceType.CONTINUOUS,
       node: new DisturbanceTypeIconNode( Scene.DisturbanceType.CONTINUOUS )

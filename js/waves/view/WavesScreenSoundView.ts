@@ -27,13 +27,7 @@ const waterDropSounds = [ waterDropV5_mp3, waterDropV5_001_mp3, waterDropV5_002_
 
 class WavesScreenSoundView {
 
-  /**
-   * @param model
-   * @param view
-   * @param [options]
-   * @public
-   */
-  constructor( model, view, options ) {
+  public constructor( model, view, options ) {
 
     // The sound scene generates a sine wave when the "Play Tone" checkbox is checked
     if ( model.soundScene && options.controlPanelOptions.showPlaySoundControl ) {

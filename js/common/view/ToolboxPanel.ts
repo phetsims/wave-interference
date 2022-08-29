@@ -14,17 +14,7 @@ import WaveInterferencePanel from './WaveInterferencePanel.js';
 
 class ToolboxPanel extends WaveInterferencePanel {
 
-  /**
-   * @param measuringTapeNode
-   * @param stopwatchNode
-   * @param waveMeterNode
-   * @param alignGroup - to align with neighbors
-   * @param isMeasuringTapeInPlayAreaProperty
-   * @param measuringTapeTipPositionProperty
-   * @param isStopwatchVisibleProperty
-   * @param isWaveMeterInPlayAreaProperty
-   */
-  constructor( measuringTapeNode, stopwatchNode, waveMeterNode, alignGroup, isMeasuringTapeInPlayAreaProperty,
+  public constructor( measuringTapeNode, stopwatchNode, waveMeterNode, alignGroup, isMeasuringTapeInPlayAreaProperty,
                measuringTapeTipPositionProperty, isStopwatchVisibleProperty, isWaveMeterInPlayAreaProperty ) {
 
     // icon for the measuring tape

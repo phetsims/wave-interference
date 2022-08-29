@@ -29,12 +29,7 @@ const soundEffectString = waveInterferenceStrings.soundEffect;
 
 class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
-  /**
-   * @param model
-   * @param alignGroup
-   * @param [options]
-   */
-  constructor( model, alignGroup, options ) {
+  public constructor( model, alignGroup, options ) {
 
     options = merge( {
 

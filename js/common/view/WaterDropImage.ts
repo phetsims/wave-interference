@@ -13,10 +13,7 @@ import waveInterference from '../../waveInterference.js';
 
 class WaterDropImage extends Image {
 
-  /**
-   * @param [options]
-   */
-  constructor( options ) {
+  public constructor( options ) {
     super( water_drop_png, options );
 
     // @public {WaterDrop|null} - Link to the corresponding WaterDrop (if any), so that when the view goes underwater,

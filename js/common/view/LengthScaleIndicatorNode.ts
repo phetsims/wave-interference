@@ -21,7 +21,7 @@ class LengthScaleIndicatorNode extends Node {
    * @param string - text to display to the right of the indicator
    * @param [options]
    */
-  constructor( width, string, options ) {
+  public constructor( width, string, options ) {
 
     const text = new WaveInterferenceText( string, {
       font: WaveInterferenceConstants.TIME_AND_LENGTH_SCALE_INDICATOR_FONT

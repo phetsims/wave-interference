@@ -20,11 +20,7 @@ const squareWidthString = waveInterferenceStrings.squareWidth;
 
 class CircleSquareSceneControlPanel extends WaveInterferencePanel {
 
-  /**
-   * @param circleSquareScene
-   * @param [options]
-   */
-  constructor( circleSquareScene, options ) {
+  public constructor( circleSquareScene, options ) {
     super( new HBox( {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',

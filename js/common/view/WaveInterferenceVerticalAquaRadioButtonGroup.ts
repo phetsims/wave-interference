@@ -12,12 +12,7 @@ import waveInterference from '../../waveInterference.js';
 
 class WaveInterferenceVerticalAquaRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
-  /**
-   * @param property
-   * @param items - see VerticalAquaRadioButtonGroup
-   * @param [options]
-   */
-  constructor( property, items, options ) {
+  public constructor( property, items, options ) {
     options = merge( { spacing: 8 }, options );
     super( property, items, options );
   }

@@ -33,7 +33,7 @@ const REAL_PART = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
 FFT.init( MATRIX_DIMENSION );
 
 class DiffractionModel {
-  constructor() {
+  public constructor() {
 
     // @public - whether the laser is emitting light
     this.onProperty = new BooleanProperty( false );
@@ -104,9 +104,8 @@ class DiffractionModel {
 
   /**
    * Restore initial conditions.
-   * @public
    */
-  reset(): void {
+  public reset(): void {
     this.scenes.forEach( scene => scene.reset() );
     this.onProperty.reset();
     this.sceneProperty.reset();

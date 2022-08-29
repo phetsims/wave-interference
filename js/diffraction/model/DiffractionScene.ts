@@ -11,7 +11,7 @@ import waveInterference from '../../waveInterference.js';
 
 class DiffractionScene {
 
-  constructor( properties ) {
+  public constructor( properties ) {
 
     // @protected {Property.<*>[]} - tunable characteristics of this scene
     this.properties = properties;
@@ -37,9 +37,8 @@ class DiffractionScene {
    *
    * @param matrix
    * @param scaleFactor - zoom factor to account for frequency difference
-   * @public
    */
-  paintMatrix( matrix, scaleFactor ): void {
+  public paintMatrix( matrix, scaleFactor ): void {
 
     // clear canvas
     this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
@@ -79,28 +78,20 @@ class DiffractionScene {
 
   /**
    * Render the aperture shape(s) to the canvas context.
-   * @param context
-   * @protected
-   * @abstract
    */
-  renderToContext( context ): void {
-    assert && assert( false, 'should be overridden in subclasses' );
-  }
+  protected abstract renderToContext( context ): void;
 
   /**
    * Restore the initial values for all Property instances.
-   * @public
    */
-  reset(): void {
+  public reset(): void {
     this.properties.forEach( property => property.reset() );
   }
 
   /**
    * Link to each Property instance
-   * @param listener
-   * @public
    */
-  linkToAllProperties( listener ): void {
+  public linkToAllProperties( listener ): void {
     this.properties.forEach( property => property.link( listener ) );
   }
 }

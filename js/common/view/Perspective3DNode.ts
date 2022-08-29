@@ -20,12 +20,7 @@ const topString = waveInterferenceStrings.top;
 
 class Perspective3DNode extends Node {
 
-  /**
-   * @param waveAreaBounds
-   * @param rotationAmountProperty
-   * @param isRotatingProperty
-   */
-  constructor( waveAreaBounds, rotationAmountProperty, isRotatingProperty ) {
+  public constructor( waveAreaBounds, rotationAmountProperty, isRotatingProperty ) {
 
     // depicts the top face
     const topFacePath = new Path( null, {
@@ -72,18 +67,16 @@ class Perspective3DNode extends Node {
   /**
    * Sets the top face color, when the scene changes.
    * @param color - the top face color
-   * @public
    */
-  setTopFaceColor( color ): void {
+  public setTopFaceColor( color ): void {
     this.topFacePath.fill = color;
   }
 
   /**
    * Sets the side face color, when the scene changes.
    * @param color - the side face color
-   * @public
    */
-  setSideFaceColor( color ): void {
+  public setSideFaceColor( color ): void {
     this.sideFacePath.fill = color;
   }
 
@@ -102,9 +95,8 @@ class Perspective3DNode extends Node {
 
   /**
    * Update the shapes and text when the rotationAmount has changed
-   * @private
    */
-  update(): void {
+  private update(): void {
 
     // Apply easing to make the transition look visually nicer
     const rotationAmount = Easing.CUBIC_IN_OUT.value( this.rotationAmountProperty.get() );

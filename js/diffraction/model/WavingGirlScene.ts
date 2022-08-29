@@ -15,7 +15,7 @@ import DiffractionScene from './DiffractionScene.js';
 
 class WavingGirlScene extends DiffractionScene {
 
-  constructor() {
+  public constructor() {
 
     const heightProperty = new NumberProperty( 100 * 1E-3, {
       range: new Range( 40 * 1E-3, 400 * 1E-3 ),
@@ -36,11 +36,8 @@ class WavingGirlScene extends DiffractionScene {
 
   /**
    * Render the aperture shape(s) to the canvas context.
-   * @param context
-   * @protected
-   * @override
    */
-  renderToContext( context ): void {
+  protected override renderToContext( context ): void {
     const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
     context.translate( waving_girl_aperture_png.width / 2, waving_girl_aperture_png.height * 0.1 );
     context.translate( waving_girl_aperture_png.width / 2, waving_girl_aperture_png.height / 2 );

@@ -18,11 +18,7 @@ const SOURCE_INDEX = WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINAT
 
 class WaterSideViewNode extends Path {
 
-  /**
-   * @param waveAreaBounds
-   * @param waterScene
-   */
-  constructor( waveAreaBounds, waterScene ) {
+  public constructor( waveAreaBounds, waterScene ) {
 
     super( null, {
       lineJoin: WaveInterferenceConstants.CHART_LINE_JOIN,
@@ -42,9 +38,9 @@ class WaterSideViewNode extends Path {
   }
 
   /**
-   * @private - update the shape when the rotationAmount or lattice has changed
+   * update the shape when the rotationAmount or lattice has changed
    */
-  update(): void {
+  private update(): void {
     const bounds = this.waveAreaBounds;
     const waterSideShape = WaveInterferenceUtils.getWaterSideShape( this.array, this.waterScene.lattice, bounds, 0, 0 );
     this.shape = waterSideShape

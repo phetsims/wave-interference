@@ -19,12 +19,7 @@ const CORNER_RADIUS = 2;
 
 class BarriersNode extends Node {
 
-  /**
-   * @param model
-   * @param scene
-   * @param viewBounds
-   */
-  constructor( model, scene, viewBounds ) {
+  public constructor( model, scene, viewBounds ) {
 
     assert && assert( model instanceof SlitsModel );
 
@@ -103,9 +98,8 @@ class BarriersNode extends Node {
 
   /**
    * Update the shapes and text when the rotationAmount has changed
-   * @private
    */
-  update(): void {
+  private update(): void {
     const barrierType = this.scene.barrierTypeProperty.get();
     const scene = this.scene;
     const slitWidth = scene.slitWidthProperty.get();

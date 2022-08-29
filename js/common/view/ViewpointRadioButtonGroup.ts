@@ -21,11 +21,7 @@ const TEXT_OPTIONS = { maxWidth: WaveInterferenceConstants.MAX_WIDTH_VIEWPORT_BU
 
 class ViewpointRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonGroup {
 
-  /**
-   * @param viewpointProperty
-   * @param [options]
-   */
-  constructor( viewpointProperty, options ) {
+  public constructor( viewpointProperty, options ) {
 
     super( viewpointProperty, [ {
       node: new WaveInterferenceText( topViewString, TEXT_OPTIONS ),

@@ -13,10 +13,7 @@ import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 
 class WaveAreaNode extends Rectangle {
 
-  /**
-   * @param [options]
-   */
-  constructor( options ) {
+  public constructor( options ) {
     super( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, merge( {
 
       // This node is used for layout, so don't include a stroke which could throw off the dimensions

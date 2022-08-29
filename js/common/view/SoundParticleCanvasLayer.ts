@@ -19,12 +19,7 @@ const RESOLUTION = 2;
 
 class SoundParticleCanvasLayer extends CanvasNode {
 
-  /**
-   * @param model
-   * @param waveAreaNodeBounds
-   * @param [options]
-   */
-  constructor( model, waveAreaNodeBounds, options ) {
+  public constructor( model, waveAreaNodeBounds, options ) {
 
     options = merge( {
 
@@ -63,11 +58,8 @@ class SoundParticleCanvasLayer extends CanvasNode {
 
   /**
    * Draws into the canvas.
-   * @param context
-   * @public
-   * @override
    */
-  paintCanvas( context ): void {
+  public override paintCanvas( context ): void {
     context.transform( 1 / RESOLUTION, 0, 0, 1 / RESOLUTION, 0, 0 );
     for ( let i = 0; i < this.model.soundScene.soundParticles.length; i++ ) {
       const soundParticle = this.model.soundScene.soundParticles[ i ];

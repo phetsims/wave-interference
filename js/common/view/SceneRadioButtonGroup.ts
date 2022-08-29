@@ -12,13 +12,7 @@ import WaveInterferenceSceneIcons from './WaveInterferenceSceneIcons.js';
 
 class SceneRadioButtonGroup extends RectangularRadioButtonGroup {
 
-  /**
-   * @param waterScene
-   * @param soundScene
-   * @param lightScene
-   * @param sceneProperty
-   */
-  constructor( waterScene, soundScene, lightScene, sceneProperty ) {
+  public constructor( waterScene, soundScene, lightScene, sceneProperty ) {
 
     const waveInterferenceSceneIcons = new WaveInterferenceSceneIcons();
 

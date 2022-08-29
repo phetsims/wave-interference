@@ -20,7 +20,7 @@ const screenDiffractionString = waveInterferenceStrings.screen.diffraction;
 
 class DiffractionScreen extends Screen {
 
-  constructor() {
+  public constructor() {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       name: screenDiffractionString,

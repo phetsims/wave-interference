@@ -19,10 +19,7 @@ const wavesString = waveInterferenceStrings.waves;
 
 class SoundViewTypeRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
-  /**
-   * @param model
-   */
-  constructor( model ) {
+  public constructor( model ) {
     super( model.soundScene.soundViewTypeProperty, [ {
       node: new WaveInterferenceText( wavesString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
       value: SoundScene.SoundViewType.WAVES

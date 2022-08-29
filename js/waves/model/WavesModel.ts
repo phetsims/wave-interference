@@ -342,18 +342,16 @@ class WavesModel {
 
   /**
    * Clears the wave and the Intensity Sample
-   * @public
    */
-  clear(): void {
+  public clear(): void {
     this.sceneProperty.value.clear();
   }
 
   /**
    * Advance time by the specified amount
    * @param dt - amount of time in seconds to move the model forward
-   * @public
    */
-  step( dt ): void {
+  public step( dt: number ): void {
 
     // Feed the real time to the eventTimer and it will trigger advanceTime at the appropriate rate
     this.eventTimer.step( dt );
@@ -363,9 +361,8 @@ class WavesModel {
    * Additionally called from the "step" button
    * @param wallDT - amount of wall time that passed, will be scaled by time scaling value
    * @param manualStep - true if the step button is being pressed
-   * @public
    */
-  advanceTime( wallDT, manualStep ): void {
+  public advanceTime( wallDT: number, manualStep: boolean ): void {
 
     // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
     // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
@@ -385,9 +382,8 @@ class WavesModel {
 
   /**
    * Restores the initial conditions
-   * @public
    */
-  reset(): void {
+  public reset(): void {
     this.isResettingProperty.value = true;
 
     // Reset frequencyProperty first because it changes the time and phase.  This is done by resetting each of the

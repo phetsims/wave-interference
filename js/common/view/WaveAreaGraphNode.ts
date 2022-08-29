@@ -29,12 +29,7 @@ const GRID_LINE_OPTIONS = { stroke: 'gray', lineWidth: 1, lineDash: [ 4, 4 ] };
 
 class WaveAreaGraphNode extends Node {
 
-  /**
-   * @param model
-   * @param waveAreaBounds
-   * @param [options]
-   */
-  constructor( model, waveAreaBounds, options ) {
+  public constructor( model, waveAreaBounds, options ) {
     super();
 
     const graphWidth = WaveInterferenceConstants.WAVE_AREA_WIDTH;

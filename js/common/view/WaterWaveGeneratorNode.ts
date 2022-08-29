@@ -22,12 +22,7 @@ const FAUCET_VERTICAL_OFFSET = -110;
 
 class WaterWaveGeneratorNode extends WaveGeneratorNode {
 
-  /**
-   * @param waterScene
-   * @param waveAreaNode - for bounds
-   * @param isPrimarySource
-   */
-  constructor( waterScene, waveAreaNode, isPrimarySource ) {
+  public constructor( waterScene, waveAreaNode, isPrimarySource ) {
     assert && assert( waterScene instanceof WaterScene, 'waterScene should be an instance of WaterScene' );
 
     const faucetNode = new FaucetNode(

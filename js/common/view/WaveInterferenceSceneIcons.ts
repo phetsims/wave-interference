@@ -16,7 +16,7 @@ import waveInterference from '../../waveInterference.js';
 import LightWaveGeneratorNode from './LightWaveGeneratorNode.js';
 
 class WaveInterferenceSceneIcons {
-  constructor() {
+  public constructor() {
 
     // @public - Faucet icon, rasterized to clip out invisible parts (like the ShooterNode)
     this.waterIcon = new FaucetNode( 1, new NumberProperty( 0 ), new BooleanProperty( true ), {

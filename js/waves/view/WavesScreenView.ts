@@ -70,7 +70,7 @@ class WavesScreenView extends ScreenView {
    * @param alignGroup - for aligning the control panels on the right side of the lattice
    * @param [options]
    */
-  constructor( model, alignGroup, options ) {
+  public constructor( model, alignGroup, options ) {
 
     options = merge( {
 
@@ -628,10 +628,8 @@ class WavesScreenView extends ScreenView {
 
   /**
    * Notify listeners of the step phase.
-   * @param dt - in seconds
-   * @public
    */
-  step( dt ): void {
+  public step( dt: number ): void {
     this.stepAction && this.stepAction.execute();
   }
 }

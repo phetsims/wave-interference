@@ -62,7 +62,7 @@ class WaveMeterNode extends Node {
    * @param view - for getting coordinates for model
    * @param [options]
    */
-  constructor( model, view, options ) {
+  public constructor( model, view, options ) {
     options = merge( {
       timeDivisions: NUMBER_OF_TIME_DIVISIONS,
 
@@ -116,7 +116,7 @@ class WaveMeterNode extends Node {
      * @param isPlayingProperty
      * @param seriesVolume
      */
-    const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty, playbackRateProperty, volumeProperty, isPlayingProperty, seriesVolume ):DynamicSeries => {
+    const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty, playbackRateProperty, volumeProperty, isPlayingProperty, seriesVolume ): DynamicSeries => {
       const snapToCenter = () => {
         if ( model.rotationAmountProperty.value !== 0 && model.sceneProperty.value === model.waterScene ) {
           const point = view.waveAreaNode.center;
@@ -374,9 +374,8 @@ class WaveMeterNode extends Node {
 
   /**
    * Reset the probe when dropped back in the toolbox.
-   * @public
    */
-  reset(): void {
+  public reset(): void {
     this.resetEmitter.emit();
     this.alignProbesEmitter.emit();
   }
@@ -401,10 +400,8 @@ class WaveMeterNode extends Node {
 
   /**
    * Set the drag listener, wires it up and uses it for forwarding events from the toolbox icon.
-   * @param dragListener
-   * @public
    */
-  setDragListener( dragListener ): void {
+  public setDragListener( dragListener ): void {
     assert && assert( this.backgroundDragListener === null, 'setDragListener must be called no more than once' );
     this.backgroundDragListener = dragListener;
     this.backgroundNode.addInputListener( dragListener );

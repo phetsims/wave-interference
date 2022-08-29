@@ -73,7 +73,7 @@ class WaveInterferenceUtils {
   /**
    * Convert a value to femto.
    */
-  static toFemto( value ): number {
+  private static toFemto( value ): number {
     return value * WaveInterferenceConstants.FEMTO;
   }
 

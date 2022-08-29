@@ -12,10 +12,7 @@ import waveInterference from '../../waveInterference.js';
 
 class SoundParticleNode extends ShadedSphereNode {
 
-  /**
-   * @param [options]
-   */
-  constructor( options ) {
+  public constructor( options ) {
     options = merge( {
       stroke: 'black',
       scale: 2

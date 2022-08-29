@@ -17,7 +17,7 @@ class WaveMeterProbeNode extends ProbeNode {
    * @param visibleBoundsProperty - visible bounds of the ScreenView
    * @param [options]
    */
-  constructor( visibleBoundsProperty, options ) {
+  public constructor( visibleBoundsProperty, options ) {
 
     options = merge( {
       cursor: 'pointer',

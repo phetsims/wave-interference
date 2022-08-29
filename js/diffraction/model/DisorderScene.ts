@@ -51,7 +51,7 @@ const array = [
 
 class DisorderScene extends DiffractionScene {
 
-  constructor() {
+  public constructor() {
 
     const diameterProperty = new NumberProperty( 50E-3, {
       range: new Range( 10E-3, 100E-3 ),
@@ -81,11 +81,8 @@ class DisorderScene extends DiffractionScene {
 
   /**
    * Render the aperture shape(s) to the canvas context.
-   * @param context
-   * @protected
-   * @override
    */
-  renderToContext( context ): void {
+  protected override renderToContext( context ): void {
     const points = [];
     for ( let i = 0; i < array.length; i++ ) {
       const arrayElement = array[ i ];
