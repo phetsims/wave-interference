@@ -42,7 +42,6 @@
         ],
         "rules": {
           "@typescript-eslint/explicit-module-boundary-types": "off",
-          "@typescript-eslint/member-delimiter-style": "off",
           "@typescript-eslint/no-empty-function": "off",
           "bad-typescript-text": "off",
           "explicit-method-return-type": "off",

@@ -14,8 +14,8 @@ import Lattice from './Lattice.js';
 
 class TemporalMask {
 
-  // record of  of changes in wave disturbance sources.
-  private deltas: ( { isSourceOn: boolean, numberOfSteps: number, verticalLatticeCoordinate: number } )[] = [];
+  // record of changes in wave disturbance sources.
+  private deltas: ( { isSourceOn: boolean; numberOfSteps: number; verticalLatticeCoordinate: number } )[] = [];
 
   /**
    * Set the current state of the model.  If this differs from the prior state type (in position or whether it is on)
