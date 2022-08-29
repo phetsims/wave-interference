@@ -80,6 +80,21 @@ class Scene {
   // start slightly left of 50.5 so it will round to 50 instead of 51
   public readonly barrierPositionProperty = new Vector2Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ) );
 
+  // elapsed time in seconds
+  public readonly timeProperty = new NumberProperty( 0 );
+
+  // phase of the wave generator
+  public readonly phase = 0;
+
+  // indicates the time when the pulse began, or 0 if there is no pulse.
+  private readonly pulseStartTime = 0;
+
+  // whether the button for the first source is pressed.  This is also used for the slits screen plane wave source.
+  public readonly button1PressedProperty = new BooleanProperty( false );
+
+  // whether the button for the second source is pressed
+  public readonly button2PressedProperty = new BooleanProperty( false );
+
   /**
    * @param config - see below for required properties
    */
@@ -226,22 +241,6 @@ class Scene {
     this.amplitudeProperty = new NumberProperty( initialAmplitude, {
       range: WaveInterferenceConstants.AMPLITUDE_RANGE
     } );
-
-    // @public - elapsed time in seconds
-    this.timeProperty = new NumberProperty( 0 );
-
-    // @public {number} phase of the wave generator
-    this.phase = 0;
-
-    // @private {number} - indicates the time when the pulse began, or 0 if there is no pulse.
-    this.pulseStartTime = 0;
-
-    // @public whether the button for the first source is pressed.  This is also used for the
-    // slits screen plane wave source.
-    this.button1PressedProperty = new BooleanProperty( false );
-
-    // @public whether the button for the second source is pressed
-    this.button2PressedProperty = new BooleanProperty( false );
 
     // @public (read-only) {string} - text to show to indicate the relative scale, see LengthScaleIndicatorNode
     this.scaleIndicatorText = StringUtils.fillIn( distanceUnitsString, {
@@ -713,7 +712,7 @@ class Scene {
   /**
    * Clears the wave values
    */
-  private clear(): void {
+  protected clear(): void {
     this.lattice.clear();
     this.temporalMask1.clear();
     this.temporalMask2.clear();
