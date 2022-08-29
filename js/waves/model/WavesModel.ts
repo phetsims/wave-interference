@@ -67,6 +67,9 @@ class WavesModel {
 
   public readonly sceneProperty: Property<Scene>;
 
+  // the Scene instances as an array
+  public readonly scenes: Scene[] = [];
+
   /**
    * @param [options]
    */
@@ -117,9 +120,6 @@ class WavesModel {
 
     // @public (read-only) {LightScene|null}
     this.lightScene = null;
-
-    // @public (read-only) {Scene[]} - the Scene instances as an array
-    this.scenes = [];
 
     if ( options.scenes.includes( 'waterScene' ) ) {
       this.waterScene = new WaterScene( {
