@@ -1,4 +1,4 @@
-// Copyright 2018-2021, University of Colorado Boulder
+// Copyright 2018-2022, University of Colorado Boulder
 
 /**
  * Factors out common way of rendering text within the sim.
@@ -12,7 +12,7 @@ import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 
 class WaveInterferenceText extends Text {
-  public constructor( string: string, options?: TextOptions ) {
+  public constructor( string: string | number, options?: TextOptions ) {
     super( string, merge( {
       font: WaveInterferenceConstants.DEFAULT_FONT,
       maxWidth: WaveInterferenceConstants.MAX_WIDTH

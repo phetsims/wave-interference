@@ -1,5 +1,5 @@
 // Copyright 2017-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * "Slits" screen in the Wave Interference simulation.
  *
@@ -9,7 +9,8 @@
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import { Image } from '../../../scenery/js/imports.js';
+import { AlignGroup, Image } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import slits_screen_icon_png from '../../images/slits_screen_icon_png.js';
 import waveInterference from '../waveInterference.js';
 import waveInterferenceStrings from '../waveInterferenceStrings.js';
@@ -23,7 +24,7 @@ class SlitsScreen extends Screen {
   /**
    * @param alignGroup - for aligning the control panels on the right side of the lattice
    */
-  public constructor( alignGroup ) {
+  public constructor( alignGroup: AlignGroup ) {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
       name: screenSlitsString,
@@ -32,7 +33,8 @@ class SlitsScreen extends Screen {
         maxIconHeightProportion: 1
       } ),
       showUnselectedHomeScreenIconFrame: true,
-      showScreenIconFrameForNavigationBarFill: 'black'
+      showScreenIconFrameForNavigationBarFill: 'black',
+      tandem: Tandem.OPT_OUT
     };
     super(
       () => new SlitsModel(),

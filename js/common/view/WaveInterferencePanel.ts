@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+// Copyright 2018-2022, University of Colorado Boulder
 
 /**
  * Panel subclass that applies styling specific to the Wave Interference simulation.
@@ -10,6 +10,8 @@ import merge from '../../../../phet-core/js/merge.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
+
+export type WaveInterferencePanelOptions = PanelOptions;
 
 class WaveInterferencePanel extends Panel {
 

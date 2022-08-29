@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 // @ts-nocheck
 /**
  * Base type for Scenes in the diffraction screen.
@@ -9,7 +9,7 @@
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
 
-class DiffractionScene {
+abstract class DiffractionScene {
 
   public constructor( properties ) {
 

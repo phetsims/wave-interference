@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+// Copyright 2018-2022, University of Colorado Boulder
 // @ts-nocheck
 /**
  * The model for the Water scene, which adds WaterDrop instances.

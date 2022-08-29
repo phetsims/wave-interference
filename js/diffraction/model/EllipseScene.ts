@@ -1,5 +1,5 @@
-// Copyright 2019-2020, University of Colorado Boulder
-// @ts-nocheck
+// Copyright 2019-2022, University of Colorado Boulder
+
 /**
  * This scene shows a single elliptical aperture.
  *
@@ -13,6 +13,10 @@ import waveInterference from '../../waveInterference.js';
 import DiffractionScene from './DiffractionScene.js';
 
 class EllipseScene extends DiffractionScene {
+
+  public readonly diameterProperty: NumberProperty; // mm
+  public readonly eccentricityProperty: NumberProperty; // unitless
+
   public constructor() {
 
     const diameterProperty = new NumberProperty( 100E-3, {
@@ -26,17 +30,14 @@ class EllipseScene extends DiffractionScene {
 
     super( [ diameterProperty, eccentricityProperty ] );
 
-    // @public {NumberProperty} - in mm
     this.diameterProperty = diameterProperty;
-
-    // @public {NumberProperty} - unitless
     this.eccentricityProperty = eccentricityProperty;
   }
 
   /**
    * Render the aperture shape(s) to the canvas context.
    */
-  protected override renderToContext( context:CanvasRenderingContext2D ): void {
+  protected override renderToContext( context: CanvasRenderingContext2D ): void {
     const eccentricity = this.eccentricityProperty.value;
     const diameter = this.diameterProperty.value;
     const rx = diameter / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;

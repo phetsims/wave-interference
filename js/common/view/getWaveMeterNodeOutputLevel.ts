@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2020-2022, University of Colorado Boulder
 
 import PiecewiseLinearFunction from '../../../../dot/js/PiecewiseLinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';

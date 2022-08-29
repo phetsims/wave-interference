@@ -1,5 +1,5 @@
-// Copyright 2019-2021, University of Colorado Boulder
-// @ts-nocheck
+// Copyright 2019-2022, University of Colorado Boulder
+
 /**
  * This scene shows a the iconic "waving girl" aperture shape.
  *
@@ -15,6 +15,12 @@ import DiffractionScene from './DiffractionScene.js';
 
 class WavingGirlScene extends DiffractionScene {
 
+  // the height of the aperture in mm
+  public readonly heightProperty: NumberProperty;
+
+  // the angle of rotation in degrees
+  public readonly rotationProperty: NumberProperty;
+
   public constructor() {
 
     const heightProperty = new NumberProperty( 100 * 1E-3, {
@@ -27,10 +33,7 @@ class WavingGirlScene extends DiffractionScene {
     } );
     super( [ heightProperty, rotationProperty ] );
 
-    // @public {NumberProperty} - the height of the aperture in mm
     this.heightProperty = heightProperty;
-
-    // @public {NumberProperty} - the angle of rotation in degrees
     this.rotationProperty = rotationProperty;
   }
 
