@@ -9,7 +9,7 @@
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
 
-class DiffractionScene {
+abstract class DiffractionScene {
 
   public constructor( properties ) {
 
