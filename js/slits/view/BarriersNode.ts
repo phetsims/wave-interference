@@ -7,6 +7,7 @@
  */
 
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import { DragListener, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import Scene from '../../common/model/Scene.js';
@@ -18,8 +19,15 @@ import SlitsModel from '../model/SlitsModel.js';
 const CORNER_RADIUS = 2;
 
 class BarriersNode extends Node {
+  private readonly rectangleA: Rectangle;
+  private readonly rectangleB: Rectangle;
+  private readonly rectangleC: Rectangle;
+  private readonly barrierWidth: number;
+  private readonly arrowNode: ArrowNode;
 
-  public constructor( model: SlitsModel, scene, viewBounds ) {
+  public constructor( private readonly model: SlitsModel,
+                      private readonly scene: Scene,
+                      private readonly waveAreaViewBounds: Bounds2 ) {
 
     /**
      * Creates one of the 3 recycled rectangles used for rendering the barriers.
@@ -40,22 +48,12 @@ class BarriersNode extends Node {
       children: [ rectangleA, rectangleB, rectangleC ]
     } );
 
-    // @private
-    this.waveAreaViewBounds = viewBounds;
-
-    // @private
-    this.model = model;
-
-    // @private
-    this.scene = scene;
-
-    // @private - create and reuse rectangles
     this.rectangleA = rectangleA;
     this.rectangleB = rectangleB;
     this.rectangleC = rectangleC;
 
     // @private - Width of the barrier
-    this.barrierWidth = scene.latticeToViewTransform.modelToViewDeltaX( WaveInterferenceConstants.CALIBRATION_SCALE );
+    this.barrierWidth = scene.latticeToViewTransform!.modelToViewDeltaX( WaveInterferenceConstants.CALIBRATION_SCALE );
 
     this.addInputListener( new DragListener( {
       mapPosition: modelPosition => {

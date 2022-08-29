@@ -65,6 +65,8 @@ type WavesModelOptions = {
 
 class WavesModel {
 
+  public readonly sceneProperty: Property<Scene>;
+
   /**
    * @param [options]
    */
@@ -270,7 +272,6 @@ class WavesModel {
       this.advanceTime( 1 / EVENT_RATE, false )
     );
 
-    // @public {Property.<Scene>} - selected scene
     this.sceneProperty = new Property( this[ options.scenes[ 0 ] ], {
       validValues: this.scenes
     } );

@@ -63,6 +63,23 @@ export type SceneOptions = SelfOptions;
 
 class Scene {
 
+  // transforms from lattice coordinates to view coordinates, filled in after the view area is initialized, see setViewBounds
+  public readonly latticeToViewTransform: ModelViewTransform2 | null = null;
+
+  // the grid that contains the wave values
+  public readonly lattice = new Lattice(
+    WaveInterferenceConstants.LATTICE_DIMENSION,
+    WaveInterferenceConstants.LATTICE_DIMENSION,
+    WaveInterferenceConstants.LATTICE_PADDING,
+    WaveInterferenceConstants.LATTICE_PADDING
+  );
+
+  // horizontal position of the barrier in lattice coordinates (includes damping region)
+  // note: this is a floating point representation in 2D to work seamlessly with DragListener
+  // lattice computations using this floating point value should use Utils.roundSymmetric()
+  // start slightly left of 50.5 so it will round to 50 instead of 51
+  public readonly barrierPositionProperty = new Vector2Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ) );
+
   /**
    * @param config - see below for required properties
    */
@@ -210,14 +227,6 @@ class Scene {
       range: WaveInterferenceConstants.AMPLITUDE_RANGE
     } );
 
-    // @public - the grid that contains the wave values
-    this.lattice = new Lattice(
-      WaveInterferenceConstants.LATTICE_DIMENSION,
-      WaveInterferenceConstants.LATTICE_DIMENSION,
-      WaveInterferenceConstants.LATTICE_PADDING,
-      WaveInterferenceConstants.LATTICE_PADDING
-    );
-
     // @public - elapsed time in seconds
     this.timeProperty = new NumberProperty( 0 );
 
@@ -261,16 +270,6 @@ class Scene {
     // @public {ModelViewTransform2|null} - transforms from the physical units for this scene to view coordinates,
     // filled in after the view area is initialized, see setViewBounds
     this.modelViewTransform = null;
-
-    // @public {ModelViewTransform2|null} - transforms from lattice coordinates to view coordinates, filled in after
-    // the view area is initialized, see setViewBounds
-    this.latticeToViewTransform = null;
-
-    // @public - horizontal position of the barrier in lattice coordinates (includes damping region)
-    // note: this is a floating point representation in 2D to work seamlessly with DragListener
-    // lattice computations using this floating point value should use Utils.roundSymmetric()
-    // start slightly left of 50.5 so it will round to 50 instead of 51
-    this.barrierPositionProperty = new Vector2Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ) );
 
     // @public {DerivedProperty.<number>} - lattice cell index of the continuous barrier position (x coordinate only)
     this.barrierLatticeCoordinateProperty = new DerivedProperty(
