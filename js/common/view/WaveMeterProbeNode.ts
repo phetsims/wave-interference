@@ -1,31 +1,40 @@
 // Copyright 2018-2021, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * One probe for the WaveMeterNode
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
-import ProbeNode from '../../../../scenery-phet/js/ProbeNode.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import ProbeNode, { ProbeNodeOptions } from '../../../../scenery-phet/js/ProbeNode.js';
 import { DragListener } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
+
+type SelfOptions = {
+  dragStart?: () => void;
+  drag?: () => void;
+};
+
+type WaveMeterProbeNodeOptions = SelfOptions & ProbeNodeOptions;
 
 class WaveMeterProbeNode extends ProbeNode {
 
   /**
    * @param visibleBoundsProperty - visible bounds of the ScreenView
-   * @param [options]
+   * @param [providedOptions]
    */
-  public constructor( visibleBoundsProperty, options ) {
+  public constructor( visibleBoundsProperty: TReadOnlyProperty<Bounds2>, providedOptions?: WaveMeterProbeNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<WaveMeterProbeNodeOptions, SelfOptions, ProbeNodeOptions>()( {
       cursor: 'pointer',
       sensorTypeFunction: ProbeNode.crosshairs( { stroke: 'white' } ),
       scale: 0.4,
       dragStart: _.noop,
       drag: _.noop
-    }, options );
+    }, providedOptions );
 
     super( options );
 

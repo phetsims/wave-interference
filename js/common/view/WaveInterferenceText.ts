@@ -1,5 +1,5 @@
 // Copyright 2018-2021, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Factors out common way of rendering text within the sim.
  *

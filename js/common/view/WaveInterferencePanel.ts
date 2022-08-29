@@ -1,5 +1,5 @@
 // Copyright 2018-2020, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Panel subclass that applies styling specific to the Wave Interference simulation.
  *
@@ -7,12 +7,13 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import Panel from '../../../../sun/js/Panel.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 
 class WaveInterferencePanel extends Panel {
 
-  public constructor( content, options ) {
+  public constructor( content: Node, options?: PanelOptions ) {
     options = merge( {
       yMargin: 7,
       xMargin: 10,
