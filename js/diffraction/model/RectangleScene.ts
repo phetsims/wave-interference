@@ -1,5 +1,5 @@
 // Copyright 2019-2020, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * This scene shows a single rectangular aperture with an adjustable width and height.
  *
@@ -15,6 +15,9 @@ import DiffractionScene from './DiffractionScene.js';
 
 class RectangleScene extends DiffractionScene {
 
+  public readonly widthProperty: NumberProperty; // mm
+  public readonly heightProperty: NumberProperty; // mm
+
   public constructor() {
 
     const widthProperty = new NumberProperty( 100E-3, {
@@ -27,10 +30,7 @@ class RectangleScene extends DiffractionScene {
     } );
     super( [ widthProperty, heightProperty ] );
 
-    // @public {NumberProperty} - in mm
     this.widthProperty = widthProperty;
-
-    // @public {NumberProperty} - in mm
     this.heightProperty = heightProperty;
   }
 
