@@ -70,6 +70,12 @@ class WavesModel {
   // the Scene instances as an array
   public readonly scenes: Scene[] = [];
 
+  public readonly stopwatch = new Stopwatch( {
+    timePropertyOptions: {
+      range: new Range( 0, 999.99 )
+    }
+  } );
+
   /**
    * @param [options]
    */
@@ -293,13 +299,6 @@ class WavesModel {
 
     // @public - whether the measuring tape has been dragged out of the toolbox into the play area
     this.isMeasuringTapeInPlayAreaProperty = new BooleanProperty( false );
-
-    // @public {Stopwatch}
-    this.stopwatch = new Stopwatch( {
-      timePropertyOptions: {
-        range: new Range( 0, 999.99 )
-      }
-    } );
 
     // @public
     this.isWaveMeterInPlayAreaProperty = new BooleanProperty( false );

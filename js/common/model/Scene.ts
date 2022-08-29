@@ -101,6 +101,9 @@ class Scene {
   // controls the amplitude of the wave.
   public readonly amplitudeProperty: NumberProperty;
 
+  // units for time, shown in the timer and optionally top right of the lattice
+  public readonly timeUnits: string;
+
   /**
    * @param config - see below for required properties
    */
@@ -184,7 +187,6 @@ class Scene {
     // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
     this.timeScaleFactor = config.timeScaleFactor;
 
-    // @public (read-only) {string} - units for time, shown in the timer and optionally top right of the lattice
     this.timeUnits = config.timeUnits;
 
     // @public (read-only) {string} text to show on the vertical axis on the wave-area graph

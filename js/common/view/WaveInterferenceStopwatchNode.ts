@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * A StopwatchNode customized for Wave Interference
  *
@@ -9,21 +9,22 @@
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import merge from '../../../../phet-core/js/merge.js';
-import StopwatchNode from '../../../../scenery-phet/js/StopwatchNode.js';
+import StopwatchNode, { StopwatchNodeOptions } from '../../../../scenery-phet/js/StopwatchNode.js';
 import waveInterference from '../../waveInterference.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
 class WaveInterferenceStopwatchNode extends StopwatchNode {
 
-  public constructor( model, config ) {
+  public constructor( model: WavesModel, config?: StopwatchNodeOptions ) {
 
     // Construct the StopwatchNode with the unitsNode reserving the max amount of space it will need
-    const widestScene = _.maxBy( model.scenes, scene => new WaveInterferenceText( scene.timeUnits ).width );
+    const widestScene = _.maxBy( model.scenes, scene => new WaveInterferenceText( scene.timeUnits ).width )!;
 
     const unitsProperty = new StringProperty( widestScene.timeUnits );
 
-    const createNumberFormatter = units => StopwatchNode.createRichTextNumberFormatter( {
+    const createNumberFormatter = ( units: string ) => StopwatchNode.createRichTextNumberFormatter( {
       showAsMinutesAndSeconds: false,
       units: units
     } );
