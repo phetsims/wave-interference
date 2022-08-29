@@ -42,8 +42,7 @@
         ],
         "rules": {
           "@typescript-eslint/explicit-module-boundary-types": "off",
-          "bad-typescript-text": "off",
-          "no-simple-type-checking-assertions": "off"
+          "bad-typescript-text": "off"
         }
       }
     ]

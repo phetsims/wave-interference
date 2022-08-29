@@ -19,9 +19,7 @@ const CORNER_RADIUS = 2;
 
 class BarriersNode extends Node {
 
-  public constructor( model, scene, viewBounds ) {
-
-    assert && assert( model instanceof SlitsModel );
+  public constructor( model: SlitsModel, scene, viewBounds ) {
 
     /**
      * Creates one of the 3 recycled rectangles used for rendering the barriers.
