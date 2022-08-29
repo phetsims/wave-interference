@@ -1,5 +1,5 @@
 // Copyright 2017-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Screen for the Diffraction screen.
  *
@@ -10,6 +10,7 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import diffraction_screen_icon_png from '../../images/diffraction_screen_icon_png.js';
 import waveInterference from '../waveInterference.js';
 import waveInterferenceStrings from '../waveInterferenceStrings.js';
@@ -29,7 +30,8 @@ class DiffractionScreen extends Screen {
         maxIconHeightProportion: 1
       } ),
       showUnselectedHomeScreenIconFrame: true,
-      showScreenIconFrameForNavigationBarFill: 'black'
+      showScreenIconFrameForNavigationBarFill: 'black',
+      tandem: Tandem.OPT_OUT
     };
 
     super(

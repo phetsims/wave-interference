@@ -111,6 +111,11 @@ class DiffractionModel {
     this.sceneProperty.reset();
     this.wavelengthProperty.reset();
   }
+
+  public step( dt: number ): void {
+
+    // Model is static
+  }
 }
 
 /**
