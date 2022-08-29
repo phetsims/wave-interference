@@ -95,6 +95,9 @@ class Scene {
   // whether the button for the second source is pressed
   public readonly button2PressedProperty = new BooleanProperty( false );
 
+  // the frequency in the appropriate units for the scene
+  public readonly frequencyProperty: NumberProperty;
+
   /**
    * @param config - see below for required properties
    */
@@ -208,7 +211,6 @@ class Scene {
     const slitSeparationRange = config.slitSeparationRange;
     const initialAmplitude = config.initialAmplitude;
 
-    // @public the frequency in the appropriate units for the scene
     this.frequencyProperty = new NumberProperty( frequencyRange.getCenter(), { range: frequencyRange } );
 
     // @private - point source wave generation is suppressed when changing the source separation

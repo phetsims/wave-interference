@@ -1,5 +1,5 @@
 // Copyright 2018-2021, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * When the sound wave generator is selected, shows discrete, moving particles for the sound scene.
  *
@@ -34,7 +34,7 @@ class SoundParticle {
    * @param x - initial x coordinate of the particle, in model coordinates
    * @param y - initial y coordinate of the particle, in model coordinates
    */
-  public constructor( public readonly i: number, public readonly j: number, public readonly x: number, public readonly y: number ) {
+  public constructor( public readonly i: number, public readonly j: number, public x: number, public y: number ) {
     this.initialX = x;
     this.initialY = y;
     this.vx = 0;
@@ -57,7 +57,7 @@ class SoundParticle {
 
     // use the airK as the magnitude and the forceCenter for direction only.
     const restorationSpringConstant = Utils.linear(
-      soundScene.frequencyProperty.range.min, soundScene.frequencyProperty.range.max,
+      soundScene.frequencyProperty.range!.min, soundScene.frequencyProperty.range!.max,
       ( 2 * 1.05 ), ( 6.5 * 0.8 ),
       soundScene.frequencyProperty.value
     ) * RESTORATION_FORCE_SCALE;
