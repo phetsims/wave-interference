@@ -133,7 +133,7 @@ class WaterScene extends Scene {
   /**
    * Override to clear water drops when muted.
    */
-  public override setMuted( muted ): void {
+  public override setMuted( muted: boolean ): void {
     super.setMuted( muted );
     muted && this.removeAllDrops();
     this.continuousWave1OscillatingProperty.value = false;
@@ -144,7 +144,7 @@ class WaterScene extends Scene {
    * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
    * @param dt - amount of time to move forward, in the units of the scene
    */
-  public override step( dt ): void {
+  public override step( dt: number ): void {
 
     super.step( dt );
 
@@ -215,11 +215,11 @@ class WaterScene extends Scene {
     return this.waveSpeed / this.desiredFrequencyProperty.get();
   }
 
-  protected override handleButton1Toggled( isPressed ): void {
+  protected override handleButton1Toggled( isPressed: boolean ): void {
     // Override as a no-op, since water controls the source via WaterDrops hitting the surface
   }
 
-  protected override handleButton2Toggled( isPressed ): void {
+  protected override handleButton2Toggled( isPressed: boolean ): void {
     // Override as a no-op, since water controls the source via WaterDrops hitting the surface
   }
 

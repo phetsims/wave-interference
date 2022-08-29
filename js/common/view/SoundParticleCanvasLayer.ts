@@ -7,10 +7,12 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import { CanvasNode } from '../../../../scenery/js/imports.js';
+import { CanvasNode, CanvasNodeOptions } from '../../../../scenery/js/imports.js';
+import { Bounds2 } from '../../../../dot/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import SoundParticleNode from './SoundParticleNode.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 
 // constants
 // Render at increased resolution so particles don't appear pixellated on a large screen.  See Node.rasterized's
@@ -19,7 +21,7 @@ const RESOLUTION = 2;
 
 class SoundParticleCanvasLayer extends CanvasNode {
 
-  public constructor( model, waveAreaNodeBounds, options ) {
+  public constructor( model: WavesModel, waveAreaNodeBounds: Bounds2, options: CanvasNodeOptions ) {
 
     options = merge( {
 
@@ -59,7 +61,7 @@ class SoundParticleCanvasLayer extends CanvasNode {
   /**
    * Draws into the canvas.
    */
-  public override paintCanvas( context ): void {
+  public override paintCanvas( context: CanvasRenderingContext2D ): void {
     context.transform( 1 / RESOLUTION, 0, 0, 1 / RESOLUTION, 0, 0 );
     for ( let i = 0; i < this.model.soundScene.soundParticles.length; i++ ) {
       const soundParticle = this.model.soundScene.soundParticles[ i ];

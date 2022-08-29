@@ -68,7 +68,7 @@ class LatticeCanvasNode extends CanvasNode {
   /**
    * Sets the color of the peaks of the wave.
    */
-  public setBaseColor( color ): void {
+  public setBaseColor( color: Color ): void {
     this.baseColor = color;
     this.invalidatePaint();
   }
@@ -76,7 +76,7 @@ class LatticeCanvasNode extends CanvasNode {
   /**
    * Draws into the canvas.
    */
-  public override paintCanvas( context ): void {
+  public override paintCanvas( context: CanvasRenderingContext2D ): void {
 
     let m = 0;
     const data = this.imageDataRenderer.data;

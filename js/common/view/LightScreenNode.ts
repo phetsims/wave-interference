@@ -11,9 +11,10 @@ import Matrix3 from '../../../../dot/js/Matrix3.js';
 import PiecewiseLinearFunction from '../../../../dot/js/PiecewiseLinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { CanvasNode, Color } from '../../../../scenery/js/imports.js';
+import { CanvasNode, CanvasNodeOptions, Color } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
+import Lattice from '../../common/model/Lattice.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 import ImageDataRenderer from './ImageDataRenderer.js';
 
@@ -45,7 +46,7 @@ const linearBrightnessFunction = intensity => {
 
 class LightScreenNode extends CanvasNode {
 
-  public constructor( lattice, intensitySample, options ) {
+  public constructor( lattice: Lattice, intensitySample: number[], options?: CanvasNodeOptions ) {
     const latticeCanvasBounds = WaveInterferenceUtils.getCanvasBounds( lattice );
     options = merge( {
 
@@ -99,7 +100,7 @@ class LightScreenNode extends CanvasNode {
   /**
    * Sets the color of the peaks of the wave.
    */
-  public setBaseColor( color ): void {
+  public setBaseColor( color: Color ): void {
     this.baseColor = color;
     this.invalidatePaint();
   }
@@ -107,7 +108,7 @@ class LightScreenNode extends CanvasNode {
   /**
    * Draws into the canvas.
    */
-  public override paintCanvas( context ): void {
+  public override paintCanvas( context: CanvasRenderingContext2D ): void {
 
     const intensityValues = this.intensitySample.getIntensityValues();
 

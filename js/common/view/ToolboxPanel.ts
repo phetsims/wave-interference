@@ -7,15 +7,19 @@
  */
 
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
-import { DragListener, HBox } from '../../../../scenery/js/imports.js';
+import StopwatchNode from '../../../../scenery-phet/js/StopwatchNode.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { AlignGroup, DragListener, HBox } from '../../../../scenery/js/imports.js';
+import { Vector2 } from '../../../../dot/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
+import WaveMeterNode from './WaveMeterNode.js';
 
 class ToolboxPanel extends WaveInterferencePanel {
 
-  public constructor( measuringTapeNode, stopwatchNode, waveMeterNode, alignGroup, isMeasuringTapeInPlayAreaProperty,
-               measuringTapeTipPositionProperty, isStopwatchVisibleProperty, isWaveMeterInPlayAreaProperty ) {
+  public constructor( measuringTapeNode: MeasuringTapeNode, stopwatchNode: StopwatchNode, waveMeterNode: WaveMeterNode, alignGroup: AlignGroup, isMeasuringTapeInPlayAreaProperty: TReadOnlyProperty<boolean>,
+                      measuringTapeTipPositionProperty: TReadOnlyProperty<Vector2>, isStopwatchVisibleProperty: TReadOnlyProperty<boolean>, isWaveMeterInPlayAreaProperty: TReadOnlyProperty<boolean> ) {
 
     // icon for the measuring tape
     const measuringTapeIcon = MeasuringTapeNode.createIcon( {

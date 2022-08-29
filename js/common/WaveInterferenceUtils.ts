@@ -9,7 +9,9 @@
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import Utils from '../../../dot/js/Utils.js';
 import { Shape } from '../../../kite/js/imports.js';
+import { Node } from '../../../scenery/js/imports.js';
 import waveInterference from '../waveInterference.js';
+import Lattice from '../common/model/Lattice.js';
 import WaveInterferenceConstants from './WaveInterferenceConstants.js';
 
 // constants
@@ -27,7 +29,7 @@ class WaveInterferenceUtils {
    * @param dx
    * @param dy
    */
-  public static getWaterSideShape( array, lattice, waveAreaBounds, dx, dy ): Shape {
+  public static getWaterSideShape( array: number[], lattice: Lattice, waveAreaBounds: Bounds2, dx: number, dy: number ): Shape {
     lattice.getCenterLineValues( array );
     const shape = new Shape();
 
@@ -50,7 +52,7 @@ class WaveInterferenceUtils {
    * @param waveAreaBounds
    * @param waveValue
    */
-  public static getWaterSideY( waveAreaBounds, waveValue ): number {
+  public static getWaterSideY( waveAreaBounds: Bounds2, waveValue: number ): number {
 
     // Typical values for the propagating wave can be between -5 and 5 (though values can exceed this range very close
     // to the oscillating cell.  We choose to map a value of 0 to the center of the wave area, and the max (5) to the
@@ -63,7 +65,7 @@ class WaveInterferenceUtils {
   /**
    * Gets the bounds to use for a canvas, in view coordinates
    */
-  public static getCanvasBounds( lattice ): Bounds2 {
+  public static getCanvasBounds( lattice: Lattice ): Bounds2 {
     return new Bounds2(
       0, 0,
       ( lattice.width - lattice.dampX * 2 ) * CELL_WIDTH, ( lattice.height - lattice.dampY * 2 ) * CELL_WIDTH
@@ -80,7 +82,7 @@ class WaveInterferenceUtils {
   /**
    * Convert a value from femto.
    */
-  public static fromFemto( value ): number {
+  public static fromFemto( value: number ): number {
     return value / WaveInterferenceConstants.FEMTO;
   }
 
@@ -88,7 +90,7 @@ class WaveInterferenceUtils {
    * At the default size, the text should "nestle" into the slider.  But when the text is too small, it must be spaced
    * further away.  See https://github.com/phetsims/wave-interference/issues/194
    */
-  public static getSliderTitleSpacing( titleNode ): number {
+  public static getSliderTitleSpacing( titleNode: Node ): number {
 
     const tallTextHeight = 17;
     const shortTextHeight = 4;

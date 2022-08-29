@@ -7,12 +7,17 @@
  */
 
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceSceneIcons from './WaveInterferenceSceneIcons.js';
+import SoundScene from '../model/SoundScene.js';
+import LightScene from '../model/LightScene.js';
+import WaterScene from '../model/WaterScene.js';
+import Scene from '../model/Scene.js';
 
 class SceneRadioButtonGroup extends RectangularRadioButtonGroup {
 
-  public constructor( waterScene, soundScene, lightScene, sceneProperty ) {
+  public constructor( waterScene: WaterScene, soundScene: SoundScene, lightScene: LightScene, sceneProperty: TProperty<Scene> ) {
 
     const waveInterferenceSceneIcons = new WaveInterferenceSceneIcons();
 

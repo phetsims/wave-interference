@@ -7,8 +7,11 @@
  */
 
 import Matrix3 from '../../../../dot/js/Matrix3.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import { HBox, Node, Path } from '../../../../scenery/js/imports.js';
 import Easing from '../../../../twixt/js/Easing.js';
@@ -20,7 +23,7 @@ const topString = waveInterferenceStrings.top;
 
 class Perspective3DNode extends Node {
 
-  public constructor( waveAreaBounds, rotationAmountProperty, isRotatingProperty ) {
+  public constructor( waveAreaBounds: Bounds2, rotationAmountProperty: TReadOnlyProperty<number>, isRotatingProperty: TReadOnlyProperty<boolean> ) {
 
     // depicts the top face
     const topFacePath = new Path( null, {
@@ -68,7 +71,7 @@ class Perspective3DNode extends Node {
    * Sets the top face color, when the scene changes.
    * @param color - the top face color
    */
-  public setTopFaceColor( color ): void {
+  public setTopFaceColor( color: Color ): void {
     this.topFacePath.fill = color;
   }
 
@@ -76,7 +79,7 @@ class Perspective3DNode extends Node {
    * Sets the side face color, when the scene changes.
    * @param color - the side face color
    */
-  public setSideFaceColor( color ): void {
+  public setSideFaceColor( color: Color ): void {
     this.sideFacePath.fill = color;
   }
 

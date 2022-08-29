@@ -12,6 +12,7 @@ import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
 import waveInterference from '../../waveInterference.js';
 import LightScene from '../model/LightScene.js';
 import WaveGeneratorNode from './WaveGeneratorNode.js';
+import WaveAreaNode from './WaveAreaNode.js';
 
 // constants
 const DEFAULT_OPTIONS = {
@@ -23,7 +24,7 @@ const DEFAULT_OPTIONS = {
 
 class LightWaveGeneratorNode extends WaveGeneratorNode {
 
-  public constructor( lightScene, waveAreaNode, isPrimarySource ) {
+  public constructor( lightScene: LightScene, waveAreaNode: WaveAreaNode, isPrimarySource: boolean ) {
     assert && assert( lightScene instanceof LightScene, 'lightScene should be an instance of SoundScene' );
     const laserPointerNode = new LaserPointerNode( lightScene.button1PressedProperty, merge( {
       rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 )

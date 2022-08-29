@@ -8,14 +8,16 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import { Image, Node } from '../../../../scenery/js/imports.js';
+import { Image, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { Bounds2 } from '../../../../dot/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import SoundParticleNode from './SoundParticleNode.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 
 class SoundParticleImageLayer extends Node {
 
-  public constructor( model, waveAreaNodeBounds, options ) {
+  public constructor( model: WavesModel, waveAreaNodeBounds: Bounds2, options?: NodeOptions ) {
 
     options = merge( {
 

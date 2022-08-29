@@ -12,6 +12,7 @@ import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import SoundScene from '../model/SoundScene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 
 const bothString = waveInterferenceStrings.both;
 const particlesString = waveInterferenceStrings.particles;
@@ -19,7 +20,7 @@ const wavesString = waveInterferenceStrings.waves;
 
 class SoundViewTypeRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
-  public constructor( model ) {
+  public constructor( model: WavesModel ) {
     super( model.soundScene.soundViewTypeProperty, [ {
       node: new WaveInterferenceText( wavesString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
       value: SoundScene.SoundViewType.WAVES

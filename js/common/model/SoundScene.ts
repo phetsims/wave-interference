@@ -16,7 +16,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
-import Scene from './Scene.js';
+import Scene, { SceneOptions } from './Scene.js';
 import SoundParticle from './SoundParticle.js';
 
 // constants
@@ -28,7 +28,7 @@ class SoundScene extends Scene {
    * @param showSoundParticles - true if SoundParticles should be created and displayed
    * @param config - see Scene for required properties
    */
-  public constructor( showSoundParticles, config ) {
+  public constructor( showSoundParticles: boolean, config: SceneOptions ) {
     super( config );
 
     // @public (read-only) {boolean} - true if SoundParticles should be created and displayed.  They are not displayed
@@ -67,7 +67,7 @@ class SoundScene extends Scene {
    * The SoundScene always generates the speaker membrane sound, so no sound should be played when the wave generator
    * button is pressed.
    */
-  public override waveGeneratorButtonSound( pressed ): void {
+  public override waveGeneratorButtonSound( pressed: boolean ): void {
 
     // no-op
   }
@@ -76,7 +76,7 @@ class SoundScene extends Scene {
    * Move forward in time by the specified amount, updating velocity and position of the SoundParticle instances
    * @param dt - amount of time to move forward, in the units of the scene
    */
-  public override step( dt ): void {
+  public override step( dt: number ): void {
 
     super.step( dt );
 

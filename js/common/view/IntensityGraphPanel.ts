@@ -9,7 +9,9 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import EmptySelfOptions from '../../../../phet-core/types/js/EmptySelfOptions.js';
 import Utils from '../../../../dot/js/Utils.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import { Color, Line, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
@@ -28,6 +30,8 @@ const DARK_GRAY = new Color( 90, 90, 90 );
 const LINE_DASH = [ 9.1, 9.1 ];
 const CHART_WIDTH = 100;
 
+type IntensityGraphPanelOptions = EmptySelfOptions;
+
 class IntensityGraphPanel extends WaveInterferencePanel {
 
   /**
@@ -37,7 +41,7 @@ class IntensityGraphPanel extends WaveInterferencePanel {
    * @param resetEmitter - emits when the sim is reset
    * @param [options]
    */
-  public constructor( graphHeight, intensitySample, numberGridLines, resetEmitter, options ) {
+  public constructor( graphHeight: number, intensitySample: number[], numberGridLines: number, resetEmitter: Emitter, options?: IntensityGraphPanelOptions ) {
 
     const chartRectangle = new Rectangle( 0, 0, CHART_WIDTH, graphHeight, {
       fill: 'white',

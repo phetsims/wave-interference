@@ -9,7 +9,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
-import { Line, Node } from '../../../../scenery/js/imports.js';
+import { Line, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
@@ -21,7 +21,7 @@ class LengthScaleIndicatorNode extends Node {
    * @param string - text to display to the right of the indicator
    * @param [options]
    */
-  public constructor( width, string, options ) {
+  public constructor( width: number, string: string, options?: NodeOptions ) {
 
     const text = new WaveInterferenceText( string, {
       font: WaveInterferenceConstants.TIME_AND_LENGTH_SCALE_INDICATOR_FONT

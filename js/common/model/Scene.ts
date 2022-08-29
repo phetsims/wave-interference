@@ -636,7 +636,7 @@ class Scene {
    * @param wallDT - amount of wall time that passed, will be scaled by time scaling value
    * @param manualStep - true if the step button is being pressed
    */
-  public advanceTime( wallDT, manualStep ): void {
+  public advanceTime( wallDT: number, manualStep: boolean ): void {
 
     const frequency = this.frequencyProperty.get();
     const period = 1 / frequency;
@@ -768,9 +768,8 @@ class Scene {
 
   /**
    * Called when the primary button is toggled.  Can be overridden for scene-specific behavior.
-   * @param isPressed
    */
-  protected handleButton1Toggled( isPressed ): void {
+  protected handleButton1Toggled( isPressed: boolean ): void {
     if ( isPressed && !this.button2PressedProperty.value ) {
       this.resetPhase();
     }
@@ -787,7 +786,7 @@ class Scene {
   /**
    * Called when the secondary button is toggled.  Can be overridden for scene-specific behavior.
    */
-  protected handleButton2Toggled( isPressed ): void {
+  protected handleButton2Toggled( isPressed: boolean ): void {
     if ( isPressed && !this.button1PressedProperty.value ) {
       this.resetPhase();
     }
@@ -827,7 +826,7 @@ class Scene {
    * Move forward in time by the specified amount
    * @param dt - amount of time to move forward, in the units of the scene
    */
-  public step( dt ): void {
+  public step( dt: number ): void {
 
     // No-op here, subclasses can override to provide behavior.
   }
@@ -835,7 +834,7 @@ class Scene {
   /**
    * After the view is initialized, determine the coordinate transformations that map to view coordinates.
    */
-  public setViewBounds( viewBounds ): void {
+  public setViewBounds( viewBounds: Bounds2 ): void {
     assert && assert( this.modelViewTransform === null, 'setViewBounds cannot be called twice' );
 
     this.modelViewTransform = ModelViewTransform2.createRectangleMapping(

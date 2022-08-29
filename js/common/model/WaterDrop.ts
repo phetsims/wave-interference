@@ -24,7 +24,7 @@ class WaterDrop {
    * @param sign - -1 for top faucet, +1 for bottom faucet
    * @param onAbsorption - called when the water drop is absorbed by the lattice
    */
-  public constructor( amplitude, startsOscillation, sourceSeparation, sign, onAbsorption ) {
+  public constructor( amplitude: number, startsOscillation: boolean, sourceSeparation: number, sign: number, onAbsorption: () => void ) {
 
     // @public (read-only)
     this.amplitude = amplitude;
@@ -54,7 +54,7 @@ class WaterDrop {
    * Animate the water drop at a constant velocity toward the point at which it hits the water surface.
    * @param dt - time in seconds
    */
-  public step( dt ): void {
+  public step( dt: number ): void {
 
     this.y -= dt * WATER_DROP_SPEED;
 
