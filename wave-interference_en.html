@@ -56,7 +56,18 @@
         "extends": "../chipper/eslint/sim_eslintrc.js",
         "globals": {
           "FFT": "readonly"
-        }
+        },
+        "overrides": [
+          {
+            "files": [
+              "**/*.ts"
+            ],
+            "rules": {
+              "@typescript-eslint/explicit-module-boundary-types": "off",
+              "bad-typescript-text": "off"
+            }
+          }
+        ]
       }
     };
   window.phet.chipper.stringRepos =
