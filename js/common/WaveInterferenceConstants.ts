@@ -148,7 +148,7 @@ const WaveInterferenceConstants = {
 
   DIFFRACTION_MODEL_TO_MATRIX_SCALE: DIFFRACTION_MATRIX_DIMENSION /
                                      DIFFRACTION_APERTURE_WIDTH
-};
+} as const;
 
 assert && assert( WaveInterferenceConstants.LATTICE_DIMENSION % 2 === 1, 'lattice dimension must be odd' );
 

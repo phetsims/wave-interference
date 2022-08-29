@@ -1,5 +1,5 @@
 // Copyright 2019-2020, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Renders a sound particle.
  *
@@ -26,7 +26,7 @@ class SoundParticleNode extends ShadedSphereNode {
    * @param color
    * @param callback, see Node.toCanvas for signature
    */
-  public static createForCanvas( color: Color, callback: ( canvas: HTMLCanvasElement, x: number, y: number, width: number, height: number ) => void ): HTMLCanvasElement {
+  public static createForCanvas( color: Color, callback: ( canvas: HTMLCanvasElement, x: number, y: number, width: number, height: number ) => void ): void {
     return new SoundParticleNode( { mainColor: color } ).toCanvas( callback );
   }
 }
