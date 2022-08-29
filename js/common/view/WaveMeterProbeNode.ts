@@ -23,8 +23,8 @@ class WaveMeterProbeNode extends ProbeNode {
       cursor: 'pointer',
       sensorTypeFunction: ProbeNode.crosshairs( { stroke: 'white' } ),
       scale: 0.4,
-      dragStart: () => {},
-      drag: () => {}
+      dragStart: _.noop,
+      drag: _.noop
     }, options );
 
     super( options );

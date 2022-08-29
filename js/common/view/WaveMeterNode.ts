@@ -35,7 +35,7 @@ import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 import WaveMeterProbeNode from './WaveMeterProbeNode.js';
 
-isHMR && module.hot.accept( './getWaveMeterNodeOutputLevel.js', () => {} );
+isHMR && module.hot.accept( './getWaveMeterNodeOutputLevel.js', _.noop );
 
 const timeString = waveInterferenceStrings.time;
 
