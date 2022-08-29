@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Renders data from a Matrix into a canvas.  Shows the apertures and diffraction regions.
  *
@@ -7,8 +7,9 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import merge from '../../../../phet-core/js/merge.js';
-import { CanvasNode, Color } from '../../../../scenery/js/imports.js';
+import Matrix from '../../../../dot/js/Matrix.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import { CanvasNode, CanvasNodeOptions, Color } from '../../../../scenery/js/imports.js';
 import ImageDataRenderer from '../../common/view/ImageDataRenderer.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
@@ -16,11 +17,19 @@ import waveInterference from '../../waveInterference.js';
 // Linear scaling factor to increase the brightness.  Color values are clamped, and could whiten at the center.
 const SCALE_FACTOR = 2.5;
 
+type SelfOptions = {
+  baseColor?: Color;
+};
+type MatrixCanvasNodeOptions = SelfOptions & CanvasNodeOptions;
+
 class MatrixCanvasNode extends CanvasNode {
+  private readonly imageDataRenderer: ImageDataRenderer;
+  private baseColor: Color;
 
-  public constructor( matrix, options ) {
+  // note node already defines matrix, so we use a different variable name
+  public constructor( private readonly dataMatrix: Matrix, providedOptions?: MatrixCanvasNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<MatrixCanvasNodeOptions, SelfOptions, CanvasNodeOptions>()( {
 
       // only use the visible part for the bounds (not the damping regions)
       canvasBounds: new Bounds2( 0, 0,
@@ -29,18 +38,15 @@ class MatrixCanvasNode extends CanvasNode {
       ),
       layerSplit: true, // ensure we're on our own layer
       baseColor: Color.white
-    }, options );
+    }, providedOptions );
 
     super( options );
-
-    // @private -- note node already defines matrix, so we use a different variable name
-    this.dataMatrix = matrix;
 
     // @private
     this.baseColor = options.baseColor;
 
     // @private - Use putImageData for performance
-    this.imageDataRenderer = new ImageDataRenderer( matrix.getRowDimension(), matrix.getColumnDimension() );
+    this.imageDataRenderer = new ImageDataRenderer( dataMatrix.getRowDimension(), dataMatrix.getColumnDimension() );
   }
 
   /**
