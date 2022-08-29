@@ -1,5 +1,5 @@
 // Copyright 2018-2020, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * For the water scene, shows one hose for each wave generator, each with its own on/off button. This implementation is
  * trivial and doesn't add state or methods, it simplifies readability at the call site, so we keep it as a convenience
@@ -13,6 +13,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import FaucetNode from '../../../../scenery-phet/js/FaucetNode.js';
 import waveInterference from '../../waveInterference.js';
 import WaterScene from '../model/WaterScene.js';
+import WaveAreaNode from './WaveAreaNode.js';
 import WaveGeneratorNode from './WaveGeneratorNode.js';
 
 // constants
@@ -22,7 +23,7 @@ const FAUCET_VERTICAL_OFFSET = -110;
 
 class WaterWaveGeneratorNode extends WaveGeneratorNode {
 
-  public constructor( waterScene, waveAreaNode, isPrimarySource ) {
+  public constructor( waterScene: WaterScene, waveAreaNode: WaveAreaNode, isPrimarySource: boolean ) {
     assert && assert( waterScene instanceof WaterScene, 'waterScene should be an instance of WaterScene' );
 
     const faucetNode = new FaucetNode(
