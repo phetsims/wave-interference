@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Control panel for the WavingGirlScene.
  *
@@ -8,12 +8,13 @@
 
 import Utils from '../../../../dot/js/Utils.js';
 import { HBox } from '../../../../scenery/js/imports.js';
-import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
+import WaveInterferencePanel, { WaveInterferencePanelOptions } from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
+import WavingGirlScene from '../model/WavingGirlScene.js';
 
 const degreesValueString = waveInterferenceStrings.degreesValue;
 const heightString = waveInterferenceStrings.height;
@@ -22,7 +23,7 @@ const rotationString = waveInterferenceStrings.rotation;
 
 class WavingGirlSceneControlPanel extends WaveInterferencePanel {
 
-  public constructor( wavingGirlScene, options ) {
+  public constructor( wavingGirlScene: WavingGirlScene, options?: WaveInterferencePanelOptions ) {
     super( new HBox( {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',
@@ -44,10 +45,10 @@ class WavingGirlSceneControlPanel extends WaveInterferencePanel {
           sliderOptions: {
             constrainValue: value => Utils.roundToInterval( value, 30 ), // degrees
             majorTicks: [ {
-              value: wavingGirlScene.rotationProperty.range.min,
-              label: new WaveInterferenceText( wavingGirlScene.rotationProperty.range.min )
+              value: wavingGirlScene.rotationProperty.range!.min,
+              label: new WaveInterferenceText( wavingGirlScene.rotationProperty.range!.min )
             }, {
-              value: wavingGirlScene.rotationProperty.range.max,
+              value: wavingGirlScene.rotationProperty.range!.max,
               label: new WaveInterferenceText( '360' )
             } ]
           }

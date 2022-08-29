@@ -65,6 +65,9 @@ const fromFemto = WaveInterferenceUtils.fromFemto;
 
 class WavesScreenView extends ScreenView {
 
+  // shows the background of the wave area for sound view and used for layout
+  public readonly waveAreaNode: WaveAreaNode;
+
   /**
    * @param model
    * @param alignGroup - for aligning the control panels on the right side of the lattice

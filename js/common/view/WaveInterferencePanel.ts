@@ -11,6 +11,8 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 
+export type WaveInterferencePanelOptions = PanelOptions;
+
 class WaveInterferencePanel extends Panel {
 
   public constructor( content: Node, options?: PanelOptions ) {

@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * ScreenView for the "Interference" screen.
  *
@@ -7,11 +7,13 @@
  */
 
 import { Shape } from '../../../../kite/js/imports.js';
+import { AlignGroup } from '../../../../scenery/js/imports.js';
 import WaveInterferenceQueryParameters from '../../common/WaveInterferenceQueryParameters.js';
 import TheoryInterferenceOverlay from '../../slits/view/TheoryInterferenceOverlay.js';
 import waveInterference from '../../waveInterference.js';
 import WavesScreenView from '../../waves/view/WavesScreenView.js';
 import SeparationControl from './SeparationControl.js';
+import InterferenceModel from '../model/InterferenceModel.js';
 
 class InterferenceScreenView extends WavesScreenView {
 
@@ -19,7 +21,7 @@ class InterferenceScreenView extends WavesScreenView {
    * @param model
    * @param alignGroup - for aligning the control panels on the right side of the lattice
    */
-  public constructor( model, alignGroup ) {
+  public constructor( model: InterferenceModel, alignGroup: AlignGroup ) {
 
     super( model, alignGroup, {
 
