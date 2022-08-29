@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Horizontal radio button group that selects Scene instances.
  *
@@ -7,17 +7,17 @@
  */
 
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import TProperty from '../../../../axon/js/TProperty.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceSceneIcons from './WaveInterferenceSceneIcons.js';
 import SoundScene from '../model/SoundScene.js';
 import LightScene from '../model/LightScene.js';
 import WaterScene from '../model/WaterScene.js';
 import Scene from '../model/Scene.js';
+import Property from '../../../../axon/js/Property.js';
 
-class SceneRadioButtonGroup extends RectangularRadioButtonGroup {
+class SceneRadioButtonGroup extends RectangularRadioButtonGroup<Scene> {
 
-  public constructor( waterScene: WaterScene, soundScene: SoundScene, lightScene: LightScene, sceneProperty: TProperty<Scene> ) {
+  public constructor( waterScene: WaterScene, soundScene: SoundScene, lightScene: LightScene, sceneProperty: Property<Scene> ) {
 
     const waveInterferenceSceneIcons = new WaveInterferenceSceneIcons();
 

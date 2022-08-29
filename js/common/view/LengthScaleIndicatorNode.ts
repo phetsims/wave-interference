@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Appears above the lattice and shows the scale, like this:
  * |<------>| 500 nm
@@ -27,7 +27,7 @@ class LengthScaleIndicatorNode extends Node {
       font: WaveInterferenceConstants.TIME_AND_LENGTH_SCALE_INDICATOR_FONT
     } );
 
-    const createBar = centerX => new Line( 0, 0, 0, text.height, { stroke: 'black', centerX: centerX } );
+    const createBar = ( centerX: number ) => new Line( 0, 0, 0, text.height, { stroke: 'black', centerX: centerX } );
     const leftBar = createBar( -width / 2 );
     const rightBar = createBar( width / 2 );
     const arrowNode = new ArrowNode( leftBar.right + 1, leftBar.centerY, rightBar.left - 1, rightBar.centerY, {

@@ -750,9 +750,8 @@ class Scene {
 
   /**
    * Mute or unmute the model.
-   * @param muted
    */
-  private setMuted( muted ): void {
+  public setMuted( muted ): void {
     this.muted = muted;
     muted && this.clear();
   }

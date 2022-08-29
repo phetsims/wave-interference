@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Creates a set of uniformly-sized icons for each of the scenes.
  *
@@ -16,18 +16,16 @@ import waveInterference from '../../waveInterference.js';
 import LightWaveGeneratorNode from './LightWaveGeneratorNode.js';
 
 class WaveInterferenceSceneIcons {
+
+  // Faucet icon, rasterized to clip out invisible parts (like the ShooterNode)
+  public waterIcon = new FaucetNode( 1, new NumberProperty( 0 ), new BooleanProperty( true ), {
+    interactiveProperty: new BooleanProperty( false )
+  } ).rasterized();
+
+  public soundIcon = new Image( speaker_MID_png );
+  public lightIcon = new LaserPointerNode( new BooleanProperty( false ), LightWaveGeneratorNode.DEFAULT_NODE_OPTIONS );
+
   public constructor() {
-
-    // @public - Faucet icon, rasterized to clip out invisible parts (like the ShooterNode)
-    this.waterIcon = new FaucetNode( 1, new NumberProperty( 0 ), new BooleanProperty( true ), {
-      interactiveProperty: new BooleanProperty( false )
-    } ).rasterized();
-
-    // @public
-    this.soundIcon = new Image( speaker_MID_png );
-
-    // @public
-    this.lightIcon = new LaserPointerNode( new BooleanProperty( false ), LightWaveGeneratorNode.DEFAULT_NODE_OPTIONS );
 
     // Icon sizes
     const waterIconWidth = 20.3;

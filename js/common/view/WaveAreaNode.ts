@@ -1,5 +1,5 @@
 // Copyright 2018-2021, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * This node is used for layout only.
  *
@@ -7,13 +7,13 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
+import { Rectangle, RectangleOptions } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 
 class WaveAreaNode extends Rectangle {
 
-  public constructor( options ) {
+  public constructor( options?: RectangleOptions ) {
     super( 0, 0, WaveInterferenceConstants.WAVE_AREA_WIDTH, WaveInterferenceConstants.WAVE_AREA_WIDTH, merge( {
 
       // This node is used for layout, so don't include a stroke which could throw off the dimensions
