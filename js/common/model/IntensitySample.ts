@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+// Copyright 2018-2022, University of Colorado Boulder
 
 /**
  * Keeps track of the history of wave values on the right edge of the visible wave area, for displaying intensity in
