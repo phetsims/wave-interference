@@ -7,6 +7,7 @@
  */
 
 import Scene from '../../common/model/Scene.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
 import WavesModel from '../../waves/model/WavesModel.js';
@@ -28,7 +29,7 @@ class SlitsModel extends WavesModel {
   /**
    * There are no water drops in this scene, and hence the slider controls the frequency directly.
    */
-  public override getWaterFrequencySliderProperty() {
+  public override getWaterFrequencySliderProperty(): TReadOnlyProperty<number> {
     return this.waterScene.frequencyProperty;
   }
 }
