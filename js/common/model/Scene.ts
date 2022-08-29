@@ -98,6 +98,9 @@ class Scene {
   // the frequency in the appropriate units for the scene
   public readonly frequencyProperty: NumberProperty;
 
+  // controls the amplitude of the wave.
+  public readonly amplitudeProperty: NumberProperty;
+
   /**
    * @param config - see below for required properties
    */
@@ -239,7 +242,6 @@ class Scene {
       range: slitSeparationRange
     } );
 
-    // @public - controls the amplitude of the wave.
     this.amplitudeProperty = new NumberProperty( initialAmplitude, {
       range: WaveInterferenceConstants.AMPLITUDE_RANGE
     } );

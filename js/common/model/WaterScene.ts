@@ -20,6 +20,9 @@ type WaterSceneOptions = SelfOptions & SceneOptions;
 
 class WaterScene extends Scene {
 
+  // the amplitude the user has selected
+  public readonly desiredAmplitudeProperty: NumberProperty;
+
   /**
    * @param config - see Scene for required properties
    */
@@ -41,7 +44,6 @@ class WaterScene extends Scene {
       range: config.sourceSeparationRange
     } );
 
-    // @public - the amplitude the user has selected
     this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude, {
       range: this.amplitudeProperty.range
     } );

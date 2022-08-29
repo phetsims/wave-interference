@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Controls the amplitude for each Scene.
  *
@@ -10,6 +10,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import waveInterferenceStrings from '../../waveInterferenceStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
+import WaterScene from '../model/WaterScene.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceSlider from './WaveInterferenceSlider.js';
@@ -27,7 +28,7 @@ class AmplitudeControl extends Node {
 
       // For water scene, control the desiredAmplitude (which determines the size of the water drops)
       // For other scenes, control the amplitude directly.
-      return new WaveInterferenceSlider( scene.desiredAmplitudeProperty || scene.amplitudeProperty );
+      return new WaveInterferenceSlider( scene instanceof WaterScene ? scene.desiredAmplitudeProperty : scene.amplitudeProperty );
     } );
 
     sliderContainer.centerX = amplitudeTitle.centerX;

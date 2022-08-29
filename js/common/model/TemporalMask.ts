@@ -1,5 +1,5 @@
 // Copyright 2019-2020, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Records on and off times of a single source, so that we can determine whether it could have contributed to the value
  * on the lattice at a later time.  This is used to prevent artifacts when the wave is turned off, and to restore
