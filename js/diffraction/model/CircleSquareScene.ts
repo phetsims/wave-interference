@@ -37,7 +37,7 @@ class CircleSquareScene extends DiffractionScene {
   /**
    * Render the aperture shape(s) to the canvas context.
    */
-  protected override renderToContext( context ): void {
+  protected override renderToContext( context: CanvasRenderingContext2D ): void {
 
     const delta = 0.1;
 

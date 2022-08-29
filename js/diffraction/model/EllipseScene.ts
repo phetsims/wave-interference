@@ -36,7 +36,7 @@ class EllipseScene extends DiffractionScene {
   /**
    * Render the aperture shape(s) to the canvas context.
    */
-  protected override renderToContext( context ): void {
+  protected override renderToContext( context:CanvasRenderingContext2D ): void {
     const eccentricity = this.eccentricityProperty.value;
     const diameter = this.diameterProperty.value;
     const rx = diameter / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;

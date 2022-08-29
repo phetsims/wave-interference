@@ -82,7 +82,7 @@ class DisorderScene extends DiffractionScene {
   /**
    * Render the aperture shape(s) to the canvas context.
    */
-  protected override renderToContext( context ): void {
+  protected override renderToContext( context: CanvasRenderingContext2D ): void {
     const points = [];
     for ( let i = 0; i < array.length; i++ ) {
       const arrayElement = array[ i ];
