@@ -1,5 +1,4 @@
 // Copyright 2018-2021, University of Colorado Boulder
-// @ts-nocheck
 /**
  * Constants for the Wave Interference simulation.
  *
@@ -29,6 +28,10 @@ const DEFAULT_FREQUENCY = ( VisibleColor.MIN_FREQUENCY + VisibleColor.MAX_FREQUE
 const CALIBRATION_SCALE = ( WaveInterferenceQueryParameters.latticeSize - LATTICE_PADDING * 2 ) / ( 101 - 20 * 2 );
 
 const NUMBER_CONTROL_HORIZONTAL_TOUCH_AREA_DILATION = 9;
+
+// docs below
+const DIFFRACTION_MATRIX_DIMENSION = 256;
+const DIFFRACTION_APERTURE_WIDTH = 10000 * 400 / 3000 * 1E-3;
 
 const WaveInterferenceConstants = {
   WAVE_AREA_WIDTH: 500,
@@ -118,10 +121,10 @@ const WaveInterferenceConstants = {
   AMPLITUDE_CALIBRATION_SCALE: 1.2,
 
   // For the diffraction screen.  The matrix is square
-  DIFFRACTION_MATRIX_DIMENSION: 256,
+  DIFFRACTION_MATRIX_DIMENSION: DIFFRACTION_MATRIX_DIMENSION,
 
   // The length of the aperture width or height in mm
-  DIFFRACTION_APERTURE_WIDTH: 10000 * 400 / 3000 * 1E-3,
+  DIFFRACTION_APERTURE_WIDTH: DIFFRACTION_APERTURE_WIDTH,
 
   // in nm
   DEFAULT_WAVELENGTH: VisibleColor.SPEED_OF_LIGHT / DEFAULT_FREQUENCY * 1E9,
@@ -141,12 +144,11 @@ const WaveInterferenceConstants = {
 
   MAX_WIDTH: 120,
 
-  MAX_WIDTH_VIEWPORT_BUTTON_TEXT: 90
-};
+  MAX_WIDTH_VIEWPORT_BUTTON_TEXT: 90,
 
-// Derived constants
-WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION /
-                                                              WaveInterferenceConstants.DIFFRACTION_APERTURE_WIDTH;
+  DIFFRACTION_MODEL_TO_MATRIX_SCALE: DIFFRACTION_MATRIX_DIMENSION /
+                                     DIFFRACTION_APERTURE_WIDTH
+};
 
 assert && assert( WaveInterferenceConstants.LATTICE_DIMENSION % 2 === 1, 'lattice dimension must be odd' );
 

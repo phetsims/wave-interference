@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Utilities for Wave Interference
  *
@@ -75,7 +75,7 @@ class WaveInterferenceUtils {
   /**
    * Convert a value to femto.
    */
-  private static toFemto( value ): number {
+  private static toFemto( value: number ): number {
     return value * WaveInterferenceConstants.FEMTO;
   }
 
