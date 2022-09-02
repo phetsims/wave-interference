@@ -16,7 +16,7 @@ import SlitsScreen from './slits/SlitsScreen.js';
 import waveInterferenceStrings from './waveInterferenceStrings.js';
 import WavesScreen from './waves/WavesScreen.js';
 
-const waveInterferenceTitleString = waveInterferenceStrings[ 'wave-interference' ].title;
+const waveInterferenceTitleStringProperty = waveInterferenceStrings[ 'wave-interference' ].titleStringProperty;
 
 const simOptions = {
   credits: {
@@ -48,6 +48,6 @@ simLauncher.launch( () => {
     new SlitsScreen( alignGroup ),
     new DiffractionScreen()
   ];
-  const sim = new Sim( waveInterferenceTitleString, screens, simOptions );
+  const sim = new Sim( waveInterferenceTitleStringProperty, screens, simOptions );
   sim.start();
 } );
