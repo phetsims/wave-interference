@@ -17,12 +17,12 @@ import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/Magnifyi
 import { Color, Line, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import ColorConstants from '../../../../sun/js/ColorConstants.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-const intensityString = waveInterferenceStrings.intensity;
+const intensityString = WaveInterferenceStrings.intensity;
 
 // constants
 const TITLE_Y_MARGIN = 4;

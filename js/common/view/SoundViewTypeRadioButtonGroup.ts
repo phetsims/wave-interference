@@ -8,15 +8,15 @@
 
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import SoundScene from '../model/SoundScene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 
-const bothString = waveInterferenceStrings.both;
-const particlesString = waveInterferenceStrings.particles;
-const wavesString = waveInterferenceStrings.waves;
+const bothString = WaveInterferenceStrings.both;
+const particlesString = WaveInterferenceStrings.particles;
+const wavesString = WaveInterferenceStrings.waves;
 
 class SoundViewTypeRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 

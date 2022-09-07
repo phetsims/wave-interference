@@ -24,7 +24,7 @@ import LengthScaleIndicatorNode from '../../common/view/LengthScaleIndicatorNode
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import CircleSquareSceneControlPanel from './CircleSquareSceneControlPanel.js';
 import DisorderSceneControlPanel from './DisorderSceneControlPanel.js';
 import EllipseSceneControlPanel from './EllipseSceneControlPanel.js';
@@ -33,7 +33,7 @@ import RectangleSceneControlPanel from './RectangleSceneControlPanel.js';
 import SceneCanvasNode from './SceneCanvasNode.js';
 import WavingGirlSceneControlPanel from './WavingGirlSceneControlPanel.js';
 
-const mmValueString = waveInterferenceStrings.mmValue;
+const mmValueString = WaveInterferenceStrings.mmValue;
 
 // constants
 const MATRIX_CANVAS_NODE_SCALE = 1.43; // scale factor for showing the large aperture and diffraction patterns

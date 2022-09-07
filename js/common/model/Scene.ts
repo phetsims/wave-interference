@@ -28,7 +28,7 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import squishierButtonV3_007_mp3 from '../../../sounds/squishierButtonV3_007_mp3.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Lattice from './Lattice.js';
 import TemporalMask from './TemporalMask.js';
@@ -40,8 +40,8 @@ const WAVE_GENERATOR_BUTTON_SOUND_CLIP = new SoundClip( squishierButtonV3_007_mp
 } );
 soundManager.addSoundGenerator( WAVE_GENERATOR_BUTTON_SOUND_CLIP );
 
-const distanceUnitsString = waveInterferenceStrings.distanceUnits;
-const timeUnitsString = waveInterferenceStrings.timeUnits;
+const distanceUnitsString = WaveInterferenceStrings.distanceUnits;
+const timeUnitsString = WaveInterferenceStrings.timeUnits;
 
 // constants
 const PLANE_WAVE_MAGNITUDE = 0.21;

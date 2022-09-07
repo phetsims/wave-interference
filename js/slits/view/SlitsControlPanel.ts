@@ -18,15 +18,15 @@ import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 
-const cmValueString = waveInterferenceStrings.cmValue;
-const nmValueString = waveInterferenceStrings.nmValue;
-const noBarrierString = waveInterferenceStrings.noBarrier;
-const oneSlitString = waveInterferenceStrings.oneSlit;
-const slitSeparationString = waveInterferenceStrings.slitSeparation;
-const slitWidthString = waveInterferenceStrings.slitWidth;
-const twoSlitsString = waveInterferenceStrings.twoSlits;
+const cmValueString = WaveInterferenceStrings.cmValue;
+const nmValueString = WaveInterferenceStrings.nmValue;
+const noBarrierString = WaveInterferenceStrings.noBarrier;
+const oneSlitString = WaveInterferenceStrings.oneSlit;
+const slitSeparationString = WaveInterferenceStrings.slitSeparation;
+const slitWidthString = WaveInterferenceStrings.slitWidth;
+const twoSlitsString = WaveInterferenceStrings.twoSlits;
 
 class SlitsControlPanel extends WaveInterferencePanel {
   

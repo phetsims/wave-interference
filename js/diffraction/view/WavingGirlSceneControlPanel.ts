@@ -12,14 +12,14 @@ import WaveInterferencePanel, { WaveInterferencePanelOptions } from '../../commo
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 import WavingGirlScene from '../model/WavingGirlScene.js';
 
-const degreesValueString = waveInterferenceStrings.degreesValue;
-const heightString = waveInterferenceStrings.height;
-const mmValueString = waveInterferenceStrings.mmValue;
-const rotationString = waveInterferenceStrings.rotation;
+const degreesValueString = WaveInterferenceStrings.degreesValue;
+const heightString = WaveInterferenceStrings.height;
+const mmValueString = WaveInterferenceStrings.mmValue;
+const rotationString = WaveInterferenceStrings.rotation;
 
 class WavingGirlSceneControlPanel extends WaveInterferencePanel {
 

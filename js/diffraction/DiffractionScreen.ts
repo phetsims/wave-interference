@@ -13,11 +13,11 @@ import { Image } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import diffraction_screen_icon_png from '../../images/diffraction_screen_icon_png.js';
 import waveInterference from '../waveInterference.js';
-import waveInterferenceStrings from '../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 import DiffractionModel from './model/DiffractionModel.js';
 import DiffractionScreenView from './view/DiffractionScreenView.js';
 
-const screenDiffractionString = waveInterferenceStrings.screen.diffraction;
+const screenDiffractionString = WaveInterferenceStrings.screen.diffraction;
 
 class DiffractionScreen extends Screen {
 

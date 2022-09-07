@@ -143,8 +143,8 @@ type StringsType = {
   'lotsStringProperty': TReadOnlyProperty<string>;
 };
 
-const waveInterferenceStrings = getStringModule( 'WAVE_INTERFERENCE' ) as StringsType;
+const WaveInterferenceStrings = getStringModule( 'WAVE_INTERFERENCE' ) as StringsType;
 
-waveInterference.register( 'waveInterferenceStrings', waveInterferenceStrings );
+waveInterference.register( 'WaveInterferenceStrings', WaveInterferenceStrings );
 
-export default waveInterferenceStrings;
+export default WaveInterferenceStrings;

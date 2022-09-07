@@ -29,7 +29,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import waveMeterSawTone_mp3 from '../../../sounds/waveMeterSawTone_mp3.js';
 import waveMeterSmoothTone_mp3 from '../../../sounds/waveMeterSmoothTone_mp3.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import getWaveMeterNodeOutputLevel from './getWaveMeterNodeOutputLevel.js';
 import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
@@ -37,7 +37,7 @@ import WaveMeterProbeNode from './WaveMeterProbeNode.js';
 
 isHMR && module.hot.accept( './getWaveMeterNodeOutputLevel.js', _.noop );
 
-const timeString = waveInterferenceStrings.time;
+const timeString = WaveInterferenceStrings.time;
 
 // sounds
 const sounds = [ waveMeterSawTone_mp3, waveMeterSmoothTone_mp3 ];

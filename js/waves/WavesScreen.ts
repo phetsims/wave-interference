@@ -11,9 +11,9 @@ import { Image } from '../../../scenery/js/imports.js';
 import waves_screen_icon_png from '../../images/waves_screen_icon_png.js';
 import BaseScreen from '../common/BaseScreen.js';
 import waveInterference from '../waveInterference.js';
-import waveInterferenceStrings from '../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 
-const screenWavesString = waveInterferenceStrings.screen.waves;
+const screenWavesString = WaveInterferenceStrings.screen.waves;
 
 class WavesScreen extends BaseScreen {
 

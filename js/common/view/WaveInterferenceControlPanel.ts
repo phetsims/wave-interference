@@ -11,7 +11,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import AmplitudeControl from './AmplitudeControl.js';
 import FrequencyControl from './FrequencyControl.js';
@@ -21,11 +21,11 @@ import WaveInterferenceCheckbox from './WaveInterferenceCheckbox.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-const graphString = waveInterferenceStrings.graph;
-const intensityString = waveInterferenceStrings.intensity;
-const playToneString = waveInterferenceStrings.playTone;
-const screenLabelString = waveInterferenceStrings.screenLabel;
-const soundEffectString = waveInterferenceStrings.soundEffect;
+const graphString = WaveInterferenceStrings.graph;
+const intensityString = WaveInterferenceStrings.intensity;
+const playToneString = WaveInterferenceStrings.playTone;
+const screenLabelString = WaveInterferenceStrings.screenLabel;
+const soundEffectString = WaveInterferenceStrings.soundEffect;
 
 class WaveInterferenceControlPanel extends WaveInterferencePanel {
 

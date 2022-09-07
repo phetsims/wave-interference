@@ -11,12 +11,12 @@ import { HBox } from '../../../../scenery/js/imports.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
-const diameterString = waveInterferenceStrings.diameter;
-const eccentricityString = waveInterferenceStrings.eccentricity;
-const mmValueString = waveInterferenceStrings.mmValue;
+const diameterString = WaveInterferenceStrings.diameter;
+const eccentricityString = WaveInterferenceStrings.eccentricity;
+const mmValueString = WaveInterferenceStrings.mmValue;
 
 class EllipseSceneControlPanel extends WaveInterferencePanel {
 

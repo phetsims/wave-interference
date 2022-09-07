@@ -14,11 +14,11 @@ import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 
-const cmValueString = waveInterferenceStrings.cmValue;
-const nmValueString = waveInterferenceStrings.nmValue;
-const separationString = waveInterferenceStrings.separation;
+const cmValueString = WaveInterferenceStrings.cmValue;
+const nmValueString = WaveInterferenceStrings.nmValue;
+const separationString = WaveInterferenceStrings.separation;
 
 class SeparationControl extends ToggleNode {
 

@@ -11,12 +11,12 @@ import { HBox } from '../../../../scenery/js/imports.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
-const heightString = waveInterferenceStrings.height;
-const mmValueString = waveInterferenceStrings.mmValue;
-const widthString = waveInterferenceStrings.width;
+const heightString = WaveInterferenceStrings.height;
+const mmValueString = WaveInterferenceStrings.mmValue;
+const widthString = WaveInterferenceStrings.width;
 
 class RectangleSceneControlPanel extends WaveInterferencePanel {
 

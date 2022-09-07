@@ -8,7 +8,7 @@
 
 import { Node } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WaterScene from '../model/WaterScene.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
@@ -16,7 +16,7 @@ import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceSlider from './WaveInterferenceSlider.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-const amplitudeString = waveInterferenceStrings.amplitude;
+const amplitudeString = WaveInterferenceStrings.amplitude;
 
 class AmplitudeControl extends Node {
 

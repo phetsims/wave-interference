@@ -12,15 +12,15 @@ import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
-const circleDiameterString = waveInterferenceStrings.circleDiameter;
-const disorderString = waveInterferenceStrings.disorder;
-const latticeSpacingString = waveInterferenceStrings.latticeSpacing;
-const lotsString = waveInterferenceStrings.lots;
-const mmValueString = waveInterferenceStrings.mmValue;
-const noneString = waveInterferenceStrings.none;
+const circleDiameterString = WaveInterferenceStrings.circleDiameter;
+const disorderString = WaveInterferenceStrings.disorder;
+const latticeSpacingString = WaveInterferenceStrings.latticeSpacing;
+const lotsString = WaveInterferenceStrings.lots;
+const mmValueString = WaveInterferenceStrings.mmValue;
+const noneString = WaveInterferenceStrings.none;
 
 class DisorderSceneControlPanel extends WaveInterferencePanel {
 

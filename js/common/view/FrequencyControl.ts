@@ -13,14 +13,14 @@ import SpectrumSliderTrack from '../../../../scenery-phet/js/SpectrumSliderTrack
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 import WaveInterferenceSlider from './WaveInterferenceSlider.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-const frequencyString = waveInterferenceStrings.frequency;
+const frequencyString = WaveInterferenceStrings.frequency;
 
 // constants
 const fromFemto = WaveInterferenceUtils.fromFemto;

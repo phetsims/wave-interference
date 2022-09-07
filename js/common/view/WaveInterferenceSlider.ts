@@ -13,15 +13,15 @@ import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
 // constants
 const TOLERANCE = 1E-6;
 
-const maxString = waveInterferenceStrings.max;
-const minString = waveInterferenceStrings.min;
+const maxString = WaveInterferenceStrings.max;
+const minString = WaveInterferenceStrings.min;
 
 const LABEL_OPTIONS = {
   fontSize: WaveInterferenceConstants.TICK_FONT_SIZE,

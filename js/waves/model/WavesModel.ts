@@ -32,26 +32,26 @@ import WaterScene from '../../common/model/WaterScene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 
-const centimetersUnitsString = waveInterferenceStrings.centimetersUnits;
-const electricFieldAtCenterString = waveInterferenceStrings.electricFieldAtCenter;
-const electricFieldString = waveInterferenceStrings.electricField;
-const femtosecondConversionString = waveInterferenceStrings.femtosecondConversion;
-const femtosecondsUnitsString = waveInterferenceStrings.femtosecondsUnits;
-const lightGeneratorString = waveInterferenceStrings.lightGenerator;
-const millisecondConversionString = waveInterferenceStrings.millisecondConversion;
-const millisecondsUnitsString = waveInterferenceStrings.millisecondsUnits;
-const nanometersUnitsString = waveInterferenceStrings.nanometersUnits;
-const positionCMString = waveInterferenceStrings.positionCM;
-const positionNMString = waveInterferenceStrings.positionNM;
-const pressureAtCenterString = waveInterferenceStrings.pressureAtCenter;
-const pressureString = waveInterferenceStrings.pressure;
-const secondsUnitsString = waveInterferenceStrings.secondsUnits;
-const soundGeneratorString = waveInterferenceStrings.soundGenerator;
-const waterLevelAtCenterString = waveInterferenceStrings.waterLevelAtCenter;
-const waterLevelString = waveInterferenceStrings.waterLevel;
-const waterWaveGeneratorString = waveInterferenceStrings.waterWaveGenerator;
+const centimetersUnitsString = WaveInterferenceStrings.centimetersUnits;
+const electricFieldAtCenterString = WaveInterferenceStrings.electricFieldAtCenter;
+const electricFieldString = WaveInterferenceStrings.electricField;
+const femtosecondConversionString = WaveInterferenceStrings.femtosecondConversion;
+const femtosecondsUnitsString = WaveInterferenceStrings.femtosecondsUnits;
+const lightGeneratorString = WaveInterferenceStrings.lightGenerator;
+const millisecondConversionString = WaveInterferenceStrings.millisecondConversion;
+const millisecondsUnitsString = WaveInterferenceStrings.millisecondsUnits;
+const nanometersUnitsString = WaveInterferenceStrings.nanometersUnits;
+const positionCMString = WaveInterferenceStrings.positionCM;
+const positionNMString = WaveInterferenceStrings.positionNM;
+const pressureAtCenterString = WaveInterferenceStrings.pressureAtCenter;
+const pressureString = WaveInterferenceStrings.pressure;
+const secondsUnitsString = WaveInterferenceStrings.secondsUnits;
+const soundGeneratorString = WaveInterferenceStrings.soundGenerator;
+const waterLevelAtCenterString = WaveInterferenceStrings.waterLevelAtCenter;
+const waterLevelString = WaveInterferenceStrings.waterLevel;
+const waterWaveGeneratorString = WaveInterferenceStrings.waterWaveGenerator;
 
 // This simulation uses EventTimer, which provides exactly the same model behavior on very slow and very fast
 // platforms.  Here we define the frequency of events in Hz, which has been tuned so that our slowest platform has

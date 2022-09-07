@@ -13,11 +13,11 @@ import { AlignGroup, Image } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import interference_screen_icon_png from '../../images/interference_screen_icon_png.js';
 import waveInterference from '../waveInterference.js';
-import waveInterferenceStrings from '../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 import InterferenceModel from './model/InterferenceModel.js';
 import InterferenceScreenView from './view/InterferenceScreenView.js';
 
-const screenInterferenceString = waveInterferenceStrings.screen.interference;
+const screenInterferenceString = WaveInterferenceStrings.screen.interference;
 
 class InterferenceScreen extends Screen {
 

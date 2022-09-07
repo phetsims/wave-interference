@@ -16,10 +16,10 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import { HBox, Node, Path } from '../../../../scenery/js/imports.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import waveInterference from '../../waveInterference.js';
-import waveInterferenceStrings from '../../waveInterferenceStrings.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-const topString = waveInterferenceStrings.top;
+const topString = WaveInterferenceStrings.top;
 
 class Perspective3DNode extends Node {
 
