@@ -8,7 +8,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import HSeparator from '../../../../sun/js/HSeparator.js';
+import HSeparatorDeprecated from '../../../../sun/js/HSeparatorDeprecated.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
@@ -67,7 +67,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       frequencyControl.width,
       amplitudeControl.width
     ] );
-    const separator = new HSeparator( maxComponentWidth );
+    const separator = new HSeparatorDeprecated( maxComponentWidth );
 
     // Set pointer areas for the checkboxes, now that we have the separator dimensions.
     const updatePointerAreas = checkbox => {
