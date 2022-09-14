@@ -13,8 +13,6 @@ import BaseScreen from '../common/BaseScreen.js';
 import waveInterference from '../waveInterference.js';
 import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 
-const screenWavesString = WaveInterferenceStrings.screen.waves;
-
 class WavesScreen extends BaseScreen {
 
   /**
@@ -26,7 +24,7 @@ class WavesScreen extends BaseScreen {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),
-      name: screenWavesString
+      name: WaveInterferenceStrings.screen.wavesStringProperty
     };
     super( alignGroup, options );
   }

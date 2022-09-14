@@ -17,8 +17,6 @@ import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 import SlitsModel from './model/SlitsModel.js';
 import SlitsScreenView from './view/SlitsScreenView.js';
 
-const screenSlitsString = WaveInterferenceStrings.screen.slits;
-
 class SlitsScreen extends Screen {
 
   /**
@@ -27,7 +25,7 @@ class SlitsScreen extends Screen {
   public constructor( alignGroup: AlignGroup ) {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: screenSlitsString,
+      name: WaveInterferenceStrings.screen.slitsStringProperty,
       homeScreenIcon: new ScreenIcon( new Image( slits_screen_icon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1

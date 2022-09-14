@@ -17,14 +17,12 @@ import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 import DiffractionModel from './model/DiffractionModel.js';
 import DiffractionScreenView from './view/DiffractionScreenView.js';
 
-const screenDiffractionString = WaveInterferenceStrings.screen.diffraction;
-
 class DiffractionScreen extends Screen {
 
   public constructor() {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: screenDiffractionString,
+      name: WaveInterferenceStrings.screen.diffractionStringProperty,
       homeScreenIcon: new ScreenIcon( new Image( diffraction_screen_icon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1

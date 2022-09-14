@@ -17,8 +17,6 @@ import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 import InterferenceModel from './model/InterferenceModel.js';
 import InterferenceScreenView from './view/InterferenceScreenView.js';
 
-const screenInterferenceString = WaveInterferenceStrings.screen.interference;
-
 class InterferenceScreen extends Screen {
 
   /**
@@ -27,7 +25,7 @@ class InterferenceScreen extends Screen {
   public constructor( alignGroup: AlignGroup ) {
     const options = {
       backgroundColorProperty: new Property( 'white' ),
-      name: screenInterferenceString,
+      name: WaveInterferenceStrings.screen.interferenceStringProperty,
       homeScreenIcon: new ScreenIcon( new Image( interference_screen_icon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
