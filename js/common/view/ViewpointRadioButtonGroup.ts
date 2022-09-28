@@ -24,10 +24,10 @@ class ViewpointRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonG
   public constructor( viewpointProperty, options ) {
 
     super( viewpointProperty, [ {
-      node: new WaveInterferenceText( topViewString, TEXT_OPTIONS ),
+      createNode: tandem => new WaveInterferenceText( topViewString, TEXT_OPTIONS ),
       value: WavesModel.Viewpoint.TOP
     }, {
-      node: new WaveInterferenceText( sideViewString, TEXT_OPTIONS ),
+      createNode: tandem => new WaveInterferenceText( sideViewString, TEXT_OPTIONS ),
       value: WavesModel.Viewpoint.SIDE
     } ], options );
   }
