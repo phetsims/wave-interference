@@ -85,13 +85,13 @@ class DiffractionScreenView extends ScreenView {
     // Scene radio buttons
     const sceneRadioButtonContent = [ {
       value: model.ellipseScene,
-      node: new Circle( 10, { fill: 'black' } )
+      createNode: tandem => new Circle( 10, { fill: 'black' } )
     }, {
       value: model.rectangleScene,
-      node: new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
+      createNode: tandem => new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
     }, {
       value: model.circleSquareScene,
-      node: new Node( {
+      createNode: tandem => new Node( {
         children: [
           new Circle( 5, { fill: 'black' } ),
           new Rectangle( 0, 0, 10, 10, { fill: 'black', x: 10, y: 8 } )
@@ -99,10 +99,10 @@ class DiffractionScreenView extends ScreenView {
       } )
     }, {
       value: model.disorderScene,
-      node: disorderSceneIcon
+      createNode: tandem => disorderSceneIcon
     }, {
       value: model.wavingGirlScene,
-      node: new Image( waving_girl_icon_png, { maxHeight: 25 } )
+      createNode: tandem => new Image( waving_girl_icon_png, { maxHeight: 25 } )
     } ];
 
     // @private - Main (large) aperture node

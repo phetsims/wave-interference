@@ -580,7 +580,6 @@ class WavesScreenView extends ScreenView {
       } );
     };
 
-
     this.addChild( perspective3DNode );
 
     if ( model.waterScene ) {
