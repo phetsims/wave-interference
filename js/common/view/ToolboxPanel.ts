@@ -9,7 +9,7 @@
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 import StopwatchNode from '../../../../scenery-phet/js/StopwatchNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import { AlignGroup, DragListener, HBox } from '../../../../scenery/js/imports.js';
+import { AlignGroup, DragListener, HBox, InteractiveHighlightingNode } from '../../../../scenery/js/imports.js';
 import { Vector2 } from '../../../../dot/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
@@ -27,7 +27,7 @@ class ToolboxPanel extends WaveInterferencePanel {
       tapeLength: 20
     } );
 
-    initializeIcon( measuringTapeIcon, isMeasuringTapeInPlayAreaProperty, event => {
+    const interactiveMeasuringTapeIcon = initializeIcon( measuringTapeIcon, isMeasuringTapeInPlayAreaProperty, event => {
 
       // When clicking on the measuring tape icon, pop it out into the play area
       const targetPosition = this.globalToParentPoint( event.pointer.point );
@@ -45,7 +45,7 @@ class ToolboxPanel extends WaveInterferencePanel {
     isStopwatchVisibleProperty.value = false;
 
     // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
-    initializeIcon( stopwatchNodeIcon, isStopwatchVisibleProperty, event => {
+    const interactiveStopwatchNodeIcon = initializeIcon( stopwatchNodeIcon, isStopwatchVisibleProperty, event => {
       stopwatchNode.center = this.globalToParentPoint( event.pointer.point );
 
       // stopwatchNode provided as targetNode in the DragListener constructor, so this press will target it
@@ -64,7 +64,7 @@ class ToolboxPanel extends WaveInterferencePanel {
     const waveMeterIcon = waveMeterNode.rasterized().mutate( { scale: 0.25 } );
     isWaveMeterInPlayAreaProperty.value = false;
 
-    initializeIcon( waveMeterIcon, isWaveMeterInPlayAreaProperty, event => {
+    const interactiveWaveMeterIcon = initializeIcon( waveMeterIcon, isWaveMeterInPlayAreaProperty, event => {
 
       // Fine-tuned empirically to set the drag point to be the center of the chart.
       waveMeterNode.backgroundNode.setTranslation( this.globalToParentPoint( event.pointer.point ).plusXY( -60, -66 ) );
@@ -79,9 +79,9 @@ class ToolboxPanel extends WaveInterferencePanel {
     super( alignGroup.createBox( new HBox( {
         spacing: 10,
         children: [
-          measuringTapeIcon,
-          stopwatchNodeIcon,
-          waveMeterIcon
+          interactiveMeasuringTapeIcon,
+          interactiveStopwatchNodeIcon,
+          interactiveWaveMeterIcon
         ],
         excludeInvisibleChildrenFromBounds: false
       } ) ), {
@@ -95,15 +95,22 @@ class ToolboxPanel extends WaveInterferencePanel {
 }
 
 /**
- * Initialize the icon for use in the toolbox.
+ * Initialize the icon for use in the toolbox. Returns an InteractiveHighlightingNode so that the icon shows
+ * mouse and touch highlights for accessibility to indicate that these components are interactive.
  * @param node
  * @param inPlayAreaProperty
  * @param down
  */
 const initializeIcon = ( node, inPlayAreaProperty, down ) => {
-  node.cursor = 'pointer';
-  inPlayAreaProperty.link( inPlayArea => { node.visible = !inPlayArea; } );
-  node.addInputListener( DragListener.createForwardingListener( down ) );
+  const interactiveIcon = new InteractiveHighlightingNode( {
+    children: [ node ],
+    cursor: 'pointer'
+  } );
+
+  inPlayAreaProperty.link( inPlayArea => { interactiveIcon.visible = !inPlayArea; } );
+  interactiveIcon.addInputListener( DragListener.createForwardingListener( down ) );
+
+  return interactiveIcon;
 };
 
 waveInterference.register( 'ToolboxPanel', ToolboxPanel );

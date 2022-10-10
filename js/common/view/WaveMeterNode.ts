@@ -22,7 +22,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
-import { Color, HBox, Node, NodeProperty, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Color, HBox, InteractiveHighlightingNode, Node, NodeProperty, Text, VBox } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -70,7 +70,9 @@ class WaveMeterNode extends Node {
       // see https://github.com/phetsims/wave-interference/issues/212
       preventFit: true
     }, options );
-    const backgroundNode = new Node( { cursor: 'pointer' } );
+
+    // interactive highlighting - highlights will surround the draggable background on mouse and touch
+    const backgroundNode = new InteractiveHighlightingNode( { cursor: 'pointer' } );
 
     super();
 

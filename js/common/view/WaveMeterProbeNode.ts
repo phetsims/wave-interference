@@ -10,7 +10,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ProbeNode, { ProbeNodeOptions } from '../../../../scenery-phet/js/ProbeNode.js';
-import { DragListener } from '../../../../scenery/js/imports.js';
+import { DragListener, InteractiveHighlighting } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 
 type SelfOptions = {
@@ -20,7 +20,7 @@ type SelfOptions = {
 
 type WaveMeterProbeNodeOptions = SelfOptions & ProbeNodeOptions;
 
-class WaveMeterProbeNode extends ProbeNode {
+class WaveMeterProbeNode extends InteractiveHighlighting( ProbeNode ) {
 
   /**
    * @param visibleBoundsProperty - visible bounds of the ScreenView
