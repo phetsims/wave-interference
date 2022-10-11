@@ -563,17 +563,17 @@ class WavesScreenView extends ScreenView {
       const toggleNodeElements = [];
       model.waterScene && toggleNodeElements.push( {
         value: model.waterScene,
-        node: new WaterWaveGeneratorNode( model.waterScene, this.waveAreaNode, isPrimarySource )
+        createNode: tandem => new WaterWaveGeneratorNode( model.waterScene, this.waveAreaNode, isPrimarySource )
       } );
 
       model.soundScene && toggleNodeElements.push( {
         value: model.soundScene,
-        node: new SoundWaveGeneratorNode( model.soundScene, this.waveAreaNode, isPrimarySource )
+        createNode: tandem => new SoundWaveGeneratorNode( model.soundScene, this.waveAreaNode, isPrimarySource )
       } );
 
       model.lightScene && toggleNodeElements.push( {
         value: model.lightScene,
-        node: new LightWaveGeneratorNode( model.lightScene, this.waveAreaNode, isPrimarySource )
+        createNode: tandem => new LightWaveGeneratorNode( model.lightScene, this.waveAreaNode, isPrimarySource )
       } );
       return new ToggleNode( model.sceneProperty, toggleNodeElements, {
         alignChildren: ToggleNode.NONE

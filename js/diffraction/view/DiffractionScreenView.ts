@@ -188,11 +188,11 @@ class DiffractionScreenView extends ScreenView {
     // Nickname so everything fits on one line.
     const OPTS = PANEL_OPTIONS;
     const controlPanelToggleNode = new ToggleNode( model.sceneProperty, [
-      { value: model.ellipseScene, node: new EllipseSceneControlPanel( model.ellipseScene, OPTS ) },
-      { value: model.rectangleScene, node: new RectangleSceneControlPanel( model.rectangleScene, OPTS ) },
-      { value: model.circleSquareScene, node: new CircleSquareSceneControlPanel( model.circleSquareScene, OPTS ) },
-      { value: model.disorderScene, node: new DisorderSceneControlPanel( model.disorderScene, OPTS ) },
-      { value: model.wavingGirlScene, node: new WavingGirlSceneControlPanel( model.wavingGirlScene, OPTS ) }
+      { value: model.ellipseScene, createNode: tandem => new EllipseSceneControlPanel( model.ellipseScene, OPTS ) },
+      { value: model.rectangleScene, createNode: tandem => new RectangleSceneControlPanel( model.rectangleScene, OPTS ) },
+      { value: model.circleSquareScene, createNode: tandem => new CircleSquareSceneControlPanel( model.circleSquareScene, OPTS ) },
+      { value: model.disorderScene, createNode: tandem => new DisorderSceneControlPanel( model.disorderScene, OPTS ) },
+      { value: model.wavingGirlScene, createNode: tandem => new WavingGirlSceneControlPanel( model.wavingGirlScene, OPTS ) }
     ], {
       alignChildren: ToggleNode.CENTER_BOTTOM,
       centerX: this.apertureNode.centerX,

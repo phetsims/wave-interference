@@ -29,7 +29,7 @@ const slitWidthString = WaveInterferenceStrings.slitWidth;
 const twoSlitsString = WaveInterferenceStrings.twoSlits;
 
 class SlitsControlPanel extends WaveInterferencePanel {
-  
+
   public constructor( alignGroup, sceneProperty, waterScene, soundScene, lightScene, comboBoxParent ) {
 
     const barrierTypeDynamicProperty = new DynamicProperty( sceneProperty, {
@@ -95,9 +95,9 @@ class SlitsControlPanel extends WaveInterferencePanel {
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     const slitWidthControl = new ToggleNode( sceneProperty, [
-      { value: waterScene, node: waterSlitWidthControl },
-      { value: soundScene, node: soundSlitWidthControl },
-      { value: lightScene, node: lightSlitWidthControl }
+      { value: waterScene, createNode: tandem => waterSlitWidthControl },
+      { value: soundScene, createNode: tandem => soundSlitWidthControl },
+      { value: lightScene, createNode: tandem => lightSlitWidthControl }
     ] );
     barrierTypeDynamicProperty.link( barrierType => {
       const enabled = barrierType === Scene.BarrierType.ONE_SLIT || barrierType === Scene.BarrierType.TWO_SLITS;
@@ -151,9 +151,9 @@ class SlitsControlPanel extends WaveInterferencePanel {
         numberDisplayOptions: { valuePattern: nmValueString }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
     const slitSeparationControl = new ToggleNode( sceneProperty, [
-      { value: waterScene, node: waterSeparationControl },
-      { value: soundScene, node: soundSeparationControl },
-      { value: lightScene, node: lightSeparationControl }
+      { value: waterScene, createNode: tandem => waterSeparationControl },
+      { value: soundScene, createNode: tandem => soundSeparationControl },
+      { value: lightScene, createNode: tandem => lightSeparationControl }
     ] );
 
     barrierTypeDynamicProperty.link( barrierType => {

@@ -12,11 +12,12 @@ import { Node } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import Scene from '../model/Scene.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 class SceneToggleNode extends ToggleNode<Scene> {
 
   public constructor( model: WavesModel, sceneToNode: ( scene: Scene ) => Node, options?: ToggleNodeOptions ) {
-    const toElement = ( scene: Scene ) => ( { value: scene, node: sceneToNode( scene ) } );
+    const toElement = ( scene: Scene ) => ( { value: scene, createNode: ( tandem: Tandem ) => sceneToNode( scene ) } );
     super( model.sceneProperty, model.scenes.map( toElement ), options );
   }
 }
