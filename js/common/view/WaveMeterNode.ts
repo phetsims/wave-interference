@@ -277,11 +277,11 @@ class WaveMeterNode extends Node {
       return dynamicSeries;
     };
 
-    const aboveBottomLeft1 = new DerivedProperty(
+    const aboveBottomLeft1Property = new DerivedProperty(
       [ leftBottomProperty ],
       position => position.isFinite() ? position.plusXY( 0, -20 ) : Vector2.ZERO
     );
-    const aboveBottomLeft2 = new DerivedProperty(
+    const aboveBottomLeft2Property = new DerivedProperty(
       [ leftBottomProperty ],
       position => position.isFinite() ? position.plusXY( 0, -10 ) : Vector2.ZERO
     );
@@ -313,11 +313,11 @@ class WaveMeterNode extends Node {
     const series1PlayingProperty = new BooleanProperty( false );
     const series2PlayingProperty = new BooleanProperty( false );
 
-    const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1, sounds1,
+    const series1 = initializeSeries( SERIES_1_COLOR, WIRE_1_COLOR, 5, 10, aboveBottomLeft1Property, sounds1,
       waveMeterSound1Property, waveMeterSound1PlaybackRateProperty, waveMeterSound1VolumeProperty, series1PlayingProperty,
       1.0 );
 
-    const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 42, 54, aboveBottomLeft2, sounds2,
+    const series2 = initializeSeries( SERIES_2_COLOR, WIRE_2_COLOR, 42, 54, aboveBottomLeft2Property, sounds2,
       waveMeterSound2Property, waveMeterSound2PlaybackRateProperty, waveMeterSound2VolumeProperty, series2PlayingProperty,
       0.42 );
 
