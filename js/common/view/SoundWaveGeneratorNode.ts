@@ -63,7 +63,6 @@ const speakers = [
 class SoundWaveGeneratorNode extends WaveGeneratorNode {
 
   public constructor( soundScene: SoundScene, waveAreaNode: WaveAreaNode, isPrimarySource: boolean ) {
-    assert && assert( soundScene instanceof SoundScene, 'soundScene should be an instance of SoundScene' );
     const image = new Image( speaker_MID_png, {
       rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 ),
       scale: 0.75,

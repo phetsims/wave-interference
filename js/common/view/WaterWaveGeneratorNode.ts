@@ -24,7 +24,6 @@ const FAUCET_VERTICAL_OFFSET = -110;
 class WaterWaveGeneratorNode extends WaveGeneratorNode {
 
   public constructor( waterScene: WaterScene, waveAreaNode: WaveAreaNode, isPrimarySource: boolean ) {
-    assert && assert( waterScene instanceof WaterScene, 'waterScene should be an instance of WaterScene' );
 
     const faucetNode = new FaucetNode(
       // This value for maxFlowRate is irrelevant because we use our own faucet water emitting model,

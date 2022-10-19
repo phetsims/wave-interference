@@ -25,7 +25,6 @@ const DEFAULT_OPTIONS = {
 class LightWaveGeneratorNode extends WaveGeneratorNode {
 
   public constructor( lightScene: LightScene, waveAreaNode: WaveAreaNode, isPrimarySource: boolean ) {
-    assert && assert( lightScene instanceof LightScene, 'lightScene should be an instance of SoundScene' );
     const laserPointerNode = new LaserPointerNode( lightScene.button1PressedProperty, merge( {
       rightCenter: waveAreaNode.leftCenter.plusXY( 20, 0 )
     }, DEFAULT_OPTIONS ) );
