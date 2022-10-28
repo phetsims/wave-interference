@@ -20,7 +20,7 @@ import waterDropV5_003_mp3 from '../../../sounds/waterDropV5_003_mp3.js';
 import waterDropV5_mp3 from '../../../sounds/waterDropV5_mp3.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
-import SineWaveGenerator from './SineWaveGenerator.js';
+import WaveGenerator from '../../../../tambo/js/sound-generators/WaveGenerator.js';
 
 // sounds
 const waterDropSounds = [ waterDropV5_mp3, waterDropV5_001_mp3, waterDropV5_002_mp3, waterDropV5_003_mp3 ];
@@ -31,7 +31,7 @@ class WavesScreenSoundView {
 
     // The sound scene generates a sine wave when the "Play Tone" checkbox is checked
     if ( model.soundScene && options.controlPanelOptions.showPlaySoundControl ) {
-      const sineWavePlayer = new SineWaveGenerator(
+      const sineWavePlayer = new WaveGenerator(
         model.soundScene.frequencyProperty,
         model.soundScene.amplitudeProperty, {
           enableControlProperties: [
