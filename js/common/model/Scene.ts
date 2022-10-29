@@ -30,7 +30,7 @@ import squishierButtonV3_007_mp3 from '../../../sounds/squishierButtonV3_007_mp3
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
-import Lattice from './Lattice.js';
+import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import TemporalMask from './TemporalMask.js';
 
 // sound clip to use for the wave generator button

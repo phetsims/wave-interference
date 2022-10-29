@@ -14,9 +14,9 @@ import merge from '../../../../phet-core/js/merge.js';
 import { CanvasNode, CanvasNodeOptions, Color } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
-import Lattice from '../../common/model/Lattice.js';
+import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
-import ImageDataRenderer from './ImageDataRenderer.js';
+import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js';
 
 // constants
 const CANVAS_WIDTH = 100;

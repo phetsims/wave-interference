@@ -11,7 +11,7 @@ import Utils from '../../../dot/js/Utils.js';
 import { Shape } from '../../../kite/js/imports.js';
 import { Node } from '../../../scenery/js/imports.js';
 import waveInterference from '../waveInterference.js';
-import Lattice from '../common/model/Lattice.js';
+import Lattice from '../../../scenery-phet/js/Lattice.js';
 import WaveInterferenceConstants from './WaveInterferenceConstants.js';
 
 // constants

@@ -29,7 +29,7 @@ main model for these screens.
 Each [WavesModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesModel.js)
 contains 3 [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js) instances, one for 
 each of water, sound and light.  Most settings (such as whether the waves are turned on or off) are independent for each
-[Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js), and each [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js) has its own physical model and [Lattice.js](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Lattice.js).
+[Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js), and each [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js) has its own physical model and [Lattice.ts](https://github.com/phetsims/scenery-phet/blob/master/js/Lattice.ts).
 The tools which appear in the toolbox are shared
 across each [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js). 
 
@@ -59,7 +59,7 @@ described in http://www.mtnmath.com/whatth/node47.html and known as a finite dif
 ```
 f(x,y,t+1) = c*c(f(x+1,y,t) + f(x-1,y,t) + f(x,y-1,t) + f(x,y+1,t) - 4*f(x,y,t)) - f(x,y,t-1) + 2*f(x,y,t)
 ```
-The description for the wave speed `c` is given in [Lattice.js](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Lattice.js)
+The description for the wave speed `c` is given in [Lattice.ts](https://github.com/phetsims/scenery-phet/blob/master/js/Lattice.ts)
 
 The lattice extends beyond the visible region, and damping is applied near the boundaries to minimize the effects of
 reflection and artifacts around the edges.

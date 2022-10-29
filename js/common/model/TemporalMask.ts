@@ -10,7 +10,7 @@
 
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
-import Lattice from './Lattice.js';
+import Lattice from '../../../../scenery-phet/js/Lattice.js';
 
 class TemporalMask {
 
