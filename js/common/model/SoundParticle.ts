@@ -57,7 +57,7 @@ class SoundParticle {
 
     // use the airK as the magnitude and the forceCenter for direction only.
     const restorationSpringConstant = Utils.linear(
-      soundScene.frequencyProperty.range!.min, soundScene.frequencyProperty.range!.max,
+      soundScene.frequencyProperty.range.min, soundScene.frequencyProperty.range.max,
       ( 2 * 1.05 ), ( 6.5 * 0.8 ),
       soundScene.frequencyProperty.value
     ) * RESTORATION_FORCE_SCALE;

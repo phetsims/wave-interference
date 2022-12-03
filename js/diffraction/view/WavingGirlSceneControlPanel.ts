@@ -45,10 +45,10 @@ class WavingGirlSceneControlPanel extends WaveInterferencePanel {
           sliderOptions: {
             constrainValue: value => Utils.roundToInterval( value, 30 ), // degrees
             majorTicks: [ {
-              value: wavingGirlScene.rotationProperty.range!.min,
-              label: new WaveInterferenceText( wavingGirlScene.rotationProperty.range!.min )
+              value: wavingGirlScene.rotationProperty.range.min,
+              label: new WaveInterferenceText( wavingGirlScene.rotationProperty.range.min )
             }, {
-              value: wavingGirlScene.rotationProperty.range!.max,
+              value: wavingGirlScene.rotationProperty.range.max,
               label: new WaveInterferenceText( '360' )
             } ]
           }

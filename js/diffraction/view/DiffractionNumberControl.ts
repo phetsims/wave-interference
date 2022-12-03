@@ -22,11 +22,11 @@ class DiffractionNumberControl extends NumberControl {
     const mergedOptions = merge( {}, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS, {
       sliderOptions: {
         majorTicks: [ {
-          value: property.range!.min,
-          label: new WaveInterferenceText( Utils.toFixed( property.range!.min, 2 ) )
+          value: property.range.min,
+          label: new WaveInterferenceText( Utils.toFixed( property.range.min, 2 ) )
         }, {
-          value: property.range!.max,
-          label: new WaveInterferenceText( Utils.toFixed( property.range!.max, 2 ) )
+          value: property.range.max,
+          label: new WaveInterferenceText( Utils.toFixed( property.range.max, 2 ) )
         } ]
       }
     }, options );
@@ -44,7 +44,7 @@ class DiffractionNumberControl extends NumberControl {
         maxWidth: 80
       }
     } );
-    super( title, property, property.range!, expandedOptions );
+    super( title, property, property.range, expandedOptions );
   }
 }
 
