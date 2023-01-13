@@ -22,9 +22,9 @@ class SceneRadioButtonGroup extends RectangularRadioButtonGroup<Scene> {
     const waveInterferenceSceneIcons = new WaveInterferenceSceneIcons();
 
     super( sceneProperty, [
-      { value: waterScene, createNode: tandem => waveInterferenceSceneIcons.waterIcon },
-      { value: soundScene, createNode: tandem => waveInterferenceSceneIcons.soundIcon },
-      { value: lightScene, createNode: tandem => waveInterferenceSceneIcons.lightIcon }
+      { value: waterScene, createNode: () => waveInterferenceSceneIcons.waterIcon },
+      { value: soundScene, createNode: () => waveInterferenceSceneIcons.soundIcon },
+      { value: lightScene, createNode: () => waveInterferenceSceneIcons.lightIcon }
     ], {
       orientation: 'horizontal',
       spacing: 15,

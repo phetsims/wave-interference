@@ -17,10 +17,10 @@ class DisturbanceTypeRadioButtonGroup extends RectangularRadioButtonGroup {
   public constructor( disturbanceTypeProperty, options ) {
     super( disturbanceTypeProperty, [ {
       value: Scene.DisturbanceType.CONTINUOUS,
-      createNode: tandem => new DisturbanceTypeIconNode( Scene.DisturbanceType.CONTINUOUS )
+      createNode: () => new DisturbanceTypeIconNode( Scene.DisturbanceType.CONTINUOUS )
     }, {
       value: Scene.DisturbanceType.PULSE,
-      createNode: tandem => new DisturbanceTypeIconNode( Scene.DisturbanceType.PULSE )
+      createNode: () => new DisturbanceTypeIconNode( Scene.DisturbanceType.PULSE )
     } ], merge( {
       orientation: 'vertical',
       radioButtonOptions: {

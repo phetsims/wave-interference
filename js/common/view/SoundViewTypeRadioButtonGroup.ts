@@ -22,13 +22,13 @@ class SoundViewTypeRadioButtonGroup extends VerticalAquaRadioButtonGroup {
 
   public constructor( model: WavesModel ) {
     super( model.soundScene.soundViewTypeProperty, [ {
-      createNode: tandem => new WaveInterferenceText( wavesString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
+      createNode: () => new WaveInterferenceText( wavesString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
       value: SoundScene.SoundViewType.WAVES
     }, {
-      createNode: tandem => new WaveInterferenceText( particlesString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
+      createNode: () => new WaveInterferenceText( particlesString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
       value: SoundScene.SoundViewType.PARTICLES
     }, {
-      createNode: tandem => new WaveInterferenceText( bothString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
+      createNode: () => new WaveInterferenceText( bothString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
       value: SoundScene.SoundViewType.BOTH
     } ], {
       spacing: 4,

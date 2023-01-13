@@ -45,7 +45,7 @@ class SeparationControl extends ToggleNode {
     // because the control constructor calls are substantially different.
     super( model.sceneProperty, [ {
       value: model.waterScene,
-      createNode: tandem => new NumberControl( separationString, waterSeparationProperty, waterSceneRange, merge( {
+      createNode: () => new NumberControl( separationString, waterSeparationProperty, waterSceneRange, merge( {
         delta: 0.1,
         numberDisplayOptions: {
           valuePattern: cmValueString,
@@ -58,7 +58,7 @@ class SeparationControl extends ToggleNode {
       }, createMuteOptions( model.waterScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
       value: model.soundScene,
-      createNode: tandem => new NumberControl( separationString, soundSeparationProperty, soundSceneRange, merge( {
+      createNode: () => new NumberControl( separationString, soundSeparationProperty, soundSceneRange, merge( {
         delta: 1,
         numberDisplayOptions: { valuePattern: cmValueString },
         sliderOptions: {
@@ -68,7 +68,7 @@ class SeparationControl extends ToggleNode {
       }, createMuteOptions( model.soundScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
       value: model.lightScene,
-      createNode: tandem => new NumberControl( separationString, lightSeparationProperty, lightSceneRange, merge( {
+      createNode: () => new NumberControl( separationString, lightSeparationProperty, lightSceneRange, merge( {
         delta: 10,
         numberDisplayOptions: { valuePattern: nmValueString },
         sliderOptions: {

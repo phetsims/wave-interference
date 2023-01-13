@@ -85,13 +85,13 @@ class DiffractionScreenView extends ScreenView {
     // Scene radio buttons
     const sceneRadioButtonContent = [ {
       value: model.ellipseScene,
-      createNode: tandem => new Circle( 10, { fill: 'black' } )
+      createNode: () => new Circle( 10, { fill: 'black' } )
     }, {
       value: model.rectangleScene,
-      createNode: tandem => new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
+      createNode: () => new Rectangle( 0, 0, 20, 20, { fill: 'black' } )
     }, {
       value: model.circleSquareScene,
-      createNode: tandem => new Node( {
+      createNode: () => new Node( {
         children: [
           new Circle( 5, { fill: 'black' } ),
           new Rectangle( 0, 0, 10, 10, { fill: 'black', x: 10, y: 8 } )
@@ -99,10 +99,10 @@ class DiffractionScreenView extends ScreenView {
       } )
     }, {
       value: model.disorderScene,
-      createNode: tandem => disorderSceneIcon
+      createNode: () => disorderSceneIcon
     }, {
       value: model.wavingGirlScene,
-      createNode: tandem => new Image( waving_girl_icon_png, { maxHeight: 25 } )
+      createNode: () => new Image( waving_girl_icon_png, { maxHeight: 25 } )
     } ];
 
     // @private - Main (large) aperture node
@@ -188,11 +188,11 @@ class DiffractionScreenView extends ScreenView {
     // Nickname so everything fits on one line.
     const OPTS = PANEL_OPTIONS;
     const controlPanelToggleNode = new ToggleNode( model.sceneProperty, [
-      { value: model.ellipseScene, createNode: tandem => new EllipseSceneControlPanel( model.ellipseScene, OPTS ) },
-      { value: model.rectangleScene, createNode: tandem => new RectangleSceneControlPanel( model.rectangleScene, OPTS ) },
-      { value: model.circleSquareScene, createNode: tandem => new CircleSquareSceneControlPanel( model.circleSquareScene, OPTS ) },
-      { value: model.disorderScene, createNode: tandem => new DisorderSceneControlPanel( model.disorderScene, OPTS ) },
-      { value: model.wavingGirlScene, createNode: tandem => new WavingGirlSceneControlPanel( model.wavingGirlScene, OPTS ) }
+      { value: model.ellipseScene, createNode: () => new EllipseSceneControlPanel( model.ellipseScene, OPTS ) },
+      { value: model.rectangleScene, createNode: () => new RectangleSceneControlPanel( model.rectangleScene, OPTS ) },
+      { value: model.circleSquareScene, createNode: () => new CircleSquareSceneControlPanel( model.circleSquareScene, OPTS ) },
+      { value: model.disorderScene, createNode: () => new DisorderSceneControlPanel( model.disorderScene, OPTS ) },
+      { value: model.wavingGirlScene, createNode: () => new WavingGirlSceneControlPanel( model.wavingGirlScene, OPTS ) }
     ], {
       alignChildren: ToggleNode.CENTER_BOTTOM,
       centerX: this.apertureNode.centerX,
