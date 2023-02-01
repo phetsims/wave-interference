@@ -1,5 +1,5 @@
 {
-  "comment": "# wave-interference 2.0.9 Wed Jan 18 2023 13:55:04 GMT-0700 (Mountain Standard Time)",
+  "comment": "# wave-interference 2.0.10-rc.1 Tue Jan 31 2023 18:41:53 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "201c50a840e082354b013f4ab9e9d45006f98cfe",
     "branch": "HEAD"
@@ -85,7 +85,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "c34da46acb37b4a32deed3120aae81f601d1844d",
+    "sha": "65d7b7b0178046bacf9a07d085d25faf2e02fbd8",
     "branch": "2.0"
   }
 }
