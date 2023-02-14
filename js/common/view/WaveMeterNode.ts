@@ -22,7 +22,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
-import { Color, HBox, InteractiveHighlightingNode, Node, NodeProperty, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Color, HBox, InteractiveHighlightingNode, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -99,7 +99,7 @@ class WaveMeterNode extends Node {
     this.resetEmitter = new Emitter();
 
     // These do not need to be disposed because there is no connection to the "outside world"
-    const leftBottomProperty = new NodeProperty( backgroundNode, backgroundNode.boundsProperty, 'leftBottom' );
+    const leftBottomProperty = new DerivedProperty( [ this.backgroundNode.boundsProperty ], bounds => bounds.leftBottom );
 
     // @public - emits when the WaveMeterNode has been dropped
     this.droppedEmitter = new Emitter();
@@ -164,7 +164,8 @@ class WaveMeterNode extends Node {
 
       // Add the wire behind the probe.
       this.addChild( new WireNode( connectionProperty, new Vector2Property( new Vector2( -NORMAL_DISTANCE, 0 ) ),
-        new NodeProperty( probeNode, probeNode.boundsProperty, 'centerBottom' ), new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
+        new DerivedProperty( [ probeNode.boundsProperty ], bounds => bounds.centerBottom ),
+        new Vector2Property( new Vector2( 0, NORMAL_DISTANCE ) ), {
           lineWidth: WIRE_LINE_WIDTH,
           stroke: wireColor
         }
