@@ -19,6 +19,7 @@ import DisorderScene from './DisorderScene.js';
 import EllipseScene from './EllipseScene.js';
 import RectangleScene from './RectangleScene.js';
 import WavingGirlScene from './WavingGirlScene.js';
+import TModel from '../../../../joist/js/TModel.js';
 
 // constants
 const CONTRAST = 0.01;
@@ -32,7 +33,7 @@ const REAL_PART = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
 // initialization for 3rd party library
 FFT.init( MATRIX_DIMENSION );
 
-class DiffractionModel {
+class DiffractionModel implements TModel {
   public constructor() {
 
     // @public - whether the laser is emitting light

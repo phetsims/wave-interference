@@ -17,7 +17,7 @@ import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 import SlitsModel from './model/SlitsModel.js';
 import SlitsScreenView from './view/SlitsScreenView.js';
 
-class SlitsScreen extends Screen {
+class SlitsScreen extends Screen<SlitsModel, SlitsScreenView> {
 
   /**
    * @param alignGroup - for aligning the control panels on the right side of the lattice

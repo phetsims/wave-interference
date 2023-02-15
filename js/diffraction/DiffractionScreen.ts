@@ -17,7 +17,7 @@ import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 import DiffractionModel from './model/DiffractionModel.js';
 import DiffractionScreenView from './view/DiffractionScreenView.js';
 
-class DiffractionScreen extends Screen {
+class DiffractionScreen extends Screen<DiffractionModel, DiffractionScreenView> {
 
   public constructor() {
     const options = {

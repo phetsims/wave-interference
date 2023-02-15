@@ -22,7 +22,7 @@ type SelfOptions = {
 };
 export type BaseScreenOptions = SelfOptions & ScreenOptions;
 
-class BaseScreen extends Screen {
+class BaseScreen extends Screen<WavesModel, WavesScreenView> {
 
   /**
    * @param alignGroup - for aligning the control panels on the right side of the lattice

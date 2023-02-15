@@ -17,7 +17,7 @@ import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 import InterferenceModel from './model/InterferenceModel.js';
 import InterferenceScreenView from './view/InterferenceScreenView.js';
 
-class InterferenceScreen extends Screen {
+class InterferenceScreen extends Screen<InterferenceModel, InterferenceScreenView> {
 
   /**
    * @param alignGroup - for aligning the control panels on the right side of the lattice
