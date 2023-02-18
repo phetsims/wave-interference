@@ -36,16 +36,9 @@
     "globals": {
       "FFT": "readonly"
     },
-    "overrides": [
-      {
-        "files": [
-          "**/*.ts"
-        ],
-        "rules": {
-          "@typescript-eslint/explicit-module-boundary-types": "off",
-          "bad-typescript-text": "off"
-        }
-      }
-    ]
+    "rules": {
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "bad-typescript-text": "off"
+    }
   }
 }
