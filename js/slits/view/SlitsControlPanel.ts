@@ -38,9 +38,9 @@ class SlitsControlPanel extends WaveInterferencePanel {
     } );
 
     const comboBox = new ComboBox( barrierTypeDynamicProperty, [
-      { value: Scene.BarrierType.ONE_SLIT, node: new WaveInterferenceText( oneSlitString ) },
-      { value: Scene.BarrierType.TWO_SLITS, node: new WaveInterferenceText( twoSlitsString ) },
-      { value: Scene.BarrierType.NO_BARRIER, node: new WaveInterferenceText( noBarrierString ) }
+      { value: Scene.BarrierType.ONE_SLIT, createNode: () => new WaveInterferenceText( oneSlitString ) },
+      { value: Scene.BarrierType.TWO_SLITS, createNode: () => new WaveInterferenceText( twoSlitsString ) },
+      { value: Scene.BarrierType.NO_BARRIER, createNode: () => new WaveInterferenceText( noBarrierString ) }
     ], comboBoxParent, {
       xMargin: 13,
       yMargin: 6,
