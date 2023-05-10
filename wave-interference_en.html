@@ -51,7 +51,13 @@
         },
         "simulation": true,
         "supportsOutputJS": true,
-        "published": true
+        "published": true,
+        "screenNameKeys": [
+          "WAVE_INTERFERENCE/screen.waves",
+          "WAVE_INTERFERENCE/screen.interference",
+          "WAVE_INTERFERENCE/screen.slits",
+          "WAVE_INTERFERENCE/screen.diffraction"
+        ]
       },
       "eslintConfig": {
         "extends": "../chipper/eslint/sim_eslintrc.js",
@@ -64,8 +70,8 @@
               "**/*.ts"
             ],
             "rules": {
-              "@typescript-eslint/explicit-module-boundary-types": "off",
-              "bad-typescript-text": "off"
+              "bad-typescript-text": "off",
+              "@typescript-eslint/explicit-module-boundary-types": "off"
             }
           }
         ]
