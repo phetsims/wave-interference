@@ -2,9 +2,9 @@
 
 This document contains notes related to the implementation of Wave Interference. The audience for this document is 
 software developers who are familiar with JavaScript and PhET simulation development, as described in
-[PhET Development Overview](https://github.com/phetsims/phet-info/blob/master/doc/phet-development-overview.md).
+[PhET Development Overview](https://github.com/phetsims/phet-info/blob/main/doc/phet-development-overview.md).
 
-Before reading this document, see [model.md](https://github.com/phetsims/wave-interference/blob/master/doc/model.md), 
+Before reading this document, see [model.md](https://github.com/phetsims/wave-interference/blob/main/doc/model.md), 
 which provides a high-level description of the simulation model.
 
 ## Overview
@@ -15,7 +15,7 @@ pattern from a slit with a given 2d shape, which is instantly updated.
 
 The query string `?log` can be used to output the selected frequency and wavelenth, for debugging.
 Other sim-specific query parameters are described in
-[WaveInterferenceQueryParameters](https://github.com/phetsims/wave-interference/blob/master/js/common/WaveInterferenceQueryParameters.js).
+[WaveInterferenceQueryParameters](https://github.com/phetsims/wave-interference/blob/main/js/common/WaveInterferenceQueryParameters.js).
 
 There are no dynamically created/destroyed user interface components or model elements in the simulation, so the
 simulation doesn't require dispose calls.
@@ -24,21 +24,21 @@ simulation doesn't require dispose calls.
 
 The first three screens are mainly implemented in js/common.  
 
-[WavesModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesModel.js) is the
+[WavesModel](https://github.com/phetsims/wave-interference/blob/main/js/waves/model/WavesModel.js) is the
 main model for these screens.  
-Each [WavesModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesModel.js)
-contains 3 [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js) instances, one for 
+Each [WavesModel](https://github.com/phetsims/wave-interference/blob/main/js/waves/model/WavesModel.js)
+contains 3 [Scene](https://github.com/phetsims/wave-interference/blob/main/js/common/model/Scene.js) instances, one for 
 each of water, sound and light.  Most settings (such as whether the waves are turned on or off) are independent for each
-[Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js), and each [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js) has its own physical model and [Lattice.ts](https://github.com/phetsims/scenery-phet/blob/master/js/Lattice.ts).
+[Scene](https://github.com/phetsims/wave-interference/blob/main/js/common/model/Scene.js), and each [Scene](https://github.com/phetsims/wave-interference/blob/main/js/common/model/Scene.js) has its own physical model and [Lattice.ts](https://github.com/phetsims/scenery-phet/blob/main/js/Lattice.ts).
 The tools which appear in the toolbox are shared
-across each [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js). 
+across each [Scene](https://github.com/phetsims/wave-interference/blob/main/js/common/model/Scene.js). 
 
 There are 3 coordinate frames:
 * lattice coordinates (integer)
 * Scene-specific physical coordinates (such as cm or nm)
 * view coordinates
 
-Coordinate transformations between these frames are defined in [Scene](https://github.com/phetsims/wave-interference/blob/master/js/common/model/Scene.js):
+Coordinate transformations between these frames are defined in [Scene](https://github.com/phetsims/wave-interference/blob/main/js/common/model/Scene.js):
 ```js
 // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice
 // coordinates, does not include damping regions
@@ -59,7 +59,7 @@ described in http://www.mtnmath.com/whatth/node47.html and known as a finite dif
 ```
 f(x,y,t+1) = c*c(f(x+1,y,t) + f(x-1,y,t) + f(x,y-1,t) + f(x,y+1,t) - 4*f(x,y,t)) - f(x,y,t-1) + 2*f(x,y,t)
 ```
-The description for the wave speed `c` is given in [Lattice.ts](https://github.com/phetsims/scenery-phet/blob/master/js/Lattice.ts)
+The description for the wave speed `c` is given in [Lattice.ts](https://github.com/phetsims/scenery-phet/blob/main/js/Lattice.ts)
 
 The lattice extends beyond the visible region, and damping is applied near the boundaries to minimize the effects of
 reflection and artifacts around the edges.
@@ -69,7 +69,7 @@ wave speed) for each scene.  Run the simulation with `?dev` to get corresponding
 and sim play/pause feature to record one cycle.  To measure the wave speed, let the light propagate to the edge of the 
 boundary, then use the measuring tape to measure distance and divide by the elapsed time on the stopwatch.
 
-The time constants have been tuned in [WavesModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesModel.js) so that the observed wavelength and oscillation time are 
+The time constants have been tuned in [WavesModel](https://github.com/phetsims/wave-interference/blob/main/js/waves/model/WavesModel.js) so that the observed wavelength and oscillation time are 
 correct.
 
 The following values can also be reported by running with`?log`.
@@ -96,13 +96,13 @@ is a reasonable wave speed for a wave pool, even though it doesn't match wave sp
 | Violet (VisibleColor max) | 788.93 | 380.00 | 
 
 For green light, measuring the distance traveled by a wavefront and dividing by time gives 2807.3E-9/9.75E-15 = 287928205 m/s, which is about 4% off of the true speed of light.  Measuring the colored wavefront for green, I see a deviation of < 1%. Since the distance and wave propagation speeds are independent of frequency, measurements for different colors will
-give the same speed of light.  See also [WavesModel](https://github.com/phetsims/wave-interference/blob/master/js/waves/model/WavesModel.js) usage of `timeScaleFactor` for how the model is calibrated.
+give the same speed of light.  See also [WavesModel](https://github.com/phetsims/wave-interference/blob/main/js/waves/model/WavesModel.js) usage of `timeScaleFactor` for how the model is calibrated.
 
 ### Slits Screen
 Here is a schematic for the two-slit dimensions:
 ![schematic for the two-slit dimensions](images/slitDimensions.jpg?raw=true "Two-Slit Dimensions")
 
-By using `?dev`, you can show the [TheoryInterferenceOverlay](https://github.com/phetsims/wave-interference/blob/master/js/slits/view/TheoryInterferenceOverlay.js), which depicts `d sin(θ) = mλ` (theoretical maxima) and `d sin(θ) = (m+1/2)λ` (theoretical minima). See https://github.com/phetsims/wave-interference/issues/74
+By using `?dev`, you can show the [TheoryInterferenceOverlay](https://github.com/phetsims/wave-interference/blob/main/js/slits/view/TheoryInterferenceOverlay.js), which depicts `d sin(θ) = mλ` (theoretical maxima) and `d sin(θ) = (m+1/2)λ` (theoretical minima). See https://github.com/phetsims/wave-interference/issues/74
 
 ## The Final Screen: Diffraction
 In the fourth screen, we use a Fast Fourier Transform (FFT) in order to compute the diffraction pattern, see
