@@ -13,8 +13,8 @@ The Wave Interference simulation depicts waves on a 2 dimensional surface and th
 The first 3 screens show a 2D lattice and time-based wave propagation, while the fourth screen shows the interference
 pattern from a slit with a given 2d shape, which is instantly updated.
 
-The query string `?log` can be used to output the selected frequency and wavelenth, for debugging.
-Other sim-specific query parameters are described in
+The query string `?log` can be used to output the selected frequency and wavelenth, for debugging. Other sim-specific
+query parameters are described in
 [WaveInterferenceQueryParameters](https://github.com/phetsims/wave-interference/blob/main/js/common/WaveInterferenceQueryParameters.js).
 
 There are no dynamically created/destroyed user interface components or model elements in the simulation, so the
@@ -24,16 +24,16 @@ simulation doesn't require dispose calls.
 
 The first three screens are mainly implemented in js/common.
 
-[WavesModel](https://github.com/phetsims/wave-interference/blob/main/js/waves/model/WavesModel.js) is the
-main model for these screens.  
+[WavesModel](https://github.com/phetsims/wave-interference/blob/main/js/waves/model/WavesModel.js) is the main model for
+these screens.  
 Each [WavesModel](https://github.com/phetsims/wave-interference/blob/main/js/waves/model/WavesModel.js)
 contains 3 [Scene](https://github.com/phetsims/wave-interference/blob/main/js/common/model/Scene.js) instances, one for
 each of water, sound and light. Most settings (such as whether the waves are turned on or off) are independent for each
 [Scene](https://github.com/phetsims/wave-interference/blob/main/js/common/model/Scene.js), and
 each [Scene](https://github.com/phetsims/wave-interference/blob/main/js/common/model/Scene.js) has its own physical
-model and [Lattice.ts](https://github.com/phetsims/scenery-phet/blob/main/js/Lattice.ts).
-The tools which appear in the toolbox are shared
-across each [Scene](https://github.com/phetsims/wave-interference/blob/main/js/common/model/Scene.js).
+model and [Lattice.ts](https://github.com/phetsims/scenery-phet/blob/main/js/Lattice.ts). The tools which appear in the
+toolbox are shared across
+each [Scene](https://github.com/phetsims/wave-interference/blob/main/js/common/model/Scene.js).
 
 There are 3 coordinate frames:
 
@@ -78,8 +78,7 @@ boundary, then use the measuring tape to measure distance and divide by the elap
 
 The time constants have been tuned
 in [WavesModel](https://github.com/phetsims/wave-interference/blob/main/js/waves/model/WavesModel.js) so that the
-observed wavelength and oscillation time are
-correct.
+observed wavelength and oscillation time are correct.
 
 The following values can also be reported by running with`?log`.
 
@@ -110,8 +109,7 @@ is a reasonable wave speed for a wave pool, even though it doesn't match wave sp
 For green light, measuring the distance traveled by a wavefront and dividing by time gives 2807.3E-9/9.75E-15 =
 287928205 m/s, which is about 4% off of the true speed of light. Measuring the colored wavefront for green, I see a
 deviation of < 1%. Since the distance and wave propagation speeds are independent of frequency, measurements for
-different colors will
-give the same speed of light. See
+different colors will give the same speed of light. See
 also [WavesModel](https://github.com/phetsims/wave-interference/blob/main/js/waves/model/WavesModel.js) usage
 of `timeScaleFactor` for how the model is calibrated.
 
