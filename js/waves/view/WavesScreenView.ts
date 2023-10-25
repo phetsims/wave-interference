@@ -314,7 +314,8 @@ class WavesScreenView extends ScreenView {
           model.isMeasuringTapeInPlayAreaProperty.value = false;
 
           // Reset the rotation and length of the Measuring Tape when it is returned to the toolbox.
-          measuringTapeNode.reset();
+          model.measuringTapeBasePositionProperty.reset();
+          model.measuringTapeTipPositionProperty.reset();
         }
       }
     } );
