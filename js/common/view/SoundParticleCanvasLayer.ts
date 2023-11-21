@@ -8,7 +8,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import { CanvasNode, CanvasNodeOptions } from '../../../../scenery/js/imports.js';
-import { Bounds2 } from '../../../../dot/js/imports.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import SoundParticleNode from './SoundParticleNode.js';
