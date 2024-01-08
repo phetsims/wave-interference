@@ -23,21 +23,20 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
 
   public constructor( model: WavesModel, providedOptions?: WaveInterferenceStopwatchNodeOtions ) {
 
-    // Construct the StopwatchNode with the unitsNode reserving the max amount of space it will need
+    // Construct the StopwatchNode with the max width for units.
     const widestScene = _.maxBy( model.scenes, scene => new WaveInterferenceText( scene.timeUnits ).width )!;
     const unitsProperty = new StringProperty( widestScene.timeUnits );
-
-    const createNumberFormatter = ( units: string ) => StopwatchNode.createRichTextNumberFormatter( {
-      showAsMinutesAndSeconds: false,
-      units: units
-    } );
 
     const options = optionize<WaveInterferenceStopwatchNodeOtions, SelfOptions, StopwatchNodeOptions>()( {
 
       // StopwatchNodeOptions
       numberDisplayRange: new Range( 0, 999.99 ),
       numberDisplayOptions: {
-        numberFormatter: createNumberFormatter( unitsProperty.value ),
+        numberFormatter: StopwatchNode.createRichTextNumberFormatter( {
+          showAsMinutesAndSeconds: false,
+          units: unitsProperty
+        } ),
+        numberFormatterDependencies: [ unitsProperty ],
         maxWidth: WaveInterferenceConstants.MAX_WIDTH
       }
     }, providedOptions );
@@ -47,13 +46,9 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
 
     super( model.stopwatch, options );
 
-    unitsProperty.link( units => this.setNumberFormatter( createNumberFormatter( units ) ) );
-
-    // After the StopwatchNode is initialized with the maximal layout, use the correct initial value for the current
-    // timeUnits
+    // After the StopwatchNode is initialized with the max width, use the correct units for the current scene.
     model.sceneProperty.link( scene => {
       unitsProperty.value = scene.timeUnits;
-      this.redrawNumberDisplay();
     } );
   }
 }
