@@ -14,6 +14,7 @@ import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import SceneryPhetStrings from '../../../../scenery-phet/js/SceneryPhetStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -36,7 +37,10 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
           showAsMinutesAndSeconds: false,
           units: unitsProperty
         } ),
-        numberFormatterDependencies: [ unitsProperty ],
+        numberFormatterDependencies: [
+          SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty, // used by StopwatchNode.createRichTextNumberFormatter
+          unitsProperty
+        ],
         maxWidth: WaveInterferenceConstants.MAX_WIDTH
       }
     }, providedOptions );
