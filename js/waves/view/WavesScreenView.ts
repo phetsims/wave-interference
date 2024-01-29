@@ -287,15 +287,15 @@ class WavesScreenView extends ScreenView {
       };
     };
 
-    const measuringTapeProperty = new Property( getMeasuringTapeValue( model.sceneProperty.value ) );
-    model.sceneProperty.link( scene => measuringTapeProperty.set( getMeasuringTapeValue( scene ) ) );
+    const measuringTapeUnitsProperty = new Property( getMeasuringTapeValue( model.sceneProperty.value ) );
+    model.sceneProperty.link( scene => measuringTapeUnitsProperty.set( getMeasuringTapeValue( scene ) ) );
 
     /**
      * Checks if the toolbox intersects the given bounds, to see if a tool can be dropped back into the toolbox.
      */
     const toolboxIntersects = b => toolboxPanel.parentToGlobalBounds( toolboxPanel.bounds ).intersectsBounds( b );
 
-    const measuringTapeNode = new MeasuringTapeNode( measuringTapeProperty, {
+    const measuringTapeNode = new MeasuringTapeNode( measuringTapeUnitsProperty, {
 
       // translucent white background, same value as in Projectile Motion, see https://github.com/phetsims/projectile-motion/issues/156
       textBackgroundColor: 'rgba( 255, 255, 255, 0.6 )',
