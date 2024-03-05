@@ -10,11 +10,11 @@ import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js'
 import StopwatchNode from '../../../../scenery-phet/js/StopwatchNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { AlignGroup, DragListener, HBox, InteractiveHighlightingNode } from '../../../../scenery/js/imports.js';
-import { Vector2 } from '../../../../dot/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
 import WaveMeterNode from './WaveMeterNode.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 class ToolboxPanel extends WaveInterferencePanel {
 
