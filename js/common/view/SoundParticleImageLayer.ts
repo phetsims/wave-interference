@@ -1,4 +1,4 @@
-// Copyright 2018-2022, University of Colorado Boulder
+// Copyright 2018-2024, University of Colorado Boulder
 // @ts-nocheck
 /**
  * When selected, shows discrete and moving particles for the sound view.
