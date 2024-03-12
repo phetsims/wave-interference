@@ -15,6 +15,7 @@ import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
 import WaveMeterNode from './WaveMeterNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import InstanceRegistry from '../../../../phet-core/js/documentation/InstanceRegistry.js';
 
 class ToolboxPanel extends WaveInterferencePanel {
 
@@ -91,6 +92,9 @@ class ToolboxPanel extends WaveInterferencePanel {
         maxWidth: WaveInterferenceConstants.PANEL_MAX_WIDTH
       }
     );
+
+    // support for binder documentation, stripped out in builds and only runs when ?binder is specified
+    assert && phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerToolbox( this );
   }
 }
 
