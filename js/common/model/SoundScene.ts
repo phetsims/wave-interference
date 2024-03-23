@@ -1,4 +1,4 @@
-// Copyright 2018-2022, University of Colorado Boulder
+// Copyright 2018-2024, University of Colorado Boulder
 // @ts-nocheck
 /**
  * The model for the Sound scene, which adds SoundParticle instances.  See the following pages for visualizations

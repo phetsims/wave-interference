@@ -1,4 +1,4 @@
-// Copyright 2018-2022, University of Colorado Boulder
+// Copyright 2018-2024, University of Colorado Boulder
 
 /**
  * For the water scene, shows one hose for each wave generator, each with its own on/off button. This implementation is
