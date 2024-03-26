@@ -20,12 +20,8 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
-import { Color, DragListener, Node, Rectangle, RichText, Text, Utils } from '../../../../scenery/js/imports.js';
+import { Color, Node, Rectangle, RichText, Text, Utils } from '../../../../scenery/js/imports.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
-import grab_mp3 from '../../../../tambo/sounds/grab_mp3.js';
-import release_mp3 from '../../../../tambo/sounds/release_mp3.js';
 import PhetioAction from '../../../../tandem/js/PhetioAction.js';
 import SoundScene from '../../common/model/SoundScene.js';
 import DashedLineNode from '../../common/view/DashedLineNode.js';
@@ -55,6 +51,7 @@ import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
 import waveInterference from '../../waveInterference.js';
 import WavesModel from '../model/WavesModel.js';
 import WavesScreenSoundView from './WavesScreenSoundView.js';
+import RichDragListener from '../../../../scenery-phet/js/RichDragListener.js';
 
 // constants
 const MARGIN = WaveInterferenceConstants.MARGIN;
@@ -99,14 +96,6 @@ class WavesScreenView extends ScreenView {
       audioEnabled: false
     }, options );
     super();
-
-    // Sounds for grab and release
-    const soundClipOptions = { initialOutputLevel: 0.4 };
-    const grabSound = new SoundClip( grab_mp3, soundClipOptions );
-    soundManager.addSoundGenerator( grabSound, { categoryName: 'user-interface' } );
-
-    const releaseSound = new SoundClip( release_mp3, soundClipOptions );
-    soundManager.addSoundGenerator( releaseSound, { categoryName: 'user-interface' } );
 
     // @private
     this.model = model;
@@ -303,13 +292,8 @@ class WavesScreenView extends ScreenView {
       basePositionProperty: model.measuringTapeBasePositionProperty,
       tipPositionProperty: model.measuringTapeTipPositionProperty,
 
-      baseDragStarted: () => {
-        grabSound.play();
-      },
-
       // Drop in toolbox
       baseDragEnded: () => {
-        releaseSound.play();
         if ( toolboxIntersects( measuringTapeNode.localToGlobalBounds( measuringTapeNode.getLocalBaseBounds() ) ) ) {
           model.isMeasuringTapeInPlayAreaProperty.value = false;
 
@@ -326,11 +310,7 @@ class WavesScreenView extends ScreenView {
       dragBoundsProperty: this.visibleBoundsProperty,
 
       dragListenerOptions: {
-        start: () => {
-          grabSound.play();
-        },
         end: () => {
-          releaseSound.play();
           if ( toolboxIntersects( stopwatchNode.parentToGlobalBounds( stopwatchNode.bounds ) ) ) {
             model.stopwatch.reset();
           }
@@ -361,11 +341,10 @@ class WavesScreenView extends ScreenView {
       return waveMeterNode.backgroundNode.setTranslation( closestPointInBounds );
     } );
     this.waveMeterNode = waveMeterNode;
-    waveMeterNode.setDragListener( new DragListener( {
+    waveMeterNode.setDragListener( new RichDragListener( {
       dragBoundsProperty: waveMeterBoundsProperty,
       translateNode: true,
       start: () => {
-        grabSound.play();
         waveMeterNode.moveToFront();
         if ( waveMeterNode.synchronizeProbePositions ) {
 
@@ -381,7 +360,7 @@ class WavesScreenView extends ScreenView {
         }
       },
       end: () => {
-        releaseSound.play();
+
         // Drop in toolbox, using the bounds of the entire waveMeterNode since it cannot be centered over the toolbox
         // (too close to the edge of the screen)
         if ( toolboxIntersects( waveMeterNode.getBackgroundNodeGlobalBounds() ) ) {
