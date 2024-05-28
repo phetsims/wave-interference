@@ -51,7 +51,7 @@ import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
 import waveInterference from '../../waveInterference.js';
 import WavesModel from '../model/WavesModel.js';
 import WavesScreenSoundView from './WavesScreenSoundView.js';
-import RichDragListener from '../../../../scenery-phet/js/RichDragListener.js';
+import RichPointerDragListener from '../../../../scenery-phet/js/RichPointerDragListener.js';
 
 // constants
 const MARGIN = WaveInterferenceConstants.MARGIN;
@@ -341,7 +341,7 @@ class WavesScreenView extends ScreenView {
       return waveMeterNode.backgroundNode.setTranslation( closestPointInBounds );
     } );
     this.waveMeterNode = waveMeterNode;
-    waveMeterNode.setDragListener( new RichDragListener( {
+    waveMeterNode.setDragListener( new RichPointerDragListener( {
       dragBoundsProperty: waveMeterBoundsProperty,
       translateNode: true,
       start: () => {
