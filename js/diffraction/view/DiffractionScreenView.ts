@@ -79,6 +79,7 @@ class DiffractionScreenView extends ScreenView {
     } );
     const disorderSceneIcon = new VBox( {
       spacing: DISORDER_SCENE_ICON_DOTS_SPACING,
+      sizable: false,
       children: _.times( 4, createRow )
     } );
 
