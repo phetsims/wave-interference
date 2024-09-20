@@ -53,7 +53,7 @@
         },
         "parserOptions": {
           "project": [
-            "../wave-interference/tsconfig.json"
+            "../chipper/tsconfig/eslint-all/tsconfig.json"
           ]
         }
       }
