@@ -5,5 +5,19 @@
     "images/**/*",
     "mipmaps/**/*",
     "sounds/**/*"
+  ],
+  "references": [
+    {
+      "path": "../twixt/tsconfig.json"
+    },
+    {
+      "path": "../griddle/tsconfig.json"
+    },
+    {
+      "path": "../bamboo/tsconfig.json"
+    },
+    {
+      "path": "../chipper/tsconfig/buildjson"
+    }
   ]
 }
