@@ -50,11 +50,6 @@
         "rules": {
           "bad-typescript-text": "off",
           "@typescript-eslint/explicit-module-boundary-types": "off"
-        },
-        "parserOptions": {
-          "project": [
-            "../chipper/tsconfig/eslint-all/tsconfig.json"
-          ]
         }
       }
     ]
