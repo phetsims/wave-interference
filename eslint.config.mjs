@@ -1,0 +1,30 @@
+// Copyright 2024, University of Colorado Boulder
+
+/**
+ * ESlint configuration for wave-interference.
+ *
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author Michael Kauzmann (PhET Interactive Simulations)
+ */
+
+import parent from '../chipper/eslint/sim.eslint.config.mjs';
+
+export default [
+  ...parent,
+  {
+    languageOptions: {
+      globals: {
+        FFT: 'readonly'
+      }
+    }
+  },
+  {
+    files: [
+      '**/*.ts'
+    ],
+    rules: {
+      'phet/bad-typescript-text': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off'
+    }
+  }
+];
