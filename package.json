@@ -36,22 +36,5 @@
       "WAVE_INTERFERENCE/screen.slits",
       "WAVE_INTERFERENCE/screen.diffraction"
     ]
-  },
-  "eslintConfig": {
-    "extends": "../chipper/eslint/sim_eslintrc.js",
-    "globals": {
-      "FFT": "readonly"
-    },
-    "overrides": [
-      {
-        "files": [
-          "**/*.ts"
-        ],
-        "rules": {
-          "bad-typescript-text": "off",
-          "@typescript-eslint/explicit-module-boundary-types": "off"
-        }
-      }
-    ]
   }
 }
