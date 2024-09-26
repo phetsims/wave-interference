@@ -79,9 +79,9 @@ class MatrixCanvasNode extends CanvasNode {
 
         // ImageData.data is Uint8ClampedArray.  Performance is critical and all numbers are non-negative.
         const offset = 4 * x;
-        this.imageDataRenderer.data[ offset ] = Math.round( r ); // eslint-disable-line bad-sim-text
-        this.imageDataRenderer.data[ offset + 1 ] = Math.round( g ); // eslint-disable-line bad-sim-text
-        this.imageDataRenderer.data[ offset + 2 ] = Math.round( b ); // eslint-disable-line bad-sim-text
+        this.imageDataRenderer.data[ offset ] = Math.round( r ); // eslint-disable-line phet/bad-sim-text
+        this.imageDataRenderer.data[ offset + 1 ] = Math.round( g ); // eslint-disable-line phet/bad-sim-text
+        this.imageDataRenderer.data[ offset + 2 ] = Math.round( b ); // eslint-disable-line phet/bad-sim-text
         this.imageDataRenderer.data[ offset + 3 ] = 255; // Fully opaque
         x++;
       }
