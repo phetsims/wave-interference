@@ -19,9 +19,7 @@ export default [
     }
   },
   {
-    files: [
-      '**/*.ts'
-    ],
+    files: [ '**/*.ts' ],
     rules: {
       'phet/bad-typescript-text': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off'
