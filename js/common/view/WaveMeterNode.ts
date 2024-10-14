@@ -17,7 +17,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import DynamicSeries from '../../../../griddle/js/DynamicSeries.js';
 import SeismographNode from '../../../../griddle/js/SeismographNode.js';
-import isHMR from '../../../../phet-core/js/isHMR.js';
 import merge from '../../../../phet-core/js/merge.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
@@ -34,8 +33,6 @@ import getWaveMeterNodeOutputLevel from './getWaveMeterNodeOutputLevel.js';
 import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 import WaveMeterProbeNode from './WaveMeterProbeNode.js';
-
-isHMR && module.hot.accept( './getWaveMeterNodeOutputLevel.js', _.noop );
 
 const timeString = WaveInterferenceStrings.time;
 
