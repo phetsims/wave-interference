@@ -60,7 +60,9 @@ class DiffractionScreenView extends ScreenView {
       centerY: 50,
       bodySize: new Dimension2( 88, 50 ),
       nozzleSize: new Dimension2( 16, 38 ),
-      buttonRadius: 17.6
+      buttonOptions: {
+        radius: 17.6
+      }
     } );
 
     // Reset All button
