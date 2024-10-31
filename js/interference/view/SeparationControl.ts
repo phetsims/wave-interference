@@ -1,5 +1,4 @@
 // Copyright 2018-2023, University of Colorado Boulder
-// @ts-nocheck
 /**
  * Controls the separation of the sources for each Scene.
  *
@@ -7,26 +6,32 @@
  */
 
 import Utils from '../../../../dot/js/Utils.js';
-import merge from '../../../../phet-core/js/merge.js';
-import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
+import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
+import Scene from '../../common/model/Scene.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
+import InterferenceModel from '../model/InterferenceModel.js';
+import Range from '../../../../dot/js/Range.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 const cmValueString = WaveInterferenceStrings.cmValue;
 const nmValueString = WaveInterferenceStrings.nmValue;
 const separationString = WaveInterferenceStrings.separation;
 
-class SeparationControl extends ToggleNode {
+class SeparationControl extends ToggleNode<Scene> {
 
-  public constructor( model ) {
+  public constructor( model: InterferenceModel ) {
 
     // Ranges, deltas, etc specified in https://github.com/phetsims/wave-interference/issues/177
+    // @ts-expect-error
     const waterSeparationProperty = model.waterScene.desiredSourceSeparationProperty;
+    // @ts-expect-error
     const soundSeparationProperty = model.soundScene.sourceSeparationProperty;
+    // @ts-expect-error
     const lightSeparationProperty = model.lightScene.sourceSeparationProperty;
 
     const waterSceneRange = waterSeparationProperty.range;
@@ -34,7 +39,7 @@ class SeparationControl extends ToggleNode {
     const lightSceneRange = lightSeparationProperty.range;
     const allRanges = [ waterSceneRange, soundSceneRange, lightSceneRange ];
 
-    const createMuteOptions = scene => {
+    const createMuteOptions = ( scene: Scene ) => {
       return {
         startCallback: () => scene.setMuted( true ),
         endCallback: () => scene.setMuted( false )
@@ -44,8 +49,9 @@ class SeparationControl extends ToggleNode {
     // Switch between controls for each scene.  No advantage in using SceneToggleNode in this case
     // because the control constructor calls are substantially different.
     super( model.sceneProperty, [ {
+      // @ts-expect-error
       value: model.waterScene,
-      createNode: () => new NumberControl( separationString, waterSeparationProperty, waterSceneRange, merge( {
+      createNode: () => new NumberControl( separationString, waterSeparationProperty, waterSceneRange, combineOptions<NumberControlOptions>( {
         delta: 0.1,
         numberDisplayOptions: {
           valuePattern: cmValueString,
@@ -53,28 +59,42 @@ class SeparationControl extends ToggleNode {
         },
         sliderOptions: {
           constrainValue: value => Utils.roundToInterval( value, 0.5 ),
+          // @ts-expect-error
           majorTicks: createTicks( waterSceneRange, allRanges )
         }
+        // @ts-expect-error
       }, createMuteOptions( model.waterScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
+
+      // @ts-expect-error
       value: model.soundScene,
-      createNode: () => new NumberControl( separationString, soundSeparationProperty, soundSceneRange, merge( {
+      createNode: () => new NumberControl( separationString, soundSeparationProperty, soundSceneRange, combineOptions<NumberControlOptions>( {
         delta: 1,
         numberDisplayOptions: { valuePattern: cmValueString },
         sliderOptions: {
           constrainValue: value => Utils.roundToInterval( value, 10 ),
+
+          // @ts-expect-error
           majorTicks: createTicks( soundSceneRange, allRanges )
         }
+
+        // @ts-expect-error
       }, createMuteOptions( model.soundScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     }, {
+
+      // @ts-expect-error
       value: model.lightScene,
-      createNode: () => new NumberControl( separationString, lightSeparationProperty, lightSceneRange, merge( {
+      createNode: () => new NumberControl( separationString, lightSeparationProperty, lightSceneRange, combineOptions<NumberControlOptions>( {
         delta: 10,
         numberDisplayOptions: { valuePattern: nmValueString },
         sliderOptions: {
           constrainValue: value => Utils.roundToInterval( value, 100 ),
+
+          // @ts-expect-error
           majorTicks: createTicks( lightSceneRange, allRanges )
         }
+
+        // @ts-expect-error
       }, createMuteOptions( model.lightScene ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
     } ] );
   }
@@ -104,9 +124,9 @@ const createTickMarkLabel = ( string: string, allStrings: string[] ): Node => {
  * @param allRanges - to ensure consistent layout across scenes
  * @returns to be used with numberTicks option of NumberControl
  */
-const createTicks = ( range, allRanges ): object => [
-  { value: range.min, label: createTickMarkLabel( range.min, allRanges.map( r => r.min ) ) },
-  { value: range.max, label: createTickMarkLabel( range.max, allRanges.map( r => r.max ) ) }
+const createTicks = ( range: Range, allRanges: Range[] ): object => [
+  { value: range.min, label: createTickMarkLabel( range.min + '', allRanges.map( r => r.min + '' ) ) },
+  { value: range.max, label: createTickMarkLabel( range.max + '', allRanges.map( r => r.max + '' ) ) }
 ];
 
 waveInterference.register( 'SeparationControl', SeparationControl );
