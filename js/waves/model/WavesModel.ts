@@ -34,6 +34,7 @@ import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js
 import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const centimetersUnitsString = WaveInterferenceStrings.centimetersUnits;
 const electricFieldAtCenterString = WaveInterferenceStrings.electricFieldAtCenter;
@@ -417,7 +418,7 @@ class WavesModel implements TModel {
    * When using water drops, the slider controls the desired frequency.  The actual frequency on the lattice is not
    * set until the water drop hits.
    */
-  public getWaterFrequencySliderProperty(): number {
+  public getWaterFrequencySliderProperty(): TReadOnlyProperty<number> {
     return this.waterScene.desiredFrequencyProperty;
   }
 }

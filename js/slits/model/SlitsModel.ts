@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Model for the Slits screen.
  *
@@ -15,9 +15,13 @@ import WavesModel from '../../waves/model/WavesModel.js';
 class SlitsModel extends WavesModel {
 
   public constructor() {
+
     super( {
 
+      // @ts-expect-error
       initialAmplitude: WaveInterferenceConstants.AMPLITUDE_RANGE.max,
+
+      // @ts-expect-error
       waveSpatialType: Scene.WaveSpatialType.PLANE,
 
       // SoundParticles are not displayed on the Slits screen,
@@ -30,6 +34,7 @@ class SlitsModel extends WavesModel {
    * There are no water drops in this scene, and hence the slider controls the frequency directly.
    */
   public override getWaterFrequencySliderProperty(): TReadOnlyProperty<number> {
+    // @ts-expect-error
     return this.waterScene.frequencyProperty;
   }
 }
