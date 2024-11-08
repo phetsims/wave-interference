@@ -1,5 +1,4 @@
 // Copyright 2018-2024, University of Colorado Boulder
-// @ts-nocheck
 /**
  * The model for the Sound scene, which adds SoundParticle instances.  See the following pages for visualizations
  * and physics of wave transmission
@@ -14,6 +13,7 @@ import Property from '../../../../axon/js/Property.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
 import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Scene, { SceneOptions } from './Scene.js';
@@ -22,7 +22,20 @@ import SoundParticle from './SoundParticle.js';
 // constants
 const SOUND_PARTICLE_GRADIENT_FORCE_SCALE = 0.67; // Additional scaling for the gradient force
 
-class SoundScene extends Scene {
+export default class SoundScene extends Scene {
+
+  // @public (read-only) {boolean} - true if SoundParticles should be created and displayed.  They are not displayed
+  // on the Slits screen, see https://github.com/phetsims/wave-interference/issues/109
+  public readonly showSoundParticles: boolean;
+
+  // @public - indicates the selected view for sound
+  public readonly soundViewTypeProperty: Property<IntentionalAny>;
+
+  // @public (read-only) {SoundParticle[]} particles for the sound scene.
+  public readonly soundParticles: SoundParticle[];
+
+  // @public - indicates whether the user has selected to hear the sine wave
+  public readonly isTonePlayingProperty: BooleanProperty;
 
   /**
    * @param showSoundParticles - true if SoundParticles should be created and displayed
@@ -31,19 +44,17 @@ class SoundScene extends Scene {
   public constructor( showSoundParticles: boolean, config: SceneOptions ) {
     super( config );
 
-    // @public (read-only) {boolean} - true if SoundParticles should be created and displayed.  They are not displayed
-    // on the Slits screen, see https://github.com/phetsims/wave-interference/issues/109
     this.showSoundParticles = showSoundParticles;
 
-    // @public - indicates the selected view for sound
+    // @ts-expect-error
     this.soundViewTypeProperty = new Property( SoundScene.SoundViewType.WAVES, {
+
+      // @ts-expect-error
       validValues: SoundScene.SoundViewType.VALUES
     } );
 
-    // @public (read-only) {SoundParticle[]} particles for the sound scene.
     this.soundParticles = [];
 
-    // @public - indicates whether the user has selected to hear the sine wave
     this.isTonePlayingProperty = new BooleanProperty( false );
 
     if ( this.showSoundParticles ) {
@@ -132,7 +143,7 @@ class SoundScene extends Scene {
   /**
    * Restores the initial conditions of this scene.
    */
-  public reset(): void {
+  public override reset(): void {
     super.reset();
     this.soundViewTypeProperty.reset();
     this.isTonePlayingProperty.reset();
@@ -142,7 +153,7 @@ class SoundScene extends Scene {
 /**
  * @public
  */
+// @ts-expect-error
 SoundScene.SoundViewType = EnumerationDeprecated.byKeys( [ 'WAVES', 'PARTICLES', 'BOTH' ] );
 
 waveInterference.register( 'SoundScene', SoundScene );
-export default SoundScene;
