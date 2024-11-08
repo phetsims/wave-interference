@@ -1,5 +1,5 @@
 // Copyright 2018-2023, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Shows the "pulse" vs "continuous" radio buttons.
  *
@@ -12,14 +12,24 @@ import waveInterference from '../../waveInterference.js';
 import Scene from '../model/Scene.js';
 import DisturbanceTypeIconNode from './DisturbanceTypeIconNode.js';
 
+// @ts-expect-error
 class DisturbanceTypeRadioButtonGroup extends RectangularRadioButtonGroup {
 
+  // @ts-expect-error
   public constructor( disturbanceTypeProperty, options ) {
+
     super( disturbanceTypeProperty, [ {
+      // @ts-expect-error
       value: Scene.DisturbanceType.CONTINUOUS,
+
+      // @ts-expect-error
       createNode: () => new DisturbanceTypeIconNode( Scene.DisturbanceType.CONTINUOUS )
     }, {
+
+      // @ts-expect-error
       value: Scene.DisturbanceType.PULSE,
+
+      // @ts-expect-error
       createNode: () => new DisturbanceTypeIconNode( Scene.DisturbanceType.PULSE )
     } ], merge( {
       orientation: 'vertical',

@@ -1,5 +1,4 @@
 // Copyright 2018-2024, University of Colorado Boulder
-// @ts-nocheck
 /**
  * The scene determines the medium and wave generator types, coordinate frames, relative scale, etc.  For a description
  * of which features are independent or shared across scenes, please see
@@ -32,6 +31,8 @@ import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import TemporalMask from './TemporalMask.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // sound clip to use for the wave generator button
 const WAVE_GENERATOR_BUTTON_SOUND_CLIP = new SoundClip( squishierButtonV3_007_mp3, {
@@ -47,11 +48,11 @@ const timeUnitsString = WaveInterferenceStrings.timeUnits;
 const PLANE_WAVE_MAGNITUDE = 0.21;
 const POSITIVE_NUMBER = {
   valueType: 'number',
-  isValidValue: v => v > 0
+  isValidValue: ( v: number ) => v > 0
 };
 const VALID_STRING = {
   valueType: 'string',
-  isValidValue: s => s.length > 0
+  isValidValue: ( s: string ) => s.length > 0
 };
 const VALID_RANGE = {
   valueType: Range,
@@ -64,7 +65,7 @@ export type SceneOptions = SelfOptions;
 class Scene {
 
   // transforms from lattice coordinates to view coordinates, filled in after the view area is initialized, see setViewBounds
-  public readonly latticeToViewTransform: ModelViewTransform2 | null = null;
+  public latticeToViewTransform: ModelViewTransform2 | null = null;
 
   // the grid that contains the wave values
   public readonly lattice = new Lattice(
@@ -84,10 +85,10 @@ class Scene {
   public readonly timeProperty = new NumberProperty( 0 );
 
   // phase of the wave generator
-  public readonly phase = 0;
+  public phase = 0;
 
   // indicates the time when the pulse began, or 0 if there is no pulse.
-  private readonly pulseStartTime = 0;
+  private pulseStartTime = 0;
 
   // whether the button for the first source is pressed.  This is also used for the slits screen plane wave source.
   public readonly button1PressedProperty = new BooleanProperty( false );
@@ -104,10 +105,119 @@ class Scene {
   // units for time, shown in the timer and optionally top right of the lattice
   public readonly timeUnits: string;
 
+  public readonly waveSpatialType: IntentionalAny;
+
+  // @public (read-only) {string} - units for this scene
+  public readonly translatedPositionUnits: string;
+
+  // @public (read-only) {number} - width of the visible part of the lattice in the scene's units
+  public readonly waveAreaWidth: number;
+
+  // @public (read-only) {string} - text that describes the horizontal spatial axis
+  public readonly graphHorizontalAxisLabel: string;
+
+  // @public (read-only) {number} - length that depicts indicate relative scale, see LengthScaleIndicatorNode
+  public readonly scaleIndicatorLength: number;
+
+  // @public (read-only) {string} - the units (in English and for the PhET-iO data stream)
+  public readonly positionUnits: string;
+
+  // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
+  public readonly timeScaleFactor: number;
+
+  // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
+  public readonly graphVerticalAxisLabel: string;
+
+  // @public (read-only) {string} - the title to the shown on the wave-area graph
+  public readonly graphTitle: string;
+
+  public readonly numberOfSources: number;
+  public readonly waveSpeed: number;
+
+  // @public (read-only) {string} - displayed at the top right of the wave area
+  public readonly timeScaleString: string;
+
+  // @public (read-only) {string} - shown on the PlaneWaveGeneratorNode
+  public readonly planeWaveGeneratorNodeText: string;
+
+  // @private - point source wave generation is suppressed when changing the source separation
+  private muted: boolean;
+
+  // @private - the model must be updated once more at the end of a cycle
+  private pulseJustCompleted: boolean;
+
+  // @public distance between the sources in the units of the scene, or 0 if there is only one
+  // source initialized to match the initial slit separation,
+  // see https://github.com/phetsims/wave-interference/issues/87
+  public readonly sourceSeparationProperty: NumberProperty;
+
+  // @public - width of the slit(s) opening in the units for this scene
+  public readonly slitWidthProperty: NumberProperty;
+
+  // @public - true while a single pulse is being generated
+  public readonly pulseFiringProperty: BooleanProperty;
+
+  // @public (read-only) - signify if a wave is about to start oscillating, see WaterScene
+  public readonly isAboutToFireProperty: BooleanProperty;
+
+  // @public distance between the center of the slits, in the units for this scene
+  public readonly slitSeparationProperty: NumberProperty;
+
+  // @public (read-only) {string} - text to show to indicate the relative scale, see LengthScaleIndicatorNode
+  public readonly scaleIndicatorText: string;
+
+  // @public (read-only) {string} - the unit to display on the WaveMeterNode, like "1 s"
+  public readonly oneTimerUnit: string;
+
+  // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice
+  // coordinates, does not include damping regions
+  public modelToLatticeTransform: ModelViewTransform2;
+
+  // @public (read-only) - the value of the wave at the oscillation point
+  public readonly oscillator1Property: NumberProperty;
+
+  // @public {ModelViewTransform2|null} - transforms from the physical units for this scene to view coordinates,
+  // filled in after the view area is initialized, see setViewBounds
+  public modelViewTransform: ModelViewTransform2 | null = null;
+
+  // @public {DerivedProperty.<number>} - lattice cell index of the continuous barrier position (x coordinate only)
+  public readonly barrierLatticeCoordinateProperty: TReadOnlyProperty<number>;
+
+  // @public - pulse or continuous
+  public readonly disturbanceTypeProperty: Property<IntentionalAny>;
+
+  // @public (read-only) - the value of the wave at the oscillation point
+  public readonly oscillator2Property: NumberProperty;
+
+  // @public - true when the first source is continuously oscillating
+  public readonly continuousWave1OscillatingProperty: BooleanProperty;
+
+  // @public - true when the second source is continuously oscillating
+  public readonly continuousWave2OscillatingProperty: BooleanProperty;
+
+  private temporalMask1: TemporalMask;
+  private temporalMask2: TemporalMask;
+
+  // @private - used for temporal masking
+  private stepIndex: number;
+
+  // @private - when the plane wave frequency is changed, don't update the wave area for a few frames so there is no
+  // flicker, see https://github.com/phetsims/wave-interference/issues/309
+  private stepsToSkipForPlaneWaveSources: number;
+
+  // @private {number} - phase of the wave so it doesn't start halfway through a cycle
+  // @ts-expect-error
+  private planeWavePhase: number;
+
+  // @protected {number} - record the time the button was pressed, so the SlitsModel can propagate the right
+  // distance
+  // @ts-expect-error
+  protected button1PressTime: number;
+
   /**
    * @param config - see below for required properties
    */
-  protected constructor( config: SceneOptions ) {
+  protected constructor( config: SceneOptions | IntentionalAny ) {
 
     config = merge( {
 
@@ -144,6 +254,7 @@ class Scene {
     }, config );
 
     // Validation
+    // @ts-expect-error
     validate( config.waveSpatialType, { validValues: Scene.WaveSpatialType.VALUES } );
     validate( config.translatedPositionUnits, VALID_STRING );
     validate( config.waveAreaWidth, POSITIVE_NUMBER );
@@ -166,45 +277,32 @@ class Scene {
     validate( config.slitSeparationRange, VALID_RANGE );
     validate( config.initialAmplitude, POSITIVE_NUMBER );
 
-    // @public (read-only) {WaveSpatialType}
     this.waveSpatialType = config.waveSpatialType;
 
-    // @public (read-only) {string} - units for this scene
     this.translatedPositionUnits = config.translatedPositionUnits;
 
-    // @public (read-only) {number} - width of the visible part of the lattice in the scene's units
     this.waveAreaWidth = config.waveAreaWidth;
 
-    // @public (read-only) {string} - text that describes the horizontal spatial axis
     this.graphHorizontalAxisLabel = config.graphHorizontalAxisLabel;
 
-    // @public (read-only) {number} - length that depicts indicate relative scale, see LengthScaleIndicatorNode
     this.scaleIndicatorLength = config.scaleIndicatorLength;
 
-    // @public (read-only) {string} - the units (in English and for the PhET-iO data stream)
     this.positionUnits = config.positionUnits;
 
-    // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
     this.timeScaleFactor = config.timeScaleFactor;
 
     this.timeUnits = config.timeUnits;
 
-    // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
     this.graphVerticalAxisLabel = config.graphVerticalAxisLabel;
 
-    // @public (read-only) {string} - the title to the shown on the wave-area graph
     this.graphTitle = config.graphTitle;
 
-    // @public (read-only) {number}
     this.numberOfSources = config.numberOfSources;
 
-    // @public (read-only) {number}
     this.waveSpeed = config.waveSpeed;
 
-    // @public (read-only) {string} - displayed at the top right of the wave area
     this.timeScaleString = config.timeScaleString;
 
-    // @public (read-only) {string} - shown on the PlaneWaveGeneratorNode
     this.planeWaveGeneratorNodeText = config.planeWaveGeneratorNodeText;
 
     // These config values are used to create Property instances.
@@ -218,28 +316,24 @@ class Scene {
 
     this.frequencyProperty = new NumberProperty( frequencyRange.getCenter(), { range: frequencyRange } );
 
-    // @private - point source wave generation is suppressed when changing the source separation
     this.muted = false;
 
-    // @private - the model must be updated once more at the end of a cycle
     this.pulseJustCompleted = false;
 
-    // @public distance between the sources in the units of the scene, or 0 if there is only one
-    // source initialized to match the initial slit separation,
-    // see https://github.com/phetsims/wave-interference/issues/87
     this.sourceSeparationProperty = new NumberProperty( initialSlitSeparation, {
+      // @ts-expect-error
       units: this.positionUnits,
       range: sourceSeparationRange
     } );
 
-    // @public - width of the slit(s) opening in the units for this scene
     this.slitWidthProperty = new NumberProperty( initialSlitWidth, {
+      // @ts-expect-error
       units: this.positionUnits,
       range: slitWidthRange
     } );
 
-    // @public distance between the center of the slits, in the units for this scene
     this.slitSeparationProperty = new NumberProperty( initialSlitSeparation, {
+      // @ts-expect-error
       units: this.positionUnits,
       range: slitSeparationRange
     } );
@@ -248,7 +342,6 @@ class Scene {
       range: WaveInterferenceConstants.AMPLITUDE_RANGE
     } );
 
-    // @public (read-only) {string} - text to show to indicate the relative scale, see LengthScaleIndicatorNode
     this.scaleIndicatorText = StringUtils.fillIn( distanceUnitsString, {
       distance: this.scaleIndicatorLength,
       units: this.positionUnits
@@ -259,31 +352,26 @@ class Scene {
       phet.log( `f = ${frequency}/${this.timeUnits}, w = ${this.waveSpeed / frequency} ${this.positionUnits}, v= ${this.waveSpeed} ${this.positionUnits}/${this.timeUnits}` )
     );
 
-    // @public (read-only) {string} - the unit to display on the WaveMeterNode, like "1 s"
     this.oneTimerUnit = StringUtils.fillIn( timeUnitsString, {
       time: 1,
       units: this.timeUnits
     } );
 
-    // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice
-    // coordinates, does not include damping regions
     this.modelToLatticeTransform = ModelViewTransform2.createRectangleMapping(
       new Rectangle( 0, 0, this.waveAreaWidth, this.waveAreaWidth ),
       this.lattice.visibleBounds
     );
 
-    // @public {ModelViewTransform2|null} - transforms from the physical units for this scene to view coordinates,
-    // filled in after the view area is initialized, see setViewBounds
     this.modelViewTransform = null;
 
-    // @public {DerivedProperty.<number>} - lattice cell index of the continuous barrier position (x coordinate only)
     this.barrierLatticeCoordinateProperty = new DerivedProperty(
       [ this.barrierPositionProperty ],
       barrierPosition => Utils.roundSymmetric( barrierPosition.x )
     );
 
-    // @public - pulse or continuous
+    // @ts-expect-error
     this.disturbanceTypeProperty = new Property( Scene.DisturbanceType.CONTINUOUS, {
+      // @ts-expect-error
       validValues: Scene.DisturbanceType.VALUES
     } );
 
@@ -292,6 +380,7 @@ class Scene {
       this.handleButton1Toggled( isPressed );
 
       // Clear plane waves if the red button is deselected when paused.
+      // @ts-expect-error
       if ( this.waveSpatialType === Scene.WaveSpatialType.PLANE && !isPressed ) {
         this.setSourceValues();
         this.lattice.changedEmitter.emit();
@@ -301,10 +390,8 @@ class Scene {
     // The 2nd button starts the second continuous wave
     this.button2PressedProperty.lazyLink( isPressed => this.handleButton2Toggled( isPressed ) );
 
-    // @public - true while a single pulse is being generated
     this.pulseFiringProperty = new BooleanProperty( false );
 
-    // @public (read-only) - signify if a wave is about to start oscillating, see WaterScene
     this.isAboutToFireProperty = new BooleanProperty( false );
 
     // When the pulse ends, the button pops out
@@ -314,29 +401,17 @@ class Scene {
       }
     } );
 
-    // @public (read-only) - the value of the wave at the oscillation point
     this.oscillator1Property = new NumberProperty( 0 );
-
-    // @public (read-only) - the value of the wave at the oscillation point
     this.oscillator2Property = new NumberProperty( 0 );
 
-    // @public - true when the first source is continuously oscillating
     this.continuousWave1OscillatingProperty = new BooleanProperty( false );
-
-    // @public - true when the second source is continuously oscillating
     this.continuousWave2OscillatingProperty = new BooleanProperty( false );
 
-    // @private
     this.temporalMask1 = new TemporalMask();
-
-    // @private
     this.temporalMask2 = new TemporalMask();
 
-    // @private - used for temporal masking
     this.stepIndex = 0;
 
-    // @private - when the plane wave frequency is changed, don't update the wave area for a few frames so there is no
-    // flicker, see https://github.com/phetsims/wave-interference/issues/309
     this.stepsToSkipForPlaneWaveSources = 0;
 
     // When the user changes disturbance type, the button pops out and waves stop
@@ -349,7 +424,7 @@ class Scene {
 
     // When frequency changes, choose a new phase such that the new sine curve has the same value and direction
     // for continuity
-    const phaseUpdate = ( newFrequency, oldFrequency ) => {
+    const phaseUpdate = ( newFrequency: number, oldFrequency: number ) => {
 
       // For the main model, Math.sin is performed on angular frequency, so to match the phase, that computation
       // should also be based on angular frequencies
@@ -370,6 +445,7 @@ class Scene {
       this.phase = proposedPhase;
 
       // When changing the plane wave frequency, clear the wave area to the right of the wave
+      // @ts-expect-error
       if ( this.waveSpatialType === Scene.WaveSpatialType.PLANE ) {
         this.clear();
 
@@ -384,10 +460,14 @@ class Scene {
     this.frequencyProperty.lazyLink( phaseUpdate );
 
     // Everything below here is just for plane wave screen.
+    // @ts-expect-error
     if ( this.waveSpatialType === Scene.WaveSpatialType.PLANE ) {
 
       // @public - type of the barrier in the lattice
+      // @ts-expect-error
       this.barrierTypeProperty = new Property( Scene.BarrierType.ONE_SLIT, {
+
+        // @ts-expect-error
         validValues: Scene.BarrierType.VALUES
       } );
 
@@ -396,11 +476,8 @@ class Scene {
         this.lattice.clearRight( barrierLatticeCoordinate );
       } );
 
-      // @private {number} - phase of the wave so it doesn't start halfway through a cycle
       this.planeWavePhase = 0;
 
-      // @protected {number} - record the time the button was pressed, so the SlitsModel can propagate the right
-      // distance
       this.button1PressTime = 0;
       this.button1PressedProperty.link( pressed => {
         if ( pressed ) {
@@ -421,6 +498,7 @@ class Scene {
 
       // When a barrier is added, clear the waves to the right instead of letting them dissipate,
       // see https://github.com/phetsims/wave-interference/issues/176
+      // @ts-expect-error
       this.barrierTypeProperty.link( barrierType => {
         this.clear();
 
@@ -455,12 +533,13 @@ class Scene {
    * @param amplitude
    * @param time
    */
-  private setPointSourceValues( amplitude, time ): void {
+  private setPointSourceValues( amplitude: number, time: number ): void {
 
     const frequency = this.frequencyProperty.get();
     const period = 1 / frequency;
     const timeSincePulseStarted = time - this.pulseStartTime;
     const lattice = this.lattice;
+    // @ts-expect-error
     const isContinuous = ( this.disturbanceTypeProperty.get() === Scene.DisturbanceType.CONTINUOUS );
     const continuous1 = isContinuous && this.continuousWave1OscillatingProperty.get();
     const continuous2 = isContinuous && this.continuousWave2OscillatingProperty.get();
@@ -521,10 +600,8 @@ class Scene {
 
   /**
    * Generate a plane wave
-   * @param amplitude
-   * @param time
    */
-  private setPlaneSourceValues( amplitude, time ): void {
+  private setPlaneSourceValues( amplitude: number, time: number ): void {
 
     // When the plane wave frequency is changed, don't update the wave area for a few frames so there is no flicker,
     // see https://github.com/phetsims/wave-interference/issues/309
@@ -534,6 +611,7 @@ class Scene {
     }
     const lattice = this.lattice;
 
+    // @ts-expect-error
     const barrierLatticeX = this.barrierTypeProperty.value === Scene.BarrierType.NO_BARRIER ?
                             lattice.width - lattice.dampX :
                             this.barrierLatticeCoordinateProperty.value;
@@ -576,11 +654,15 @@ class Scene {
         let isCellInBarrier = false;
 
         if ( i === barrierLatticeX ) {
+
+          // @ts-expect-error
           if ( this.barrierTypeProperty.value === Scene.BarrierType.ONE_SLIT ) {
             const low = j > latticeCenterY + slitWidth / 2 - 0.5;
             const high = j < latticeCenterY - slitWidth / 2 - 0.5;
             isCellInBarrier = low || high;
           }
+
+          // @ts-expect-error
           else if ( this.barrierTypeProperty.value === Scene.BarrierType.TWO_SLITS ) {
 
             // Spacing is between center of slits.  This computation is done in model coordinates
@@ -625,8 +707,11 @@ class Scene {
 
     // Get the desired amplitude.  For water, this is set through the desiredAmplitudeProperty.  For other
     // scenes, this is set through the amplitudeProperty.
+    // @ts-expect-error
     const amplitude = this.desiredAmplitudeProperty ? this.desiredAmplitudeProperty.get() : this.amplitudeProperty.get();
     const time = this.timeProperty.value;
+
+    // @ts-expect-error
     if ( this.waveSpatialType === Scene.WaveSpatialType.POINT ) {
       this.setPointSourceValues( amplitude, time );
     }
@@ -680,6 +765,7 @@ class Scene {
 
       // Apply temporal masking, but only for point sources.  Plane waves already clear the wave area when changing
       // parameters
+      // @ts-expect-error
       if ( this.waveSpatialType === Scene.WaveSpatialType.POINT ) {
         this.applyTemporalMask();
       }
@@ -753,7 +839,7 @@ class Scene {
   /**
    * Mute or unmute the model.
    */
-  public setMuted( muted ): void {
+  public setMuted( muted: boolean ): void {
     this.muted = muted;
     muted && this.clear();
   }
@@ -776,6 +862,8 @@ class Scene {
     if ( isPressed && !this.button2PressedProperty.value ) {
       this.resetPhase();
     }
+
+    // @ts-expect-error
     if ( isPressed && this.disturbanceTypeProperty.value === Scene.DisturbanceType.PULSE ) {
       this.startPulse();
     }
@@ -821,6 +909,8 @@ class Scene {
     this.continuousWave1OscillatingProperty.reset();
     this.continuousWave2OscillatingProperty.reset();
     this.isAboutToFireProperty.reset();
+
+    // @ts-expect-error
     this.barrierTypeProperty && this.barrierTypeProperty.reset();
     this.stepsToSkipForPlaneWaveSources = 0;
   }
@@ -857,18 +947,21 @@ class Scene {
  * A wave can be ongoing (CONTINUOUS) or a single wavelength (PULSE)
  * @public
  */
+// @ts-expect-error
 Scene.DisturbanceType = EnumerationDeprecated.byKeys( [ 'PULSE', 'CONTINUOUS' ] );
 
 /**
  * A wave can either be generated by a point source (POINT) or by a plane wave (PLANE).
  * @public
  */
+// @ts-expect-error
 Scene.WaveSpatialType = EnumerationDeprecated.byKeys( [ 'POINT', 'PLANE' ] );
 
 /**
  * The wave area can contain a barrier with ONE_SLIT, TWO_SLITS or NO_BARRIER at all.
  * @public
  */
+// @ts-expect-error
 Scene.BarrierType = EnumerationDeprecated.byKeys( [ 'NO_BARRIER', 'ONE_SLIT', 'TWO_SLITS' ] );
 
 waveInterference.register( 'Scene', Scene );
