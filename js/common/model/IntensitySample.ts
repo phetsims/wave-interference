@@ -8,8 +8,8 @@
  */
 
 import Emitter from '../../../../axon/js/Emitter.js';
-import waveInterference from '../../waveInterference.js';
 import Lattice from '../../../../scenery-phet/js/Lattice.js';
+import waveInterference from '../../waveInterference.js';
 
 // constants
 // Number of samples to use for a temporal average.  Higher number means more latency and smoother. Lower number means

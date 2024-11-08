@@ -5,7 +5,9 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
@@ -15,8 +17,6 @@ import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import InterferenceModel from '../model/InterferenceModel.js';
-import Range from '../../../../dot/js/Range.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 const cmValueString = WaveInterferenceStrings.cmValue;
 const nmValueString = WaveInterferenceStrings.nmValue;

@@ -8,14 +8,14 @@
 
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Scene, { SceneOptions } from './Scene.js';
 import WaterDrop from './WaterDrop.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import TProperty from '../../../../axon/js/TProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 type WaterSceneOptions = SelfOptions & SceneOptions;

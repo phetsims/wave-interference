@@ -9,8 +9,8 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Matrix from '../../../../dot/js/Matrix.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import { CanvasNode, CanvasNodeOptions, Color } from '../../../../scenery/js/imports.js';
 import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js';
+import { CanvasNode, CanvasNodeOptions, Color } from '../../../../scenery/js/imports.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
 

@@ -13,8 +13,8 @@ import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
-import DiffractionNumberControl from './DiffractionNumberControl.js';
 import WavingGirlScene from '../model/WavingGirlScene.js';
+import DiffractionNumberControl from './DiffractionNumberControl.js';
 
 const degreesValueString = WaveInterferenceStrings.degreesValue;
 const heightString = WaveInterferenceStrings.height;

@@ -8,9 +8,9 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
-import Lattice from '../../../../scenery-phet/js/Lattice.js';
 
 class TemporalMask {
 

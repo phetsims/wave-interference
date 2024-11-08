@@ -11,6 +11,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Matrix from '../../../../dot/js/Matrix.js';
 import Range from '../../../../dot/js/Range.js';
+import TModel from '../../../../joist/js/TModel.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
@@ -19,7 +20,6 @@ import DisorderScene from './DisorderScene.js';
 import EllipseScene from './EllipseScene.js';
 import RectangleScene from './RectangleScene.js';
 import WavingGirlScene from './WavingGirlScene.js';
-import TModel from '../../../../joist/js/TModel.js';
 
 // constants
 const CONTRAST = 0.01;
