@@ -7,7 +7,6 @@
  */
 
 import Utils from '../../../../dot/js/Utils.js';
-import { Image } from '../../../../scenery/js/imports.js';
 import speaker_L10_png from '../../../../scenery-phet/images/speaker/speaker_L10_png.js';
 import speaker_L1_png from '../../../../scenery-phet/images/speaker/speaker_L1_png.js';
 import speaker_L2_png from '../../../../scenery-phet/images/speaker/speaker_L2_png.js';
@@ -29,11 +28,12 @@ import speaker_R6_png from '../../../../scenery-phet/images/speaker/speaker_R6_p
 import speaker_R7_png from '../../../../scenery-phet/images/speaker/speaker_R7_png.js';
 import speaker_R8_png from '../../../../scenery-phet/images/speaker/speaker_R8_png.js';
 import speaker_R9_png from '../../../../scenery-phet/images/speaker/speaker_R9_png.js';
+import { Image } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import SoundScene from '../model/SoundScene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
-import WaveGeneratorNode from './WaveGeneratorNode.js';
 import WaveAreaNode from './WaveAreaNode.js';
+import WaveGeneratorNode from './WaveGeneratorNode.js';
 
 // variables
 const speakers = [

@@ -6,16 +6,16 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import InstanceRegistry from '../../../../phet-core/js/documentation/InstanceRegistry.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 import StopwatchNode from '../../../../scenery-phet/js/StopwatchNode.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { AlignGroup, DragListener, HBox, InteractiveHighlightingNode } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
 import WaveMeterNode from './WaveMeterNode.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import InstanceRegistry from '../../../../phet-core/js/documentation/InstanceRegistry.js';
 
 class ToolboxPanel extends WaveInterferencePanel {
 

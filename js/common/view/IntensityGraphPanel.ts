@@ -6,12 +6,13 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Utils from '../../../../dot/js/Utils.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import { Color, Line, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import ColorConstants from '../../../../sun/js/ColorConstants.js';
@@ -20,7 +21,6 @@ import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 const intensityString = WaveInterferenceStrings.intensity;
 

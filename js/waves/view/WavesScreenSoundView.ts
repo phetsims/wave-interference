@@ -10,7 +10,9 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import WaveGenerator from '../../../../tambo/js/sound-generators/WaveGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import lightBeamLoopV5EqOutBass_mp3 from '../../../sounds/lightBeamLoopV5EqOutBass_mp3.js';
 import speakerPulseV4_mp3 from '../../../sounds/speakerPulseV4_mp3.js';
@@ -20,8 +22,6 @@ import waterDropV5_003_mp3 from '../../../sounds/waterDropV5_003_mp3.js';
 import waterDropV5_mp3 from '../../../sounds/waterDropV5_mp3.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
-import WaveGenerator from '../../../../tambo/js/sound-generators/WaveGenerator.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 
 // sounds
 const waterDropSounds = [ waterDropV5_mp3, waterDropV5_001_mp3, waterDropV5_002_mp3, waterDropV5_003_mp3 ];

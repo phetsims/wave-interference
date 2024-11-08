@@ -9,12 +9,12 @@
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
+import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js';
+import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import { CanvasNode, CanvasNodeOptions, Color } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
-import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
-import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js';
 
 // constants
 const CUTOFF = 0.4;

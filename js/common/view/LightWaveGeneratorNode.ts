@@ -11,8 +11,8 @@ import merge from '../../../../phet-core/js/merge.js';
 import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
 import waveInterference from '../../waveInterference.js';
 import LightScene from '../model/LightScene.js';
-import WaveGeneratorNode from './WaveGeneratorNode.js';
 import WaveAreaNode from './WaveAreaNode.js';
+import WaveGeneratorNode from './WaveGeneratorNode.js';
 
 // constants
 const DEFAULT_OPTIONS = {

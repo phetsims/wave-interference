@@ -6,14 +6,13 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Matrix3 from '../../../../dot/js/Matrix3.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
-import { HBox, Node, Path } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Node, Path } from '../../../../scenery/js/imports.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';

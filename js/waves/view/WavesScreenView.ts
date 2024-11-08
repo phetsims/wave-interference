@@ -18,6 +18,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import platform from '../../../../phet-core/js/platform.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
+import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import { Color, Node, Rectangle, RichText, Text, Utils } from '../../../../scenery/js/imports.js';
@@ -51,7 +52,6 @@ import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
 import waveInterference from '../../waveInterference.js';
 import WavesModel from '../model/WavesModel.js';
 import WavesScreenSoundView from './WavesScreenSoundView.js';
-import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 
 // constants
 const MARGIN = WaveInterferenceConstants.MARGIN;

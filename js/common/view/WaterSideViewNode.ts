@@ -6,12 +6,12 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { Path } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
+import WaterScene from '../model/WaterScene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
-import WaterScene from '../model/WaterScene.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 // constants
 // the index in the un-padded lattice array where the source appears

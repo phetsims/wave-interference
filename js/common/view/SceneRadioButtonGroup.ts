@@ -6,14 +6,14 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import waveInterference from '../../waveInterference.js';
-import WaveInterferenceSceneIcons from './WaveInterferenceSceneIcons.js';
-import SoundScene from '../model/SoundScene.js';
 import LightScene from '../model/LightScene.js';
-import WaterScene from '../model/WaterScene.js';
 import Scene from '../model/Scene.js';
-import Property from '../../../../axon/js/Property.js';
+import SoundScene from '../model/SoundScene.js';
+import WaterScene from '../model/WaterScene.js';
+import WaveInterferenceSceneIcons from './WaveInterferenceSceneIcons.js';
 
 class SceneRadioButtonGroup extends RectangularRadioButtonGroup<Scene> {
 

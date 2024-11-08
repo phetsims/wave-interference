@@ -7,12 +7,12 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import ToggleNode, { ToggleNodeOptions } from '../../../../sun/js/ToggleNode.js';
 import { Node } from '../../../../scenery/js/imports.js';
+import ToggleNode, { ToggleNodeOptions } from '../../../../sun/js/ToggleNode.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import waveInterference from '../../waveInterference.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import Scene from '../model/Scene.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 
 class SceneToggleNode extends ToggleNode<Scene> {
 

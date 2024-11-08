@@ -7,13 +7,13 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { Image, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import SoundParticleNode from './SoundParticleNode.js';
-import WavesModel from '../../waves/model/WavesModel.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 class SoundParticleImageLayer extends Node {
 

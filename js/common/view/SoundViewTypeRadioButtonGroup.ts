@@ -9,10 +9,10 @@
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 import SoundScene from '../model/SoundScene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
-import WavesModel from '../../waves/model/WavesModel.js';
 
 const bothString = WaveInterferenceStrings.both;
 const particlesString = WaveInterferenceStrings.particles;

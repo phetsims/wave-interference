@@ -6,13 +6,13 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { CanvasNode, CanvasNodeOptions } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import waveInterference from '../../waveInterference.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import SoundParticleNode from './SoundParticleNode.js';
-import WavesModel from '../../waves/model/WavesModel.js';
 
 // constants
 // Render at increased resolution so particles don't appear pixellated on a large screen.  See Node.rasterized's

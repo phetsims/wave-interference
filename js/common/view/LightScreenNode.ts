@@ -11,13 +11,13 @@ import Matrix3 from '../../../../dot/js/Matrix3.js';
 import PiecewiseLinearFunction from '../../../../dot/js/PiecewiseLinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
+import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js';
+import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import { CanvasNode, CanvasNodeOptions, Color } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
-import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
-import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 
 // constants
 const CANVAS_WIDTH = 100;
