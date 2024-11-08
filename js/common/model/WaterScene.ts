@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * The model for the Water scene, which adds WaterDrop instances.
  *
@@ -14,6 +14,8 @@ import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Scene, { SceneOptions } from './Scene.js';
 import WaterDrop from './WaterDrop.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 type WaterSceneOptions = SelfOptions & SceneOptions;
@@ -23,37 +25,50 @@ class WaterScene extends Scene {
   // the amplitude the user has selected
   public readonly desiredAmplitudeProperty: NumberProperty;
 
+  // @public - Emits when a water drop hits the y=0 plane
+  public readonly waterDropAbsorbedEmitter: Emitter<[ WaterDrop ]>;
+
+  // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
+  // gets propagated to the lattice via the water drops
+  public readonly desiredFrequencyProperty: NumberProperty;
+
+  // @public - In the water Scene, the user specifies the desired source separation.  This is the position of
+  // the faucets.  The sourceSeparationProperty indicates the sources of oscillation once the water has struck.
+  public readonly desiredSourceSeparationProperty: NumberProperty;
+
+  // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
+  public readonly waterDrops: WaterDrop[];
+
+  // @private {number|null} - record the time (in seconds) that the previous water drop was emitted, so the next
+  // drop (or drops, in the case of two wave generators) can be emitted at the appropriate time.  Null means no
+  // drops have fallen.
+  private lastDropTime: number | null;
+
   /**
    * @param config - see Scene for required properties
    */
   public constructor( config: WaterSceneOptions ) {
     super( config );
 
-    // @public - Emits when a water drop hits the y=0 plane
     this.waterDropAbsorbedEmitter = new Emitter( { parameters: [ { valueType: WaterDrop } ] } );
 
-    // @public - In the water Scene, the user specifies the desired frequency and amplitude, and that
-    // gets propagated to the lattice via the water drops
     this.desiredFrequencyProperty = new NumberProperty( this.frequencyProperty.initialValue, {
       range: this.frequencyProperty.range
     } );
 
-    // @public - In the water Scene, the user specifies the desired source separation.  This is the position of
-    // the faucets.  The sourceSeparationProperty indicates the sources of oscillation once the water has struck.
     this.desiredSourceSeparationProperty = new NumberProperty( this.sourceSeparationProperty.value, {
+
+      // @ts-expect-error
       range: config.sourceSeparationRange
     } );
 
+    // @ts-expect-error
     this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude, {
       range: this.amplitudeProperty.range
     } );
 
-    // @public (read-only) {WaterDrop[]} drops of water that are falling from the hose to the lattice.
     this.waterDrops = [];
 
-    // @private {number|null} - record the time (in seconds) that the previous water drop was emitted, so the next
-    // drop (or drops, in the case of two wave generators) can be emitted at the appropriate time.  Null means no
-    // drops have fallen.
     this.lastDropTime = null;
 
     // prep to fire a new drop in the next frame, but only if the other source wasn't already setting the phase
@@ -81,13 +96,14 @@ class WaterScene extends Scene {
    * @param oscillatingProperty - indicates whether the wave source is oscillating
    * @param sign - -1 for top faucet, +1 for bottom faucet
    */
-  private launchWaterDrop( buttonProperty, oscillatingProperty, sign ): void {
+  private launchWaterDrop( buttonProperty: TReadOnlyProperty<boolean>, oscillatingProperty: TProperty<boolean>, sign: number ): void {
 
     const time = this.timeProperty.value;
 
     // Send a water drop if the button is pressed but not if the button is still pressed from the last pulse.
     // model.button1PressedProperty.value not consulted because we send a shutoff water drop. so that the previous
     // drop gets a full cycle
+    // @ts-expect-error
     const isPulseMode = this.disturbanceTypeProperty.value === Scene.DisturbanceType.PULSE;
     const firePulseDrop = isPulseMode && !this.pulseFiringProperty.value && this.button1PressedProperty.value;
     if ( !isPulseMode || firePulseDrop ) {
@@ -96,6 +112,7 @@ class WaterScene extends Scene {
       const buttonPressed = buttonProperty.value;
       const frequency = this.desiredFrequencyProperty.value;
       const amplitude = this.desiredAmplitudeProperty.value;
+      // @ts-expect-error
       const isPulse = this.disturbanceTypeProperty.value === Scene.DisturbanceType.PULSE;
 
       // Distance between the sources, or 0 if there is only 1 source
@@ -156,9 +173,10 @@ class WaterScene extends Scene {
     // so the next drop will not take too long, see https://github.com/phetsims/wave-interference/issues/154
     const period = 1 / this.frequencyProperty.value;
 
-    const timeSinceLastDrop = time - this.lastDropTime;
+    const timeSinceLastDrop = time - this.lastDropTime!;
 
     // Emit water drops if the phase matches up, but not for the plane waves screen
+    // @ts-expect-error
     if ( this.waveSpatialType === Scene.WaveSpatialType.POINT &&
          ( this.lastDropTime === null || timeSinceLastDrop > period ) &&
          !this.muted ) {
@@ -232,7 +250,7 @@ class WaterScene extends Scene {
 
     // Note this is nudged over 1/2 a cell so it will appear in the center of the cell rather than
     // at the left edge of the cell.  See also WaveInterferenceUtils.getWaterSideShape.
-    return this.latticeToViewTransform.modelToViewX(
+    return this.latticeToViewTransform!.modelToViewX(
       WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE + 0.5
     );
   }

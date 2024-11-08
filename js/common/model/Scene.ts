@@ -141,7 +141,7 @@ class Scene {
   public readonly planeWaveGeneratorNodeText: string;
 
   // @private - point source wave generation is suppressed when changing the source separation
-  private muted: boolean;
+  public muted: boolean;
 
   // @private - the model must be updated once more at the end of a cycle
   private pulseJustCompleted: boolean;
@@ -813,7 +813,7 @@ class Scene {
   /**
    * Start the sine argument at 0 so it will smoothly form the first wave.
    */
-  private resetPhase(): void {
+  public resetPhase(): void {
     const frequency = this.frequencyProperty.get();
     const angularFrequency = Math.PI * 2 * frequency;
 
