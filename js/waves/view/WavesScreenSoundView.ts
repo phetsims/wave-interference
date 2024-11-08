@@ -1,5 +1,5 @@
 // Copyright 2019-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Sets up sounds for items on the Waves Screen which are not already associated with pre-existing components.
  *
@@ -21,19 +21,22 @@ import waterDropV5_mp3 from '../../../sounds/waterDropV5_mp3.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import waveInterference from '../../waveInterference.js';
 import WaveGenerator from '../../../../tambo/js/sound-generators/WaveGenerator.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 
 // sounds
 const waterDropSounds = [ waterDropV5_mp3, waterDropV5_001_mp3, waterDropV5_002_mp3, waterDropV5_003_mp3 ];
 
 class WavesScreenSoundView {
 
-  public constructor( model, view, options ) {
+  public constructor( model: IntentionalAny, view: IntentionalAny, options: IntentionalAny ) {
 
     // The sound scene generates a sine wave when the "Play Tone" checkbox is checked
     if ( model.soundScene && options.controlPanelOptions.showPlaySoundControl ) {
       const sineWavePlayer = new WaveGenerator(
         model.soundScene.frequencyProperty,
         model.soundScene.amplitudeProperty, {
+
+          // @ts-expect-error
           enableControlProperties: [
             model.soundScene.isTonePlayingProperty,
             model.soundScene.button1PressedProperty,
@@ -44,6 +47,8 @@ class WavesScreenSoundView {
 
       // Suppress the tone when another screen is selected
       soundManager.addSoundGenerator( sineWavePlayer, {
+
+        // @ts-expect-error
         associatedViewNode: view
       } );
     }
@@ -55,9 +60,10 @@ class WavesScreenSoundView {
       soundClips.forEach( soundClip => soundManager.addSoundGenerator( soundClip ) );
 
       // The water drop SoundClip that was most recently played, to avoid repeats
-      let lastPlayedWaterDropSoundClip = null;
+      let lastPlayedWaterDropSoundClip: SoundClip | null = null;
 
       // When a water drop is absorbed, play a water drop sound.
+      // @ts-expect-error
       model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
 
         // The waterDrop.amplitude indicates the size of the water drop and the strength of the resulting wave.
@@ -70,12 +76,12 @@ class WavesScreenSoundView {
         // Select water drop sounds randomly, but do not let the same sound go twice in a row
         const availableClips = _.without( soundClips, lastPlayedWaterDropSoundClip );
         lastPlayedWaterDropSoundClip = dotRandom.sample( availableClips );
-        lastPlayedWaterDropSoundClip.setPlaybackRate( amplitude );
+        lastPlayedWaterDropSoundClip!.setPlaybackRate( amplitude );
 
         // The wave meter node takes precedence over the water drop sounds
-        lastPlayedWaterDropSoundClip.setOutputLevel( view.waveMeterNode.duckingProperty.value * 0.9, 0 );
+        lastPlayedWaterDropSoundClip!.setOutputLevel( view.waveMeterNode.duckingProperty.value * 0.9, 0 );
 
-        lastPlayedWaterDropSoundClip.play();
+        lastPlayedWaterDropSoundClip!.play();
       } );
     }
 
@@ -97,7 +103,7 @@ class WavesScreenSoundView {
         model.soundScene.isTonePlayingProperty,
         view.waveMeterNode.duckingProperty,
         model.isRunningProperty
-      ], ( oscillatorValue, isTonePlaying, ducking, isRunning ) => {
+      ], ( oscillatorValue: number, isTonePlaying, ducking: number, isRunning ) => {
 
         const maxVolume = isTonePlaying ? 0 : 0.3;
         const outputLevel = Utils.linear(
@@ -136,12 +142,14 @@ class WavesScreenSoundView {
       } );
 
       soundManager.addSoundGenerator( lightBeamLoopSoundClip, {
+
+        // @ts-expect-error
         associatedViewNode: view
       } );
 
       const lightAmplitudeProperty = model.lightScene.amplitudeProperty;
       const lightFrequencyProperty = model.lightScene.frequencyProperty;
-      Multilink.multilink( [ lightAmplitudeProperty, lightFrequencyProperty, view.waveMeterNode.duckingProperty ], ( amplitude, frequency, ducking ) => {
+      Multilink.multilink( [ lightAmplitudeProperty, lightFrequencyProperty, view.waveMeterNode.duckingProperty ], ( amplitude: number, frequency: number, ducking: number ) => {
 
         // Sound for "Sound Effect" on the light scene.
         const outputLevel = Utils.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
