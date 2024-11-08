@@ -1,5 +1,5 @@
 // Copyright 2018-2023, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * When selected, shows discrete and moving particles for the sound view.
  *
@@ -20,6 +20,13 @@ import WavesModel from '../../waves/model/WavesModel.js';
 const RESOLUTION = 2;
 
 class SoundParticleCanvasLayer extends CanvasNode {
+  private readonly model: WavesModel;
+
+  // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
+  private whiteSphereImage!: HTMLCanvasElement;
+
+  // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
+  private redSphereImage!: HTMLCanvasElement;
 
   public constructor( model: WavesModel, waveAreaNodeBounds: Bounds2, options: CanvasNodeOptions ) {
 
@@ -33,27 +40,30 @@ class SoundParticleCanvasLayer extends CanvasNode {
 
     super( options );
 
-    // @private
     this.model = model;
 
+    // @ts-expect-error
     SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_GRAY_COLOR, canvas => {
 
-      // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
       this.whiteSphereImage = canvas;
     } );
 
+    // @ts-expect-error
     SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_RED_COLOR, canvas => {
 
-      // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
       this.redSphereImage = canvas;
     } );
 
     // At the end of each model step, update all of the particles as a batch.
     const update = () => {
+
+      // @ts-expect-error
       if ( model.sceneProperty.value === model.soundScene ) {
         this.invalidatePaint();
       }
     };
+
+    // @ts-expect-error
     model.stepEmitter.addListener( update );
     model.sceneProperty.link( update );
   }
@@ -63,7 +73,9 @@ class SoundParticleCanvasLayer extends CanvasNode {
    */
   public override paintCanvas( context: CanvasRenderingContext2D ): void {
     context.transform( 1 / RESOLUTION, 0, 0, 1 / RESOLUTION, 0, 0 );
+    // @ts-expect-error
     for ( let i = 0; i < this.model.soundScene.soundParticles.length; i++ ) {
+      // @ts-expect-error
       const soundParticle = this.model.soundScene.soundParticles[ i ];
 
       // Red particles are shown on a grid
@@ -72,7 +84,9 @@ class SoundParticleCanvasLayer extends CanvasNode {
 
       context.drawImage(
         sphereImage,
+        // @ts-expect-error
         RESOLUTION * ( this.model.soundScene.modelViewTransform.modelToViewX( soundParticle.x ) ) - sphereImage.width / 2,
+        // @ts-expect-error
         RESOLUTION * ( this.model.soundScene.modelViewTransform.modelToViewY( soundParticle.y ) ) - sphereImage.height / 2
       );
     }

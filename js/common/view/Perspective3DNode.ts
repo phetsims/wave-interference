@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Shows the partially rotated wave view in a pseudo-3D view.  Ported from RotationGlyph.java
  *
@@ -22,6 +22,12 @@ import WaveInterferenceText from './WaveInterferenceText.js';
 const topString = WaveInterferenceStrings.top;
 
 class Perspective3DNode extends Node {
+  private readonly waveAreaBounds: Bounds2;
+  private readonly rotationAmountProperty: TReadOnlyProperty<number>;
+  private readonly isRotatingProperty: TReadOnlyProperty<boolean>;
+  private readonly topFacePath: Path;
+  private readonly sideFacePath: Path;
+  private readonly upNode: HBox;
 
   public constructor( waveAreaBounds: Bounds2, rotationAmountProperty: TReadOnlyProperty<number>, isRotatingProperty: TReadOnlyProperty<boolean> ) {
 

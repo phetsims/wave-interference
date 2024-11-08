@@ -1,5 +1,5 @@
 // Copyright 2017-2024, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Renders the main area of the lattice (doesn't include the damping regions) using 2d canvas.
  *
@@ -20,6 +20,15 @@ import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js'
 const CUTOFF = 0.4;
 
 class LatticeCanvasNode extends CanvasNode {
+  private readonly lattice: Lattice;
+  private baseColor: Color;
+
+  // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light
+  public vacuumColor: Color | null;
+
+  // @private - For performance, render into a sub-canvas which will be drawn into the rendering context at the right
+  // scale.
+  private readonly imageDataRenderer: ImageDataRenderer;
 
   /**
    * @param lattice
@@ -37,17 +46,13 @@ class LatticeCanvasNode extends CanvasNode {
 
     super( options );
 
-    // @private
     this.lattice = lattice;
 
-    // @private
+    // @ts-expect-error
     this.baseColor = options.baseColor;
 
-    // @public {Color|null} - settable, if defined shows unvisited lattice cells as specified color, used for light
     this.vacuumColor = null;
 
-    // @private - For performance, render into a sub-canvas which will be drawn into the rendering context at the right
-    // scale.
     this.imageDataRenderer = new ImageDataRenderer( lattice.visibleBounds.width, lattice.visibleBounds.height );
 
     // Invalidate paint when model indicates changes

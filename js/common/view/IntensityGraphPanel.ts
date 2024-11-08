@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Shows a graph of intensity as a function of position at the right-side of the lattice (when selected).
  *
@@ -9,7 +9,6 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import EmptySelfOptions from '../../../../phet-core/types/js/EmptySelfOptions.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import { Shape } from '../../../../kite/js/imports.js';
@@ -21,6 +20,7 @@ import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 const intensityString = WaveInterferenceStrings.intensity;
 
@@ -33,6 +33,7 @@ const CHART_WIDTH = 100;
 type IntensityGraphPanelOptions = EmptySelfOptions;
 
 class IntensityGraphPanel extends WaveInterferencePanel {
+  private readonly chartRectangle: Rectangle;
 
   /**
    * @param graphHeight - the height of the graph in view coordinates
@@ -52,7 +53,7 @@ class IntensityGraphPanel extends WaveInterferencePanel {
     /**
      * Creates a line on the given y-coordinate.
      */
-    const createLine = ( index, y ) => new Line( chartRectangle.left, y, chartRectangle.right, y, {
+    const createLine = ( index: number, y: number ) => new Line( chartRectangle.left, y, chartRectangle.right, y, {
       stroke: index % 2 === 0 ? DARK_GRAY : 'lightGray',
       lineDash: LINE_DASH // Solid part touches each edge
     } );
@@ -116,12 +117,14 @@ class IntensityGraphPanel extends WaveInterferencePanel {
       children: [ chartRectangle, curve, titleNode, zoomButtonGroup ]
     } );
 
+    // @ts-expect-error
     super( chartNode, options );
 
-    // @private
     this.chartRectangle = chartRectangle;
 
     const updateChart = () => {
+
+      // @ts-expect-error
       const intensityValues = intensitySample.getIntensityValues();
       const shape = new Shape();
       for ( let i = 0; i < intensityValues.length; i++ ) {
@@ -149,6 +152,8 @@ class IntensityGraphPanel extends WaveInterferencePanel {
 
       curve.shape = shape;
     };
+
+    // @ts-expect-error
     intensitySample.changedEmitter.addListener( updateChart );
     zoomLevelProperty.link( updateChart );
   }

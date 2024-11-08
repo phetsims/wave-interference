@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * For the light scene, shows one laser pointer for each wave generator, each with its own on/off button.
  *
@@ -36,6 +36,7 @@ class LightWaveGeneratorNode extends WaveGeneratorNode {
  * @static
  * @public
  */
+// @ts-expect-error
 LightWaveGeneratorNode.DEFAULT_NODE_OPTIONS = DEFAULT_OPTIONS;
 
 waveInterference.register( 'LightWaveGeneratorNode', LightWaveGeneratorNode );

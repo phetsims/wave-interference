@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Renders the screen at right hand side of the wave area, showing the time-averaged intensity (for the light scene).
  *
@@ -17,6 +17,7 @@ import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 
 // constants
 const CANVAS_WIDTH = 100;
@@ -25,7 +26,7 @@ const CANVAS_WIDTH = 100;
 const BRIGHTNESS_SCALE_FACTOR = 5;
 
 // Piecewise linear function optimized for a wide range of brightness, used in Waves Intro sim and Waves screen
-const piecewiseBrightnessFunction = intensity => {
+const piecewiseBrightnessFunction = ( intensity: number ) => {
   const brightness = PiecewiseLinearFunction.evaluate( [
     0, 0,
     0.002237089269640335, 0.4,
@@ -39,12 +40,25 @@ const piecewiseBrightnessFunction = intensity => {
 };
 
 // Linear brightness function optimized for showing interference patterns in the Interference and Slits screens
-const linearBrightnessFunction = intensity => {
+const linearBrightnessFunction = ( intensity: number ) => {
   const brightness = Utils.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
   return Utils.clamp( brightness * BRIGHTNESS_SCALE_FACTOR, 0, 1 );
 };
 
 class LightScreenNode extends CanvasNode {
+
+  // @private - for the vertical scale factor
+  private readonly latticeCanvasBounds: Bounds2;
+  private readonly lattice: Lattice;
+  private readonly piecewiseLinearBrightness: IntentionalAny;
+  private readonly lightScreenAveragingWindowSize: number;
+  private readonly intensitySample: number[];
+
+  // @private {Color} required because we'll be operating on a Color
+  private baseColor: Color;
+
+  // @private - for rendering via image data
+  private readonly imageDataRenderer: ImageDataRenderer;
 
   public constructor( lattice: Lattice, intensitySample: number[], options?: CanvasNodeOptions ) {
     const latticeCanvasBounds = WaveInterferenceUtils.getCanvasBounds( lattice );
@@ -61,29 +75,24 @@ class LightScreenNode extends CanvasNode {
     }, options );
     super( options );
 
-    // @private - for the vertical scale factor
     this.latticeCanvasBounds = latticeCanvasBounds;
 
-    // @private
     this.lattice = lattice;
 
-    // @private
+    // @ts-expect-error
     this.piecewiseLinearBrightness = options.piecewiseLinearBrightness;
 
-    // @private
+    // @ts-expect-error
     this.lightScreenAveragingWindowSize = options.lightScreenAveragingWindowSize;
 
-    // @private
     this.intensitySample = intensitySample;
 
-    // @private {Color} required because we'll be operating on a Color
     this.baseColor = new Color( 'blue' );
 
     // Render into a sub-canvas which will be drawn into the rendering context at the right scale.
     // Use a single column of pixels, then stretch them to the right (since that is a constant)
     const width = 1;
 
-    // @private - for rendering via image data
     this.imageDataRenderer = new ImageDataRenderer( width, lattice.visibleBounds.height );
 
     // Invalidate paint when model indicates changes
@@ -110,6 +119,7 @@ class LightScreenNode extends CanvasNode {
    */
   public override paintCanvas( context: CanvasRenderingContext2D ): void {
 
+    // @ts-expect-error
     const intensityValues = this.intensitySample.getIntensityValues();
 
     let m = 0;

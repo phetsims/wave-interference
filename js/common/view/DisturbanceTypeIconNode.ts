@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Shows the icons for the radio buttons that choose between pulse and continuous waves.
  *
@@ -22,6 +22,7 @@ const WIDTH = 50;                        // Size of wave, in pixels
 
 class DisturbanceTypeIconNode extends Node {
 
+  // @ts-expect-error
   public constructor( disturbanceType, options ) {
 
     options = merge( {
@@ -29,8 +30,11 @@ class DisturbanceTypeIconNode extends Node {
     }, options );
     super();
 
+    // @ts-expect-error
     const minAngle = disturbanceType === Scene.DisturbanceType.PULSE ? Math.PI : 0;
+    // @ts-expect-error
     const minX = disturbanceType === Scene.DisturbanceType.PULSE ? MARGIN : 0;
+    // @ts-expect-error
     const maxX = disturbanceType === Scene.DisturbanceType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
 
     const shape = new Shape();
@@ -39,6 +43,7 @@ class DisturbanceTypeIconNode extends Node {
       const y = -Math.cos( angle ) * WAVE_HEIGHT;
       const x = Utils.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
       if ( i === 0 ) {
+        // @ts-expect-error
         if ( disturbanceType === Scene.DisturbanceType.PULSE ) {
           shape.moveTo( x - MARGIN, y );
           shape.lineTo( x, y );
@@ -51,6 +56,7 @@ class DisturbanceTypeIconNode extends Node {
         shape.lineTo( x, y );
       }
     }
+    // @ts-expect-error
     if ( disturbanceType === Scene.DisturbanceType.PULSE ) {
       shape.lineToRelative( MARGIN, 0 );
     }

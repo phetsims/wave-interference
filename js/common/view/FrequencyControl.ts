@@ -1,5 +1,5 @@
 // Copyright 2018-2022, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Controls the frequency for the selected Scene.
  *
@@ -35,28 +35,45 @@ class FrequencyControl extends Node {
     let soundFrequencySlider: WaveInterferenceSlider | null = null;
 
     // Controls are in the physical coordinate frame
+    // @ts-expect-error
     if ( model.waterScene ) {
+
+      // @ts-expect-error
       const waterFrequencySlider = new WaveInterferenceSlider( model.getWaterFrequencySliderProperty() );
       sliderGroupChildren.push( waterFrequencySlider );
 
       // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
       model.sceneProperty.link( scene => {
+
+        // @ts-expect-error
         waterFrequencySlider.visible = scene === model.waterScene;
       } );
     }
+
+    // @ts-expect-error
     if ( model.soundScene ) {
+
+      // @ts-expect-error
       soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty );
       sliderGroupChildren.push( soundFrequencySlider );
 
       // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
       model.sceneProperty.link( scene => {
+
+        // @ts-expect-error
         soundFrequencySlider.visible = scene === model.soundScene;
       } );
     }
+
+    // @ts-expect-error
     if ( model.lightScene ) {
+
+      // @ts-expect-error
       const lightFrequencyProperty = model.lightScene.frequencyProperty;
       const trackSize = new Dimension2( 150, WaveInterferenceConstants.SPECTRUM_TRACK_HEIGHT );
       const lightFrequencySlider = new WaveInterferenceSlider( lightFrequencyProperty, {
+
+        // @ts-expect-error
         maxTickIndex: 25, // for audio clicks ratchet sounds
         showTicks: false,
         trackNode: new SpectrumSliderTrack( lightFrequencyProperty, lightFrequencyProperty.range, {
@@ -76,6 +93,8 @@ class FrequencyControl extends Node {
 
       // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
       model.sceneProperty.link( scene => {
+
+        // @ts-expect-error
         lightFrequencySlider.visible = scene === model.lightScene;
       } );
 
@@ -85,6 +104,8 @@ class FrequencyControl extends Node {
     const sliderContainer = new Node( { children: sliderGroupChildren } );
 
     sliderContainer.top = frequencyTitle.bottom + WaveInterferenceUtils.getSliderTitleSpacing( frequencyTitle );
+
+    // @ts-expect-error
     if ( model.lightScene && !model.waterScene && !model.soundScene ) {
       sliderContainer.top += 10;
     }
