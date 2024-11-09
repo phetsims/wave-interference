@@ -1,4 +1,4 @@
-// Copyright 2018-2022, University of Colorado Boulder
+// Copyright 2018-2024, University of Colorado Boulder
 // @ts-nocheck
 /**
  * For the sound scene, shows one speaker for each wave generator, each with its own on/off button.

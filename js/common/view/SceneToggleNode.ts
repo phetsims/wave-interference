@@ -1,4 +1,4 @@
-// Copyright 2018-2022, University of Colorado Boulder
+// Copyright 2018-2024, University of Colorado Boulder
 
 /**
  * A ToggleNode that shows something different for each scene.  All SceneToggleNodes in this sim exist for the lifetime
