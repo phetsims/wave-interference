@@ -1,10 +1,12 @@
 // Copyright 2021-2024, University of Colorado Boulder
 
+/* eslint-disable */
+/* @formatter:off */
+
 /**
  * Auto-generated from modulify, DO NOT manually modify.
  */
-/* eslint-disable */
-/* @formatter:off */
+
 import getStringModule from '../../chipper/js/getStringModule.js';
 import type LocalizedStringProperty from '../../chipper/js/LocalizedStringProperty.js';
 import waveInterference from './waveInterference.js';
