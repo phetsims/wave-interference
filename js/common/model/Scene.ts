@@ -77,7 +77,7 @@ class Scene {
 
   // horizontal position of the barrier in lattice coordinates (includes damping region)
   // note: this is a floating point representation in 2D to work seamlessly with DragListener
-  // lattice computations using this floating point value should use Utils.roundSymmetric()
+  // lattice computations using this floating point value should use roundSymmetric()
   // start slightly left of 50.5 so it will round to 50 instead of 51
   public readonly barrierPositionProperty = new Vector2Property( new Vector2( this.lattice.width / 2 - 1E-6, 0 ) );
 
