@@ -11,7 +11,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import InstanceRegistry from '../../../../phet-core/js/documentation/InstanceRegistry.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 import StopwatchNode from '../../../../scenery-phet/js/StopwatchNode.js';
-import { AlignGroup, DragListener, HBox, InteractiveHighlightingNode } from '../../../../scenery/js/imports.js';
+import { AlignGroup, DragListener, HBox, InteractiveHighlightingNode, rasterized } from '../../../../scenery/js/imports.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
@@ -42,7 +42,7 @@ class ToolboxPanel extends WaveInterferencePanel {
 
     // Node used to create the icon
     isStopwatchVisibleProperty.value = true;
-    const stopwatchNodeIcon = stopwatchNode.rasterized().mutate( { scale: 0.45 } );
+    const stopwatchNodeIcon = rasterized( stopwatchNode ).mutate( { scale: 0.45 } );
     isStopwatchVisibleProperty.value = false;
 
     // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
@@ -62,7 +62,7 @@ class ToolboxPanel extends WaveInterferencePanel {
     // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
     // Temporarily show the node so it can be rasterized for an icon
     isWaveMeterInPlayAreaProperty.value = true;
-    const waveMeterIcon = waveMeterNode.rasterized().mutate( { scale: 0.25 } );
+    const waveMeterIcon = rasterized( waveMeterNode ).mutate( { scale: 0.25 } );
     isWaveMeterInPlayAreaProperty.value = false;
 
     const interactiveWaveMeterIcon = initializeIcon( waveMeterIcon, isWaveMeterInPlayAreaProperty, event => {

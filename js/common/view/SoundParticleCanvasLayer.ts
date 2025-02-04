@@ -15,7 +15,7 @@ import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import SoundParticleNode from './SoundParticleNode.js';
 
 // constants
-// Render at increased resolution so particles don't appear pixellated on a large screen.  See Node.rasterized's
+// Render at increased resolution so particles don't appear pixellated on a large screen.  See rasterized()'s
 // resolution option for details about this value.
 const RESOLUTION = 2;
 
