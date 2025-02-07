@@ -6,8 +6,8 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import { Shape } from '../../../../kite/js/imports.js';
-import { AlignGroup } from '../../../../scenery/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
+import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import WaveInterferenceQueryParameters from '../../common/WaveInterferenceQueryParameters.js';
 import TheoryInterferenceOverlay from '../../slits/view/TheoryInterferenceOverlay.js';
 import waveInterference from '../../waveInterference.js';

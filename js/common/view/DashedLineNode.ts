@@ -6,9 +6,10 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import { LineStyles, Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
+import LineStyles from '../../../../kite/js/util/LineStyles.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { Path, PathOptions } from '../../../../scenery/js/imports.js';
+import Path, { PathOptions } from '../../../../scenery/js/nodes/Path.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 

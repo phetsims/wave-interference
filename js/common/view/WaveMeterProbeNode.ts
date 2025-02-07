@@ -10,7 +10,8 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ProbeNode, { ProbeNodeOptions } from '../../../../scenery-phet/js/ProbeNode.js';
-import { DragListener, InteractiveHighlighting } from '../../../../scenery/js/imports.js';
+import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
+import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import waveInterference from '../../waveInterference.js';
 
 type SelfOptions = {

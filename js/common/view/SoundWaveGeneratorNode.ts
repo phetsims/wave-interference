@@ -28,7 +28,7 @@ import speaker_R6_png from '../../../../scenery-phet/images/speaker/speaker_R6_p
 import speaker_R7_png from '../../../../scenery-phet/images/speaker/speaker_R7_png.js';
 import speaker_R8_png from '../../../../scenery-phet/images/speaker/speaker_R8_png.js';
 import speaker_R9_png from '../../../../scenery-phet/images/speaker/speaker_R9_png.js';
-import { Image } from '../../../../scenery/js/imports.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 import waveInterference from '../../waveInterference.js';
 import SoundScene from '../model/SoundScene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';

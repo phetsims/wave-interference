@@ -8,7 +8,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import ShadedSphereNode, { ShadedSphereNodeOptions } from '../../../../scenery-phet/js/ShadedSphereNode.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import waveInterference from '../../waveInterference.js';
 
 class SoundParticleNode extends ShadedSphereNode {

@@ -9,7 +9,7 @@
 import Property from '../../../axon/js/Property.js';
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { AlignGroup } from '../../../scenery/js/imports.js';
+import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
 import waveInterference from '../waveInterference.js';
 import WavesModel from '../waves/model/WavesModel.js';
 import WavesScreenView from '../waves/view/WavesScreenView.js';

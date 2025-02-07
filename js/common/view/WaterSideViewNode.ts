@@ -7,7 +7,7 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { Path } from '../../../../scenery/js/imports.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import waveInterference from '../../waveInterference.js';
 import WaterScene from '../model/WaterScene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';

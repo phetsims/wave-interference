@@ -7,7 +7,7 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
 import WaveInterferenceQueryParameters from '../../common/WaveInterferenceQueryParameters.js';
 import waveInterference from '../../waveInterference.js';
 import WavesModel from '../../waves/model/WavesModel.js';

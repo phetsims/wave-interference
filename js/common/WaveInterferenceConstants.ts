@@ -11,7 +11,7 @@ import Utils from '../../../dot/js/Utils.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import VisibleColor from '../../../scenery-phet/js/VisibleColor.js';
-import { Color } from '../../../scenery/js/imports.js';
+import Color from '../../../scenery/js/util/Color.js';
 import waveInterference from '../waveInterference.js';
 import WaveInterferenceQueryParameters from './WaveInterferenceQueryParameters.js';
 

@@ -10,7 +10,7 @@ import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import Scene from '../../common/model/Scene.js';

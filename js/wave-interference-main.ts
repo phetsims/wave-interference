@@ -9,7 +9,7 @@
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import platform from '../../phet-core/js/platform.js';
-import { AlignGroup } from '../../scenery/js/imports.js';
+import AlignGroup from '../../scenery/js/layout/constraints/AlignGroup.js';
 import DiffractionScreen from './diffraction/DiffractionScreen.js';
 import InterferenceScreen from './interference/InterferenceScreen.js';
 import SlitsScreen from './slits/SlitsScreen.js';

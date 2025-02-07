@@ -9,7 +9,8 @@
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import { AlignGroup, Image } from '../../../scenery/js/imports.js';
+import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
+import Image from '../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import interference_screen_icon_png from '../../images/interference_screen_icon_png.js';
 import waveInterference from '../waveInterference.js';

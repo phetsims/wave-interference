@@ -11,7 +11,8 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import speaker_MID_png from '../../../../scenery-phet/images/speaker/speaker_MID_png.js';
 import FaucetNode from '../../../../scenery-phet/js/FaucetNode.js';
 import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
-import { Image, rasterized } from '../../../../scenery/js/imports.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
+import { rasterized } from '../../../../scenery/js/util/rasterized.js';
 import waveInterference from '../../waveInterference.js';
 import LightWaveGeneratorNode from './LightWaveGeneratorNode.js';
 
