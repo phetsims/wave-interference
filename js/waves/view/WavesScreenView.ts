@@ -1,4 +1,4 @@
-// Copyright 2018-2024, University of Colorado Boulder
+// Copyright 2018-2025, University of Colorado Boulder
 // @ts-nocheck
 /**
  * View for the "Waves" screen.  Extended for the Interference and Slits screens.

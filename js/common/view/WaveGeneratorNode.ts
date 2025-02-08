@@ -1,4 +1,4 @@
-// Copyright 2018-2022, University of Colorado Boulder
+// Copyright 2018-2025, University of Colorado Boulder
 // @ts-nocheck
 /**
  * For each scene, shows one node for each wave generator, each with its own on/off button.

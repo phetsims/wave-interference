@@ -1,4 +1,4 @@
-// Copyright 2018-2022, University of Colorado Boulder
+// Copyright 2018-2025, University of Colorado Boulder
 // @ts-nocheck
 /**
  * Shows the semi-transparent graph over the lattice area (when selected).

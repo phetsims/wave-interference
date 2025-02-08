@@ -1,4 +1,4 @@
-// Copyright 2018-2022, University of Colorado Boulder
+// Copyright 2018-2025, University of Colorado Boulder
 // @ts-nocheck
 /**
  * Vertical cylinder with a button that produces the plane wave along the left edge of the wave area.
