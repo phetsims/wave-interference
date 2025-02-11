@@ -12,14 +12,14 @@ import speaker_MID_png from '../../../../scenery-phet/images/speaker/speaker_MID
 import FaucetNode from '../../../../scenery-phet/js/FaucetNode.js';
 import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
-import { rasterized } from '../../../../scenery/js/util/rasterized.js';
+import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
 import waveInterference from '../../waveInterference.js';
 import LightWaveGeneratorNode from './LightWaveGeneratorNode.js';
 
 class WaveInterferenceSceneIcons {
 
   // Faucet icon, rasterized to clip out invisible parts (like the ShooterNode)
-  public waterIcon = rasterized( new FaucetNode( 1, new NumberProperty( 0 ), new BooleanProperty( true ), {
+  public waterIcon = rasterizeNode( new FaucetNode( 1, new NumberProperty( 0 ), new BooleanProperty( true ), {
     interactiveProperty: new BooleanProperty( false )
   } ) );
 

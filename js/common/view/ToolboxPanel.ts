@@ -15,7 +15,7 @@ import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/vo
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
-import { rasterized } from '../../../../scenery/js/util/rasterized.js';
+import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
 import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
@@ -46,7 +46,7 @@ class ToolboxPanel extends WaveInterferencePanel {
 
     // Node used to create the icon
     isStopwatchVisibleProperty.value = true;
-    const stopwatchNodeIcon = rasterized( stopwatchNode ).mutate( { scale: 0.45 } );
+    const stopwatchNodeIcon = rasterizeNode( stopwatchNode ).mutate( { scale: 0.45 } );
     isStopwatchVisibleProperty.value = false;
 
     // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
@@ -66,7 +66,7 @@ class ToolboxPanel extends WaveInterferencePanel {
     // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
     // Temporarily show the node so it can be rasterized for an icon
     isWaveMeterInPlayAreaProperty.value = true;
-    const waveMeterIcon = rasterized( waveMeterNode ).mutate( { scale: 0.25 } );
+    const waveMeterIcon = rasterizeNode( waveMeterNode ).mutate( { scale: 0.25 } );
     isWaveMeterInPlayAreaProperty.value = false;
 
     const interactiveWaveMeterIcon = initializeIcon( waveMeterIcon, isWaveMeterInPlayAreaProperty, event => {
