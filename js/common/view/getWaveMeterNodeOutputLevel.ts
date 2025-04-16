@@ -1,12 +1,14 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
+/**
+ * Converts a wave value to a volume for the WaveMeterNode
+ *
+ * @author Sam Reid (PhET Interactive Simulations)
+ */
+
 import PiecewiseLinearFunction from '../../../../dot/js/PiecewiseLinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';
 
-/**
- * Converts a wave value to a volume for the WaveMeterNode
- * @author Sam Reid (PhET Interactive Simulations)
- */
 const getWaveMeterNodeOutputLevel = ( value: number ): number => {
 
   // Linearize based on the sine value
