@@ -64,13 +64,9 @@ cd ../wave-interference
 npm install
 ```
 
-(3) Transpile the TypeScript code to JavaScript by running `grunt output-js-project --live`. This starts a file-watching process that will automatically transpile
-new or changed files.
+(3) Run `grunt dev-server` to start a local development server that will serve the simulation.
 
-(4) In a new terminal/command prompt, start an http-server
-
-(5) Open in the browser: `http://localhost/wave-interference/wave-interference_en.html` (You will probably need to modify this
-URL based on your HTTP port and relative path.)
+(4) Open in the browser: `http://localhost/wave-interference/wave-interference_en.html`
 
 #### Optional: Build the simulation into a single file
 
@@ -81,8 +77,7 @@ like `>> WARNING404: Skipping potentially non-public dependency`, which indicate
 being included in the build.
 
 (3) Open in the
-browser: `http://localhost/wave-interference/build/adapted-from-phet/wave-interference_en_adapted-from-phet.html` (You will
-probably need to modify this URL based on your HTTP port and relative path.)
+browser: `http://localhost/wave-interference/build/adapted-from-phet/wave-interference_en_adapted-from-phet.html`
 
 ### Get Involved
 
