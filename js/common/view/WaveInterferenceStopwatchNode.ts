@@ -9,7 +9,7 @@
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import SceneryPhetStrings from '../../../../scenery-phet/js/SceneryPhetStrings.js';
+import SceneryPhetFluent from '../../../../scenery-phet/js/SceneryPhetFluent.js';
 import StopwatchNode, { StopwatchNodeOptions } from '../../../../scenery-phet/js/StopwatchNode.js';
 import waveInterference from '../../waveInterference.js';
 import WavesModel from '../../waves/model/WavesModel.js';
@@ -38,7 +38,7 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
           units: unitsProperty
         } ),
         numberFormatterDependencies: [
-          SceneryPhetStrings.stopwatchValueUnitsPatternStringProperty, // used by StopwatchNode.createRichTextNumberFormatter
+          SceneryPhetFluent.stopwatchValueUnitsPatternStringProperty, // used by StopwatchNode.createRichTextNumberFormatter
           unitsProperty
         ],
         maxWidth: WaveInterferenceConstants.MAX_WIDTH
