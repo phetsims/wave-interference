@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "5531b4c05b9d2b1efabaa38f3db52f8bea86f271",
+    "sha": "07e8c85efbe611da1e9670a0ffaaade06c45082a",
     "branch": "HEAD"
   },
   "kite": {
@@ -85,7 +85,7 @@
     "branch": "HEAD"
   },
   "wave-interference": {
-    "sha": "5641116dc0bc0cee7e7edc23d64baf02ab72b0ad",
+    "sha": "41c40b63855c76aaca949d8381a09ffdc3b11e9c",
     "branch": "2.0"
   }
 }
