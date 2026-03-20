@@ -17,7 +17,6 @@ import Scene from '../../common/model/Scene.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 
 const cmValueString = WaveInterferenceStrings.cmValue;
@@ -185,5 +184,4 @@ class SlitsControlPanel extends WaveInterferencePanel {
   }
 }
 
-waveInterference.register( 'SlitsControlPanel', SlitsControlPanel );
 export default SlitsControlPanel;

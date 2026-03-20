@@ -7,7 +7,6 @@
  */
 
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import SoundScene from '../model/SoundScene.js';
@@ -41,5 +40,4 @@ class SoundViewTypeRadioButtonGroup extends VerticalAquaRadioButtonGroup {
   }
 }
 
-waveInterference.register( 'SoundViewTypeRadioButtonGroup', SoundViewTypeRadioButtonGroup );
 export default SoundViewTypeRadioButtonGroup;

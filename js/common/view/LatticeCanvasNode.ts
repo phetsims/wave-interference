@@ -13,7 +13,6 @@ import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js'
 import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import CanvasNode, { CanvasNodeOptions } from '../../../../scenery/js/nodes/CanvasNode.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 
@@ -138,5 +137,4 @@ class LatticeCanvasNode extends CanvasNode {
   }
 }
 
-waveInterference.register( 'LatticeCanvasNode', LatticeCanvasNode );
 export default LatticeCanvasNode;

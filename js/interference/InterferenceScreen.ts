@@ -13,7 +13,6 @@ import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import interference_screen_icon_png from '../../images/interference_screen_icon_png.js';
-import waveInterference from '../waveInterference.js';
 import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 import InterferenceModel from './model/InterferenceModel.js';
 import InterferenceScreenView from './view/InterferenceScreenView.js';
@@ -43,5 +42,4 @@ class InterferenceScreen extends Screen<InterferenceModel, InterferenceScreenVie
   }
 }
 
-waveInterference.register( 'InterferenceScreen', InterferenceScreen );
 export default InterferenceScreen;

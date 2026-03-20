@@ -30,7 +30,6 @@ import waving_girl_icon_png from '../../../images/waving_girl_icon_png.js';
 import LengthScaleIndicatorNode from '../../common/view/LengthScaleIndicatorNode.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import CircleSquareSceneControlPanel from './CircleSquareSceneControlPanel.js';
 import DisorderSceneControlPanel from './DisorderSceneControlPanel.js';
@@ -293,5 +292,4 @@ class DiffractionScreenView extends ScreenView {
   }
 }
 
-waveInterference.register( 'DiffractionScreenView', DiffractionScreenView );
 export default DiffractionScreenView;

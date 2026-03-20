@@ -10,7 +10,6 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import waving_girl_aperture_png from '../../../images/waving_girl_aperture_png.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import DiffractionScene from './DiffractionScene.js';
 
 class WavingGirlScene extends DiffractionScene {
@@ -52,5 +51,4 @@ class WavingGirlScene extends DiffractionScene {
   }
 }
 
-waveInterference.register( 'WavingGirlScene', WavingGirlScene );
 export default WavingGirlScene;

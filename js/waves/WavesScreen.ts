@@ -10,7 +10,6 @@ import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import waves_screen_icon_png from '../../images/waves_screen_icon_png.js';
 import BaseScreen from '../common/BaseScreen.js';
-import waveInterference from '../waveInterference.js';
 import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 
 class WavesScreen extends BaseScreen {
@@ -30,5 +29,4 @@ class WavesScreen extends BaseScreen {
   }
 }
 
-waveInterference.register( 'WavesScreen', WavesScreen );
 export default WavesScreen;

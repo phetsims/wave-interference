@@ -16,7 +16,6 @@ import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js'
 import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import CanvasNode, { CanvasNodeOptions } from '../../../../scenery/js/nodes/CanvasNode.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 
@@ -174,5 +173,4 @@ class LightScreenNode extends CanvasNode {
   }
 }
 
-waveInterference.register( 'LightScreenNode', LightScreenNode );
 export default LightScreenNode;

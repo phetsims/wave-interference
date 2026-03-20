@@ -9,7 +9,6 @@
 
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
-import waveInterference from '../waveInterference.js';
 import BaseScreen, { BaseScreenOptions } from './BaseScreen.js';
 
 class MediumScreen extends BaseScreen {
@@ -26,5 +25,4 @@ class MediumScreen extends BaseScreen {
   }
 }
 
-waveInterference.register( 'MediumScreen', MediumScreen );
 export default MediumScreen;

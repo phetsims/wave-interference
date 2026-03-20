@@ -8,8 +8,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import waveInterference from '../../waveInterference.js';
-
 // constants
 // Manually tuned so that the speed of the water drops visually approximates the speed of the wave in water side view
 const WATER_DROP_SPEED = 140;
@@ -53,5 +51,4 @@ class WaterDrop {
   }
 }
 
-waveInterference.register( 'WaterDrop', WaterDrop );
 export default WaterDrop;

@@ -9,7 +9,6 @@
 
 import Image, { ImageOptions } from '../../../../scenery/js/nodes/Image.js';
 import water_drop_png from '../../../images/water_drop_png.js';
-import waveInterference from '../../waveInterference.js';
 import WaterDrop from '../model/WaterDrop.js';
 
 class WaterDropImage extends Image {
@@ -24,5 +23,4 @@ class WaterDropImage extends Image {
   }
 }
 
-waveInterference.register( 'WaterDropImage', WaterDropImage );
 export default WaterDropImage;

@@ -12,7 +12,6 @@ import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import diffraction_screen_icon_png from '../../images/diffraction_screen_icon_png.js';
-import waveInterference from '../waveInterference.js';
 import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 import DiffractionModel from './model/DiffractionModel.js';
 import DiffractionScreenView from './view/DiffractionScreenView.js';
@@ -40,5 +39,4 @@ class DiffractionScreen extends Screen<DiffractionModel, DiffractionScreenView> 
   }
 }
 
-waveInterference.register( 'DiffractionScreen', DiffractionScreen );
 export default DiffractionScreen;

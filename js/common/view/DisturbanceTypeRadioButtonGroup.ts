@@ -8,7 +8,6 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import waveInterference from '../../waveInterference.js';
 import Scene from '../model/Scene.js';
 import DisturbanceTypeIconNode from './DisturbanceTypeIconNode.js';
 
@@ -47,5 +46,4 @@ class DisturbanceTypeRadioButtonGroup extends RectangularRadioButtonGroup {
   }
 }
 
-waveInterference.register( 'DisturbanceTypeRadioButtonGroup', DisturbanceTypeRadioButtonGroup );
 export default DisturbanceTypeRadioButtonGroup;

@@ -9,7 +9,6 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Scene from '../../common/model/Scene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 
 class SlitsModel extends WavesModel {
@@ -39,5 +38,4 @@ class SlitsModel extends WavesModel {
   }
 }
 
-waveInterference.register( 'SlitsModel', SlitsModel );
 export default SlitsModel;

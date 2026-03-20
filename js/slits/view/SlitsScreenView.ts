@@ -9,7 +9,6 @@
 import Multilink from '../../../../axon/js/Multilink.js';
 import Shape from '../../../../kite/js/Shape.js';
 import WaveInterferenceQueryParameters from '../../common/WaveInterferenceQueryParameters.js';
-import waveInterference from '../../waveInterference.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WavesScreenView from '../../waves/view/WavesScreenView.js';
 import BarriersNode from './BarriersNode.js';
@@ -84,5 +83,4 @@ class SlitsScreenView extends WavesScreenView {
   }
 }
 
-waveInterference.register( 'SlitsScreenView', SlitsScreenView );
 export default SlitsScreenView;

@@ -10,7 +10,6 @@
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ToggleNode, { ToggleNodeOptions } from '../../../../sun/js/ToggleNode.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import waveInterference from '../../waveInterference.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import Scene from '../model/Scene.js';
 
@@ -22,5 +21,4 @@ class SceneToggleNode extends ToggleNode<Scene> {
   }
 }
 
-waveInterference.register( 'SceneToggleNode', SceneToggleNode );
 export default SceneToggleNode;

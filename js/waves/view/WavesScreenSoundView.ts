@@ -21,7 +21,6 @@ import waterDropV5_002_mp3 from '../../../sounds/waterDropV5_002_mp3.js';
 import waterDropV5_003_mp3 from '../../../sounds/waterDropV5_003_mp3.js';
 import waterDropV5_mp3 from '../../../sounds/waterDropV5_mp3.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 
 // sounds
 const waterDropSounds = [ waterDropV5_mp3, waterDropV5_001_mp3, waterDropV5_002_mp3, waterDropV5_003_mp3 ];
@@ -179,5 +178,4 @@ class WavesScreenSoundView {
   }
 }
 
-waveInterference.register( 'WavesScreenSoundView', WavesScreenSoundView );
 export default WavesScreenSoundView;

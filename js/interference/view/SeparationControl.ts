@@ -14,7 +14,6 @@ import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import Scene from '../../common/model/Scene.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import InterferenceModel from '../model/InterferenceModel.js';
 
@@ -129,5 +128,4 @@ const createTicks = ( range: Range, allRanges: Range[] ): object => [
   { value: range.max, label: createTickMarkLabel( range.max + '', allRanges.map( r => r.max + '' ) ) }
 ];
 
-waveInterference.register( 'SeparationControl', SeparationControl );
 export default SeparationControl;

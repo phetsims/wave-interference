@@ -8,7 +8,6 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 
 class WaveInterferenceText extends Text {
@@ -20,5 +19,4 @@ class WaveInterferenceText extends Text {
   }
 }
 
-waveInterference.register( 'WaveInterferenceText', WaveInterferenceText );
 export default WaveInterferenceText;

@@ -29,7 +29,6 @@ import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import squishierButtonV3_007_mp3 from '../../../sounds/squishierButtonV3_007_mp3.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import TemporalMask from './TemporalMask.js';
@@ -964,5 +963,4 @@ Scene.WaveSpatialType = EnumerationDeprecated.byKeys( [ 'POINT', 'PLANE' ] );
 // @ts-expect-error
 Scene.BarrierType = EnumerationDeprecated.byKeys( [ 'NO_BARRIER', 'ONE_SLIT', 'TWO_SLITS' ] );
 
-waveInterference.register( 'Scene', Scene );
 export default Scene;

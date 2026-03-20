@@ -20,7 +20,6 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import ColorConstants from '../../../../sun/js/ColorConstants.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
@@ -170,5 +169,4 @@ class IntensityGraphPanel extends WaveInterferencePanel {
   }
 }
 
-waveInterference.register( 'IntensityGraphPanel', IntensityGraphPanel );
 export default IntensityGraphPanel;

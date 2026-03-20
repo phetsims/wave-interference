@@ -6,7 +6,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
@@ -33,5 +32,4 @@ class ViewpointRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonG
   }
 }
 
-waveInterference.register( 'ViewpointRadioButtonGroup', ViewpointRadioButtonGroup );
 export default ViewpointRadioButtonGroup;

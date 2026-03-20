@@ -8,7 +8,6 @@
 
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
-import waveInterference from '../../waveInterference.js';
 import SoundScene from './SoundScene.js';
 
 // constants
@@ -76,5 +75,4 @@ class SoundParticle {
   }
 }
 
-waveInterference.register( 'SoundParticle', SoundParticle );
 export default SoundParticle;

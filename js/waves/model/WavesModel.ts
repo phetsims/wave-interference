@@ -33,7 +33,6 @@ import SoundScene from '../../common/model/SoundScene.js';
 import WaterScene from '../../common/model/WaterScene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 
 const centimetersUnitsString = WaveInterferenceStrings.centimetersUnits;
@@ -435,5 +434,4 @@ WavesModel.EVENT_RATE = EVENT_RATE;
  */
 WavesModel.Viewpoint = EnumerationDeprecated.byKeys( [ 'TOP', 'SIDE' ] );
 
-waveInterference.register( 'WavesModel', WavesModel );
 export default WavesModel;

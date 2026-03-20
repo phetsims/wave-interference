@@ -8,7 +8,6 @@
 
 import Property from '../../../../axon/js/Property.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import waveInterference from '../../waveInterference.js';
 import LightScene from '../model/LightScene.js';
 import Scene from '../model/Scene.js';
 import SoundScene from '../model/SoundScene.js';
@@ -39,5 +38,4 @@ class SceneRadioButtonGroup extends RectangularRadioButtonGroup<Scene> {
   }
 }
 
-waveInterference.register( 'SceneRadioButtonGroup', SceneRadioButtonGroup );
 export default SceneRadioButtonGroup;

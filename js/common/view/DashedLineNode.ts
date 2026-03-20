@@ -10,7 +10,6 @@ import Shape from '../../../../kite/js/Shape.js';
 import LineStyles from '../../../../kite/js/util/LineStyles.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Path, { PathOptions } from '../../../../scenery/js/nodes/Path.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 
 class DashedLineNode extends Path {
@@ -32,5 +31,4 @@ class DashedLineNode extends Path {
   }
 }
 
-waveInterference.register( 'DashedLineNode', DashedLineNode );
 export default DashedLineNode;

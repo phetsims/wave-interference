@@ -11,7 +11,6 @@ import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
@@ -69,5 +68,4 @@ class DisorderSceneControlPanel extends WaveInterferencePanel {
   }
 }
 
-waveInterference.register( 'DisorderSceneControlPanel', DisorderSceneControlPanel );
 export default DisorderSceneControlPanel;

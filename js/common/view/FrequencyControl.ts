@@ -12,7 +12,6 @@ import SpectrumSliderThumb from '../../../../scenery-phet/js/SpectrumSliderThumb
 import SpectrumSliderTrack from '../../../../scenery-phet/js/SpectrumSliderTrack.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
@@ -120,5 +119,4 @@ class FrequencyControl extends Node {
   }
 }
 
-waveInterference.register( 'FrequencyControl', FrequencyControl );
 export default FrequencyControl;

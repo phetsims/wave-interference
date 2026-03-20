@@ -17,7 +17,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import Easing from '../../../../twixt/js/Easing.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
@@ -138,5 +137,4 @@ class Perspective3DNode extends Node {
   }
 }
 
-waveInterference.register( 'Perspective3DNode', Perspective3DNode );
 export default Perspective3DNode;

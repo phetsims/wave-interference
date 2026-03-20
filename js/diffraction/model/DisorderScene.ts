@@ -11,7 +11,6 @@ import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import DiffractionScene from './DiffractionScene.js';
 
 // The disorder is quantized over the following levels.  The perturbations are cumulative, so that level N contains
@@ -141,5 +140,4 @@ class DisorderScene extends DiffractionScene {
   }
 }
 
-waveInterference.register( 'DisorderScene', DisorderScene );
 export default DisorderScene;

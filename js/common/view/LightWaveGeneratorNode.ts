@@ -9,7 +9,6 @@
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
-import waveInterference from '../../waveInterference.js';
 import LightScene from '../model/LightScene.js';
 import WaveAreaNode from './WaveAreaNode.js';
 import WaveGeneratorNode from './WaveGeneratorNode.js';
@@ -39,5 +38,4 @@ class LightWaveGeneratorNode extends WaveGeneratorNode {
 // @ts-expect-error
 LightWaveGeneratorNode.DEFAULT_NODE_OPTIONS = DEFAULT_OPTIONS;
 
-waveInterference.register( 'LightWaveGeneratorNode', LightWaveGeneratorNode );
 export default LightWaveGeneratorNode;

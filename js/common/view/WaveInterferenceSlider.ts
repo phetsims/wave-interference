@@ -12,7 +12,6 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
@@ -102,5 +101,4 @@ class WaveInterferenceSlider extends HSlider {
   }
 }
 
-waveInterference.register( 'WaveInterferenceSlider', WaveInterferenceSlider );
 export default WaveInterferenceSlider;

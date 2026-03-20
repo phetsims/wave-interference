@@ -13,7 +13,6 @@ import merge from '../../../../phet-core/js/merge.js';
 import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 
 class DiffractionNumberControl extends NumberControl {
 
@@ -48,5 +47,4 @@ class DiffractionNumberControl extends NumberControl {
   }
 }
 
-waveInterference.register( 'DiffractionNumberControl', DiffractionNumberControl );
 export default DiffractionNumberControl;

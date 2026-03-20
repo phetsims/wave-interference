@@ -13,7 +13,6 @@ import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Scene from '../../common/model/Scene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 
 // constants
 const LENGTH = 1000;
@@ -144,5 +143,4 @@ class TheoryInterferenceOverlay extends Node {
   }
 }
 
-waveInterference.register( 'TheoryInterferenceOverlay', TheoryInterferenceOverlay );
 export default TheoryInterferenceOverlay;

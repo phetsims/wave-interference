@@ -13,7 +13,6 @@ import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import slits_screen_icon_png from '../../images/slits_screen_icon_png.js';
-import waveInterference from '../waveInterference.js';
 import WaveInterferenceStrings from '../WaveInterferenceStrings.js';
 import SlitsModel from './model/SlitsModel.js';
 import SlitsScreenView from './view/SlitsScreenView.js';
@@ -43,5 +42,4 @@ class SlitsScreen extends Screen<SlitsModel, SlitsScreenView> {
   }
 }
 
-waveInterference.register( 'SlitsScreen', SlitsScreen );
 export default SlitsScreen;

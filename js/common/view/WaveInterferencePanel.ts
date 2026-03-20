@@ -9,7 +9,6 @@
 import merge from '../../../../phet-core/js/merge.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import waveInterference from '../../waveInterference.js';
 
 export type WaveInterferencePanelOptions = PanelOptions;
 
@@ -27,5 +26,4 @@ class WaveInterferencePanel extends Panel {
   }
 }
 
-waveInterference.register( 'WaveInterferencePanel', WaveInterferencePanel );
 export default WaveInterferencePanel;

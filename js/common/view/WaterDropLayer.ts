@@ -9,7 +9,6 @@
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import waveInterference from '../../waveInterference.js';
 import WaterDropImage from './WaterDropImage.js';
 
 class WaterDropLayer extends Node {
@@ -79,5 +78,4 @@ class WaterDropLayer extends Node {
   }
 }
 
-waveInterference.register( 'WaterDropLayer', WaterDropLayer );
 export default WaterDropLayer;

@@ -14,7 +14,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Scene from '../../common/model/Scene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import SlitsModel from '../model/SlitsModel.js';
 
 // constants
@@ -169,5 +168,4 @@ class BarriersNode extends Node {
   }
 }
 
-waveInterference.register( 'BarriersNode', BarriersNode );
 export default BarriersNode;

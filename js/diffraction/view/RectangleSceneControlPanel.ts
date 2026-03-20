@@ -10,7 +10,6 @@ import Utils from '../../../../dot/js/Utils.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
@@ -49,5 +48,4 @@ class RectangleSceneControlPanel extends WaveInterferencePanel {
   }
 }
 
-waveInterference.register( 'RectangleSceneControlPanel', RectangleSceneControlPanel );
 export default RectangleSceneControlPanel;

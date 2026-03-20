@@ -11,7 +11,6 @@ import Range from '../../../../dot/js/Range.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import SceneryPhetFluent from '../../../../scenery-phet/js/SceneryPhetFluent.js';
 import StopwatchNode, { StopwatchNodeOptions } from '../../../../scenery-phet/js/StopwatchNode.js';
-import waveInterference from '../../waveInterference.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
@@ -57,5 +56,4 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
   }
 }
 
-waveInterference.register( 'WaveInterferenceStopwatchNode', WaveInterferenceStopwatchNode );
 export default WaveInterferenceStopwatchNode;

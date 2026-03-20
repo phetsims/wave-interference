@@ -9,7 +9,6 @@
  */
 
 import Lattice from '../../../../scenery-phet/js/Lattice.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 
 class TemporalMask {
@@ -100,5 +99,4 @@ class TemporalMask {
   }
 }
 
-waveInterference.register( 'TemporalMask', TemporalMask );
 export default TemporalMask;

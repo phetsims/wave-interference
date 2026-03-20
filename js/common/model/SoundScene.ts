@@ -14,7 +14,6 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
 import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Scene, { SceneOptions } from './Scene.js';
 import SoundParticle from './SoundParticle.js';
@@ -155,5 +154,3 @@ export default class SoundScene extends Scene {
  */
 // @ts-expect-error
 SoundScene.SoundViewType = EnumerationDeprecated.byKeys( [ 'WAVES', 'PARTICLES', 'BOTH' ] );
-
-waveInterference.register( 'SoundScene', SoundScene );

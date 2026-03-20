@@ -16,7 +16,6 @@ import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js'
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
 import WaveMeterNode from './WaveMeterNode.js';
@@ -121,5 +120,4 @@ const initializeIcon = ( node, inPlayAreaProperty, down ) => {
   return interactiveIcon;
 };
 
-waveInterference.register( 'ToolboxPanel', ToolboxPanel );
 export default ToolboxPanel;

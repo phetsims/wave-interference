@@ -13,7 +13,6 @@ import FaucetNode from '../../../../scenery-phet/js/FaucetNode.js';
 import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
-import waveInterference from '../../waveInterference.js';
 import LightWaveGeneratorNode from './LightWaveGeneratorNode.js';
 
 class WaveInterferenceSceneIcons {
@@ -38,5 +37,4 @@ class WaveInterferenceSceneIcons {
 }
 
 
-waveInterference.register( 'WaveInterferenceSceneIcons', WaveInterferenceSceneIcons );
 export default WaveInterferenceSceneIcons;

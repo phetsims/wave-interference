@@ -16,7 +16,6 @@ import plane_wave_source_png from '../../../images/plane_wave_source_png.js';
 import SceneToggleNode from '../../common/view/SceneToggleNode.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 
 class PlaneWaveGeneratorNode extends Node {
 
@@ -66,5 +65,4 @@ class PlaneWaveGeneratorNode extends Node {
   }
 }
 
-waveInterference.register( 'PlaneWaveGeneratorNode', PlaneWaveGeneratorNode );
 export default PlaneWaveGeneratorNode;

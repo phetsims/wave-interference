@@ -9,7 +9,6 @@
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RoundStickyToggleButton from '../../../../sun/js/buttons/RoundStickyToggleButton.js';
-import waveInterference from '../../waveInterference.js';
 import Scene from '../model/Scene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import DisturbanceTypeIconNode from './DisturbanceTypeIconNode.js';
@@ -107,5 +106,4 @@ class WaveGeneratorNode extends Node {
   }
 }
 
-waveInterference.register( 'WaveGeneratorNode', WaveGeneratorNode );
 export default WaveGeneratorNode;

@@ -7,7 +7,6 @@
  */
 
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 
 abstract class DiffractionScene {
 
@@ -96,5 +95,4 @@ abstract class DiffractionScene {
   }
 }
 
-waveInterference.register( 'DiffractionScene', DiffractionScene );
 export default DiffractionScene;

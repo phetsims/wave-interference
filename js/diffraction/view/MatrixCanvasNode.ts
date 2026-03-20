@@ -13,7 +13,6 @@ import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js'
 import CanvasNode, { CanvasNodeOptions } from '../../../../scenery/js/nodes/CanvasNode.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 
 // Linear scaling factor to increase the brightness.  Color values are clamped, and could whiten at the center.
 const SCALE_FACTOR = 2.5;
@@ -94,5 +93,4 @@ class MatrixCanvasNode extends CanvasNode {
   }
 }
 
-waveInterference.register( 'MatrixCanvasNode', MatrixCanvasNode );
 export default MatrixCanvasNode;

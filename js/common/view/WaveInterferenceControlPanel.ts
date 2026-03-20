@@ -10,7 +10,6 @@ import merge from '../../../../phet-core/js/merge.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import AmplitudeControl from './AmplitudeControl.js';
@@ -219,5 +218,4 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
   }
 }
 
-waveInterference.register( 'WaveInterferenceControlPanel', WaveInterferenceControlPanel );
 export default WaveInterferenceControlPanel;

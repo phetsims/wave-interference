@@ -7,7 +7,6 @@
  */
 
 import { QueryStringMachine } from '../../../query-string-machine/js/QueryStringMachineModule.js';
-import waveInterference from '../waveInterference.js';
 
 const WaveInterferenceQueryParameters = QueryStringMachine.getAll( {
 
@@ -18,7 +17,5 @@ const WaveInterferenceQueryParameters = QueryStringMachine.getAll( {
 
   latticeSize: { type: 'number', defaultValue: 151 }
 } );
-
-waveInterference.register( 'WaveInterferenceQueryParameters', WaveInterferenceQueryParameters );
 
 export default WaveInterferenceQueryParameters;

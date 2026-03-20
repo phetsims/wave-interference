@@ -9,7 +9,6 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import DiffractionScene from './DiffractionScene.js';
 
 class EllipseScene extends DiffractionScene {
@@ -67,5 +66,4 @@ class EllipseScene extends DiffractionScene {
   }
 }
 
-waveInterference.register( 'EllipseScene', EllipseScene );
 export default EllipseScene;

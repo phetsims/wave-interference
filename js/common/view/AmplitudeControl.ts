@@ -7,7 +7,6 @@
  */
 
 import Node from '../../../../scenery/js/nodes/Node.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WaterScene from '../model/WaterScene.js';
@@ -40,5 +39,4 @@ class AmplitudeControl extends Node {
   }
 }
 
-waveInterference.register( 'AmplitudeControl', AmplitudeControl );
 export default AmplitudeControl;

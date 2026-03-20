@@ -10,7 +10,6 @@ import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { AquaRadioButtonGroupItem } from '../../../../sun/js/AquaRadioButtonGroup.js';
 import VerticalAquaRadioButtonGroup, { VerticalAquaRadioButtonGroupOptions } from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
-import waveInterference from '../../waveInterference.js';
 
 class WaveInterferenceVerticalAquaRadioButtonGroup<T> extends VerticalAquaRadioButtonGroup<T> {
 
@@ -20,5 +19,4 @@ class WaveInterferenceVerticalAquaRadioButtonGroup<T> extends VerticalAquaRadioB
   }
 }
 
-waveInterference.register( 'WaveInterferenceVerticalAquaRadioButtonGroup', WaveInterferenceVerticalAquaRadioButtonGroup );
 export default WaveInterferenceVerticalAquaRadioButtonGroup;

@@ -12,7 +12,6 @@ import Shape from '../../../../kite/js/Shape.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 import DashedLineNode from './DashedLineNode.js';
@@ -227,5 +226,4 @@ class WaveAreaGraphNode extends Node {
   }
 }
 
-waveInterference.register( 'WaveAreaGraphNode', WaveAreaGraphNode );
 export default WaveAreaGraphNode;

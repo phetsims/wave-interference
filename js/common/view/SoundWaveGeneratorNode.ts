@@ -29,7 +29,6 @@ import speaker_R7_png from '../../../../scenery-phet/images/speaker/speaker_R7_p
 import speaker_R8_png from '../../../../scenery-phet/images/speaker/speaker_R8_png.js';
 import speaker_R9_png from '../../../../scenery-phet/images/speaker/speaker_R9_png.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
-import waveInterference from '../../waveInterference.js';
 import SoundScene from '../model/SoundScene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveAreaNode from './WaveAreaNode.js';
@@ -84,5 +83,4 @@ class SoundWaveGeneratorNode extends WaveGeneratorNode {
   }
 }
 
-waveInterference.register( 'SoundWaveGeneratorNode', SoundWaveGeneratorNode );
 export default SoundWaveGeneratorNode;

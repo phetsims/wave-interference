@@ -7,7 +7,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import waveInterference from '../../waveInterference.js';
 import IntensitySample from './IntensitySample.js';
 import Scene, { SceneOptions } from './Scene.js';
 
@@ -65,5 +64,4 @@ class LightScene extends Scene {
   }
 }
 
-waveInterference.register( 'LightScene', LightScene );
 export default LightScene;

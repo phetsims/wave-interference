@@ -8,7 +8,6 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import Rectangle, { RectangleOptions } from '../../../../scenery/js/nodes/Rectangle.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 
 class WaveAreaNode extends Rectangle {
@@ -23,5 +22,4 @@ class WaveAreaNode extends Rectangle {
   }
 }
 
-waveInterference.register( 'WaveAreaNode', WaveAreaNode );
 export default WaveAreaNode;

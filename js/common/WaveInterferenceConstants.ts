@@ -12,7 +12,6 @@ import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import VisibleColor from '../../../scenery-phet/js/VisibleColor.js';
 import Color from '../../../scenery/js/util/Color.js';
-import waveInterference from '../waveInterference.js';
 import WaveInterferenceQueryParameters from './WaveInterferenceQueryParameters.js';
 
 // constants
@@ -151,7 +150,5 @@ const WaveInterferenceConstants = {
 } as const;
 
 assert && assert( WaveInterferenceConstants.LATTICE_DIMENSION % 2 === 1, 'lattice dimension must be odd' );
-
-waveInterference.register( 'WaveInterferenceConstants', WaveInterferenceConstants );
 
 export default WaveInterferenceConstants;

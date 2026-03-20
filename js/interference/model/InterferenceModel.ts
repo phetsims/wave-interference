@@ -7,7 +7,6 @@
  */
 
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 
 class InterferenceModel extends WavesModel {
@@ -19,5 +18,4 @@ class InterferenceModel extends WavesModel {
   }
 }
 
-waveInterference.register( 'InterferenceModel', InterferenceModel );
 export default InterferenceModel;

@@ -32,7 +32,6 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import waveMeterSawTone_mp3 from '../../../sounds/waveMeterSawTone_mp3.js';
 import waveMeterSmoothTone_mp3 from '../../../sounds/waveMeterSmoothTone_mp3.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import getWaveMeterNodeOutputLevel from './getWaveMeterNodeOutputLevel.js';
 import SceneToggleNode from './SceneToggleNode.js';
@@ -413,5 +412,4 @@ class WaveMeterNode extends Node {
   }
 }
 
-waveInterference.register( 'WaveMeterNode', WaveMeterNode );
 export default WaveMeterNode;

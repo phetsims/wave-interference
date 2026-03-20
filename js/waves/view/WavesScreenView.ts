@@ -54,7 +54,6 @@ import WaveInterferenceStopwatchNode from '../../common/view/WaveInterferenceSto
 import WaveMeterNode from '../../common/view/WaveMeterNode.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
-import waveInterference from '../../waveInterference.js';
 import WavesModel from '../model/WavesModel.js';
 import WavesScreenSoundView from './WavesScreenSoundView.js';
 
@@ -627,5 +626,4 @@ class WavesScreenView extends ScreenView {
  */
 WavesScreenView.SPACING = SPACING;
 
-waveInterference.register( 'WavesScreenView', WavesScreenView );
 export default WavesScreenView;

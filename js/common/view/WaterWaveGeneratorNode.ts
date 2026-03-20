@@ -11,7 +11,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import FaucetNode from '../../../../scenery-phet/js/FaucetNode.js';
-import waveInterference from '../../waveInterference.js';
 import WaterScene from '../model/WaterScene.js';
 import WaveAreaNode from './WaveAreaNode.js';
 import WaveGeneratorNode from './WaveGeneratorNode.js';
@@ -51,5 +50,4 @@ class WaterWaveGeneratorNode extends WaveGeneratorNode {
   }
 }
 
-waveInterference.register( 'WaterWaveGeneratorNode', WaterWaveGeneratorNode );
 export default WaterWaveGeneratorNode;

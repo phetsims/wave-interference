@@ -11,7 +11,6 @@ import Utils from '../../../dot/js/Utils.js';
 import Shape from '../../../kite/js/Shape.js';
 import Lattice from '../../../scenery-phet/js/Lattice.js';
 import Node from '../../../scenery/js/nodes/Node.js';
-import waveInterference from '../waveInterference.js';
 import WaveInterferenceConstants from './WaveInterferenceConstants.js';
 
 // constants
@@ -102,5 +101,4 @@ class WaveInterferenceUtils {
   }
 }
 
-waveInterference.register( 'WaveInterferenceUtils', WaveInterferenceUtils );
 export default WaveInterferenceUtils;

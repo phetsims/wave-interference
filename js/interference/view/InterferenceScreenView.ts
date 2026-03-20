@@ -10,7 +10,6 @@ import Shape from '../../../../kite/js/Shape.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import WaveInterferenceQueryParameters from '../../common/WaveInterferenceQueryParameters.js';
 import TheoryInterferenceOverlay from '../../slits/view/TheoryInterferenceOverlay.js';
-import waveInterference from '../../waveInterference.js';
 import WavesScreenView from '../../waves/view/WavesScreenView.js';
 import InterferenceModel from '../model/InterferenceModel.js';
 import SeparationControl from './SeparationControl.js';
@@ -42,5 +41,4 @@ class InterferenceScreenView extends WavesScreenView {
   }
 }
 
-waveInterference.register( 'InterferenceScreenView', InterferenceScreenView );
 export default InterferenceScreenView;

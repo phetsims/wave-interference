@@ -14,7 +14,6 @@ import Range from '../../../../dot/js/Range.js';
 import TModel from '../../../../joist/js/TModel.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import CircleSquareScene from './CircleSquareScene.js';
 import DisorderScene from './DisorderScene.js';
 import EllipseScene from './EllipseScene.js';
@@ -172,5 +171,4 @@ const fftImageProcessingLabs = ( input, output ) => {
   }
 };
 
-waveInterference.register( 'DiffractionModel', DiffractionModel );
 export default DiffractionModel;

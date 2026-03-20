@@ -9,7 +9,6 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import CanvasNode, { CanvasNodeOptions } from '../../../../scenery/js/nodes/CanvasNode.js';
-import waveInterference from '../../waveInterference.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import SoundParticleNode from './SoundParticleNode.js';
@@ -93,5 +92,4 @@ class SoundParticleCanvasLayer extends CanvasNode {
   }
 }
 
-waveInterference.register( 'SoundParticleCanvasLayer', SoundParticleCanvasLayer );
 export default SoundParticleCanvasLayer;

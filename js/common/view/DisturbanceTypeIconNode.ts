@@ -12,7 +12,6 @@ import LineStyles from '../../../../kite/js/util/LineStyles.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import waveInterference from '../../waveInterference.js';
 import Scene from '../model/Scene.js';
 
 // constants
@@ -80,5 +79,4 @@ class DisturbanceTypeIconNode extends Node {
   }
 }
 
-waveInterference.register( 'DisturbanceTypeIconNode', DisturbanceTypeIconNode );
 export default DisturbanceTypeIconNode;

@@ -10,7 +10,6 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import DiffractionScene from './DiffractionScene.js';
 
 class RectangleScene extends DiffractionScene {
@@ -50,5 +49,4 @@ class RectangleScene extends DiffractionScene {
   }
 }
 
-waveInterference.register( 'RectangleScene', RectangleScene );
 export default RectangleScene;

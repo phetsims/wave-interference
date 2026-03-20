@@ -10,7 +10,6 @@ import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import waveInterference from '../../waveInterference.js';
 
 class WaveInterferenceCheckbox extends Checkbox {
 
@@ -20,5 +19,4 @@ class WaveInterferenceCheckbox extends Checkbox {
   }
 }
 
-waveInterference.register( 'WaveInterferenceCheckbox', WaveInterferenceCheckbox );
 export default WaveInterferenceCheckbox;

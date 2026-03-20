@@ -11,7 +11,6 @@ import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import WaveInterferencePanel, { WaveInterferencePanelOptions } from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import waveInterference from '../../waveInterference.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WavingGirlScene from '../model/WavingGirlScene.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
@@ -58,5 +57,4 @@ class WavingGirlSceneControlPanel extends WaveInterferencePanel {
   }
 }
 
-waveInterference.register( 'WavingGirlSceneControlPanel', WavingGirlSceneControlPanel );
 export default WavingGirlSceneControlPanel;
