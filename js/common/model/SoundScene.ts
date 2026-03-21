@@ -1,4 +1,4 @@
-// Copyright 2018-2024, University of Colorado Boulder
+// Copyright 2018-2026, University of Colorado Boulder
 /**
  * The model for the Sound scene, which adds SoundParticle instances.  See the following pages for visualizations
  * and physics of wave transmission

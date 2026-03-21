@@ -1,4 +1,4 @@
-// Copyright 2017-2024, University of Colorado Boulder
+// Copyright 2017-2026, University of Colorado Boulder
 // @ts-nocheck
 /**
  * Model for the Diffraction screen.
