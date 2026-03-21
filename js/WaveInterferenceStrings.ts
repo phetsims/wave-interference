@@ -148,4 +148,6 @@ type StringsType = {
 
 const WaveInterferenceStrings = getStringModule( 'WAVE_INTERFERENCE' ) as StringsType;
 
+waveInterference.register( 'WaveInterferenceStrings', WaveInterferenceStrings );
+
 export default WaveInterferenceStrings;
