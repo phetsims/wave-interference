@@ -1,5 +1,4 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
 /**
  * For each scene, shows one node for each wave generator, each with its own on/off button.
  *
@@ -12,6 +11,7 @@ import RoundStickyToggleButton from '../../../../sun/js/buttons/RoundStickyToggl
 import Scene from '../model/Scene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import DisturbanceTypeIconNode from './DisturbanceTypeIconNode.js';
+import WaveAreaNode from './WaveAreaNode.js';
 
 class WaveGeneratorNode extends Node {
 
@@ -25,10 +25,12 @@ class WaveGeneratorNode extends Node {
    * @param [buttonOffset] - offset for the button, so it can be positioned on the pipe
    * @param [showButtonBackground] - true if a new background for the button should be added
    */
-  public constructor( scene, waveAreaNode, buttonPosition, isPrimarySource, sourceNode,
-               verticalOffset = 0,
-               buttonOffset = 0,
-               showButtonBackground = false ) {
+  public constructor( scene: Scene, waveAreaNode: WaveAreaNode, buttonPosition: number, isPrimarySource: boolean, sourceNode: Node,
+                      verticalOffset = 0,
+                      buttonOffset = 0,
+                      showButtonBackground = false ) {
+
+    // @ts-expect-error
     const pulseIcon = new DisturbanceTypeIconNode( Scene.DisturbanceType.PULSE, {
       scale: 0.36,
       stroked: true
@@ -36,10 +38,21 @@ class WaveGeneratorNode extends Node {
 
     const buttonPressedProperty = isPrimarySource ? scene.button1PressedProperty : scene.button2PressedProperty;
 
-    // Adapter to play the waveGeneratorButtonSound for the scene.
-    const soundPlayer = {
+    // Adapters to play the waveGeneratorButtonSound for the scene's unpressed/pressed states.
+    const valueUpSoundPlayer = {
       play() {
-        scene.waveGeneratorButtonSound( buttonPressedProperty.value );
+        scene.waveGeneratorButtonSound( false );
+      },
+      stop() {
+        // nothing to stop
+      }
+    };
+    const valueDownSoundPlayer = {
+      play() {
+        scene.waveGeneratorButtonSound( true );
+      },
+      stop() {
+        // nothing to stop
       }
     };
 
@@ -50,7 +63,8 @@ class WaveGeneratorNode extends Node {
       content: pulseIcon,
       touchAreaDilation: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_TOUCH_AREA_DILATION,
       baseColor: WaveInterferenceConstants.WAVE_GENERATOR_BUTTON_COLOR,
-      soundPlayer: soundPlayer
+      valueUpSoundPlayer: valueUpSoundPlayer,
+      valueDownSoundPlayer: valueDownSoundPlayer
     };
 
     const button = new RoundStickyToggleButton( buttonPressedProperty, false, true, buttonOptions );
@@ -70,9 +84,13 @@ class WaveGeneratorNode extends Node {
     const nodeWithButton = new Node( { children: children } );
 
     const updateEnabled = () => {
+
+      // @ts-expect-error
       if ( scene.disturbanceTypeProperty.value === Scene.DisturbanceType.PULSE ) {
         button.enabled = !scene.pulseFiringProperty.value && !scene.isAboutToFireProperty.value;
       }
+
+      // @ts-expect-error
       else if ( scene.disturbanceTypeProperty.value === Scene.DisturbanceType.CONTINUOUS ) {
         button.enabled = true;
       }
@@ -80,6 +98,8 @@ class WaveGeneratorNode extends Node {
 
     // When changing between PULSE and CONTINUOUS, update the buttons.
     scene.disturbanceTypeProperty.link( disturbanceType => {
+
+      // @ts-expect-error
         pulseIcon.visible = disturbanceType === Scene.DisturbanceType.PULSE;
         updateEnabled();
       }
@@ -90,7 +110,10 @@ class WaveGeneratorNode extends Node {
       children: [ nodeWithButton ]
     } );
 
+    // @ts-expect-error
     const sourceSeparationProperty = scene.desiredSourceSeparationProperty || scene.sourceSeparationProperty;
+
+    // @ts-expect-error
     sourceSeparationProperty.link( sourceSeparation => {
 
       // Distance between the sources, or 0 if there is only 1 source
@@ -99,7 +122,7 @@ class WaveGeneratorNode extends Node {
         nodeWithButton.visible = separation > 0;
       }
       const sign = isPrimarySource ? 1 : -1;
-      const viewSeparation = scene.modelViewTransform.modelToViewDeltaY( separation );
+      const viewSeparation = scene.modelViewTransform!.modelToViewDeltaY( separation );
 
       nodeWithButton.centerY = waveAreaNode.centerY + sign * viewSeparation / 2 + verticalOffset;
     } );
