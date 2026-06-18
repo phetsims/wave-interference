@@ -81,8 +81,8 @@ class BarriersNode extends Node {
 
     const barrierTypeDynamicProperty = new DynamicProperty( model.sceneProperty, {
 
-      // @ts-expect-error - barrierTypeProperty is only assigned conditionally in Scene and is not declared as a member
-      derive: 'barrierTypeProperty',
+      // barrierTypeProperty is only created for plane-wave (slits) scenes, which are the only scenes used here.
+      derive: ( scene: Scene ) => scene.barrierTypeProperty!,
       bidirectional: true
     } );
 
@@ -99,8 +99,7 @@ class BarriersNode extends Node {
    * Update the shapes and text when the rotationAmount has changed
    */
   private update(): void {
-    // @ts-expect-error - barrierTypeProperty is only assigned conditionally in Scene and is not declared as a member
-    const barrierType = this.scene.barrierTypeProperty.get();
+    const barrierType = this.scene.barrierTypeProperty!.get();
     const scene = this.scene;
     const slitWidth = scene.slitWidthProperty.get();
     const slitSeparation = scene.slitSeparationProperty.get();
@@ -109,8 +108,7 @@ class BarriersNode extends Node {
     // see https://github.com/phetsims/wave-interference/issues/75
     this.x = scene.latticeToViewTransform!.modelToViewX( scene.barrierLatticeCoordinateProperty.value );
 
-    // @ts-expect-error - Scene.BarrierType is a static EnumerationDeprecated assigned outside the class declaration
-    if ( barrierType === Scene.BarrierType.NO_BARRIER ) {
+    if ( barrierType === 'noBarrier' ) {
 
       // No need to add children
       this.rectangleA.visible = false;
@@ -120,8 +118,7 @@ class BarriersNode extends Node {
     }
     else {
       const waveAreaTop = this.waveAreaViewBounds.top;
-      // @ts-expect-error - Scene.BarrierType is a static EnumerationDeprecated assigned outside the class declaration
-      if ( barrierType === Scene.BarrierType.ONE_SLIT ) {
+      if ( barrierType === 'oneSlit' ) {
 
         this.rectangleA.visible = true;
         this.rectangleB.visible = true;
@@ -136,8 +133,7 @@ class BarriersNode extends Node {
         this.arrowNode.centerX = this.barrierWidth / 2;
         this.arrowNode.top = this.rectangleB.bottom + 2;
       }
-      // @ts-expect-error - Scene.BarrierType is a static EnumerationDeprecated assigned outside the class declaration
-      else if ( barrierType === Scene.BarrierType.TWO_SLITS ) {
+      else if ( barrierType === 'twoSlits' ) {
         this.rectangleA.visible = true;
         this.rectangleB.visible = true;
         this.rectangleC.visible = true;

@@ -41,13 +41,11 @@ class SoundParticleCanvasLayer extends CanvasNode {
 
     this.model = model;
 
-    // @ts-expect-error
     SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_GRAY_COLOR, canvas => {
 
       this.whiteSphereImage = canvas;
     } );
 
-    // @ts-expect-error
     SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_RED_COLOR, canvas => {
 
       this.redSphereImage = canvas;
@@ -70,10 +68,11 @@ class SoundParticleCanvasLayer extends CanvasNode {
    */
   public override paintCanvas( context: CanvasRenderingContext2D ): void {
     context.transform( 1 / RESOLUTION, 0, 0, 1 / RESOLUTION, 0, 0 );
-    // @ts-expect-error
-    for ( let i = 0; i < this.model.soundScene.soundParticles.length; i++ ) {
-      // @ts-expect-error
-      const soundParticle = this.model.soundScene.soundParticles[ i ];
+
+    // This CanvasNode is only constructed when the sound scene exists.
+    const soundScene = this.model.soundScene!;
+    for ( let i = 0; i < soundScene.soundParticles.length; i++ ) {
+      const soundParticle = soundScene.soundParticles[ i ];
 
       // Red particles are shown on a grid
       const isRed = ( soundParticle.i % 4 === 2 && soundParticle.j % 4 === 2 );
@@ -81,10 +80,8 @@ class SoundParticleCanvasLayer extends CanvasNode {
 
       context.drawImage(
         sphereImage,
-        // @ts-expect-error
-        RESOLUTION * ( this.model.soundScene.modelViewTransform.modelToViewX( soundParticle.x ) ) - sphereImage.width / 2,
-        // @ts-expect-error
-        RESOLUTION * ( this.model.soundScene.modelViewTransform.modelToViewY( soundParticle.y ) ) - sphereImage.height / 2
+        RESOLUTION * ( soundScene.modelViewTransform!.modelToViewX( soundParticle.x ) ) - sphereImage.width / 2,
+        RESOLUTION * ( soundScene.modelViewTransform!.modelToViewY( soundParticle.y ) ) - sphereImage.height / 2
       );
     }
   }

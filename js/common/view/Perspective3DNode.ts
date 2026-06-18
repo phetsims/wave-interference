@@ -15,7 +15,7 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import type TColor from '../../../../scenery/js/util/TColor.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
@@ -78,7 +78,7 @@ class Perspective3DNode extends Node {
    * Sets the top face color, when the scene changes.
    * @param color - the top face color
    */
-  public setTopFaceColor( color: Color ): void {
+  public setTopFaceColor( color: TColor ): void {
     this.topFacePath.fill = color;
   }
 
@@ -86,7 +86,7 @@ class Perspective3DNode extends Node {
    * Sets the side face color, when the scene changes.
    * @param color - the side face color
    */
-  public setSideFaceColor( color: Color ): void {
+  public setSideFaceColor( color: TColor ): void {
     this.sideFacePath.fill = color;
   }
 

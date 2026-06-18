@@ -6,15 +6,18 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Property from '../../../../axon/js/Property.js';
+import type { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Matrix from '../../../../dot/js/Matrix.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
+
+// The scene's tunable Properties are heterogeneous (number, boolean, etc.) and are only reset and bulk-linked here, so
+// we describe them with the covariant read-only Property interface plus reset(), which any concrete Property satisfies.
+type ResettableProperty = TReadOnlyProperty<unknown> & { reset(): void };
 
 abstract class DiffractionScene {
 
   // tunable characteristics of this scene
-  protected readonly properties: Property<IntentionalAny>[];
+  protected readonly properties: ResettableProperty[];
 
   // The diffraction pattern is computed as a 2D discrete fourier transform of the aperture pattern, which is
   // represented as a 2d floating point Matrix.  In order to efficiently compute the aperture pattern, we render the
@@ -25,7 +28,7 @@ abstract class DiffractionScene {
 
   private readonly context: CanvasRenderingContext2D;
 
-  public constructor( properties: Property<IntentionalAny>[] ) {
+  public constructor( properties: ResettableProperty[] ) {
 
     this.properties = properties;
 
@@ -64,7 +67,11 @@ abstract class DiffractionScene {
     // Disable image smoothing for the data to ensure for all platforms compute the same, see https://github.com/phetsims/wave-interference/issues/405
 
     // Cast to access vendor-prefixed image smoothing properties that are not in the CanvasRenderingContext2D type.
-    const context = this.context as IntentionalAny;
+    const context = this.context as CanvasRenderingContext2D & {
+      mozImageSmoothingEnabled?: boolean;
+      webkitImageSmoothingEnabled?: boolean;
+      msImageSmoothingEnabled?: boolean;
+    };
     context.mozImageSmoothingEnabled = false;
     context.webkitImageSmoothingEnabled = false;
     context.msImageSmoothingEnabled = false;
@@ -88,7 +95,7 @@ abstract class DiffractionScene {
   /**
    * Render the aperture shape(s) to the canvas context.
    */
-  protected abstract renderToContext( context: CanvasRenderingContext2D ): void;
+  public abstract renderToContext( context: CanvasRenderingContext2D ): void;
 
   /**
    * Restore the initial values for all Property instances.
@@ -100,7 +107,7 @@ abstract class DiffractionScene {
   /**
    * Link to each Property instance
    */
-  public linkToAllProperties( listener: ( value: IntentionalAny ) => void ): void {
+  public linkToAllProperties( listener: ( value: unknown ) => void ): void {
     this.properties.forEach( property => property.link( listener ) );
   }
 }

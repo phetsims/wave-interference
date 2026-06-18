@@ -10,12 +10,12 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import PiecewiseLinearFunction from '../../../../dot/js/PiecewiseLinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';
-import merge from '../../../../phet-core/js/merge.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js';
 import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import CanvasNode, { CanvasNodeOptions } from '../../../../scenery/js/nodes/CanvasNode.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import IntensitySample from '../model/IntensitySample.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 
@@ -45,14 +45,25 @@ const linearBrightnessFunction = ( intensity: number ) => {
   return Utils.clamp( brightness * BRIGHTNESS_SCALE_FACTOR, 0, 1 );
 };
 
+type SelfOptions = {
+
+  // chooses between the piecewise-linear (waves) and linear (interference/slits) brightness functions
+  piecewiseLinearBrightness?: boolean;
+
+  // Use a small window for interference and slits screens, to accentuate the patterns
+  // Use a large window for waves-intro and waves screen, to smooth out noise
+  lightScreenAveragingWindowSize?: number;
+};
+export type LightScreenNodeOptions = SelfOptions & CanvasNodeOptions;
+
 class LightScreenNode extends CanvasNode {
 
   // @private - for the vertical scale factor
   private readonly latticeCanvasBounds: Bounds2;
   private readonly lattice: Lattice;
-  private readonly piecewiseLinearBrightness: IntentionalAny;
+  private readonly piecewiseLinearBrightness: boolean;
   private readonly lightScreenAveragingWindowSize: number;
-  private readonly intensitySample: number[];
+  private readonly intensitySample: IntensitySample;
 
   // @private {Color} required because we'll be operating on a Color
   private baseColor: Color;
@@ -60,9 +71,9 @@ class LightScreenNode extends CanvasNode {
   // @private - for rendering via image data
   private readonly imageDataRenderer: ImageDataRenderer;
 
-  public constructor( lattice: Lattice, intensitySample: number[], options?: CanvasNodeOptions ) {
+  public constructor( lattice: Lattice, intensitySample: IntensitySample, providedOptions?: LightScreenNodeOptions ) {
     const latticeCanvasBounds = WaveInterferenceUtils.getCanvasBounds( lattice );
-    options = merge( {
+    const options = optionize<LightScreenNodeOptions, SelfOptions, CanvasNodeOptions>()( {
 
       // only use the visible part for the bounds (not the damping regions)
       canvasBounds: new Bounds2( 0, 0, CANVAS_WIDTH, latticeCanvasBounds.height ),
@@ -72,17 +83,15 @@ class LightScreenNode extends CanvasNode {
       // Use a small window for interference and slits screens, to accentuate the patterns
       // Use a large window for waves-intro and waves screen, to smooth out noise
       lightScreenAveragingWindowSize: 3
-    }, options );
+    }, providedOptions );
     super( options );
 
     this.latticeCanvasBounds = latticeCanvasBounds;
 
     this.lattice = lattice;
 
-    // @ts-expect-error
     this.piecewiseLinearBrightness = options.piecewiseLinearBrightness;
 
-    // @ts-expect-error
     this.lightScreenAveragingWindowSize = options.lightScreenAveragingWindowSize;
 
     this.intensitySample = intensitySample;
@@ -119,7 +128,6 @@ class LightScreenNode extends CanvasNode {
    */
   public override paintCanvas( context: CanvasRenderingContext2D ): void {
 
-    // @ts-expect-error
     const intensityValues = this.intensitySample.getIntensityValues();
 
     let m = 0;

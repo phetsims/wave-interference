@@ -9,14 +9,13 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Property from '../../../../axon/js/Property.js';
+import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Scene, { SceneOptions } from './Scene.js';
 import SoundParticle from './SoundParticle.js';
+import { SoundViewType, SoundViewTypeValues } from './SoundViewType.js';
 
 // constants
 const SOUND_PARTICLE_GRADIENT_FORCE_SCALE = 0.67; // Additional scaling for the gradient force
@@ -28,7 +27,7 @@ export default class SoundScene extends Scene {
   public readonly showSoundParticles: boolean;
 
   // @public - indicates the selected view for sound
-  public readonly soundViewTypeProperty: Property<IntentionalAny>;
+  public readonly soundViewTypeProperty: StringUnionProperty<SoundViewType>;
 
   // @public (read-only) {SoundParticle[]} particles for the sound scene.
   public readonly soundParticles: SoundParticle[];
@@ -45,11 +44,8 @@ export default class SoundScene extends Scene {
 
     this.showSoundParticles = showSoundParticles;
 
-    // @ts-expect-error
-    this.soundViewTypeProperty = new Property( SoundScene.SoundViewType.WAVES, {
-
-      // @ts-expect-error
-      validValues: SoundScene.SoundViewType.VALUES
+    this.soundViewTypeProperty = new StringUnionProperty( 'waves', {
+      validValues: SoundViewTypeValues
     } );
 
     this.soundParticles = [];
@@ -148,9 +144,3 @@ export default class SoundScene extends Scene {
     this.isTonePlayingProperty.reset();
   }
 }
-
-/**
- * @public
- */
-// @ts-expect-error
-SoundScene.SoundViewType = EnumerationDeprecated.byKeys( [ 'WAVES', 'PARTICLES', 'BOTH' ] );

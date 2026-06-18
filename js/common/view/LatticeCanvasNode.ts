@@ -8,7 +8,7 @@
 
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js';
 import Lattice from '../../../../scenery-phet/js/Lattice.js';
 import CanvasNode, { CanvasNodeOptions } from '../../../../scenery/js/nodes/CanvasNode.js';
@@ -18,6 +18,13 @@ import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 
 // constants
 const CUTOFF = 0.4;
+
+type SelfOptions = {
+
+  // shows the peaks of the wave as the specified color
+  baseColor?: Color;
+};
+export type LatticeCanvasNodeOptions = SelfOptions & CanvasNodeOptions;
 
 class LatticeCanvasNode extends CanvasNode {
   private readonly lattice: Lattice;
@@ -34,21 +41,20 @@ class LatticeCanvasNode extends CanvasNode {
    * @param lattice
    * @param [options]
    */
-  public constructor( lattice: Lattice, options: CanvasNodeOptions ) {
+  public constructor( lattice: Lattice, providedOptions?: LatticeCanvasNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<LatticeCanvasNodeOptions, SelfOptions, CanvasNodeOptions>()( {
 
       // only use the visible part for the bounds (not the damping regions)
       canvasBounds: WaveInterferenceUtils.getCanvasBounds( lattice ),
       layerSplit: true, // ensure we're on our own layer
       baseColor: Color.blue
-    }, options );
+    }, providedOptions );
 
     super( options );
 
     this.lattice = lattice;
 
-    // @ts-expect-error
     this.baseColor = options.baseColor;
 
     this.vacuumColor = null;

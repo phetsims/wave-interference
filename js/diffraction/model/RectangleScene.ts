@@ -36,7 +36,7 @@ class RectangleScene extends DiffractionScene {
   /**
    * Render the aperture shape(s) to the canvas context.
    */
-  protected override renderToContext( context: CanvasRenderingContext2D ): void {
+  public override renderToContext( context: CanvasRenderingContext2D ): void {
     const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
     const columnRadius = Utils.roundSymmetric( this.widthProperty.value * modelToMatrixScale / 2 );
     const rowRadius = Utils.roundSymmetric( this.heightProperty.value * modelToMatrixScale / 2 );

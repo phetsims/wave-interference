@@ -10,7 +10,6 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import Shape from '../../../../kite/js/Shape.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import WaveInterferenceQueryParameters from '../../common/WaveInterferenceQueryParameters.js';
-import WavesModel from '../../waves/model/WavesModel.js';
 import WavesScreenView from '../../waves/view/WavesScreenView.js';
 import SlitsModel from '../model/SlitsModel.js';
 import BarriersNode from './BarriersNode.js';
@@ -63,7 +62,7 @@ class SlitsScreenView extends WavesScreenView {
       ( scene, rotationAmount, isRotating, viewpoint ) => {
 
         // Hide the barriers for water side view and while rotating
-        const hide = scene === model.waterScene && viewpoint === WavesModel.Viewpoint.SIDE || isRotating;
+        const hide = scene === model.waterScene && viewpoint === 'side' || isRotating;
         waterBarriersNode.visible = !hide && scene === model.waterScene;
         soundBarriersNode.visible = !hide && scene === model.soundScene;
         lightBarriersNode.visible = !hide && scene === model.lightScene;
@@ -81,8 +80,6 @@ class SlitsScreenView extends WavesScreenView {
     }
 
     // Show the plane wave generator instead of the individual scene-specific emitters.
-    // PlaneWaveGeneratorNode still uses @ts-nocheck and its declared constructor requires a 3rd options argument.
-    // @ts-expect-error - PlaneWaveGeneratorNode declared constructor requires a 3rd options argument
     const planeWaveGeneratorNode = new PlaneWaveGeneratorNode( model, this.waveAreaNode.bounds );
 
     // waveGeneratorLayer is created by the superclass because showSceneSpecificWaveGeneratorNodes is false above.

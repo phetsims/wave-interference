@@ -22,7 +22,7 @@ type WaterSceneOptions = SelfOptions & SceneOptions;
 class WaterScene extends Scene {
 
   // the amplitude the user has selected
-  public readonly desiredAmplitudeProperty: NumberProperty;
+  public override readonly desiredAmplitudeProperty: NumberProperty;
 
   // @public - Emits when a water drop hits the y=0 plane
   public readonly waterDropAbsorbedEmitter: Emitter<[ WaterDrop ]>;
@@ -56,12 +56,9 @@ class WaterScene extends Scene {
     } );
 
     this.desiredSourceSeparationProperty = new NumberProperty( this.sourceSeparationProperty.value, {
-
-      // @ts-expect-error
       range: config.sourceSeparationRange
     } );
 
-    // @ts-expect-error
     this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude, {
       range: this.amplitudeProperty.range
     } );
@@ -102,8 +99,7 @@ class WaterScene extends Scene {
     // Send a water drop if the button is pressed but not if the button is still pressed from the last pulse.
     // model.button1PressedProperty.value not consulted because we send a shutoff water drop. so that the previous
     // drop gets a full cycle
-    // @ts-expect-error
-    const isPulseMode = this.disturbanceTypeProperty.value === Scene.DisturbanceType.PULSE;
+    const isPulseMode = this.disturbanceTypeProperty.value === 'pulse';
     const firePulseDrop = isPulseMode && !this.pulseFiringProperty.value && this.button1PressedProperty.value;
     if ( !isPulseMode || firePulseDrop ) {
 
@@ -111,8 +107,7 @@ class WaterScene extends Scene {
       const buttonPressed = buttonProperty.value;
       const frequency = this.desiredFrequencyProperty.value;
       const amplitude = this.desiredAmplitudeProperty.value;
-      // @ts-expect-error
-      const isPulse = this.disturbanceTypeProperty.value === Scene.DisturbanceType.PULSE;
+      const isPulse = this.disturbanceTypeProperty.value === 'pulse';
 
       // Distance between the sources, or 0 if there is only 1 source
       const sourceSeparation = this.numberOfSources === 2 ? this.desiredSourceSeparationProperty.value : 0;
@@ -175,8 +170,7 @@ class WaterScene extends Scene {
     const timeSinceLastDrop = time - this.lastDropTime!;
 
     // Emit water drops if the phase matches up, but not for the plane waves screen
-    // @ts-expect-error
-    if ( this.waveSpatialType === Scene.WaveSpatialType.POINT &&
+    if ( this.waveSpatialType === 'point' &&
          ( this.lastDropTime === null || timeSinceLastDrop > period ) &&
          !this.muted ) {
 

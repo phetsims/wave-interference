@@ -105,11 +105,9 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
     // SceneRadioButtonGroup requires non-null scenes; it is only constructed when showSceneRadioButtons is true,
     // which only occurs for screens that create all three scenes.
     const sceneRadioButtonGroup = options.showSceneRadioButtons ? new SceneRadioButtonGroup(
-
-      // @ts-expect-error - model.waterScene, soundScene and lightScene are typed as nullable on WavesModel
-      model.waterScene,
-      model.soundScene,
-      model.lightScene,
+      model.waterScene!,
+      model.soundScene!,
+      model.lightScene!,
       model.sceneProperty
     ) : null;
 
@@ -117,12 +115,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
     // Only show the Play Tone checkbox for the Sound Scene, if specified.
     if ( model.soundScene && options.showPlaySoundControl ) {
-      playToneCheckbox = new WaveInterferenceCheckbox( model.soundScene.isTonePlayingProperty, new WaveInterferenceText( playToneString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ), {
-
-        // audioEnabled is a sim-specific option that is not part of CheckboxOptions
-        // @ts-expect-error
-        audioEnabled: options.audioEnabled
-      } );
+      playToneCheckbox = new WaveInterferenceCheckbox( model.soundScene.isTonePlayingProperty, new WaveInterferenceText( playToneString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ) );
 
       // In terms of PhET-iO, there could be a situation where a client wants to control the enabledProperty of the
       // sound-related checkboxes, and toggling the mute button in the navbar will override their customization. There
@@ -199,11 +192,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       // soundEffectEnabledProperty is only available on the LightScene, which is non-null when this is called.
       const soundEffectCheckbox = new WaveInterferenceCheckbox( model.lightScene!.soundEffectEnabledProperty, new WaveInterferenceText( soundEffectString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ), {
         top: lastCheckbox.bottom + CHECKBOX_SPACING,
-        left: screenCheckbox.left,
-
-        // audioEnabled is a sim-specific option that is not part of CheckboxOptions
-        // @ts-expect-error
-        audioEnabled: options.audioEnabled
+        left: screenCheckbox.left
       } );
 
       // In terms of PhET-iO, there could be a situation where a client wants to control the enabledProperty of the

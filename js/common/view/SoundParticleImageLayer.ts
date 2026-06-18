@@ -38,13 +38,11 @@ class SoundParticleImageLayer extends Node {
 
     this.model = model;
 
-    // @ts-expect-error
     SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_GRAY_COLOR, canvas => {
 
       this.whiteSphereImage = canvas;
     } );
 
-    // @ts-expect-error
     SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_RED_COLOR, canvas => {
 
       this.redSphereImage = canvas;
@@ -65,17 +63,14 @@ class SoundParticleImageLayer extends Node {
     model.stepEmitter.addListener( update );
     model.sceneProperty.link( update );
 
-    // @ts-expect-error - model.soundScene is assigned dynamically and is not typed on WavesModel
-    for ( let i = 0; i < this.model.soundScene.soundParticles.length; i++ ) {
-      // @ts-expect-error - model.soundScene is assigned dynamically and is not typed on WavesModel
-      const soundParticle = this.model.soundScene.soundParticles[ i ];
+    for ( let i = 0; i < this.model.soundScene!.soundParticles.length; i++ ) {
+      const soundParticle = this.model.soundScene!.soundParticles[ i ];
 
       // Red particles are shown on a grid
       const isRed = ( soundParticle.i % 4 === 2 && soundParticle.j % 4 === 2 );
       const sphereImage = isRed ? this.redSphereImage : this.whiteSphereImage;
 
-      // @ts-expect-error - model.soundScene is assigned dynamically and is not typed on WavesModel
-      const soundParticleImage = new SoundParticleImage( soundParticle, sphereImage, this.model.soundScene.modelViewTransform );
+      const soundParticleImage = new SoundParticleImage( soundParticle, sphereImage, this.model.soundScene!.modelViewTransform! );
       images.push( soundParticleImage );
       this.addChild( soundParticleImage );
     }

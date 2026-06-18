@@ -10,8 +10,9 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
+import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import { Units } from '../../../../axon/js/units.js';
 import validate from '../../../../axon/js/validate.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
@@ -19,10 +20,7 @@ import Rectangle from '../../../../dot/js/Rectangle.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Lattice from '../../../../scenery-phet/js/Lattice.js';
@@ -31,7 +29,10 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import squishierButtonV3_007_mp3 from '../../../sounds/squishierButtonV3_007_mp3.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
+import { BarrierType, BarrierTypeValues } from './BarrierType.js';
+import { DisturbanceType, DisturbanceTypeValues } from './DisturbanceType.js';
 import TemporalMask from './TemporalMask.js';
+import { WaveSpatialType, WaveSpatialTypeValues } from './WaveSpatialType.js';
 
 // sound clip to use for the wave generator button
 const WAVE_GENERATOR_BUTTON_SOUND_CLIP = new SoundClip( squishierButtonV3_007_mp3, {
@@ -58,7 +59,39 @@ const VALID_RANGE = {
   isValidValue: ( range: Range ) => range.min > 0 && range.max > 0
 };
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+
+  // Wave type
+  numberOfSources: number; // 1 or 2
+  waveSpatialType: WaveSpatialType;
+
+  // Values and units for indicators
+  scaleIndicatorLength: number; // length that depicts indicate relative scale, see LengthScaleIndicatorNode
+  timeScaleString: string; // displayed at the top right of the wave area
+  translatedPositionUnits: string; // units for this scene
+  positionUnits: string; // the units (in English and for the PhET-iO data stream)
+  timeUnits: string; // units for time, shown in the timer and optionally top right of the lattice
+
+  // Dimensions, ranges and physical attributes
+  waveAreaWidth: number; // width of the visible part of the lattice in the scene's units
+  timeScaleFactor: number; // scale factor to convert seconds of wall time to time for the given scene
+  waveSpeed: number;
+  planeWaveGeneratorNodeText: string; // shown on the PlaneWaveGeneratorNode
+  frequencyRange: Range;
+  initialAmplitude: number;
+  sourceSeparationRange: Range;
+
+  // Slits configuration
+  initialSlitSeparation: number;
+  initialSlitWidth: number;
+  slitWidthRange: Range;
+  slitSeparationRange: Range;
+
+  // Graph properties
+  graphTitle: string; // the title to the shown on the wave-area graph
+  graphVerticalAxisLabel: string; // text to show on the vertical axis on the wave-area graph
+  graphHorizontalAxisLabel: string; // text that describes the horizontal spatial axis
+};
 export type SceneOptions = SelfOptions;
 
 class Scene {
@@ -104,7 +137,7 @@ class Scene {
   // units for time, shown in the timer and optionally top right of the lattice
   public readonly timeUnits: string;
 
-  public readonly waveSpatialType: IntentionalAny;
+  public readonly waveSpatialType: WaveSpatialType;
 
   // @public (read-only) {string} - units for this scene
   public readonly translatedPositionUnits: string;
@@ -183,7 +216,13 @@ class Scene {
   public readonly barrierLatticeCoordinateProperty: TReadOnlyProperty<number>;
 
   // @public - pulse or continuous
-  public readonly disturbanceTypeProperty: Property<IntentionalAny>;
+  public readonly disturbanceTypeProperty: StringUnionProperty<DisturbanceType>;
+
+  // @public - type of the barrier in the lattice; only created for plane-wave (slits) scenes
+  public barrierTypeProperty?: StringUnionProperty<BarrierType>;
+
+  // @protected - the amplitude the user has selected; defined on WaterScene, referenced here for the source values
+  protected readonly desiredAmplitudeProperty?: NumberProperty;
 
   // @public (read-only) - the value of the wave at the oscillation point
   public readonly oscillator2Property: NumberProperty;
@@ -205,20 +244,20 @@ class Scene {
   private stepsToSkipForPlaneWaveSources: number;
 
   // @private {number} - phase of the wave so it doesn't start halfway through a cycle
-  // @ts-expect-error
-  private planeWavePhase: number;
+  private planeWavePhase = 0;
 
   // @protected {number} - record the time the button was pressed, so the SlitsModel can propagate the right
   // distance
-  // @ts-expect-error
-  protected button1PressTime: number;
+  protected button1PressTime = 0;
 
   /**
    * @param config - see below for required properties
    */
-  protected constructor( config: SceneOptions | IntentionalAny ) {
+  protected constructor( providedConfig: SceneOptions ) {
 
-    config = merge( {
+    // The all-null defaults exist so the validate() calls below throw if a caller omits a required field. Cast the
+    // merge result to SceneOptions since every field is always supplied by the (typed) callers.
+    const config = merge( {
 
       // Wave type
       numberOfSources: null, // {number} - 1 or 2
@@ -250,11 +289,10 @@ class Scene {
       graphTitle: null, // {string} - the title to the shown on the wave-area graph
       graphVerticalAxisLabel: null, // {string} text to show on the vertical axis on the wave-area graph
       graphHorizontalAxisLabel: null // {string} - text that describes the horizontal spatial axis
-    }, config );
+    }, providedConfig ) as SceneOptions;
 
     // Validation
-    // @ts-expect-error
-    validate( config.waveSpatialType, { validValues: Scene.WaveSpatialType.VALUES } );
+    validate( config.waveSpatialType, { validValues: WaveSpatialTypeValues } );
     validate( config.translatedPositionUnits, VALID_STRING );
     validate( config.waveAreaWidth, POSITIVE_NUMBER );
     validate( config.graphHorizontalAxisLabel, VALID_STRING );
@@ -320,20 +358,17 @@ class Scene {
     this.pulseJustCompleted = false;
 
     this.sourceSeparationProperty = new NumberProperty( initialSlitSeparation, {
-      // @ts-expect-error
-      units: this.positionUnits,
+      units: this.positionUnits as Units,
       range: sourceSeparationRange
     } );
 
     this.slitWidthProperty = new NumberProperty( initialSlitWidth, {
-      // @ts-expect-error
-      units: this.positionUnits,
+      units: this.positionUnits as Units,
       range: slitWidthRange
     } );
 
     this.slitSeparationProperty = new NumberProperty( initialSlitSeparation, {
-      // @ts-expect-error
-      units: this.positionUnits,
+      units: this.positionUnits as Units,
       range: slitSeparationRange
     } );
 
@@ -368,19 +403,14 @@ class Scene {
       barrierPosition => Utils.roundSymmetric( barrierPosition.x )
     );
 
-    // @ts-expect-error
-    this.disturbanceTypeProperty = new Property( Scene.DisturbanceType.CONTINUOUS, {
-      // @ts-expect-error
-      validValues: Scene.DisturbanceType.VALUES
-    } );
+    this.disturbanceTypeProperty = new StringUnionProperty( 'continuous', { validValues: DisturbanceTypeValues } );
 
     // The first button can trigger a pulse, or continuous wave, depending on the disturbanceTypeProperty
     this.button1PressedProperty.lazyLink( isPressed => {
       this.handleButton1Toggled( isPressed );
 
       // Clear plane waves if the red button is deselected when paused.
-      // @ts-expect-error
-      if ( this.waveSpatialType === Scene.WaveSpatialType.PLANE && !isPressed ) {
+      if ( this.waveSpatialType === 'plane' && !isPressed ) {
         this.setSourceValues();
         this.lattice.changedEmitter.emit();
       }
@@ -444,8 +474,7 @@ class Scene {
       this.phase = proposedPhase;
 
       // When changing the plane wave frequency, clear the wave area to the right of the wave
-      // @ts-expect-error
-      if ( this.waveSpatialType === Scene.WaveSpatialType.PLANE ) {
+      if ( this.waveSpatialType === 'plane' ) {
         this.clear();
 
         // when the plane wave frequency is changed, don't update the wave area for a few frames so there is no
@@ -459,16 +488,10 @@ class Scene {
     this.frequencyProperty.lazyLink( phaseUpdate );
 
     // Everything below here is just for plane wave screen.
-    // @ts-expect-error
-    if ( this.waveSpatialType === Scene.WaveSpatialType.PLANE ) {
+    if ( this.waveSpatialType === 'plane' ) {
 
-      // @public - type of the barrier in the lattice
-      // @ts-expect-error
-      this.barrierTypeProperty = new Property( Scene.BarrierType.ONE_SLIT, {
-
-        // @ts-expect-error
-        validValues: Scene.BarrierType.VALUES
-      } );
+      // type of the barrier in the lattice
+      this.barrierTypeProperty = new StringUnionProperty( 'oneSlit', { validValues: BarrierTypeValues } );
 
       // When the barrier moves it creates a lot of artifacts, so clear the wave right of the barrier when it moves
       this.barrierLatticeCoordinateProperty.link( barrierLatticeCoordinate => {
@@ -497,7 +520,6 @@ class Scene {
 
       // When a barrier is added, clear the waves to the right instead of letting them dissipate,
       // see https://github.com/phetsims/wave-interference/issues/176
-      // @ts-expect-error
       this.barrierTypeProperty.link( barrierType => {
         this.clear();
 
@@ -538,8 +560,7 @@ class Scene {
     const period = 1 / frequency;
     const timeSincePulseStarted = time - this.pulseStartTime;
     const lattice = this.lattice;
-    // @ts-expect-error
-    const isContinuous = ( this.disturbanceTypeProperty.get() === Scene.DisturbanceType.CONTINUOUS );
+    const isContinuous = ( this.disturbanceTypeProperty.get() === 'continuous' );
     const continuous1 = isContinuous && this.continuousWave1OscillatingProperty.get();
     const continuous2 = isContinuous && this.continuousWave2OscillatingProperty.get();
 
@@ -610,8 +631,7 @@ class Scene {
     }
     const lattice = this.lattice;
 
-    // @ts-expect-error
-    const barrierLatticeX = this.barrierTypeProperty.value === Scene.BarrierType.NO_BARRIER ?
+    const barrierLatticeX = this.barrierTypeProperty!.value === 'noBarrier' ?
                             lattice.width - lattice.dampX :
                             this.barrierLatticeCoordinateProperty.value;
     const slitSeparationModel = this.slitSeparationProperty.get();
@@ -654,15 +674,13 @@ class Scene {
 
         if ( i === barrierLatticeX ) {
 
-          // @ts-expect-error
-          if ( this.barrierTypeProperty.value === Scene.BarrierType.ONE_SLIT ) {
+          if ( this.barrierTypeProperty!.value === 'oneSlit' ) {
             const low = j > latticeCenterY + slitWidth / 2 - 0.5;
             const high = j < latticeCenterY - slitWidth / 2 - 0.5;
             isCellInBarrier = low || high;
           }
 
-          // @ts-expect-error
-          else if ( this.barrierTypeProperty.value === Scene.BarrierType.TWO_SLITS ) {
+          else if ( this.barrierTypeProperty!.value === 'twoSlits' ) {
 
             // Spacing is between center of slits.  This computation is done in model coordinates
             const topBarrierWidth = ( this.waveAreaWidth - slitWidthModel - slitSeparationModel ) / 2;
@@ -706,12 +724,10 @@ class Scene {
 
     // Get the desired amplitude.  For water, this is set through the desiredAmplitudeProperty.  For other
     // scenes, this is set through the amplitudeProperty.
-    // @ts-expect-error
     const amplitude = this.desiredAmplitudeProperty ? this.desiredAmplitudeProperty.get() : this.amplitudeProperty.get();
     const time = this.timeProperty.value;
 
-    // @ts-expect-error
-    if ( this.waveSpatialType === Scene.WaveSpatialType.POINT ) {
+    if ( this.waveSpatialType === 'point' ) {
       this.setPointSourceValues( amplitude, time );
     }
     else {
@@ -764,8 +780,7 @@ class Scene {
 
       // Apply temporal masking, but only for point sources.  Plane waves already clear the wave area when changing
       // parameters
-      // @ts-expect-error
-      if ( this.waveSpatialType === Scene.WaveSpatialType.POINT ) {
+      if ( this.waveSpatialType === 'point' ) {
         this.applyTemporalMask();
       }
 
@@ -803,7 +818,7 @@ class Scene {
   /**
    * Clears the wave values
    */
-  protected clear(): void {
+  public clear(): void {
     this.lattice.clear();
     this.temporalMask1.clear();
     this.temporalMask2.clear();
@@ -862,8 +877,7 @@ class Scene {
       this.resetPhase();
     }
 
-    // @ts-expect-error
-    if ( isPressed && this.disturbanceTypeProperty.value === Scene.DisturbanceType.PULSE ) {
+    if ( isPressed && this.disturbanceTypeProperty.value === 'pulse' ) {
       this.startPulse();
     }
     else {
@@ -909,7 +923,6 @@ class Scene {
     this.continuousWave2OscillatingProperty.reset();
     this.isAboutToFireProperty.reset();
 
-    // @ts-expect-error
     this.barrierTypeProperty && this.barrierTypeProperty.reset();
     this.stepsToSkipForPlaneWaveSources = 0;
   }
@@ -941,26 +954,5 @@ class Scene {
     this.latticeToViewTransform = ModelViewTransform2.createRectangleMapping( latticeBounds, tempViewBounds );
   }
 }
-
-/**
- * A wave can be ongoing (CONTINUOUS) or a single wavelength (PULSE)
- * @public
- */
-// @ts-expect-error
-Scene.DisturbanceType = EnumerationDeprecated.byKeys( [ 'PULSE', 'CONTINUOUS' ] );
-
-/**
- * A wave can either be generated by a point source (POINT) or by a plane wave (PLANE).
- * @public
- */
-// @ts-expect-error
-Scene.WaveSpatialType = EnumerationDeprecated.byKeys( [ 'POINT', 'PLANE' ] );
-
-/**
- * The wave area can contain a barrier with ONE_SLIT, TWO_SLITS or NO_BARRIER at all.
- * @public
- */
-// @ts-expect-error
-Scene.BarrierType = EnumerationDeprecated.byKeys( [ 'NO_BARRIER', 'ONE_SLIT', 'TWO_SLITS' ] );
 
 export default Scene;

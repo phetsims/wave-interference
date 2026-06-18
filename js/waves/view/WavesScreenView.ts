@@ -9,6 +9,7 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -16,7 +17,6 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import Shape from '../../../../kite/js/Shape.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import platform from '../../../../phet-core/js/platform.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
@@ -29,10 +29,9 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import Utils from '../../../../scenery/js/util/Utils.js';
-import ToggleNode from '../../../../sun/js/ToggleNode.js';
+import ToggleNode, { ToggleNodeElement } from '../../../../sun/js/ToggleNode.js';
 import PhetioAction from '../../../../tandem/js/PhetioAction.js';
 import Scene from '../../common/model/Scene.js';
-import SoundScene from '../../common/model/SoundScene.js';
 import DashedLineNode from '../../common/view/DashedLineNode.js';
 import DisturbanceTypeRadioButtonGroup from '../../common/view/DisturbanceTypeRadioButtonGroup.js';
 import IntensityGraphPanel from '../../common/view/IntensityGraphPanel.js';
@@ -52,7 +51,7 @@ import WaterSideViewNode from '../../common/view/WaterSideViewNode.js';
 import WaterWaveGeneratorNode from '../../common/view/WaterWaveGeneratorNode.js';
 import WaveAreaGraphNode from '../../common/view/WaveAreaGraphNode.js';
 import WaveAreaNode from '../../common/view/WaveAreaNode.js';
-import WaveInterferenceControlPanel from '../../common/view/WaveInterferenceControlPanel.js';
+import WaveInterferenceControlPanel, { WaveInterferenceControlPanelOptions } from '../../common/view/WaveInterferenceControlPanel.js';
 import WaveInterferenceStopwatchNode from '../../common/view/WaveInterferenceStopwatchNode.js';
 import WaveMeterNode from '../../common/view/WaveMeterNode.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
@@ -85,9 +84,8 @@ type SelfOptions = {
   lightScreenAveragingWindowSize?: number;
 
   // Nested options as discussed in https://github.com/phetsims/tasks/issues/730,
-  // see WaveInterferenceControlPanel for keys/values. WaveInterferenceControlPanel still uses @ts-nocheck, so these
-  // options are not strongly typed yet.
-  controlPanelOptions?: IntentionalAny;
+  // see WaveInterferenceControlPanel for keys/values.
+  controlPanelOptions?: WaveInterferenceControlPanelOptions;
 
   audioEnabled?: boolean;
 };
@@ -126,8 +124,8 @@ class WavesScreenView extends ScreenView {
   // toggles between the lattice canvas nodes for the different scenes
   private readonly latticeNode: SceneToggleNode;
 
-  // the WaveMeterNode tool
-  private readonly waveMeterNode: WaveMeterNode;
+  // the WaveMeterNode tool. Public because WavesScreenSoundView reads its duckingProperty.
+  public readonly waveMeterNode: WaveMeterNode;
 
   // executed once per step, or null if there is no per-step behavior (e.g. when there is no waterScene)
   private stepAction: PhetioAction | null;
@@ -232,15 +230,13 @@ class WavesScreenView extends ScreenView {
 
     let waterDropLayer: WaterDropLayer | null = null;
     if ( model.waterScene ) {
-      // LatticeCanvasNode declares its options as CanvasNodeOptions, which does not yet include baseColor, so the
-      // options object is cast to satisfy the typed signature.
-      this.waterCanvasNode = new LatticeCanvasNode( model.waterScene.lattice, { baseColor: WATER_BLUE } as IntentionalAny );
+      this.waterCanvasNode = new LatticeCanvasNode( model.waterScene.lattice, { baseColor: WATER_BLUE } );
       waterDropLayer = new WaterDropLayer( model, this.waveAreaNode.bounds );
     }
 
     let soundParticleLayer = null;
     if ( model.soundScene ) {
-      this.soundCanvasNode = new LatticeCanvasNode( model.soundScene.lattice, { baseColor: Color.white } as IntentionalAny );
+      this.soundCanvasNode = new LatticeCanvasNode( model.soundScene.lattice, { baseColor: Color.white } );
 
       const createSoundParticleLayer = () => {
 
@@ -284,17 +280,13 @@ class WavesScreenView extends ScreenView {
 
     if ( model.lightScene ) {
 
-      // LightScreenNode/IntensityGraphPanel declare their intensitySample parameter as number[], but the model supplies
-      // an IntensitySample instance, so it is cast to satisfy the typed signatures.
-      // LightScreenNode declares its options as CanvasNodeOptions, which does not yet include piecewiseLinearBrightness
-      // or lightScreenAveragingWindowSize, so the options object is cast to satisfy the typed signature.
-      lightScreenNode = new LightScreenNode( model.lightScene.lattice, model.lightScene.intensitySample as IntentionalAny, {
+      lightScreenNode = new LightScreenNode( model.lightScene.lattice, model.lightScene.intensitySample, {
         piecewiseLinearBrightness: options.piecewiseLinearBrightness,
         lightScreenAveragingWindowSize: options.lightScreenAveragingWindowSize,
         scale: latticeScale,
         left: this.waveAreaNode.right + 5,
         y: this.waveAreaNode.top
-      } as IntentionalAny );
+      } );
 
       // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
       Multilink.multilink( [ model.showScreenProperty, model.sceneProperty ], ( showScreen, scene ) => {
@@ -322,14 +314,11 @@ class WavesScreenView extends ScreenView {
       const numberGridLines = model.lightScene.waveAreaWidth / model.lightScene.scaleIndicatorLength;
       const intensityGraphPanel = new IntensityGraphPanel(
         this.latticeNode.height,
-        model.lightScene.intensitySample as IntentionalAny,
+        model.lightScene.intensitySample,
         numberGridLines,
         model.resetEmitter, {
-
-          // IntensityGraphPanel declares its options as EmptySelfOptions, which does not yet include Node layout
-          // options such as left, so the options object is cast to satisfy the typed signature.
           left: lightScreenNode!.right + 5
-        } as IntentionalAny );
+        } );
       Multilink.multilink( [ model.showScreenProperty, model.showIntensityGraphProperty, model.sceneProperty ],
         ( showScreen, showIntensityGraph, scene ) => {
 
@@ -400,11 +389,7 @@ class WavesScreenView extends ScreenView {
       }
     } );
 
-    // WaveMeterNode still uses @ts-nocheck, so its constructor signature and instance members (backgroundNode,
-    // synchronizeProbePositions, alignProbesEmitter, droppedEmitter) are not strongly typed. Type the local as
-    // IntentionalAny so those members can be accessed below.
-
-    const waveMeterNode: IntentionalAny = new WaveMeterNode( model, this );
+    const waveMeterNode: WaveMeterNode = new WaveMeterNode( model, this );
     model.resetEmitter.addListener( () => waveMeterNode.reset() );
     model.resetEmitter.addListener( () => measuringTapeNode.reset() );
     model.isWaveMeterInPlayAreaProperty.link( inPlayArea => waveMeterNode.setVisible( inPlayArea ) );
@@ -499,10 +484,7 @@ class WavesScreenView extends ScreenView {
       this.addChild( new SceneToggleNode(
         model,
 
-        // DisturbanceTypeRadioButtonGroup has a broken base-class type (it uses @ts-expect-error on its declaration) and
-        // its declared constructor requires a 2nd options argument, so its result is cast to Node here.
-        // @ts-expect-error - DisturbanceTypeRadioButtonGroup declared constructor requires a 2nd options argument
-        scene => new DisturbanceTypeRadioButtonGroup( scene.disturbanceTypeProperty ) as IntentionalAny, {
+        scene => new DisturbanceTypeRadioButtonGroup( scene.disturbanceTypeProperty ), {
           bottom: this.waveAreaNode.bottom,
           centerX: ( this.waveAreaNode.left + this.layoutBounds.left ) / 2
         } ) );
@@ -569,17 +551,21 @@ class WavesScreenView extends ScreenView {
     }
 
     // Update the visibility of the waveAreaNode, latticeNode and soundParticleLayer.
-    // The dependency array is built conditionally with a spread, so it does not match a fixed-length Multilink overload.
-
-    // @ts-expect-error - heterogeneous, conditionally-built dependency array does not match a Multilink tuple overload
-    Multilink.multilink( [
+    // The dependency array is built conditionally with a spread, so multilinkAny is used to accept a variable-length
+    // dependency array.
+    Multilink.multilinkAny( [
         model.rotationAmountProperty,
         model.isRotatingProperty,
         model.sceneProperty,
         model.showWavesProperty,
         ...( model.soundScene ? [ model.soundScene.soundViewTypeProperty ] : [] )
       ],
-      ( rotationAmount: number, isRotating: boolean, scene: Scene, showWaves: boolean, soundViewType: IntentionalAny ) => {
+      () => {
+        const rotationAmount = model.rotationAmountProperty.value;
+        const isRotating = model.isRotatingProperty.value;
+        const scene = model.sceneProperty.value;
+        const showWaves = model.showWavesProperty.value;
+        const soundViewType = model.soundScene?.soundViewTypeProperty.value;
         const isWaterSideView = rotationAmount === 1 && scene === model.waterScene;
         const isVisiblePerspective = !isRotating && !isWaterSideView;
         this.waveAreaNode.visible = isVisiblePerspective;
@@ -588,19 +574,15 @@ class WavesScreenView extends ScreenView {
                             ( isVisiblePerspective &&
                               showWaves &&
 
-                              // @ts-expect-error - SoundViewType is an EnumerationDeprecated assigned at runtime on SoundScene
-                              soundViewType !== SoundScene.SoundViewType.PARTICLES
+                              soundViewType !== 'particles'
                             ) :
                             isVisiblePerspective;
         this.latticeNode.visible = showLattice;
 
         if ( soundParticleLayer ) {
 
-          // @ts-expect-error - SoundViewType is an EnumerationDeprecated assigned at runtime on SoundScene
-          soundParticleLayer.visible = ( soundViewType === SoundScene.SoundViewType.PARTICLES ||
-
-                                         // @ts-expect-error - SoundViewType is an EnumerationDeprecated assigned at runtime on SoundScene
-                                         soundViewType === SoundScene.SoundViewType.BOTH ) &&
+          soundParticleLayer.visible = ( soundViewType === 'particles' ||
+                                         soundViewType === 'both' ) &&
                                        scene === model.soundScene && isVisiblePerspective;
         }
         if ( waterDropLayer ) {
@@ -621,23 +603,22 @@ class WavesScreenView extends ScreenView {
 
     // Initialize and update the colors based on the scene. The frequencyProperty is conditionally added, so the
     // dependency array is heterogeneous and does not match a fixed-length Multilink overload.
-    const colorLinkProperties: IntentionalAny[] = [ model.sceneProperty ];
+    const colorLinkProperties: TReadOnlyProperty<unknown>[] = [ model.sceneProperty ];
     if ( model.lightScene ) {
       colorLinkProperties.push( model.lightScene.frequencyProperty );
     }
 
-    // @ts-expect-error - heterogeneous, conditionally-built dependency array does not match a Multilink tuple overload
-    Multilink.multilink( colorLinkProperties, ( scene: Scene, frequency: number ) => {
+    Multilink.multilinkAny( colorLinkProperties, () => {
+      const scene = model.sceneProperty.value;
+      const frequency = model.lightScene ? model.lightScene.frequencyProperty.value : 0;
 
-      // setTopFaceColor/setSideFaceColor accept Color, but scenery resolves CSS color strings at runtime, so the
-      // string-or-Color ternary results are cast to satisfy the typed signature.
-      perspective3DNode.setTopFaceColor( ( scene === model.waterScene ? '#3981a9' :
-                                           scene === model.soundScene ? 'gray' :
-                                           VisibleColor.frequencyToColor( fromFemto( frequency ) ) ) as IntentionalAny );
-      perspective3DNode.setSideFaceColor( ( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR :
-                                            scene === model.soundScene ? 'darkGray' :
-                                            VisibleColor.frequencyToColor( fromFemto( frequency ) )
-                                              .colorUtilsDarker( 0.15 ) ) as IntentionalAny );
+      perspective3DNode.setTopFaceColor( scene === model.waterScene ? '#3981a9' :
+                                         scene === model.soundScene ? 'gray' :
+                                         VisibleColor.frequencyToColor( fromFemto( frequency ) ) );
+      perspective3DNode.setSideFaceColor( scene === model.waterScene ? WaveInterferenceConstants.WATER_SIDE_COLOR :
+                                          scene === model.soundScene ? 'darkGray' :
+                                          VisibleColor.frequencyToColor( fromFemto( frequency ) )
+                                            .colorUtilsDarker( 0.15 ) );
     } );
 
     /**
@@ -645,7 +626,7 @@ class WavesScreenView extends ScreenView {
      * @param isPrimarySource - true if it should show the primary source
      */
     const createWaveGeneratorToggleNode = ( isPrimarySource: boolean ) => {
-      const toggleNodeElements: IntentionalAny[] = [];
+      const toggleNodeElements: ToggleNodeElement<Scene>[] = [];
       model.waterScene && toggleNodeElements.push( {
         value: model.waterScene,
         createNode: () => new WaterWaveGeneratorNode( model.waterScene!, this.waveAreaNode, isPrimarySource )

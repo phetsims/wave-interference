@@ -14,23 +14,24 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import TModel from '../../../../joist/js/TModel.js';
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import EventTimer from '../../../../phet-core/js/EventTimer.js';
 import merge from '../../../../phet-core/js/merge.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import Stopwatch from '../../../../scenery-phet/js/Stopwatch.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import LightScene from '../../common/model/LightScene.js';
 import Scene from '../../common/model/Scene.js';
 import SoundScene from '../../common/model/SoundScene.js';
+import { Viewpoint, ViewpointValues } from '../../common/model/Viewpoint.js';
 import WaterScene from '../../common/model/WaterScene.js';
+import { WaveSpatialType } from '../../common/model/WaveSpatialType.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
@@ -59,7 +60,6 @@ const waterWaveGeneratorString = WaveInterferenceStrings.waterWaveGenerator;
 // an acceptable frame rate
 const EVENT_RATE = 20 * WaveInterferenceConstants.CALIBRATION_SCALE;
 
-// @ts-expect-error - toFemto is private static on WaveInterferenceUtils, which still uses @ts-nocheck
 const toFemto = WaveInterferenceUtils.toFemto;
 
 // The names of the scenes that may be created, used both as keys on this model and in the scenes option.
@@ -72,7 +72,19 @@ type WavesModelOptions = {
 
   // Array of scenes to be created.
   scenes?: SceneName[];
+
+  // Number of sources that can emit (1 or 2). Passed through to each Scene.
+  numberOfSources?: number;
+
+  // Initial amplitude of the oscillator. Passed through to each Scene.
+  initialAmplitude?: number;
+
+  // Whether each Scene generates a point source ('point') or plane wave ('plane').
+  waveSpatialType?: WaveSpatialType;
 };
+
+// The options after merge with defaults, with the fields read in the constructor guaranteed to be present.
+type RequiredWavesModelOptions = Required<WavesModelOptions>;
 
 class WavesModel implements TModel {
 
@@ -94,9 +106,8 @@ class WavesModel implements TModel {
   // number of sources that can emit
   public readonly numberOfSources: number;
 
-  // indicates the user selection for side view or top view. The value is one of WavesModel.Viewpoint, which is an
-  // EnumerationDeprecated assigned at runtime and hence typed as IntentionalAny.
-  public readonly viewpointProperty: Property<IntentionalAny>;
+  // indicates the user selection for side view ('side') or top view ('top')
+  public readonly viewpointProperty: StringUnionProperty<Viewpoint>;
 
   // the speed at which the simulation is playing
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
@@ -122,7 +133,7 @@ class WavesModel implements TModel {
   // whether the wave meter has been dragged out of the toolbox into the play area
   public readonly isWaveMeterInPlayAreaProperty: BooleanProperty;
 
-  // Linear interpolation between WavesModel.Viewpoint.TOP (0) and Viewpoint.SIDE (1).
+  // Linear interpolation between 'top' viewpoint (0) and 'side' viewpoint (1).
   public readonly rotationAmountProperty: NumberProperty;
 
   // true if the system is rotating
@@ -149,10 +160,6 @@ class WavesModel implements TModel {
 
   public static readonly EVENT_RATE = EVENT_RATE;
 
-  // The wave area can be viewed from the TOP or from the SIDE. The view animates between the selections. This is an
-  // EnumerationDeprecated assigned below, after the class declaration.
-  public static Viewpoint: IntentionalAny;
-
   public readonly stopwatch = new Stopwatch( {
     timePropertyOptions: {
       range: new Range( 0, 999.99 )
@@ -164,9 +171,7 @@ class WavesModel implements TModel {
    */
   public constructor( providedOptions?: WavesModelOptions ) {
 
-    // The merged options include runtime-only properties (numberOfSources, initialAmplitude, waveSpatialType) that
-    // subclasses such as SlitsModel pass through merge but which are not part of the public WavesModelOptions type.
-    const options: IntentionalAny = merge( {
+    const options = merge( {
 
       // This model supports one or two sources.  If the sources are initially separated, there are two sources
       numberOfSources: 1,
@@ -181,12 +186,11 @@ class WavesModel implements TModel {
       // True if SoundParticles should be created and displayed, and if the user can select to view them
       showSoundParticles: true,
 
-      // @ts-expect-error - WaveSpatialType is an EnumerationDeprecated assigned at runtime on Scene, which still uses @ts-nocheck
-      waveSpatialType: Scene.WaveSpatialType.POINT,
+      waveSpatialType: 'point',
 
       // Array of scenes to be created
       scenes: [ 'waterScene', 'soundScene', 'lightScene' ]
-    }, providedOptions );
+    }, providedOptions ) as RequiredWavesModelOptions;
 
     assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
       `initialAmplitude is out of range: ${options.initialAmplitude}` );
@@ -205,8 +209,6 @@ class WavesModel implements TModel {
     // and was later retrofitted to have a subset of scenes.  More discussion on this point appears in https://github.com/phetsims/wave-interference/issues/414#issuecomment-516079304
 
     if ( options.scenes.includes( 'waterScene' ) ) {
-      // The scene config objects carry runtime properties consumed by Scene via merge() but not declared on the scene
-      // option types, so they are passed as IntentionalAny.
       this.waterScene = new WaterScene( {
         waveSpatialType: options.waveSpatialType,
 
@@ -238,9 +240,8 @@ class WavesModel implements TModel {
         slitWidthRange: new Range( 0.5, 2.5 ), // cm
 
         initialAmplitude: options.initialAmplitude,
-        linkDesiredAmplitudeToAmplitude: false,
         planeWaveGeneratorNodeText: waterWaveGeneratorString
-      } as IntentionalAny );
+      } );
       this.scenes.push( this.waterScene );
     }
 
@@ -282,9 +283,8 @@ class WavesModel implements TModel {
         slitSeparationRange: new Range( 40, 320 ), // cm
 
         initialAmplitude: options.initialAmplitude,
-        linkDesiredAmplitudeToAmplitude: true,
         planeWaveGeneratorNodeText: soundGeneratorString
-      } as IntentionalAny );
+      } );
       this.scenes.push( this.soundScene );
     }
 
@@ -324,9 +324,8 @@ class WavesModel implements TModel {
         slitSeparationRange: new Range( 400, 3200 ), // nm
 
         initialAmplitude: options.initialAmplitude,
-        linkDesiredAmplitudeToAmplitude: true,
         planeWaveGeneratorNodeText: lightGeneratorString
-      } as IntentionalAny );
+      } );
       this.scenes.push( this.lightScene );
     }
 
@@ -334,8 +333,8 @@ class WavesModel implements TModel {
     this.numberOfSources = options.numberOfSources;
 
     // @public - indicates the user selection for side view or top view
-    this.viewpointProperty = new Property( WavesModel.Viewpoint.TOP, {
-      validValues: WavesModel.Viewpoint.VALUES
+    this.viewpointProperty = new StringUnionProperty( 'top', {
+      validValues: ViewpointValues
     } );
 
     // @public - the speed at which the simulation is playing
@@ -385,7 +384,7 @@ class WavesModel implements TModel {
 
     const rotationAmountRange = new Range( 0, 1 );
 
-    // @public - Linear interpolation between WavesModel.Viewpoint.TOP (0) and Viewpoint.SIDE (1).  This linear
+    // @public - Linear interpolation between 'top' viewpoint (0) and 'side' viewpoint (1).  This linear
     // interpolate in the model is mapped through a CUBIC_IN_OUT in the view to obtain the desired look.
     this.rotationAmountProperty = new NumberProperty( 0, {
       range: rotationAmountRange
@@ -424,8 +423,6 @@ class WavesModel implements TModel {
    * Clears the wave and the Intensity Sample
    */
   public clear(): void {
-
-    // @ts-expect-error - Scene.clear() is protected and Scene still uses @ts-nocheck
     this.sceneProperty.value.clear();
   }
 
@@ -448,7 +445,7 @@ class WavesModel implements TModel {
 
     // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
     // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
-    const sign = this.viewpointProperty.get() === WavesModel.Viewpoint.TOP ? -1 : +1;
+    const sign = this.viewpointProperty.get() === 'top' ? -1 : +1;
     this.rotationAmountProperty.value = Utils.clamp( this.rotationAmountProperty.value + wallDT * sign * 1.4, 0, 1 );
 
     if ( this.isRunningProperty.get() || manualStep ) {
@@ -498,11 +495,9 @@ class WavesModel implements TModel {
    * When using water drops, the slider controls the desired frequency.  The actual frequency on the lattice is not
    * set until the water drop hits.
    */
-  public getWaterFrequencySliderProperty(): TReadOnlyProperty<number> {
+  public getWaterFrequencySliderProperty(): NumberProperty {
     return this.waterScene!.desiredFrequencyProperty;
   }
 }
-
-WavesModel.Viewpoint = EnumerationDeprecated.byKeys( [ 'TOP', 'SIDE' ] );
 
 export default WavesModel;

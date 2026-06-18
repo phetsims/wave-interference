@@ -8,7 +8,7 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import ShadedSphereNode, { ShadedSphereNodeOptions } from '../../../../scenery-phet/js/ShadedSphereNode.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import TColor from '../../../../scenery/js/util/TColor.js';
 
 class SoundParticleNode extends ShadedSphereNode {
 
@@ -25,7 +25,7 @@ class SoundParticleNode extends ShadedSphereNode {
    * @param color
    * @param callback, see Node.toCanvas for signature
    */
-  public static createForCanvas( color: Color, callback: ( canvas: HTMLCanvasElement, x: number, y: number, width: number, height: number ) => void ): void {
+  public static createForCanvas( color: TColor, callback: ( canvas: HTMLCanvasElement, x: number, y: number, width: number, height: number ) => void ): void {
     return new SoundParticleNode( { mainColor: color } ).toCanvas( callback );
   }
 }

@@ -9,6 +9,7 @@ import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RoundStickyToggleButton from '../../../../sun/js/buttons/RoundStickyToggleButton.js';
 import Scene from '../model/Scene.js';
+import WaterScene from '../model/WaterScene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import DisturbanceTypeIconNode from './DisturbanceTypeIconNode.js';
 import WaveAreaNode from './WaveAreaNode.js';
@@ -30,8 +31,7 @@ class WaveGeneratorNode extends Node {
                       buttonOffset = 0,
                       showButtonBackground = false ) {
 
-    // @ts-expect-error
-    const pulseIcon = new DisturbanceTypeIconNode( Scene.DisturbanceType.PULSE, {
+    const pulseIcon = new DisturbanceTypeIconNode( 'pulse', {
       scale: 0.36,
       stroked: true
     } );
@@ -85,13 +85,11 @@ class WaveGeneratorNode extends Node {
 
     const updateEnabled = () => {
 
-      // @ts-expect-error
-      if ( scene.disturbanceTypeProperty.value === Scene.DisturbanceType.PULSE ) {
+      if ( scene.disturbanceTypeProperty.value === 'pulse' ) {
         button.enabled = !scene.pulseFiringProperty.value && !scene.isAboutToFireProperty.value;
       }
 
-      // @ts-expect-error
-      else if ( scene.disturbanceTypeProperty.value === Scene.DisturbanceType.CONTINUOUS ) {
+      else if ( scene.disturbanceTypeProperty.value === 'continuous' ) {
         button.enabled = true;
       }
     };
@@ -99,8 +97,7 @@ class WaveGeneratorNode extends Node {
     // When changing between PULSE and CONTINUOUS, update the buttons.
     scene.disturbanceTypeProperty.link( disturbanceType => {
 
-      // @ts-expect-error
-        pulseIcon.visible = disturbanceType === Scene.DisturbanceType.PULSE;
+        pulseIcon.visible = disturbanceType === 'pulse';
         updateEnabled();
       }
     );
@@ -110,10 +107,8 @@ class WaveGeneratorNode extends Node {
       children: [ nodeWithButton ]
     } );
 
-    // @ts-expect-error
-    const sourceSeparationProperty = scene.desiredSourceSeparationProperty || scene.sourceSeparationProperty;
+    const sourceSeparationProperty = scene instanceof WaterScene ? scene.desiredSourceSeparationProperty : scene.sourceSeparationProperty;
 
-    // @ts-expect-error
     sourceSeparationProperty.link( sourceSeparation => {
 
       // Distance between the sources, or 0 if there is only 1 source

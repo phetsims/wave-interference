@@ -225,8 +225,8 @@ class WaveMeterNode extends Node {
 
       const dynamicSeries = new DynamicSeries( { color: color } );
 
-      // @ts-expect-error - DynamicSeries is untyped JS and does not declare probeNode; this stashes the probe for reference.
-      dynamicSeries.probeNode = probeNode;
+      // DynamicSeries is untyped JS and does not declare probeNode; this stashes the probe for reference.
+      ( dynamicSeries as DynamicSeries & { probeNode: WaveMeterProbeNode } ).probeNode = probeNode;
 
       const updateSamples = () => {
 
@@ -252,9 +252,7 @@ class WaveMeterNode extends Node {
             dynamicSeries.addXYDataPoint( scene.timeProperty.value, value );
 
             if ( !soundManager.hasSoundGenerator( soundClip ) ) {
-
-              // @ts-expect-error - associatedViewNode is not declared on SoundGeneratorAddOptions, matching the precedent in WavesScreenSoundView.ts
-              soundManager.addSoundGenerator( soundClip, { associatedViewNode: this } );
+              soundManager.addSoundGenerator( soundClip );
             }
 
             // 19dB (the amount the audio file was decreased by) corresponds to this amplitude scale, see
@@ -342,14 +340,20 @@ class WaveMeterNode extends Node {
     const sounds1 = sounds.map( sound => {
       return new SoundClip( sound, {
         loop: true,
-        trimSilence: false
+        trimSilence: false,
+
+        // Suppress the wave meter sound when the WaveMeterNode is not displayed
+        associatedViewNode: this
       } );
     } );
 
     const sounds2 = sounds.map( sound => {
       return new SoundClip( sound, {
         loop: true,
-        trimSilence: false
+        trimSilence: false,
+
+        // Suppress the wave meter sound when the WaveMeterNode is not displayed
+        associatedViewNode: this
       } );
     } );
 

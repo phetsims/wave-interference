@@ -49,8 +49,7 @@ class SceneCanvasNode extends CanvasNode {
     // Draw the aperture
     context.fillStyle = 'white';
 
-    // renderToContext is protected on DiffractionScene; this view intentionally invokes it to draw the aperture.
-    // @ts-expect-error
+    // This view intentionally invokes the model's public renderToContext method to draw the aperture.
     this.sceneProperty.value.renderToContext( context );
 
     context.restore();

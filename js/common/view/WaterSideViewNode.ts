@@ -21,7 +21,7 @@ class WaterSideViewNode extends Path {
 
   // reduce garbage by reusing the same array to get model values
   private readonly array = [];
-  private waterSideViewNodeTopY: number | null = null;
+  public waterSideViewNodeTopY: number | null = null;
 
   public constructor( private readonly waveAreaBounds: Bounds2, private readonly waterScene: WaterScene ) {
 

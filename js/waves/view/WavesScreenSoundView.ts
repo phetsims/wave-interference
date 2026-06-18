@@ -10,7 +10,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Utils from '../../../../dot/js/Utils.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import WaveGenerator from '../../../../tambo/js/sound-generators/WaveGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -21,35 +20,34 @@ import waterDropV5_002_mp3 from '../../../sounds/waterDropV5_002_mp3.js';
 import waterDropV5_003_mp3 from '../../../sounds/waterDropV5_003_mp3.js';
 import waterDropV5_mp3 from '../../../sounds/waterDropV5_mp3.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
+import WavesModel from '../model/WavesModel.js';
+import type WavesScreenView from './WavesScreenView.js';
+import { WavesScreenViewOptions } from './WavesScreenView.js';
 
 // sounds
 const waterDropSounds = [ waterDropV5_mp3, waterDropV5_001_mp3, waterDropV5_002_mp3, waterDropV5_003_mp3 ];
 
 class WavesScreenSoundView {
 
-  public constructor( model: IntentionalAny, view: IntentionalAny, options: IntentionalAny ) {
+  public constructor( model: WavesModel, view: WavesScreenView, options: WavesScreenViewOptions ) {
 
     // The sound scene generates a sine wave when the "Play Tone" checkbox is checked
-    if ( model.soundScene && options.controlPanelOptions.showPlaySoundControl ) {
+    if ( model.soundScene && options.controlPanelOptions && options.controlPanelOptions.showPlaySoundControl ) {
       const sineWavePlayer = new WaveGenerator(
         model.soundScene.frequencyProperty,
         model.soundScene.amplitudeProperty, {
-
-          // @ts-expect-error
-          enableControlProperties: [
+          enabledProperty: DerivedProperty.and( [
             model.soundScene.isTonePlayingProperty,
             model.soundScene.button1PressedProperty,
             model.isRunningProperty,
             DerivedProperty.not( model.isResettingProperty )
-          ]
+          ] ),
+
+          // Suppress the tone when another screen is selected
+          associatedViewNode: view
         } );
 
-      // Suppress the tone when another screen is selected
-      soundManager.addSoundGenerator( sineWavePlayer, {
-
-        // @ts-expect-error
-        associatedViewNode: view
-      } );
+      soundManager.addSoundGenerator( sineWavePlayer );
     }
 
     if ( model.waterScene ) {
@@ -62,7 +60,6 @@ class WavesScreenSoundView {
       let lastPlayedWaterDropSoundClip: SoundClip | null = null;
 
       // When a water drop is absorbed, play a water drop sound.
-      // @ts-expect-error
       model.waterScene.waterDropAbsorbedEmitter.addListener( waterDrop => {
 
         // The waterDrop.amplitude indicates the size of the water drop and the strength of the resulting wave.
@@ -85,6 +82,9 @@ class WavesScreenSoundView {
     }
 
     if ( model.soundScene ) {
+
+      // Capture as a non-null local so the closures below do not see the widened nullable type.
+      const soundScene = model.soundScene;
       const speakerMembraneSoundClip = new SoundClip( speakerPulseV4_mp3, {
 
         // The sound repeats, so the waveform should not be trimmed
@@ -96,10 +96,10 @@ class WavesScreenSoundView {
       // When the wave generator completes a full cycle (passing from positive to negative), restart the speaker
       // clip at the corresponding volume and frequency.  Note this means if the frequency or volume changes, the
       // user has to wait for the next cycle to hear the change.
-      let previousOscillatorValue = model.soundScene.oscillator1Property.value;
+      let previousOscillatorValue = soundScene.oscillator1Property.value;
       Multilink.multilink( [
-        model.soundScene.oscillator1Property,
-        model.soundScene.isTonePlayingProperty,
+        soundScene.oscillator1Property,
+        soundScene.isTonePlayingProperty,
         view.waveMeterNode.duckingProperty,
         model.isRunningProperty
       ], ( oscillatorValue: number, isTonePlaying, ducking: number, isRunning ) => {
@@ -107,12 +107,12 @@ class WavesScreenSoundView {
         const maxVolume = isTonePlaying ? 0 : 0.3;
         const outputLevel = Utils.linear(
           // The tone takes precedence over the membrane sound, another level of ducking
-          model.soundScene.amplitudeProperty.range.min, model.soundScene.amplitudeProperty.range.max,
-          0.0, maxVolume, model.soundScene.amplitudeProperty.value
+          soundScene.amplitudeProperty.range.min, soundScene.amplitudeProperty.range.max,
+          0.0, maxVolume, soundScene.amplitudeProperty.value
         );
         const playbackRate = Utils.linear(
-          model.soundScene.frequencyProperty.range.min, model.soundScene.frequencyProperty.range.max,
-          1, 1.4, model.soundScene.frequencyProperty.value
+          soundScene.frequencyProperty.range.min, soundScene.frequencyProperty.range.max,
+          1, 1.4, soundScene.frequencyProperty.value
         );
 
         // Wave meter node takes precedence over the sound speaker membrane sound
@@ -137,14 +137,13 @@ class WavesScreenSoundView {
     if ( model.lightScene ) {
 
       const lightBeamLoopSoundClip = new SoundClip( lightBeamLoopV5EqOutBass_mp3, {
-        loop: true
-      } );
+        loop: true,
 
-      soundManager.addSoundGenerator( lightBeamLoopSoundClip, {
-
-        // @ts-expect-error
+        // Suppress the sound when another screen is selected
         associatedViewNode: view
       } );
+
+      soundManager.addSoundGenerator( lightBeamLoopSoundClip );
 
       const lightAmplitudeProperty = model.lightScene.amplitudeProperty;
       const lightFrequencyProperty = model.lightScene.frequencyProperty;

@@ -40,23 +40,15 @@ class SlitsControlPanel extends WaveInterferencePanel {
 
     const barrierTypeDynamicProperty = new DynamicProperty( sceneProperty, {
 
-      // barrierTypeProperty is added dynamically in Scene (only for plane-wave scenes) and is not a typed member.
-      // @ts-expect-error
-      derive: 'barrierTypeProperty',
+      // barrierTypeProperty is only created for plane-wave (slits) scenes, which are the only scenes used here.
+      derive: ( scene: Scene ) => scene.barrierTypeProperty!,
       bidirectional: true
     } );
 
     const comboBox = new ComboBox( barrierTypeDynamicProperty, [
-
-      // Scene.BarrierType is an EnumerationDeprecated assigned as a static; it is not typed on the Scene class.
-      // @ts-expect-error
-      { value: Scene.BarrierType.ONE_SLIT, createNode: () => new WaveInterferenceText( oneSlitString ) },
-
-      // @ts-expect-error
-      { value: Scene.BarrierType.TWO_SLITS, createNode: () => new WaveInterferenceText( twoSlitsString ) },
-
-      // @ts-expect-error
-      { value: Scene.BarrierType.NO_BARRIER, createNode: () => new WaveInterferenceText( noBarrierString ) }
+      { value: 'oneSlit', createNode: () => new WaveInterferenceText( oneSlitString ) },
+      { value: 'twoSlits', createNode: () => new WaveInterferenceText( twoSlitsString ) },
+      { value: 'noBarrier', createNode: () => new WaveInterferenceText( noBarrierString ) }
     ], comboBoxParent, {
       xMargin: 13,
       yMargin: 6,
@@ -117,9 +109,7 @@ class SlitsControlPanel extends WaveInterferencePanel {
     ] );
     barrierTypeDynamicProperty.link( barrierType => {
 
-      // Scene.BarrierType is an EnumerationDeprecated assigned as a static; it is not typed on the Scene class.
-      // @ts-expect-error
-      const enabled = barrierType === Scene.BarrierType.ONE_SLIT || barrierType === Scene.BarrierType.TWO_SLITS;
+      const enabled = barrierType === 'oneSlit' || barrierType === 'twoSlits';
       waterSlitWidthControl.enabled = enabled;
       soundSlitWidthControl.enabled = enabled;
       lightSlitWidthControl.enabled = enabled;
@@ -177,9 +167,7 @@ class SlitsControlPanel extends WaveInterferencePanel {
 
     barrierTypeDynamicProperty.link( barrierType => {
 
-      // Scene.BarrierType is an EnumerationDeprecated assigned as a static; it is not typed on the Scene class.
-      // @ts-expect-error
-      const enabled = barrierType === Scene.BarrierType.TWO_SLITS;
+      const enabled = barrierType === 'twoSlits';
       waterSeparationControl.enabled = enabled;
       soundSeparationControl.enabled = enabled;
       lightSeparationControl.enabled = enabled;

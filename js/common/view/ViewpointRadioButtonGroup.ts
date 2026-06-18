@@ -7,10 +7,9 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import { VerticalAquaRadioButtonGroupOptions } from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
-import WavesModel from '../../waves/model/WavesModel.js';
+import { Viewpoint } from '../model/Viewpoint.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 import WaveInterferenceVerticalAquaRadioButtonGroup from './WaveInterferenceVerticalAquaRadioButtonGroup.js';
@@ -21,18 +20,18 @@ const topViewString = WaveInterferenceStrings.topView;
 // constants
 const TEXT_OPTIONS = { maxWidth: WaveInterferenceConstants.MAX_WIDTH_VIEWPORT_BUTTON_TEXT }; // Prevent from overlapping the play/pause button
 
-class ViewpointRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonGroup<IntentionalAny> {
+class ViewpointRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonGroup<Viewpoint> {
 
-  public constructor( viewpointProperty: Property<IntentionalAny>, options: VerticalAquaRadioButtonGroupOptions ) {
+  public constructor( viewpointProperty: Property<Viewpoint>, options: VerticalAquaRadioButtonGroupOptions ) {
 
     super( viewpointProperty, [ {
       createNode: () => new WaveInterferenceText( topViewString, TEXT_OPTIONS ),
 
-      value: WavesModel.Viewpoint.TOP
+      value: 'top'
     }, {
       createNode: () => new WaveInterferenceText( sideViewString, TEXT_OPTIONS ),
 
-      value: WavesModel.Viewpoint.SIDE
+      value: 'side'
     } ], options );
   }
 }

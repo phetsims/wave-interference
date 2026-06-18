@@ -36,7 +36,6 @@ class FrequencyControl extends Node {
     // Controls are in the physical coordinate frame
     if ( model.waterScene ) {
 
-      // @ts-expect-error
       const waterFrequencySlider = new WaveInterferenceSlider( model.getWaterFrequencySliderProperty() );
       sliderGroupChildren.push( waterFrequencySlider );
 
@@ -55,8 +54,7 @@ class FrequencyControl extends Node {
       // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
       model.sceneProperty.link( scene => {
 
-        // @ts-expect-error
-        soundFrequencySlider.visible = scene === model.soundScene;
+        soundFrequencySlider!.visible = scene === model.soundScene;
       } );
     }
 
@@ -65,8 +63,6 @@ class FrequencyControl extends Node {
       const lightFrequencyProperty = model.lightScene.frequencyProperty;
       const trackSize = new Dimension2( 150, WaveInterferenceConstants.SPECTRUM_TRACK_HEIGHT );
       const lightFrequencySlider = new WaveInterferenceSlider( lightFrequencyProperty, {
-
-        // @ts-expect-error
         maxTickIndex: 25, // for audio clicks ratchet sounds
         showTicks: false,
         trackNode: new SpectrumSliderTrack( lightFrequencyProperty, lightFrequencyProperty.range, {

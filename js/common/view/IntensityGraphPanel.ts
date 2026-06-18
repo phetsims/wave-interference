@@ -14,6 +14,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import Shape from '../../../../kite/js/Shape.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
+import IntensitySample from '../model/IntensitySample.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
@@ -22,7 +23,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import ColorConstants from '../../../../sun/js/ColorConstants.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
-import WaveInterferencePanel from './WaveInterferencePanel.js';
+import WaveInterferencePanel, { WaveInterferencePanelOptions } from './WaveInterferencePanel.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
 const intensityString = WaveInterferenceStrings.intensity;
@@ -33,7 +34,8 @@ const DARK_GRAY = new Color( 90, 90, 90 );
 const LINE_DASH = [ 9.1, 9.1 ];
 const CHART_WIDTH = 100;
 
-type IntensityGraphPanelOptions = EmptySelfOptions;
+type SelfOptions = EmptySelfOptions;
+type IntensityGraphPanelOptions = SelfOptions & WaveInterferencePanelOptions;
 
 class IntensityGraphPanel extends WaveInterferencePanel {
   private readonly chartRectangle: Rectangle;
@@ -45,7 +47,7 @@ class IntensityGraphPanel extends WaveInterferencePanel {
    * @param resetEmitter - emits when the sim is reset
    * @param [options]
    */
-  public constructor( graphHeight: number, intensitySample: number[], numberGridLines: number, resetEmitter: Emitter, options?: IntensityGraphPanelOptions ) {
+  public constructor( graphHeight: number, intensitySample: IntensitySample, numberGridLines: number, resetEmitter: Emitter, options?: IntensityGraphPanelOptions ) {
 
     const chartRectangle = new Rectangle( 0, 0, CHART_WIDTH, graphHeight, {
       fill: 'white',
@@ -120,14 +122,12 @@ class IntensityGraphPanel extends WaveInterferencePanel {
       children: [ chartRectangle, curve, titleNode, zoomButtonGroup ]
     } );
 
-    // @ts-expect-error
     super( chartNode, options );
 
     this.chartRectangle = chartRectangle;
 
     const updateChart = () => {
 
-      // @ts-expect-error
       const intensityValues = intensitySample.getIntensityValues();
       const shape = new Shape();
       for ( let i = 0; i < intensityValues.length; i++ ) {
@@ -156,7 +156,6 @@ class IntensityGraphPanel extends WaveInterferencePanel {
       curve.shape = shape;
     };
 
-    // @ts-expect-error
     intensitySample.changedEmitter.addListener( updateChart );
     zoomLevelProperty.link( updateChart );
   }

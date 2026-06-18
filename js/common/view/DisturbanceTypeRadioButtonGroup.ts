@@ -6,31 +6,25 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
-import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import Scene from '../model/Scene.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem, RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import { DisturbanceType } from '../model/DisturbanceType.js';
 import DisturbanceTypeIconNode from './DisturbanceTypeIconNode.js';
 
-// @ts-expect-error
-class DisturbanceTypeRadioButtonGroup extends RectangularRadioButtonGroup {
+class DisturbanceTypeRadioButtonGroup extends RectangularRadioButtonGroup<DisturbanceType> {
 
-  // @ts-expect-error
-  public constructor( disturbanceTypeProperty, options ) {
+  public constructor( disturbanceTypeProperty: Property<DisturbanceType>, options?: RectangularRadioButtonGroupOptions ) {
 
-    super( disturbanceTypeProperty, [ {
-      // @ts-expect-error
-      value: Scene.DisturbanceType.CONTINUOUS,
-
-      // @ts-expect-error
-      createNode: () => new DisturbanceTypeIconNode( Scene.DisturbanceType.CONTINUOUS )
+    const items: RectangularRadioButtonGroupItem<DisturbanceType>[] = [ {
+      value: 'continuous',
+      createNode: () => new DisturbanceTypeIconNode( 'continuous' )
     }, {
+      value: 'pulse',
+      createNode: () => new DisturbanceTypeIconNode( 'pulse' )
+    } ];
 
-      // @ts-expect-error
-      value: Scene.DisturbanceType.PULSE,
-
-      // @ts-expect-error
-      createNode: () => new DisturbanceTypeIconNode( Scene.DisturbanceType.PULSE )
-    } ], merge( {
+    super( disturbanceTypeProperty, items, merge( {
       orientation: 'vertical',
       radioButtonOptions: {
         baseColor: 'white',

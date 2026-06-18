@@ -32,6 +32,9 @@ type SelfOptions = {
 
   // Ticks are created for all sliders for sonification, but not shown for the Light Frequency slider.
   showTicks?: boolean;
+
+  // The index of the highest tick; the number of ticks is maxTickIndex + 1.
+  maxTickIndex?: number;
 };
 
 type ParentOptions = HSliderOptions;
@@ -41,10 +44,8 @@ class WaveInterferenceSlider extends HSlider {
 
   public constructor( property: NumberProperty, providedOptions?: WaveInterferenceSliderOptions ) {
 
-    // maxTickIndex is an extra option supplied by some callers (with @ts-expect-error on their side) and is not part of
-    // the public options type, so it is read off of providedOptions defensively here.
-    const maxTickIndex = ( providedOptions && ( providedOptions as { maxTickIndex?: number } ).maxTickIndex ) ?
-                         ( providedOptions as { maxTickIndex?: number } ).maxTickIndex! : 10;
+    // Number of ticks is maxTickIndex + 1; read here since it is needed before optionize to build the ticks.
+    const maxTickIndex = providedOptions?.maxTickIndex ?? 10;
 
     const range = property.range;
     assert && assert( range, 'WaveInterferenceSlider.property requires range' );
@@ -70,6 +71,7 @@ class WaveInterferenceSlider extends HSlider {
 
       // Ticks are created for all sliders for sonification, but not shown for the Light Frequency slider
       showTicks: true,
+      maxTickIndex: 10,
       constrainValue: ( value: number ) => {
         if ( Math.abs( value - range.min ) <= TOLERANCE ) {
           return range.min;

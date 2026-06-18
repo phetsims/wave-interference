@@ -23,7 +23,7 @@ class WaveInterferenceSceneIcons {
   } ) );
 
   public soundIcon = new Image( speaker_MID_png );
-  public lightIcon = new LaserPointerNode( new BooleanProperty( false ), LightWaveGeneratorNode.DEFAULT_NODE_OPTIONS );
+  public lightIcon = new LaserPointerNode( new BooleanProperty( false ), LightWaveGeneratorNode.DEFAULT_LASER_POINTER_OPTIONS );
 
   public constructor() {
 

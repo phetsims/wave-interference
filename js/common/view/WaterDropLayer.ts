@@ -24,8 +24,7 @@ class WaterDropLayer extends Node {
     super();
 
     // WaterDropLayer is only created for screens that have a water scene.
-    // @ts-expect-error - model.waterScene is assigned dynamically and is not typed on WavesModel
-    const waterScene: WaterScene = model.waterScene;
+    const waterScene: WaterScene = model.waterScene!;
     const waterDropX = waterScene.getWaterDropX();
 
     // Preallocate Images that will be associated with different water drop instances.
@@ -72,8 +71,8 @@ class WaterDropLayer extends Node {
 
           const fullyRotated = model.rotationAmountProperty.value === 1.0;
 
-          // @ts-expect-error - waterSideViewNodeTopY is private on WaterSideViewNode
-          const beneathSurface = dropNode.top - 50 > waterSideViewNode.waterSideViewNodeTopY;
+          // waterSideViewNodeTopY may be null until the first update; null coerces to 0 in the comparison (preserving original behavior).
+          const beneathSurface = dropNode.top - 50 > ( waterSideViewNode.waterSideViewNodeTopY ?? 0 );
           if ( fullyRotated && dropNode.waterDrop && beneathSurface ) {
             dropNode.waterDrop.absorbed = true;
           }

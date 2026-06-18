@@ -9,10 +9,10 @@
 import Utils from '../../../../dot/js/Utils.js';
 import Shape from '../../../../kite/js/Shape.js';
 import LineStyles from '../../../../kite/js/util/LineStyles.js';
-import merge from '../../../../phet-core/js/merge.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import Scene from '../model/Scene.js';
+import { DisturbanceType } from '../model/DisturbanceType.js';
 
 // constants
 const NUMBER_OF_SAMPLES = 100;           // Number of samples to take along the curve
@@ -21,22 +21,25 @@ const MAX_ANGLE = Math.PI * 2 + Math.PI; // Angle at which the wave ends, in rad
 const MARGIN = 10;                       // Width of the pulse side segments, in pixels
 const WIDTH = 50;                        // Size of wave, in pixels
 
+type SelfOptions = {
+
+  // whether the wave is shown with a white stroke (used for the pulse button)
+  stroked?: boolean;
+};
+export type DisturbanceTypeIconNodeOptions = SelfOptions & NodeOptions;
+
 class DisturbanceTypeIconNode extends Node {
 
-  // @ts-expect-error
-  public constructor( disturbanceType, options ) {
+  public constructor( disturbanceType: DisturbanceType, providedOptions?: DisturbanceTypeIconNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<DisturbanceTypeIconNodeOptions, SelfOptions, NodeOptions>()( {
       stroked: false
-    }, options );
+    }, providedOptions );
     super();
 
-    // @ts-expect-error
-    const minAngle = disturbanceType === Scene.DisturbanceType.PULSE ? Math.PI : 0;
-    // @ts-expect-error
-    const minX = disturbanceType === Scene.DisturbanceType.PULSE ? MARGIN : 0;
-    // @ts-expect-error
-    const maxX = disturbanceType === Scene.DisturbanceType.PULSE ? ( WIDTH - MARGIN ) : WIDTH;
+    const minAngle = disturbanceType === 'pulse' ? Math.PI : 0;
+    const minX = disturbanceType === 'pulse' ? MARGIN : 0;
+    const maxX = disturbanceType === 'pulse' ? ( WIDTH - MARGIN ) : WIDTH;
 
     const shape = new Shape();
     for ( let i = 0; i < NUMBER_OF_SAMPLES; i++ ) {
@@ -44,8 +47,7 @@ class DisturbanceTypeIconNode extends Node {
       const y = -Math.cos( angle ) * WAVE_HEIGHT;
       const x = Utils.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
       if ( i === 0 ) {
-        // @ts-expect-error
-        if ( disturbanceType === Scene.DisturbanceType.PULSE ) {
+        if ( disturbanceType === 'pulse' ) {
           shape.moveTo( x - MARGIN, y );
           shape.lineTo( x, y );
         }
@@ -57,13 +59,14 @@ class DisturbanceTypeIconNode extends Node {
         shape.lineTo( x, y );
       }
     }
-    // @ts-expect-error
-    if ( disturbanceType === Scene.DisturbanceType.PULSE ) {
+    if ( disturbanceType === 'pulse' ) {
       shape.lineToRelative( MARGIN, 0 );
     }
 
+    const { stroked, ...nodeOptions } = options;
+
     // In the pulse button, there is a white stroke
-    const child = options.stroked ?
+    const child = stroked ?
                   new Path( shape.getStrokedShape( new LineStyles( { lineWidth: 6 } ) ), {
                     fill: 'black',
                     stroke: 'white',
@@ -75,7 +78,7 @@ class DisturbanceTypeIconNode extends Node {
                   } );
     this.addChild( child );
 
-    this.mutate( options );
+    this.mutate( nodeOptions );
   }
 }
 
