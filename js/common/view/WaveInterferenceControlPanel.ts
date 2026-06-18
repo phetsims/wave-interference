@@ -6,11 +6,11 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import audioManager from '../../../../joist/js/audioManager.js';
 import merge from '../../../../phet-core/js/merge.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
@@ -121,7 +121,10 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       // sound-related checkboxes, and toggling the mute button in the navbar will override their customization. There
       // is precedent for handling this sort of situation in other sims, such as the neutralIndicatorNode in ph-scale
       // (phetsims/ph-scale#102) and the phaseDiagramContainer in states-of-matter (phetsims/states-of-matter#332).
-      soundManager.enabledProperty.link( enabled => {
+      // Use audioManager.audioAndSoundEnabledProperty rather than soundManager.enabledProperty: after
+      // https://github.com/phetsims/joist/issues/724, soundManager.enabledProperty listeners no longer fire, and the
+      // checkbox should be enabled only when it is possible for the soundManager to produce output.
+      audioManager.audioAndSoundEnabledProperty.link( enabled => {
         playToneCheckbox!.enabled = enabled;
       } );
 
@@ -199,7 +202,10 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       // sound-related checkboxes, and toggling the mute button in the navbar will override their customization. There
       // is precedent for handling this sort of situation in other sims, such as the neutralIndicatorNode in ph-scale
       // (phetsims/ph-scale#102) and the phaseDiagramContainer in states-of-matter (phetsims/states-of-matter#332).
-      soundManager.enabledProperty.link( enabled => {
+      // Use audioManager.audioAndSoundEnabledProperty rather than soundManager.enabledProperty: after
+      // https://github.com/phetsims/joist/issues/724, soundManager.enabledProperty listeners no longer fire, and the
+      // checkbox should be enabled only when it is possible for the soundManager to produce output.
+      audioManager.audioAndSoundEnabledProperty.link( enabled => {
         soundEffectCheckbox.enabled = enabled;
       } );
       updatePointerAreas( soundEffectCheckbox );
