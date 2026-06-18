@@ -1,5 +1,5 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Shows the main controls, including frequency/wavelength and amplitude.
  *
@@ -7,17 +7,19 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
+import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import AmplitudeControl from './AmplitudeControl.js';
 import FrequencyControl from './FrequencyControl.js';
 import SceneRadioButtonGroup from './SceneRadioButtonGroup.js';
 import SoundViewTypeRadioButtonGroup from './SoundViewTypeRadioButtonGroup.js';
 import WaveInterferenceCheckbox from './WaveInterferenceCheckbox.js';
-import WaveInterferencePanel from './WaveInterferencePanel.js';
+import WaveInterferencePanel, { WaveInterferencePanelOptions } from './WaveInterferencePanel.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
 const graphString = WaveInterferenceStrings.graph;
@@ -26,14 +28,32 @@ const playToneString = WaveInterferenceStrings.playTone;
 const screenLabelString = WaveInterferenceStrings.screenLabel;
 const soundEffectString = WaveInterferenceStrings.soundEffect;
 
+type SelfOptions = {
+
+  // This additional control (if present) will be shown beneath the Amplitude slider in the WaveInterferenceControlPanel
+  additionalControl?: Node | null;
+
+  showIntensityCheckbox?: boolean;
+  showSceneRadioButtons?: boolean;
+  showPlaySoundControl?: boolean;
+  audioEnabled?: boolean;
+};
+
+export type WaveInterferenceControlPanelOptions = SelfOptions & WaveInterferencePanelOptions;
+
 class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
-  public constructor( model, alignGroup, options ) {
+  /**
+   * @param model
+   * @param alignGroup - used to align the control panels on the right side of the lattice
+   * @param [providedOptions] - options for the control panel content and layout
+   * @param [audioOptions] - additional options merged on top of providedOptions (e.g. audioEnabled), provided
+   *                         separately by some callers such as WavesScreenView
+   */
+  public constructor( model: WavesModel, alignGroup: AlignGroup, providedOptions?: WaveInterferenceControlPanelOptions, audioOptions?: WaveInterferenceControlPanelOptions ) {
 
-    options = merge( {
+    const options = merge( {
 
-      // {Node|null} This additional control (if present) will be shown beneath the Amplitude slider in the
-      // WaveInterferenceControlPanel
       additionalControl: null,
 
       showIntensityCheckbox: true,
@@ -42,12 +62,12 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       showSceneRadioButtons: true,
       showPlaySoundControl: false,
       audioEnabled: true
-    }, options );
+    }, providedOptions, audioOptions ) as Required<SelfOptions> & WaveInterferencePanelOptions;
 
     const frequencyControl = new FrequencyControl( model );
     const amplitudeControl = new AmplitudeControl( model );
 
-    let soundViewTypeRadioButtonGroup = null;
+    let soundViewTypeRadioButtonGroup: SoundViewTypeRadioButtonGroup | null = null;
     if ( model.soundScene && model.soundScene.showSoundParticles ) {
       soundViewTypeRadioButtonGroup = new SoundViewTypeRadioButtonGroup( model );
     }
@@ -65,13 +85,13 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       graphCheckbox.width,
       frequencyControl.width,
       amplitudeControl.width
-    ] );
+    ] )!;
     const separator = new Line( 0, 0, maxComponentWidth, 0, {
       stroke: 'rgb( 100, 100, 100 )'
     } );
 
     // Set pointer areas for the checkboxes, now that we have the separator dimensions.
-    const updatePointerAreas = checkbox => {
+    const updatePointerAreas = ( checkbox: WaveInterferenceCheckbox ) => {
       checkbox.mouseArea = checkbox.localBounds.dilated( 2 ).withX( maxComponentWidth );
       checkbox.touchArea = checkbox.mouseArea;
     };
@@ -82,18 +102,25 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
     // See also playToneCheckbox mouseArea/touchArea set below
 
+    // SceneRadioButtonGroup requires non-null scenes; it is only constructed when showSceneRadioButtons is true,
+    // which only occurs for screens that create all three scenes.
     const sceneRadioButtonGroup = options.showSceneRadioButtons ? new SceneRadioButtonGroup(
+
+      // @ts-expect-error - model.waterScene, soundScene and lightScene are typed as nullable on WavesModel
       model.waterScene,
       model.soundScene,
       model.lightScene,
       model.sceneProperty
     ) : null;
 
-    let playToneCheckbox = null;
+    let playToneCheckbox: WaveInterferenceCheckbox | null = null;
 
     // Only show the Play Tone checkbox for the Sound Scene, if specified.
     if ( model.soundScene && options.showPlaySoundControl ) {
       playToneCheckbox = new WaveInterferenceCheckbox( model.soundScene.isTonePlayingProperty, new WaveInterferenceText( playToneString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ), {
+
+        // audioEnabled is a sim-specific option that is not part of CheckboxOptions
+        // @ts-expect-error
         audioEnabled: options.audioEnabled
       } );
 
@@ -102,7 +129,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       // is precedent for handling this sort of situation in other sims, such as the neutralIndicatorNode in ph-scale
       // (phetsims/ph-scale#102) and the phaseDiagramContainer in states-of-matter (phetsims/states-of-matter#332).
       soundManager.enabledProperty.link( enabled => {
-        playToneCheckbox.enabled = enabled;
+        playToneCheckbox!.enabled = enabled;
       } );
 
       updatePointerAreas( playToneCheckbox );
@@ -119,7 +146,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       frequencyControl.left,
       amplitudeControl.left,
       ...( sceneRadioButtonGroup ? [ sceneRadioButtonGroup.left ] : [] )
-    ] );
+    ] )!;
 
     // Align controls to the left
     if ( soundViewTypeRadioButtonGroup ) {
@@ -168,10 +195,15 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
     const createLightSonificationCheckbox = () => {
 
       const lastCheckbox = options.showIntensityCheckbox ? intensityCheckbox : screenCheckbox;
-      const soundEffectCheckbox = new WaveInterferenceCheckbox( model.lightScene.soundEffectEnabledProperty, new WaveInterferenceText( soundEffectString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ), {
-        audioEnabled: options.audioEnabled,
+
+      // soundEffectEnabledProperty is only available on the LightScene, which is non-null when this is called.
+      const soundEffectCheckbox = new WaveInterferenceCheckbox( model.lightScene!.soundEffectEnabledProperty, new WaveInterferenceText( soundEffectString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ), {
         top: lastCheckbox.bottom + CHECKBOX_SPACING,
-        left: screenCheckbox.left
+        left: screenCheckbox.left,
+
+        // audioEnabled is a sim-specific option that is not part of CheckboxOptions
+        // @ts-expect-error
+        audioEnabled: options.audioEnabled
       } );
 
       // In terms of PhET-iO, there could be a situation where a client wants to control the enabledProperty of the
@@ -203,7 +235,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
         ...( scene === model.soundScene && playToneCheckbox ? [ playToneCheckbox ] : [] ),
 
         // Wave/Particle selection only for Sound scene
-        ...( scene === model.soundScene && model.soundScene.showSoundParticles ? [ soundViewTypeRadioButtonGroup ] : [] ),
+        ...( scene === model.soundScene && model.soundScene.showSoundParticles && soundViewTypeRadioButtonGroup ? [ soundViewTypeRadioButtonGroup ] : [] ),
 
         // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
         ...( scene === model.lightScene ? [ screenCheckbox ] : [] ),

@@ -1,5 +1,5 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Slider abstraction for the frequency and amplitude sliders--but note that light frequency slider uses spectrum for
  * track and thumb.  All instances exist for the lifetime of the sim and do not require disposal.
@@ -7,11 +7,11 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import TProperty from '../../../../axon/js/TProperty.js';
+import type NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import Utils from '../../../../dot/js/Utils.js';
-import merge from '../../../../phet-core/js/merge.js';
-import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
+import { linear } from '../../../../dot/js/util/linear.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import HSlider, { type HSliderOptions } from '../../../../sun/js/HSlider.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
@@ -28,20 +28,33 @@ const LABEL_OPTIONS = {
 };
 const MAJOR_TICK_MODULUS = 5;
 
+type SelfOptions = {
+
+  // Ticks are created for all sliders for sonification, but not shown for the Light Frequency slider.
+  showTicks?: boolean;
+};
+
+type ParentOptions = HSliderOptions;
+export type WaveInterferenceSliderOptions = SelfOptions & ParentOptions;
+
 class WaveInterferenceSlider extends HSlider {
 
-  public constructor( property: TProperty<number>, options?: HSliderOptions ) {
+  public constructor( property: NumberProperty, providedOptions?: WaveInterferenceSliderOptions ) {
 
-    const maxTickIndex = ( options && options.maxTickIndex ) ? options.maxTickIndex : 10;
+    // maxTickIndex is an extra option supplied by some callers (with @ts-expect-error on their side) and is not part of
+    // the public options type, so it is read off of providedOptions defensively here.
+    const maxTickIndex = ( providedOptions && ( providedOptions as { maxTickIndex?: number } ).maxTickIndex ) ?
+                         ( providedOptions as { maxTickIndex?: number } ).maxTickIndex! : 10;
 
-    assert && assert( property.range, 'WaveInterferenceSlider.property requires range' );
-    const min = property.range.min;
-    const max = property.range.max;
+    const range = property.range;
+    assert && assert( range, 'WaveInterferenceSlider.property requires range' );
+    const min = range.min;
+    const max = range.max;
     const minLabel = new WaveInterferenceText( min === 0 ? '0' : minString, LABEL_OPTIONS );
     const maxLabel = new WaveInterferenceText( maxString, LABEL_OPTIONS );
     const ticks = _.range( 0, maxTickIndex + 1 ).map( index => {
       return {
-        value: Utils.linear( 0, maxTickIndex, min, max, index ),
+        value: linear( 0, maxTickIndex, min, max, index ),
         type: index % MAJOR_TICK_MODULUS === 0 ? 'major' : 'minor',
         label: index === 0 ? minLabel :
                index === maxTickIndex ? maxLabel :
@@ -49,7 +62,7 @@ class WaveInterferenceSlider extends HSlider {
       };
     } );
 
-    options = merge( {
+    const options = optionize<WaveInterferenceSliderOptions, SelfOptions, ParentOptions>()( {
 
       // Match the number of sounds generated to the number of tickmarks.  The count is reduced by two to account for
       // the first and last ticks.
@@ -57,27 +70,24 @@ class WaveInterferenceSlider extends HSlider {
 
       // Ticks are created for all sliders for sonification, but not shown for the Light Frequency slider
       showTicks: true,
-      constrainValue: value => {
-        if ( Math.abs( value - property.range.min ) <= TOLERANCE ) {
-          return property.range.min;
+      constrainValue: ( value: number ) => {
+        if ( Math.abs( value - range.min ) <= TOLERANCE ) {
+          return range.min;
         }
-        else if ( Math.abs( value - property.range.max ) <= TOLERANCE ) {
-          return property.range.max;
+        else if ( Math.abs( value - range.max ) <= TOLERANCE ) {
+          return range.max;
         }
         else {
           return value;
         }
       }
-    }, options );
+    }, providedOptions );
 
     // ticks
     if ( options.showTicks ) {
-      options = merge( {
-        tickLabelSpacing: 2,
-        majorTickLength: WaveInterferenceConstants.MAJOR_TICK_LENGTH,
-        minorTickLength: 8
-
-      }, options );
+      options.tickLabelSpacing = options.tickLabelSpacing === undefined ? 2 : options.tickLabelSpacing;
+      options.majorTickLength = options.majorTickLength === undefined ? WaveInterferenceConstants.MAJOR_TICK_LENGTH : options.majorTickLength;
+      options.minorTickLength = options.minorTickLength === undefined ? 8 : options.minorTickLength;
     }
 
     if ( !options.thumbNode ) {
@@ -88,14 +98,14 @@ class WaveInterferenceSlider extends HSlider {
       options.trackSize = new Dimension2( 150, 1 );
     }
 
-    super( property, property.range, options );
+    super( property, range, options );
 
     options.showTicks && ticks.forEach( tick => {
       if ( tick.type === 'major' ) {
-        this.addMajorTick( tick.value, tick.label );
+        this.addMajorTick( tick.value, tick.label ?? undefined );
       }
       else {
-        this.addMinorTick( tick.value, tick.label );
+        this.addMinorTick( tick.value, tick.label ?? undefined );
       }
     } );
   }

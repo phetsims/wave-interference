@@ -1,5 +1,5 @@
 // Copyright 2019-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Control panel for the RectangleScene.
  *
@@ -8,9 +8,10 @@
 
 import Utils from '../../../../dot/js/Utils.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
-import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
+import WaveInterferencePanel, { WaveInterferencePanelOptions } from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
+import RectangleScene from '../model/RectangleScene.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
 const heightString = WaveInterferenceStrings.height;
@@ -19,7 +20,7 @@ const widthString = WaveInterferenceStrings.width;
 
 class RectangleSceneControlPanel extends WaveInterferencePanel {
 
-  public constructor( rectangleScene, options ) {
+  public constructor( rectangleScene: RectangleScene, options?: WaveInterferencePanelOptions ) {
     super( new HBox( {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',

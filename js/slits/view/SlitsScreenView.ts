@@ -1,5 +1,5 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * ScreenView for the Slits screen
  *
@@ -8,9 +8,11 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import Shape from '../../../../kite/js/Shape.js';
+import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import WaveInterferenceQueryParameters from '../../common/WaveInterferenceQueryParameters.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WavesScreenView from '../../waves/view/WavesScreenView.js';
+import SlitsModel from '../model/SlitsModel.js';
 import BarriersNode from './BarriersNode.js';
 import PlaneWaveGeneratorNode from './PlaneWaveGeneratorNode.js';
 import SlitsControlPanel from './SlitsControlPanel.js';
@@ -22,7 +24,7 @@ class SlitsScreenView extends WavesScreenView {
    * @param model
    * @param alignGroup - for aligning the control panels on the right side of the lattice
    */
-  public constructor( model, alignGroup ) {
+  public constructor( model: SlitsModel, alignGroup: AlignGroup ) {
     super( model, alignGroup, {
       showPulseContinuousRadioButtons: false,
 
@@ -52,9 +54,10 @@ class SlitsScreenView extends WavesScreenView {
     slitControlPanel.moveToBack();
 
     // Show the barriers when appropriate. Cannot use ToggleNode because of asymmetry, see the multilink
-    const waterBarriersNode = new BarriersNode( model, model.waterScene, this.waveAreaNode.bounds );
-    const soundBarriersNode = new BarriersNode( model, model.soundScene, this.waveAreaNode.bounds );
-    const lightBarriersNode = new BarriersNode( model, model.lightScene, this.waveAreaNode.bounds );
+    // The Slits screen always has all three scenes, so the non-null assertions are safe.
+    const waterBarriersNode = new BarriersNode( model, model.waterScene!, this.waveAreaNode.bounds );
+    const soundBarriersNode = new BarriersNode( model, model.soundScene!, this.waveAreaNode.bounds );
+    const lightBarriersNode = new BarriersNode( model, model.lightScene!, this.waveAreaNode.bounds );
     Multilink.multilink(
       [ model.sceneProperty, model.rotationAmountProperty, model.isRotatingProperty, model.viewpointProperty ],
       ( scene, rotationAmount, isRotating, viewpoint ) => {
@@ -77,9 +80,13 @@ class SlitsScreenView extends WavesScreenView {
       } ) );
     }
 
-    // Show the plane wave generator instead of the individual scene-specific emitters
+    // Show the plane wave generator instead of the individual scene-specific emitters.
+    // PlaneWaveGeneratorNode still uses @ts-nocheck and its declared constructor requires a 3rd options argument.
+    // @ts-expect-error - PlaneWaveGeneratorNode declared constructor requires a 3rd options argument
     const planeWaveGeneratorNode = new PlaneWaveGeneratorNode( model, this.waveAreaNode.bounds );
-    this.waveGeneratorLayer.addChild( planeWaveGeneratorNode );
+
+    // waveGeneratorLayer is created by the superclass because showSceneSpecificWaveGeneratorNodes is false above.
+    this.waveGeneratorLayer!.addChild( planeWaveGeneratorNode );
   }
 }
 

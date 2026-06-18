@@ -1,5 +1,5 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Controls for the barrier/slits.
  *
@@ -7,9 +7,13 @@
  */
 
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
+import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
@@ -29,16 +33,29 @@ const twoSlitsString = WaveInterferenceStrings.twoSlits;
 
 class SlitsControlPanel extends WaveInterferencePanel {
 
-  public constructor( alignGroup, sceneProperty, waterScene, soundScene, lightScene, comboBoxParent ) {
+  public constructor( alignGroup: AlignGroup, sceneProperty: Property<Scene>, waterScene: Scene | null, soundScene: Scene | null, lightScene: Scene | null, comboBoxParent: Node ) {
+
+    // On the Slits screen all three scenes are always created (see SlitsModel/WavesModel), so they are non-null here.
+    affirm( waterScene && soundScene && lightScene, 'waterScene, soundScene and lightScene are required' );
 
     const barrierTypeDynamicProperty = new DynamicProperty( sceneProperty, {
+
+      // barrierTypeProperty is added dynamically in Scene (only for plane-wave scenes) and is not a typed member.
+      // @ts-expect-error
       derive: 'barrierTypeProperty',
       bidirectional: true
     } );
 
     const comboBox = new ComboBox( barrierTypeDynamicProperty, [
+
+      // Scene.BarrierType is an EnumerationDeprecated assigned as a static; it is not typed on the Scene class.
+      // @ts-expect-error
       { value: Scene.BarrierType.ONE_SLIT, createNode: () => new WaveInterferenceText( oneSlitString ) },
+
+      // @ts-expect-error
       { value: Scene.BarrierType.TWO_SLITS, createNode: () => new WaveInterferenceText( twoSlitsString ) },
+
+      // @ts-expect-error
       { value: Scene.BarrierType.NO_BARRIER, createNode: () => new WaveInterferenceText( noBarrierString ) }
     ], comboBoxParent, {
       xMargin: 13,
@@ -46,12 +63,12 @@ class SlitsControlPanel extends WaveInterferencePanel {
       cornerRadius: 4
     } );
 
-    const createLabel = text => new WaveInterferenceText( text, {
+    const createLabel = ( text: string ) => new WaveInterferenceText( text, {
       fontSize: WaveInterferenceConstants.TICK_FONT_SIZE,
       maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH
     } );
 
-    const createTicks = property => [
+    const createTicks = ( property: NumberProperty ) => [
       { value: property.range.min, label: createLabel( `${property.range.min}` ) },
       { value: property.range.max, label: createLabel( `${property.range.max}` ) }
     ];
@@ -74,7 +91,7 @@ class SlitsControlPanel extends WaveInterferencePanel {
       slitWidthString, soundScene.slitWidthProperty, soundScene.slitWidthProperty.range, merge( {
         delta: 1, // cm
         sliderOptions: {
-          constrainValue: value => Utils.roundToInterval( value, 10 ),
+          constrainValue: ( value: number ) => Utils.roundToInterval( value, 10 ),
           majorTicks: createTicks( soundScene.slitWidthProperty )
         },
         numberDisplayOptions: {
@@ -86,7 +103,7 @@ class SlitsControlPanel extends WaveInterferencePanel {
       slitWidthString, lightScene.slitWidthProperty, lightScene.slitWidthProperty.range, merge( {
         delta: 10, // nm
         sliderOptions: {
-          constrainValue: value => Utils.roundToInterval( value, 50 ),
+          constrainValue: ( value: number ) => Utils.roundToInterval( value, 50 ),
           majorTicks: createTicks( lightScene.slitWidthProperty )
         },
         numberDisplayOptions: {
@@ -99,6 +116,9 @@ class SlitsControlPanel extends WaveInterferencePanel {
       { value: lightScene, createNode: () => lightSlitWidthControl }
     ] );
     barrierTypeDynamicProperty.link( barrierType => {
+
+      // Scene.BarrierType is an EnumerationDeprecated assigned as a static; it is not typed on the Scene class.
+      // @ts-expect-error
       const enabled = barrierType === Scene.BarrierType.ONE_SLIT || barrierType === Scene.BarrierType.TWO_SLITS;
       waterSlitWidthControl.enabled = enabled;
       soundSlitWidthControl.enabled = enabled;
@@ -132,7 +152,7 @@ class SlitsControlPanel extends WaveInterferencePanel {
           valuePattern: cmValueString
         },
         sliderOptions: {
-          constrainValue: value => Utils.roundToInterval( value, 10 ),
+          constrainValue: ( value: number ) => Utils.roundToInterval( value, 10 ),
           majorTicks: createTicks( soundScene.slitSeparationProperty )
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
@@ -144,7 +164,7 @@ class SlitsControlPanel extends WaveInterferencePanel {
       merge( {
         delta: 10, // nm
         sliderOptions: {
-          constrainValue: value => Utils.roundToInterval( value, 50 ),
+          constrainValue: ( value: number ) => Utils.roundToInterval( value, 50 ),
           majorTicks: createTicks( lightScene.slitSeparationProperty )
         },
         numberDisplayOptions: { valuePattern: nmValueString }
@@ -156,6 +176,9 @@ class SlitsControlPanel extends WaveInterferencePanel {
     ] );
 
     barrierTypeDynamicProperty.link( barrierType => {
+
+      // Scene.BarrierType is an EnumerationDeprecated assigned as a static; it is not typed on the Scene class.
+      // @ts-expect-error
       const enabled = barrierType === Scene.BarrierType.TWO_SLITS;
       waterSeparationControl.enabled = enabled;
       soundSeparationControl.enabled = enabled;

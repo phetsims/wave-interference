@@ -1,25 +1,27 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Vertical cylinder with a button that produces the plane wave along the left edge of the wave area.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RoundStickyToggleButton from '../../../../sun/js/buttons/RoundStickyToggleButton.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import plane_wave_source_png from '../../../images/plane_wave_source_png.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 import SceneToggleNode from '../../common/view/SceneToggleNode.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 
 class PlaneWaveGeneratorNode extends Node {
 
-  public constructor( model, waveAreaBounds, options ) {
+  public constructor( model: WavesModel, waveAreaBounds: Bounds2, options: NodeOptions ) {
     super();
     const verticalCylinderImageNode = new Image( plane_wave_source_png, {
       scale: waveAreaBounds.height / ( plane_wave_source_png.height - 52 ),
@@ -38,9 +40,9 @@ class PlaneWaveGeneratorNode extends Node {
       } );
 
     assert && assert( !options || !options.children, 'children would be overwritten in PlaneWaveGeneratorNode' );
-    options = merge( { children: [ verticalCylinderImageNode, button ] }, options );
+    const mutateOptions: NodeOptions = merge( { children: [ verticalCylinderImageNode, button ] }, options );
 
-    this.mutate( options );
+    this.mutate( mutateOptions );
 
     // Show descriptive text label
     this.addChild( new SceneToggleNode( model, scene => {

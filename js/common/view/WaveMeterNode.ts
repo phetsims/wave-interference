@@ -1,5 +1,5 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Provides simulation-specific values and customizations to display a SeismographNode in a chart.
  *
@@ -11,27 +11,32 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import Property from '../../../../axon/js/Property.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import DynamicSeries from '../../../../griddle/js/DynamicSeries.js';
 import SeismographNode from '../../../../griddle/js/SeismographNode.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
 import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import { PressListenerEvent } from '../../../../scenery/js/listeners/PressListener.js';
+import type DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import waveMeterSawTone_mp3 from '../../../sounds/waveMeterSawTone_mp3.js';
 import waveMeterSmoothTone_mp3 from '../../../sounds/waveMeterSmoothTone_mp3.js';
+import type WavesModel from '../../waves/model/WavesModel.js';
+import type WavesScreenView from '../../waves/view/WavesScreenView.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import getWaveMeterNodeOutputLevel from './getWaveMeterNodeOutputLevel.js';
 import SceneToggleNode from './SceneToggleNode.js';
@@ -56,32 +61,58 @@ const LABEL_FONT_SIZE = 14;
 const NORMAL_DISTANCE = 25;
 const WIRE_LINE_WIDTH = 3;
 
+type SelfOptions = {
+  timeDivisions?: number;
+};
+
+type WaveMeterNodeOptions = SelfOptions & NodeOptions;
+
 class WaveMeterNode extends Node {
+
+  // shows the background for the chart.  Any attached probes or other supplemental nodes should not be children of
+  // the backgroundNode if they need to translate independently.
+  public readonly backgroundNode: InteractiveHighlightingNode;
+
+  // set by setDragListener
+  private backgroundDragListener: DragListener | null;
+
+  // true if dragging the chart also causes attached probes to translate. This is accomplished by calling
+  // alignProbes() on drag start and each drag event.
+  public synchronizeProbePositions: boolean;
+
+  // emits when the probes should be put in standard relative position to the body
+  public readonly alignProbesEmitter: Emitter;
+
+  // triggered when the probe is reset
+  private readonly resetEmitter: Emitter;
+
+  // emits when the WaveMeterNode has been dropped
+  public readonly droppedEmitter: Emitter;
+
+  // Turn down the water drops, speaker or light sound when the wave meter is being used.
+  public readonly duckingProperty: TReadOnlyProperty<number>;
 
   /**
    * @param model - model for reading values
    * @param view - for getting coordinates for model
-   * @param [options]
+   * @param [providedOptions]
    */
-  public constructor( model, view, options ) {
-    options = merge( {
+  public constructor( model: WavesModel, view: WavesScreenView, providedOptions?: WaveMeterNodeOptions ) {
+    const options = optionize<WaveMeterNodeOptions, SelfOptions, NodeOptions>()( {
       timeDivisions: NUMBER_OF_TIME_DIVISIONS,
 
       // Prevent adjustment of the control panel rendering while dragging,
       // see https://github.com/phetsims/wave-interference/issues/212
       preventFit: true
-    }, options );
+    }, providedOptions );
 
     // interactive highlighting - highlights will surround the draggable background on mouse and touch
     const backgroundNode = new InteractiveHighlightingNode( { cursor: 'pointer' } );
 
     super();
 
-    // @public (read-only) {Node} - shows the background for the chart.  Any attached probes or other
-    // supplemental nodes should not be children of the backgroundNode if they need to translate independently.
     this.backgroundNode = backgroundNode;
 
-    // @private {DragListener} - set by setDragListener
     this.backgroundDragListener = null;
 
     this.addChild( this.backgroundNode );
@@ -89,20 +120,15 @@ class WaveMeterNode extends Node {
     // Mutate after backgroundNode is added as a child
     this.mutate( options );
 
-    // @public {boolean} - true if dragging the chart also causes attached probes to translate.
-    // This is accomplished by calling alignProbes() on drag start and each drag event.
     this.synchronizeProbePositions = false;
 
-    // @public - emits when the probes should be put in standard relative position to the body
     this.alignProbesEmitter = new Emitter();
 
-    // @private - triggered when the probe is reset
     this.resetEmitter = new Emitter();
 
     // These do not need to be disposed because there is no connection to the "outside world"
     const leftBottomProperty = new DerivedProperty( [ this.backgroundNode.boundsProperty ], bounds => bounds.leftBottom );
 
-    // @public - emits when the WaveMeterNode has been dropped
     this.droppedEmitter = new Emitter();
     const droppedEmitter = this.droppedEmitter;
 
@@ -119,7 +145,18 @@ class WaveMeterNode extends Node {
      * @param isPlayingProperty
      * @param seriesVolume
      */
-    const initializeSeries = ( color, wireColor, dx, dy, connectionProperty, sounds, soundIndexProperty, playbackRateProperty, volumeProperty, isPlayingProperty, seriesVolume ): DynamicSeries => {
+    const initializeSeries = (
+      color: string | Color,
+      wireColor: string | Color,
+      dx: number,
+      dy: number,
+      connectionProperty: TReadOnlyProperty<Vector2>,
+      sounds: SoundClip[],
+      soundIndexProperty: Property<number>,
+      playbackRateProperty: Property<number>,
+      volumeProperty: Property<number>,
+      isPlayingProperty: Property<boolean>,
+      seriesVolume: number ): DynamicSeries => {
       const snapToCenter = () => {
         if ( model.rotationAmountProperty.value !== 0 && model.sceneProperty.value === model.waterScene ) {
           const point = view.waveAreaNode.center;
@@ -187,6 +224,8 @@ class WaveMeterNode extends Node {
       this.alignProbesEmitter.addListener( alignProbes );
 
       const dynamicSeries = new DynamicSeries( { color: color } );
+
+      // @ts-expect-error - DynamicSeries is untyped JS and does not declare probeNode; this stashes the probe for reference.
       dynamicSeries.probeNode = probeNode;
 
       const updateSamples = () => {
@@ -213,6 +252,8 @@ class WaveMeterNode extends Node {
             dynamicSeries.addXYDataPoint( scene.timeProperty.value, value );
 
             if ( !soundManager.hasSoundGenerator( soundClip ) ) {
+
+              // @ts-expect-error - associatedViewNode is not declared on SoundGeneratorAddOptions, matching the precedent in WavesScreenSoundView.ts
               soundManager.addSoundGenerator( soundClip, { associatedViewNode: this } );
             }
 
@@ -222,7 +263,7 @@ class WaveMeterNode extends Node {
             const outputLevel = getWaveMeterNodeOutputLevel( value ) * amplitudeScale * seriesVolume;
 
             // "Play Tone" takes precedence over the wave meter node sounds, because it is meant to be used briefly
-            const isDucking = model.sceneProperty.value === model.soundScene && model.soundScene.isTonePlayingProperty.value;
+            const isDucking = !!model.soundScene && model.sceneProperty.value === model.soundScene && model.soundScene.isTonePlayingProperty.value;
             const duckFactor = isDucking ? 0.1 : 1;
 
             // Set the main volume.  If the sound clip wasn't playing, set the sound immediately to correct an audio
@@ -323,7 +364,6 @@ class WaveMeterNode extends Node {
       waveMeterSound2Property, waveMeterSound2PlaybackRateProperty, waveMeterSound2VolumeProperty, series2PlayingProperty,
       0.42 );
 
-    // @public {DerivedProperty.<number>} - Turn down the water drops, speaker or light sound when the wave meter is being used.
     this.duckingProperty = new DerivedProperty( [ series1PlayingProperty, series2PlayingProperty ], ( a, b ) => {
       if ( a || b ) {
         return 0.3;
@@ -396,16 +436,16 @@ class WaveMeterNode extends Node {
    * Forward an event from the toolbox to start dragging the node in the play area.  This triggers the probes (if any)
    * to drag together with the chart.  This is accomplished by calling this.alignProbes() at each drag event.
    */
-  public startDrag( event ): void {
+  public startDrag( event: PressListenerEvent ): void {
 
     // Forward the event to the drag listener
-    this.backgroundDragListener.press( event, this.backgroundNode );
+    this.backgroundDragListener!.press( event, this.backgroundNode );
   }
 
   /**
    * Set the drag listener, wires it up and uses it for forwarding events from the toolbox icon.
    */
-  public setDragListener( dragListener ): void {
+  public setDragListener( dragListener: DragListener ): void {
     assert && assert( this.backgroundDragListener === null, 'setDragListener must be called no more than once' );
     this.backgroundDragListener = dragListener;
     this.backgroundNode.addInputListener( dragListener );

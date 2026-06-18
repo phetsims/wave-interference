@@ -1,32 +1,39 @@
 // Copyright 2019-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Base type for Scenes in the diffraction screen.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
+import Matrix from '../../../../dot/js/Matrix.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 
 abstract class DiffractionScene {
 
-  public constructor( properties ) {
+  // tunable characteristics of this scene
+  protected readonly properties: Property<IntentionalAny>[];
 
-    // @protected {Property.<*>[]} - tunable characteristics of this scene
+  // The diffraction pattern is computed as a 2D discrete fourier transform of the aperture pattern, which is
+  // represented as a 2d floating point Matrix.  In order to efficiently compute the aperture pattern, we render the
+  // shapes to a canvas in the model, then sample points from the canvas using canvas.context.getImageData(), see
+  // paintMatrix().  We previously tried other approaches for populating the aperture Matrix (such as using kite
+  // Shape.containsPoint), but they were too inefficient to be practical.
+  private readonly canvas: HTMLCanvasElement;
+
+  private readonly context: CanvasRenderingContext2D;
+
+  public constructor( properties: Property<IntentionalAny>[] ) {
+
     this.properties = properties;
 
-    // The diffraction pattern is computed as a 2D discrete fourier transform of the aperture pattern, which is
-    // represented as a 2d floating point Matrix.  In order to efficiently compute the aperture pattern, we render the
-    // shapes to a canvas in the model, then sample points from the canvas using canvas.context.getImageData(), see
-    // paintMatrix().  We previously tried other approaches for populating the aperture Matrix (such as using kite
-    // Shape.containsPoint), but they were too inefficient to be practical.
-    // @private
     this.canvas = document.createElement( 'canvas' );
     this.canvas.width = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
     this.canvas.height = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
 
-    // @private
-    this.context = this.canvas.getContext( '2d' );
+    this.context = this.canvas.getContext( '2d' )!;
 
     assert && assert( this.renderToContext, 'Subclass must define renderToContext' );
   }
@@ -37,7 +44,7 @@ abstract class DiffractionScene {
    * @param matrix
    * @param scaleFactor - zoom factor to account for frequency difference
    */
-  public paintMatrix( matrix, scaleFactor ): void {
+  public paintMatrix( matrix: Matrix, scaleFactor: number ): void {
 
     // clear canvas
     this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
@@ -55,9 +62,12 @@ abstract class DiffractionScene {
 
     // Each scene paints its aperture pattern to the canvas context.  This has good performance and unifies the code
     // Disable image smoothing for the data to ensure for all platforms compute the same, see https://github.com/phetsims/wave-interference/issues/405
-    this.context.mozImageSmoothingEnabled = false;
-    this.context.webkitImageSmoothingEnabled = false;
-    this.context.msImageSmoothingEnabled = false;
+
+    // Cast to access vendor-prefixed image smoothing properties that are not in the CanvasRenderingContext2D type.
+    const context = this.context as IntentionalAny;
+    context.mozImageSmoothingEnabled = false;
+    context.webkitImageSmoothingEnabled = false;
+    context.msImageSmoothingEnabled = false;
     this.context.imageSmoothingEnabled = false;
     this.renderToContext( this.context );
 
@@ -78,7 +88,7 @@ abstract class DiffractionScene {
   /**
    * Render the aperture shape(s) to the canvas context.
    */
-  protected abstract renderToContext( context ): void;
+  protected abstract renderToContext( context: CanvasRenderingContext2D ): void;
 
   /**
    * Restore the initial values for all Property instances.
@@ -90,7 +100,7 @@ abstract class DiffractionScene {
   /**
    * Link to each Property instance
    */
-  public linkToAllProperties( listener ): void {
+  public linkToAllProperties( listener: ( value: IntentionalAny ) => void ): void {
     this.properties.forEach( property => property.link( listener ) );
   }
 }

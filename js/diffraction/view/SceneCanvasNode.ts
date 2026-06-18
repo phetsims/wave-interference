@@ -1,29 +1,38 @@
 // Copyright 2019-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Uses the model's renderToContext function to draw directly to the view canvas, so the aperture views are anti-aliased
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import merge from '../../../../phet-core/js/merge.js';
-import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import CanvasNode, { CanvasNodeOptions } from '../../../../scenery/js/nodes/CanvasNode.js';
+import DiffractionScene from '../model/DiffractionScene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
+
+type SelfOptions = EmptySelfOptions;
+type SceneCanvasNodeOptions = SelfOptions & CanvasNodeOptions;
 
 class SceneCanvasNode extends CanvasNode {
 
-  public constructor( sceneProperty, options ) {
+  private readonly sceneProperty: Property<DiffractionScene>;
 
-    super( merge( {
+  public constructor( sceneProperty: Property<DiffractionScene>, providedOptions?: SceneCanvasNodeOptions ) {
+
+    const options = optionize<SceneCanvasNodeOptions, SelfOptions, CanvasNodeOptions>()( {
+
       // only use the visible part for the bounds (not the damping regions)
       canvasBounds: new Bounds2( 0, 0,
         WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION,
         WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION
       )
-    }, options ) );
+    }, providedOptions );
 
-    // @private
+    super( options );
+
     this.sceneProperty = sceneProperty;
   }
 
@@ -39,6 +48,9 @@ class SceneCanvasNode extends CanvasNode {
 
     // Draw the aperture
     context.fillStyle = 'white';
+
+    // renderToContext is protected on DiffractionScene; this view intentionally invokes it to draw the aperture.
+    // @ts-expect-error
     this.sceneProperty.value.renderToContext( context );
 
     context.restore();

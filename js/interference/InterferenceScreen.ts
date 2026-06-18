@@ -1,5 +1,5 @@
 // Copyright 2017-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * "Interference" screen in the Wave Interference simulation.
  *

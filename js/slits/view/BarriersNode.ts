@@ -1,5 +1,5 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Renders the draggable barrier with one or two slits.
  *
@@ -53,7 +53,7 @@ class BarriersNode extends Node {
     this.rectangleB = rectangleB;
     this.rectangleC = rectangleC;
 
-    // @private - Width of the barrier
+    // Width of the barrier
     this.barrierWidth = scene.latticeToViewTransform!.modelToViewDeltaX( WaveInterferenceConstants.CALIBRATION_SCALE );
 
     this.addInputListener( new DragListener( {
@@ -69,7 +69,7 @@ class BarriersNode extends Node {
       transform: scene.latticeToViewTransform
     } ) );
 
-    // @private - draggable double-headed arrow beneath the barrier
+    // Draggable double-headed arrow beneath the barrier
     this.arrowNode = new ArrowNode( 0, 0, 56, 0, {
       doubleHead: true,
       fill: '#61af5e',
@@ -80,6 +80,8 @@ class BarriersNode extends Node {
     this.addChild( this.arrowNode );
 
     const barrierTypeDynamicProperty = new DynamicProperty( model.sceneProperty, {
+
+      // @ts-expect-error - barrierTypeProperty is only assigned conditionally in Scene and is not declared as a member
       derive: 'barrierTypeProperty',
       bidirectional: true
     } );
@@ -97,6 +99,7 @@ class BarriersNode extends Node {
    * Update the shapes and text when the rotationAmount has changed
    */
   private update(): void {
+    // @ts-expect-error - barrierTypeProperty is only assigned conditionally in Scene and is not declared as a member
     const barrierType = this.scene.barrierTypeProperty.get();
     const scene = this.scene;
     const slitWidth = scene.slitWidthProperty.get();
@@ -104,8 +107,9 @@ class BarriersNode extends Node {
 
     // Barrier origin in view coordinates, sets the parent node position for compatibility with DragListener,
     // see https://github.com/phetsims/wave-interference/issues/75
-    this.x = scene.latticeToViewTransform.modelToViewX( scene.barrierLatticeCoordinateProperty.value );
+    this.x = scene.latticeToViewTransform!.modelToViewX( scene.barrierLatticeCoordinateProperty.value );
 
+    // @ts-expect-error - Scene.BarrierType is a static EnumerationDeprecated assigned outside the class declaration
     if ( barrierType === Scene.BarrierType.NO_BARRIER ) {
 
       // No need to add children
@@ -116,6 +120,7 @@ class BarriersNode extends Node {
     }
     else {
       const waveAreaTop = this.waveAreaViewBounds.top;
+      // @ts-expect-error - Scene.BarrierType is a static EnumerationDeprecated assigned outside the class declaration
       if ( barrierType === Scene.BarrierType.ONE_SLIT ) {
 
         this.rectangleA.visible = true;
@@ -123,7 +128,7 @@ class BarriersNode extends Node {
         this.rectangleC.visible = false;
         this.arrowNode.visible = true;
 
-        const slitWidthView = scene.modelViewTransform.modelToViewDeltaY( slitWidth );
+        const slitWidthView = scene.modelViewTransform!.modelToViewDeltaY( slitWidth );
         const y1 = this.waveAreaViewBounds.centerY - slitWidthView / 2;
         const y2 = this.waveAreaViewBounds.centerY + slitWidthView / 2;
         this.rectangleA.setRect( 0, waveAreaTop, this.barrierWidth, y1 - waveAreaTop, CORNER_RADIUS, CORNER_RADIUS );
@@ -131,6 +136,7 @@ class BarriersNode extends Node {
         this.arrowNode.centerX = this.barrierWidth / 2;
         this.arrowNode.top = this.rectangleB.bottom + 2;
       }
+      // @ts-expect-error - Scene.BarrierType is a static EnumerationDeprecated assigned outside the class declaration
       else if ( barrierType === Scene.BarrierType.TWO_SLITS ) {
         this.rectangleA.visible = true;
         this.rectangleB.visible = true;
@@ -138,13 +144,13 @@ class BarriersNode extends Node {
         this.arrowNode.visible = true;
 
         const waveAreaWidth = scene.waveAreaWidth;
-        const bottomOfTopBarrier = scene.modelViewTransform
+        const bottomOfTopBarrier = scene.modelViewTransform!
           .modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 - slitWidth / 2 );
-        const topOfCentralBarrier = scene.modelViewTransform
+        const topOfCentralBarrier = scene.modelViewTransform!
           .modelToViewY( waveAreaWidth / 2 - slitSeparation / 2 + slitWidth / 2 );
-        const bottomOfCentralBarrier = scene.modelViewTransform
+        const bottomOfCentralBarrier = scene.modelViewTransform!
           .modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 - slitWidth / 2 );
-        const topOfBottomBarrier = scene.modelViewTransform
+        const topOfBottomBarrier = scene.modelViewTransform!
           .modelToViewY( waveAreaWidth / 2 + slitSeparation / 2 + slitWidth / 2 );
         this.rectangleA.setRect(
           0, waveAreaTop,

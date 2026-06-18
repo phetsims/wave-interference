@@ -1,5 +1,5 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Shows the theoretical/ideal (far field) pattern for interference, when ?theory is specified, see
  * https://github.com/phetsims/wave-interference/issues/136
@@ -7,10 +7,13 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Scene from '../../common/model/Scene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 
@@ -20,35 +23,51 @@ const MAXIMUM_COLOR = 'yellow';
 const MINIMUM_COLOR = PhetColorScheme.RED_COLORBLIND;
 const LINE_WIDTH = 1;
 
+// Scene.BarrierType is a dynamically-added EnumerationDeprecated, so it is not part of the Scene type. Reference it
+// through an IntentionalAny alias to access the enum values.
+const BarrierType = ( Scene as IntentionalAny ).BarrierType;
+
+type SelfOptions = {
+
+  // On the interference screen, the theory pattern is always shown for 2 sources even though 0, 1 or 2 sources
+  // may be oscillating
+  interferenceScreen?: boolean;
+};
+
+type TheoryInterferenceOverlayOptions = SelfOptions & NodeOptions;
+
 class TheoryInterferenceOverlay extends Node {
 
   /**
-   * @param sceneProperty
-   * @param scenes
+   * @param sceneProperty - the selected scene
+   * @param scenes - all scenes whose physical Properties should trigger a redraw
    * @param viewBounds - the area where the lattice appears
-   * @param [options]
+   * @param [providedOptions]
    */
-  public constructor( sceneProperty, scenes, viewBounds, options ) {
-    options = merge( {
-
-      // On the interference screen, the theory pattern is always shown for 2 sources even though 0, 1 or 2 sources
-      // may be oscillating
+  public constructor( sceneProperty: TReadOnlyProperty<Scene>, scenes: Scene[], viewBounds: Bounds2, providedOptions?: TheoryInterferenceOverlayOptions ) {
+    const options = optionize<TheoryInterferenceOverlayOptions, SelfOptions, NodeOptions>()( {
       interferenceScreen: true
-    }, options );
+    }, providedOptions );
     super( options );
 
     const updateLines = () => {
       this.removeAllChildren();
-      const barrierType = options.interferenceScreen ? Scene.BarrierType.TWO_SLITS :
-                          sceneProperty.value.barrierTypeProperty.value;
-      if ( barrierType !== Scene.BarrierType.NO_BARRIER ) {
+
+      // barrierTypeProperty is only present on plane-wave scenes (added dynamically in Scene), so it is not on the
+      // base Scene type.
+      const barrierType = options.interferenceScreen ? BarrierType.TWO_SLITS :
+                          ( sceneProperty.value as IntentionalAny ).barrierTypeProperty.value;
+      if ( barrierType !== BarrierType.NO_BARRIER ) {
 
         const scene = sceneProperty.value;
         const barrierY = viewBounds.centerY;
-        const cellWidth = scene.latticeToViewTransform.modelToViewDeltaX( 1 );
+
+        // The transform is filled in once the view bounds are set, which has happened by the time this overlay updates.
+        const latticeToViewTransform = scene.latticeToViewTransform!;
+        const cellWidth = latticeToViewTransform.modelToViewDeltaX( 1 );
         const modelX = options.interferenceScreen ? WaveInterferenceConstants.POINT_SOURCE_HORIZONTAL_COORDINATE :
                        scene.barrierLatticeCoordinateProperty.value;
-        const barrierX = scene.latticeToViewTransform.modelToViewX( modelX ) + cellWidth / 2;
+        const barrierX = latticeToViewTransform.modelToViewX( modelX ) + cellWidth / 2;
 
         // Render all the minima and maxima on both sides of the origin
         [ 'maxima', 'minima' ].forEach( type => {
@@ -58,7 +77,7 @@ class TheoryInterferenceOverlay extends Node {
              * Adds a line for the given maximum or minimum
              * @param arg - argument to the arcsin
              */
-            const addLine = arg => {
+            const addLine = ( arg: number ) => {
               const theta = sign * Math.asin( arg );
 
               const x = LENGTH * Math.cos( theta );
@@ -79,13 +98,15 @@ class TheoryInterferenceOverlay extends Node {
               // see http://electron9.phys.utk.edu/optics421/modules/m1/diffraction_and_interference.htm
 
               // Use the desired wavelength when drops are present, so we don't have to wait for the drops to hit the
-              // lattice.  There are no drops on the "slits" screeen.
-              const wavelength = ( scene.getDesiredWavelength && options.interferenceScreen ) ? scene.getDesiredWavelength() :
+              // lattice.  There are no drops on the "slits" screeen.  getDesiredWavelength and
+              // desiredSourceSeparationProperty are only defined on WaterScene, so access them through a cast.
+              const waterScene = scene as IntentionalAny;
+              const wavelength = ( waterScene.getDesiredWavelength && options.interferenceScreen ) ? waterScene.getDesiredWavelength() :
                                  scene.getWavelength();
-              if ( barrierType === Scene.BarrierType.TWO_SLITS ) {
+              if ( barrierType === BarrierType.TWO_SLITS ) {
                 const addition = type === 'maxima' ? 0 : 0.5;
-                const separation = options.interferenceScreen && scene.desiredSourceSeparationProperty ? scene.desiredSourceSeparationProperty.value :
-                                   options.interferenceScreen && !scene.desiredSourceSeparationProperty ? scene.sourceSeparationProperty.value :
+                const separation = options.interferenceScreen && waterScene.desiredSourceSeparationProperty ? waterScene.desiredSourceSeparationProperty.value :
+                                   options.interferenceScreen && !waterScene.desiredSourceSeparationProperty ? scene.sourceSeparationProperty.value :
                                    scene.slitSeparationProperty.value;
                 const arg = ( m + addition ) * wavelength / separation;
 
@@ -99,7 +120,7 @@ class TheoryInterferenceOverlay extends Node {
               // a sin(θ) = mλ for minima
               // a sin(θ) = (m+1/2)λ for maxima
               // see http://hyperphysics.phy-astr.gsu.edu/hbase/phyopt/sinslit.html
-              if ( barrierType === Scene.BarrierType.ONE_SLIT ) {
+              if ( barrierType === BarrierType.ONE_SLIT ) {
                 const addition = type === 'minima' ? 0 : 0.5;
                 const aperture = scene.slitWidthProperty.value;
                 const arg = ( m + addition ) * wavelength / aperture;
@@ -114,7 +135,7 @@ class TheoryInterferenceOverlay extends Node {
         } );
 
         // Strong central maximum for one slit, not covered by the math above
-        if ( barrierType === Scene.BarrierType.ONE_SLIT ) {
+        if ( barrierType === BarrierType.ONE_SLIT ) {
           this.addChild( new Line( barrierX, barrierY, barrierX + LENGTH, barrierY, {
             stroke: MAXIMUM_COLOR,
             lineWidth: LINE_WIDTH
@@ -126,9 +147,13 @@ class TheoryInterferenceOverlay extends Node {
     sceneProperty.link( updateLines );
     scenes.forEach( scene => {
 
+      // barrierTypeProperty (plane-wave scenes), desiredFrequencyProperty and desiredSourceSeparationProperty
+      // (WaterScene) are not on the base Scene type, so access them through a cast.
+      const dynamicScene = scene as IntentionalAny;
+
       // When any of the relevant physical Properties change, update the lines.
       if ( !options.interferenceScreen ) {
-        scene.barrierTypeProperty.link( updateLines );
+        dynamicScene.barrierTypeProperty.link( updateLines );
       }
       scene.frequencyProperty.link( updateLines );
       scene.slitSeparationProperty.link( updateLines );
@@ -137,8 +162,8 @@ class TheoryInterferenceOverlay extends Node {
       scene.slitWidthProperty.link( updateLines );
 
       // Wire up to desired values in WaterScene
-      scene.desiredFrequencyProperty && scene.desiredFrequencyProperty.link( updateLines );
-      scene.desiredSourceSeparationProperty && scene.desiredSourceSeparationProperty.link( updateLines );
+      dynamicScene.desiredFrequencyProperty && dynamicScene.desiredFrequencyProperty.link( updateLines );
+      dynamicScene.desiredSourceSeparationProperty && dynamicScene.desiredSourceSeparationProperty.link( updateLines );
     } );
   }
 }

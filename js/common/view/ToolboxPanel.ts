@@ -63,7 +63,6 @@ class ToolboxPanel extends WaveInterferencePanel {
     // Make sure the probes have enough breathing room so they don't get shoved into the WaveMeterNode icon.  Anything
     // above 60 seems to work equally well, closer than that causes the probes to overlap each other or the meter
     // body. The true translation is set when dragged out of the toolbox.
-    // @ts-expect-error backgroundNode is not declared on the type because WaveMeterNode is @ts-nocheck
     waveMeterNode.backgroundNode.translate( 60, 0 );
 
     // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
@@ -75,11 +74,9 @@ class ToolboxPanel extends WaveInterferencePanel {
     const interactiveWaveMeterIcon = initializeIcon( waveMeterIcon, isWaveMeterInPlayAreaProperty, event => {
 
       // Fine-tuned empirically to set the drag point to be the center of the chart.
-      // @ts-expect-error backgroundNode is not declared on the type because WaveMeterNode is @ts-nocheck
       waveMeterNode.backgroundNode.setTranslation( this.globalToParentPoint( event.pointer.point ).plusXY( -60, -66 ) );
 
       // Set the internal flag that indicates the probes should remain in alignment during the drag
-      // @ts-expect-error synchronizeProbePositions is not declared on the type because WaveMeterNode is @ts-nocheck
       waveMeterNode.synchronizeProbePositions = true;
       waveMeterNode.startDrag( event );
       isWaveMeterInPlayAreaProperty.value = true;

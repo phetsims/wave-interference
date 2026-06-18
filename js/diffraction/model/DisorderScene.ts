@@ -1,5 +1,5 @@
 // Copyright 2019-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * This scene shows a controllable discrete amount of disorder in the aperture.
  *
@@ -13,12 +13,25 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import DiffractionScene from './DiffractionScene.js';
 
+// Describes a single perturbation to apply to a cell in the aperture grid.
+type Perturbation = {
+
+  // indicating the position in the grid to perturb
+  cell: Vector2;
+
+  // indicating the relative percentages to move the point
+  offsetPercent: Vector2;
+
+  // indicating x and y scale factors, or 100% if unscaled in that direction
+  scalePercent: Vector2;
+};
+
 // The disorder is quantized over the following levels.  The perturbations are cumulative, so that level N contains
 // all the perturbations declared in level N-1 as well as its new perturbations.  Each individual perturbation contains:
 // cell:          {Vector2} - indicating the position in the grid to perturb
 // offsetPercent: {Vector2} - indicating the relative percentages to move the point
 // scalePercent:  {Vector2} - indicating x and y scale factors, or 100% if unscaled in that direction.
-const array = [
+const array: Perturbation[][] = [
 
   // No perturbations at the 1st tick
   [],
@@ -50,6 +63,15 @@ const array = [
 
 class DisorderScene extends DiffractionScene {
 
+  // diameter in mm
+  public readonly diameterProperty: NumberProperty;
+
+  // lattice spacing in mm
+  public readonly latticeSpacingProperty: NumberProperty;
+
+  // amount of disorder (unitless)
+  public readonly disorderProperty: NumberProperty;
+
   public constructor() {
 
     const diameterProperty = new NumberProperty( 50E-3, {
@@ -68,13 +90,8 @@ class DisorderScene extends DiffractionScene {
 
     super( [ diameterProperty, latticeSpacingProperty, disorderProperty ] );
 
-    // @public {NumberProperty} - diameter in mm
     this.diameterProperty = diameterProperty;
-
-    // @public {NumberProperty} - lattice spacing in mm
     this.latticeSpacingProperty = latticeSpacingProperty;
-
-    // @public {NumberProperty} - amount of disorder (unitless)
     this.disorderProperty = disorderProperty;
   }
 
@@ -82,7 +99,7 @@ class DisorderScene extends DiffractionScene {
    * Render the aperture shape(s) to the canvas context.
    */
   protected override renderToContext( context: CanvasRenderingContext2D ): void {
-    const points = [];
+    const points: Array<{ center: Vector2; scalePercent: Vector2 }> = [];
     for ( let i = 0; i < array.length; i++ ) {
       const arrayElement = array[ i ];
       for ( let j = 0; j < arrayElement.length; j++ ) {

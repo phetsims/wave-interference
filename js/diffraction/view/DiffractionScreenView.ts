@@ -1,5 +1,5 @@
 // Copyright 2017-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Shows the Diffraction Screen
  *
@@ -31,6 +31,7 @@ import LengthScaleIndicatorNode from '../../common/view/LengthScaleIndicatorNode
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
+import DiffractionModel from '../model/DiffractionModel.js';
 import CircleSquareSceneControlPanel from './CircleSquareSceneControlPanel.js';
 import DisorderSceneControlPanel from './DisorderSceneControlPanel.js';
 import EllipseSceneControlPanel from './EllipseSceneControlPanel.js';
@@ -55,10 +56,23 @@ const PANEL_OPTIONS = {
 
 class DiffractionScreenView extends ScreenView {
 
-  public constructor( model ) {
+  private readonly model: DiffractionModel;
+
+  // Main (large) aperture node
+  private readonly apertureNode: SceneCanvasNode;
+
+  // Main (large) diffraction node
+  private readonly diffractionNode: MatrixCanvasNode;
+
+  // The mini aperture node has an even smaller pattern rendering
+  private readonly miniApertureNode: SceneCanvasNode;
+
+  // The mini diffraction pattern at the top of the screen
+  private readonly miniDiffractionNode: MatrixCanvasNode;
+
+  public constructor( model: DiffractionModel ) {
     super();
 
-    // @private
     this.model = model;
 
     const laserPointerNode = new LaserPointerNode( model.onProperty, {
@@ -114,14 +128,12 @@ class DiffractionScreenView extends ScreenView {
       createNode: () => new Image( waving_girl_icon_png, { maxHeight: 25 } )
     } ];
 
-    // @private - Main (large) aperture node
     this.apertureNode = new SceneCanvasNode( model.sceneProperty, {
       scale: MATRIX_CANVAS_NODE_SCALE,
       top: 120
     } );
     this.addChild( this.apertureNode );
 
-    // @private - Main (large) diffraction node
     this.diffractionNode = new MatrixCanvasNode( model.diffractionMatrix, {
       scale: MATRIX_CANVAS_NODE_SCALE,
       right: this.layoutBounds.right - 20,
@@ -167,7 +179,6 @@ class DiffractionScreenView extends ScreenView {
       matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
     } );
 
-    // @private - The mini aperture node has an even smaller pattern rendering
     this.miniApertureNode = new SceneCanvasNode( model.sceneProperty, {
       scale: MINI_DIFFRACTION_SCALE / 4,
       centerY: laserPointerNode.centerY,
@@ -175,7 +186,6 @@ class DiffractionScreenView extends ScreenView {
       matrix: Matrix3.affine( 1, 0, 0, 0.25, 1, 0 )
     } );
 
-    // @private - The mini diffraction pattern at the top of the screen
     this.miniDiffractionNode = new MatrixCanvasNode( model.diffractionMatrix, {
       scale: MINI_DIFFRACTION_SCALE,
       centerY: laserPointerNode.centerY,

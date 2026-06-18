@@ -1,5 +1,5 @@
 // Copyright 2019-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Control panel for the EllipseScene.
  *
@@ -8,9 +8,10 @@
 
 import Utils from '../../../../dot/js/Utils.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
-import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
+import WaveInterferencePanel, { WaveInterferencePanelOptions } from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
+import EllipseScene from '../model/EllipseScene.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
 const diameterString = WaveInterferenceStrings.diameter;
@@ -19,7 +20,7 @@ const mmValueString = WaveInterferenceStrings.mmValue;
 
 class EllipseSceneControlPanel extends WaveInterferencePanel {
 
-  public constructor( ellipseScene, options ) {
+  public constructor( ellipseScene: EllipseScene, options?: WaveInterferencePanelOptions ) {
     super( new HBox( {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',

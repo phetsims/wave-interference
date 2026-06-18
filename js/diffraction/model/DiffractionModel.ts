@@ -1,5 +1,5 @@
 // Copyright 2017-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Model for the Diffraction screen.
  *
@@ -15,10 +15,17 @@ import TModel from '../../../../joist/js/TModel.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import CircleSquareScene from './CircleSquareScene.js';
+import DiffractionScene from './DiffractionScene.js';
 import DisorderScene from './DisorderScene.js';
 import EllipseScene from './EllipseScene.js';
 import RectangleScene from './RectangleScene.js';
 import WavingGirlScene from './WavingGirlScene.js';
+
+// FFT is a global from a 3rd-party library loaded at runtime, and has no TypeScript declarations.
+declare const FFT: {
+  init: ( size: number ) => void;
+  fft2d: ( real: number[], imaginary: number[] ) => void;
+};
 
 // constants
 const CONTRAST = 0.01;
@@ -33,25 +40,49 @@ const REAL_PART = new Array( MATRIX_DIMENSION * MATRIX_DIMENSION );
 FFT.init( MATRIX_DIMENSION );
 
 class DiffractionModel implements TModel {
+
+  // whether the laser is emitting light
+  public readonly onProperty: BooleanProperty;
+
+  // the wavelength of the laser in nm
+  public readonly wavelengthProperty: NumberProperty;
+
+  // scenes
+  public readonly ellipseScene: EllipseScene;
+  public readonly rectangleScene: RectangleScene;
+  public readonly circleSquareScene: CircleSquareScene;
+  public readonly disorderScene: DisorderScene;
+  public readonly wavingGirlScene: WavingGirlScene;
+
+  public readonly scenes: DiffractionScene[];
+
+  // selected aperture type, which is in essence the "scene" for this screen.
+  public readonly sceneProperty: Property<DiffractionScene>;
+
+  // The displayed aperture, shared by all scenes
+  public readonly apertureMatrix: Matrix;
+
+  // Transformed aperture to account for wavelength changes for the FFT, shared by all scenes
+  private readonly scaledApertureMatrix: Matrix;
+
+  // Result of FFT on the scaledApertureMatrix, shared by all scenes
+  public readonly diffractionMatrix: Matrix;
+
   public constructor() {
 
-    // @public - whether the laser is emitting light
     this.onProperty = new BooleanProperty( false );
 
-    // @public - the wavelength of the laser in nm
     this.wavelengthProperty = new NumberProperty( WaveInterferenceConstants.DEFAULT_WAVELENGTH, {
       range: new Range( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH ),
       units: 'nm'
     } );
 
-    // @public (read-only) - scenes
     this.ellipseScene = new EllipseScene();
     this.rectangleScene = new RectangleScene();
     this.circleSquareScene = new CircleSquareScene();
     this.disorderScene = new DisorderScene();
     this.wavingGirlScene = new WavingGirlScene();
 
-    // @public (read-only) {DiffractionScene[]}
     this.scenes = [
       this.ellipseScene,
       this.rectangleScene,
@@ -60,18 +91,14 @@ class DiffractionModel implements TModel {
       this.wavingGirlScene
     ];
 
-    // @public - selected aperture type, which is in essence the "scene" for this screen.
     this.sceneProperty = new Property( this.ellipseScene, {
       validValues: this.scenes
     } );
 
-    // @public - The displayed aperture, shared by all scenes
     this.apertureMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
-    // @private - Transformed aperture to account for wavelength changes for the FFT, shared by all scenes
     this.scaledApertureMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
-    // @public - Result of FFT on the scaledApertureMatrix, shared by all scenes
     this.diffractionMatrix = new Matrix( MATRIX_DIMENSION, MATRIX_DIMENSION );
 
     /**
@@ -136,11 +163,15 @@ const getIndex = ( i: number, j: number ): number => {
  * @param input - aperture matrix
  * @param output - place to set fft result values
  */
-const fftImageProcessingLabs = ( input, output ) => {
+const fftImageProcessingLabs = ( input: Matrix, output: Matrix ): void => {
+
+  // Matrix.entries is typed loosely in the JS-with-JSDoc source; here it is always a row-major number array.
+  const inputEntries = input.entries as number[];
+  const outputEntries = output.entries as number[];
 
   // Take the values from the aperture
-  for ( let i = 0; i < input.entries.length; i++ ) {
-    REAL_PART[ i ] = input.entries[ i ];
+  for ( let i = 0; i < inputEntries.length; i++ ) {
+    REAL_PART[ i ] = inputEntries[ i ];
     IMAGINARY_PART[ i ] = 0;
   }
 
@@ -167,7 +198,7 @@ const fftImageProcessingLabs = ( input, output ) => {
   const maxMagnitude = _.max( SHIFTED_MAGNITUDES );
   const logOfMaxMag = Math.log( CONTRAST * maxMagnitude + 1 );
   for ( let i = 0; i < SHIFTED_MAGNITUDES.length; i++ ) {
-    output.entries[ i ] = Math.log( CONTRAST * SHIFTED_MAGNITUDES[ i ] + 1 ) / logOfMaxMag;
+    outputEntries[ i ] = Math.log( CONTRAST * SHIFTED_MAGNITUDES[ i ] + 1 ) / logOfMaxMag;
   }
 };
 
