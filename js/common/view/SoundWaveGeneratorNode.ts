@@ -1,12 +1,12 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
 /**
  * For the sound scene, shows one speaker for each wave generator, each with its own on/off button.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Utils from '../../../../dot/js/Utils.js';
+import { linear } from '../../../../dot/js/util/linear.js';
+import { roundSymmetric } from '../../../../dot/js/util/roundSymmetric.js';
 import speaker_L10_png from '../../../../scenery-phet/images/speaker/speaker_L10_png.js';
 import speaker_L1_png from '../../../../scenery-phet/images/speaker/speaker_L1_png.js';
 import speaker_L2_png from '../../../../scenery-phet/images/speaker/speaker_L2_png.js';
@@ -76,8 +76,8 @@ class SoundWaveGeneratorNode extends WaveGeneratorNode {
 
       // Sign is chosen so that the membrane forward corresponds to a high pressure outside the speaker,
       // see https://github.com/phetsims/wave-interference/issues/178
-      const interpolated = Utils.linear( -max, max, 0, speakers.length - 1, oscillator1 );
-      const index = Utils.roundSymmetric( interpolated );
+      const interpolated = linear( -max, max, 0, speakers.length - 1, oscillator1 );
+      const index = roundSymmetric( interpolated );
       image.image = speakers[ index ];
     } );
   }

@@ -56,13 +56,11 @@ class SoundParticleCanvasLayer extends CanvasNode {
     // At the end of each model step, update all of the particles as a batch.
     const update = () => {
 
-      // @ts-expect-error
       if ( model.sceneProperty.value === model.soundScene ) {
         this.invalidatePaint();
       }
     };
 
-    // @ts-expect-error
     model.stepEmitter.addListener( update );
     model.sceneProperty.link( update );
   }

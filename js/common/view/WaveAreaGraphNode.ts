@@ -1,5 +1,5 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Shows the semi-transparent graph over the lattice area (when selected).
  *
@@ -7,16 +7,23 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { linear } from '../../../../dot/js/util/linear.js';
+import { toFixed } from '../../../../dot/js/util/toFixed.js';
 import Shape from '../../../../kite/js/Shape.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
+import WavesModel from '../../waves/model/WavesModel.js';
+import Scene from '../model/Scene.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 import DashedLineNode from './DashedLineNode.js';
 import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
+
+// The options are mutated onto the Node, and the x/centerY values are read to tune the graph position.
+type WaveAreaGraphNodeOptions = PickRequired<NodeOptions, 'x' | 'centerY'>;
 
 // constants
 const TEXT_MARGIN_X = 8;
@@ -30,7 +37,7 @@ const GRID_LINE_OPTIONS = { stroke: 'gray', lineWidth: 1, lineDash: [ 4, 4 ] };
 
 class WaveAreaGraphNode extends Node {
 
-  public constructor( model, waveAreaBounds, options ) {
+  public constructor( model: WavesModel, waveAreaBounds: Bounds2, options: WaveAreaGraphNodeOptions ) {
     super();
 
     const graphWidth = WaveInterferenceConstants.WAVE_AREA_WIDTH;
@@ -43,26 +50,26 @@ class WaveAreaGraphNode extends Node {
     // the bottom tab will fit the largest label.
     const horizontalAxisLabel = new SceneToggleNode(
       model,
-      scene => new WaveInterferenceText( scene.graphHorizontalAxisLabel )
+      ( scene: Scene ) => new WaveInterferenceText( scene.graphHorizontalAxisLabel )
     );
 
     // Scene-specific title of the chart.
-    const titleNode = new SceneToggleNode( model, scene => new WaveInterferenceText( scene.graphTitle ) );
+    const titleNode = new SceneToggleNode( model, ( scene: Scene ) => new WaveInterferenceText( scene.graphTitle ) );
 
     const HORIZONTAL_LABEL_VERTICAL_MARGIN = 2;
     const sampleText = new WaveInterferenceText( '1' );
     const horizontalLineY = graphHeight - sampleText.height - HORIZONTAL_LABEL_VERTICAL_MARGIN * 2;
 
     // Create tick labels and grid lines
-    const horizontalAxisTickLabels = [];
-    const verticalGridLines = [];
+    const horizontalAxisTickLabels: SceneToggleNode[] = [];
+    const verticalGridLines: Line[] = [];
     for ( let i = 0; i <= 10; i++ ) {
-      const x = Utils.linear( 0, 10, 0, graphWidth, i );
+      const x = linear( 0, 10, 0, graphWidth, i );
 
       // Find the position of the tick mark in the units of the scene
       const horizontalAxisTickLabel = new SceneToggleNode(
         model,
-        scene => new WaveInterferenceText( Utils.toFixed( scene.waveAreaWidth * x / graphWidth, 0 ), {
+        ( scene: Scene ) => new WaveInterferenceText( toFixed( scene.waveAreaWidth * x / graphWidth, 0 ), {
           centerX: x,
           top: horizontalLineY + HORIZONTAL_LABEL_VERTICAL_MARGIN
         } )
@@ -88,7 +95,7 @@ class WaveAreaGraphNode extends Node {
 
     const verticalAxisLabel = new SceneToggleNode(
       model,
-      scene => new WaveInterferenceText( scene.graphVerticalAxisLabel ), {
+      ( scene: Scene ) => new WaveInterferenceText( scene.graphVerticalAxisLabel ), {
         rotation: 3 * Math.PI / 2,
         right: -TEXT_MARGIN_Y,
         centerY: graphHeight / 2
@@ -207,7 +214,7 @@ class WaveAreaGraphNode extends Node {
     this.addChild( derivativePath );
 
     // Created once and reused to avoid allocations
-    const sampleArray = [];
+    const sampleArray: number[] = [];
 
     // Manually tuned to center the line in the graph, dy must be synchronized with graphHeight
     const dx = -options.x;

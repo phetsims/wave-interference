@@ -34,7 +34,6 @@ class FrequencyControl extends Node {
     let soundFrequencySlider: WaveInterferenceSlider | null = null;
 
     // Controls are in the physical coordinate frame
-    // @ts-expect-error
     if ( model.waterScene ) {
 
       // @ts-expect-error
@@ -44,15 +43,12 @@ class FrequencyControl extends Node {
       // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
       model.sceneProperty.link( scene => {
 
-        // @ts-expect-error
         waterFrequencySlider.visible = scene === model.waterScene;
       } );
     }
 
-    // @ts-expect-error
     if ( model.soundScene ) {
 
-      // @ts-expect-error
       soundFrequencySlider = new WaveInterferenceSlider( model.soundScene.frequencyProperty );
       sliderGroupChildren.push( soundFrequencySlider );
 
@@ -64,10 +60,8 @@ class FrequencyControl extends Node {
       } );
     }
 
-    // @ts-expect-error
     if ( model.lightScene ) {
 
-      // @ts-expect-error
       const lightFrequencyProperty = model.lightScene.frequencyProperty;
       const trackSize = new Dimension2( 150, WaveInterferenceConstants.SPECTRUM_TRACK_HEIGHT );
       const lightFrequencySlider = new WaveInterferenceSlider( lightFrequencyProperty, {
@@ -93,7 +87,6 @@ class FrequencyControl extends Node {
       // Update when the scene changes.  Add and remove children so that the panel changes size (has resize:true)
       model.sceneProperty.link( scene => {
 
-        // @ts-expect-error
         lightFrequencySlider.visible = scene === model.lightScene;
       } );
 
@@ -104,7 +97,6 @@ class FrequencyControl extends Node {
 
     sliderContainer.top = frequencyTitle.bottom + WaveInterferenceUtils.getSliderTitleSpacing( frequencyTitle );
 
-    // @ts-expect-error
     if ( model.lightScene && !model.waterScene && !model.soundScene ) {
       sliderContainer.top += 10;
     }

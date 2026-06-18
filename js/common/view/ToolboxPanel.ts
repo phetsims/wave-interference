@@ -1,11 +1,12 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * Shows the toolbox from whence tools (measuring tape, timer, probe) can be dragged.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import InstanceRegistry from '../../../../phet-core/js/documentation/InstanceRegistry.js';
@@ -15,6 +16,8 @@ import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/vo
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
+import { PressListenerEvent } from '../../../../scenery/js/listeners/PressListener.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
@@ -22,8 +25,8 @@ import WaveMeterNode from './WaveMeterNode.js';
 
 class ToolboxPanel extends WaveInterferencePanel {
 
-  public constructor( measuringTapeNode: MeasuringTapeNode, stopwatchNode: StopwatchNode, waveMeterNode: WaveMeterNode, alignGroup: AlignGroup, isMeasuringTapeInPlayAreaProperty: TReadOnlyProperty<boolean>,
-                      measuringTapeTipPositionProperty: TReadOnlyProperty<Vector2>, isStopwatchVisibleProperty: TReadOnlyProperty<boolean>, isWaveMeterInPlayAreaProperty: TReadOnlyProperty<boolean> ) {
+  public constructor( measuringTapeNode: MeasuringTapeNode, stopwatchNode: StopwatchNode, waveMeterNode: WaveMeterNode, alignGroup: AlignGroup, isMeasuringTapeInPlayAreaProperty: Property<boolean>,
+                      measuringTapeTipPositionProperty: TReadOnlyProperty<Vector2>, isStopwatchVisibleProperty: Property<boolean>, isWaveMeterInPlayAreaProperty: Property<boolean> ) {
 
     // icon for the measuring tape
     const measuringTapeIcon = MeasuringTapeNode.createIcon( {
@@ -53,13 +56,14 @@ class ToolboxPanel extends WaveInterferencePanel {
       stopwatchNode.center = this.globalToParentPoint( event.pointer.point );
 
       // stopwatchNode provided as targetNode in the DragListener constructor, so this press will target it
-      stopwatchNode.dragListener.press( event );
+      stopwatchNode.dragListener!.press( event );
       isStopwatchVisibleProperty.value = true;
     } );
 
     // Make sure the probes have enough breathing room so they don't get shoved into the WaveMeterNode icon.  Anything
     // above 60 seems to work equally well, closer than that causes the probes to overlap each other or the meter
     // body. The true translation is set when dragged out of the toolbox.
+    // @ts-expect-error backgroundNode is not declared on the type because WaveMeterNode is @ts-nocheck
     waveMeterNode.backgroundNode.translate( 60, 0 );
 
     // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
@@ -71,9 +75,11 @@ class ToolboxPanel extends WaveInterferencePanel {
     const interactiveWaveMeterIcon = initializeIcon( waveMeterIcon, isWaveMeterInPlayAreaProperty, event => {
 
       // Fine-tuned empirically to set the drag point to be the center of the chart.
+      // @ts-expect-error backgroundNode is not declared on the type because WaveMeterNode is @ts-nocheck
       waveMeterNode.backgroundNode.setTranslation( this.globalToParentPoint( event.pointer.point ).plusXY( -60, -66 ) );
 
       // Set the internal flag that indicates the probes should remain in alignment during the drag
+      // @ts-expect-error synchronizeProbePositions is not declared on the type because WaveMeterNode is @ts-nocheck
       waveMeterNode.synchronizeProbePositions = true;
       waveMeterNode.startDrag( event );
       isWaveMeterInPlayAreaProperty.value = true;
@@ -108,7 +114,7 @@ class ToolboxPanel extends WaveInterferencePanel {
  * @param inPlayAreaProperty
  * @param down
  */
-const initializeIcon = ( node, inPlayAreaProperty, down ) => {
+const initializeIcon = ( node: Node, inPlayAreaProperty: TReadOnlyProperty<boolean>, down: ( event: PressListenerEvent ) => void ): InteractiveHighlightingNode => {
   const interactiveIcon = new InteractiveHighlightingNode( {
     children: [ node ],
     cursor: 'pointer'

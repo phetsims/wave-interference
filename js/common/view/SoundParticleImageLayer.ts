@@ -1,5 +1,5 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
+
 /**
  * When selected, shows discrete and moving particles for the sound view.
  * Note: Clipping is not enabled on mobileSafari, see https://github.com/phetsims/wave-interference/issues/322
@@ -8,14 +8,23 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import SoundParticle from '../../common/model/SoundParticle.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import SoundParticleNode from './SoundParticleNode.js';
 
 class SoundParticleImageLayer extends Node {
+  private readonly model: WavesModel;
+
+  // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
+  private whiteSphereImage!: HTMLCanvasElement;
+
+  // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
+  private redSphereImage!: HTMLCanvasElement;
 
   public constructor( model: WavesModel, waveAreaNodeBounds: Bounds2, options?: NodeOptions ) {
 
@@ -27,41 +36,45 @@ class SoundParticleImageLayer extends Node {
 
     super( options );
 
-    // @private
     this.model = model;
 
+    // @ts-expect-error
     SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_GRAY_COLOR, canvas => {
 
-      // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
       this.whiteSphereImage = canvas;
     } );
 
+    // @ts-expect-error
     SoundParticleNode.createForCanvas( WaveInterferenceConstants.SOUND_PARTICLE_RED_COLOR, canvas => {
 
-      // @private {HTMLCanvasElement} - assigned synchronously and is guaranteed to exist after createSphereImage
       this.redSphereImage = canvas;
     } );
 
-    const images = [];
+    const images: SoundParticleImage[] = [];
 
     // At the end of each model step, update all of the particles as a batch.
     const update = () => {
+
       if ( model.sceneProperty.value === model.soundScene ) {
         for ( let i = 0; i < images.length; i++ ) {
           images[ i ].update();
         }
       }
     };
+
     model.stepEmitter.addListener( update );
     model.sceneProperty.link( update );
 
+    // @ts-expect-error - model.soundScene is assigned dynamically and is not typed on WavesModel
     for ( let i = 0; i < this.model.soundScene.soundParticles.length; i++ ) {
+      // @ts-expect-error - model.soundScene is assigned dynamically and is not typed on WavesModel
       const soundParticle = this.model.soundScene.soundParticles[ i ];
 
       // Red particles are shown on a grid
       const isRed = ( soundParticle.i % 4 === 2 && soundParticle.j % 4 === 2 );
       const sphereImage = isRed ? this.redSphereImage : this.whiteSphereImage;
 
+      // @ts-expect-error - model.soundScene is assigned dynamically and is not typed on WavesModel
       const soundParticleImage = new SoundParticleImage( soundParticle, sphereImage, this.model.soundScene.modelViewTransform );
       images.push( soundParticleImage );
       this.addChild( soundParticleImage );
@@ -71,7 +84,10 @@ class SoundParticleImageLayer extends Node {
 }
 
 class SoundParticleImage extends Image {
-  public constructor( soundParticle, image, modelViewTransform ) {
+  private readonly soundParticle: SoundParticle;
+  private readonly modelViewTransform: ModelViewTransform2;
+
+  public constructor( soundParticle: SoundParticle, image: HTMLCanvasElement, modelViewTransform: ModelViewTransform2 ) {
     super( image, { scale: 0.5 } );
     this.soundParticle = soundParticle;
     this.image = image;

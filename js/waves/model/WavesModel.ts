@@ -1,5 +1,4 @@
 // Copyright 2018-2026, University of Colorado Boulder
-// @ts-nocheck
 /**
  * Model for the "Waves" screen and other derivative screens.  This model supports two sources, even though the waves
  * screen only uses one.  The controls are in a metric coordinate frame, and there is a transformation to convert
@@ -24,6 +23,7 @@ import TModel from '../../../../joist/js/TModel.js';
 import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import EventTimer from '../../../../phet-core/js/EventTimer.js';
 import merge from '../../../../phet-core/js/merge.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import Stopwatch from '../../../../scenery-phet/js/Stopwatch.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
@@ -58,18 +58,100 @@ const waterWaveGeneratorString = WaveInterferenceStrings.waterWaveGenerator;
 // platforms.  Here we define the frequency of events in Hz, which has been tuned so that our slowest platform has
 // an acceptable frame rate
 const EVENT_RATE = 20 * WaveInterferenceConstants.CALIBRATION_SCALE;
+
+// @ts-expect-error - toFemto is private static on WaveInterferenceUtils, which still uses @ts-nocheck
 const toFemto = WaveInterferenceUtils.toFemto;
 
+// The names of the scenes that may be created, used both as keys on this model and in the scenes option.
+type SceneName = 'waterScene' | 'soundScene' | 'lightScene';
+
 type WavesModelOptions = {
-  scenes?: ( 'waterScene' | 'soundScene' | 'lightScene' )[];
+
+  // True if SoundParticles should be created and displayed, and if the user can select to view them.
+  showSoundParticles?: boolean;
+
+  // Array of scenes to be created.
+  scenes?: SceneName[];
 };
 
 class WavesModel implements TModel {
 
+  // The currently selected scene.
   public readonly sceneProperty: Property<Scene>;
 
   // the Scene instances as an array
   public readonly scenes: Scene[] = [];
+
+  // The Water scene, or null if it was not created for this screen.
+  public readonly waterScene: WaterScene | null = null;
+
+  // The Sound scene, or null if it was not created for this screen.
+  public readonly soundScene: SoundScene | null = null;
+
+  // The Light scene, or null if it was not created for this screen.
+  public readonly lightScene: LightScene | null = null;
+
+  // number of sources that can emit
+  public readonly numberOfSources: number;
+
+  // indicates the user selection for side view or top view. The value is one of WavesModel.Viewpoint, which is an
+  // EnumerationDeprecated assigned at runtime and hence typed as IntentionalAny.
+  public readonly viewpointProperty: Property<IntentionalAny>;
+
+  // the speed at which the simulation is playing
+  public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
+
+  // whether the wave area should be displayed
+  public readonly showWavesProperty: BooleanProperty;
+
+  // whether the wave area graph should be displayed
+  public readonly showGraphProperty: BooleanProperty;
+
+  // whether the screen (on the right of the lattice) should be shown.
+  public readonly showScreenProperty: BooleanProperty;
+
+  // whether the intensity graph (on the right of the lattice) should be shown.
+  public readonly showIntensityGraphProperty: BooleanProperty;
+
+  // whether the model is moving forward in time
+  public readonly isRunningProperty: BooleanProperty;
+
+  // whether the measuring tape has been dragged out of the toolbox into the play area
+  public readonly isMeasuringTapeInPlayAreaProperty: BooleanProperty;
+
+  // whether the wave meter has been dragged out of the toolbox into the play area
+  public readonly isWaveMeterInPlayAreaProperty: BooleanProperty;
+
+  // Linear interpolation between WavesModel.Viewpoint.TOP (0) and Viewpoint.SIDE (1).
+  public readonly rotationAmountProperty: NumberProperty;
+
+  // true if the system is rotating
+  public readonly isRotatingProperty: TReadOnlyProperty<boolean>;
+
+  // emits once per step
+  public readonly stepEmitter: Emitter;
+
+  // model for the view coordinates of the base of the measuring tape
+  public readonly measuringTapeBasePositionProperty: Vector2Property;
+
+  // model for the view coordinates of the tip of the measuring tape
+  public readonly measuringTapeTipPositionProperty: Vector2Property;
+
+  // Notifies listeners when the model reset is complete
+  public readonly resetEmitter: Emitter;
+
+  // Notifies when reset in in progress, used to mute sounds while reset is in progress
+  public readonly isResettingProperty: BooleanProperty;
+
+  // In order to have exactly the same model behavior on very fast and very slow platforms, we use EventTimer, which
+  // updates the model at regular intervals, and we can interpolate between states for additional fidelity.
+  private readonly eventTimer: EventTimer;
+
+  public static readonly EVENT_RATE = EVENT_RATE;
+
+  // The wave area can be viewed from the TOP or from the SIDE. The view animates between the selections. This is an
+  // EnumerationDeprecated assigned below, after the class declaration.
+  public static Viewpoint: IntentionalAny;
 
   public readonly stopwatch = new Stopwatch( {
     timePropertyOptions: {
@@ -80,9 +162,11 @@ class WavesModel implements TModel {
   /**
    * @param [options]
    */
-  public constructor( options?: WavesModelOptions ) {
+  public constructor( providedOptions?: WavesModelOptions ) {
 
-    options = merge( {
+    // The merged options include runtime-only properties (numberOfSources, initialAmplitude, waveSpatialType) that
+    // subclasses such as SlitsModel pass through merge but which are not part of the public WavesModelOptions type.
+    const options: IntentionalAny = merge( {
 
       // This model supports one or two sources.  If the sources are initially separated, there are two sources
       numberOfSources: 1,
@@ -97,11 +181,12 @@ class WavesModel implements TModel {
       // True if SoundParticles should be created and displayed, and if the user can select to view them
       showSoundParticles: true,
 
+      // @ts-expect-error - WaveSpatialType is an EnumerationDeprecated assigned at runtime on Scene, which still uses @ts-nocheck
       waveSpatialType: Scene.WaveSpatialType.POINT,
 
       // Array of scenes to be created
       scenes: [ 'waterScene', 'soundScene', 'lightScene' ]
-    }, options );
+    }, providedOptions );
 
     assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
       `initialAmplitude is out of range: ${options.initialAmplitude}` );
@@ -119,16 +204,9 @@ class WavesModel implements TModel {
     // this may have been done differently, but this sim initially developed for Wave Interference only (all scenes)
     // and was later retrofitted to have a subset of scenes.  More discussion on this point appears in https://github.com/phetsims/wave-interference/issues/414#issuecomment-516079304
 
-    // @public (read-only) {WaterScene|null}
-    this.waterScene = null;
-
-    // @public (read-only) {SoundScene|null}
-    this.soundScene = null;
-
-    // @public (read-only) {LightScene|null}
-    this.lightScene = null;
-
     if ( options.scenes.includes( 'waterScene' ) ) {
+      // The scene config objects carry runtime properties consumed by Scene via merge() but not declared on the scene
+      // option types, so they are passed as IntentionalAny.
       this.waterScene = new WaterScene( {
         waveSpatialType: options.waveSpatialType,
 
@@ -162,7 +240,7 @@ class WavesModel implements TModel {
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: false,
         planeWaveGeneratorNodeText: waterWaveGeneratorString
-      } );
+      } as IntentionalAny );
       this.scenes.push( this.waterScene );
     }
 
@@ -206,7 +284,7 @@ class WavesModel implements TModel {
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
         planeWaveGeneratorNodeText: soundGeneratorString
-      } );
+      } as IntentionalAny );
       this.scenes.push( this.soundScene );
     }
 
@@ -248,7 +326,7 @@ class WavesModel implements TModel {
         initialAmplitude: options.initialAmplitude,
         linkDesiredAmplitudeToAmplitude: true,
         planeWaveGeneratorNodeText: lightGeneratorString
-      } );
+      } as IntentionalAny );
       this.scenes.push( this.lightScene );
     }
 
@@ -275,11 +353,12 @@ class WavesModel implements TModel {
     // @private - In order to have exactly the same model behavior on very fast and very slow platforms, we use
     // EventTimer, which updates the model at regular intervals, and we can interpolate between states for additional
     // fidelity.
-    this.eventTimer = new EventTimer( eventTimerModel, timeElapsed =>
+    this.eventTimer = new EventTimer( eventTimerModel, () =>
       this.advanceTime( 1 / EVENT_RATE, false )
     );
 
-    this.sceneProperty = new Property( this[ options.scenes[ 0 ] ], {
+    const firstSceneName: SceneName = options.scenes[ 0 ];
+    this.sceneProperty = new Property( this[ firstSceneName ] as Scene, {
       validValues: this.scenes
     } );
 
@@ -345,6 +424,8 @@ class WavesModel implements TModel {
    * Clears the wave and the Intensity Sample
    */
   public clear(): void {
+
+    // @ts-expect-error - Scene.clear() is protected and Scene still uses @ts-nocheck
     this.sceneProperty.value.clear();
   }
 
@@ -418,20 +499,10 @@ class WavesModel implements TModel {
    * set until the water drop hits.
    */
   public getWaterFrequencySliderProperty(): TReadOnlyProperty<number> {
-    return this.waterScene.desiredFrequencyProperty;
+    return this.waterScene!.desiredFrequencyProperty;
   }
 }
 
-/**
- * @static
- * @public
- */
-WavesModel.EVENT_RATE = EVENT_RATE;
-
-/**
- * The wave area can be viewed from the TOP or from the SIDE. The view animates between the selections.
- * @public
- */
 WavesModel.Viewpoint = EnumerationDeprecated.byKeys( [ 'TOP', 'SIDE' ] );
 
 export default WavesModel;
