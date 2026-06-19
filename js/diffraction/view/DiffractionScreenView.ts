@@ -270,6 +270,12 @@ class DiffractionScreenView extends ScreenView {
         arrowButtonOptions: {
           touchAreaXDilation: WaveInterferenceConstants.NUMBER_CONTROL_HORIZONTAL_TOUCH_AREA_DILATION,
           touchAreaYDilation: 7
+        },
+
+        // Play a sound at every 10nm threshold (instead of the NumberControl default of one per delta), while keeping
+        // the default min/max boundary sounds.
+        valueChangeSoundGeneratorOptions: {
+          interThresholdDelta: 10
         }
       } ), merge( {}, PANEL_OPTIONS, {
         left: laserPointerNode.left,

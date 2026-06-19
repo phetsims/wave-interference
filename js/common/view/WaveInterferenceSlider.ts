@@ -27,7 +27,7 @@ const MAJOR_TICK_MODULUS = 5;
 
 type SelfOptions = {
 
-  // Ticks are created for all sliders for sonification, but not shown for the Light Frequency slider.
+  // Whether tick marks are shown; they are shown for all sliders except the Light Frequency slider.
   showTicks?: boolean;
 
   // The index of the highest tick; the number of ticks is maxTickIndex + 1.
@@ -62,11 +62,7 @@ class WaveInterferenceSlider extends HSlider {
 
     const options = optionize<WaveInterferenceSliderOptions, SelfOptions, ParentOptions>()( {
 
-      // Match the number of sounds generated to the number of tickmarks.  The count is reduced by two to account for
-      // the first and last ticks.
-      valueChangeSoundGeneratorOptions: { numberOfMiddleThresholds: ticks.length - 2 },
-
-      // Ticks are created for all sliders for sonification, but not shown for the Light Frequency slider
+      // Ticks are shown for all sliders except the Light Frequency slider.
       showTicks: true,
       maxTickIndex: 10,
       constrainValue: ( value: number ) => {
@@ -87,6 +83,10 @@ class WaveInterferenceSlider extends HSlider {
       options.tickLabelSpacing = options.tickLabelSpacing === undefined ? 2 : options.tickLabelSpacing;
       options.majorTickLength = options.majorTickLength === undefined ? WaveInterferenceConstants.MAJOR_TICK_LENGTH : options.majorTickLength;
       options.minorTickLength = options.minorTickLength === undefined ? 8 : options.minorTickLength;
+
+      // Align the inter-value slider sounds with the visible tick marks, while keeping the default min/max boundary
+      // sounds.  The count is reduced by two to exclude the first and last ticks, which use the boundary sounds.
+      options.valueChangeSoundGeneratorOptions = options.valueChangeSoundGeneratorOptions ?? { numberOfMiddleThresholds: ticks.length - 2 };
     }
 
     if ( !options.thumbNode ) {
