@@ -10,6 +10,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import { millimetersUnit } from '../../../../scenery-phet/js/units/millimetersUnit.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import DiffractionScene from './DiffractionScene.js';
 
@@ -76,12 +77,12 @@ class DisorderScene extends DiffractionScene {
 
     const diameterProperty = new NumberProperty( 50E-3, {
       range: new Range( 10E-3, 100E-3 ),
-      units: 'mm'
+      units: millimetersUnit
     } );
 
     const latticeSpacingProperty = new NumberProperty( 100 * 1E-3, {
       range: new Range( 50 * 1E-3, 200 * 1E-3 ),
-      units: 'mm'
+      units: millimetersUnit
     } );
 
     const disorderProperty = new NumberProperty( 0, {

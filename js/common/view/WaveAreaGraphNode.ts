@@ -50,11 +50,11 @@ class WaveAreaGraphNode extends Node {
     // the bottom tab will fit the largest label.
     const horizontalAxisLabel = new SceneToggleNode(
       model,
-      ( scene: Scene ) => new WaveInterferenceText( scene.graphHorizontalAxisLabel )
+      ( scene: Scene ) => new WaveInterferenceText( scene.graphHorizontalAxisLabelProperty )
     );
 
     // Scene-specific title of the chart.
-    const titleNode = new SceneToggleNode( model, ( scene: Scene ) => new WaveInterferenceText( scene.graphTitle ) );
+    const titleNode = new SceneToggleNode( model, ( scene: Scene ) => new WaveInterferenceText( scene.graphTitleProperty ) );
 
     const HORIZONTAL_LABEL_VERTICAL_MARGIN = 2;
     const sampleText = new WaveInterferenceText( '1' );
@@ -95,7 +95,7 @@ class WaveAreaGraphNode extends Node {
 
     const verticalAxisLabel = new SceneToggleNode(
       model,
-      ( scene: Scene ) => new WaveInterferenceText( scene.graphVerticalAxisLabel ), {
+      ( scene: Scene ) => new WaveInterferenceText( scene.graphVerticalAxisLabelProperty ), {
         rotation: 3 * Math.PI / 2,
         right: -TEXT_MARGIN_Y,
         centerY: graphHeight / 2

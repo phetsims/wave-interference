@@ -7,6 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
@@ -21,7 +22,7 @@ class LengthScaleIndicatorNode extends Node {
    * @param string - text to display to the right of the indicator
    * @param [options]
    */
-  public constructor( width: number, string: string, options?: NodeOptions ) {
+  public constructor( width: number, string: string | TReadOnlyProperty<string>, options?: NodeOptions ) {
 
     const text = new WaveInterferenceText( string, {
       font: WaveInterferenceConstants.TIME_AND_LENGTH_SCALE_INDICATOR_FONT

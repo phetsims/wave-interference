@@ -56,7 +56,8 @@ class WaterScene extends Scene {
     } );
 
     this.desiredSourceSeparationProperty = new NumberProperty( this.sourceSeparationProperty.value, {
-      range: config.sourceSeparationRange
+      range: config.sourceSeparationRange,
+      units: this.positionUnit
     } );
 
     this.desiredAmplitudeProperty = new NumberProperty( config.initialAmplitude, {

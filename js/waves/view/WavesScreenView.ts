@@ -192,7 +192,7 @@ class WavesScreenView extends ScreenView {
     // show the length scale at the top left of the wave area
     const lengthScaleIndicatorNode = new SceneToggleNode(
       model,
-      scene => new LengthScaleIndicatorNode( scene.scaleIndicatorLength * this.waveAreaNode.width / scene.waveAreaWidth, scene.scaleIndicatorText ), {
+      scene => new LengthScaleIndicatorNode( scene.scaleIndicatorLength * this.waveAreaNode.width / scene.waveAreaWidth, scene.scaleIndicatorTextProperty ), {
         alignChildren: ToggleNode.LEFT,
         bottom: this.waveAreaNode.top - 2,
         left: this.waveAreaNode.left
@@ -202,7 +202,7 @@ class WavesScreenView extends ScreenView {
     // show the time scale at the top right of the wave area
     const timeScaleIndicatorNode = new SceneToggleNode(
       model,
-      scene => new RichText( scene.timeScaleString, { font: WaveInterferenceConstants.TIME_AND_LENGTH_SCALE_INDICATOR_FONT } ), {
+      scene => new RichText( scene.timeScaleStringProperty, { font: WaveInterferenceConstants.TIME_AND_LENGTH_SCALE_INDICATOR_FONT } ), {
         alignChildren: ToggleNode.RIGHT,
         bottom: this.waveAreaNode.top - 2,
         right: this.waveAreaNode.right,
@@ -339,7 +339,7 @@ class WavesScreenView extends ScreenView {
      */
     const getMeasuringTapeValue = ( scene: Scene ) => {
       return {
-        name: scene.translatedPositionUnits,
+        name: scene.translatedPositionUnitsProperty.value,
 
         // The measuring tape tip and tail are in the view coordinate frame, this scale factor converts to model
         // coordinates according to the scene
@@ -348,7 +348,14 @@ class WavesScreenView extends ScreenView {
     };
 
     const measuringTapeUnitsProperty = new Property( getMeasuringTapeValue( model.sceneProperty.value ) );
-    model.sceneProperty.link( scene => measuringTapeUnitsProperty.set( getMeasuringTapeValue( scene ) ) );
+
+    // Recompute on scene change AND on locale change (each scene's translated units Property), so the units stay live.
+    // Multiple scenes can share the same units Property instance (e.g. water and sound both use centimeters), so
+    // link to the unique set of Properties to avoid adding the same listener twice.
+    const updateMeasuringTapeUnits = () => measuringTapeUnitsProperty.set( getMeasuringTapeValue( model.sceneProperty.value ) );
+    model.sceneProperty.link( updateMeasuringTapeUnits );
+    _.uniq( model.scenes.map( scene => scene.translatedPositionUnitsProperty ) ).forEach(
+      unitsProperty => unitsProperty.link( updateMeasuringTapeUnits ) );
 
     /**
      * Checks if the toolbox intersects the given bounds, to see if a tool can be dropped back into the toolbox.

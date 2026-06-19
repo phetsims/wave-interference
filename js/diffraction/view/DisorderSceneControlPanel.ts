@@ -15,13 +15,6 @@ import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import DisorderScene from '../model/DisorderScene.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
-const circleDiameterString = WaveInterferenceStrings.circleDiameter;
-const disorderString = WaveInterferenceStrings.disorder;
-const latticeSpacingString = WaveInterferenceStrings.latticeSpacing;
-const lotsString = WaveInterferenceStrings.lots;
-const mmValueString = WaveInterferenceStrings.mmValue;
-const noneString = WaveInterferenceStrings.none;
-
 class DisorderSceneControlPanel extends WaveInterferencePanel {
 
   public constructor( disorderScene: DisorderScene, options?: WaveInterferencePanelOptions ) {
@@ -29,37 +22,35 @@ class DisorderSceneControlPanel extends WaveInterferencePanel {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',
       children: [
-        new DiffractionNumberControl( circleDiameterString, disorderScene.diameterProperty, {
+        new DiffractionNumberControl( WaveInterferenceStrings.circleDiameterStringProperty, disorderScene.diameterProperty, {
           delta: 10E-3,
           numberDisplayOptions: {
-            valuePattern: mmValueString,
             decimalPlaces: 2
           },
           sliderOptions: {
             constrainValue: value => Utils.roundToInterval( value, 10E-3 )
           }
         } ),
-        new DiffractionNumberControl( latticeSpacingString, disorderScene.latticeSpacingProperty, {
+        new DiffractionNumberControl( WaveInterferenceStrings.latticeSpacingStringProperty, disorderScene.latticeSpacingProperty, {
           delta: 10E-3,
           numberDisplayOptions: {
-            valuePattern: mmValueString,
             decimalPlaces: 2
           },
           sliderOptions: {
             constrainValue: value => Utils.roundToInterval( value, 10E-3 )
           }
         } ),
-        new DiffractionNumberControl( disorderString, disorderScene.disorderProperty, {
+        new DiffractionNumberControl( WaveInterferenceStrings.disorderStringProperty, disorderScene.disorderProperty, {
           numberDisplayOptions: {
             visible: false
           },
           sliderOptions: {
             majorTicks: [ {
               value: disorderScene.disorderProperty.range.min,
-              label: new WaveInterferenceText( noneString, { maxWidth: 60 } )
+              label: new WaveInterferenceText( WaveInterferenceStrings.noneStringProperty, { maxWidth: 60 } )
             }, {
               value: disorderScene.disorderProperty.range.max,
-              label: new WaveInterferenceText( lotsString, { maxWidth: 60 } )
+              label: new WaveInterferenceText( WaveInterferenceStrings.lotsStringProperty, { maxWidth: 60 } )
             } ],
             minorTickSpacing: 1
           }

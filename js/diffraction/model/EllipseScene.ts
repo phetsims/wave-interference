@@ -8,6 +8,7 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import { millimetersUnit } from '../../../../scenery-phet/js/units/millimetersUnit.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import DiffractionScene from './DiffractionScene.js';
 
@@ -20,7 +21,7 @@ class EllipseScene extends DiffractionScene {
 
     const diameterProperty = new NumberProperty( 100E-3, {
       range: new Range( 40E-3, 400E-3 ),
-      units: 'mm'
+      units: millimetersUnit
     } );
 
     const eccentricityProperty = new NumberProperty( 0, {

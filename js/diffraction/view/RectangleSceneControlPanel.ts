@@ -14,10 +14,6 @@ import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import RectangleScene from '../model/RectangleScene.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
-const heightString = WaveInterferenceStrings.height;
-const mmValueString = WaveInterferenceStrings.mmValue;
-const widthString = WaveInterferenceStrings.width;
-
 class RectangleSceneControlPanel extends WaveInterferencePanel {
 
   public constructor( rectangleScene: RectangleScene, options?: WaveInterferencePanelOptions ) {
@@ -25,20 +21,18 @@ class RectangleSceneControlPanel extends WaveInterferencePanel {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',
       children: [
-        new DiffractionNumberControl( widthString, rectangleScene.widthProperty, {
+        new DiffractionNumberControl( WaveInterferenceStrings.widthStringProperty, rectangleScene.widthProperty, {
           delta: 10 * 1E-3,
           numberDisplayOptions: {
-            valuePattern: mmValueString,
             decimalPlaces: 2
           },
           sliderOptions: {
             constrainValue: value => Utils.roundToInterval( value, 20E-3 )
           }
         } ),
-        new DiffractionNumberControl( heightString, rectangleScene.heightProperty, {
+        new DiffractionNumberControl( WaveInterferenceStrings.heightStringProperty, rectangleScene.heightProperty, {
           delta: 10 * 1E-3,
           numberDisplayOptions: {
-            valuePattern: mmValueString,
             decimalPlaces: 2
           },
           sliderOptions: {

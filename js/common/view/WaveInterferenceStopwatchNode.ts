@@ -24,8 +24,8 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
   public constructor( model: WavesModel, providedOptions?: WaveInterferenceStopwatchNodeOtions ) {
 
     // Construct the StopwatchNode with the max width for units.
-    const widestScene = _.maxBy( model.scenes, scene => new WaveInterferenceText( scene.timeUnits ).width )!;
-    const unitsProperty = new StringProperty( widestScene.timeUnits );
+    const widestScene = _.maxBy( model.scenes, scene => new WaveInterferenceText( scene.timeUnit.getVisualSymbolString() ).width )!;
+    const unitsProperty = new StringProperty( widestScene.timeUnit.getVisualSymbolString() );
 
     const options = optionize<WaveInterferenceStopwatchNodeOtions, SelfOptions, StopwatchNodeOptions>()( {
 
@@ -50,9 +50,16 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
     super( model.stopwatch, options );
 
     // After the StopwatchNode is initialized with the max width, use the correct units for the current scene.
-    model.sceneProperty.link( scene => {
-      unitsProperty.value = scene.timeUnits;
-    } );
+    // Recompute on scene change AND on locale change (each scene's time-unit symbol Property), so the units stay live.
+    const updateUnits = () => {
+      unitsProperty.value = model.sceneProperty.value.timeUnit.getVisualSymbolString();
+    };
+    model.sceneProperty.link( updateUnits );
+
+    // Multiple scenes could share the same time-unit symbol Property instance, so link to the unique set to avoid
+    // adding the same listener twice.
+    _.uniq( model.scenes.map( scene => scene.timeUnit.getVisualSymbolStringProperty() ) ).forEach(
+      symbolProperty => symbolProperty.link( updateUnits ) );
   }
 }
 

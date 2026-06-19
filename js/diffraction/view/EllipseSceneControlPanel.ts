@@ -14,10 +14,6 @@ import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import EllipseScene from '../model/EllipseScene.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
-const diameterString = WaveInterferenceStrings.diameter;
-const eccentricityString = WaveInterferenceStrings.eccentricity;
-const mmValueString = WaveInterferenceStrings.mmValue;
-
 class EllipseSceneControlPanel extends WaveInterferencePanel {
 
   public constructor( ellipseScene: EllipseScene, options?: WaveInterferencePanelOptions ) {
@@ -25,17 +21,16 @@ class EllipseSceneControlPanel extends WaveInterferencePanel {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',
       children: [
-        new DiffractionNumberControl( diameterString, ellipseScene.diameterProperty, {
+        new DiffractionNumberControl( WaveInterferenceStrings.diameterStringProperty, ellipseScene.diameterProperty, {
           delta: 10 * 1E-3,
           numberDisplayOptions: {
-            valuePattern: mmValueString,
             decimalPlaces: 2
           },
           sliderOptions: {
             constrainValue: value => Utils.roundToInterval( value, 20E-3 )
           }
         } ),
-        new DiffractionNumberControl( eccentricityString, ellipseScene.eccentricityProperty, {
+        new DiffractionNumberControl( WaveInterferenceStrings.eccentricityStringProperty, ellipseScene.eccentricityProperty, {
           delta: 0.01,
           numberDisplayOptions: {
             decimalPlaces: 2

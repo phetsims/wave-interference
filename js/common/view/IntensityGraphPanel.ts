@@ -26,8 +26,6 @@ import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel, { WaveInterferencePanelOptions } from './WaveInterferencePanel.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-const intensityString = WaveInterferenceStrings.intensity;
-
 // constants
 const TITLE_Y_MARGIN = 4;
 const DARK_GRAY = new Color( 90, 90, 90 );
@@ -81,7 +79,7 @@ class IntensityGraphPanel extends WaveInterferencePanel {
         lineDash: LINE_DASH
       } ) );
 
-    const titleNode = new WaveInterferenceText( intensityString, {
+    const titleNode = new WaveInterferenceText( WaveInterferenceStrings.intensityStringProperty, {
       maxWidth: CHART_WIDTH,
       centerX: chartRectangle.centerX,
       top: chartRectangle.bottom + TITLE_Y_MARGIN

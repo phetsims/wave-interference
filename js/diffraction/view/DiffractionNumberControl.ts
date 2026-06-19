@@ -7,6 +7,7 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -16,7 +17,7 @@ import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js
 
 class DiffractionNumberControl extends NumberControl {
 
-  public constructor( title: string, property: NumberProperty, options?: NumberControlOptions ) {
+  public constructor( title: string | TReadOnlyProperty<string>, property: NumberProperty, options?: NumberControlOptions ) {
 
     const mergedOptions = merge( {}, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS, {
       sliderOptions: {

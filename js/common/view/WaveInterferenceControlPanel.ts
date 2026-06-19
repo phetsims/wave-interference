@@ -22,12 +22,6 @@ import WaveInterferenceCheckbox from './WaveInterferenceCheckbox.js';
 import WaveInterferencePanel, { WaveInterferencePanelOptions } from './WaveInterferencePanel.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-const graphString = WaveInterferenceStrings.graph;
-const intensityString = WaveInterferenceStrings.intensity;
-const playToneString = WaveInterferenceStrings.playTone;
-const screenLabelString = WaveInterferenceStrings.screenLabel;
-const soundEffectString = WaveInterferenceStrings.soundEffect;
-
 type SelfOptions = {
 
   // This additional control (if present) will be shown beneath the Amplitude slider in the WaveInterferenceControlPanel
@@ -72,9 +66,9 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       soundViewTypeRadioButtonGroup = new SoundViewTypeRadioButtonGroup( model );
     }
 
-    const graphCheckbox = new WaveInterferenceCheckbox( model.showGraphProperty, new WaveInterferenceText( graphString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ) );
-    const screenCheckbox = new WaveInterferenceCheckbox( model.showScreenProperty, new WaveInterferenceText( screenLabelString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ) );
-    const intensityCheckbox = new WaveInterferenceCheckbox( model.showIntensityGraphProperty, new WaveInterferenceText( intensityString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ) );
+    const graphCheckbox = new WaveInterferenceCheckbox( model.showGraphProperty, new WaveInterferenceText( WaveInterferenceStrings.graphStringProperty, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ) );
+    const screenCheckbox = new WaveInterferenceCheckbox( model.showScreenProperty, new WaveInterferenceText( WaveInterferenceStrings.screenLabelStringProperty, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ) );
+    const intensityCheckbox = new WaveInterferenceCheckbox( model.showIntensityGraphProperty, new WaveInterferenceText( WaveInterferenceStrings.intensityStringProperty, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ) );
 
     // Only enable the intensity checkbox when the screen is selected
     model.showScreenProperty.link( showScreen => intensityCheckbox.setEnabled( showScreen ) );
@@ -115,7 +109,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
 
     // Only show the Play Tone checkbox for the Sound Scene, if specified.
     if ( model.soundScene && options.showPlaySoundControl ) {
-      playToneCheckbox = new WaveInterferenceCheckbox( model.soundScene.isTonePlayingProperty, new WaveInterferenceText( playToneString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ) );
+      playToneCheckbox = new WaveInterferenceCheckbox( model.soundScene.isTonePlayingProperty, new WaveInterferenceText( WaveInterferenceStrings.playToneStringProperty, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ) );
 
       // In terms of PhET-iO, there could be a situation where a client wants to control the enabledProperty of the
       // sound-related checkboxes, and toggling the mute button in the navbar will override their customization. There
@@ -193,7 +187,7 @@ class WaveInterferenceControlPanel extends WaveInterferencePanel {
       const lastCheckbox = options.showIntensityCheckbox ? intensityCheckbox : screenCheckbox;
 
       // soundEffectEnabledProperty is only available on the LightScene, which is non-null when this is called.
-      const soundEffectCheckbox = new WaveInterferenceCheckbox( model.lightScene!.soundEffectEnabledProperty, new WaveInterferenceText( soundEffectString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ), {
+      const soundEffectCheckbox = new WaveInterferenceCheckbox( model.lightScene!.soundEffectEnabledProperty, new WaveInterferenceText( WaveInterferenceStrings.soundEffectStringProperty, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ), {
         top: lastCheckbox.bottom + CHECKBOX_SPACING,
         left: screenCheckbox.left
       } );

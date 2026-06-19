@@ -8,6 +8,8 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import { degreesUnit } from '../../../../scenery-phet/js/units/degreesUnit.js';
+import { millimetersUnit } from '../../../../scenery-phet/js/units/millimetersUnit.js';
 import waving_girl_aperture_png from '../../../images/waving_girl_aperture_png.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import DiffractionScene from './DiffractionScene.js';
@@ -24,11 +26,11 @@ class WavingGirlScene extends DiffractionScene {
 
     const heightProperty = new NumberProperty( 100 * 1E-3, {
       range: new Range( 40 * 1E-3, 400 * 1E-3 ),
-      units: 'mm'
+      units: millimetersUnit
     } );
     const rotationProperty = new NumberProperty( 0, {
       range: new Range( 0, 360 ),
-      units: '\u00B0' // degrees
+      units: degreesUnit
     } );
     super( [ heightProperty, rotationProperty ] );
 

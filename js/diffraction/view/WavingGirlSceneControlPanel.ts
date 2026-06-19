@@ -15,11 +15,6 @@ import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WavingGirlScene from '../model/WavingGirlScene.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
-const degreesValueString = WaveInterferenceStrings.degreesValue;
-const heightString = WaveInterferenceStrings.height;
-const mmValueString = WaveInterferenceStrings.mmValue;
-const rotationString = WaveInterferenceStrings.rotation;
-
 class WavingGirlSceneControlPanel extends WaveInterferencePanel {
 
   public constructor( wavingGirlScene: WavingGirlScene, options?: WaveInterferencePanelOptions ) {
@@ -27,19 +22,18 @@ class WavingGirlSceneControlPanel extends WaveInterferencePanel {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',
       children: [
-        new DiffractionNumberControl( heightString, wavingGirlScene.heightProperty, {
+        new DiffractionNumberControl( WaveInterferenceStrings.heightStringProperty, wavingGirlScene.heightProperty, {
           delta: 10 * 1E-3,
           numberDisplayOptions: {
-            valuePattern: mmValueString,
             decimalPlaces: 2
           },
           sliderOptions: {
             constrainValue: value => Utils.roundToInterval( value, 20E-3 )
           }
         } ),
-        new DiffractionNumberControl( rotationString, wavingGirlScene.rotationProperty, {
+        new DiffractionNumberControl( WaveInterferenceStrings.rotationStringProperty, wavingGirlScene.rotationProperty, {
           numberDisplayOptions: {
-            valuePattern: degreesValueString
+            valuePattern: WaveInterferenceStrings.degreesValueStringProperty
           },
           sliderOptions: {
             constrainValue: value => Utils.roundToInterval( value, 30 ), // degrees

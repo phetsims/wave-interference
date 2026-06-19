@@ -43,8 +43,6 @@ import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 import WaveMeterProbeNode from './WaveMeterProbeNode.js';
 
-const timeString = WaveInterferenceStrings.time;
-
 // sounds
 const sounds = [ waveMeterSawTone_mp3, waveMeterSmoothTone_mp3 ];
 
@@ -379,19 +377,19 @@ class WaveMeterNode extends Node {
 
     const verticalAxisTitleNode = new SceneToggleNode(
       model,
-      scene => new WaveInterferenceText( scene.graphVerticalAxisLabel, {
+      scene => new WaveInterferenceText( scene.graphVerticalAxisLabelProperty, {
         fontSize: LABEL_FONT_SIZE,
         rotation: -Math.PI / 2,
         fill: AXIS_LABEL_FILL
       } )
     );
-    const horizontalAxisTitleNode = new WaveInterferenceText( timeString, {
+    const horizontalAxisTitleNode = new WaveInterferenceText( WaveInterferenceStrings.timeStringProperty, {
       fontSize: LABEL_FONT_SIZE,
       fill: AXIS_LABEL_FILL
     } );
-    const scaleIndicatorText = new SceneToggleNode(
+    const scaleIndicatorTextProperty = new SceneToggleNode(
       model,
-      scene => new WaveInterferenceText( scene.oneTimerUnit, {
+      scene => new WaveInterferenceText( scene.oneTimerUnitProperty, {
         fontSize: 11,
         fill: 'white'
       } )
@@ -406,7 +404,7 @@ class WaveMeterNode extends Node {
       derive: 'timeProperty'
     } );
 
-    const seismographNode = new SeismographNode( timeProperty, [ series1, series2 ], scaleIndicatorText, {
+    const seismographNode = new SeismographNode( timeProperty, [ series1, series2 ], scaleIndicatorTextProperty, {
       width: 150,
       height: 110,
       verticalAxisLabelNode: verticalAxisTitleNode,

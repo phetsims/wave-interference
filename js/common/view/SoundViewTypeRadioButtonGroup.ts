@@ -13,24 +13,20 @@ import { SoundViewType } from '../model/SoundViewType.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-const bothString = WaveInterferenceStrings.both;
-const particlesString = WaveInterferenceStrings.particles;
-const wavesString = WaveInterferenceStrings.waves;
-
 class SoundViewTypeRadioButtonGroup extends VerticalAquaRadioButtonGroup<SoundViewType> {
 
   public constructor( model: WavesModel ) {
 
     super( model.soundScene!.soundViewTypeProperty, [ {
-      createNode: () => new WaveInterferenceText( wavesString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
+      createNode: () => new WaveInterferenceText( WaveInterferenceStrings.wavesStringProperty, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
 
       value: 'waves'
     }, {
-      createNode: () => new WaveInterferenceText( particlesString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
+      createNode: () => new WaveInterferenceText( WaveInterferenceStrings.particlesStringProperty, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
 
       value: 'particles'
     }, {
-      createNode: () => new WaveInterferenceText( bothString, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
+      createNode: () => new WaveInterferenceText( WaveInterferenceStrings.bothStringProperty, WaveInterferenceConstants.CONTROL_PANEL_TEXT_MAX_WIDTH_OPTIONS ),
 
       value: 'both'
     } ], {

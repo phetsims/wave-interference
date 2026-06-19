@@ -14,9 +14,6 @@ import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 import WaveInterferenceVerticalAquaRadioButtonGroup from './WaveInterferenceVerticalAquaRadioButtonGroup.js';
 
-const sideViewString = WaveInterferenceStrings.sideView;
-const topViewString = WaveInterferenceStrings.topView;
-
 // constants
 const TEXT_OPTIONS = { maxWidth: WaveInterferenceConstants.MAX_WIDTH_VIEWPORT_BUTTON_TEXT }; // Prevent from overlapping the play/pause button
 
@@ -25,11 +22,11 @@ class ViewpointRadioButtonGroup extends WaveInterferenceVerticalAquaRadioButtonG
   public constructor( viewpointProperty: Property<Viewpoint>, options: VerticalAquaRadioButtonGroupOptions ) {
 
     super( viewpointProperty, [ {
-      createNode: () => new WaveInterferenceText( topViewString, TEXT_OPTIONS ),
+      createNode: () => new WaveInterferenceText( WaveInterferenceStrings.topViewStringProperty, TEXT_OPTIONS ),
 
       value: 'top'
     }, {
-      createNode: () => new WaveInterferenceText( sideViewString, TEXT_OPTIONS ),
+      createNode: () => new WaveInterferenceText( WaveInterferenceStrings.sideViewStringProperty, TEXT_OPTIONS ),
 
       value: 'side'
     } ], options );

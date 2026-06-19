@@ -20,8 +20,6 @@ import Easing from '../../../../twixt/js/Easing.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-const topString = WaveInterferenceStrings.top;
-
 class Perspective3DNode extends Node {
   private readonly waveAreaBounds: Bounds2;
   private readonly rotationAmountProperty: TReadOnlyProperty<number>;
@@ -49,7 +47,7 @@ class Perspective3DNode extends Node {
     // shows the up arrow
     const upNode = new HBox( {
       children: [
-        new WaveInterferenceText( topString, { fontSize: 32 } ),
+        new WaveInterferenceText( WaveInterferenceStrings.topStringProperty, { fontSize: 32 } ),
         new ArrowNode( 0, 0, 0, -110, {
           stroke: 'black',
           fill: 'yellow',

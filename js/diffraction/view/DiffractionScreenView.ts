@@ -6,14 +6,15 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import LaserPointerNode from '../../../../scenery-phet/js/LaserPointerNode.js';
+import { millimetersUnit } from '../../../../scenery-phet/js/units/millimetersUnit.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import WavelengthNumberControl from '../../../../scenery-phet/js/WavelengthNumberControl.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
@@ -30,7 +31,6 @@ import waving_girl_icon_png from '../../../images/waving_girl_icon_png.js';
 import LengthScaleIndicatorNode from '../../common/view/LengthScaleIndicatorNode.js';
 import WaveInterferencePanel from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
-import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import DiffractionModel from '../model/DiffractionModel.js';
 import CircleSquareSceneControlPanel from './CircleSquareSceneControlPanel.js';
 import DisorderSceneControlPanel from './DisorderSceneControlPanel.js';
@@ -39,8 +39,6 @@ import MatrixCanvasNode from './MatrixCanvasNode.js';
 import RectangleSceneControlPanel from './RectangleSceneControlPanel.js';
 import SceneCanvasNode from './SceneCanvasNode.js';
 import WavingGirlSceneControlPanel from './WavingGirlSceneControlPanel.js';
-
-const mmValueString = WaveInterferenceStrings.mmValue;
 
 // constants
 const MATRIX_CANVAS_NODE_SCALE = 1.43; // scale factor for showing the large aperture and diffraction patterns
@@ -147,13 +145,13 @@ class DiffractionScreenView extends ScreenView {
     this.apertureNode.right = this.diffractionNode.left - 50;
 
     // Length scale indicator on the aperture
-    const apertureScaleIndicatorNode = new LengthScaleIndicatorNode( this.apertureNode.width * 0.075, StringUtils.fillIn( mmValueString, { value: 0.1 } ), {
+    const apertureScaleIndicatorNode = new LengthScaleIndicatorNode( this.apertureNode.width * 0.075, millimetersUnit.getVisualSymbolPatternStringProperty( new Property( 0.1 ) ), {
       leftBottom: this.apertureNode.leftTop.plusXY( 0, -5 )
     } );
     this.addChild( apertureScaleIndicatorNode );
 
     // Length scale indicator on the diffraction pattern
-    const diffractionScaleIndicatorNode = new LengthScaleIndicatorNode( this.diffractionNode.width * 0.1, StringUtils.fillIn( mmValueString, { value: 10 } ), {
+    const diffractionScaleIndicatorNode = new LengthScaleIndicatorNode( this.diffractionNode.width * 0.1, millimetersUnit.getVisualSymbolPatternStringProperty( new Property( 10 ) ), {
       leftBottom: this.diffractionNode.leftTop.plusXY( 0, -5 )
     } );
     this.addChild( diffractionScaleIndicatorNode );

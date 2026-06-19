@@ -10,9 +10,10 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import { Units } from '../../../../axon/js/units.js';
 import validate from '../../../../axon/js/validate.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
@@ -21,13 +22,12 @@ import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Lattice from '../../../../scenery-phet/js/Lattice.js';
+import PhetUnit from '../../../../scenery-phet/js/PhetUnit.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import squishierButtonV3_007_mp3 from '../../../sounds/squishierButtonV3_007_mp3.js';
-import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import { BarrierType, BarrierTypeValues } from './BarrierType.js';
 import { DisturbanceType, DisturbanceTypeValues } from './DisturbanceType.js';
@@ -41,18 +41,11 @@ const WAVE_GENERATOR_BUTTON_SOUND_CLIP = new SoundClip( squishierButtonV3_007_mp
 } );
 soundManager.addSoundGenerator( WAVE_GENERATOR_BUTTON_SOUND_CLIP );
 
-const distanceUnitsString = WaveInterferenceStrings.distanceUnits;
-const timeUnitsString = WaveInterferenceStrings.timeUnits;
-
 // constants
 const PLANE_WAVE_MAGNITUDE = 0.21;
 const POSITIVE_NUMBER = {
   valueType: 'number',
   isValidValue: ( v: number ) => v > 0
-};
-const VALID_STRING = {
-  valueType: 'string',
-  isValidValue: ( s: string ) => s.length > 0
 };
 const VALID_RANGE = {
   valueType: Range,
@@ -67,16 +60,16 @@ type SelfOptions = {
 
   // Values and units for indicators
   scaleIndicatorLength: number; // length that depicts indicate relative scale, see LengthScaleIndicatorNode
-  timeScaleString: string; // displayed at the top right of the wave area
-  translatedPositionUnits: string; // units for this scene
-  positionUnits: string; // the units (in English and for the PhET-iO data stream)
-  timeUnits: string; // units for time, shown in the timer and optionally top right of the lattice
+  timeScaleStringProperty: TReadOnlyProperty<string>; // displayed at the top right of the wave area
+  translatedPositionUnitsProperty: TReadOnlyProperty<string>; // units for this scene
+  positionUnit: PhetUnit<ReadOnlyProperty<string>>; // the unit for position values in this scene
+  timeUnit: PhetUnit<ReadOnlyProperty<string>>; // the unit for time, shown in the timer and optionally top right of the lattice
 
   // Dimensions, ranges and physical attributes
   waveAreaWidth: number; // width of the visible part of the lattice in the scene's units
   timeScaleFactor: number; // scale factor to convert seconds of wall time to time for the given scene
   waveSpeed: number;
-  planeWaveGeneratorNodeText: string; // shown on the PlaneWaveGeneratorNode
+  planeWaveGeneratorNodeTextProperty: TReadOnlyProperty<string>; // shown on the PlaneWaveGeneratorNode
   frequencyRange: Range;
   initialAmplitude: number;
   sourceSeparationRange: Range;
@@ -88,9 +81,9 @@ type SelfOptions = {
   slitSeparationRange: Range;
 
   // Graph properties
-  graphTitle: string; // the title to the shown on the wave-area graph
-  graphVerticalAxisLabel: string; // text to show on the vertical axis on the wave-area graph
-  graphHorizontalAxisLabel: string; // text that describes the horizontal spatial axis
+  graphTitleProperty: TReadOnlyProperty<string>; // the title to the shown on the wave-area graph
+  graphVerticalAxisLabelProperty: TReadOnlyProperty<string>; // text to show on the vertical axis on the wave-area graph
+  graphHorizontalAxisLabelProperty: TReadOnlyProperty<string>; // text that describes the horizontal spatial axis
 };
 export type SceneOptions = SelfOptions;
 
@@ -134,43 +127,43 @@ class Scene {
   // controls the amplitude of the wave.
   public readonly amplitudeProperty: NumberProperty;
 
-  // units for time, shown in the timer and optionally top right of the lattice
-  public readonly timeUnits: string;
+  // the unit for time, shown in the timer and optionally top right of the lattice
+  public readonly timeUnit: PhetUnit<ReadOnlyProperty<string>>;
 
   public readonly waveSpatialType: WaveSpatialType;
 
-  // @public (read-only) {string} - units for this scene
-  public readonly translatedPositionUnits: string;
+  // @public (read-only) - localized units label for this scene
+  public readonly translatedPositionUnitsProperty: TReadOnlyProperty<string>;
 
   // @public (read-only) {number} - width of the visible part of the lattice in the scene's units
   public readonly waveAreaWidth: number;
 
-  // @public (read-only) {string} - text that describes the horizontal spatial axis
-  public readonly graphHorizontalAxisLabel: string;
+  // @public (read-only) - text that describes the horizontal spatial axis
+  public readonly graphHorizontalAxisLabelProperty: TReadOnlyProperty<string>;
 
   // @public (read-only) {number} - length that depicts indicate relative scale, see LengthScaleIndicatorNode
   public readonly scaleIndicatorLength: number;
 
-  // @public (read-only) {string} - the units (in English and for the PhET-iO data stream)
-  public readonly positionUnits: string;
+  // @public (read-only) - the unit for position values in this scene
+  public readonly positionUnit: PhetUnit<ReadOnlyProperty<string>>;
 
   // @public (read-only) {number} - scale factor to convert seconds of wall time to time for the given scene
   public readonly timeScaleFactor: number;
 
-  // @public (read-only) {string} text to show on the vertical axis on the wave-area graph
-  public readonly graphVerticalAxisLabel: string;
+  // @public (read-only) text to show on the vertical axis on the wave-area graph
+  public readonly graphVerticalAxisLabelProperty: TReadOnlyProperty<string>;
 
-  // @public (read-only) {string} - the title to the shown on the wave-area graph
-  public readonly graphTitle: string;
+  // @public (read-only) - the title to the shown on the wave-area graph
+  public readonly graphTitleProperty: TReadOnlyProperty<string>;
 
   public readonly numberOfSources: number;
   public readonly waveSpeed: number;
 
-  // @public (read-only) {string} - displayed at the top right of the wave area
-  public readonly timeScaleString: string;
+  // @public (read-only) - displayed at the top right of the wave area
+  public readonly timeScaleStringProperty: TReadOnlyProperty<string>;
 
-  // @public (read-only) {string} - shown on the PlaneWaveGeneratorNode
-  public readonly planeWaveGeneratorNodeText: string;
+  // @public (read-only) - shown on the PlaneWaveGeneratorNode
+  public readonly planeWaveGeneratorNodeTextProperty: TReadOnlyProperty<string>;
 
   // @private - point source wave generation is suppressed when changing the source separation
   public muted: boolean;
@@ -195,11 +188,11 @@ class Scene {
   // @public distance between the center of the slits, in the units for this scene
   public readonly slitSeparationProperty: NumberProperty;
 
-  // @public (read-only) {string} - text to show to indicate the relative scale, see LengthScaleIndicatorNode
-  public readonly scaleIndicatorText: string;
+  // @public (read-only) - text to show to indicate the relative scale, see LengthScaleIndicatorNode
+  public readonly scaleIndicatorTextProperty: TReadOnlyProperty<string>;
 
-  // @public (read-only) {string} - the unit to display on the WaveMeterNode, like "1 s"
-  public readonly oneTimerUnit: string;
+  // @public (read-only) - the unit to display on the WaveMeterNode, like "1 s"
+  public readonly oneTimerUnitProperty: TReadOnlyProperty<string>;
 
   // @public {ModelViewTransform2} - converts the model coordinates (in the units for this scene) to lattice
   // coordinates, does not include damping regions
@@ -265,16 +258,16 @@ class Scene {
 
       // Values and units for indicators
       scaleIndicatorLength: null, // {number} - length that depicts indicate relative scale, see LengthScaleIndicatorNode
-      timeScaleString: null, // {string} - displayed at the top right of the wave area
-      translatedPositionUnits: null, // {string} - units for this scene
-      positionUnits: null, // {string} - the units (in English and for the PhET-iO data stream)
-      timeUnits: null, // {string} - units for time, shown in the timer and optionally top right of the lattice
+      timeScaleStringProperty: null, // {TReadOnlyProperty<string>} - displayed at the top right of the wave area
+      translatedPositionUnitsProperty: null, // {TReadOnlyProperty<string>} - units for this scene
+      positionUnit: null, // {PhetUnit} - the unit for position values in this scene
+      timeUnit: null, // {PhetUnit} - the unit for time, shown in the timer and optionally top right of the lattice
 
       // Dimensions, ranges and physical attributes
       waveAreaWidth: null, // {number} - width of the visible part of the lattice in the scene's units
       timeScaleFactor: null, // {number} - scale factor to convert seconds of wall time to time for the given scene
       waveSpeed: null, // {number}
-      planeWaveGeneratorNodeText: null, // {string} - shown on the PlaneWaveGeneratorNode
+      planeWaveGeneratorNodeTextProperty: null, // {TReadOnlyProperty<string>} - shown on the PlaneWaveGeneratorNode
       frequencyRange: null, // {Range}
       initialAmplitude: null, // {number}
       sourceSeparationRange: null, // {Range}
@@ -286,26 +279,18 @@ class Scene {
       slitSeparationRange: null, // {Range}
 
       // Graph properties
-      graphTitle: null, // {string} - the title to the shown on the wave-area graph
-      graphVerticalAxisLabel: null, // {string} text to show on the vertical axis on the wave-area graph
-      graphHorizontalAxisLabel: null // {string} - text that describes the horizontal spatial axis
+      graphTitleProperty: null, // {TReadOnlyProperty<string>} - the title to the shown on the wave-area graph
+      graphVerticalAxisLabelProperty: null, // {TReadOnlyProperty<string>} text to show on the vertical axis on the wave-area graph
+      graphHorizontalAxisLabelProperty: null // {TReadOnlyProperty<string>} - text that describes the horizontal spatial axis
     }, providedConfig ) as SceneOptions;
 
     // Validation
     validate( config.waveSpatialType, { validValues: WaveSpatialTypeValues } );
-    validate( config.translatedPositionUnits, VALID_STRING );
     validate( config.waveAreaWidth, POSITIVE_NUMBER );
-    validate( config.graphHorizontalAxisLabel, VALID_STRING );
     validate( config.scaleIndicatorLength, POSITIVE_NUMBER );
-    validate( config.positionUnits, VALID_STRING );
     validate( config.timeScaleFactor, POSITIVE_NUMBER );
-    validate( config.timeUnits, VALID_STRING );
-    validate( config.graphVerticalAxisLabel, VALID_STRING );
-    validate( config.graphTitle, VALID_STRING );
     validate( config.numberOfSources, { validValues: [ 1, 2 ] } );
     validate( config.waveSpeed, POSITIVE_NUMBER );
-    validate( config.timeScaleString, { valueType: 'string' } );
-    validate( config.planeWaveGeneratorNodeText, VALID_STRING );
     validate( config.frequencyRange, VALID_RANGE );
     validate( config.initialSlitSeparation, POSITIVE_NUMBER );
     validate( config.sourceSeparationRange, VALID_RANGE );
@@ -316,31 +301,31 @@ class Scene {
 
     this.waveSpatialType = config.waveSpatialType;
 
-    this.translatedPositionUnits = config.translatedPositionUnits;
+    this.translatedPositionUnitsProperty = config.translatedPositionUnitsProperty;
 
     this.waveAreaWidth = config.waveAreaWidth;
 
-    this.graphHorizontalAxisLabel = config.graphHorizontalAxisLabel;
+    this.graphHorizontalAxisLabelProperty = config.graphHorizontalAxisLabelProperty;
 
     this.scaleIndicatorLength = config.scaleIndicatorLength;
 
-    this.positionUnits = config.positionUnits;
+    this.positionUnit = config.positionUnit;
 
     this.timeScaleFactor = config.timeScaleFactor;
 
-    this.timeUnits = config.timeUnits;
+    this.timeUnit = config.timeUnit;
 
-    this.graphVerticalAxisLabel = config.graphVerticalAxisLabel;
+    this.graphVerticalAxisLabelProperty = config.graphVerticalAxisLabelProperty;
 
-    this.graphTitle = config.graphTitle;
+    this.graphTitleProperty = config.graphTitleProperty;
 
     this.numberOfSources = config.numberOfSources;
 
     this.waveSpeed = config.waveSpeed;
 
-    this.timeScaleString = config.timeScaleString;
+    this.timeScaleStringProperty = config.timeScaleStringProperty;
 
-    this.planeWaveGeneratorNodeText = config.planeWaveGeneratorNodeText;
+    this.planeWaveGeneratorNodeTextProperty = config.planeWaveGeneratorNodeTextProperty;
 
     // These config values are used to create Property instances.
     const frequencyRange = config.frequencyRange;
@@ -358,17 +343,17 @@ class Scene {
     this.pulseJustCompleted = false;
 
     this.sourceSeparationProperty = new NumberProperty( initialSlitSeparation, {
-      units: this.positionUnits as Units,
+      units: this.positionUnit,
       range: sourceSeparationRange
     } );
 
     this.slitWidthProperty = new NumberProperty( initialSlitWidth, {
-      units: this.positionUnits as Units,
+      units: this.positionUnit,
       range: slitWidthRange
     } );
 
     this.slitSeparationProperty = new NumberProperty( initialSlitSeparation, {
-      units: this.positionUnits as Units,
+      units: this.positionUnit,
       range: slitSeparationRange
     } );
 
@@ -376,20 +361,14 @@ class Scene {
       range: WaveInterferenceConstants.AMPLITUDE_RANGE
     } );
 
-    this.scaleIndicatorText = StringUtils.fillIn( distanceUnitsString, {
-      distance: this.scaleIndicatorLength,
-      units: this.positionUnits
-    } );
+    this.scaleIndicatorTextProperty = this.positionUnit.getVisualSymbolPatternStringProperty( new Property( this.scaleIndicatorLength ) );
 
     // wavelength*frequency=wave speed
     phet.log && this.frequencyProperty.link( frequency =>
-      phet.log( `f = ${frequency}/${this.timeUnits}, w = ${this.waveSpeed / frequency} ${this.positionUnits}, v= ${this.waveSpeed} ${this.positionUnits}/${this.timeUnits}` )
+      phet.log( `f = ${frequency}/${this.timeUnit.name}, w = ${this.waveSpeed / frequency} ${this.positionUnit.name}, v= ${this.waveSpeed} ${this.positionUnit.name}/${this.timeUnit.name}` )
     );
 
-    this.oneTimerUnit = StringUtils.fillIn( timeUnitsString, {
-      time: 1,
-      units: this.timeUnits
-    } );
+    this.oneTimerUnitProperty = this.timeUnit.getVisualSymbolPatternStringProperty( new Property( 1 ) );
 
     this.modelToLatticeTransform = ModelViewTransform2.createRectangleMapping(
       new Rectangle( 0, 0, this.waveAreaWidth, this.waveAreaWidth ),

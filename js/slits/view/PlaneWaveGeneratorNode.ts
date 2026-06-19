@@ -46,7 +46,7 @@ class PlaneWaveGeneratorNode extends Node {
 
     // Show descriptive text label
     this.addChild( new SceneToggleNode( model, scene => {
-      const textNode = new WaveInterferenceText( scene.planeWaveGeneratorNodeText, {
+      const textNode = new WaveInterferenceText( scene.planeWaveGeneratorNodeTextProperty, {
         rotation: -Math.PI / 2,
 
         // About the same amount of space between the button and the text as between the text and the bottom

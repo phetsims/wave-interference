@@ -15,13 +15,11 @@ import SceneToggleNode from './SceneToggleNode.js';
 import WaveInterferenceSlider from './WaveInterferenceSlider.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-const amplitudeString = WaveInterferenceStrings.amplitude;
-
 class AmplitudeControl extends Node {
 
   public constructor( model: WavesModel ) {
 
-    const amplitudeTitle = new WaveInterferenceText( amplitudeString );
+    const amplitudeTitle = new WaveInterferenceText( WaveInterferenceStrings.amplitudeStringProperty );
 
     const sliderContainer = new SceneToggleNode( model, scene => {
 

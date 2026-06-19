@@ -17,10 +17,6 @@ import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import InterferenceModel from '../model/InterferenceModel.js';
 
-const cmValueString = WaveInterferenceStrings.cmValue;
-const nmValueString = WaveInterferenceStrings.nmValue;
-const separationString = WaveInterferenceStrings.separation;
-
 class SeparationControl extends ToggleNode<Scene> {
 
   public constructor( model: InterferenceModel ) {
@@ -46,10 +42,9 @@ class SeparationControl extends ToggleNode<Scene> {
     // because the control constructor calls are substantially different.
     super( model.sceneProperty, [ {
       value: model.waterScene!,
-      createNode: () => new NumberControl( separationString, waterSeparationProperty, waterSceneRange, combineOptions<NumberControlOptions>( {
+      createNode: () => new NumberControl( WaveInterferenceStrings.separationStringProperty, waterSeparationProperty, waterSceneRange, combineOptions<NumberControlOptions>( {
         delta: 0.1,
         numberDisplayOptions: {
-          valuePattern: cmValueString,
           decimalPlaces: 1
         },
         sliderOptions: {
@@ -60,9 +55,8 @@ class SeparationControl extends ToggleNode<Scene> {
     }, {
 
       value: model.soundScene!,
-      createNode: () => new NumberControl( separationString, soundSeparationProperty, soundSceneRange, combineOptions<NumberControlOptions>( {
+      createNode: () => new NumberControl( WaveInterferenceStrings.separationStringProperty, soundSeparationProperty, soundSceneRange, combineOptions<NumberControlOptions>( {
         delta: 1,
-        numberDisplayOptions: { valuePattern: cmValueString },
         sliderOptions: {
           constrainValue: value => Utils.roundToInterval( value, 10 ),
 
@@ -73,9 +67,8 @@ class SeparationControl extends ToggleNode<Scene> {
     }, {
 
       value: model.lightScene!,
-      createNode: () => new NumberControl( separationString, lightSeparationProperty, lightSceneRange, combineOptions<NumberControlOptions>( {
+      createNode: () => new NumberControl( WaveInterferenceStrings.separationStringProperty, lightSeparationProperty, lightSceneRange, combineOptions<NumberControlOptions>( {
         delta: 10,
-        numberDisplayOptions: { valuePattern: nmValueString },
         sliderOptions: {
           constrainValue: value => Utils.roundToInterval( value, 100 ),
 

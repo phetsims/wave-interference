@@ -14,10 +14,6 @@ import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import CircleSquareScene from '../model/CircleSquareScene.js';
 import DiffractionNumberControl from './DiffractionNumberControl.js';
 
-const circleDiameterString = WaveInterferenceStrings.circleDiameter;
-const mmValueString = WaveInterferenceStrings.mmValue;
-const squareWidthString = WaveInterferenceStrings.squareWidth;
-
 class CircleSquareSceneControlPanel extends WaveInterferencePanel {
 
   public constructor( circleSquareScene: CircleSquareScene, options?: WaveInterferencePanelOptions ) {
@@ -25,20 +21,18 @@ class CircleSquareSceneControlPanel extends WaveInterferencePanel {
       spacing: WaveInterferenceConstants.DIFFRACTION_HBOX_SPACING,
       align: 'bottom',
       children: [
-        new DiffractionNumberControl( circleDiameterString, circleSquareScene.circleDiameterProperty, {
+        new DiffractionNumberControl( WaveInterferenceStrings.circleDiameterStringProperty, circleSquareScene.circleDiameterProperty, {
           delta: 10 * 1E-3,
           numberDisplayOptions: {
-            valuePattern: mmValueString,
             decimalPlaces: 2
           },
           sliderOptions: {
             constrainValue: value => Utils.roundToInterval( value, 10 * 1E-3 )
           }
         } ),
-        new DiffractionNumberControl( squareWidthString, circleSquareScene.squareWidthProperty, {
+        new DiffractionNumberControl( WaveInterferenceStrings.squareWidthStringProperty, circleSquareScene.squareWidthProperty, {
           delta: 10 * 1E-3,
           numberDisplayOptions: {
-            valuePattern: mmValueString,
             decimalPlaces: 2
           },
           sliderOptions: {

@@ -19,9 +19,6 @@ import WaveInterferenceText from './WaveInterferenceText.js';
 // constants
 const TOLERANCE = 1E-6;
 
-const maxString = WaveInterferenceStrings.max;
-const minString = WaveInterferenceStrings.min;
-
 const LABEL_OPTIONS = {
   fontSize: WaveInterferenceConstants.TICK_FONT_SIZE,
   maxWidth: WaveInterferenceConstants.TICK_MAX_WIDTH
@@ -51,8 +48,8 @@ class WaveInterferenceSlider extends HSlider {
     assert && assert( range, 'WaveInterferenceSlider.property requires range' );
     const min = range.min;
     const max = range.max;
-    const minLabel = new WaveInterferenceText( min === 0 ? '0' : minString, LABEL_OPTIONS );
-    const maxLabel = new WaveInterferenceText( maxString, LABEL_OPTIONS );
+    const minLabel = new WaveInterferenceText( min === 0 ? '0' : WaveInterferenceStrings.minStringProperty, LABEL_OPTIONS );
+    const maxLabel = new WaveInterferenceText( WaveInterferenceStrings.maxStringProperty, LABEL_OPTIONS );
     const ticks = _.range( 0, maxTickIndex + 1 ).map( index => {
       return {
         value: linear( 0, maxTickIndex, min, max, index ),

@@ -14,6 +14,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import StringProperty from '../../../../axon/js/StringProperty.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
@@ -25,6 +26,11 @@ import EventTimer from '../../../../phet-core/js/EventTimer.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Stopwatch from '../../../../scenery-phet/js/Stopwatch.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
+import { centimetersUnit } from '../../../../scenery-phet/js/units/centimetersUnit.js';
+import { femtosecondsUnit } from '../../../../scenery-phet/js/units/femtosecondsUnit.js';
+import { millisecondsUnit } from '../../../../scenery-phet/js/units/millisecondsUnit.js';
+import { nanometersUnit } from '../../../../scenery-phet/js/units/nanometersUnit.js';
+import { secondsUnit } from '../../../../scenery-phet/js/units/secondsUnit.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import LightScene from '../../common/model/LightScene.js';
 import Scene from '../../common/model/Scene.js';
@@ -35,25 +41,6 @@ import { WaveSpatialType } from '../../common/model/WaveSpatialType.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import WaveInterferenceUtils from '../../common/WaveInterferenceUtils.js';
 import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
-
-const centimetersUnitsString = WaveInterferenceStrings.centimetersUnits;
-const electricFieldAtCenterString = WaveInterferenceStrings.electricFieldAtCenter;
-const electricFieldString = WaveInterferenceStrings.electricField;
-const femtosecondConversionString = WaveInterferenceStrings.femtosecondConversion;
-const femtosecondsUnitsString = WaveInterferenceStrings.femtosecondsUnits;
-const lightGeneratorString = WaveInterferenceStrings.lightGenerator;
-const millisecondConversionString = WaveInterferenceStrings.millisecondConversion;
-const millisecondsUnitsString = WaveInterferenceStrings.millisecondsUnits;
-const nanometersUnitsString = WaveInterferenceStrings.nanometersUnits;
-const positionCMString = WaveInterferenceStrings.positionCM;
-const positionNMString = WaveInterferenceStrings.positionNM;
-const pressureAtCenterString = WaveInterferenceStrings.pressureAtCenter;
-const pressureString = WaveInterferenceStrings.pressure;
-const secondsUnitsString = WaveInterferenceStrings.secondsUnits;
-const soundGeneratorString = WaveInterferenceStrings.soundGenerator;
-const waterLevelAtCenterString = WaveInterferenceStrings.waterLevelAtCenter;
-const waterLevelString = WaveInterferenceStrings.waterLevel;
-const waterWaveGeneratorString = WaveInterferenceStrings.waterWaveGenerator;
 
 // This simulation uses EventTimer, which provides exactly the same model behavior on very slow and very fast
 // platforms.  Here we define the frequency of events in Hz, which has been tuned so that our slowest platform has
@@ -212,14 +199,14 @@ class WavesModel implements TModel {
       this.waterScene = new WaterScene( {
         waveSpatialType: options.waveSpatialType,
 
-        positionUnits: 'cm',
-        translatedPositionUnits: centimetersUnitsString,
-        timeUnits: secondsUnitsString,
-        timeScaleString: '',
+        positionUnit: centimetersUnit,
+        timeUnit: secondsUnit,
+        translatedPositionUnitsProperty: WaveInterferenceStrings.centimetersUnitsStringProperty,
+        timeScaleStringProperty: new StringProperty( '' ),
 
-        graphVerticalAxisLabel: waterLevelString,
-        graphTitle: waterLevelAtCenterString,
-        graphHorizontalAxisLabel: positionCMString,
+        graphVerticalAxisLabelProperty: WaveInterferenceStrings.waterLevelStringProperty,
+        graphTitleProperty: WaveInterferenceStrings.waterLevelAtCenterStringProperty,
+        graphHorizontalAxisLabelProperty: WaveInterferenceStrings.positionCMStringProperty,
         waveAreaWidth: 10, // 10 centimeters
         frequencyRange: new Range( 0.25, 1 ), // cycles per second
         scaleIndicatorLength: 1, // 1 centimeter
@@ -240,7 +227,7 @@ class WavesModel implements TModel {
         slitWidthRange: new Range( 0.5, 2.5 ), // cm
 
         initialAmplitude: options.initialAmplitude,
-        planeWaveGeneratorNodeText: waterWaveGeneratorString
+        planeWaveGeneratorNodeTextProperty: WaveInterferenceStrings.waterWaveGeneratorStringProperty
       } );
       this.scenes.push( this.waterScene );
     }
@@ -249,14 +236,14 @@ class WavesModel implements TModel {
     if ( options.scenes.includes( 'soundScene' ) ) {
       this.soundScene = new SoundScene( options.showSoundParticles, {
         waveSpatialType: options.waveSpatialType,
-        positionUnits: 'cm',
-        translatedPositionUnits: centimetersUnitsString,
-        timeUnits: millisecondsUnitsString,
-        timeScaleString: millisecondConversionString,
+        positionUnit: centimetersUnit,
+        timeUnit: millisecondsUnit,
+        translatedPositionUnitsProperty: WaveInterferenceStrings.centimetersUnitsStringProperty,
+        timeScaleStringProperty: WaveInterferenceStrings.millisecondConversionStringProperty,
 
-        graphVerticalAxisLabel: pressureString,
-        graphTitle: pressureAtCenterString,
-        graphHorizontalAxisLabel: positionCMString,
+        graphVerticalAxisLabelProperty: WaveInterferenceStrings.pressureStringProperty,
+        graphTitleProperty: WaveInterferenceStrings.pressureAtCenterStringProperty,
+        graphHorizontalAxisLabelProperty: WaveInterferenceStrings.positionCMStringProperty,
         waveAreaWidth: 500, // in cm
 
         // See https://pages.mtu.edu/~suits/notefreqs.html
@@ -283,7 +270,7 @@ class WavesModel implements TModel {
         slitSeparationRange: new Range( 40, 320 ), // cm
 
         initialAmplitude: options.initialAmplitude,
-        planeWaveGeneratorNodeText: soundGeneratorString
+        planeWaveGeneratorNodeTextProperty: WaveInterferenceStrings.soundGeneratorStringProperty
       } );
       this.scenes.push( this.soundScene );
     }
@@ -292,13 +279,13 @@ class WavesModel implements TModel {
     if ( options.scenes.includes( 'lightScene' ) ) {
       this.lightScene = new LightScene( {
         waveSpatialType: options.waveSpatialType,
-        positionUnits: 'nm',
-        translatedPositionUnits: nanometersUnitsString,
-        timeUnits: femtosecondsUnitsString,
-        timeScaleString: femtosecondConversionString,
-        graphVerticalAxisLabel: electricFieldString,
-        graphTitle: electricFieldAtCenterString,
-        graphHorizontalAxisLabel: positionNMString,
+        positionUnit: nanometersUnit,
+        timeUnit: femtosecondsUnit,
+        translatedPositionUnitsProperty: WaveInterferenceStrings.nanometersUnitsStringProperty,
+        timeScaleStringProperty: WaveInterferenceStrings.femtosecondConversionStringProperty,
+        graphVerticalAxisLabelProperty: WaveInterferenceStrings.electricFieldStringProperty,
+        graphTitleProperty: WaveInterferenceStrings.electricFieldAtCenterStringProperty,
+        graphHorizontalAxisLabelProperty: WaveInterferenceStrings.positionNMStringProperty,
         waveAreaWidth: 5000, // nm
 
         // in cycles per femtosecond
@@ -324,7 +311,7 @@ class WavesModel implements TModel {
         slitSeparationRange: new Range( 400, 3200 ), // nm
 
         initialAmplitude: options.initialAmplitude,
-        planeWaveGeneratorNodeText: lightGeneratorString
+        planeWaveGeneratorNodeTextProperty: WaveInterferenceStrings.lightGeneratorStringProperty
       } );
       this.scenes.push( this.lightScene );
     }

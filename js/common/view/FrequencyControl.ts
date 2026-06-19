@@ -19,8 +19,6 @@ import WaveInterferenceUtils from '../WaveInterferenceUtils.js';
 import WaveInterferenceSlider from './WaveInterferenceSlider.js';
 import WaveInterferenceText from './WaveInterferenceText.js';
 
-const frequencyString = WaveInterferenceStrings.frequency;
-
 // constants
 const fromFemto = WaveInterferenceUtils.fromFemto;
 
@@ -28,7 +26,7 @@ class FrequencyControl extends Node {
 
   public constructor( model: WavesModel ) {
 
-    const frequencyTitle = new WaveInterferenceText( frequencyString );
+    const frequencyTitle = new WaveInterferenceText( WaveInterferenceStrings.frequencyStringProperty );
 
     const sliderGroupChildren = [];
     let soundFrequencySlider: WaveInterferenceSlider | null = null;
