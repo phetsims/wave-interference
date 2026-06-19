@@ -96,7 +96,14 @@ class WavesScreenSoundView {
       // When the wave generator completes a full cycle (passing from positive to negative), restart the speaker
       // clip at the corresponding volume and frequency.  Note this means if the frequency or volume changes, the
       // user has to wait for the next cycle to hear the change.
-      let previousOscillatorValue = soundScene.oscillator1Property.value;
+      //
+      // The pulse is gated by an "armed" flag rather than a simple previous-vs-current edge test. The membrane must
+      // first rise clearly into the positive half of the cycle to arm the detector; only then does a downward crossing
+      // through zero fire the pulse, which immediately disarms until the next positive excursion. This guarantees the
+      // designed behavior that pausing and resuming the membrane stays silent until the next clean positive-to-negative
+      // crossing, no matter where the membrane was paused (a frozen mid-cycle value can no longer determine the next
+      // pulse). It begins armed so the membrane's first downward motion from rest still produces a pulse.
+      let armed = true;
       Multilink.multilink( [
         soundScene.oscillator1Property,
         soundScene.isTonePlayingProperty,
@@ -120,17 +127,23 @@ class WavesScreenSoundView {
         speakerMembraneSoundClip.setPlaybackRate( playbackRate / 2 );
 
         // Sometimes a cycle ends at 2.0698762975327177e-13, and sometimes a cycle ends at -6.58607807786067e-14
-        // To tolerate both kinds of stopping, we detect a cycle a little below zero
+        // To tolerate both kinds of stopping, we detect a cycle a little below zero, and arm symmetrically above zero.
         const TRIGGER = -1E-6;
-        if ( previousOscillatorValue >= TRIGGER && oscillatorValue < TRIGGER ) {
+
+        // Re-arm once the membrane is clearly in the positive half of the cycle.
+        if ( oscillatorValue > -TRIGGER ) {
+          armed = true;
+        }
+
+        // Fire once per clean positive-to-negative crossing, then disarm until the next positive excursion.
+        if ( armed && oscillatorValue < TRIGGER ) {
           speakerMembraneSoundClip.play();
+          armed = false;
         }
 
         if ( oscillatorValue === 0 || !isRunning ) {
           speakerMembraneSoundClip.stop();
         }
-
-        previousOscillatorValue = oscillatorValue;
       } );
     }
 
