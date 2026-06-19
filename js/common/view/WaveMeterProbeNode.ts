@@ -10,8 +10,8 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ProbeNode, { ProbeNodeOptions } from '../../../../scenery-phet/js/ProbeNode.js';
+import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
-import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 
 type SelfOptions = {
   dragStart?: () => void;
@@ -40,7 +40,7 @@ class WaveMeterProbeNode extends InteractiveHighlighting( ProbeNode ) {
 
     visibleBoundsProperty.link( visibleBounds => this.setCenter( visibleBounds.closestPointTo( this.center ) ) );
 
-    this.addInputListener( new DragListener( {
+    this.addInputListener( new SoundDragListener( {
       translateNode: true,
       dragBoundsProperty: visibleBoundsProperty,
       start: () => options.dragStart(),
