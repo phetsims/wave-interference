@@ -10,8 +10,8 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import CanvasNode, { CanvasNodeOptions } from '../../../../scenery/js/nodes/CanvasNode.js';
-import DiffractionScene from '../model/DiffractionScene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
+import DiffractionScene from '../model/DiffractionScene.js';
 
 type SelfOptions = EmptySelfOptions;
 type SceneCanvasNodeOptions = SelfOptions & CanvasNodeOptions;

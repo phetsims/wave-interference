@@ -14,10 +14,10 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RoundStickyToggleButton from '../../../../sun/js/buttons/RoundStickyToggleButton.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import plane_wave_source_png from '../../../images/plane_wave_source_png.js';
-import WavesModel from '../../waves/model/WavesModel.js';
 import SceneToggleNode from '../../common/view/SceneToggleNode.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
+import WavesModel from '../../waves/model/WavesModel.js';
 
 class PlaneWaveGeneratorNode extends Node {
 

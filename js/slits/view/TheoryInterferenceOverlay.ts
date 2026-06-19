@@ -52,7 +52,7 @@ class TheoryInterferenceOverlay extends Node {
 
       // barrierTypeProperty is optional on Scene; on the slits screen it always exists.
       const barrierType: BarrierType = options.interferenceScreen ? 'twoSlits' :
-                          sceneProperty.value.barrierTypeProperty!.value;
+                                       sceneProperty.value.barrierTypeProperty!.value;
       if ( barrierType !== 'noBarrier' ) {
 
         const scene = sceneProperty.value;

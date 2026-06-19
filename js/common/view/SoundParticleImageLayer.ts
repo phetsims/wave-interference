@@ -8,8 +8,8 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import merge from '../../../../phet-core/js/merge.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import SoundParticle from '../../common/model/SoundParticle.js';
