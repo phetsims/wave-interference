@@ -37,7 +37,9 @@ abstract class DiffractionScene {
     this.canvas.width = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
     this.canvas.height = WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION;
 
-    this.context = this.canvas.getContext( '2d' )!;
+    // This canvas is read back via getImageData() on every paintMatrix() call, so hint the
+    // browser to use a CPU-backed surface optimized for frequent readback.
+    this.context = this.canvas.getContext( '2d', { willReadFrequently: true } )!;
 
     affirm( this.renderToContext, 'Subclass must define renderToContext' );
   }
