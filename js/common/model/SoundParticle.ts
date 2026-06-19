@@ -7,7 +7,7 @@
  */
 
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { linear } from '../../../../dot/js/util/linear.js';
 import SoundScene from './SoundScene.js';
 
 // constants
@@ -55,7 +55,7 @@ class SoundParticle {
     fy += ( dotRandom.nextDouble() - 0.5 ) * 2 * RANDOMNESS;
 
     // use the airK as the magnitude and the forceCenter for direction only.
-    const restorationSpringConstant = Utils.linear(
+    const restorationSpringConstant = linear(
       soundScene.frequencyProperty.range.min, soundScene.frequencyProperty.range.max,
       ( 2 * 1.05 ), ( 6.5 * 0.8 ),
       soundScene.frequencyProperty.value

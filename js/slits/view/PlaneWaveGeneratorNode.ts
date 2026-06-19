@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
@@ -39,7 +40,7 @@ class PlaneWaveGeneratorNode extends Node {
         center: verticalCylinderImageNode.center
       } );
 
-    assert && assert( !options || !options.children, 'children would be overwritten in PlaneWaveGeneratorNode' );
+    affirm( !options || !options.children, 'children would be overwritten in PlaneWaveGeneratorNode' );
     const mutateOptions: NodeOptions = merge( { children: [ verticalCylinderImageNode, button ] }, options );
 
     this.mutate( mutateOptions );

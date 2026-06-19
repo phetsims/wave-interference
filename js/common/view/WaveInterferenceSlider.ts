@@ -7,6 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import type NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import { linear } from '../../../../dot/js/util/linear.js';
@@ -45,7 +46,7 @@ class WaveInterferenceSlider extends HSlider {
     const maxTickIndex = providedOptions?.maxTickIndex ?? 10;
 
     const range = property.range;
-    assert && assert( range, 'WaveInterferenceSlider.property requires range' );
+    affirm( range, 'WaveInterferenceSlider.property requires range' );
     const min = range.min;
     const max = range.max;
     const minLabel = new WaveInterferenceText( min === 0 ? '0' : WaveInterferenceStrings.minStringProperty, LABEL_OPTIONS );

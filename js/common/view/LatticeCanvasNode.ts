@@ -6,7 +6,9 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Utils from '../../../../dot/js/Utils.js';
+import { clamp } from '../../../../dot/js/util/clamp.js';
+import { linear } from '../../../../dot/js/util/linear.js';
+import { roundSymmetric } from '../../../../dot/js/util/roundSymmetric.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js';
@@ -71,8 +73,8 @@ class LatticeCanvasNode extends CanvasNode {
    */
   public static localPointToLatticePoint( point: Vector2 ): Vector2 {
     return new Vector2(
-      Utils.roundSymmetric( point.x / WaveInterferenceConstants.CELL_WIDTH ),
-      Utils.roundSymmetric( point.y / WaveInterferenceConstants.CELL_WIDTH )
+      roundSymmetric( point.x / WaveInterferenceConstants.CELL_WIDTH ),
+      roundSymmetric( point.y / WaveInterferenceConstants.CELL_WIDTH )
     );
   }
 
@@ -103,13 +105,13 @@ class LatticeCanvasNode extends CanvasNode {
         const waveValue = this.lattice.getInterpolatedValue( k, i );
 
         if ( waveValue > 0 ) {
-          intensity = Utils.linear( 0, 2, CUTOFF, 1, waveValue );
-          intensity = Utils.clamp( intensity, CUTOFF, 1 );
+          intensity = linear( 0, 2, CUTOFF, 1, waveValue );
+          intensity = clamp( intensity, CUTOFF, 1 );
         }
         else {
           const MIN_SHADE = 0.03; // Stop before 0 because 0 is too jarring
-          intensity = Utils.linear( -1.5, 0, MIN_SHADE, CUTOFF, waveValue );
-          intensity = Utils.clamp( intensity, MIN_SHADE, CUTOFF );
+          intensity = linear( -1.5, 0, MIN_SHADE, CUTOFF, waveValue );
+          intensity = clamp( intensity, MIN_SHADE, CUTOFF );
         }
 
         // Note this interpolation doesn't include the gamma factor that Color.blend does

@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Utils from '../../../../dot/js/Utils.js';
+import { roundToInterval } from '../../../../dot/js/util/roundToInterval.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import WaveInterferencePanel, { WaveInterferencePanelOptions } from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
@@ -27,7 +27,7 @@ class EllipseSceneControlPanel extends WaveInterferencePanel {
             decimalPlaces: 2
           },
           sliderOptions: {
-            constrainValue: value => Utils.roundToInterval( value, 20E-3 )
+            constrainValue: value => roundToInterval( value, 20E-3 )
           }
         } ),
         new DiffractionNumberControl( WaveInterferenceStrings.eccentricityStringProperty, ellipseScene.eccentricityProperty, {
@@ -38,7 +38,7 @@ class EllipseSceneControlPanel extends WaveInterferencePanel {
           sliderOptions: {
 
             // Constrain by 0.05 but do not exceed the max
-            constrainValue: value => Math.min( Utils.roundToInterval( value, 0.05 ), ellipseScene.eccentricityProperty.range.max )
+            constrainValue: value => Math.min( roundToInterval( value, 0.05 ), ellipseScene.eccentricityProperty.range.max )
           }
         } )
       ]

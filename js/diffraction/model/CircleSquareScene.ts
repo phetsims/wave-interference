@@ -8,7 +8,7 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { roundSymmetric } from '../../../../dot/js/util/roundSymmetric.js';
 import { millimetersUnit } from '../../../../scenery-phet/js/units/millimetersUnit.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import DiffractionScene from './DiffractionScene.js';
@@ -41,12 +41,12 @@ class CircleSquareScene extends DiffractionScene {
 
     const delta = 0.1;
 
-    const circleCenterX = Utils.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 - delta ) );
-    const circleCenterY = Utils.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 - delta ) );
+    const circleCenterX = roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 - delta ) );
+    const circleCenterY = roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 - delta ) );
     const circleRadius = this.circleDiameterProperty.value / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
 
-    const squareCenterX = Utils.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
-    const squareCenterY = Utils.roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
+    const squareCenterX = roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
+    const squareCenterY = roundSymmetric( WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION * ( 1 / 2 + delta ) );
     const squareRadius = this.squareWidthProperty.value / 2 * WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
 
     context.beginPath();

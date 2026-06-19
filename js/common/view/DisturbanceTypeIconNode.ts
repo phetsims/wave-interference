@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Utils from '../../../../dot/js/Utils.js';
+import { linear } from '../../../../dot/js/util/linear.js';
 import Shape from '../../../../kite/js/Shape.js';
 import LineStyles from '../../../../kite/js/util/LineStyles.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -43,9 +43,9 @@ class DisturbanceTypeIconNode extends Node {
 
     const shape = new Shape();
     for ( let i = 0; i < NUMBER_OF_SAMPLES; i++ ) {
-      const angle = Utils.linear( 0, NUMBER_OF_SAMPLES - 1, minAngle, MAX_ANGLE, i );
+      const angle = linear( 0, NUMBER_OF_SAMPLES - 1, minAngle, MAX_ANGLE, i );
       const y = -Math.cos( angle ) * WAVE_HEIGHT;
-      const x = Utils.linear( minAngle, MAX_ANGLE, minX, maxX, angle );
+      const x = linear( minAngle, MAX_ANGLE, minX, maxX, angle );
       if ( i === 0 ) {
         if ( disturbanceType === 'pulse' ) {
           shape.moveTo( x - MARGIN, y );

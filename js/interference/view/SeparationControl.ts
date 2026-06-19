@@ -6,7 +6,7 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { roundToInterval } from '../../../../dot/js/util/roundToInterval.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import NumberControl, { NumberControlMajorTick, NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -48,7 +48,7 @@ class SeparationControl extends ToggleNode<Scene> {
           decimalPlaces: 1
         },
         sliderOptions: {
-          constrainValue: value => Utils.roundToInterval( value, 0.5 ),
+          constrainValue: value => roundToInterval( value, 0.5 ),
           majorTicks: createTicks( waterSceneRange, allRanges )
         }
       }, createMuteOptions( model.waterScene! ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
@@ -58,7 +58,7 @@ class SeparationControl extends ToggleNode<Scene> {
       createNode: () => new NumberControl( WaveInterferenceStrings.separationStringProperty, soundSeparationProperty, soundSceneRange, combineOptions<NumberControlOptions>( {
         delta: 1,
         sliderOptions: {
-          constrainValue: value => Utils.roundToInterval( value, 10 ),
+          constrainValue: value => roundToInterval( value, 10 ),
 
           majorTicks: createTicks( soundSceneRange, allRanges )
         }
@@ -70,7 +70,7 @@ class SeparationControl extends ToggleNode<Scene> {
       createNode: () => new NumberControl( WaveInterferenceStrings.separationStringProperty, lightSeparationProperty, lightSceneRange, combineOptions<NumberControlOptions>( {
         delta: 10,
         sliderOptions: {
-          constrainValue: value => Utils.roundToInterval( value, 100 ),
+          constrainValue: value => roundToInterval( value, 100 ),
 
           majorTicks: createTicks( lightSceneRange, allRanges )
         }

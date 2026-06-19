@@ -9,7 +9,7 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { linear } from '../../../../dot/js/util/linear.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import WaveGenerator from '../../../../tambo/js/sound-generators/WaveGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -64,7 +64,7 @@ class WavesScreenSoundView {
 
         // The waterDrop.amplitude indicates the size of the water drop and the strength of the resulting wave.
         // Smaller water drops play with a higher frequency.
-        const amplitude = Utils.linear(
+        const amplitude = linear(
           WaveInterferenceConstants.AMPLITUDE_RANGE.min, WaveInterferenceConstants.AMPLITUDE_RANGE.max,
           1.0, 0.5, waterDrop.amplitude
         );
@@ -105,12 +105,12 @@ class WavesScreenSoundView {
       ], ( oscillatorValue: number, isTonePlaying, ducking: number, isRunning ) => {
 
         const maxVolume = isTonePlaying ? 0 : 0.3;
-        const outputLevel = Utils.linear(
+        const outputLevel = linear(
           // The tone takes precedence over the membrane sound, another level of ducking
           soundScene.amplitudeProperty.range.min, soundScene.amplitudeProperty.range.max,
           0.0, maxVolume, soundScene.amplitudeProperty.value
         );
-        const playbackRate = Utils.linear(
+        const playbackRate = linear(
           soundScene.frequencyProperty.range.min, soundScene.frequencyProperty.range.max,
           1, 1.4, soundScene.frequencyProperty.value
         );
@@ -150,9 +150,9 @@ class WavesScreenSoundView {
       Multilink.multilink( [ lightAmplitudeProperty, lightFrequencyProperty, view.waveMeterNode.duckingProperty ], ( amplitude: number, frequency: number, ducking: number ) => {
 
         // Sound for "Sound Effect" on the light scene.
-        const outputLevel = Utils.linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
+        const outputLevel = linear( lightAmplitudeProperty.range.min, lightAmplitudeProperty.range.max,
           0.0, 0.67, amplitude );
-        const playbackRate = Utils.linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
+        const playbackRate = linear( lightFrequencyProperty.range.min, lightFrequencyProperty.range.max,
           1, 1.8, frequency );
 
         // Wave meter node takes precedence over the light beam sound effect

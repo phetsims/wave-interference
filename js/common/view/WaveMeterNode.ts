@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
@@ -448,7 +449,7 @@ class WaveMeterNode extends Node {
    * Set the drag listener, wires it up and uses it for forwarding events from the toolbox icon.
    */
   public setDragListener( dragListener: DragListener ): void {
-    assert && assert( this.backgroundDragListener === null, 'setDragListener must be called no more than once' );
+    affirm( this.backgroundDragListener === null, 'setDragListener must be called no more than once' );
     this.backgroundDragListener = dragListener;
     this.backgroundNode.addInputListener( dragListener );
   }

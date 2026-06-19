@@ -9,7 +9,8 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import PiecewiseLinearFunction from '../../../../dot/js/PiecewiseLinearFunction.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { clamp } from '../../../../dot/js/util/clamp.js';
+import { linear } from '../../../../dot/js/util/linear.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ImageDataRenderer from '../../../../scenery-phet/js/ImageDataRenderer.js';
 import Lattice from '../../../../scenery-phet/js/Lattice.js';
@@ -36,13 +37,13 @@ const piecewiseBrightnessFunction = ( intensity: number ) => {
     0.2096934692889395, 0.8,
     1, 1
   ], intensity );
-  return Utils.clamp( brightness, 0, 1 );
+  return clamp( brightness, 0, 1 );
 };
 
 // Linear brightness function optimized for showing interference patterns in the Interference and Slits screens
 const linearBrightnessFunction = ( intensity: number ) => {
-  const brightness = Utils.linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
-  return Utils.clamp( brightness * BRIGHTNESS_SCALE_FACTOR, 0, 1 );
+  const brightness = linear( 0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT, 0, 1, intensity );
+  return clamp( brightness * BRIGHTNESS_SCALE_FACTOR, 0, 1 );
 };
 
 type SelfOptions = {

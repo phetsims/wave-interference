@@ -8,7 +8,8 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { linear } from '../../../../dot/js/util/linear.js';
+import { roundSymmetric } from '../../../../dot/js/util/roundSymmetric.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { millimetersUnit } from '../../../../scenery-phet/js/units/millimetersUnit.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
@@ -131,8 +132,8 @@ class DisorderScene extends DiffractionScene {
       const scalePercent = point.scalePercent;
 
       // 2.5 is the center of 1,2,3,4 and 3.5 is one cell over.
-      const x0 = Utils.roundSymmetric( Utils.linear( 2.5, 3.5, WIDTH / 2, WIDTH / 2 + matrixSpacing, point.center.x ) );
-      const y0 = Utils.roundSymmetric( Utils.linear( 2.5, 3.5, WIDTH / 2, WIDTH / 2 + matrixSpacing, point.center.y ) );
+      const x0 = roundSymmetric( linear( 2.5, 3.5, WIDTH / 2, WIDTH / 2 + matrixSpacing, point.center.x ) );
+      const y0 = roundSymmetric( linear( 2.5, 3.5, WIDTH / 2, WIDTH / 2 + matrixSpacing, point.center.y ) );
 
       const rx2 = radius * radius * scalePercent.x / 100;
       const ry2 = radius * radius * scalePercent.y / 100;

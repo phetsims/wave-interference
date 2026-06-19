@@ -7,7 +7,8 @@
 
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Range from '../../../dot/js/Range.js';
-import Utils from '../../../dot/js/Utils.js';
+import { roundSymmetric } from '../../../dot/js/util/roundSymmetric.js';
+import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import VisibleColor from '../../../scenery-phet/js/VisibleColor.js';
@@ -76,7 +77,7 @@ const WaveInterferenceConstants = {
   MAX_AMPLITUDE_TO_PLOT_ON_RIGHT: 2.14,
 
   // Size of a cell in view coordinates
-  CELL_WIDTH: Utils.roundSymmetric( 10 / CALIBRATION_SCALE ),
+  CELL_WIDTH: roundSymmetric( 10 / CALIBRATION_SCALE ),
 
   // lineJoin for the graph and the surface of the water
   CHART_LINE_JOIN: 'round',
@@ -89,7 +90,7 @@ const WaveInterferenceConstants = {
   FEMTO: 1E-15,
 
   // Cell that oscillates, specified as an offset from the origin of the lattice (includes damping region).
-  POINT_SOURCE_HORIZONTAL_COORDINATE: Utils.roundSymmetric( 3 * CALIBRATION_SCALE ) + LATTICE_PADDING,
+  POINT_SOURCE_HORIZONTAL_COORDINATE: roundSymmetric( 3 * CALIBRATION_SCALE ) + LATTICE_PADDING,
 
   // The lattice must have an odd dimension, so that there can be a cell exactly in the middle (for a single-cell
   // oscillator), symmetry for the two oscillator screen, and so the 1-cell wide barrier can appear directly in the
@@ -149,6 +150,6 @@ const WaveInterferenceConstants = {
                                      DIFFRACTION_APERTURE_WIDTH
 } as const;
 
-assert && assert( WaveInterferenceConstants.LATTICE_DIMENSION % 2 === 1, 'lattice dimension must be odd' );
+affirm( WaveInterferenceConstants.LATTICE_DIMENSION % 2 === 1, 'lattice dimension must be odd' );
 
 export default WaveInterferenceConstants;

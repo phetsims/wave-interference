@@ -18,7 +18,8 @@ import StringProperty from '../../../../axon/js/StringProperty.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { clamp } from '../../../../dot/js/util/clamp.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import TModel from '../../../../joist/js/TModel.js';
@@ -179,10 +180,10 @@ class WavesModel implements TModel {
       scenes: [ 'waterScene', 'soundScene', 'lightScene' ]
     }, providedOptions ) as RequiredWavesModelOptions;
 
-    assert && assert( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
+    affirm( WaveInterferenceConstants.AMPLITUDE_RANGE.contains( options.initialAmplitude ),
       `initialAmplitude is out of range: ${options.initialAmplitude}` );
 
-    assert && assert(
+    affirm(
       options.numberOfSources === 1 || options.numberOfSources === 2,
       'Model only supports 1 or 2 sources'
     );
@@ -433,7 +434,7 @@ class WavesModel implements TModel {
     // Animate the rotation, if it needs to rotate.  This is not subject to being paused, because we would like
     // students to be able to see the side view, pause it, then switch to the corresponding top view, and vice versa.
     const sign = this.viewpointProperty.get() === 'top' ? -1 : +1;
-    this.rotationAmountProperty.value = Utils.clamp( this.rotationAmountProperty.value + wallDT * sign * 1.4, 0, 1 );
+    this.rotationAmountProperty.value = clamp( this.rotationAmountProperty.value + wallDT * sign * 1.4, 0, 1 );
 
     if ( this.isRunningProperty.get() || manualStep ) {
       const dt = wallDT * this.sceneProperty.value.timeScaleFactor;

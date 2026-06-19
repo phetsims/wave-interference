@@ -9,7 +9,7 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { linear } from '../../../../dot/js/util/linear.js';
 import Shape from '../../../../kite/js/Shape.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
@@ -111,10 +111,10 @@ class Perspective3DNode extends Node {
     const bounds = this.waveAreaBounds;
     const perspectiveWidth = bounds.width * 0.2;
 
-    const topFaceTopY = Utils.linear( 0, 1, bounds.top, bounds.centerY, rotationAmount );
-    const topReduction = Utils.linear( 0, 1, 0, perspectiveWidth, rotationAmount );
-    const sideFaceBottomY = Utils.linear( 0, 1, bounds.centerY, bounds.bottom, rotationAmount );
-    const bottomReduction = Utils.linear( 0, 1, perspectiveWidth, 0, rotationAmount );
+    const topFaceTopY = linear( 0, 1, bounds.top, bounds.centerY, rotationAmount );
+    const topReduction = linear( 0, 1, 0, perspectiveWidth, rotationAmount );
+    const sideFaceBottomY = linear( 0, 1, bounds.centerY, bounds.bottom, rotationAmount );
+    const bottomReduction = linear( 0, 1, perspectiveWidth, 0, rotationAmount );
 
     this.topFacePath.shape = this.createFaceShape( topReduction, topFaceTopY );
     this.sideFacePath.shape = this.createFaceShape( bottomReduction, sideFaceBottomY );

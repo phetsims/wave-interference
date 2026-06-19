@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Utils from '../../../../dot/js/Utils.js';
+import { roundToInterval } from '../../../../dot/js/util/roundToInterval.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import WaveInterferencePanel, { WaveInterferencePanelOptions } from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
@@ -28,7 +28,7 @@ class WavingGirlSceneControlPanel extends WaveInterferencePanel {
             decimalPlaces: 2
           },
           sliderOptions: {
-            constrainValue: value => Utils.roundToInterval( value, 20E-3 )
+            constrainValue: value => roundToInterval( value, 20E-3 )
           }
         } ),
         new DiffractionNumberControl( WaveInterferenceStrings.rotationStringProperty, wavingGirlScene.rotationProperty, {
@@ -36,7 +36,7 @@ class WavingGirlSceneControlPanel extends WaveInterferencePanel {
             valuePattern: WaveInterferenceStrings.degreesValueStringProperty
           },
           sliderOptions: {
-            constrainValue: value => Utils.roundToInterval( value, 30 ), // degrees
+            constrainValue: value => roundToInterval( value, 30 ), // degrees
             majorTicks: [ {
               value: wavingGirlScene.rotationProperty.range.min,
               label: new WaveInterferenceText( wavingGirlScene.rotationProperty.range.min )

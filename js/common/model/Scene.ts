@@ -18,7 +18,8 @@ import validate from '../../../../axon/js/validate.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Rectangle from '../../../../dot/js/Rectangle.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { roundSymmetric } from '../../../../dot/js/util/roundSymmetric.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -379,7 +380,7 @@ class Scene {
 
     this.barrierLatticeCoordinateProperty = new DerivedProperty(
       [ this.barrierPositionProperty ],
-      barrierPosition => Utils.roundSymmetric( barrierPosition.x )
+      barrierPosition => roundSymmetric( barrierPosition.x )
     );
 
     this.disturbanceTypeProperty = new StringUnionProperty( 'continuous', { validValues: DisturbanceTypeValues } );
@@ -563,7 +564,7 @@ class Scene {
 
       // assumes a square lattice
       const separationInLatticeUnits = this.modelToLatticeTransform.modelToViewDeltaY( sourceSeparation / 2 );
-      const distanceFromCenter = Utils.roundSymmetric( separationInLatticeUnits );
+      const distanceFromCenter = roundSymmetric( separationInLatticeUnits );
 
       // Named with a "J" suffix instead of "Y" to remind us we are working in integral (i,j) lattice coordinates.
       // Use floor to get 50.5 => 50 instead of 51
@@ -619,7 +620,7 @@ class Scene {
     const frontPosition = this.modelToLatticeTransform.modelToViewX( this.waveSpeed * frontTime ); // in lattice coordinates
 
     const slitWidthModel = this.slitWidthProperty.get();
-    const slitWidth = Utils.roundSymmetric( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
+    const slitWidth = roundSymmetric( this.modelToLatticeTransform.modelToViewDeltaY( slitWidthModel ) );
     const latticeCenterY = this.lattice.height / 2;
 
     // Take the desired frequency for the water scene, or the specified frequency of any other scene
@@ -842,7 +843,7 @@ class Scene {
    * @public
    */
   public startPulse(): void {
-    assert && assert( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
+    affirm( !this.pulseFiringProperty.value, 'Cannot fire a pulse while a pulse is already being fired' );
     this.resetPhase();
     this.pulseFiringProperty.value = true;
     this.pulseStartTime = this.timeProperty.value;
@@ -919,7 +920,7 @@ class Scene {
    * After the view is initialized, determine the coordinate transformations that map to view coordinates.
    */
   public setViewBounds( viewBounds: Bounds2 ): void {
-    assert && assert( this.modelViewTransform === null, 'setViewBounds cannot be called twice' );
+    affirm( this.modelViewTransform === null, 'setViewBounds cannot be called twice' );
 
     this.modelViewTransform = ModelViewTransform2.createRectangleMapping(
       this.getWaveAreaBounds(),

@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { linear } from '../../../../dot/js/util/linear.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -31,7 +32,7 @@ class WaterDropLayer extends Node {
     const MAX_DROPS = 4;
     const waterDropNodes = _.times( MAX_DROPS, () => new WaterDropImage() );
 
-    assert && assert( !options || !options.children, 'children overwritten in WaterDropLayer' );
+    affirm( !options || !options.children, 'children overwritten in WaterDropLayer' );
     this.children = waterDropNodes;
     this.mutate( options );
 

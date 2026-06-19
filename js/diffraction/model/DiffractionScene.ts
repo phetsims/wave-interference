@@ -8,6 +8,7 @@
 
 import type { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Matrix from '../../../../dot/js/Matrix.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 
 // The scene's tunable Properties are heterogeneous (number, boolean, etc.) and are only reset and bulk-linked here, so
@@ -38,7 +39,7 @@ abstract class DiffractionScene {
 
     this.context = this.canvas.getContext( '2d' )!;
 
-    assert && assert( this.renderToContext, 'Subclass must define renderToContext' );
+    affirm( this.renderToContext, 'Subclass must define renderToContext' );
   }
 
   /**
@@ -55,8 +56,8 @@ abstract class DiffractionScene {
     const rowDimension = matrix.getRowDimension();
     const columnDimension = matrix.getColumnDimension();
 
-    assert && assert( rowDimension % 2 === 0, 'matrix should be even' );
-    assert && assert( columnDimension % 2 === 0, 'matrix should be even' );
+    affirm( rowDimension % 2 === 0, 'matrix should be even' );
+    affirm( columnDimension % 2 === 0, 'matrix should be even' );
 
     this.context.fillStyle = 'white';
     this.context.translate( this.canvas.width / 2, this.canvas.height / 2 );

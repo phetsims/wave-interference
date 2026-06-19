@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -44,8 +45,8 @@ class WaveInterferenceStopwatchNode extends StopwatchNode {
       }
     }, providedOptions );
 
-    assert && assert( !!options.dragListenerOptions, 'end is a required argument' );
-    assert && assert( !!options.dragBoundsProperty, 'dragBoundsProperty is a required argument' );
+    affirm( !!options.dragListenerOptions, 'end is a required argument' );
+    affirm( !!options.dragBoundsProperty, 'dragBoundsProperty is a required argument' );
 
     super( model.stopwatch, options );
 

@@ -10,7 +10,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { linear } from '../../../../dot/js/util/linear.js';
 import Shape from '../../../../kite/js/Shape.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
@@ -62,8 +62,8 @@ class IntensityGraphPanel extends WaveInterferencePanel {
     } );
 
     for ( let i = 0; i < numberGridLines; i++ ) {
-      const yTop = Utils.linear( 0, numberGridLines, chartRectangle.centerY, chartRectangle.top, i );
-      const yBottom = Utils.linear( 0, numberGridLines, chartRectangle.centerY, chartRectangle.bottom, i );
+      const yTop = linear( 0, numberGridLines, chartRectangle.centerY, chartRectangle.top, i );
+      const yBottom = linear( 0, numberGridLines, chartRectangle.centerY, chartRectangle.bottom, i );
       chartRectangle.addChild( createLine( i, yTop ) );
       if ( i !== 0 ) {
         chartRectangle.addChild( createLine( i, yBottom ) );
@@ -131,13 +131,13 @@ class IntensityGraphPanel extends WaveInterferencePanel {
       for ( let i = 0; i < intensityValues.length; i++ ) {
 
         // default scaling is 2
-        const SCALING = Utils.linear( zoomRange.min, zoomRange.max, 0.5, 3.5, zoomLevelProperty.value );
-        const intensityPlotValue = Utils.linear(
+        const SCALING = linear( zoomRange.min, zoomRange.max, 0.5, 3.5, zoomLevelProperty.value );
+        const intensityPlotValue = linear(
           0, WaveInterferenceConstants.MAX_AMPLITUDE_TO_PLOT_ON_RIGHT,
           0, CHART_WIDTH * SCALING,
           intensityValues[ i ]
         );
-        const positionPlotValue = Utils.linear(
+        const positionPlotValue = linear(
           0, intensityValues.length - 1,
           chartRectangle.top, chartRectangle.bottom,
           i

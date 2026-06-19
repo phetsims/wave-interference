@@ -7,18 +7,19 @@
  */
 
 import PiecewiseLinearFunction from '../../../../dot/js/PiecewiseLinearFunction.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { clamp } from '../../../../dot/js/util/clamp.js';
+import { linear } from '../../../../dot/js/util/linear.js';
 
 const getWaveMeterNodeOutputLevel = ( value: number ): number => {
 
   // Linearize based on the sine value
-  const clampedValue = Utils.clamp( value, -1.6, 1.6 );
-  const normalized = Utils.linear( -1.6, 1.6, -1, 1, clampedValue );
+  const clampedValue = clamp( value, -1.6, 1.6 );
+  const normalized = linear( -1.6, 1.6, -1, 1, clampedValue );
 
   const arcsin1 = Math.asin( normalized ); // between -pi/2 and +pi/2
-  const arcsin1Mapped = Utils.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin1 );
+  const arcsin1Mapped = linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin1 );
   const arcsin2 = Math.asin( arcsin1Mapped );
-  const arcsin2Mapped = Utils.linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin2 );
+  const arcsin2Mapped = linear( -Math.PI / 2, Math.PI / 2, -1, 1, arcsin2 );
 
   let outputLevel = Math.abs( arcsin2Mapped );
 

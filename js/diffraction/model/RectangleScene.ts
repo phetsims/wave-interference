@@ -8,7 +8,7 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { roundSymmetric } from '../../../../dot/js/util/roundSymmetric.js';
 import { millimetersUnit } from '../../../../scenery-phet/js/units/millimetersUnit.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import DiffractionScene from './DiffractionScene.js';
@@ -39,8 +39,8 @@ class RectangleScene extends DiffractionScene {
    */
   public override renderToContext( context: CanvasRenderingContext2D ): void {
     const modelToMatrixScale = WaveInterferenceConstants.DIFFRACTION_MODEL_TO_MATRIX_SCALE;
-    const columnRadius = Utils.roundSymmetric( this.widthProperty.value * modelToMatrixScale / 2 );
-    const rowRadius = Utils.roundSymmetric( this.heightProperty.value * modelToMatrixScale / 2 );
+    const columnRadius = roundSymmetric( this.widthProperty.value * modelToMatrixScale / 2 );
+    const rowRadius = roundSymmetric( this.heightProperty.value * modelToMatrixScale / 2 );
 
     context.fillRect(
       WaveInterferenceConstants.DIFFRACTION_MATRIX_DIMENSION / 2 - columnRadius,

@@ -11,7 +11,8 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { linear } from '../../../../dot/js/util/linear.js';
+import { roundSymmetric } from '../../../../dot/js/util/roundSymmetric.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import Scene, { SceneOptions } from './Scene.js';
 import SoundParticle from './SoundParticle.js';
@@ -90,7 +91,7 @@ export default class SoundScene extends Scene {
       const lattice = this.lattice;
 
       // Increase the gradient force at low frequencies so we can still see the waves clearly.
-      const k = Utils.linear(
+      const k = linear(
         this.frequencyProperty.range.min,
         this.frequencyProperty.range.max,
         130,
@@ -104,8 +105,8 @@ export default class SoundScene extends Scene {
         // Find the lattice coordinate of the current position of the particle.  Use rounding for consistency with
         // other quantization
         const latticeCoordinate = this.modelToLatticeTransform.modelToViewXY( soundParticle.x, soundParticle.y );
-        const latticeX = Utils.roundSymmetric( latticeCoordinate.x );
-        const latticeY = Utils.roundSymmetric( latticeCoordinate.y );
+        const latticeX = roundSymmetric( latticeCoordinate.x );
+        const latticeY = roundSymmetric( latticeCoordinate.y );
 
         // Estimate the numerical gradient in the neighborhood of the particle
         // https://en.wikipedia.org/wiki/Pressure-gradient_force

@@ -7,7 +7,7 @@
  */
 
 import Bounds2 from '../../../dot/js/Bounds2.js';
-import Utils from '../../../dot/js/Utils.js';
+import { linear } from '../../../dot/js/util/linear.js';
 import Shape from '../../../kite/js/Shape.js';
 import Lattice from '../../../scenery-phet/js/Lattice.js';
 import Node from '../../../scenery/js/nodes/Node.js';
@@ -38,7 +38,7 @@ class WaveInterferenceUtils {
 
       // Map the center of the cell to the same point on the graph,
       // see https://github.com/phetsims/wave-interference/issues/143
-      const x = Utils.linear( -0.5, array.length - 1 + 0.5, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
+      const x = linear( -0.5, array.length - 1 + 0.5, waveAreaBounds.left, waveAreaBounds.right, i ) + dx;
       const y = WaveInterferenceUtils.getWaterSideY( waveAreaBounds, value ) + dy;
       shape.lineTo( x, y );
     }
@@ -58,7 +58,7 @@ class WaveInterferenceUtils {
     // desired distance amplitude.  A wave value of 0 appears in the center of the wave area. A value of 5 appears 47
     // screen view coordinates above the center line.  This was tuned to prevent the water from going higher than the
     // faucet.
-    return Utils.linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 47, waveValue );
+    return linear( 0, 5, waveAreaBounds.centerY, waveAreaBounds.centerY - 47, waveValue );
   }
 
   /**
@@ -97,7 +97,7 @@ class WaveInterferenceUtils {
     const tallTextSpacing = -2;
     const shortTextSpacing = 5;
 
-    return Utils.linear( tallTextHeight, shortTextHeight, tallTextSpacing, shortTextSpacing, titleNode.height );
+    return linear( tallTextHeight, shortTextHeight, tallTextSpacing, shortTextSpacing, titleNode.height );
   }
 }
 

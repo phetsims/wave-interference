@@ -9,7 +9,7 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { toFixed } from '../../../../dot/js/util/toFixed.js';
 import merge from '../../../../phet-core/js/merge.js';
 import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
@@ -23,10 +23,10 @@ class DiffractionNumberControl extends NumberControl {
       sliderOptions: {
         majorTicks: [ {
           value: property.range.min,
-          label: new WaveInterferenceText( Utils.toFixed( property.range.min, 2 ) )
+          label: new WaveInterferenceText( toFixed( property.range.min, 2 ) )
         }, {
           value: property.range.max,
-          label: new WaveInterferenceText( Utils.toFixed( property.range.max, 2 ) )
+          label: new WaveInterferenceText( toFixed( property.range.max, 2 ) )
         } ]
       }
     }, options );

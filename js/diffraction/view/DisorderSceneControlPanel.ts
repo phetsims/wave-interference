@@ -6,7 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Utils from '../../../../dot/js/Utils.js';
+import { roundToInterval } from '../../../../dot/js/util/roundToInterval.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import WaveInterferencePanel, { WaveInterferencePanelOptions } from '../../common/view/WaveInterferencePanel.js';
 import WaveInterferenceText from '../../common/view/WaveInterferenceText.js';
@@ -28,7 +28,7 @@ class DisorderSceneControlPanel extends WaveInterferencePanel {
             decimalPlaces: 2
           },
           sliderOptions: {
-            constrainValue: value => Utils.roundToInterval( value, 10E-3 )
+            constrainValue: value => roundToInterval( value, 10E-3 )
           }
         } ),
         new DiffractionNumberControl( WaveInterferenceStrings.latticeSpacingStringProperty, disorderScene.latticeSpacingProperty, {
@@ -37,7 +37,7 @@ class DisorderSceneControlPanel extends WaveInterferencePanel {
             decimalPlaces: 2
           },
           sliderOptions: {
-            constrainValue: value => Utils.roundToInterval( value, 10E-3 )
+            constrainValue: value => roundToInterval( value, 10E-3 )
           }
         } ),
         new DiffractionNumberControl( WaveInterferenceStrings.disorderStringProperty, disorderScene.disorderProperty, {

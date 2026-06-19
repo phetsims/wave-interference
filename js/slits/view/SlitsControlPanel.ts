@@ -9,7 +9,7 @@
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import Utils from '../../../../dot/js/Utils.js';
+import { roundToInterval } from '../../../../dot/js/util/roundToInterval.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import merge from '../../../../phet-core/js/merge.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
@@ -74,7 +74,7 @@ class SlitsControlPanel extends WaveInterferencePanel {
       WaveInterferenceStrings.slitWidthStringProperty, soundScene.slitWidthProperty, soundScene.slitWidthProperty.range, merge( {
         delta: 1, // cm
         sliderOptions: {
-          constrainValue: ( value: number ) => Utils.roundToInterval( value, 10 ),
+          constrainValue: ( value: number ) => roundToInterval( value, 10 ),
           majorTicks: createTicks( soundScene.slitWidthProperty )
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
@@ -83,7 +83,7 @@ class SlitsControlPanel extends WaveInterferencePanel {
       WaveInterferenceStrings.slitWidthStringProperty, lightScene.slitWidthProperty, lightScene.slitWidthProperty.range, merge( {
         delta: 10, // nm
         sliderOptions: {
-          constrainValue: ( value: number ) => Utils.roundToInterval( value, 50 ),
+          constrainValue: ( value: number ) => roundToInterval( value, 50 ),
           majorTicks: createTicks( lightScene.slitWidthProperty )
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
@@ -123,7 +123,7 @@ class SlitsControlPanel extends WaveInterferencePanel {
       merge( {
         delta: 1, // cm
         sliderOptions: {
-          constrainValue: ( value: number ) => Utils.roundToInterval( value, 10 ),
+          constrainValue: ( value: number ) => roundToInterval( value, 10 ),
           majorTicks: createTicks( soundScene.slitSeparationProperty )
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
@@ -135,7 +135,7 @@ class SlitsControlPanel extends WaveInterferencePanel {
       merge( {
         delta: 10, // nm
         sliderOptions: {
-          constrainValue: ( value: number ) => Utils.roundToInterval( value, 50 ),
+          constrainValue: ( value: number ) => roundToInterval( value, 50 ),
           majorTicks: createTicks( lightScene.slitSeparationProperty )
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
