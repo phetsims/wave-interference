@@ -11,11 +11,13 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import InstanceRegistry from '../../../../phet-core/js/documentation/InstanceRegistry.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
+import Stopwatch from '../../../../scenery-phet/js/Stopwatch.js';
 import StopwatchNode from '../../../../scenery-phet/js/StopwatchNode.js';
 import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
+import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.js';
 import { PressListenerEvent } from '../../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
@@ -26,7 +28,7 @@ import WaveMeterNode from './WaveMeterNode.js';
 class ToolboxPanel extends WaveInterferencePanel {
 
   public constructor( measuringTapeNode: MeasuringTapeNode, stopwatchNode: StopwatchNode, waveMeterNode: WaveMeterNode, alignGroup: AlignGroup, isMeasuringTapeInPlayAreaProperty: Property<boolean>,
-                      measuringTapeTipPositionProperty: TReadOnlyProperty<Vector2>, isStopwatchVisibleProperty: Property<boolean>, isWaveMeterInPlayAreaProperty: Property<boolean> ) {
+                      measuringTapeTipPositionProperty: TReadOnlyProperty<Vector2>, stopwatch: Stopwatch, isWaveMeterInPlayAreaProperty: Property<boolean> ) {
 
     // icon for the measuring tape
     const measuringTapeIcon = MeasuringTapeNode.createIcon( {
@@ -47,17 +49,17 @@ class ToolboxPanel extends WaveInterferencePanel {
     } );
 
     // Node used to create the icon
-    isStopwatchVisibleProperty.value = true;
+    stopwatch.isVisibleProperty.value = true;
     const stopwatchNodeIcon = rasterizeNode( stopwatchNode ).mutate( { scale: 0.45 } );
-    isStopwatchVisibleProperty.value = false;
+    stopwatch.isVisibleProperty.value = false;
 
     // The draggable icon, which has an overlay to make the buttons draggable instead of pressable
-    const interactiveStopwatchNodeIcon = initializeIcon( stopwatchNodeIcon, isStopwatchVisibleProperty, event => {
+    const interactiveStopwatchNodeIcon = initializeIcon( stopwatchNodeIcon, stopwatch.isVisibleProperty, event => {
       stopwatchNode.center = this.globalToParentPoint( event.pointer.point );
 
       // stopwatchNode provided as targetNode in the DragListener constructor, so this press will target it
       stopwatchNode.dragListener!.press( event );
-      isStopwatchVisibleProperty.value = true;
+      stopwatch.isVisibleProperty.value = true;
     } );
 
     // Make sure the probes have enough breathing room so they don't get shoved into the WaveMeterNode icon.  Anything
@@ -99,6 +101,88 @@ class ToolboxPanel extends WaveInterferencePanel {
       }
     );
 
+    // Alternative input: pressing an icon button with the keyboard (Space/Enter) deploys the tool to a default
+    // position in the play area and moves focus to it. Pressing Escape while a deployed tool (or its focusable
+    // descendants) has focus returns the tool to the toolbox and restores focus to the icon. This mirrors the
+    // pointer-based drag-out / drop-in-toolbox interaction. The deploy position is computed relative to the toolbox
+    // so it stays in the play area regardless of layout.
+
+    // Measuring tape: deploy at its reset (default) position, which is in the play area, and focus its base handle.
+    interactiveMeasuringTapeIcon.addInputListener( new KeyboardListener( {
+      fireOnClick: true,
+      fire: () => {
+        if ( !isMeasuringTapeInPlayAreaProperty.value ) {
+          measuringTapeNode.basePositionProperty.reset();
+          measuringTapeNode.tipPositionProperty.reset();
+          isMeasuringTapeInPlayAreaProperty.value = true;
+
+          // Move focus to the deployed measuring tape (its base handle).
+          const focusable = measuringTapeNode.getSubtreeNodes().reverse().find( node => node.focusable );
+          focusable && focusable.focus();
+        }
+      }
+    } ) );
+    measuringTapeNode.addInputListener( new KeyboardListener( {
+      keys: [ 'escape' ],
+      fire: () => {
+        if ( isMeasuringTapeInPlayAreaProperty.value ) {
+          isMeasuringTapeInPlayAreaProperty.value = false;
+          measuringTapeNode.basePositionProperty.reset();
+          measuringTapeNode.tipPositionProperty.reset();
+          interactiveMeasuringTapeIcon.focus();
+        }
+      }
+    } ) );
+
+    // Stopwatch: deploy to the left of the toolbox (into the play area) and focus it.
+    interactiveStopwatchNodeIcon.addInputListener( new KeyboardListener( {
+      fireOnClick: true,
+      fire: () => {
+        if ( !stopwatch.isVisibleProperty.value ) {
+          stopwatch.positionProperty.value = this.leftCenter.plusXY( -stopwatchNode.width - 40, 120 );
+          stopwatch.isVisibleProperty.value = true;
+          stopwatchNode.focus();
+        }
+      }
+    } ) );
+    stopwatchNode.addInputListener( new KeyboardListener( {
+      keys: [ 'escape' ],
+      fire: () => {
+        if ( stopwatch.isVisibleProperty.value ) {
+          stopwatch.reset();
+          interactiveStopwatchNodeIcon.focus();
+        }
+      }
+    } ) );
+
+    // Wave meter: deploy to the left of the toolbox (into the play area), align its probes to the body, and focus the
+    // chart body.
+    interactiveWaveMeterIcon.addInputListener( new KeyboardListener( {
+      fireOnClick: true,
+      fire: () => {
+        if ( !isWaveMeterInPlayAreaProperty.value ) {
+          waveMeterNode.synchronizeProbePositions = true;
+          waveMeterNode.backgroundNode.setTranslation( this.leftCenter.plusXY( -waveMeterNode.backgroundNode.width - 60, 80 ) );
+          isWaveMeterInPlayAreaProperty.value = true;
+          waveMeterNode.alignProbesEmitter.emit();
+          waveMeterNode.synchronizeProbePositions = false;
+          waveMeterNode.backgroundNode.focus();
+        }
+      }
+    } ) );
+
+    // Escape is added to the whole wave meter (not just the body) so it also fires when a probe has focus.
+    waveMeterNode.addInputListener( new KeyboardListener( {
+      keys: [ 'escape' ],
+      fire: () => {
+        if ( isWaveMeterInPlayAreaProperty.value ) {
+          waveMeterNode.reset();
+          isWaveMeterInPlayAreaProperty.value = false;
+          interactiveWaveMeterIcon.focus();
+        }
+      }
+    } ) );
+
     // support for binder documentation, stripped out in builds and only runs when ?binder is specified
     assert && window.phet?.chipper?.queryParameters?.binder && InstanceRegistry.registerToolbox( this );
   }
@@ -114,7 +198,11 @@ class ToolboxPanel extends WaveInterferencePanel {
 const initializeIcon = ( node: Node, inPlayAreaProperty: TReadOnlyProperty<boolean>, down: ( event: PressListenerEvent ) => void ): InteractiveHighlightingNode => {
   const interactiveIcon = new InteractiveHighlightingNode( {
     children: [ node ],
-    cursor: 'pointer'
+    cursor: 'pointer',
+
+    // Focusable button for alternative input; pressing it deploys the corresponding tool (see the KeyboardListeners
+    // wired up in the constructor). The accessible name is added in a later slice.
+    tagName: 'button'
   } );
 
   inPlayAreaProperty.link( inPlayArea => { interactiveIcon.visible = !inPlayArea; } );

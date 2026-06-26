@@ -20,6 +20,7 @@ import platform from '../../../../phet-core/js/platform.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js';
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
+import SoundKeyboardDragListener from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
@@ -127,6 +128,29 @@ class WavesScreenView extends ScreenView {
   // the WaveMeterNode tool. Public because WavesScreenSoundView reads its duckingProperty.
   public readonly waveMeterNode: WaveMeterNode;
 
+  // Nodes captured for building the traversal (pdom) order. See updateTraversalOrder().
+  // The wave source on/off control(s); empty for the Slits screen, which injects its plane-wave generator into
+  // additionalPlayAreaNodes instead.
+  private readonly waveGeneratorNodes: Node[] = [];
+
+  // The pulse/continuous radio buttons, or null when not shown on this screen.
+  private readonly disturbanceTypeNode: Node | null;
+
+  // The top-view/side-view radio buttons, or null when not shown on this screen.
+  private readonly viewpointRadioButtonGroup: Node | null;
+
+  private readonly timeControlNode: TimeControlNode;
+  private readonly toolboxPanel: ToolboxPanel;
+  private readonly measuringTapeNode: MeasuringTapeNode;
+  private readonly stopwatchNode: WaveInterferenceStopwatchNode;
+  private readonly resetAllButton: ResetAllButton;
+
+  // Subclass hooks for the traversal order: extra play-area nodes (e.g. the Slits plane-wave generator) are placed
+  // right after the wave source, and extra control-area panels (e.g. the Slits control panel) right after the main
+  // control panel. Subclasses push to these and then call updateTraversalOrder().
+  protected readonly additionalPlayAreaNodes: Node[] = [];
+  protected readonly additionalControlAreaNodes: Node[] = [];
+
   // executed once per step, or null if there is no per-step behavior (e.g. when there is no waterScene)
   private stepAction: PhetioAction | null;
 
@@ -225,6 +249,7 @@ class WavesScreenView extends ScreenView {
       right: this.layoutBounds.right - MARGIN,
       bottom: this.layoutBounds.bottom - MARGIN
     } );
+    this.resetAllButton = resetAllButton;
 
     // Create the canvases to render the lattices
 
@@ -383,6 +408,7 @@ class WavesScreenView extends ScreenView {
     } );
     this.visibleBoundsProperty.link( visibleBounds => measuringTapeNode.setDragBounds( visibleBounds.eroded( 20 ) ) );
     model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
+    this.measuringTapeNode = measuringTapeNode;
 
     const stopwatchNode = new WaveInterferenceStopwatchNode( model, {
       dragBoundsProperty: this.visibleBoundsProperty,
@@ -395,6 +421,7 @@ class WavesScreenView extends ScreenView {
         }
       }
     } );
+    this.stopwatchNode = stopwatchNode;
 
     const waveMeterNode: WaveMeterNode = new WaveMeterNode( model, this );
     model.resetEmitter.addListener( () => waveMeterNode.reset() );
@@ -452,9 +479,22 @@ class WavesScreenView extends ScreenView {
       }
     } ) );
 
+    // Keyboard dragging for the wave meter chart body. The body is made focusable in WaveMeterNode via
+    // AccessibleDraggableOptions; the drag bounds are computed here, so the keyboard listener is installed here too.
+    waveMeterNode.backgroundNode.addInputListener( new SoundKeyboardDragListener( {
+      translateNode: true,
+      dragBoundsProperty: waveMeterBoundsProperty,
+      start: () => waveMeterNode.moveToFront(),
+      drag: () => {
+        if ( waveMeterNode.synchronizeProbePositions ) {
+          waveMeterNode.alignProbesEmitter.emit();
+        }
+      }
+    } ) );
+
     const toolboxPanel = new ToolboxPanel( measuringTapeNode, stopwatchNode, waveMeterNode, alignGroup,
       model.isMeasuringTapeInPlayAreaProperty, model.measuringTapeTipPositionProperty,
-      model.stopwatch.isVisibleProperty, model.isWaveMeterInPlayAreaProperty
+      model.stopwatch, model.isWaveMeterInPlayAreaProperty
     );
     const updateToolboxPosition = () => {
       toolboxPanel.mutate( {
@@ -467,6 +507,7 @@ class WavesScreenView extends ScreenView {
     // When the alignGroup changes the size of the slitsControlPanel, readjust its positioning.
     toolboxPanel.boundsProperty.lazyLink( updateToolboxPosition );
     this.addChild( toolboxPanel );
+    this.toolboxPanel = toolboxPanel;
 
     // for subtype layout
 
@@ -486,21 +527,27 @@ class WavesScreenView extends ScreenView {
     this.controlPanel.boundsProperty.lazyLink( updateControlPanelPosition );
     this.addChild( this.controlPanel );
 
+    // Captured for the traversal (pdom) order; null when not shown on this screen.
+    let disturbanceTypeNode: Node | null = null;
     if ( options.showPulseContinuousRadioButtons ) {
 
-      this.addChild( new SceneToggleNode(
+      disturbanceTypeNode = new SceneToggleNode(
         model,
 
         scene => new DisturbanceTypeRadioButtonGroup( scene.disturbanceTypeProperty ), {
           bottom: this.waveAreaNode.bottom,
           centerX: ( this.waveAreaNode.left + this.layoutBounds.left ) / 2
-        } ) );
+        } );
+      this.addChild( disturbanceTypeNode );
     }
+    this.disturbanceTypeNode = disturbanceTypeNode;
 
+    // Captured for the traversal (pdom) order; null when not shown on this screen.
+    let viewpointRadioButtonGroup: ViewpointRadioButtonGroup | null = null;
     if ( options.showViewpointRadioButtonGroup ) {
 
       const OFFSET_TO_ALIGN_WITH_TIME_CONTROL_RADIO_BUTTONS = 1.8;
-      this.addChild( new ViewpointRadioButtonGroup( model.viewpointProperty, {
+      viewpointRadioButtonGroup = new ViewpointRadioButtonGroup( model.viewpointProperty, {
 
         // Match size with TimeControlNode
         radioButtonOptions: {
@@ -510,8 +557,10 @@ class WavesScreenView extends ScreenView {
         },
         bottom: this.layoutBounds.bottom - MARGIN - OFFSET_TO_ALIGN_WITH_TIME_CONTROL_RADIO_BUTTONS,
         left: this.waveAreaNode.left
-      } ) );
+      } );
+      this.addChild( viewpointRadioButtonGroup );
     }
+    this.viewpointRadioButtonGroup = viewpointRadioButtonGroup;
 
     const timeControlNode = new TimeControlNode( model.isRunningProperty, {
       timeSpeedProperty: model.timeSpeedProperty,
@@ -537,6 +586,7 @@ class WavesScreenView extends ScreenView {
 
     // Center in the play area
     timeControlNode.center = new Vector2( this.waveAreaNode.centerX, timeControlNode.centerY );
+    this.timeControlNode = timeControlNode;
 
     this.stepAction = null;
 
@@ -662,12 +712,13 @@ class WavesScreenView extends ScreenView {
     if ( options.showSceneSpecificWaveGeneratorNodes ) {
       const primaryWaveGeneratorToggleNode = createWaveGeneratorToggleNode( true );
       this.addChild( primaryWaveGeneratorToggleNode ); // Primary source
-
-      this.pdomPlayAreaNode.pdomOrder = [ primaryWaveGeneratorToggleNode, null ];
+      this.waveGeneratorNodes.push( primaryWaveGeneratorToggleNode );
 
       // Secondary source
       if ( model.numberOfSources === 2 ) {
-        this.addChild( createWaveGeneratorToggleNode( false ) );
+        const secondaryWaveGeneratorToggleNode = createWaveGeneratorToggleNode( false );
+        this.addChild( secondaryWaveGeneratorToggleNode );
+        this.waveGeneratorNodes.push( secondaryWaveGeneratorToggleNode );
       }
     }
     else {
@@ -686,10 +737,41 @@ class WavesScreenView extends ScreenView {
     this.addChild( stopwatchNode );
     this.addChild( waveMeterNode );
 
+    // Establish the keyboard traversal order. Subclasses that add interactive nodes (e.g. Slits) push to the
+    // additional* arrays and call this again.
+    this.updateTraversalOrder();
+
     // Only start up the audio system if sound is enabled for this screen
     if ( options.audioEnabled ) {
       this.wavesScreenSoundView = new WavesScreenSoundView( model, this, options );
     }
+  }
+
+  /**
+   * Sets the keyboard traversal (pdom) order for the play area and the control area. The play area runs from the wave
+   * source through the tools; the control area holds the control panel(s) and ends with the Reset All button. This is
+   * safe to call multiple times, so subclasses can augment additionalPlayAreaNodes / additionalControlAreaNodes and
+   * call it again to fold in their own interactive content.
+   */
+  protected updateTraversalOrder(): void {
+
+    this.pdomPlayAreaNode.pdomOrder = [
+      ...this.waveGeneratorNodes,
+      ...this.additionalPlayAreaNodes,
+      this.disturbanceTypeNode,
+      this.viewpointRadioButtonGroup,
+      this.timeControlNode,
+      this.toolboxPanel,
+      this.measuringTapeNode,
+      this.stopwatchNode,
+      this.waveMeterNode
+    ].filter( ( node ): node is Node => node !== null );
+
+    this.pdomControlAreaNode.pdomOrder = [
+      this.controlPanel,
+      ...this.additionalControlAreaNodes,
+      this.resetAllButton
+    ];
   }
 
   public globalToLatticeCoordinate( point: Vector2 ): Vector2 {

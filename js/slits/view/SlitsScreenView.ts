@@ -49,6 +49,9 @@ class SlitsScreenView extends WavesScreenView {
     this.controlPanel.boundsProperty.lazyLink( updateSlitControlPanel );
     this.addChild( slitControlPanel );
 
+    // The slit control panel is an additional control-area panel, traversed right after the main control panel.
+    this.additionalControlAreaNodes.push( slitControlPanel );
+
     // Make sure tools go in front of this control panel, see https://github.com/phetsims/wave-interference/issues/218
     slitControlPanel.moveToBack();
 
@@ -84,6 +87,10 @@ class SlitsScreenView extends WavesScreenView {
 
     // waveGeneratorLayer is created by the superclass because showSceneSpecificWaveGeneratorNodes is false above.
     this.waveGeneratorLayer!.addChild( planeWaveGeneratorNode );
+
+    // The plane-wave generator is this screen's wave source on/off control, so it leads the play-area traversal order.
+    this.additionalPlayAreaNodes.push( planeWaveGeneratorNode );
+    this.updateTraversalOrder();
   }
 }
 

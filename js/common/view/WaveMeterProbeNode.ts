@@ -9,8 +9,10 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import AccessibleDraggableOptions from '../../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
 import ProbeNode, { ProbeNodeOptions } from '../../../../scenery-phet/js/ProbeNode.js';
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
+import SoundKeyboardDragListener from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 
 type SelfOptions = {
@@ -38,9 +40,19 @@ class WaveMeterProbeNode extends InteractiveHighlighting( ProbeNode ) {
 
     super( options );
 
+    // Make the probe focusable and keyboard-draggable.
+    this.mutate( AccessibleDraggableOptions );
+
     visibleBoundsProperty.link( visibleBounds => this.setCenter( visibleBounds.closestPointTo( this.center ) ) );
 
     this.addInputListener( new SoundDragListener( {
+      translateNode: true,
+      dragBoundsProperty: visibleBoundsProperty,
+      start: () => options.dragStart(),
+      drag: () => options.drag()
+    } ) );
+
+    this.addInputListener( new SoundKeyboardDragListener( {
       translateNode: true,
       dragBoundsProperty: visibleBoundsProperty,
       start: () => options.dragStart(),

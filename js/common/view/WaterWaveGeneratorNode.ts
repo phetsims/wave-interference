@@ -46,6 +46,11 @@ class WaterWaveGeneratorNode extends WaveGeneratorNode {
         rasterizeHorizontalPipeNode: true
       } );
 
+    // The faucet is purely decorative here (flow is driven by the model, not the faucet handle), so keep it out of the
+    // focus order. FaucetNode composes AccessibleSlider and is focusable by default even when its interactiveProperty
+    // is false, so remove it from the Parallel DOM.
+    faucetNode.accessibleVisible = false;
+
     super( waterScene, waveAreaNode, 62, isPrimarySource, faucetNode, FAUCET_VERTICAL_OFFSET, -7, true );
   }
 }

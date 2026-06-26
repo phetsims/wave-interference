@@ -19,11 +19,12 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import DynamicSeries from '../../../../griddle/js/DynamicSeries.js';
 import SeismographNode from '../../../../griddle/js/SeismographNode.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import AccessibleDraggableOptions from '../../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
-import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
+import InteractiveHighlightingNode, { InteractiveHighlightingNodeOptions } from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import type DragListener from '../../../../scenery/js/listeners/DragListener.js';
@@ -105,8 +106,12 @@ class WaveMeterNode extends Node {
       preventFit: true
     }, providedOptions );
 
-    // interactive highlighting - highlights will surround the draggable background on mouse and touch
-    const backgroundNode = new InteractiveHighlightingNode( { cursor: 'pointer' } );
+    // interactive highlighting - highlights will surround the draggable background on mouse and touch. The
+    // AccessibleDraggableOptions make the chart body focusable and keyboard-draggable (the keyboard drag listener is
+    // installed by the view via setKeyboardDragListener, since the drag bounds are computed there).
+    const backgroundNode = new InteractiveHighlightingNode( combineOptions<InteractiveHighlightingNodeOptions>( {
+      cursor: 'pointer'
+    }, AccessibleDraggableOptions ) );
 
     super();
 
