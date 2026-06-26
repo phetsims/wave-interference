@@ -40,13 +40,22 @@ export default class WaveInterferenceKeyboardHelpContent extends TwoColumnKeyboa
     const rightSections: KeyboardHelpSection[] = [];
 
     if ( options.includeToolControls ) {
-      leftSections.push(
-        new ToolboxToolsKeyboardHelpSection(),
-        new MoveDraggableItemsKeyboardHelpSection()
-      );
+
+      // Left column sections
+      const toolsSection = new ToolboxToolsKeyboardHelpSection();
+      const moveDraggableItemsSection = new MoveDraggableItemsKeyboardHelpSection();
+
+      // Vertically align the icons of the stacked left-column sections.
+      KeyboardHelpSection.alignHelpSectionIcons( [ toolsSection, moveDraggableItemsSection ] );
+
+      leftSections.push( toolsSection, moveDraggableItemsSection );
+
+      // Right column sections
       rightSections.push( sliderSection, basicActionsSection );
     }
     else {
+
+      // The Diffraction screen has no draggable tools; show slider and basic actions only.
       leftSections.push( sliderSection );
       rightSections.push( basicActionsSection );
     }

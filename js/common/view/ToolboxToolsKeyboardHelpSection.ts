@@ -21,7 +21,7 @@ export default class ToolboxToolsKeyboardHelpSection extends KeyboardHelpSection
       KeyboardHelpSectionRow.fromHotkeyData( ToolboxPanel.RETURN_TO_TOOLBOX_HOTKEY_DATA )
     ];
 
-    super( WaveInterferenceStrings.keyboardHelpDialog.toolsSectionStringProperty, rows, {
+    super( WaveInterferenceStrings.keyboardHelpDialog.toolControlsStringProperty, rows, {
       isDisposable: false
     } );
   }

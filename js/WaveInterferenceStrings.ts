@@ -81,7 +81,7 @@ type StringsType = {
   'noneStringProperty': LocalizedStringProperty;
   'lotsStringProperty': LocalizedStringProperty;
   'keyboardHelpDialog': {
-    'toolsSectionStringProperty': LocalizedStringProperty;
+    'toolControlsStringProperty': LocalizedStringProperty;
     'removeFromToolboxStringProperty': LocalizedStringProperty;
     'returnToToolboxStringProperty': LocalizedStringProperty;
   }
