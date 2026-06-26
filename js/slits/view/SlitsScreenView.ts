@@ -88,8 +88,9 @@ class SlitsScreenView extends WavesScreenView {
     // waveGeneratorLayer is created by the superclass because showSceneSpecificWaveGeneratorNodes is false above.
     this.waveGeneratorLayer!.addChild( planeWaveGeneratorNode );
 
-    // The plane-wave generator is this screen's wave source on/off control, so it leads the play-area traversal order.
-    this.additionalPlayAreaNodes.push( planeWaveGeneratorNode );
+    // Play-area traversal order: the plane-wave generator is this screen's wave source on/off control and leads, then
+    // the draggable barrier (a horizontal slider). Only the current scene's barrier is visible/focusable at a time.
+    this.additionalPlayAreaNodes.push( planeWaveGeneratorNode, waterBarriersNode, soundBarriersNode, lightBarriersNode );
     this.updateTraversalOrder();
   }
 }

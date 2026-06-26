@@ -7,12 +7,18 @@
  */
 
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Range from '../../../../dot/js/Range.js';
+import { roundSymmetric } from '../../../../dot/js/util/roundSymmetric.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
-import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Scene from '../../common/model/Scene.js';
 import WaveInterferenceConstants from '../../common/WaveInterferenceConstants.js';
 import SlitsModel from '../model/SlitsModel.js';
@@ -20,7 +26,9 @@ import SlitsModel from '../model/SlitsModel.js';
 // constants
 const CORNER_RADIUS = 2;
 
-class BarriersNode extends InteractiveHighlighting( Node ) {
+// AccessibleSlider already composes InteractiveHighlighting (via AccessibleValueHandler -> Voicing), so the mouse/touch
+// highlight is provided without mixing InteractiveHighlighting in again.
+class BarriersNode extends AccessibleSlider( Node, 0 ) {
   private readonly rectangleA: Rectangle;
   private readonly rectangleB: Rectangle;
   private readonly rectangleC: Rectangle;
@@ -45,14 +53,41 @@ class BarriersNode extends InteractiveHighlighting( Node ) {
     const rectangleB = createRectangle();
     const rectangleC = createRectangle();
 
-    super( {
+    // The barrier moves horizontally within 80% of the wave area; this is the same constraint the pointer DragListener
+    // uses below. The keyboard slider operates on the x lattice coordinate.
+    const erodedBounds = scene.lattice.visibleBounds.erodedX( scene.lattice.visibleBounds.width / 10 );
+
+    // Bridges the AccessibleSlider (a single number) to the Vector2-valued barrierPositionProperty, whose x component
+    // is the only meaningful degree of freedom.
+    const barrierXProperty = new NumberProperty( scene.barrierPositionProperty.value.x );
+
+    super( combineOptions<AccessibleSliderOptions & NodeOptions>( {
       cursor: 'pointer',
-      children: [ rectangleA, rectangleB, rectangleC ]
-    } );
+      children: [ rectangleA, rectangleB, rectangleC ],
+
+      // AccessibleSlider - keyboard control of the barrier's horizontal position. Steps are in lattice cells; the
+      // barrier's effective position is rounded to a cell (see barrierLatticeCoordinateProperty), so values snap to
+      // integers.
+      valueProperty: barrierXProperty,
+      enabledRangeProperty: new Property( new Range( erodedBounds.minX, erodedBounds.maxX ) ),
+      keyboardStep: 2,
+      shiftKeyboardStep: 1,
+      pageKeyboardStep: 10,
+      constrainValue: value => roundSymmetric( value )
+    } ) );
 
     this.rectangleA = rectangleA;
     this.rectangleB = rectangleB;
     this.rectangleC = rectangleC;
+
+    // Keep the slider value and the Vector2 position in sync. Both terminal sets below resolve to equal values, so
+    // there is no reentrant notification.
+    scene.barrierPositionProperty.link( position => { barrierXProperty.value = position.x; } );
+    barrierXProperty.link( x => {
+      if ( scene.barrierPositionProperty.value.x !== x ) {
+        scene.barrierPositionProperty.value = new Vector2( x, scene.barrierPositionProperty.value.y );
+      }
+    } );
 
     // Width of the barrier
     this.barrierWidth = scene.latticeToViewTransform!.modelToViewDeltaX( WaveInterferenceConstants.CALIBRATION_SCALE );
@@ -61,7 +96,6 @@ class BarriersNode extends InteractiveHighlighting( Node ) {
       mapPosition: modelPosition => {
 
         // Constrain to lie within 80% of the wave area
-        const erodedBounds = scene.lattice.visibleBounds.erodedX( scene.lattice.visibleBounds.width / 10 );
         return erodedBounds.closestPointTo( modelPosition );
       },
 
@@ -104,6 +138,9 @@ class BarriersNode extends InteractiveHighlighting( Node ) {
     const scene = this.scene;
     const slitWidth = scene.slitWidthProperty.get();
     const slitSeparation = scene.slitSeparationProperty.get();
+
+    // Only expose the keyboard slider when there is a barrier to position.
+    this.accessibleVisible = barrierType !== 'noBarrier';
 
     // Barrier origin in view coordinates, sets the parent node position for compatibility with DragListener,
     // see https://github.com/phetsims/wave-interference/issues/75
