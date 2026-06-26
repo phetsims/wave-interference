@@ -22,6 +22,7 @@ import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js'
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import SoundKeyboardDragListener from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
+import BoundaryReachedSoundPlayer from '../../../../tambo/js/BoundaryReachedSoundPlayer.js';
 import VisibleColor from '../../../../scenery-phet/js/VisibleColor.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -46,6 +47,7 @@ import SoundParticleCanvasLayer from '../../common/view/SoundParticleCanvasLayer
 import SoundParticleImageLayer from '../../common/view/SoundParticleImageLayer.js';
 import SoundWaveGeneratorNode from '../../common/view/SoundWaveGeneratorNode.js';
 import ToolboxPanel from '../../common/view/ToolboxPanel.js';
+import { addBoundaryReachedSound, isPointOnBoundary } from '../../common/view/WaveInterferenceBoundarySound.js';
 import ViewpointRadioButtonGroup from '../../common/view/ViewpointRadioButtonGroup.js';
 import WaterDropLayer from '../../common/view/WaterDropLayer.js';
 import WaterSideViewNode from '../../common/view/WaterSideViewNode.js';
@@ -410,6 +412,17 @@ class WavesScreenView extends ScreenView {
     model.isMeasuringTapeInPlayAreaProperty.linkAttribute( measuringTapeNode, 'visible' );
     this.measuringTapeNode = measuringTapeNode;
 
+    // Boundary-reached sound when the measuring tape base or tip is dragged to the edge of its drag bounds (the same
+    // visibleBounds.eroded( 20 ) the MeasuringTapeNode clamps to). Gated by the user-controlled Properties so the
+    // sound only plays while that handle is being dragged, not when the tape is reset or re-clamped on layout changes.
+    const measuringTapeBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => visibleBounds.eroded( 20 ) );
+    addBoundaryReachedSound( model.measuringTapeBasePositionProperty,
+      () => isPointOnBoundary( model.measuringTapeBasePositionProperty.value, measuringTapeBoundsProperty.value ),
+      measuringTapeNode.isBaseUserControlledProperty );
+    addBoundaryReachedSound( model.measuringTapeTipPositionProperty,
+      () => isPointOnBoundary( model.measuringTapeTipPositionProperty.value, measuringTapeBoundsProperty.value ),
+      measuringTapeNode.isTipUserControlledProperty );
+
     const stopwatchNode = new WaveInterferenceStopwatchNode( model, {
       dragBoundsProperty: this.visibleBoundsProperty,
 
@@ -422,6 +435,24 @@ class WavesScreenView extends ScreenView {
       }
     } );
     this.stopwatchNode = stopwatchNode;
+
+    // Boundary-reached sound when the stopwatch is dragged (pointer or keyboard) so its node abuts an edge of the
+    // visible bounds. The StopwatchNode constrains the whole node, so the position is clamped to the visible bounds
+    // inset by the node's extent. We replicate that inset from localBounds (which is unaffected by the node's
+    // translation) rather than reading the live node bounds, which would force a bounds validation mid-drag and
+    // re-enter the StopwatchNode's own re-clamp. Gated by the drag listeners so reset/layout re-clamps don't bonk.
+    const stopwatchDraggingProperty = new DerivedProperty(
+      [ stopwatchNode.dragListener!.isPressedProperty, stopwatchNode.keyboardDragListener!.isPressedProperty ],
+      ( pointerDragging, keyboardDragging ) => pointerDragging || keyboardDragging );
+    const stopwatchPositionBoundsProperty = new DerivedProperty(
+      [ this.visibleBoundsProperty, stopwatchNode.localBoundsProperty ],
+      ( dragBounds, localBounds ) => new Bounds2(
+        dragBounds.minX - localBounds.minX, dragBounds.minY - localBounds.minY,
+        dragBounds.maxX - localBounds.maxX, dragBounds.maxY - localBounds.maxY
+      ) );
+    addBoundaryReachedSound( model.stopwatch.positionProperty,
+      () => isPointOnBoundary( model.stopwatch.positionProperty.value, stopwatchPositionBoundsProperty.value ),
+      stopwatchDraggingProperty );
 
     const waveMeterNode: WaveMeterNode = new WaveMeterNode( model, this );
     model.resetEmitter.addListener( () => waveMeterNode.reset() );
@@ -446,10 +477,18 @@ class WavesScreenView extends ScreenView {
       return waveMeterNode.backgroundNode.setTranslation( closestPointInBounds );
     } );
     this.waveMeterNode = waveMeterNode;
+
+    // Boundary-reached sound when the chart body is dragged (pointer or keyboard) to the edge of its drag bounds. The
+    // body is translated by the listeners, so its translation is the clamped position. Shared by both listeners.
+    const waveMeterBodyBoundaryReachedSoundPlayer = new BoundaryReachedSoundPlayer();
+    const updateWaveMeterBodyBoundarySound = () => waveMeterBodyBoundaryReachedSoundPlayer.setOnBoundary(
+      isPointOnBoundary( waveMeterNode.backgroundNode.translation, waveMeterBoundsProperty.value ) );
+
     waveMeterNode.setDragListener( new SoundDragListener( {
       dragBoundsProperty: waveMeterBoundsProperty,
       translateNode: true,
       start: () => {
+        waveMeterBodyBoundaryReachedSoundPlayer.setOnBoundary( false );
         waveMeterNode.moveToFront();
         if ( waveMeterNode.synchronizeProbePositions ) {
 
@@ -458,6 +497,7 @@ class WavesScreenView extends ScreenView {
         }
       },
       drag: () => {
+        updateWaveMeterBodyBoundarySound();
         if ( waveMeterNode.synchronizeProbePositions ) {
 
           // Align the probes each time the waveMeterNode translates, so they will stay in sync
@@ -484,8 +524,12 @@ class WavesScreenView extends ScreenView {
     waveMeterNode.backgroundNode.addInputListener( new SoundKeyboardDragListener( {
       translateNode: true,
       dragBoundsProperty: waveMeterBoundsProperty,
-      start: () => waveMeterNode.moveToFront(),
+      start: () => {
+        waveMeterBodyBoundaryReachedSoundPlayer.setOnBoundary( false );
+        waveMeterNode.moveToFront();
+      },
       drag: () => {
+        updateWaveMeterBodyBoundarySound();
         if ( waveMeterNode.synchronizeProbePositions ) {
           waveMeterNode.alignProbesEmitter.emit();
         }

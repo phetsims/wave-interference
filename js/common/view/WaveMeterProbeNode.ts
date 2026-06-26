@@ -14,6 +14,8 @@ import ProbeNode, { ProbeNodeOptions } from '../../../../scenery-phet/js/ProbeNo
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import SoundKeyboardDragListener from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
+import BoundaryReachedSoundPlayer from '../../../../tambo/js/BoundaryReachedSoundPlayer.js';
+import { isPointOnBoundary } from './WaveInterferenceBoundarySound.js';
 
 type SelfOptions = {
   dragStart?: () => void;
@@ -45,18 +47,30 @@ class WaveMeterProbeNode extends InteractiveHighlighting( ProbeNode ) {
 
     visibleBoundsProperty.link( visibleBounds => this.setCenter( visibleBounds.closestPointTo( this.center ) ) );
 
+    // Plays the boundary-reached sound when the probe is dragged (pointer or keyboard) to the edge of the visible
+    // bounds. The probe is translated by the listeners, so its translation is the clamped position.
+    const boundaryReachedSoundPlayer = new BoundaryReachedSoundPlayer();
+    const dragStart = () => {
+      boundaryReachedSoundPlayer.setOnBoundary( false );
+      options.dragStart();
+    };
+    const drag = () => {
+      boundaryReachedSoundPlayer.setOnBoundary( isPointOnBoundary( this.translation, visibleBoundsProperty.value ) );
+      options.drag();
+    };
+
     this.addInputListener( new SoundDragListener( {
       translateNode: true,
       dragBoundsProperty: visibleBoundsProperty,
-      start: () => options.dragStart(),
-      drag: () => options.drag()
+      start: dragStart,
+      drag: drag
     } ) );
 
     this.addInputListener( new SoundKeyboardDragListener( {
       translateNode: true,
       dragBoundsProperty: visibleBoundsProperty,
-      start: () => options.dragStart(),
-      drag: () => options.drag()
+      start: dragStart,
+      drag: drag
     } ) );
   }
 }
