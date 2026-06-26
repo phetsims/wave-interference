@@ -9,6 +9,7 @@
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
+import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -19,7 +20,7 @@ import SlitsModel from '../model/SlitsModel.js';
 // constants
 const CORNER_RADIUS = 2;
 
-class BarriersNode extends Node {
+class BarriersNode extends InteractiveHighlighting( Node ) {
   private readonly rectangleA: Rectangle;
   private readonly rectangleB: Rectangle;
   private readonly rectangleC: Rectangle;
