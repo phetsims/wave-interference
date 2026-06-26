@@ -12,6 +12,7 @@ import optionize from '../../../phet-core/js/optionize.js';
 import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
 import WavesModel from '../waves/model/WavesModel.js';
 import WavesScreenView from '../waves/view/WavesScreenView.js';
+import WaveInterferenceKeyboardHelpContent from './view/WaveInterferenceKeyboardHelpContent.js';
 
 type SelfOptions = {
   showSceneRadioButtons?: boolean;
@@ -33,6 +34,7 @@ class BaseScreen extends Screen<WavesModel, WavesScreenView> {
       backgroundColorProperty: new Property( 'white' ),
       showUnselectedHomeScreenIconFrame: true,
       showScreenIconFrameForNavigationBarFill: 'black',
+      createKeyboardHelpNode: () => new WaveInterferenceKeyboardHelpContent( { includeToolControls: true } ),
       showSceneRadioButtons: true,
       showPlaySoundControl: true,
       audioEnabled: true

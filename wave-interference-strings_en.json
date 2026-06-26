@@ -190,5 +190,14 @@
   },
   "lots": {
     "value": "Lots"
+  },
+  "keyboardHelpDialog.toolsSection": {
+    "value": "Tools"
+  },
+  "keyboardHelpDialog.removeFromToolbox": {
+    "value": "Remove from toolbox"
+  },
+  "keyboardHelpDialog.returnToToolbox": {
+    "value": "Return to toolbox"
   }
 }

@@ -80,6 +80,11 @@ type StringsType = {
   'soundEffectStringProperty': LocalizedStringProperty;
   'noneStringProperty': LocalizedStringProperty;
   'lotsStringProperty': LocalizedStringProperty;
+  'keyboardHelpDialog': {
+    'toolsSectionStringProperty': LocalizedStringProperty;
+    'removeFromToolboxStringProperty': LocalizedStringProperty;
+    'returnToToolboxStringProperty': LocalizedStringProperty;
+  }
 };
 
 const WaveInterferenceStrings = getStringModule( 'WAVE_INTERFERENCE' ) as StringsType;

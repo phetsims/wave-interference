@@ -14,6 +14,7 @@ import MeasuringTapeNode from '../../../../scenery-phet/js/MeasuringTapeNode.js'
 import Stopwatch from '../../../../scenery-phet/js/Stopwatch.js';
 import StopwatchNode from '../../../../scenery-phet/js/StopwatchNode.js';
 import InteractiveHighlightingNode from '../../../../scenery/js/accessibility/voicing/nodes/InteractiveHighlightingNode.js';
+import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
 import AlignGroup from '../../../../scenery/js/layout/constraints/AlignGroup.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
@@ -21,11 +22,29 @@ import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.
 import { PressListenerEvent } from '../../../../scenery/js/listeners/PressListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import { rasterizeNode } from '../../../../scenery/js/util/rasterizeNode.js';
+import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
+import waveInterference from '../../waveInterference.js';
+import WaveInterferenceStrings from '../../WaveInterferenceStrings.js';
 import WaveInterferenceConstants from '../WaveInterferenceConstants.js';
 import WaveInterferencePanel from './WaveInterferencePanel.js';
 import WaveMeterNode from './WaveMeterNode.js';
 
 class ToolboxPanel extends WaveInterferencePanel {
+
+  // Space/Enter on a toolbox icon deploys (removes) its tool to the play area. The icon is a button, so this is
+  // documentation-only (the deploy is handled by the button's click activation), matching the energy-skate-park pattern.
+  public static readonly REMOVE_FROM_TOOLBOX_HOTKEY_DATA = new HotkeyData( {
+    keys: [ 'space', 'enter' ],
+    repoName: waveInterference.name,
+    keyboardHelpDialogLabelStringProperty: WaveInterferenceStrings.keyboardHelpDialog.removeFromToolboxStringProperty
+  } );
+
+  // Escape returns a deployed tool to the toolbox. Used by the KeyboardListeners below and documented in the dialog.
+  public static readonly RETURN_TO_TOOLBOX_HOTKEY_DATA = new HotkeyData( {
+    keys: [ 'escape' ],
+    repoName: waveInterference.name,
+    keyboardHelpDialogLabelStringProperty: WaveInterferenceStrings.keyboardHelpDialog.returnToToolboxStringProperty
+  } );
 
   public constructor( measuringTapeNode: MeasuringTapeNode, stopwatchNode: StopwatchNode, waveMeterNode: WaveMeterNode, alignGroup: AlignGroup, isMeasuringTapeInPlayAreaProperty: Property<boolean>,
                       measuringTapeTipPositionProperty: TReadOnlyProperty<Vector2>, stopwatch: Stopwatch, isWaveMeterInPlayAreaProperty: Property<boolean> ) {
@@ -107,6 +126,12 @@ class ToolboxPanel extends WaveInterferencePanel {
     // pointer-based drag-out / drop-in-toolbox interaction. The deploy position is computed relative to the toolbox
     // so it stays in the play area regardless of layout.
 
+    // The same grab sound the tools' drag listeners play when picked up with the mouse/touch, played here when a tool
+    // is grabbed out of the toolbox with the keyboard. The erase sound plays when a tool is sent back to the toolbox
+    // with Escape.
+    const grabSoundPlayer = sharedSoundPlayers.get( 'grab' );
+    const eraseSoundPlayer = sharedSoundPlayers.get( 'erase' );
+
     // Measuring tape: deploy at its reset (default) position, which is in the play area, and focus its base handle.
     interactiveMeasuringTapeIcon.addInputListener( new KeyboardListener( {
       fireOnClick: true,
@@ -115,6 +140,7 @@ class ToolboxPanel extends WaveInterferencePanel {
           measuringTapeNode.basePositionProperty.reset();
           measuringTapeNode.tipPositionProperty.reset();
           isMeasuringTapeInPlayAreaProperty.value = true;
+          grabSoundPlayer.play();
 
           // Move focus to the deployed measuring tape (its base handle).
           const focusable = measuringTapeNode.getSubtreeNodes().reverse().find( node => node.focusable );
@@ -123,12 +149,13 @@ class ToolboxPanel extends WaveInterferencePanel {
       }
     } ) );
     measuringTapeNode.addInputListener( new KeyboardListener( {
-      keys: [ 'escape' ],
+      keyStringProperties: ToolboxPanel.RETURN_TO_TOOLBOX_HOTKEY_DATA.keyStringProperties,
       fire: () => {
         if ( isMeasuringTapeInPlayAreaProperty.value ) {
           isMeasuringTapeInPlayAreaProperty.value = false;
           measuringTapeNode.basePositionProperty.reset();
           measuringTapeNode.tipPositionProperty.reset();
+          eraseSoundPlayer.play();
           interactiveMeasuringTapeIcon.focus();
         }
       }
@@ -141,15 +168,17 @@ class ToolboxPanel extends WaveInterferencePanel {
         if ( !stopwatch.isVisibleProperty.value ) {
           stopwatch.positionProperty.value = this.leftCenter.plusXY( -stopwatchNode.width - 40, 120 );
           stopwatch.isVisibleProperty.value = true;
+          grabSoundPlayer.play();
           stopwatchNode.focus();
         }
       }
     } ) );
     stopwatchNode.addInputListener( new KeyboardListener( {
-      keys: [ 'escape' ],
+      keyStringProperties: ToolboxPanel.RETURN_TO_TOOLBOX_HOTKEY_DATA.keyStringProperties,
       fire: () => {
         if ( stopwatch.isVisibleProperty.value ) {
           stopwatch.reset();
+          eraseSoundPlayer.play();
           interactiveStopwatchNodeIcon.focus();
         }
       }
@@ -166,6 +195,7 @@ class ToolboxPanel extends WaveInterferencePanel {
           isWaveMeterInPlayAreaProperty.value = true;
           waveMeterNode.alignProbesEmitter.emit();
           waveMeterNode.synchronizeProbePositions = false;
+          grabSoundPlayer.play();
           waveMeterNode.backgroundNode.focus();
         }
       }
@@ -173,11 +203,12 @@ class ToolboxPanel extends WaveInterferencePanel {
 
     // Escape is added to the whole wave meter (not just the body) so it also fires when a probe has focus.
     waveMeterNode.addInputListener( new KeyboardListener( {
-      keys: [ 'escape' ],
+      keyStringProperties: ToolboxPanel.RETURN_TO_TOOLBOX_HOTKEY_DATA.keyStringProperties,
       fire: () => {
         if ( isWaveMeterInPlayAreaProperty.value ) {
           waveMeterNode.reset();
           isWaveMeterInPlayAreaProperty.value = false;
+          eraseSoundPlayer.play();
           interactiveWaveMeterIcon.focus();
         }
       }
