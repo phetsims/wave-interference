@@ -749,9 +749,10 @@ class WavesScreenView extends ScreenView {
 
   /**
    * Sets the keyboard traversal (pdom) order for the play area and the control area. The play area runs from the wave
-   * source through the tools; the control area holds the control panel(s) and ends with the Reset All button. This is
-   * safe to call multiple times, so subclasses can augment additionalPlayAreaNodes / additionalControlAreaNodes and
-   * call it again to fold in their own interactive content.
+   * source through the deployed tools (measuring tape, stopwatch, wave meter, which are last); the control area holds
+   * the toolbox launcher and control panel(s) and ends with the Reset All button. This is safe to call multiple times,
+   * so subclasses can augment additionalPlayAreaNodes / additionalControlAreaNodes and call it again to fold in their
+   * own interactive content.
    */
   protected updateTraversalOrder(): void {
 
@@ -761,13 +762,16 @@ class WavesScreenView extends ScreenView {
       this.disturbanceTypeNode,
       this.viewpointRadioButtonGroup,
       this.timeControlNode,
-      this.toolboxPanel,
+
+      // The real (deployed) tools are the last things in the play area, in this order. The toolbox launcher panel
+      // lives in the control area below.
       this.measuringTapeNode,
       this.stopwatchNode,
       this.waveMeterNode
     ].filter( ( node ): node is Node => node !== null );
 
     this.pdomControlAreaNode.pdomOrder = [
+      this.toolboxPanel,
       this.controlPanel,
       ...this.additionalControlAreaNodes,
       this.resetAllButton
