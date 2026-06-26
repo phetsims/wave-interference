@@ -15,8 +15,9 @@ import { roundSymmetric } from '../../../../dot/js/util/roundSymmetric.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
-import DragListener from '../../../../scenery/js/listeners/DragListener.js';
+import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import ValueChangeSoundPlayer from '../../../../tambo/js/sound-generators/ValueChangeSoundPlayer.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Scene from '../../common/model/Scene.js';
@@ -61,6 +62,10 @@ class BarriersNode extends AccessibleSlider( Node, 0 ) {
     // is the only meaningful degree of freedom.
     const barrierXProperty = new NumberProperty( scene.barrierPositionProperty.value.x );
 
+    const barrierRange = new Range( erodedBounds.minX, erodedBounds.maxX );
+    const soundPlayer = new ValueChangeSoundPlayer( barrierRange );
+    let previousValue = barrierXProperty.value;
+
     super( combineOptions<AccessibleSliderOptions & NodeOptions>( {
       cursor: 'pointer',
       children: [ rectangleA, rectangleB, rectangleC ],
@@ -69,11 +74,15 @@ class BarriersNode extends AccessibleSlider( Node, 0 ) {
       // barrier's effective position is rounded to a cell (see barrierLatticeCoordinateProperty), so values snap to
       // integers.
       valueProperty: barrierXProperty,
-      enabledRangeProperty: new Property( new Range( erodedBounds.minX, erodedBounds.maxX ) ),
+      enabledRangeProperty: new Property( barrierRange ),
       keyboardStep: 2,
       shiftKeyboardStep: 1,
       pageKeyboardStep: 10,
-      constrainValue: value => roundSymmetric( value )
+      constrainValue: value => roundSymmetric( value ),
+      drag: () => {
+        soundPlayer.playSoundForValueChange( barrierXProperty.value, previousValue );
+        previousValue = barrierXProperty.value;
+      }
     } ) );
 
     this.rectangleA = rectangleA;
@@ -92,7 +101,7 @@ class BarriersNode extends AccessibleSlider( Node, 0 ) {
     // Width of the barrier
     this.barrierWidth = scene.latticeToViewTransform!.modelToViewDeltaX( WaveInterferenceConstants.CALIBRATION_SCALE );
 
-    this.addInputListener( new DragListener( {
+    this.addInputListener( new SoundDragListener( {
       mapPosition: modelPosition => {
 
         // Constrain to lie within 80% of the wave area
