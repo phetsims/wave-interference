@@ -397,6 +397,10 @@ class WavesScreenView extends ScreenView {
       basePositionProperty: model.measuringTapeBasePositionProperty,
       tipPositionProperty: model.measuringTapeTipPositionProperty,
 
+      // Half of the MeasuringTapeNode keyboard defaults (600/150); the default felt twice as fast as desired here.
+      baseKeyboardDragListenerOptions: { dragSpeed: 300, shiftDragSpeed: 75 },
+      tipKeyboardDragListenerOptions: { dragSpeed: 300, shiftDragSpeed: 75 },
+
       // Drop in toolbox
       baseDragEnded: () => {
         if ( toolboxIntersects( measuringTapeNode.localToGlobalBounds( measuringTapeNode.getLocalBaseBounds() ) ) ) {
