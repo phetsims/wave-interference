@@ -110,7 +110,21 @@ class BarriersNode extends AccessibleSlider( Node, 0 ) {
 
       // Use continuous value for drag handler
       positionProperty: scene.barrierPositionProperty,
-      transform: scene.latticeToViewTransform
+      transform: scene.latticeToViewTransform,
+
+      // Start fresh so a stale previousValue (e.g. after a reset) can't trigger a spurious sound on the first event.
+      start: () => { previousValue = barrierXProperty.value; },
+
+      // Mouse/touch dragging is continuous, so it would cross the value-change thresholds far more densely than the
+      // (coarser) keyboard steps. Play only the boundary sound at the limits here; the keyboard slider above still
+      // plays the intervening value-change sounds. barrierXProperty is updated synchronously (via the
+      // barrierPositionProperty bridge above) before this drag callback runs.
+      drag: () => {
+        if ( barrierXProperty.value === barrierRange.min || barrierXProperty.value === barrierRange.max ) {
+          soundPlayer.playSoundForValueChange( barrierXProperty.value, previousValue );
+        }
+        previousValue = barrierXProperty.value;
+      }
     } ) );
 
     // Draggable double-headed arrow beneath the barrier
