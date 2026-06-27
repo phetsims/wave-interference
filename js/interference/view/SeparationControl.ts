@@ -48,6 +48,12 @@ class SeparationControl extends ToggleNode<Scene> {
           decimalPlaces: 1
         },
         sliderOptions: {
+
+          // Keyboard steps in cm. Without these, the default keyboardStep is finer than the 0.5 cm snapping below, so
+          // arrow keys round back to the same value and the slider does not move.
+          keyboardStep: 0.5,
+          shiftKeyboardStep: 0.5,
+          pageKeyboardStep: 1,
           constrainValue: value => roundToInterval( value, 0.5 ),
           majorTicks: createTicks( waterSceneRange, allRanges )
         }
@@ -55,27 +61,43 @@ class SeparationControl extends ToggleNode<Scene> {
     }, {
 
       value: model.soundScene!,
-      createNode: () => new NumberControl( WaveInterferenceStrings.separationStringProperty, soundSeparationProperty, soundSceneRange, combineOptions<NumberControlOptions>( {
-        delta: 1,
-        sliderOptions: {
-          constrainValue: value => roundToInterval( value, 10 ),
+      createNode: () => {
 
-          majorTicks: createTicks( soundSceneRange, allRanges )
-        }
+        // Captured so constrainValue can use a finer snap interval while Shift is held (keeping mouse snapping at 10 cm).
+        const soundNumberControl: NumberControl = new NumberControl( WaveInterferenceStrings.separationStringProperty, soundSeparationProperty, soundSceneRange, combineOptions<NumberControlOptions>( {
+          delta: 1,
+          sliderOptions: {
 
-      }, createMuteOptions( model.soundScene! ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
+            // Keyboard steps in cm: 10 normally, 1 with Shift.
+            keyboardStep: 10,
+            shiftKeyboardStep: 1,
+            pageKeyboardStep: 50,
+            constrainValue: value => roundToInterval( value, soundNumberControl.slider.shiftKeyDown ? 1 : 10 ),
+            majorTicks: createTicks( soundSceneRange, allRanges )
+          }
+        }, createMuteOptions( model.soundScene! ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+        return soundNumberControl;
+      }
     }, {
 
       value: model.lightScene!,
-      createNode: () => new NumberControl( WaveInterferenceStrings.separationStringProperty, lightSeparationProperty, lightSceneRange, combineOptions<NumberControlOptions>( {
-        delta: 10,
-        sliderOptions: {
-          constrainValue: value => roundToInterval( value, 100 ),
+      createNode: () => {
 
-          majorTicks: createTicks( lightSceneRange, allRanges )
-        }
+        // Captured so constrainValue can use a finer snap interval while Shift is held (keeping mouse snapping at 100 nm).
+        const lightNumberControl: NumberControl = new NumberControl( WaveInterferenceStrings.separationStringProperty, lightSeparationProperty, lightSceneRange, combineOptions<NumberControlOptions>( {
+          delta: 10,
+          sliderOptions: {
 
-      }, createMuteOptions( model.lightScene! ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) )
+            // Keyboard steps in nm: 100 normally, 10 with Shift.
+            keyboardStep: 100,
+            shiftKeyboardStep: 10,
+            pageKeyboardStep: 500,
+            constrainValue: value => roundToInterval( value, lightNumberControl.slider.shiftKeyDown ? 10 : 100 ),
+            majorTicks: createTicks( lightSceneRange, allRanges )
+          }
+        }, createMuteOptions( model.lightScene! ), WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
+        return lightNumberControl;
+      }
     } ] );
   }
 }
