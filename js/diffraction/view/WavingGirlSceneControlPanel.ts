@@ -39,6 +39,9 @@ class WavingGirlSceneControlPanel extends WaveInterferencePanel {
 
         // degrees: 30 normally, 1 with Shift
         constrainValue: value => roundToInterval( value, rotationControl.slider.shiftKeyDown ? 1 : 30 ),
+
+        // Quarter-turn jump for Page Up/Down; the default range/10 = 36 would snap back to the 30 degree arrow step.
+        pageKeyboardStep: 90,
         majorTicks: [ {
           value: wavingGirlScene.rotationProperty.range.min,
           label: new WaveInterferenceText( wavingGirlScene.rotationProperty.range.min )

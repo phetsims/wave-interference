@@ -27,6 +27,9 @@ class CircleSquareSceneControlPanel extends WaveInterferencePanel {
             decimalPlaces: 2
           },
           sliderOptions: {
+
+            // Larger jump for Page Up/Down (2x the arrow step); the default range/10 would snap back to the arrow step.
+            pageKeyboardStep: 20 * 1E-3,
             constrainValue: value => roundToInterval( value, 10 * 1E-3 )
           }
         } ),
@@ -36,6 +39,9 @@ class CircleSquareSceneControlPanel extends WaveInterferencePanel {
             decimalPlaces: 2
           },
           sliderOptions: {
+
+            // Larger jump for Page Up/Down (2x the arrow step); the default range/10 would snap back to the arrow step.
+            pageKeyboardStep: 20 * 1E-3,
             constrainValue: value => roundToInterval( value, 10 * 1E-3 )
           }
         } )

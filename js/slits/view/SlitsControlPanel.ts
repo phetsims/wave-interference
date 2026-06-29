@@ -69,6 +69,9 @@ class SlitsControlPanel extends WaveInterferencePanel {
 
           // Coarser than the default keyboardStep (range/20 = 0.1 cm) per request, while Shift uses the 0.1 cm delta.
           keyboardStep: 0.2,
+
+          // Larger jump for Page Up/Down (2x the arrow step); the default range/10 would snap back to the arrow step.
+          pageKeyboardStep: 0.4,
           majorTicks: createTicks( waterScene.slitWidthProperty )
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
@@ -80,6 +83,9 @@ class SlitsControlPanel extends WaveInterferencePanel {
 
           // Snap to 1 cm while Shift is held (matching the shift keyboard step), otherwise 10 cm.
           constrainValue: ( value: number ) => roundToInterval( value, soundSlitWidthControl.slider.shiftKeyDown ? 1 : 10 ),
+
+          // Larger jump for Page Up/Down (2x the 10 cm arrow step); the default range/10 = 14 snaps back to 10.
+          pageKeyboardStep: 20,
           majorTicks: createTicks( soundScene.slitWidthProperty )
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );

@@ -31,6 +31,9 @@ class DisorderSceneControlPanel extends WaveInterferencePanel {
 
             // Match the 0.01 mm snap; the default keyboardStep (range/20 = 0.0045) rounds back to no change.
             keyboardStep: 10E-3,
+
+            // Larger jump for Page Up/Down (2x the arrow step); the default range/10 = 0.009 snaps back to the arrow step.
+            pageKeyboardStep: 20E-3,
             constrainValue: value => roundToInterval( value, 10E-3 )
           }
         } ),
