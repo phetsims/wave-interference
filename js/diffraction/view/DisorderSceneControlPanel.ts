@@ -28,6 +28,9 @@ class DisorderSceneControlPanel extends WaveInterferencePanel {
             decimalPlaces: 2
           },
           sliderOptions: {
+
+            // Match the 0.01 mm snap; the default keyboardStep (range/20 = 0.0045) rounds back to no change.
+            keyboardStep: 10E-3,
             constrainValue: value => roundToInterval( value, 10E-3 )
           }
         } ),
@@ -45,6 +48,10 @@ class DisorderSceneControlPanel extends WaveInterferencePanel {
             visible: false
           },
           sliderOptions: {
+
+            // The defaults (range/20 = 0.2, range/10 = 0.4) round back to no change against the 1-unit snap.
+            keyboardStep: 1,
+            pageKeyboardStep: 2,
             majorTicks: [ {
               value: disorderScene.disorderProperty.range.min,
               label: new WaveInterferenceText( WaveInterferenceStrings.noneStringProperty, { maxWidth: 60 } )

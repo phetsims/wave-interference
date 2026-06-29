@@ -66,24 +66,31 @@ class SlitsControlPanel extends WaveInterferencePanel {
           decimalPlaces: 1
         },
         sliderOptions: {
+
+          // Coarser than the default keyboardStep (range/20 = 0.1 cm) per request, while Shift uses the 0.1 cm delta.
+          keyboardStep: 0.2,
           majorTicks: createTicks( waterScene.slitWidthProperty )
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
-    const soundSlitWidthControl = new NumberControl(
+    const soundSlitWidthControl: NumberControl = new NumberControl(
       WaveInterferenceStrings.slitWidthStringProperty, soundScene.slitWidthProperty, soundScene.slitWidthProperty.range, merge( {
         delta: 1, // cm
         sliderOptions: {
-          constrainValue: ( value: number ) => roundToInterval( value, 10 ),
+
+          // Snap to 1 cm while Shift is held (matching the shift keyboard step), otherwise 10 cm.
+          constrainValue: ( value: number ) => roundToInterval( value, soundSlitWidthControl.slider.shiftKeyDown ? 1 : 10 ),
           majorTicks: createTicks( soundScene.slitWidthProperty )
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
-    const lightSlitWidthControl = new NumberControl(
+    const lightSlitWidthControl: NumberControl = new NumberControl(
       WaveInterferenceStrings.slitWidthStringProperty, lightScene.slitWidthProperty, lightScene.slitWidthProperty.range, merge( {
         delta: 10, // nm
         sliderOptions: {
-          constrainValue: ( value: number ) => roundToInterval( value, 50 ),
+
+          // Snap to 10 nm while Shift is held (matching the shift keyboard step), otherwise 50 nm.
+          constrainValue: ( value: number ) => roundToInterval( value, lightSlitWidthControl.slider.shiftKeyDown ? 10 : 50 ),
           majorTicks: createTicks( lightScene.slitWidthProperty )
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
@@ -116,26 +123,30 @@ class SlitsControlPanel extends WaveInterferencePanel {
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
-    const soundSeparationControl = new NumberControl(
+    const soundSeparationControl: NumberControl = new NumberControl(
       WaveInterferenceStrings.slitSeparationStringProperty,
       soundScene.slitSeparationProperty,
       soundScene.slitSeparationProperty.range,
       merge( {
         delta: 1, // cm
         sliderOptions: {
-          constrainValue: ( value: number ) => roundToInterval( value, 10 ),
+
+          // Snap to 1 cm while Shift is held (matching the shift keyboard step), otherwise 10 cm.
+          constrainValue: ( value: number ) => roundToInterval( value, soundSeparationControl.slider.shiftKeyDown ? 1 : 10 ),
           majorTicks: createTicks( soundScene.slitSeparationProperty )
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
 
-    const lightSeparationControl = new NumberControl(
+    const lightSeparationControl: NumberControl = new NumberControl(
       WaveInterferenceStrings.slitSeparationStringProperty,
       lightScene.slitSeparationProperty,
       lightScene.slitSeparationProperty.range,
       merge( {
         delta: 10, // nm
         sliderOptions: {
-          constrainValue: ( value: number ) => roundToInterval( value, 50 ),
+
+          // Snap to 10 nm while Shift is held (matching the shift keyboard step), otherwise 50 nm.
+          constrainValue: ( value: number ) => roundToInterval( value, lightSeparationControl.slider.shiftKeyDown ? 10 : 50 ),
           majorTicks: createTicks( lightScene.slitSeparationProperty )
         }
       }, WaveInterferenceConstants.NUMBER_CONTROL_OPTIONS ) );
