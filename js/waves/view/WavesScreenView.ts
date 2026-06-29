@@ -141,6 +141,9 @@ class WavesScreenView extends ScreenView {
   // The top-view/side-view radio buttons, or null when not shown on this screen.
   private readonly viewpointRadioButtonGroup: Node | null;
 
+  // The light-scene intensity graph (with zoom buttons), or null on screens without a light scene.
+  private readonly intensityGraphPanel: IntensityGraphPanel | null;
+
   private readonly timeControlNode: TimeControlNode;
   private readonly toolboxPanel: ToolboxPanel;
   private readonly measuringTapeNode: MeasuringTapeNode;
@@ -335,11 +338,12 @@ class WavesScreenView extends ScreenView {
     this.addChild( this.latticeNode );
     this.addChild( borderNode );
 
+    let intensityGraphPanel: IntensityGraphPanel | null = null;
     if ( model.lightScene ) {
 
       // Match the size of the scale indicator
       const numberGridLines = model.lightScene.waveAreaWidth / model.lightScene.scaleIndicatorLength;
-      const intensityGraphPanel = new IntensityGraphPanel(
+      const panel = new IntensityGraphPanel(
         this.latticeNode.height,
         model.lightScene.intensitySample,
         numberGridLines,
@@ -350,15 +354,17 @@ class WavesScreenView extends ScreenView {
         ( showScreen, showIntensityGraph, scene ) => {
 
           // Screen & Intensity graph should only be available for light scenes. Remove it from water and sound.
-          intensityGraphPanel.visible = showScreen && showIntensityGraph && scene === model.lightScene;
+          panel.visible = showScreen && showIntensityGraph && scene === model.lightScene;
         } );
-      this.addChild( intensityGraphPanel );
+      this.addChild( panel );
 
       // Make sure the charting area is perfectly aligned with the wave area
-      intensityGraphPanel.translate(
-        0, this.latticeNode.globalBounds.top - intensityGraphPanel.getChartGlobalBounds().top
+      panel.translate(
+        0, this.latticeNode.globalBounds.top - panel.getChartGlobalBounds().top
       );
+      intensityGraphPanel = panel;
     }
+    this.intensityGraphPanel = intensityGraphPanel;
 
     /**
      * Return the measuring tape Property value for the specified scene.  See MeasuringTapeNode constructor docs.
@@ -797,8 +803,9 @@ class WavesScreenView extends ScreenView {
 
   /**
    * Sets the keyboard traversal (pdom) order for the play area and the control area. The play area runs from the wave
-   * source through the deployed tools (measuring tape, stopwatch, wave meter, which are last); the control area holds
-   * the toolbox launcher and control panel(s) and ends with the Reset All button. This is safe to call multiple times,
+   * source through the intensity graph and then the deployed tools (measuring tape, stopwatch, wave meter, which are
+   * last); the control area holds the toolbox launcher and control panel(s) and ends with the Reset All button. This is
+   * safe to call multiple times,
    * so subclasses can augment additionalPlayAreaNodes / additionalControlAreaNodes and call it again to fold in their
    * own interactive content.
    */
@@ -810,6 +817,10 @@ class WavesScreenView extends ScreenView {
       this.disturbanceTypeNode,
       this.viewpointRadioButtonGroup,
       this.timeControlNode,
+
+      // The light-scene intensity graph (with zoom buttons) is the last fixed play-area control, just before the
+      // deployed tools. Null (and filtered out) on screens without a light scene.
+      this.intensityGraphPanel,
 
       // The real (deployed) tools are the last things in the play area, in this order. The toolbox launcher panel
       // lives in the control area below.
